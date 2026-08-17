@@ -4,31 +4,28 @@
 
 > Node event loop — one JS thread plus libuv; never block it with heavy sync work.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use the event loop to test whether you know Node is one JS thread plus libuv, can name the phases, and will not block the loop with sync CPU or huge JSON.parse.
 
-
 ## Sources
-
 - [Node.js — The Node.js Event Loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick) — deep-dive
 - [Node.js — monitorEventLoopDelay](https://nodejs.org/api/perf_hooks.html#perf_hooksmonitoreventloopdelayoptions) — overview
 - [Wikipedia — Event Loop](https://en.wikipedia.org/wiki/Event_Loop) — overview
 
 ## Core Definition
-
 Node runs user JavaScript on **one thread**. libuv handles async I/O (network, fs, timers) via the event loop and a **thread pool** (default 4 workers for sync fs/crypto). When a callback runs, nothing else runs until it returns.
 
 ## Key Concepts
-
 - **Single JS thread:** your callbacks run one at a time — a long sync handler stalls every connection.
 - **libuv + phases:** timers → pending → poll → check → close; I/O readiness drives the poll phase.
 - **Thread pool:** default 4 workers for some fs/crypto/dns — raise `UV_THREADPOOL_SIZE` under load.
 - **Microtasks:** `process.nextTick` then Promise jobs run between phases; nextTick can starve I/O.
 
-
 ## Technical Details
-
 Node runs user JavaScript on **one thread**. libuv handles async I/O (network, fs, timers) via the event loop and a **thread pool** (default 4 workers for sync fs/crypto). When a callback runs, nothing else runs until it returns.
 
 ```
@@ -114,21 +111,17 @@ Promise.resolve().then(() => console.log('promise'));
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **Event Loop** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`process.nextTick` starvation** — infinite nextTick prevents I/O phase from running. Prefer `setImmediate` for deferral in loops; **JSON.parse huge payload on main thread** — blocks like CPU work. Stream or worker.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node event loop — one JS thread plus libuv; never block it with heavy sync work.).
 - **Con / when not:** **CPU-bound monolith on one Node process** — use workers, Rust sidecar, or different runtime (Go/Rust) for compute-heavy core.
 - **Con / when not:** **`setInterval` for critical scheduling** — drift under load; use proper job queue.
 
 ## Comparison
-
 vs [[Epoll]]: know when each applies — do not treat them as interchangeable. vs [[clustering]]: know when each applies — do not treat them as interchangeable. vs [[worker threads]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`process.nextTick` starvation** — infinite nextTick prevents I/O phase from running. Prefer `setImmediate` for deferral in loops.
 - **JSON.parse huge payload on main thread** — blocks like CPU work. Stream or worker.
 - **"Async" doesn't mean parallel** — `async/await` still runs continuations on main thread.

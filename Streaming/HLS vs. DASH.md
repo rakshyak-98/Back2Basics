@@ -4,16 +4,17 @@
 
 > HLS and DASH both do ABR over HTTP — pick by device reach, then share segments with CMAF when you need both.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk HLS vs. DASH end-to-end — not just name it. Signal fluency with **HLS**, **DASH**, **Manifest**, **CMAF** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH) — overview
 
 ## Key Concepts
-
 - **HLS:** Apple’s HTTP Live Streaming — “HLS is the safe default wherever Safari matters.”
 - **DASH:** MPEG Dynamic Adaptive Streaming over HTTP — “DASH is the open MPD-based ABR protocol.”
 - **Manifest:** Playlist metadata — “HLS uses m3u8; DASH uses MPD XML.”
@@ -48,7 +49,6 @@ Interviewers probe whether you can walk HLS vs. DASH end-to-end — not just nam
 - Need **both without double storage** → [[CMAF]] shared `.m4s` + dual manifests.
 
 ## Technical Details
-
 ```txt
                     ┌── HLS  → .m3u8  → Safari / iOS / many TVs
  Encoder / packager ┤
@@ -90,22 +90,18 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 ```
 
 ## Real-World Applications
-
 Used wherever HLS vs. DASH sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **This comparison as a runtime switch every request** — pick packaging once; feature-detect at the player.
 - **Con / skip when:** **Ultra-low-latency calls** — neither replaces [[WebRTC]].
 - **Con / skip when:** **Single internal mezzanine** — protocol choice belongs at **egress**, not archive.
 
 ## Comparison
-
 - vs [[WebRTC]]: **Ultra-low-latency calls** — neither replaces [[WebRTC]].
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | iOS black, Android fine | Only DASH published | Add [[HLS]] or CMAF dual |

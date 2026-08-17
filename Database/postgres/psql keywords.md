@@ -4,6 +4,10 @@
 
 > Reserved and unreserved SQL keywords in PostgreSQL — identifiers that need quoting when used as table or column names.
 
+
+
+
+
 ## Interview Relevance
 Explains mysterious syntax errors around `"user"` tables and teaches identifier folding rules (unquoted → lowercase).
 

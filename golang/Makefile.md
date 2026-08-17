@@ -4,17 +4,18 @@
 
 > Makefile for Go — thin wrapper around `go test`/`go build` so CI and humans share one entrypoint (this note is about Makefiles, not a real build file in the vault).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you use Make as a thin, portable entrypoint over `go test`/`go build`, or whether you reinvent module-aware builds inside Make recipes.
 
 ## Sources
-
 - [GNU Make manual](https://www.gnu.org/software/make/manual/make.html) — deep-dive
 - [Go — How to Write Go Code](https://go.dev/doc/code) — overview
 
 ## Key Concepts
-
 ```txt
 make test  → go test ./...
 make build → go build -o bin/app ./cmd/app
@@ -28,7 +29,6 @@ make build → go build -o bin/app ./cmd/app
 | `run` | `go run ./cmd/app` |
 
 ## Technical Details
-
 ```makefile
 .PHONY: test build run tidy
 
@@ -61,13 +61,11 @@ run: build
 | Recursive make hell | Nested projects | One module-aware Makefile |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Trivial one-package repository — raw `go test` is enough.
 - **Trade-off:** Polyglot Bazel monorepo — use the monorepo tool.
 - **Trade-off:** Replacing `go.mod` — never.
 
 ## Mistakes to Avoid
-
 - Make doesn’t understand Go packages — always shell out to `go`.
 - Silent `@` — hides commands; keep visible in CI.
 - Windows — prefer `task`/`just` or scripts if team isn’t Make-fluent.

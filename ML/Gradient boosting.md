@@ -4,18 +4,19 @@
 
 > Sequential ensemble: each new tree fits the **residual errors** of the ensemble so far — **Friedman (1999)** + modern GBDT libraries.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Boosting interviews cover sequential residual fitting, learning rate, and overfit versus random forests.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [Gradient boosting — Wikipedia](https://en.wikipedia.org/wiki/Gradient_boosting) — overview
 
 ## Key Concepts
-
 Boosting builds an additive model:
 
 ```txt
@@ -37,7 +38,6 @@ Final: weighted sum of M small trees
 **Loss linkage:** regression → MSE residuals; binary classification → log-loss → residuals on log-odds; ranking → LambdaRank-style gradients.
 
 ## Technical Details
-
 ### scikit-learn `HistGradientBoosting*` (preferred in sklearn ≥1.0)
 
 ```python
@@ -85,14 +85,12 @@ model = xgb.train(
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Tiny tabular data (< few hundred rows)** — linear/logistic + strong regularization often generalizes better with less tuning.
 - **Need online learning** — GBDT retrains are batch-heavy; consider linear models or incremental learners.
 - **Strict interpretability for regulators** — single [[Decision tree]] or GAM may be required; explain boosted models with documented SHAP limits.
 - **Already at latency budget with RF** — boosting gains may not justify 2–5× inference cost.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Leakage through early stopping:** validation set must be truly held out; don't peek at test for round selection.
 
@@ -113,4 +111,3 @@ model = xgb.train(
 | Predictions all one class | Base rate skew, wrong objective | Check `scale_pos_weight`; class weights; PR curve |
 | Wild variance across CV folds | Small data + high capacity | Stronger regularization; fewer features; nested CV |
 | Serving latency high | Tree count × depth | Limit rounds; model distillation; ONNX + treelite |
-

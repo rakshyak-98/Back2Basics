@@ -4,16 +4,17 @@
 
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Bitrate streaming to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming) — overview
 
 ## Key Concepts
-
 **Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.
 
 | Term | Meaning |
@@ -25,7 +26,6 @@ Interviewers ask about Bitrate streaming to see if you understand the pipeline r
 | **Segment duration** | HLS typically 2–6s — trades startup vs switch latency |
 
 ## Technical Details
-
 ```txt
 Source mezzanine
     ├── 1080p @ 6 Mbps  ──► segment 2s ──► CDN
@@ -83,18 +83,15 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 `BANDWIDTH` must include **video + audio + mux overhead** — player overestimates need if wrong → unnecessary downswitch.
 
 ## Real-World Applications
-
 Used wherever Bitrate streaming sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
 - **Con / skip when:** **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
 - **Con / skip when:** **20-rung ladder** — storage/CDN cost; diminishing returns beyond ~5–6 rungs.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Constant rebuffering | CDN logs; player bandwidth estimate | Add lower rung; reduce segment duration slightly |

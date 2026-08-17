@@ -4,24 +4,24 @@
 
 > Install an ed25519 public key into a local user’s `authorized_keys`, lock down permissions, then confirm login — including on loopback — before turning off passwords.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers look for permission pitfalls (`StrictModes`), `AllowUsers` lockouts, and `authorized_keys` options like `from=` / `command=`.
 
 ## Sources
-
 - [OpenSSH — sshd](https://man.openbsd.org/sshd.8) — deep-dive
 - [OpenSSH — AUTHORIZED_KEYS file format](https://man.openbsd.org/sshd.8#AUTHORIZED_KEYS_FILE_FORMAT) — deep-dive
 
 ## Key Concepts
-
 - **Trust model:** possession of private key + listing in `authorized_keys`.
 - **StrictModes:** `~/.ssh` 700, `authorized_keys` 600, home not group/world-writable — otherwise sshd ignores keys silently.
 - **AllowUsers / Match:** can reject valid keys before auth messaging completes.
 - **Key options:** `from=`, `command=`, `restrict` limit blast radius per key.
 
 ## Technical Details
-
 ```
 client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
                                               │
@@ -104,25 +104,21 @@ If `AllowUsers` is set, only listed users may SSH. Loopback tests validate sshd 
 | Root can't login | `PermitRootLogin no` | Use sudo user |
 
 ## Real-World Applications
-
 Cloud image bootstrap (`ubuntu`/`ec2-user` keys), deploy users with forced commands, and lab loopback validation before remote cutover.
 
 **Example:** Add a deploy key with `command=` and `no-port-forwarding`, confirm via `127.0.0.1`, then set `PasswordAuthentication no`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong, auditable per-user access without shared passwords.
 - **Con:** Easy to lock yourself out with `AllowUsers` / sshd edits — keep console + second session.
 - **Con:** `command=` does not automatically cover scp/sftp subsystems — design restrictions explicitly.
 
 ## Comparison
-
 - vs password login: keys after verified setup; never disable passwords first.
 - vs shared team private key: per-user keys + bastion/SSO at org scale.
 - Full directive reference: [[sshd config]].
 
 ## Mistakes to Avoid
-
 - Editing `sshd_config` on the only session without `sshd -t` and a second session.
 - World-readable `authorized_keys` or home — sshd ignores keys silently.
 - Pasting a key with a mid-line break; `ssh-copy-id` without verifying permissions.

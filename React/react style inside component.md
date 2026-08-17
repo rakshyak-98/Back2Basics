@@ -4,16 +4,17 @@
 
 > React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use React style inside component to test whether you can apply the idea under production constraints, not recite docs.
 
 ## Sources
-
 - [Wikipedia — react style inside component](https://en.wikipedia.org/wiki/react_style_inside_component) — overview
 
 ## Key Concepts
-
 Options for component-local styling:
 
 `styled-jsx` scopes selectors to the component subtree — good for **small overrides** in Next pages without global CSS file sprawl.
@@ -25,7 +26,6 @@ Design system  → shared Button variants
 ```
 
 ## Technical Details
-
 ```txt
 CSS Modules (*.module.css)   → build-time scoped class names (Vite default)
 Tailwind utility classes      → [[css/tailwindcss]] in className
@@ -79,23 +79,19 @@ export function Badge({ color }: { color: string }) {
 Avoid huge inline objects recreated every render ([[referential equality]] matters for memoized children).
 
 ## Real-World Applications
-
 Apply React style inside component in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
 - **Con / skip when:** **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
 - **Con / skip when:** **Plain static site** — external CSS file sufficient.
 
 ## Comparison
-
 - vs [[css/tailwindcss]]: **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
 - vs [[Framer motion]]: **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Styles not applied (Modules) | Wrong import | `import s from './x.module.css'` |

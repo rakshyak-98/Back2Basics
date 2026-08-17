@@ -4,20 +4,21 @@
 
 > AWS bills per service, per second or per request — surprises usually come from data transfer, idle Elastic IPs, unattached EBS volumes, and resources left running in forgotten regions.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AWS Billing and cost management to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 - Why does data transfer *out* to the internet often dominate unexpected bills?
 - What is the difference between blended cost and unblended cost in Cost Explorer?
 
 ## Sources
-
 - [AWS Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) — overview
 - [AWS Pricing Calculator](https://calculator.aws/) — overview
 
 ## Technical Details
-
 ### How charges compose
 
 | Category | Examples |

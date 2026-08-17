@@ -4,6 +4,10 @@
 
 > ffmpeg builds a media pipeline — read inputs, transform (or copy), write outputs or streams.
 
+
+
+
+
 ## Interview Relevance
 Media/ops: `-c copy` vs re-encode, `-re` for live pacing, `-map` for stream selection, and when UDP/RTMP patterns need the right muxer.
 
@@ -22,7 +26,6 @@ Demux inputs → optionally decode/filter/encode → mux to a file or protocol. 
 - **CRF / bitrate / preset:** Quality vs CPU vs size trade-offs.
 
 ## Technical Details
-
 ```txt
 file / UDP / RTMP → demux → copy OR decode→filter→encode → mux → file / UDP / RTMP / HLS
 ```

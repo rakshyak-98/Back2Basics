@@ -4,18 +4,19 @@
 
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [Linear regression — Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) — overview
 
 ## Key Concepts
-
 Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
 
 ```txt
@@ -33,7 +34,6 @@ Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 | **Log-target** | Skewed positive counts (price, revenue) |
 
 ## Technical Details
-
 ```python
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, r2_score
@@ -60,13 +60,11 @@ pred = np.expm1(model.predict(X_test))
 Despite the name, **multinomial logistic regression** predicts **class probabilities** — see [[multiclass classification]], not this note.
 
 ## Pros/Cons or Trade-offs
-
 - **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
 - **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
 - **Heavy zero-inflation** (counts with many zeros) — Poisson/negative binomial or two-part models.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **R² alone** — can look good while MAE is unacceptable for SLA (e.g. p99 latency).
 
@@ -82,4 +80,3 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
 Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual plot]] after every serious regression build.
-

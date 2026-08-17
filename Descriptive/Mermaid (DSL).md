@@ -4,16 +4,17 @@
 
 > Text-to-diagram DSL for design docs and runbooks — great for **version-controlled architecture**; know rendering and maintenance limits.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Mermaid questions check whether you can diagram flows in docs — sequence/flowchart for design reviews.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 ```
@@ -34,7 +35,6 @@ Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 | `C4Context` (plugin) | System context (if supported) |
 
 ## Technical Details
-
 ### Flowchart (service triage)
 
 ```mermaid
@@ -92,13 +92,11 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
 - **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
 - **UML for codegen** — use OpenAPI/Protobuf/PlantUML with tooling if binding to code.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Not a single source of truth for infra** — [[terraform]] state and live [[kubectl]] beat diagrams; link diagram to code path.
 
@@ -119,4 +117,3 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 | Different look in PR vs Obsidian | Version skew | Pin mermaid version in docs; avoid exotic syntax |
 | Security concern in public repo | Diagram content | No secrets/hostnames with creds in labels |
 | PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
-

@@ -4,17 +4,18 @@
 
 > SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about SIP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP) — overview
 - [RFC 3261 — SIP](https://datatracker.ietf.org/doc/html/rfc3261) — deep-dive
 
 ## Key Concepts
-
 **SIP** is text-based signaling (like HTTP) for establishing, modifying, and tearing down **media sessions**. Actual audio/video flows over **RTP/RTCP** (usually UDP) on separate ports — SIP only negotiates codecs and endpoints.
 
 | Message | Role |
@@ -28,7 +29,6 @@ Interviewers ask about SIP to see if you understand the pipeline role, failure m
 **SDP offer/answer** lists `m=audio PORT RTP/AVP` — if NAT wrong, signaling succeeds but **one-way audio** (classic production bug).
 
 ## Technical Details
-
 ```txt
 Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
    │── REGISTER ─────────────►│                               │
@@ -91,22 +91,18 @@ SDP c= line must match RTP port forwarding / media relay
 ```
 
 ## Real-World Applications
-
 Used wherever SIP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
 - **Con / skip when:** **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
 - **Con / skip when:** **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
 
 ## Comparison
-
 - vs [[webSocket]]: **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Registers but no audio | RTP flow in Wireshark | NAT: fix Contact/SDP; enable TURN/media relay |

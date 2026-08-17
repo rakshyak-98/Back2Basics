@@ -4,6 +4,10 @@
 
 > MySQL server — relational database over TCP with [[SQL]], default transactional storage via InnoDB ([[mysql engine]]), and crash recovery through the redo log.
 
+
+
+
+
 ## Interview Relevance
 Baseline “what is MySQL?” plus namespace terminology (database ≡ schema) and the request path from client to InnoDB. Use leaf notes for depth.
 

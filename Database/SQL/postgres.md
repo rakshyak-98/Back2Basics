@@ -4,12 +4,14 @@
 
 > PostgreSQL — open-source object-relational database with strong [[ACID]] defaults, extensible types, and [[MVCC]] concurrency so readers do not block writers.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe MVCC (visibility, vacuum), isolation defaults, indexing (`jsonb`, partial, [[GIN]]), and ops (autovacuum, WAL, dumps). Signal: you know READ COMMITTED vs SERIALIZABLE and when to use `pg_dump` vs physical backups.
 
 ## Sources
-
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/current/) — deep-dive
 - [PostgreSQL Global Development Group — About PostgreSQL](https://www.postgresql.org/about/) — overview
 - [PostgreSQL Documentation — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) — deep-dive
@@ -17,11 +19,9 @@ Interviewers probe MVCC (visibility, vacuum), isolation defaults, indexing (`jso
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 3–7 — overview
 
 ## Core Definition
-
 PostgreSQL is a process-per-connection object-relational engine: a postmaster forks backends that plan and execute SQL against shared buffers and WAL, with background workers for checkpoints and autovacuum.
 
 ## Key Concepts
-
 - **Postmaster + backends:** one OS process per connection; shared memory for buffers and locks.
 - **MVCC:** versions of rows; readers see a snapshot; writers do not lock out readers for normal SELECTs.
 - **Autovacuum:** reclaims dead tuples and freezes XIDs — required for long-lived [[MVCC]] health.
@@ -30,7 +30,6 @@ PostgreSQL is a process-per-connection object-relational engine: a postmaster fo
 - **Isolation:** default READ COMMITTED; `SERIALIZABLE` uses Serializable Snapshot Isolation.
 
 ## Technical Details
-
 ```txt
 Client ──► postmaster ──► backend process per connection
                               │
@@ -70,21 +69,17 @@ COMMIT;
 ```
 
 ## Real-World Applications
-
 SaaS primary store: `jsonb` for flexible attributes with GIN indexes, READ COMMITTED for most APIs, SERIALIZABLE or careful locking for inventory, and continuous archiving of WAL for point-in-time recovery.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong defaults, rich SQL, extensibility without leaving the engine.
 - **Con:** Process-per-connection needs pooling at scale; vacuum debt causes bloat and wraparound risk.
 - **Trade-off:** Strict isolation / sync commit vs throughput under write-heavy load.
 
 ## Comparison
-
 vs [[mysql]]: PostgreSQL leans MVCC snapshots and richer types; InnoDB defaults to REPEATABLE READ with next-key locking. vs [[OLAP]] warehouses: PostgreSQL is primarily [[OLTP]]; columnar warehouses win large scans. vs [[write-ahead logging]]: WAL protocol is shared conceptually; PostgreSQL’s LSN and `pg_wal` are the concrete artifact.
 
 ## Mistakes to Avoid
-
 - Turning off autovacuum “for performance.”
 - Skipping connection pooling and opening thousands of backends.
 - Treating `jsonb` as a substitute for modeling hot query paths without indexes.

@@ -4,29 +4,28 @@
 
 > Reverse proxy and static file front door — match a `location`, then `root`/`alias`, `proxy_pass`, or `fastcgi_pass`; always `nginx -t` before reload.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask how you pick `location` precedence, when `root` vs `alias` differs, and how you reload without dropping traffic — signals you have operated Nginx in production, not only pasted configs.
 
 ## Sources
-
 - [nginx.org — Beginner’s Guide](https://nginx.org/en/docs/beginners_guide.html) — overview
 - [nginx.org — ngx_http_core_module](https://nginx.org/en/docs/http/ngx_http_core_module.html) — deep-dive
 - [nginx.org — ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) — deep-dive
 
 ## Core Definition
-
 Nginx configuration is a tree of contexts (`main` → `http` → `server` → `location`) where directives compose how a request is matched and where bytes come from (disk, upstream, or FastCGI).
 
 ## Key Concepts
-
 - **Location match order:** `=` exact → `^~` prefix (stops regex) → `~`/`~*` first matching regex → longest prefix — wrong winner is a common 404/proxy bug.
 - **`root` vs `alias`:** `root` appends the URI under the root; `alias` replaces the location prefix — trailing slashes must align.
 - **Graceful reload:** `nginx -t` then `nginx -s reload` starts new workers and drains old ones — untested reload can leave workers unable to start.
 - **Upstream health (passive):** `max_fails` / `fail_timeout` mark peers down temporarily — not a full active health check in OSS.
 
 ## Technical Details
-
 ```txt
 Client → nginx (location match) → root/alias | proxy_pass | fastcgi_pass
 ```
@@ -78,25 +77,21 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 | reload fails | `nginx -t` | Fix syntax before reload |
 
 ## Real-World Applications
-
 Terminate TLS and reverse-proxy a Node/Next app; serve hashed static assets from `alias`/`root`; rate-limit public `/api/` with `limit_req`.
 
 **Example:** Deploy changes with `nginx -t && systemctl reload nginx` so in-flight requests finish on old workers while new workers load the new config.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One process family can terminate TLS, serve static, and proxy — low ops surface.
 - **Con:** Business logic and WAF depth belong elsewhere — `limit_req` is not SQLi protection.
 - **Con:** URI rewriting via `proxy_pass` slash rules is easy to get wrong under time pressure.
 
 ## Comparison
-
 - vs application server alone: Nginx handles TLS, static, and connection fan-in better; app owns business logic.
 - vs [[nginx stream]]: HTTP config lives in `http {}`; L4 TCP/UDP is `stream {}` with no HTTP headers.
 - vs [[Nginx ingress]]: host Nginx config vs Kubernetes Ingress controller CRDs.
 
 ## Mistakes to Avoid
-
 - Forgetting `proxy_pass` trailing slash — `/api/` → `http://b/` strips prefix; without slash, full URI forwards.
 - Mismatched `alias` trailing slashes — location and alias must both end with `/` or paths misalign.
 - Reloading without `nginx -t` — bad config can block new workers.

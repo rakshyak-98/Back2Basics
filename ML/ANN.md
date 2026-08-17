@@ -4,17 +4,18 @@
 
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about ANN (Artificial Neural Network) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 A feedforward ANN maps input **x** through layers:
 
 ```txt
@@ -35,7 +36,6 @@ Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **softma
 For **retrieval at scale** (recommendation, search), ANN also means **Approximate Nearest Neighbor** index (FAISS, HNSW) — different topic; see embedding + vector DB patterns below.
 
 ## Technical Details
-
 ### scikit-learn MLP (tabular baseline)
 
 ```python
@@ -74,13 +74,11 @@ model = nn.Sequential(
 **Why StandardScaler:** unscaled features dominate gradients; tree models don't need this — see [[Decision tree]].
 
 ## Pros/Cons or Trade-offs
-
 - **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
 - **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
 - **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Tabular Kaggle data:** [[Gradient boosting]] / [[Random forest]] often beat shallow MLPs with less tuning. Reach for ANNs when you have images, text, sequences, or massive unstructured data.
 
@@ -94,4 +92,3 @@ model = nn.Sequential(
 | Slow convergence | LR schedule, batch size | AdamW + warmup; tune batch size to GPU |
 | Random results | Seeds, data shuffle | Fix `random_state`; set torch/cuda seeds |
 | "ANN" search returns garbage | Embedding quality, index params | Retrain embeddings; tune HNSW `ef`, recall@k |
-

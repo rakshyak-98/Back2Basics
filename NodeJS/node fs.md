@@ -4,26 +4,25 @@
 
 > Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **node fs** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Node.js — File system](https://nodejs.org/api/fs.html) — deep-dive
 - [Wikipedia — node fs](https://en.wikipedia.org/wiki/node_fs) — overview
 
 ## Core Definition
-
 `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
 
 ## Key Concepts
-
 - `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
 - File descriptors are limited per process (`ulimit -n`); leaking watchers or handles causes `EMFILE`.
 
 ## Technical Details
-
 `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
 
 ```
@@ -105,21 +104,17 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **node fs** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Sync methods block the event loop** — `readFileSync` in HTTP handlers freezes all clients; **`fs.watch` is unreliable on some OS** — debounce; use chokidar for production file triggers.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node's filesystem API (`node:fs`) — promises for app code, streams for size, syn…).
 - **Con / when not:** **Object storage at scale** — S3/GCS SDK, not local fs on ephemeral disks.
 - **Con / when not:** **Database as file store** — use [[GridFS]] or blob storage for large binaries in DB context.
 
 ## Comparison
-
 vs [[file]]: know when each applies — do not treat them as interchangeable. vs [[fsync]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Sync methods block the event loop** — `readFileSync` in HTTP handlers freezes all clients.
 - **`fs.watch` is unreliable on some OS** — debounce; use chokidar for production file triggers.
 - **Cross-device rename fails** — copy + unlink instead.

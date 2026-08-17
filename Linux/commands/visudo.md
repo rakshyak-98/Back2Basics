@@ -4,17 +4,18 @@
 
 > Edits sudoers safely — file lock plus syntax check so a typo does not lock everyone out of root.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scoping, and `sudo -l` to verify effective rights.
 
 ## Sources
-
 - [man visudo](https://man7.org/linux/man-pages/man8/visudo.8.html) — deep-dive
 - [man sudoers](https://man7.org/linux/man-pages/man5/sudoers.5.html) — deep-dive
 
 ## Key Concepts
-
 - **Syntax check before commit:** prevents parse-error lockout.
 - **`%group`:** percent means group rule.
 - **NOPASSWD:** OK for narrow commands; dangerous with `ALL`.
@@ -22,7 +23,6 @@ Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scoping, 
 - **`sudoers.d` lexical order:** later files can override earlier ones.
 
 ## Technical Details
-
 ```txt
 who   where  =  (as_whom:as_group)  what
 alice ALL=(ALL:ALL) NOPASSWD: /bin/systemctl restart myapp
@@ -72,21 +72,17 @@ Suggested drop-in layout: `00-defaults`, `10-aliases`, `20-automation`, `50-team
 | NOPASSWD not applied | Alias mismatch | Full paths; unexpected args |
 
 ## Real-World Applications
-
 Least-privilege ops: allow `journalctl` and a single `systemctl restart` without giving interactive root.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Prevents the classic “edited sudoers, lost sudo” outage.
 - **Con:** Wildcards and `NOPASSWD: ALL` recreate root with extra steps.
 
 ## Comparison
-
 - vs editing `/etc/sudoers` directly: never — always visudo.
 - vs application RBAC: sudo is host privilege, not app authorization.
 
 ## Mistakes to Avoid
-
 - Editing sudoers without visudo.
 - `NOPASSWD: ALL` for convenience.
 - Pointing sudoers includes at files in a user’s home (self-grant risk).

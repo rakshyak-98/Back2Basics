@@ -4,21 +4,21 @@
 
 > Broken access control — the client picks an object id and the server skips the ownership check after authentication.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 AuthZ interviews: IDOR is missing object-level authorization — AuthN alone does not prove you may touch that id.
 
 ## Sources
-
 - [OWASP — Insecure Direct Object Reference](https://owasp.org/www-community/vulnerabilities/Insecure_Direct_Object_Reference) — overview
 - [OWASP API Top 10 — BOLA](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/) — deep-dive
 
 ## Core Definition
-
 IDOR (insecure direct object reference) is broken access control: the client supplies an object id and the server skips ownership/permission checks.
 
 ## Key Concepts
-
 IDOR is a **broken access control** pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any logged-in user access `GET /api/orders/12345` by iterating ids.
 
 ```
@@ -30,7 +30,6 @@ Attacker (user A) ──► GET /invoice/1001 ──► 200 + victim data
 **Auto-increment IDs** make enumeration trivial; **UUIDs alone don't fix IDOR** — they only reduce scanning convenience.
 
 ## Technical Details
-
 ### Secure pattern (server-side)
 
 ```python
@@ -80,22 +79,18 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 | GraphQL `node(id:)` global ID | Decoded id bypasses parent scoping | Auth resolver per type |
 
 ## Real-World Applications
-
 Object-level checks on `/orders/{id}` so user B cannot read user A's order by changing the id.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Naming the bug drives object-level AuthZ tests in QA and review.
 - **Con:** Confusing with CSRF/XSS — IDOR is missing server AuthZ; CSRF is unwanted action; XSS is script injection ([[cross-site scripting]], [[XSRF (cross-site request forgery)]]).
 - **Con:** Rate limiting as fix — slows enumeration, doesn't fix authorization.
 
 ## Comparison
-
 - vs broken authentication: IDOR is usually AuthZ — you are logged in but may access another's object.
 - vs [[JWT authentication]]: a valid JWT does not replace per-object permission checks.
 
 ## Mistakes to Avoid
-
 - 404 vs 403 — cross-tenant prefer **404** to avoid confirming object exists (policy-dependent).
 - UUID in JWT sub ≠ object authz — still verify resource belongs to subject.
 - Microservices — : gateway checked auth but internal service trusts `X-User-Id` header — forgeable without mTLS/signed internal token.

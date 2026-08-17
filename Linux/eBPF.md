@@ -4,6 +4,10 @@
 
 > Extended Berkeley Packet Filter (eBPF) lets verified programs run in the Linux kernel safely — for tracing, networking, security, and cgroup-aware policy without loading a custom kernel module.
 
+
+
+
+
 ## Interview Relevance
 Hot SRE / platform topic: explain verifier + JIT, name attach points (tracepoints, XDP, cgroup), and give an ops use case (latency tracing, Cilium). Distinguishes “heard of bpftrace” from “knows why it is safer than a kernel module.”
 
@@ -22,7 +26,6 @@ eBPF programs attach to kernel hooks. The **verifier** rejects unsafe code (unbo
 - **Privilege:** Often needs `CAP_BPF` / root; unprivileged BPF may be disabled.
 
 ## Technical Details
-
 | Use case | Typical tools |
 |----------|---------------|
 | Latency / syscall tracing | `bpftrace`, BCC `execsnoop`, `biolatency` |

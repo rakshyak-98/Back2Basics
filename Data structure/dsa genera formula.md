@@ -4,17 +4,18 @@
 
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Combinatorics formulas are a speed check — interviewers watch whether you apply counting formulas only when the model matches.
 
 ## Sources
-
 - [Wikipedia — Combinatorics](https://en.wikipedia.org/wiki/Combinatorics) — overview
 - [CP-Algorithms — Combinatorics](https://cp-algorithms.com/combinatorics/binomial-coefficients.html) — deep-dive
 
 ## Key Concepts
-
 Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or **bounding work** (max operations). These closed forms avoid brute-force enumeration.
 
 ```
@@ -27,7 +28,6 @@ Permutations of n distinct:        n!
 Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
 
 ## Technical Details
-
 ### Subarrays / substrings (contiguous)
 
 | Object | Count | Notes |
@@ -92,12 +92,10 @@ When output is mod `10^9+7`:
 | C(n,k) wrong for large n,k | Cancel before multiply | Use multiplicative formula with mod inverse |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Problem has constraint structure — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.
 - **Trade-off:** Replacing proof with memorization — formulas are sanity checks; derive from small n on whiteboard if unsure.
 
 ## Mistakes to Avoid
-
 - `n(n+1)/2` is substrings, not subsequences — subsequence count is exponential (2^n) for binary choice per position.
 - Duplicate elements — distinct substring count ≠ n(n+1)/2; need suffix structures or rolling hash with set.
 - Interview "formula" questions — state assumptions aloud (distinct? contiguous?) before plugging numbers.

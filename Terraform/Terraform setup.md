@@ -4,25 +4,26 @@
 
 > Terraform setup is install the CLI, pin versions, configure providers and auth, optionally remote state, then run the first workflow.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask version pins, remote state + locking, and how secrets stay out of git across AWS/GCP/Azure roots.
 
 ## Sources
-
 - [HashiCorp — Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) — overview
 - [HashiCorp — Backend configuration](https://developer.hashicorp.com/terraform/language/backend) — deep-dive
 - Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
 
-## Key Concepts
-
-- **Pin CLI + providers** so laptop and CI match (`~>` constraints, lock file).
-- **Auth outside HCL:** env, SSO, instance roles, WIF — never commit keys.
-- **Remote state + lock** for any shared repo.
-- **Separate env directories/state keys** beat workspace-only isolation for prod safety.
+## Recall Cues
+- Why do interviewers care about version pins, remote state + locking, and how secrets stay out of git across AWS/GCP/Azure roots?
+- What mistake is **Keys in `.tf` / `.tfvars`**?
+- What mistake is **Skipping remote state for collaborative work**?
+- What mistake is **Relying only on workspaces for prod isolation**?
+- What mistake is **Long-lived JSON GCP keys when WIF/ADC works**?
 
 ## Technical Details
-
 ### Install CLI
 
 ```shell
@@ -119,26 +120,22 @@ First-run: install → versions/providers → auth → optional backend → `ini
 | Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
 | Wrong account | Profile / assume_role | `aws sts get-caller-identity` |
 
-## Real-World Applications
+## Mistakes to Avoid
+- Keys in `.tf` / `.tfvars`.
+- Skipping remote state for collaborative work.
+- Relying only on workspaces for prod isolation.
+- Long-lived JSON GCP keys when WIF/ADC works.
 
+## Comparison
+- Provider aliases/multi-account → [[terraform provider]].
+- Non-secret knobs → [[variable file]]; debug → [[Terraform CLI]].
+
+## Real-World Applications
 Bootstrapping a team backend once, then per-env roots under `environments/dev|stage|prod`.
 
 **Example:** Create S3 state bucket + DynamoDB lock table by hand once; every root’s `backend.tf` points at a unique key.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Repeatable roots with remote lock scale to teams.
 - **Con:** Local state on a shared repo invites corrupted ownership.
 - **Con:** Exploring one console resource first can be faster — then codify.
-
-## Comparison
-
-- Provider aliases/multi-account → [[terraform provider]].
-- Non-secret knobs → [[variable file]]; debug → [[Terraform CLI]].
-
-## Mistakes to Avoid
-
-- Keys in `.tf` / `.tfvars`.
-- Skipping remote state for collaborative work.
-- Relying only on workspaces for prod isolation.
-- Long-lived JSON GCP keys when WIF/ADC works.

@@ -4,6 +4,10 @@
 
 > Running [[SQL]] on MySQL — read `EXPLAIN` plans, bind parameters, and shape predicates so the optimizer can use indexes instead of full scans.
 
+
+
+
+
 ## Interview Relevance
 Almost every backend interview: interpret `EXPLAIN`, avoid functions on indexed columns, and never concatenate user input into SQL.
 

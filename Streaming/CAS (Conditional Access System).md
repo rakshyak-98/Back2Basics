@@ -4,39 +4,17 @@
 
 > CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk CAS end-to-end — not just name it. Signal fluency with **CAS**, **CW**, **ECM**, **EMM** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS) — overview
 
-## Key Concepts
-
-- **CAS:** Pay-TV access control — “Only entitled STBs decrypt the scrambled channel.”
-- **CW:** Short-lived stream key — “Control word rotates every few seconds.”
-- **ECM:** Message carrying encrypted CW — “Comes with the channel; needed to decrypt *now*.”
-- **EMM:** Subscriber rights update — “Turns packages on/off for a card or client.”
-- **Scrambler:** Headend encryptor — “Clear encode → scrambled TS out.”
-- **[[DRM]]:** OTT/CDM cousin — “Browsers use DRM; classic STBs use CAS.”
-
-**Flow:**
-
-1. **Scramble** — headend encrypts the service.
-2. **Signal** — ECMs carry the current CW; EMMs carry entitlements.
-3. **Authorize** — STB/card checks package rights.
-4. **Decrypt** — entitled client gets CW and plays; otherwise black screen.
-
-| Purpose | What CAS does |
-|---------|---------------|
-| Encrypt TV channels | Scrambler encrypts [[MPEG-TS]] (or similar) at headend |
-| Authenticate subscribers | Smart card / secure client proves entitlement |
-| Prevent unauthorized viewing | No valid CW → black screen |
-| Support packages / PPV | EMM grants or revokes channel rights |
-
 ## Technical Details
-
 ```txt
 Video source → Encoder → Scrambler
                               │
@@ -177,23 +155,19 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 - Verimatrix
 
 ## Real-World Applications
-
 Used wherever CAS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
 - **Con / skip when:** **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
 - **Con / skip when:** **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
 
 ## Comparison
-
 - vs [[DRM]]: **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
 - vs [[DRM]]: **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Black screen / "Not Authorized" | Subscription active? EMM refreshed? | Re-provision entitlements; force EMM push |

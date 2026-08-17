@@ -4,16 +4,17 @@
 
 > Programmable blockchain: accounts hold state; transactions pay **gas** to mutate it — **Ethereum Yellow Paper** + **Mastering Ethereum** for SE integration context.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Ethereum questions cover smart contracts, gas, and why chain data differs from centralized app storage.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 ┌─────────────┐     signed tx      ┌──────────────┐
 │ EOA (wallet)│ ─────────────────► │ EVM block    │
@@ -32,7 +33,6 @@ Ethereum questions cover smart contracts, gas, and why chain data differs from c
 **Layers SEs touch:** RPC nodes (JSON-RPC), wallets (MetaMask, WalletConnect), indexers (The Graph), L2 rollups (Arbitrum, Base) — not mining.
 
 ## Technical Details
-
 ### JSON-RPC (read-only via node provider)
 
 ```bash
@@ -90,13 +90,11 @@ gwei = 10⁹ wei (fee display)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Centralized ledger sufficient** — Postgres + audit log beats chain operations/cost.
 - **High-frequency micro-payments** — L2 or off-chain payment channels; L1 gas prohibitive.
 - **Private enterprise data on-chain** — permissions chain or no chain; public mempool leaks intent.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Reorgs:** treat as final only after N confirmations; backend must unwind indexed state on reorg.
 
@@ -121,4 +119,3 @@ gwei = 10⁹ wei (fee display)
 | Wrong network (chainId) | `wallet_switchEthereumChain` | Enforce chainId in signed tx (EIP-1559) |
 | Indexer behind chain tip | Block lag metric | Delay UI confirmation count; handle reorgs > 1 block |
 | Rate limit on public RPC | 429 from provider | Paid node; self-hosted geth/erigon; batch requests |
-

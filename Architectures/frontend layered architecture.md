@@ -4,17 +4,18 @@
 
 > Frontend layers separate UI, state, and API access — so screens don’t each reinvent fetching and rules.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Frontend layering interviews check whether UI, state, and API access stay separated so screens do not each reinvent policy.
 
 ## Sources
-
 - [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview
 - [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
 
 ## Key Concepts
-
 ```txt
 Pages/Views → State (hooks/store) → API client → Backend
      ↑ presentational
@@ -30,7 +31,6 @@ Pages/Views → State (hooks/store) → API client → Backend
 | **Server state** | Remote cache | “react-query / RTK Query.” |
 
 ## Technical Details
-
 ```ts
 // data layer
 export const getOrder = (id: string) => api.get<OrderDto>(`/orders/${id}`)
@@ -64,11 +64,9 @@ export function OrderPage({ id }: { id: string }) {
 | Business rules only in UI | Pricing in React | Enforce on API too |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Marketing static page — no need for stores and API modules.
 - **Trade-off:** Tiny widget — one component + fetch is fine until it grows.
 
 ## Mistakes to Avoid
-
 - Prop drilling “layers” — deep trees without a data layer still couple everything.
 - Duplicated clients — three axios instances with three auth headers.

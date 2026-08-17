@@ -4,18 +4,19 @@
 
 > SRT carries MPEG-TS (or other payloads) over UDP with encryption, configurable latency buffer, and packet retransmission — built for contribution across lossy networks.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk SRT end-to-end — not just name it. Signal fluency with **SRT**, **Latency (rcvbuf)**, **ARQ**, **Caller / Listener** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — SRT](https://en.wikipedia.org/wiki/SRT) — overview
 - [SRT Alliance](https://www.srtalliance.org/) — overview
 - [SRT protocol technical overview](https://github.com/Haivision/srt) — deep-dive
 
 ## Key Concepts
-
 - **SRT:** UDP + reliability + encryption — “Contribution protocol — not for browser playback.”
 - **Latency (rcvbuf):** Buffer time for retransmits — “Higher latency absorbs more loss; lower = snappier but fragile.”
 - **ARQ:** Automatic repeat request — “NACK lost packets inside the latency window.”
@@ -39,7 +40,6 @@ Interviewers probe whether you can walk SRT end-to-end — not just name it. Sig
 | Raw UDP [[MPEG-TS]] | UDP | None | Lowest on clean LAN | Studio multicast, IPTV headend |
 
 ## Technical Details
-
 ```txt
 Encoder / partner                WAN (lossy)                Ingest / relay
      │── SRT (AES, ARQ) ───────────────────────────────────────►│
@@ -108,11 +108,9 @@ Satellite / bad LTE:   2000–8000 ms
 If `pkt loss` counters climb, **increase latency** before re-encoding.
 
 ## Real-World Applications
-
 Used wherever SRT sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
 - **Con / skip when:** **Clean studio multicast LAN** — raw UDP [[MPEG-TS]] or [[Multicast]] is simpler when loss is near zero.
@@ -120,14 +118,12 @@ Used wherever SRT sits in an ingest → package → CDN → player path. Concret
 - **Con / skip when:** **Ultra-low-latency interactive** — sub-300 ms peer media is [[WebRTC]] territory, not ARQ-buffered contribution.
 
 ## Comparison
-
 - vs [[HLS]]: **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
 - vs [[MPEG-TS]]: **Clean studio multicast LAN** — raw UDP [[MPEG-TS]] or [[Multicast]] is simpler when loss is near zero.
 - vs [[RTMP]]: **Browser publish without a gateway** — use WebRTC WHIP or [[RTMP]] from OBS; browsers don’t speak SRT natively.
 - vs [[WebRTC]]: **Ultra-low-latency interactive** — sub-300 ms peer media is [[WebRTC]] territory, not ARQ-buffered contribution.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Connection timeout | UDP blocked; wrong mode | Security group UDP port; Caller→Listener direction |

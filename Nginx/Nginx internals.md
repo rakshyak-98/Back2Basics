@@ -4,29 +4,28 @@
 
 > Master manages workers; each worker runs a non-blocking event loop — parse HTTP, run phase handlers, then static / upstream / FastCGI.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Deep systems interviews probe event-driven architecture, HTTP phases, upstream keepalive, and why reload is graceful — distinguishes “used Nginx” from “read the source map.”
 
 ## Sources
-
 - [nginx.org — Development guide](https://nginx.org/en/docs/dev/development_guide.html) — deep-dive
 - [nginx.com — Inside NGINX](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/) — overview
 - [nginx.org — ngx_http_upstream_module](https://nginx.org/en/docs/http/ngx_http_upstream_module.html) — deep-dive
 
 ## Core Definition
-
 Nginx internals are a master/worker process model plus an event module ([[Epoll]] on Linux): workers accept connections, run HTTP request phases, and invoke content handlers (proxy, static, FastCGI) without a thread per request.
 
 ## Key Concepts
-
 - **One worker per core (typical):** Fixed memory, high concurrency via non-blocking I/O.
 - **Master vs workers:** Master binds ports, reads configuration, manages workers; workers handle connections. `reload` swaps configuration gracefully.
 - **HTTP phases:** post-read → server rewrite → find configuration → rewrite → pre-access → access → content → log — modules hook phases.
 - **Upstream subsystem:** Connect, retry, load balance, keepalive pool to backends.
 
 ## Technical Details
-
 ```txt
                          │
            ┌─────────────┼─────────────┐
@@ -118,22 +117,18 @@ proxy_next_upstream_tries 2;
 | SSL handshake CPU hot | All on workers | Session cache; TLS termination at LB |
 
 ## Real-World Applications
-
 Tune workers and upstream keepalive for a busy API gateway; debug 502s with phase-aware reading of `error.log`; enable `stub_status` in lab to watch active connections.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Predictable memory and huge concurrency for proxy/static workloads.
 - **Con:** Not an application runtime — complex auth often needs OpenResty/Lua or an auth service.
 - **Con:** gRPC / HTTP/2 and streaming need careful buffering (`proxy_buffering off` for SSE).
 
 ## Comparison
-
 - vs [[nginx core functionality]]: product roles vs module/phase/source-level detail.
 - vs thread-per-request servers: event loop avoids per-connection thread stacks.
 
 ## Mistakes to Avoid
-
 - Using `if` as general programming in `location` — prefer `map` / `try_files`.
 - Ignoring unix socket backlog — app must accept fast enough or 502 under burst.
 - Leaving `proxy_buffering` on for SSE/event streams.

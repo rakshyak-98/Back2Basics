@@ -4,22 +4,22 @@
 
 > Five parallel environments, promotion gates, and per-stage deploy strategy for an e-commerce microservice platform on EKS — the operations contract, not tool marketing.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe environment topology to see if you separate accounts and secrets, promote immutable digests (not `latest`), and treat `live` as a traffic slice rather than a fifth full production clone.
 
 ## Sources
-
 - [Argo Rollouts — Canary](https://argo-rollouts.readthedocs.io/en/stable/features/canary/) — deep-dive
 - [Kubernetes — Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) — overview
 - [Google SRE — Release Engineering](https://sre.google/sre-book/release-engineering/) — overview
 
 ## Core Definition
-
 An e-commerce CI/CD environment model keeps development, test, staging, production, and live-canary paths running in parallel; the same image digest advances through gates while configuration and secrets differ per stage.
 
 ## Key Concepts
-
 - **Parallel environments:** separate clusters/namespaces/accounts → isolation, not shared “one cluster many modes.”
 - **Artifact promotion:** same immutable digest advances → configuration differs; never rebuild for “the next environment.”
 - **`live` as traffic slice:** production cluster namespaces (`prod` + `live-canary`) or Argo Rollouts weights — not a duplicate RDS.
@@ -27,7 +27,6 @@ An e-commerce CI/CD environment model keeps development, test, staging, producti
 - **Rollback layers:** canary abort, rollout undo, Helm revision, feature flag — forward-only migrations cannot be rolled back blindly.
 
 ## Technical Details
-
 ```txt
 dev ──► test ──► staging ──► production ──► live (traffic slice on production)
   │       │          │            │              │
@@ -150,25 +149,21 @@ helm rollback payment 42 -n prod
 | Deploy stuck | PDB, insufficient nodes | Cluster autoscaler max; temporary raise max surge |
 
 ## Real-World Applications
-
 Payment and order services promote the same ECR digest from staging soak into production stable, then shift 5% live traffic via Argo Rollouts while watching payment success SLO.
 
 **Example:** Staging passes but production fails because IRSA role ARNs and Helm values diverged — compare `values-prod.yaml` and never copy production secrets into development.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Parallel environments plus digest promotion catch configuration and scale mismatches before customers see them.
 - **Con:** Five full production clones are expensive and unnecessary — `live` is a traffic slice.
 - **Con:** Canary on one service while peers stay old creates subtle cross-service bugs — coordinate release bundles or flags.
 
 ## Comparison
-
 - vs single-namespace MVP: one workflow and one namespace until a second production deploy justifies Rollouts.
 - vs [[spinnaker]] multi-cloud pipelines: Argo CD + Rollouts preferred for Kubernetes-only; Spinnaker when multi-cloud already exists.
 - vs [[Jenkins]] / [[Github action]]: either can run CI; the environment contract (gates, digests, accounts) is the durable design.
 
 ## Mistakes to Avoid
-
 - Promoting the `latest` tag — digest drift across nodes; always pin image digest in manifests.
 - Staging without production-sized data — migration time estimates lie; restore a production snapshot to staging regularly.
 - Canary only on one service in a tightly coupled payment/order path without feature flags.

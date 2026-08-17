@@ -4,31 +4,33 @@
 
 > Database servers return structured error codes and messages — reading SQLSTATE, detail fields, and constraint names turns opaque failures into fast fixes.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask how you map unique violations to HTTP status codes, when to retry serialization failures, and how you log failures without leaking secrets. Signal: you treat SQLSTATE as a contract, not a string to scrape ad hoc.
 
 ## Sources
-
 - [PostgreSQL Documentation — Appendix A. Error Codes](https://www.postgresql.org/docs/current/errcodes-appendix.html) — deep-dive
 - [MySQL Reference Manual — Error Message Reference](https://dev.mysql.com/doc/mysql-errors/en/) — deep-dive
 - ISO/IEC 9075 SQLSTATE classes — overview
 - [PostgreSQL Documentation — Error Reporting and Logging](https://www.postgresql.org/docs/current/runtime-config-logging.html) — overview
 
 ## Core Definition
-
 A SQL error is a structured failure from the server: a five-character SQLSTATE (ISO) and/or a vendor number, plus message, detail, hint, and often a constraint or position — enough to decide retry, conflict, or fix-the-query.
 
-## Key Concepts
-
-- **SQLSTATE:** portable five-character code (`class` + `subclass`).
-- **Vendor number:** MySQL-style integers (e.g. `1062` duplicate entry) alongside or instead of SQLSTATE in clients.
-- **Constraint name:** which unique index or foreign key failed.
-- **Detail / Hint / Position:** values involved, suggested fix, character offset in the SQL text.
-- **Retryable vs terminal:** `40001` serialization_failure often retries; `23505` unique_violation usually maps to conflict for the client.
+## Recall Cues
+- Why do interviewers care about how you map unique violations to HTTP status codes, when to retry serialization failures, and how you log failures without leaking secrets?
+- Why do interviewers care about Signal: you treat SQLSTATE as a contract, not a string to scrape ad hoc?
+- What happens in the **Constraint name** step?
+- What happens in the **Detail** step?
+- What happens in the **Hint** step?
+- What happens in the **Position** step?
+- What mistake is **Parsing human-readable messages instead of SQLSTATE / errno**?
+- What mistake is **Retrying unique violations in a tight loop (creates thundering herds on hot keys)**?
 
 ## Technical Details
-
 | Code | Meaning | Typical handling |
 |------|---------|------------------|
 | `23505` | unique_violation | HTTP 409 / user-visible conflict |
@@ -60,23 +62,19 @@ Application handling:
 
 See also [[postgres Error]], [[MySQL Error]], and [[postgres parameter type error]] for engine-specific traps.
 
-## Real-World Applications
-
-Signup API: unique email → `23505` → “email taken.” Inventory under SERIALIZABLE: `40001` → automatic retry. Ops dashboards alert on rising `57014` as a sign of missing indexes or runaway reports.
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Stable codes enable uniform API and retry policy across services.
-- **Con:** Vendor dialects differ; scraping English messages breaks on locale and version.
-- **Trade-off:** Verbose DETAIL (great for debug) vs redacting PII in shared logs.
-
-## Comparison
-
-vs application validation errors: DB errors are the last line when races slip past checks. vs [[ACID]] isolation failures: `40001` is the engine saying concurrent schedules conflict — retry, do not treat as a schema bug. vs HTTP 500: most constraint violations are client/conflict issues, not server crashes.
-
 ## Mistakes to Avoid
-
 - Parsing human-readable messages instead of SQLSTATE / errno.
 - Retrying unique violations in a tight loop (creates thundering herds on hot keys).
 - Logging bound parameters that contain secrets.
 - Returning raw database text to end users (information leak and poor UX).
+
+## Comparison
+vs application validation errors: DB errors are the last line when races slip past checks. vs [[ACID]] isolation failures: `40001` is the engine saying concurrent schedules conflict — retry, do not treat as a schema bug. vs HTTP 500: most constraint violations are client/conflict issues, not server crashes.
+
+## Real-World Applications
+Signup API: unique email → `23505` → “email taken.” Inventory under SERIALIZABLE: `40001` → automatic retry. Ops dashboards alert on rising `57014` as a sign of missing indexes or runaway reports.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Stable codes enable uniform API and retry policy across services.
+- **Con:** Vendor dialects differ; scraping English messages breaks on locale and version.
+- **Trade-off:** Verbose DETAIL (great for debug) vs redacting PII in shared logs.

@@ -4,25 +4,25 @@
 
 > The system bus is the backbone connecting CPU, main memory, and I/O controllers — every syscall that touches disk or network eventually moves bytes across these links.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence costs behind false sharing on [[mutexes]].
 
 ## Sources
-
 - Hennessy & Patterson, *Computer Architecture* — deep-dive
 - [Wikipedia — System bus](https://en.wikipedia.org/wiki/System_bus) — overview
 - [Wikipedia — Front-side bus](https://en.wikipedia.org/wiki/Front-side_bus) — overview
 
 ## Key Concepts
-
 - **CPU–RAM–I/O triangle:** address/data/control paths.
 - **NUMA:** local vs remote DRAM latency.
 - **Coherence:** snooping/directories keep caches consistent.
 - **DMA:** devices R/W RAM without CPU byte loops.
 
 ## Technical Details
-
 ```txt
      ┌─────────┐   address/data/control   ┌──────────┐
      │   CPU   │◄────────────────────────►│   RAM    │
@@ -35,22 +35,18 @@ Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence costs
 Driver buffers often live in [[Buffer cache]] pages. Frequency ([[base clock speed]]) and storage ([[Persistent Block Storage]]) still ride this path. Generic concept note: [[bus]].
 
 ## Real-World Applications
-
 NUMA-aware placement, GPU/NIC DMA tuning, and explaining memory-bandwidth ceilings.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Unified model for thinking about data movement.
 - **Con:** Classic “one bus” mental model undersells modern fabrics.
 - **Trade-off:** more interconnect bandwidth vs power/cost.
 
 ## Comparison
-
 - vs [[bus]]: general term vs CPU-centric system path emphasis.
 - vs network links: in-chassis vs across machines.
 
 ## Mistakes to Avoid
-
 - Ignoring NUMA when pinning threads and allocating memory.
 - Blaming only software for bandwidth limits that are interconnect-bound.
 - False sharing from contended cache lines on “the bus” coherence traffic.

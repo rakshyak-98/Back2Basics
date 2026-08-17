@@ -4,6 +4,10 @@
 
 > systemd unit lifecycle plus D-Bus introspection — systemctl for start/stop/enable; journalctl for why; busctl when you need the bus API.
 
+
+
+
+
 ## Interview Relevance
 Must-know: enable ≠ start, daemon-reload after unit edits, mask vs disable, and pairing `systemctl status` with `journalctl -u`.
 
@@ -22,7 +26,6 @@ Must-know: enable ≠ start, daemon-reload after unit edits, mask vs disable, an
 - **--user:** Per-user units on the session bus.
 
 ## Technical Details
-
 ```txt
 systemctl ──D-Bus──► systemd ──► unit files ──► processes
 ```

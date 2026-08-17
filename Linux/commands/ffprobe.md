@@ -4,6 +4,10 @@
 
 > ffprobe reads media metadata — codecs, duration, timestamps, programs — without rewriting the file.
 
+
+
+
+
 ## Interview Relevance
 Media ops: streams vs format, `pts_time`/`start_time` for A/V sync, and JSON output for scripts (`-of json`).
 
@@ -22,7 +26,6 @@ ffprobe demuxes enough of a file or URL to report stream codecs, format containe
 - **`-select_streams`:** Limit to video/audio; avoid dumping every frame.
 
 ## Technical Details
-
 ```bash
 ffprobe -hide_banner input.mp4
 ffprobe -show_streams input.mp4

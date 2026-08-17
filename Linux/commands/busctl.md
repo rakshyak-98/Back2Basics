@@ -4,6 +4,10 @@
 
 > busctl introspects and calls D-Bus APIs — the same IPC bus systemd, NetworkManager, logind, and desktop services use.
 
+
+
+
+
 ## Interview Relevance
 Platform debugging: system vs session bus, introspect-before-call, and when to use busctl vs systemctl vs journalctl.
 
@@ -22,7 +26,6 @@ D-Bus is the machine IPC bus. **busctl** wraps libsystemd’s bus API — list n
 - **Not every daemon:** Some services only expose sockets/units.
 
 ## Technical Details
-
 | Bus | Socket | Scope |
 |-----|--------|-------|
 | System | `/run/dbus/system_bus_socket` | Machine-wide |

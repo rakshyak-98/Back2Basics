@@ -4,25 +4,25 @@
 
 > A ring buffer stores a fixed-capacity stream by wrapping read/write indices around a circular array — atomics let one producer and one consumer update those indices without a lock.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Concurrency classic: SPSC lock-free ring, memory barriers (“store data before index”), full/empty conditions, and when you still need locks for MPMC.
 
 ## Sources
-
 - Linux kernel: `include/linux/kfifo.h`, `lib/kfifo.c` — deep-dive
 - Lamport, “Concurrent Reading and Writing” — deep-dive
 - [Wikipedia — Circular buffer](https://en.wikipedia.org/wiki/Circular_buffer) — overview
 
 ## Key Concepts
-
 - **Circular indices:** wrap instead of shifting elements.
 - **SPSC lock-free:** one producer, one consumer; atomics + barriers publish indices.
 - **Full/empty:** `(write + 1) % N == read` vs `write == read` (one slot reserved or explicit count).
 - **MPMC needs more:** [[mutexes]], [[semaphores]], or a [[thread-safe queue]].
 
 ## Technical Details
-
 ```txt
      read_idx ──► [ | | | | | ] ◄── write_idx
                     buffer[N]
@@ -41,22 +41,18 @@ Concurrency classic: SPSC lock-free ring, memory barriers (“store data before 
 Failure modes: overrun; torn reads (index before data); false sharing of indices on one cache line.
 
 ## Real-World Applications
-
 `dmesg` rings, audio pipelines, DPDK/NIC descriptor rings, and user-space logging agents.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Bounded memory, low overhead for SPSC.
 - **Con:** Fixed capacity; MPMC is harder; silent drop if overwrite policy.
 - **Trade-off:** drop-oldest ([[Rolling Buffer]] policy) vs block producer.
 
 ## Comparison
-
 - vs [[Rolling Buffer]]: rolling emphasizes overwrite policy; atomic ring emphasizes lock-free structure.
 - vs [[thread-safe queue]]: queues often grow or block; rings are typically fixed-size.
 
 ## Mistakes to Avoid
-
 - Publishing the write index before the slot data is fully written.
 - Using one SPSC ring with multiple producers without extra sync.
 - Putting read/write indices on the same cache line (false sharing).

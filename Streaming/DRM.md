@@ -4,17 +4,18 @@
 
 > DRM (Digital Rights Management) encrypts the stream and only hands keys to entitled players — stops casual copying.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk DRM end-to-end — not just name it. Signal fluency with **DRM**, **License server**, **CDM**, **CENC** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM) — overview
 - [W3C EME](https://www.w3.org/TR/encrypted-media/) — overview
 
 ## Key Concepts
-
 - **DRM:** Encrypt + license gate for playback — “We protect the asset; the player must prove entitlement.”
 - **License server:** Issues keys after auth / policy checks — “Keys never ship in the clear to random clients.”
 - **CDM:** Secure decrypt module in the device/browser — “EME talks to the CDM; JS never sees the raw key on L1.”
@@ -47,7 +48,6 @@ Caution! The stream has been secured with DRM…
 That banner means encryption is on — not a player bug. Only CDM-compatible players can decrypt.
 
 ## Technical Details
-
 ```txt
 Clear mezzanine / live ingest
         │
@@ -101,11 +101,9 @@ One encrypted ladder
 Pack once; license paths differ per platform. Do not re-encode per DRM.
 
 ## Real-World Applications
-
 Used wherever DRM sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
 - **Con / skip when:** **You only need link expiry** — CDN token authentication, not full CDM.
@@ -113,7 +111,6 @@ Used wherever DRM sits in an ingest → package → CDN → player path. Concret
 - **Con / skip when:** **WebRTC P2P demos** — ICE/media path first; DRM is an OTT packaging concern.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Black screen, no error | Manifest missing `ContentProtection` / `#EXT-X-KEY` | Re-package with PSSH/KID; verify packager KMS reachability |

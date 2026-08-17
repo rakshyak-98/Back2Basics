@@ -4,26 +4,25 @@
 
 > High-load throughput optimization removes per-request overhead — batching, asynchronous job queues, connection multiplexing, and warm pools — when REST-per-call and connection churn saturate the control plane.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Remove per-request overhead: pooling, batching, caching, async — measure before scaling out.
 
 ## Sources
-
 - Google gRPC performance guide — channel reuse, streaming — overview
 - Netflix/conversational engineering blogs — asynchronous job APIs for media pipelines — overview
 - Brendan Gregg, *Systems Performance* — identifying saturation — overview
 
 ## Key Concepts
-
 - **Remove per-request overhead:** pools, reuse, batching, caching first.
 - **Find the bottleneck stage:** CPU, disk, lock, or downstream RTT.
 - **Async offload:** move non-critical work off the request path.
 - **Measure:** p99 and saturation before buying horizontal scale.
 
-
 ## Technical Details
-
 ### The API wall
 
 ```txt
@@ -39,7 +38,7 @@ Better: PUT /channels:batch   → queue → pre-warmed worker pool
 | Pre-warmed pools | Avoid cold encoder or database session open |
 | [[Token bucket]] admission | Protect downstream from overload |
 
-## Asynchronous job pattern
+### Asynchronous job pattern
 
 ```txt
 POST /jobs → 202 + job_id
@@ -50,7 +49,7 @@ Workers pull queue with bounded concurrency ([[backpressure]])
 
 Clients poll or subscribe ([[Real-time Subscription]]) for completion — define partial failure on batch endpoints (per-item error array).
 
-## Connection and protocol tuning
+### Connection and protocol tuning
 
 | Symptom | Direction |
 |---------|-----------|
@@ -59,35 +58,26 @@ Clients poll or subscribe ([[Real-time Subscription]]) for completion — define
 | Good average, bad p99 | Lock contention, garbage collection — profile |
 | Softirq storm | Batch packets; fewer short-lived connections ([[concurrent connection]]) |
 
-## When not to over-optimize
+## Real-World Applications
+High-QPS APIs, ad/telemetry ingest, and checkout spikes.
 
+## Pros/Cons or Trade-offs
 Low queries-per-second create-read-update-delete does not need batch endpoints. Strict synchronous user experience (payment confirmation) may require optimized synchronous path, not `202`.
 
 Public browser clients may still need REST or JSON gateway even when internal east-west traffic uses gRPC.
 
 *What breaks first at ten times load?* Unbounded job queue without [[backpressure]] — memory exhaustion delayed, not prevented.
 
-## Real-World Applications
-
-High-QPS APIs, ad/telemetry ingest, and checkout spikes.
-
-
-## Pros/Cons or Trade-offs
 
 - **Pro:** Multiplicative gains without new machines.
 - **Con:** Premature optimization of the wrong stage.
 - **Trade-off:** throughput vs latency when batching.
 
-
 ## Comparison
-
 - vs [[Throughput]]: metric definition vs how to raise it under load.
 - vs [[Horizontal vs Vertical Scaling]]: optimize before/while scaling out.
 
-
 ## Mistakes to Avoid
-
 - Skipping failure modes until production.
 - Ignoring idempotency, timeouts, or rollback where required.
 - Optimizing or distributing before measuring the real bottleneck.
-

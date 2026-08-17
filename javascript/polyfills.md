@@ -4,23 +4,23 @@
 
 > **Runtime implementation** of missing APIs on old engines — no syntax transform — fills the gap so **calling** `Array.prototype.at` works — **MDN + core-js**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Polyfills** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [MDN — Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill) — overview
 - [Wikipedia — polyfills](https://en.wikipedia.org/wiki/polyfills) — overview
 
 ## Key Concepts
-
 - Two compatibility layers:
 - Polyfill = shim that mimics specification behavior if `if (!Feature) { implement }`.
 - Ship polyfills only for **browsers you support** — unnecessary bytes on modern-only stacks.
 
 ## Technical Details
-
 Two compatibility layers:
 
 ```txt
@@ -80,22 +80,18 @@ if (!globalThis.structuredClone) {
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **polyfills** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Polyfill ≠ transpile** — `?.` cannot be polyfilled; must compile away; **Mutating prototypes** — can break if non-writable; order matters (load polyfills first).
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (**Runtime implementation** of missing APIs on old engines — no syntax transform …).
 - **Con / when not:** **Internal apps on latest Chrome only** — drop polyfills; set browserslist accordingly.
 - **Con / when not:** **Node LTS with native API** — use `engines` in package.json instead.
 - **Con / when not:** **Syntax features** — always transpile; don't "polyfill" classes with Function constructor hacks.
 
 ## Comparison
-
 vs [[Descriptive/JavaScript/Polyfilling]]: know when each applies — do not treat them as interchangeable. vs [[javascript engine]]: know when each applies — do not treat them as interchangeable. vs [[SWC]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Polyfill ≠ transpile** — `?.` cannot be polyfilled; must compile away.
 - **Mutating prototypes** — can break if non-writable; order matters (load polyfills first).
 - **`X is not a function` on old Safari:** check Missing polyfill; fix: Add core-js module or manual shim

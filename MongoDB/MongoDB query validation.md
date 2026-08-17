@@ -4,17 +4,18 @@
 
 > Collection validators reject bad writes — JSON Schema (or operators) enforced by the server.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Validation interviews check schema validators, validationLevel/action, and migration of invalid docs.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 write → validator ($jsonSchema) → accept | reject
 ```
@@ -29,7 +30,6 @@ write → validator ($jsonSchema) → accept | reject
 | **collMod** | Change validator later | “Evolve without recreate.” |
 
 ## Technical Details
-
 ```js
 db.runCommand({
   collMod: 'users',
@@ -50,12 +50,10 @@ db.runCommand({
 | App + server validation | Defense in depth |
 
 ## Pros/Cons or Trade-offs
-
 - **Highly polymorphic events** — validate in the producer instead.
 - **One-off scratch collections** — skip until shape stabilizes.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Validators don’t migrate history** — old docs stay wrong until you rewrite them.
 
@@ -68,4 +66,3 @@ db.runCommand({
 | Legacy writes blocked | strict + old docs | moderate + migrate |
 | Validator too weak | only app checks | Add server schema |
 | Silent bad data | action=warn | Flip to error after cleanup |
-

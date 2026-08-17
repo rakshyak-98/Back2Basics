@@ -4,26 +4,39 @@
 
 > Serialization converts in-memory structures to bytes for storage or network transport and back — the contract between producers and consumers must survive version changes and language boundaries.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Avro.
 
 ## Sources
-
 - [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON data interchange format — deep-dive
 - Google Protocol Buffers documentation — language guide and compatibility — overview
 - Martin Kleppmann, *Designing Data-Intensive Applications* — encoding and evolution — deep-dive
 
 ## Key Concepts
-
 - **Object ↔ bytes:** for disk, queue, or wire.
 - **Schema evolution:** add optional fields; avoid silent breaks.
 - **Format choice:** JSON ergonomics vs Protobuf/Avro size/CPU.
 - **Versioning:** embed type/version; reject unknowns safely.
 
 
-## Technical Details
+### Schema evolution rules
 
+```txt
+Additive changes: new optional fields — old readers ignore unknown fields
+Breaking changes: rename, change type, remove required field — coordinate deploy or version bump
+```
+
+Protocol Buffers field **numbers** are permanent — never reuse. Prefer optional fields over required in evolving APIs.
+
+```bash
+protoc --go_out=. order.proto
+```
+
+## Technical Details
 ### Encode and decode path
 
 ```txt
@@ -39,20 +52,7 @@ Also called **marshalling** — see [[marshalling]] for language-specific notes.
 | Apache Avro | Schema in message, compact | Kafka, data pipelines |
 | MessagePack | Binary JSON-like | Caching, games |
 
-## Schema evolution rules
-
-```txt
-Additive changes: new optional fields — old readers ignore unknown fields
-Breaking changes: rename, change type, remove required field — coordinate deploy or version bump
-```
-
-Protocol Buffers field **numbers** are permanent — never reuse. Prefer optional fields over required in evolving APIs.
-
-```bash
-protoc --go_out=. order.proto
-```
-
-## Practical pitfalls
+### Practical pitfalls
 
 | Pitfall | Fix |
 |---------|-----|
@@ -64,7 +64,20 @@ protoc --go_out=. order.proto
 
 Compress **before** encrypting if both apply — encrypted data does not compress well.
 
-## Symptom → direction
+## Real-World Applications
+RPC payloads, event buses, and durable message formats.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Portable state across languages and time.
+- **Con:** Version drift and expensive (de)serialization CPU.
+- **Trade-off:** human-readable JSON vs compact binary.
+
+## Comparison
+- vs [[marshalling]]: overlapping; marshalling often implies RPC object graphs.
+- vs [[event-driven]]: events need stable serialized contracts.
+
+## Mistakes to Avoid
+### Symptom → direction
 
 | Symptom | Check |
 |---------|-------|
@@ -74,25 +87,6 @@ Compress **before** encrypting if both apply — encrypted data does not compres
 
 Same-process calls should pass objects — do not serialize unnecessarily.
 
-## Real-World Applications
-
-RPC payloads, event buses, and durable message formats.
-
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Portable state across languages and time.
-- **Con:** Version drift and expensive (de)serialization CPU.
-- **Trade-off:** human-readable JSON vs compact binary.
-
-
-## Comparison
-
-- vs [[marshalling]]: overlapping; marshalling often implies RPC object graphs.
-- vs [[event-driven]]: events need stable serialized contracts.
-
-
-## Mistakes to Avoid
 
 - Treating Serialization as a silver bullet without measuring the bottleneck.
 - Ignoring failure modes and operability until production.

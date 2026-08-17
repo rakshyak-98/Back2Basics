@@ -4,22 +4,22 @@
 
 > Churn is a high rate of short-lived TCP connections — each open/close costs handshake, ports, and CPU; idle timeout mismatch makes it worse.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use connection churn to test whether you can diagnose TIME_WAIT exhaustion, 502s after idle, and keepalive/timeout ladders across load balancer, app, and client pools — not just “scale more servers.”
 
 ## Sources
-
 - [Linux TCP — tcp(7)](https://man7.org/linux/man-pages/man7/tcp.7.html) — deep-dive
 - [AWS — Application Load Balancer idle timeout](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#connection-idle-timeout) — overview
 - [ss(8) — Linux manual page](https://man7.org/linux/man-pages/man8/ss.8.html) — overview
 
 ## Core Definition
-
 Churn is a high rate of short-lived TCP connections (HTTP/1.0-style close per request, health checks, misconfigured pools) or idle timeout mismatch (load balancer closes while the client still thinks the connection is open).
 
 ## Key Concepts
-
 | Pattern | Cost |
 |---------|------|
 | New TCP per HTTP request | SYN handshake + TLS (if HTTPS) every time |
@@ -28,7 +28,6 @@ Churn is a high rate of short-lived TCP connections (HTTP/1.0-style close per re
 | Aggressive health checks | Accept queue + churn even at zero user traffic |
 
 ## Technical Details
-
 ```
 Client                    Load balancer              Server
   │── new TCP ───────────────────────────────────────►│  (expensive)
@@ -104,26 +103,22 @@ ss -tan state time-wait | wc -l
 ```
 
 ## Real-World Applications
-
 HTTP APIs behind ALB/nginx, microservice meshes, and health-check-heavy platforms where connection reuse dominates latency and port usage.
 
 **Example:** Node behind ALB returns intermittent 502 after quiet periods — `keepAliveTimeout` was 5s below ALB idle; raising it above the LB timeout stopped the RST-on-reuse failures.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Aggressive short connections simplify some clients — no idle state to manage.
 - **Con:** Handshake + TLS + TIME_WAIT cost scales with request rate, not payload size.
 - **Con:** Widening ephemeral ports without fixing churn treats the symptom; TIME_WAIT still costs CPU and conntrack.
 - **Trade-off:** HTTP/2 one TCP, many streams reduces handshake churn but still one connection to manage.
 
 ## Comparison
-
 - vs long-lived [[webSocket]] / gRPC streams: different failure mode — read idle and proxy timeouts, not TIME_WAIT storms.
 - vs UDP: no TIME_WAIT; different tools (`ss -u`).
 - vs database pool churn: same CLOSE-WAIT / leak signatures in [[ss]], different pool knobs.
 
 ## Mistakes to Avoid
-
 - Enabling `tcp_tw_recycle` from old blog posts — removed in Linux 4.12; breaks clients behind NAT.
 - Widening `ip_local_port_range` as the primary fix instead of keepalive and pooling.
 - Tuning `fin_timeout` to 5 globally — can break legitimate slow closes; fix application reuse first.

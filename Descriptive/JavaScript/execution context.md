@@ -4,16 +4,17 @@
 
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Execution context interviews cover lexical environments, this binding, and hoisting misconceptions.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Every time JS runs code, the engine creates an **execution context** on the **call stack**. Contexts nest: global first, then each function call, then blocks (let/const) in modern engines.
 
 ```
@@ -37,7 +38,6 @@ Call stack (top = running now):
 **Global context:** one per script/module — top-level `let`/`const` live in script scope, not `window` (in modules).
 
 ## Technical Details
-
 ### Observe scope chain in debugger
 
 ```javascript
@@ -81,11 +81,9 @@ let a = 1;
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Don't manually simulate contexts — use modules, closures, and classes instead of `with` or dynamic scoping hacks.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Closures keep the **entire lexical environment** alive — capturing large objects in nested callbacks causes memory leaks in long-lived servers.
 

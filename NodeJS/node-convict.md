@@ -4,26 +4,25 @@
 
 > node-convict — loads config from defaults → file → environment variables → CLI args (order configurable). Each key has a schema: type, format, default, env var
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **node-convict** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [mozilla/node-convict](https://github.com/mozilla/node-convict) — deep-dive
 - [Wikipedia — node-convict](https://en.wikipedia.org/wiki/node-convict) — overview
 
 ## Core Definition
-
 [node-convict](https://github.com/mozilla/node-convict) loads configuration from **defaults → file → environment variables → CLI arguments** (order configurable). Each key has a schema: type, format, default, environment variable name, document string.
 
 ## Key Concepts
-
 - [node-convict](https://github.com/mozilla/node-convict) loads configuration from **defaults → file → environment variables → CLI arguments** (order configurable). Each key has a…
 - Validation runs at startup — misconfigured deploy crashes immediately instead of corrupting production data silently.
 
 ## Technical Details
-
 [node-convict](https://github.com/mozilla/node-convict) loads configuration from **defaults → file → environment variables → CLI arguments** (order configurable). Each key has a schema: type, format, default, environment variable name, document string.
 
 ```
@@ -108,22 +107,18 @@ console.log(config.toString()); // document all keys + env vars for runbooks
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **node-convict** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Env vars are strings** — convict coerces via `format`; custom formats must parse `"false"`/`"0"` explicitly; **Load order matters** — later sources win; document which file/env wins for on-call.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (node-convict — loads config from defaults → file → environment variables → CLI a…).
 - **Con / when not:** **12-factor only environment, no files** — lighter libs (`envalid`, `zod` + dotenv) may suffice.
 - **Con / when not:** **Dynamic configuration from control plane** — need polling/consul/etcd, not static convict load-once.
 - **Con / when not:** **Secrets rotation mid-process** — convict won't reload; use secret manager SDK.
 
 ## Comparison
-
 vs [[node environment configuration]]: know when each applies — do not treat them as interchangeable. vs [[node package json]]: know when each applies — do not treat them as interchangeable. vs [[CLI]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Env vars are strings** — convict coerces via `format`; custom formats must parse `"false"`/`"0"` explicitly.
 - **Load order matters** — later sources win; document which file/env wins for on-call.
 - **Don't mutate config at runtime** — treat as immutable after validate except feature flags with clear lifecycle.

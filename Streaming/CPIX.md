@@ -4,16 +4,17 @@
 
 > CPIX (Content Protection Information Exchange) is XML that hands your packager the keys and PSSH needed to encrypt media.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk CPIX end-to-end — not just name it. Signal fluency with **CPIX**, **KID**, **CEK / PlainValue**, **PSSH** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — CPIX](https://en.wikipedia.org/wiki/CPIX) — overview
 
 ## Key Concepts
-
 - **CPIX:** XML format to exchange protection keys — “Packager speaks CPIX to the KMS.”
 - **KID:** Key identifier — “Manifest and license both name the same KID.”
 - **CEK / PlainValue:** The actual content encryption key (often Base64) — “Packager needs the raw key to encrypt; players get it via license.”
@@ -35,7 +36,6 @@ specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX i
 **Without manifest signaling**, the player never knows which license server or KID to use — encryption alone is not enough.
 
 ## Technical Details
-
 ```txt
 Packager / transcoder
         │  GET/POST CPIX (content id, DRM systems)
@@ -76,11 +76,9 @@ packager \
 Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemental via SPEKE.
 
 ## Real-World Applications
-
 Used wherever CPIX sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Clear (unencrypted) delivery** — no KMS; skip CPIX.
 - **Con / skip when:** **Vendor proprietary-only key API with no CPIX** — use their packager plugin docs instead of forcing XML.
@@ -88,11 +86,9 @@ Used wherever CPIX sits in an ingest → package → CDN → player path. Concre
 - **Con / skip when:** **One-off remux with `-c copy`** — no new encryption ⇒ no new CPIX fetch.
 
 ## Comparison
-
 - vs [[EME]]: **Player-side experiments** — CPIX is packaging/KMS; use [[EME]] samples for playback tests.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Packager can’t encrypt | CPIX 401/403 or empty `PlainValue` | Fix KMS credentials / site id; confirm content id |

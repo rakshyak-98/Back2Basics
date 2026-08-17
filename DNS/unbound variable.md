@@ -4,27 +4,26 @@
 
 > In Bash, an unbound variable is a name you reference before it is set — `set -u` (nounset) turns silent empty expansion into a hard error so scripts fail fast instead of corrupting data.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Shell and SRE interviews use `set -u` to see whether you prevent empty-expansion disasters (`rm -rf $DIR/*`) and know safe defaulting patterns.
 
 ## Sources
-
 - [GNU Bash Manual — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html) — deep-dive
 
 ## Core Definition
-
 This note is about **shell variables**, not the [[Unbound]] DNS resolver. The filename sits under `DNS/` for vault search history; treat it as a Linux/CLI topic.
 
 ## Key Concepts
-
 - **Default expansion:** unset names become empty string — dangerous in paths and arguments.
 - **`set -u` (nounset):** referencing unset names aborts with “unbound variable.”
 - **Strict mode trio:** `set -euo pipefail` fails fast on errors, unset names, and pipeline failures.
 - **Safe defaults:** `${VAR:-default}`, `${VAR:?message}`, and `${VAR+x}` tests.
 
 ## Technical Details
-
 Default Bash expands unset variables to empty string:
 
 ```bash
@@ -68,24 +67,20 @@ fi
 ```
 
 ## Real-World Applications
-
 Production deploy scripts, CI jobs, and operators’ one-liners that expand paths or credentials.
 
 **Example:** A cleanup cron with `rm -rf "$WORKDIR"/*` under `set -u` fails loudly if `WORKDIR` was never exported — better than deleting `/`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Converts silent empty expansion into immediate failure.
 - **Con:** Breaks scripts that intentionally rely on unset → empty (must migrate to `${VAR-}` forms).
 - **Con:** Alone, `set -u` does not quote expansions — still use `"$VAR"`.
 
 ## Comparison
-
 - vs [[Unbound]] DNS: different topic entirely — resolver daemon vs Bash nounset.
 - vs `set -e` alone: `-e` catches command failures; `-u` catches missing names before commands run wrong.
 
 ## Mistakes to Avoid
-
 - Enabling `set -u` without fixing optional flags that were “empty by design.”
 - Using `$DIR` unquoted even with nounset — word-splitting still applies when set.
 - Confusing this note with the [[Unbound]] recursive DNS server.

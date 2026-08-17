@@ -4,26 +4,25 @@
 
 > Event-driven architecture publishes facts ("OrderPlaced", "UserRegistered") to a durable log or bus so downstream services react asynchronously — decoupling deploy and scale at the cost of eventual consistency and operational complexity.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Events as facts; at-least-once + idempotent consumers; when not to event-everything.
 
 ## Sources
-
 - Martin Kleppmann, *Designing Data-Intensive Applications* — logs, streams, and processing — deep-dive
 - Enterprise Integration Patterns (Hohpe & Woolf) — message channel patterns — overview
 - Chris Richardson, microservices.io — saga and event-driven patterns — overview
 
 ## Key Concepts
-
 - **Events as facts:** OrderPlaced happened — consumers react.
 - **Decoupling:** producers need not know all consumers.
 - **Delivery:** usually at-least-once → idempotent handlers.
 - **When not:** simple CRUD with one writer may not need a bus.
 
-
 ## Technical Details
-
 ### Choreography versus orchestration
 
 ```txt
@@ -40,7 +39,7 @@ Service A ──event──► Bus / log ──► Consumers B, C
 
 Choose choreography when steps are loosely coupled; orchestration when you need visible workflow state and compensations (sagas).
 
-## Event envelope
+### Event envelope
 
 ```json
 {
@@ -57,7 +56,8 @@ Choose choreography when steps are loosely coupled; orchestration when you need 
 | Schema versioning | Evolve without breaking all consumers |
 | Transactional outbox | Database commit and event publish atomically |
 | Partition key | Per-entity ordering when needed |
-## Trade-offs
+
+### Trade-offs
 
 **Pros:** independent scaling, temporal decoupling, audit trail, replay for new projections.
 
@@ -68,25 +68,18 @@ Simple create-read-update-delete with three services may stay synchronous ([[KIS
 *When would you still use remote procedure call?* Request-response with immediate answer and strong consistency on one aggregate.
 
 ## Real-World Applications
-
 Order pipelines, notification fanout, and CQRS read-model projections.
 
-
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Independent scale and evolution of consumers.
 - **Con:** Debugging causality; dual-write outbox needs.
 - **Trade-off:** sync call simplicity vs async resilience.
 
-
 ## Comparison
-
 - vs [[Real-time Subscription]]: UI push vs backend event architecture.
 - vs request/response APIs: temporal decoupling vs immediate reply.
 
-
 ## Mistakes to Avoid
-
 | Symptom | Direction |
 |---------|-----------|
 | Missing side effect | Consumer lag or error — fix and replay from offset ([[stateless offset handling]]) |

@@ -4,6 +4,10 @@
 
 > System V init was the classic sequential runlevel boot model — largely replaced by systemd on modern distributions but still referenced in legacy scripts and packaging.
 
+
+
+
+
 ## Interview Relevance
 Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and how to detect PID 1. Deep SysV trivia is less valuable than migration awareness.
 
@@ -21,7 +25,6 @@ Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and 
 - **PID 1:** Today almost always `systemd` on server distros.
 
 ## Technical Details
-
 | Level | Typical meaning |
 |-------|-----------------|
 | 0 | Halt |

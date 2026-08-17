@@ -4,6 +4,10 @@
 
 > Vault entry hub — where to start in Back2Basics, how notes are written, and what this collection is for.
 
+
+
+
+
 ## Interview Relevance
 Not a classic interview topic — it is the map for using this vault under pressure: symptom → [[INDEX]] → domain note → fix. Staff practice includes building retrieval systems like this.
 

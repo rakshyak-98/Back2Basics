@@ -4,25 +4,25 @@
 
 > Eventual consistency means replicas may disagree right after a write, but if updates stop, they converge — availability and latency now, sameness later.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Define eventual vs strong, name client guarantees (read-your-writes), and pick conflict policies — plus where money/security must not be eventual.
 
 ## Sources
-
 - Werner Vogels, "Eventually Consistent" (ACM Queue, 2008) — overview
 - Martin Kleppmann, *Designing Data-Intensive Applications* — deep-dive
 - [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) — document “eventual” in contracts — overview
 
 ## Key Concepts
-
 - **Async replication:** ack now; other replicas catch up later.
 - **Staleness window:** define SLO for how stale is OK.
 - **Client strategies:** sticky primary, tokens, bounded lag, UI honesty.
 - **Merge policy required:** otherwise divergence never ends.
 
 ## Technical Details
-
 ```txt
 Write → replica A (ack to client)
      ↘ async replication → replicas B, C (later)
@@ -56,22 +56,18 @@ Stronger: higher [[Quorum]] R/W, sync replication, or leader reads.
 Poor fit: money/inventory, security revocation, global unique constraints.
 
 ## Real-World Applications
-
 CDN/DNS caches, multi-region user profiles, and social feeds where brief staleness is acceptable.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Lower latency, higher availability under partition.
 - **Con:** Stale reads; conflict complexity.
 - **Trade-off:** staleness SLO vs coordination cost.
 
 ## Comparison
-
 - vs strong/linearizable stores: agree before ack vs converge later.
 - vs [[Quorum]]: quorums tune how eventual/strong a given op is.
 
 ## Mistakes to Avoid
-
 - No conflict policy ([[Concurrent modification]] disasters).
 - “Eventually revoked” access for security-critical rights.
 - Calling it fine for ledger balances without reservations/sagas.

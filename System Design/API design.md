@@ -4,26 +4,26 @@
 
 > An application programming interface is the contract between clients and your backend: stable resources, predictable errors, and explicit authentication — hide implementation details, not product capability.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch for resource modeling, idempotency on retries, pagination choice, authn vs authz status codes, and how you shed load under overload.
 
 ## Sources
-
 - [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231) — HTTP/1.1 semantics and methods — deep-dive
 - [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) — Problem Details for HTTP APIs — deep-dive
 - Leonard Richardson & Mike Amundsen, *RESTful Web APIs* (O'Reilly, 2013) — deep-dive
 - Microsoft REST API Guidelines — overview
 
 ## Key Concepts
-
 - **Nouns in URLs, verbs in methods:** REST-style contracts clients can infer.
 - **Consistent errors:** proper HTTP status + Problem Details; always a request id.
 - **Idempotency:** clients retry; `Idempotency-Key` prevents duplicate side effects.
 - **Pagination:** offset is simple; cursors scale ([[database sharding]] makes skips worse).
 
 ## Technical Details
-
 | HTTP method | Typical intent | Safe? | Idempotent? |
 |-------------|----------------|-------|-------------|
 | `GET` | Read | Yes | Yes |
@@ -62,22 +62,18 @@ Cursor pagination: `GET /v1/items?limit=50&cursor=...` with `next_cursor` / `has
 | Missing correlation ids | Incidents become guesswork |
 
 ## Real-World Applications
-
 Public SaaS APIs, mobile backends, and internal microservice contracts that must survive client retries and multi-year versioning.
 
 ## Pros/Cons or Trade-offs
-
 - **REST fine-grained:** simple caches; can be chatty on mobile.
 - **Composite/expand reads:** fewer round trips; harder caching and authz.
 - **GraphQL:** flexible client shapes; needs schema governance ([[KISS]] — not for a three-field screen).
 
 ## Comparison
-
 - vs RPC/gRPC: different contract style; same need for idempotency and errors.
 - vs [[Authentication web application]]: auth is the identity layer the API boundary enforces.
 
 ## Mistakes to Avoid
-
 - Returning `200` with `{ "error": true }`.
 - Creating resources with bare `POST` and no idempotency key.
 - Removing fields from a live version without a deprecation window.

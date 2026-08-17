@@ -4,23 +4,23 @@
 
 > Shrink the container attack surface: non-root, dropped capabilities, seccomp, read-only rootfs — defense in depth on a shared kernel.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers test whether you know containers are namespaced processes (not VMs), and can name concrete controls: USER, capabilities, seccomp, no-new-privileges, and why mounting the Docker socket is host root.
 
 ## Sources
-
 - [Docker — Seccomp security profiles](https://docs.docker.com/engine/security/seccomp/) — deep-dive
 - [CIS Docker Benchmark](https://www.cisecurity.org/benchmark/docker) — overview
 - Liz Rice, *Container Security* (O'Reilly) — deep-dive
 - Nigel Poulton, *Docker Deep Dive* — overview
 
 ## Core Definition
-
 A container shares the host kernel; security is layered isolation (namespaces, cgroups, capabilities, seccomp, optional LSM) so application compromise stays least-privilege and cannot easily become host root.
 
 ## Key Concepts
-
 - **Shared kernel:** namespaces (pid, net, mnt, …) + cgroups — isolation is strong but not a hypervisor boundary.
 - **Capabilities:** subset of traditional root; drop ALL and add back minimally.
 - **seccomp:** syscall filter; Docker’s default blocks dangerous calls (`reboot`, `mount`, …).
@@ -28,7 +28,6 @@ A container shares the host kernel; security is layered isolation (namespaces, c
 - **Defense in depth:** image hygiene + runtime flags + host LSM (AppArmor/SELinux).
 
 ## Technical Details
-
 ```
 Host kernel
   └── container runtime (runc)
@@ -147,25 +146,21 @@ networks:
 | JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
 
 ## Real-World Applications
-
 Production API containers, CI runners that must not own the host, and Kubernetes pods with matching `securityContext`.
 
 **Example:** An API runs as UID 10001, read-only rootfs, `cap_drop: ALL`, and writes only to `/tmp` tmpfs — a remote code exploit cannot drop a binary on `/` or remount devices.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Cheap, layered controls that raise the bar after application compromise.
 - **Con:** Hardware/device workloads (GPU, BPF loaders) may need documented capability exceptions.
 - **Con:** seccomp-unconfined or `--privileged` undoes the rest — security theater if mixed with root.
 
 ## Comparison
-
 - vs VM / gVisor / Firecracker: stronger isolation when multi-tenant risk is high.
 - vs image scanning alone: scanning finds known CVEs; runtime flags limit blast radius of unknown bugs.
 - vs K8s-only hardening: compose hardening is useless if [[Pods]] ship with open `securityContext`.
 
 ## Mistakes to Avoid
-
 - Mounting `/var/run/docker.sock` into app containers — the container owns the host (CI only with isolated runners).
 - `--privileged` in production — disables seccomp and capability restrictions.
 - Root in container plus a kernel breakout CVE — non-root raises the bar.

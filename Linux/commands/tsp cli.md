@@ -4,17 +4,18 @@
 
 > Task Spooler (`tsp`) queues shell jobs on one machine — simple FIFO/batch without a full scheduler.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Shows you can pick a local batch queue for ad-hoc heavy jobs without pretending it is Slurm or Kubernetes.
 
 ## Sources
-
 - [Task Spooler home](https://viric.name/soft/ts/) — overview
 - [Debian package — task-spooler](https://packages.debian.org/task-spooler) — overview
 
 ## Key Concepts
-
 - **Local IPC queue:** one host only — not multi-node fair share.
 - **Workers (`TSP_NWORKERS`):** caps parallel jobs.
 - **Job id:** `tsp -i` last id; `tsp -c ID` cats output.
@@ -22,7 +23,6 @@ Shows you can pick a local batch queue for ad-hoc heavy jobs without pretending 
 - **vs cron:** tsp is interactive/ad-hoc batch; [[crontab]] is calendar.
 
 ## Technical Details
-
 ```txt
 tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
                  │
@@ -52,20 +52,16 @@ tsp -D 3 ./step2.sh
 | Command not found | PATH in tsp environment | Use absolute paths |
 
 ## Real-World Applications
-
 Queue overnight encodes, dataset transforms, or one-box CI-ish batches when you do not want five `nohup` shells.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Tiny, interactive, dependency-aware on one machine.
 - **Con:** Queue dies on reboot; no multi-host scheduling.
 
 ## Comparison
-
 - vs [[crontab]] / systemd timers: calendar vs ad-hoc queue.
 - vs Slurm/K8s Jobs: those are for clusters and fair share.
 
 ## Mistakes to Avoid
-
 - Treating tsp as a durable or multi-host scheduler.
 - Relying on relative PATH inside queued jobs — use absolute paths.

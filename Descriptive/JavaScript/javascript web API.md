@@ -4,16 +4,17 @@
 
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Web API interviews cover browser capabilities beyond ECMAScript — fetch, DOM, workers.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 **ECMAScript** defines the language (syntax, Promise, Map). **Web APIs** (browser) and **Node APIs** (`fs`, `http`) are host-provided, often asynchronous, and bound to the event loop.
 
 ```
@@ -29,7 +30,6 @@ Your JS
 Same name, different host: `fetch` exists in modern Node and all browsers; `setImmediate` is Node-only; `requestAnimationFrame` is browser-only.
 
 ## Technical Details
-
 ### Fetch (browser + Node 18+)
 
 ```javascript
@@ -78,12 +78,10 @@ ws.send(JSON.stringify({ type: 'ping' }));
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Heavy file I/O in browser — use streams + download, not read entire blob into memory.
 - Replacing REST with WebSocket for simple CRUD — HTTP caching wins.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Many Web APIs return **Promises** but DOM legacy APIs use callbacks — mixing styles without `await` causes race bugs.
 

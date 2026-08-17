@@ -4,6 +4,10 @@
 
 > PostgreSQL roles (`CREATE ROLE`) — login users and groups with passwords, connection limits, and membership hierarchies.
 
+
+
+
+
 ## Interview Relevance
 Postgres treats users and groups as roles. Expect `LOGIN`/`NOLOGIN`, `GRANT role TO role`, and least-privilege bootstrap for apps.
 

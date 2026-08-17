@@ -4,6 +4,10 @@
 
 > keyctl manages the Linux kernel key retention service — opaque keys in session/user/process keyrings for NFS, module signing, and OS helpers.
 
+
+
+
+
 ## Interview Relevance
 Distinguishes kernel keyutils from apt GPG keyrings / GNOME Keyring — and knows session vs user keyrings, `logon` unreadability.
 
@@ -22,7 +26,6 @@ The kernel holds key objects in **keyrings** attached to user, session, process,
 - **Not apt/GPG/GNOME:** Different “keyring” words.
 
 ## Technical Details
-
 ```bash
 sudo apt install keyutils
 

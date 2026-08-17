@@ -4,6 +4,10 @@
 
 > SSH (Secure Shell) opens an encrypted login/command channel to a remote host — authenticate with keys, then run shells, tunnels, or file copy.
 
+
+
+
+
 ## Interview Relevance
 Expect host key vs user key, KEX → session cipher, and why `StrictHostKeyChecking=no` / agent forwarding are footguns — not just “ssh user@host.”
 
@@ -22,7 +26,6 @@ Client connects to `sshd`, verifies the **host key**, runs key exchange for a **
 - **ssh-keyscan:** Fetches host key only — does not prove authenticity without out-of-band check.
 
 ## Technical Details
-
 ```txt
 Client                         Server (sshd)
   │ TCP :22                       │

@@ -4,17 +4,18 @@
 
 > A Mongoose schema declares paths, types, indexes, and options — the contract for a model.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Mongoose schema interviews cover types, required/index, and mismatch with flexible MongoDB documents.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 Schema({ email: String, … }) → Model → collection
 ```
@@ -29,7 +30,6 @@ Schema({ email: String, … }) → Model → collection
 | **timestamps** | createdAt/updatedAt | “`{ timestamps: true }`.” |
 
 ## Technical Details
-
 ```js
 const schema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, index: true },
@@ -45,12 +45,10 @@ const schema = new mongoose.Schema({
 | Nested schemas | Subdocuments |
 
 ## Pros/Cons or Trade-offs
-
 - **Schemaless event blobs** — Mixed carefully or native driver.
 - **One-off import** — skip elaborate schemas.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`unique: true` is an index** — not a validator; racey without the index built.
 
@@ -63,4 +61,3 @@ const schema = new mongoose.Schema({
 | unique not enforced | index missing | `syncIndexes()` |
 | Mixed type chaos | `Schema.Types.Mixed` | Narrow types |
 | Huge nested docs | unbounded arrays | Cap / bucket |
-

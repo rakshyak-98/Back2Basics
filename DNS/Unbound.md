@@ -4,24 +4,24 @@
 
 > Unbound is a validating recursive DNS resolver designed for security and performance — run it on servers or laptops to cache queries locally, enforce DNSSEC, and forward or recurse without trusting ISP DNS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers expect Unbound as the validating recursive choice — access-control hardening, forward vs recurse, and DNSSEC `SERVFAIL` debugging.
 
 ## Sources
-
 - [Unbound documentation](https://unbound.docs.nlnetlabs.nl/) — deep-dive
 - [NLnet Labs — Unbound](https://nlnetlabs.nl/projects/unbound/about/) — overview
 
 ## Key Concepts
-
 - **Recursive focus:** walks or forwards; not a full zone-master replacement for [[BIND]].
 - **DNSSEC validator:** broken DS/chain → `SERVFAIL` instead of insecure answers.
 - **Access control:** never open recursion to the world without rate limits.
 - **Not bash nounset:** shell “unbound variable” is [[unbound variable]], not this daemon.
 
 ## Technical Details
-
 | Role | Configuration |
 |------|---------------|
 | **Local recursive resolver** | Full iteration from root hints |
@@ -67,25 +67,21 @@ When validation fails, Unbound returns `SERVFAIL`. Broken parental DS records or
 Pair **BIND authoritative** internally with **Unbound** on clients or DMZ resolvers.
 
 ## Real-World Applications
-
 Laptop local resolver, office recursive tier, and DMZ validating resolvers in front of [[public resolver]] upstreams.
 
 **Example:** Bind Unbound to `127.0.0.1` on a laptop — apps use local cache/DNSSEC; outbound queries go to 1.1.1.1 only from Unbound.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong default security posture and DNSSEC validation.
 - **Con:** Not ideal as your only Internet authoritative zone server.
 - **Con:** Port 53 fights with systemd-resolved / [[dnsmasq]] if both listen.
 
 ## Comparison
-
 - vs [[BIND]]: Unbound for recursion; BIND for authoritative Internet zones.
 - vs [[dnsmasq]]: Unbound is the validating resolver; dnsmasq adds DHCP/LAN convenience.
 - vs [[unbound variable]]: completely different topic (Bash `set -u`).
 
 ## Mistakes to Avoid
-
 - Opening `access-control` to `0.0.0.0/0` on a public IP.
 - Misreading DNSSEC `SERVFAIL` as “network down” without `dig +dnssec` / `unbound-control`.
 - Running Unbound and systemd-resolved both on `:53` without coordination.

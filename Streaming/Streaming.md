@@ -4,16 +4,17 @@
 
 > Streaming moves live or file video from ingest to the viewer — package, protect, and play over the network.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk Streaming end-to-end — not just name it. Signal fluency with **Ingest**, **ABR**, **Manifest**, **Rendition** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — Streaming](https://en.wikipedia.org/wiki/Streaming) — overview
 
 ## Key Concepts
-
 - **Ingest:** Accept publisher input — “Ingest is the front door — auth and backpressure first.”
 - **ABR:** Switch quality mid-play — “ABR matches bitrate to the viewer’s network.”
 - **Manifest:** Segment menu (`.m3u8` / `.mpd`) — “The player reads the manifest, then pulls segments.”
@@ -44,7 +45,6 @@ Interviewers probe whether you can walk Streaming end-to-end — not just name i
 Video and audio encode apart; a **muxer** interleaves them with timestamps (PTS/DTS) into one container. The player **demuxes** to decode. Common containers: [[MPEG-TS]] (live/broadcast), MP4/fMP4 (HLS/DASH), FLV ([[RTMP]] ingest).
 
 ## Technical Details
-
 ```txt
 Publisher (OBS / encoder / file)
         │  [[ingestion]]  ([[RTMP]] / [[SRT]] / [[RTSP]] / upload)
@@ -104,23 +104,19 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 - …: [[…]]
 
 ## Real-World Applications
-
 Used wherever Streaming sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Download-and-watch file delivery** — progressive MP4 / HLS VoD still “streams,” but don’t invent live packaging for a file drop.
 - **Con / skip when:** **Massive one-to-many on WebRTC mesh** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers.
 - **Con / skip when:** **Treating the hub as a runbook** — jump to the child note ([[ABR]], [[ingestion]], …) for deep triage.
 
 ## Comparison
-
 - vs [[HLS]]: **Massive one-to-many on WebRTC mesh** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers.
 - vs [[ABR]]: **Treating the hub as a runbook** — jump to the child note ([[ABR]], [[ingestion]], …) for deep triage.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | No viewers, publisher “connected” | Ingest OK, package/CDN path | Trace origin playlist; CDN purge/TTL |

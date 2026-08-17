@@ -4,17 +4,18 @@
 
 > An AMI is the template for an EC2 instance — it captures the root volume snapshot, launch permissions, and block device mapping so you can launch identical machines repeatedly.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 AMI questions check golden-image pipelines, region copy, and baking vs bootstrapping trade-offs.
 
 ## Sources
-
 - [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) — overview
 - [Creating an Amazon EBS-backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) — overview
 
 ## Technical Details
-
 ### What an AMI contains
 
 - **Root volume snapshot** (usually EBS-backed) or instance-store template

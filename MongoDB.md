@@ -4,6 +4,10 @@
 
 > MongoDB — a document database: JSON-like BSON docs, replica sets for failover, sharding for scale; production pain is often indexes, pools, or schema drift.
 
+
+
+
+
 ## Interview Relevance
 Expect document model vs relational, replica set elections, read preference, and index design (ESR rule, compound keys). Signal: you know when flexibility becomes unqueryable chaos.
 

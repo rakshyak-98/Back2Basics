@@ -4,6 +4,10 @@
 
 > The Linux terminal is the character-cell interface to the shell — emulator + PTY + shell, whether on a local TTY or remote over SSH.
 
+
+
+
+
 ## Interview Relevance
 Everyday ops fluency: `$TERM`, PTY vs TTY, why colors break in tmux, and how to keep jobs alive when SSH drops (`tmux` / `systemd-run`).
 
@@ -22,7 +26,6 @@ Stack: **terminal emulator** (or serial console) ↔ **pseudo-terminal (PTY)** �
 - **Remote:** [[SSH]] allocates a PTY for interactive sessions.
 
 ## Technical Details
-
 | Piece | Example |
 |-------|---------|
 | Emulator | GNOME Terminal, Alacritty, [[puTTY]] |

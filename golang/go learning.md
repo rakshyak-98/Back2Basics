@@ -4,17 +4,18 @@
 
 > Go learning path — foundations → concurrency/HTTP → interview drills; use AI as a coach with tight feedback loops, not as a code vending machine.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Learning-path notes signal how you ramp on Go for interviews — foundations, concurrency, then drills — without treating AI as a code vending machine.
 
 ## Sources
-
 - [A Tour of Go](https://go.dev/tour/) — overview
 - [Go by Example](https://gobyexample.com/) — overview
 
 ## Key Concepts
-
 ```txt
 weeks 1–2  syntax, slices/maps, structs
 weeks 3–4  methods, interfaces, errors
@@ -31,7 +32,6 @@ weeks 11–12 tests, race, Docker
 | Review | Score 1–10 + idiomatic rewrite |
 
 ## Technical Details
-
 ```bash
 # daily loop
 go doc net/http.Server
@@ -60,13 +60,11 @@ go test -bench=. ./...
 | JS habits in Go | Ignoring errors / classes | Re-read Effective Go |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Only watching videos — type code.
 - **Trade-off:** LeetCode-only for Go jobs — add HTTP + SQL projects.
 - **Trade-off:** Copying production secrets into prompts — never.
 
 ## Mistakes to Avoid
-
 - AI greenfield dumps — demand small diffs and tests you can run.
 - Skipping `-race` — false confidence on concurrent code.
 - Frameworks first — learn `net/http` before Gin magic.

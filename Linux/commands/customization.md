@@ -4,6 +4,10 @@
 
 > GNOME Shell extensions are UUID-keyed bundles you install, enable, and reset — the CLI talks to Shell over D-Bus when a desktop session is running.
 
+
+
+
+
 ## Interview Relevance
 Desktop Linux niche: extension lifecycle, Shell version compatibility, and why SSH-only sessions cannot drive `gnome-extensions`.
 
@@ -22,7 +26,6 @@ Extensions live under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/s
 - **System vs user install:** Packaged (`-system`) vs per-user zip.
 
 ## Technical Details
-
 ```txt
 Extension .zip → gnome-extensions install → enable → Shell reload (sometimes logout)
 ```

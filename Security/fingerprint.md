@@ -4,21 +4,21 @@
 
 > Short hash of a public key or certificate — human-verifiable identity for trust-on-first-use (TOFU) and MITM detection.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 SSH/TLS interviews: fingerprints enable TOFU and MITM detection — know hash algorithms and what a mismatch means.
 
 ## Sources
-
 - [RFC 7469 — Public Key Pinning (historical context)](https://www.rfc-editor.org/rfc/rfc7469) — overview
 - [OpenSSH — key fingerprints](https://man.openbsd.org/ssh-keygen.1) — deep-dive
 
 ## Core Definition
-
 A fingerprint is a short hash of a public key or certificate used for human verification and trust-on-first-use.
 
 ## Key Concepts
-
 Full public keys are long; **fingerprints** compress identity:
 
 ```txt
@@ -36,7 +36,6 @@ Contexts:
 Mismatch on reconnect → possible **MITM**, wrong host, or key rotation.
 
 ## Technical Details
-
 ### SSH host key fingerprint
 
 ```bash
@@ -72,21 +71,17 @@ openssl s_client -connect example.com:443 </dev/null 2>/dev/null \
 | CI deploy fails SSH | Known_hosts stale | Automate fingerprint inject from vault |
 
 ## Real-World Applications
-
 SSH TOFU and certificate pinning workflows show fingerprints so operators can detect MITM on first connect.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Human-scale check for TOFU and MITM detection.
 - **Con:** Don't fingerprint **session keys** — ephemeral per connection. Fingerprint **long-lived public keys/certs** only.
 
 ## Comparison
-
 - vs full [[PKI]] chain verify: fingerprints are TOFU/out-of-band checks when you lack a trusted CA path.
 - vs [[code signing]]: related integrity ideas; fingerprints are usually hashes of keys/certs.
 
 ## Mistakes to Avoid
-
 - Fingerprint ≠ trust anchor — still need provenance (CA, OOB verify).
 - Cert pinning breaks on renewal — pin SPKI or plan rotation.
 - MD5 fingerprints — collision resistance weak; display SHA256 in new systems.

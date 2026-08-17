@@ -4,25 +4,25 @@
 
 > Terraform CLI is the day-to-day command surface — init, plan, apply, fmt/validate, logging, provider schema, and careful state surgery.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treating `terraform state` as last-resort ops with backups.
 
 ## Sources
-
 - [HashiCorp — Terraform CLI](https://developer.hashicorp.com/terraform/cli) — deep-dive
 - Yevgeniy Brikman, *Terraform: Up & Running* — overview
 - Scott Winkler, *Terraform in Action* — overview
 
 ## Key Concepts
-
 - **Workflow quartet:** init → plan → apply → destroy ([[Terraform workflow]]).
 - **Inspect before guess:** `providers schema` is the contract for arguments.
 - **Sharp tools:** state mv/rm; prefer `moved` blocks in code.
 - **Logs leak secrets:** never leave `TF_LOG=TRACE` in CI artifacts.
 
 ## Technical Details
-
 ```shell
 terraform version
 terraform fmt -recursive
@@ -94,24 +94,20 @@ terraform state pull
 First-time checklist: no `.tf` → create config; provider download fail → `TF_LOG=DEBUG init`; auth errors → cloud credentials; wrong region → provider + [[variable file]].
 
 ## Real-World Applications
-
 CI pipelines that fmt/validate/plan on PR, and on-call debugging of provider auth with `TF_LOG=DEBUG`.
 
 **Example:** `terraform plan -out=tfplan` in CI; apply job consumes only that artifact so reviewed and executed plans match.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One CLI covers format, validate, graph execution, and inspection.
 - **Con:** `-target` and state surgery create drift habits if overused.
 - **Con:** Auto-approve interactively skips human review.
 
 ## Comparison
-
 - vs console ClickOps: CLI shines when configuration is code.
 - Backend living in [[Terraform setup]]; provider RPC detail in [[terraform provider]].
 
 ## Mistakes to Avoid
-
 - Hand-editing `terraform.tfstate`.
 - Leaving TRACE logs with secrets in CI.
 - Habitual `-target` instead of fixing the graph.

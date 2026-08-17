@@ -4,6 +4,10 @@
 
 > find walks a directory tree and selects files by name, time, size, or owner — then prints or runs a command on them.
 
+
+
+
+
 ## Interview Relevance
 Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +` batching, and never `find / -exec rm` without extreme filters.
 
@@ -22,7 +26,6 @@ Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +`
 - **Safety:** Scope path; constrain `-type f`; avoid `/` roots.
 
 ## Technical Details
-
 ```bash
 find . -name '*.txt'
 find /var/log -type f -name '*.log'

@@ -4,6 +4,10 @@
 
 > date prints or sets the system clock — for scripts you care about format strings, UTC (`-u`), and GNU `-d` relative parsing.
 
+
+
+
+
 ## Interview Relevance
 Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not portable to BusyBox/macOS without `gdate`.
 
@@ -22,7 +26,6 @@ Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not po
 - **Wall clock vs monotonic:** Don’t use date for timeout intervals in apps.
 
 ## Technical Details
-
 ```bash
 date -d "+7 days" +%s
 date -d "+30 minutes" +%F\ %T

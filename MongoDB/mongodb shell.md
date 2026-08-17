@@ -4,17 +4,18 @@
 
 > The legacy `mongo` shell runs JS against the server — prefer [[mongosh]] on modern installs; same admin patterns.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Shell literacy covers legacy mongo vs mongosh and administrative recipes.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
 ```
@@ -29,7 +30,6 @@ mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
 | **Validator** | Schema on collection | “Set at create or collMod.” |
 
 ## Technical Details
-
 ```js
 db.createCollection('users', {
   validator: { $jsonSchema: {
@@ -56,12 +56,10 @@ session.endSession()
 | Prefer mongosh | Better UX; mongo shell deprecated |
 
 ## Pros/Cons or Trade-offs
-
 - **application data path** — use a driver, not the shell.
 - **CI automation** — prefer mongosh non-interactive + scripts.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`mongo` vs `mongosh`** — scripts can differ; target mongosh.
 
@@ -74,4 +72,3 @@ session.endSession()
 | Auth failed | User/roles | [[mongosh user management]] |
 | Command not found | Wrong shell/version | Upgrade mongosh |
 | Validation errors | Schema vs doc | Fix doc or collMod |
-

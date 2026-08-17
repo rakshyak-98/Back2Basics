@@ -4,16 +4,17 @@
 
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Function interviews cover declarations vs expressions, closures, and first-class usage.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Functions are values: assign, pass, return, store on objects. Each **invocation** creates a new execution context; the function object persists and can hold its own properties.
 
 ```
@@ -31,7 +32,6 @@ fn(2, 3) → new context → return 5 → context popped
 | Method shorthand | receiver object | like declaration |
 
 ## Technical Details
-
 ### Core patterns
 
 ```javascript
@@ -81,12 +81,10 @@ const withAuth = (token) => (req) => fetch(req, {
 ```
 
 ## Pros/Cons or Trade-offs
-
 - One-liner used once — inline or extract only when name clarifies intent.
 - Class when only data — plain object or record type may suffice.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Functions are **mutable objects** — reassigning `parseConfig = null` does not remove it from closures that already captured the old reference.
 

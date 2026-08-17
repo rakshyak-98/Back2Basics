@@ -4,17 +4,18 @@
 
 > Packs files into a portable `.zip` archive — common for sharing; lossy for Unix permissions versus `tar`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Expect `-r` for directories, weak zip encryption vs real crypto, and when to prefer `tar`/`rsync`/`git archive`.
 
 ## Sources
-
 - [Info-ZIP zip documentation](http://infozip.sourceforge.net/Zip.html) — overview
 - [Wikipedia — ZIP (file format)](https://en.wikipedia.org/wiki/ZIP_(file_format)) — overview
 
 ## Key Concepts
-
 - **`-r` recurse:** without it you may zip only the directory entry, not contents.
 - **`-x` exclude:** drop `node_modules`, logs, build junk.
 - **`-e` encrypt:** password zip crypto is weak — not for secrets at rest.
@@ -22,7 +23,6 @@ Expect `-r` for directories, weak zip encryption vs real crypto, and when to pre
 - **`git archive`:** tracked tree only — clean release zips.
 
 ## Technical Details
-
 ```txt
 dirs/files ──► zip -r archive.zip ──► .zip
 .git tree ──► git archive -o out.zip HEAD   (tracked only)
@@ -55,22 +55,18 @@ unzip -t archive.zip
 | Huge unexpected size | Build artifacts included | `-x` or `git archive` |
 
 ## Real-World Applications
-
 Shipping a release artifact to non-Unix users, or peeking an untrusted upload with `unzip -l` before extract.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Universal interchange format across Windows/macOS/Linux.
 - **Con:** Lossy on symlinks/owners/ACLs; encryption is not modern crypto.
 
 ## Comparison
-
 - vs `tar`: better Unix metadata fidelity for backups.
 - vs [[rsync]]: incremental sync, not a one-shot archive.
 - vs [[gpg]]/age: real confidentiality for secrets.
 
 ## Mistakes to Avoid
-
 - Using `zip -e` for confidential data.
 - Extracting untrusted archives without listing size first.
 - Relying on zip for backups that need ownership/ACLs.

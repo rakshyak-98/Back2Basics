@@ -4,21 +4,21 @@
 
 > MPEG-TS packs video, audio, and tables into 188-byte packets — the broadcast-friendly container for IPTV and UDP ingest.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk MPEG-TS end-to-end — not just name it. Signal fluency with **TS packet**, **PID**, **PAT**, **PMT** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — MPEG-TS](https://en.wikipedia.org/wiki/MPEG-TS) — overview
 - [ISO/IEC 13818-1 MPEG-TS](https://www.iso.org/standard/81539.html) — deep-dive
 
 ## Core Definition
-
 In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments for [[HLS]] / [[DASH]], apply [[DRM]] at package time. Operator feeds may already be **CAS-scrambled** — decrypt on the STB, not in the OTT packager ([[CAS (Conditional Access System)]]).
 
 ## Key Concepts
-
 - **TS packet:** Fixed 188 bytes — “I can lose packets and resync on the next sync byte.”
 - **PID:** Packet ID — which stream this is — “Video and audio ride different PIDs in one mux.”
 - **PAT:** Program Association Table — “PAT lists services and where each PMT lives.”
@@ -39,7 +39,6 @@ In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments
 **TS ingest** means your pipeline **receives** MPEG-TS (UDP multicast, SRT, file) and remuxes or transcodes — it is the [[ingestion]] front door for broadcast feeds.
 
 ## Technical Details
-
 ```txt
 Video ES ─┐
 Audio ES ─┼─► mux ─► 188-byte TS packets ─► UDP / file / SRT
@@ -75,13 +74,11 @@ ffmpeg -i "srt://0.0.0.0:9000?mode=listener" -c copy -f mpegts srt_in.ts
 Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss → encoder PID map.
 
 ## Real-World Applications
-
 In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments for [[HLS]] / [[DASH]], apply [[DRM]] at package time. Operator feeds may already be **CAS-scrambled** — decrypt on the STB, not in the OTT packager ([[CAS (Conditional Access System)]]).
 
 Used wherever MPEG-TS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Browser-first OTT delivery** — prefer [[CMAF]] fMP4 + [[HLS]] / [[DASH]] manifests for CDN caching and DRM.
 - **Con / skip when:** **Random-access large VoD with one URL** — fragmented MP4 / CMAF seeks cleaner than scanning TS.
@@ -89,12 +86,10 @@ Used wherever MPEG-TS sits in an ingest → package → CDN → player path. Con
 - **Con / skip when:** **Simple progressive download of a short clip** — plain MP4 over HTTPS is enough.
 
 ## Comparison
-
 - vs [[CMAF]]: **Browser-first OTT delivery** — prefer [[CMAF]] fMP4 + [[HLS]] / [[DASH]] manifests for CDN caching and DRM.
 - vs [[WebRTC]]: **Peer-to-peer browser calls** — [[WebRTC]] uses RTP, not MPEG-TS.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | No programs in ffprobe | Sync / wrong port / scrambled | Confirm `0x47`; right group; CAS vs clear |

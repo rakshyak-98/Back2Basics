@@ -4,16 +4,17 @@
 
 > Codecs — a codec (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at ingest, transcode, and playback — mismatches force expensive
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Codecs to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — codecs](https://en.wikipedia.org/wiki/codecs) — overview
 
 ## Key Concepts
-
 A **codec** (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at **ingest**, **transcode**, and **playback** — mismatches force expensive [[re-encoding]]. Manifests advertise codecs via **`CODECS`** (HLS) or **MP4 `codec` attributes** (DASH) so players reject unsupported combinations before download.
 
 | Category | Common codecs | Streaming role |
@@ -28,7 +29,6 @@ A **codec** (coder-decoder) transforms raw PCM/YUV into compressed bitstreams an
 **Encode once, package many** — mezzanine in high-quality intermediate; ladder generates delivery codecs ([[transcoding]]).
 
 ## Technical Details
-
 ```txt
 Raw frames ──► Video codec (H.264/HEVC/AV1) ──► NAL units in fMP4/TS
 Raw samples ──► Audio codec (AAC/Opus/AC-3) ──► frames in fMP4/TS
@@ -86,22 +86,18 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 ```
 
 ## Real-World Applications
-
 Used wherever Codecs sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Mezzanine archive** — use ProRes/DNxHR (editing), not H.264 delivery codec.
 - **Con / skip when:** **AV1 for all live channels day one** — encode latency and CPU/GPU cost unless fleet sized for it.
 - **Con / skip when:** **Re-codec when remux suffices** — change container with `-c copy` before full [[re-encoding]].
 
 ## Comparison
-
 - vs [[re-encoding]]: **Re-codec when remux suffices** — change container with `-c copy` before full [[re-encoding]].
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Black screen, audio OK | Video codec unsupported | Add H.264 rung; fix CODECS |

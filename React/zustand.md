@@ -4,17 +4,18 @@
 
 > Minimal client-state library for React — store outside the component tree with selective subscriptions — **when Redux is overkill**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers separate server state vs client UI state and ask when Context, Redux, or a small store is the right tool.
 
 ## Sources
-
 - [Zustand documentation](https://docs.pmnd.rs/zustand/getting-started/introduction) — deep-dive
 - [Zustand GitHub](https://github.com/pmndrs/zustand) — overview
 
 ## Key Concepts
-
 Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).
 
 | Pattern | API |
@@ -27,7 +28,6 @@ Zustand holds state in a **vanilla store** (works without React). Components **s
 **Server state** (API data, cache, stale-while-revalidate) belongs in **TanStack Query / RTK Query** — not Zustand. See [[React data management]].
 
 ## Technical Details
-
 ```txt
 ┌─────────────┐     subscribe(selector)     ┌─────────────┐
 │  Component  │ ◄──────────────────────── │ Zustand     │
@@ -104,18 +104,15 @@ export const createCartStore = () =>
 On server: **new store per request**. On client: hydrate once from serialized snapshot or accept flash.
 
 ## Real-World Applications
-
 Apply Zustand in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
 - **Con / skip when:** **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
 - **Con / skip when:** **Cross-tab sync requirements** — add `BroadcastChannel` or use URL/server state.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Too many re-renders | Selector returns new object each time | Stable selector; `useShallow` for object picks |

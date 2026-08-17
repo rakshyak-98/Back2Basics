@@ -4,6 +4,10 @@
 
 > APT configuration merges defaults from `/etc/apt/apt.conf` and snippets in `/etc/apt/apt.conf.d/` — proxies, pinning, and download behavior live here.
 
+
+
+
+
 ## Interview Relevance
 Shows whether you know where Debian/Ubuntu package policy is set (not only `apt install`) — proxies, recommends, and pin priorities show up in air-gapped and enterprise fleets.
 
@@ -23,7 +27,6 @@ Effective APT settings are the merge of `/etc/apt/apt.conf`, `/etc/apt/apt.conf.
 - **sources.list:** Where packages come from — [[FileManagement/source list file]].
 
 ## Technical Details
-
 ```bash
 # /etc/apt/apt.conf.d/99custom
 APT::Install-Recommends "false";

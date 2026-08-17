@@ -4,23 +4,23 @@
 
 > Functions that let function components hold state and side effects — call them at the top level, same order every render.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers want Rules of Hooks, dependency arrays, and when a custom hook beats an HOC — not a list of hook names.
 
 ## Sources
-
 - [React — Reusing Logic with Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
 - [React — Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks) — overview
 
 ## Key Concepts
-
 - **Rules of Hooks:** Top-level, same order — “Enables React to match state to calls.”
 - **Custom hook:** `useX` composing hooks — “Share logic without HOCs.”
 - **Deps:** When effects/memos refresh — “Declare everything you read — or justify.”
 
 ## Technical Details
-
 ```txt
 useState  → UI state
 useEffect → after paint side effects
@@ -49,21 +49,17 @@ function useWindowWidth() {
 | `useId` | Stable SSR-safe IDs |
 
 ## Real-World Applications
-
 Apply react hooks in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Class components you won’t touch** — don’t rewrite just to use hooks.
 - **Con / skip when:** **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
 
 ## Comparison
-
 - vs [[react-query]]: **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Hooks order error | Conditional / early return | Move hooks above conditions |

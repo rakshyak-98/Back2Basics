@@ -4,22 +4,22 @@
 
 > Express routes failures to four-argument middleware `(err, req, res, next)` — `next(err)` or a wrapped async throw skips normal handlers and lands there.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you know arity-based error middleware, Express 4 vs 5 async behavior, and how to avoid leaking stacks or double-sending responses in production.
 
 ## Sources
-
 - [Express — Error handling](https://expressjs.com/en/guide/error-handling.html) — deep-dive
 - [Express — Migrating to Express 5 (rejected promises)](https://expressjs.com/en/guide/migrating-5.html) — overview
 - [Node.js — Errors](https://nodejs.org/api/errors.html) — overview
 
 ## Core Definition
-
 Error-handling middleware is identified by four parameters. Anything that calls `next(err)` (or, in Express 5, rejects a promise from a handler) jumps past remaining normal middleware to that stack. Register it after routes; put a 404 factory immediately before it.
 
 ## Key Concepts
-
 - **Arity:** `(err, req, res, next)` — Express treats four args as error middleware, not three.
 - **Operational vs programmer errors:** expected 4xx (`isOperational`) vs unexpected 500 — clients should not see stacks for either in production.
 - **Async gap (Express 4):** rejected promises bypass the error handler unless you `catch(next)` or wrap handlers.
@@ -27,7 +27,6 @@ Error-handling middleware is identified by four parameters. Anything that calls 
 - **Headers already sent:** if a handler already wrote the body, defer to the default handler via `next(err)`.
 
 ## Technical Details
-
 ```txt
 Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)
                                     ↑
@@ -130,25 +129,21 @@ process.on('unhandledRejection', (err) => {
 | Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
 
 ## Real-World Applications
-
 JSON APIs that need stable error envelopes, hotel/booking backends with operational 404/validation errors, and any service that must not leak stacks to browsers.
 
 **Example:** A mobile client shows “Something went wrong” for a missing room — mark not-found as operational with `statusCode: 404` so the handler returns a clear message without a stack.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One place to shape status codes, logging, and client payloads.
 - **Con:** Express 4 async gaps are easy to miss until production hangs.
 - **Con:** Over-sharing error objects in development habits often ship to production if `NODE_ENV` is wrong.
 
 ## Comparison
-
 - vs default Express handler: default may send HTML; custom keeps API clients on JSON.
 - vs [[node error]] / process-level handlers: those catch escapes outside the request pipeline; request errors should still use `next(err)`.
 - vs GraphQL ([[graphql-yoga]]): GraphQL often returns HTTP 200 with errors in the body — different contract than REST status codes.
 
 ## Mistakes to Avoid
-
 - Sending `err.stack` to clients in any non-development environment.
 - Logging request bodies that may contain passwords or tokens.
 - Registering the error handler before routes.

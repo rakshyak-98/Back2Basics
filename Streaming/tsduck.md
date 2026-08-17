@@ -4,20 +4,20 @@
 
 > TSDuck — CLI tools to capture, filter, and rewrite MPEG-TS (join multicast, zap a channel, analyze PIDs).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk tsduck end-to-end — not just name it. Signal fluency with **MPTS**, **SPTS**, **service_id**, **PAT** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — tsduck](https://en.wikipedia.org/wiki/tsduck) — overview
 
 ## Core Definition
-
 An MPTS multiplexes many channels over one UDP/multicast flow. PAT maps `service_id` → PMT PID; each PMT lists that channel’s elementary PIDs.
 
 ## Key Concepts
-
 - **MPTS:** Many TV services in one TS — “One UDP flow carries a bouquet of channels.”
 - **SPTS:** Single program TS — “Decoders often want one service per address.”
 - **service_id:** Channel id in PAT/PMT — “zap picks the service_id, not a random PID.”
@@ -38,7 +38,6 @@ An MPTS multiplexes many channels over one UDP/multicast flow. PAT maps `service
 Relevance to `zap`: the original PAT lists *all* MPTS services. After extract, that PAT is wrong. `zap` regenerates PAT/PMT so the output is a valid one-service stream.
 
 ## Technical Details
-
 ```txt
 MPTS multicast (many services)
       │
@@ -85,13 +84,11 @@ wait
 Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare bitrate in versus out.
 
 ## Real-World Applications
-
 An MPTS multiplexes many channels over one UDP/multicast flow. PAT maps `service_id` → PMT PID; each PMT lists that channel’s elementary PIDs.
 
 Used wherever tsduck sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Already SPTS from the encoder** — no zap needed; just ingest.
 - **Con / skip when:** **OTT CMAF-only plant** — you’re in [[HLS]]/[[DASH]] land; TSDuck is for [[MPEG-TS]] plants.
@@ -99,11 +96,9 @@ Used wherever tsduck sits in an ingest → package → CDN → player path. Conc
 - **Con / skip when:** **You need full CAS headend control** — vendor scrambler/CAS tools, not only tsp plugins.
 
 ## Comparison
-
 - vs [[HLS]]: **OTT CMAF-only plant** — you’re in [[HLS]]/[[DASH]] land; TSDuck is for [[MPEG-TS]] plants.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | No packets out | Join / IGMP / firewall | Fix NIC, multicast route, allow UDP |

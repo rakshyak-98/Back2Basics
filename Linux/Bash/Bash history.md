@@ -4,6 +4,10 @@
 
 > Bash history stores commands you ran — search, redo, and carefully avoid logging secrets.
 
+
+
+
+
 ## Interview Relevance
 Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HISTIGNORE`, and not putting passwords on the command line.
 
@@ -22,7 +26,6 @@ Commands may be saved to the in-memory history list and later to `~/.bash_histor
 - **Secrets:** Leading space (with ignorespace) or avoid CLI secrets entirely.
 
 ## Technical Details
-
 ```bash
 history
 history -a

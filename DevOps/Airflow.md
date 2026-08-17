@@ -4,22 +4,22 @@
 
 > Apache Airflow schedules batch workflows as DAGs (Directed Acyclic Graphs) — tasks with dependencies, retries, and a metadata database as the source of truth.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask Airflow to check whether you know scheduler vs workers vs metadata DB, logical date vs wall clock, `catchup` storms, and when batch DAGs beat streaming or a simple cron.
 
 ## Sources
-
 - [Apache Airflow — DAGs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html) — deep-dive
 - [Apache Airflow — Executors](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/index.html) — deep-dive
 - [Wikipedia — Apache Airflow](https://en.wikipedia.org/wiki/Apache_Airflow) — overview
 
 ## Core Definition
-
 Airflow is a workflow platform: you define DAGs in Python; the scheduler creates DagRuns and TaskInstances; an executor (Local, Celery, Kubernetes, …) runs operators on workers; state lives in a metadata database (usually PostgreSQL).
 
 ## Key Concepts
-
 - **DAG:** directed acyclic graph of tasks and dependencies → the workflow shape.
 - **Scheduler:** parses DAGs, enqueues ready tasks when upstream succeeds.
 - **Metadata DB:** source of truth for DagRun/TaskInstance state — back it up.
@@ -28,7 +28,6 @@ Airflow is a workflow platform: you define DAGs in Python; the scheduler creates
 - **Logical date / data interval:** identifies the data period being processed — not “when the task started.”
 
 ## Technical Details
-
 ```
 Scheduler ──► DagRun (logical date) ──► TaskInstance queue ──► Worker
      ▲                              │
@@ -101,25 +100,21 @@ Prefer `mode='reschedule'` on sensors so they release worker slots between pokes
 | Zombie `running` tasks | Worker died | Clear TaskInstance carefully |
 
 ## Real-World Applications
-
 Nightly ETL: extract from warehouse APIs, transform, load partitions; sensors wait for upstream files then kick off loads.
 
 **Example:** First deploy with years of `start_date` and `catchup=True` queues thousands of DagRuns — set `catchup=False` and backfill deliberately.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Rich UI, dependency graph, retries, and Python-native DAGs for batch pipelines.
 - **Con:** Metadata DB loss means orchestration amnesia — treat Postgres restore as critical.
 - **Con:** Not a streaming engine — Kafka/Flink for real-time; not a long-running service host.
 
 ## Comparison
-
 - vs cron / Kubernetes CronJob: Airflow wins when you need UI, dependencies, and retries across many tasks.
 - vs [[Jenkins]]: Jenkins is CI/CD; Airflow is data/batch workflow scheduling.
 - vs [[orchestration]] generally: Airflow is one concrete orchestrator optimized for scheduled DAGs.
 
 ## Mistakes to Avoid
-
 - Heavy work at DAG import time — top-level code runs on every scheduler parse.
 - Stuffing large XCom payloads in the metadata DB — write to object storage and pass URIs.
 - Occupying workers with long `poke` sensors — use `reschedule` mode and timeouts.

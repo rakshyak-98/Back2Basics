@@ -4,36 +4,22 @@
 
 > Certbot/ACME failures cluster into DNS, HTTP reachability, policy/rate limits, and local web-server misconfiguration.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Ops interviews triage Let's Encrypt failures — DNS, HTTP-01 reachability, rate limits, and reading ACME problem documents.
 
 ## Sources
-
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — overview
 - [Let's Encrypt — Challenge Types](https://letsencrypt.org/docs/challenge-types/) — deep-dive
 - [RFC 8555 — ACME](https://www.rfc-editor.org/rfc/rfc8555) — deep-dive
 
 ## Core Definition
-
 Certbot errors are usually ACME challenge, DNS, rate-limit, or local web-server configuration failures while proving domain control.
 
-## Key Concepts
-
-Certbot talks to an [[ACME server]] (Let's Encrypt by default) through **challenges** to prove domain control. Failures cluster into: **policy**, **DNS**, **HTTP reachability**, **rate limits**, **local misconfig**, and **renewal drift**.
-
-```
-certbot → ACME order → challenge (http-01 | dns-01 | tls-alpn-01)
-              ↓ pass
-         certificate issued → /etc/letsencrypt/live/<name>/
-              ↓ fail
-         order invalid → read sub-problems in log
-```
-
-Always read the **sub-problem** detail — Certbot aggregates multiple SAN failures into one line.
-
 ## Technical Details
-
 ```shell
 # Verbose run (first triage step)
 sudo certbot certonly --dry-run -v
@@ -105,22 +91,18 @@ The ACME server refuses to issue for this domain name, because it is forbidden b
 3. Re-run with only valid FQDNs: `certbot certonly --webroot ... -d valid.example.com`.
 
 ## Real-World Applications
-
 On-call renewals fail from DNS drift, blocked HTTP-01, or rate limits — triage the ACME problem detail then re-run dry-run renew.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Structured ACME problem details speed up renew triage.
 - **Con:** Internal mTLS mesh between services → private CA (step-ca, Vault) not Let's Encrypt.
 - **Con:** Devices without public DNS → don't force public ACME; use DNS-01 with API or internal PKI.
 
 ## Comparison
-
 - vs [[certbot (letsencrypt)]]: happy-path install/renew vs failure triage.
 - vs [[ACME server]]: client errors often mirror ACME problem documents from the CA.
 
 ## Mistakes to Avoid
-
 - `certbot certonly` doesn't install into nginx — you must point `ssl_certificate` at `/etc/letsencrypt/live/...` and reload.
 - Staging vs production: — Hit `https://acme-staging-v02.api.letsencrypt.org/directory` for tests — avoids rate limits while iterating.
 - **Wildcard requires DNS-01** — HTTP-01 cannot prove `*.example.com`.

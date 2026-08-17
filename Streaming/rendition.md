@@ -4,16 +4,17 @@
 
 > A rendition is one encoded quality of the same source — resolution, bitrate, or codec — so ABR can switch without stopping.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk rendition end-to-end — not just name it. Signal fluency with **Rendition**, **Ladder**, **Variant stream**, **Representation** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition) — overview
 
 ## Key Concepts
-
 - **Rendition:** One quality variant — “A rendition is one rung on the ABR ladder.”
 - **Ladder:** Ordered set of renditions — “We design the ladder for devices and bandwidth.”
 - **Variant stream:** HLS name for a video rung — “EXT-X-STREAM-INF points at a variant playlist.”
@@ -27,7 +28,6 @@ Interviewers probe whether you can walk rendition end-to-end — not just name i
 Encode load **multiplies**: 300 channels × 3 video renditions ≈ **900** concurrent encode jobs — not 300 — when you size [[NVENC]] / CPU.
 
 ## Technical Details
-
 ```txt
 Source mezzanine / live ingest
         │
@@ -66,18 +66,15 @@ ffmpeg -i in.mp4 \
 | Codec per rung (AVC vs HEVC) | Device reach vs bandwidth — label `CODECS` honestly |
 
 ## Real-World Applications
-
 Used wherever rendition sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Single-bitrate contribution link** — one rendition to ingest; ladder after origin.
 - **Con / skip when:** **Archive mezzanine** — store one master; spawn renditions at package time.
 - **Con / skip when:** **Interactive WebRTC** — usually one encode per peer direction, not an HLS-style ladder.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Switch flash / freeze | GOP mismatch across renditions | Re-encode aligned keyframes |

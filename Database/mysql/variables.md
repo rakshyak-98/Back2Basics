@@ -4,6 +4,10 @@
 
 > MySQL system variables — global, session, or read-only — control buffers, SQL mode, replication, and InnoDB durability behavior.
 
+
+
+
+
 ## Interview Relevance
 Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb_flush_log_at_trx_commit`, `sql_mode`) and whether a change survives restart (`SET PERSIST` vs `SET GLOBAL`).
 

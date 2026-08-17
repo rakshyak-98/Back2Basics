@@ -4,6 +4,10 @@
 
 > Useful learning prompts — ask the model for facts to memorize, real problems to solve, contrasts, and post-mortems on your mistakes.
 
+
+
+
+
 ## Interview Relevance
 Self-taught and staff candidates who learn deliberately beat those who only paste “explain X.” These prompts force retrieval practice, comparison, and error analysis — the same skills interviews test.
 
@@ -14,12 +18,15 @@ Self-taught and staff candidates who learn deliberately beat those who only past
 ## Core Definition
 A learning prompt is a reusable question pattern that turns a chat model into a tutor: it demands concrete facts, worked examples, contrasts, or diagnosis of *your* error — not a vague dump of documentation.
 
-## Key Concepts
-- **Memorize with structure:** Ask for key facts/formulas *and* a mnemonic.
-- **Apply:** Solve a realistic problem; demand the thought process.
-- **Compare:** Force boundaries between sibling concepts.
-- **Error analysis:** Describe your mistake; get the fix and a prevention rule.
-- **Verify:** Cross-check answers against primary docs ([[AGENT_NOTE_RULES]] sources tier).
+## Recall Cues
+- Why do interviewers care about Self-taught and staff candidates who learn deliberately beat those who only paste “explain X.” These prompts force retrieval practice, comparison, and error analysis — the same skills interviews test?
+- What happens in the **Memorize:** step?
+- What happens in the **Apply:** step?
+- What happens in the **Compare:** step?
+- What happens in the **Debug me:** step?
+- What mistake is **Accepting answers without a source check**?
+- What mistake is **Only asking for summaries — skip application and comparison prompts**?
+- What mistake is **Pasting proprietary code/secrets into public chat tools**?
 
 ## Technical Details
 Copy-paste patterns (replace `(topic)` / `(concept)`):
@@ -31,17 +38,17 @@ Copy-paste patterns (replace `(topic)` / `(concept)`):
 
 Follow with: “Cite the RFC/official doc I should read” and “Give me a 3-question self-quiz.”
 
+## Mistakes to Avoid
+- Accepting answers without a source check.
+- Only asking for summaries — skip application and comparison prompts.
+- Pasting proprietary code/secrets into public chat tools.
+
+## Comparison
+vs passive “explain X”: weaker retention. vs writing a leaf note: prompts gather material; notes ([[AGENT_NOTE_RULES]]) are the durable artifact. Related: [[TL;DR]] for compressing answers; [[Repro]] for bug-study discipline.
+
 ## Real-World Applications
 Studying Postgres indexes: compare B-tree vs GIN, then ask for a broken `EXPLAIN` to diagnose. Studying networking: contrast [[Broadcast]] vs [[Multicast]], then invent a packet-capture quiz.
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Active learning; portable across topics; pairs well with vault notes.
 - **Con:** Models hallucinate — always verify; prompts without primary sources create false confidence.
-
-## Comparison
-vs passive “explain X”: weaker retention. vs writing a leaf note: prompts gather material; notes ([[AGENT_NOTE_RULES]]) are the durable artifact. Related: [[TL;DR]] for compressing answers; [[Repro]] for bug-study discipline.
-
-## Mistakes to Avoid
-- Accepting answers without a source check.
-- Only asking for summaries — skip application and comparison prompts.
-- Pasting proprietary code/secrets into public chat tools.

@@ -4,24 +4,24 @@
 
 > Configures X11 outputs — resolution, rotation, and multi-monitor layout via RandR.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Desktop/Linux graphics trivia: output names, modes, and that xrandr does not drive pure Wayland compositors.
 
 ## Sources
-
 - [man xrandr](https://www.x.org/releases/current/doc/man/man1/xrandr.1.xhtml) — deep-dive
 - [Wikipedia — xrandr](https://en.wikipedia.org/wiki/Xrandr) — overview
 
 ## Key Concepts
-
 - **Output:** driver names like `eDP-1`, `HDMI-1`, `DP-1`.
 - **Mode:** resolution + refresh (`--mode 1920x1080`).
 - **Primary:** where panels/menus prefer to go.
 - **Wayland:** compositor owns layout — use `wlr-randr` / GNOME settings instead.
 
 ## Technical Details
-
 ```txt
 xrandr
   ├─ eDP-1 connected 1920x1080
@@ -53,21 +53,17 @@ xrandr --addmode HDMI-1 "1920x1080_60.00"
 | No effect on Wayland | Compositor owns layout | `wlr-randr` / desktop settings |
 
 ## Real-World Applications
-
 Docking station layouts, projector mirrors, and fixing EDID lies with `cvt` + `--newmode`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Scriptable X11 multi-head without a GUI.
 - **Con:** Useless (or Xwayland-only) on pure Wayland; `--scale` often blurs.
 
 ## Comparison
-
 - vs [[wayland]] tools: compositor-native randr replacements.
 - vs GUI display settings: same job, less automation-friendly.
 
 ## Mistakes to Avoid
-
 - Expecting xrandr to rearrange native Wayland outputs.
 - Using `--scale` as a HiDPI fix instead of native modes + compositor fractional scaling.
 - Installing X on headless servers just to run xrandr.

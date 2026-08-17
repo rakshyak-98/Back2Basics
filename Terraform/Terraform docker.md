@@ -4,25 +4,25 @@
 
 > Practice Terraform against the local Docker provider — same init/plan/apply patterns as cloud, without a cloud bill.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers like Docker-provider demos to prove you understand providers, implicit dependency graphs, and version pins before AWS/GCP.
 
 ## Sources
-
 - [kreuzwerkel/docker provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs) — deep-dive
 - Scott Winkler, *Terraform in Action* — overview
 - Yevgeniy Brikman, *Terraform: Up & Running* — overview
 
 ## Key Concepts
-
 - **Non-cloud provider:** still pin → configure → resource → plan/apply.
 - **Implicit graph:** container references image ID → correct create order.
 - **Local state OK for learning;** teams need remote state later.
 - **Patterns transfer; blast radius does not** — Docker ≠ production cloud quotas/IAM.
 
 ## Technical Details
-
 ```txt
 terraform-docker/
 ├── versions.tf
@@ -95,24 +95,20 @@ TF_LOG=DEBUG terraform apply
 | Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
 ## Real-World Applications
-
 Onboarding engineers to HCL without cloud accounts; workshop destroy loops; validating provider lock-file behavior.
 
 **Example:** Apply nginx on `:8080`, curl it, destroy — then swap provider to AWS with the same workflow habits.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fast, free feedback on Terraform mechanics.
 - **Con:** Not how you run production containers day-to-day (prefer k8s/ECS + CI).
 - **Con:** Compose may teach Linux networking faster than HCL for that narrow goal.
 
 ## Comparison
-
 - Same plugin pattern as [[terraform provider]]; graduate to [[Terraform setup]] remote state when collaborating.
 - Core language still [[terraform]].
 
 ## Mistakes to Avoid
-
 - Treating local Docker Terraform as a production orchestrator.
 - Losing state and assuming `destroy` cleaned host containers.
 - Unpinned image tags in learning projects that later become “prod-like.”

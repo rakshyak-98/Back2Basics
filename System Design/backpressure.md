@@ -4,25 +4,25 @@
 
 > Backpressure is the policy when a consumer cannot keep pace with a producer — block, bound the queue, shed load, or reject — so buffers do not exhaust memory and cascade failure.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Name an explicit overflow policy for every stage; distinguish TCP flow control from application-level unbounded Promise/queue growth.
 
 ## Sources
-
 - Reactive Streams specification — backpressure contract — deep-dive
 - Google SRE Book — overload and graceful degradation — deep-dive
 - Martin Kleppmann, *Designing Data-Intensive Applications* — unbounded queues — deep-dive
 
 ## Key Concepts
-
 - **Every link needs a policy:** wait, drop, 429/503, or credit/window.
 - **Bounded queues:** absorb bursts; define overflow.
 - **Load shedding:** intentional loss — metric and alert.
 - **Rate limiting:** [[Token bucket]] at the edge.
 
 ## Technical Details
-
 ```txt
 Producer → [bounded queue] → Consumer
                ↑ full?
@@ -57,22 +57,18 @@ Kafka consumer lag is implicit backpressure — disk is still finite. **TCP back
 | Silent loss | Drop without dead-letter |
 
 ## Real-World Applications
-
 Stream processors, API gateways, Node streams, and any pipeline in [[Scaling Throughput in High-load system]].
 
 ## Pros/Cons or Trade-offs
-
 - **Block:** preserves data; can deadlock/timeout upstream.
 - **Shed:** protects the system; loses work.
 - **Trade-off:** latency SLOs vs completeness SLOs.
 
 ## Comparison
-
 - vs [[Token bucket]]: admission shaping vs full-pipeline consumer pressure.
 - vs infinite buffer: “never block” until memory death.
 
 ## Mistakes to Avoid
-
 - Unbounded queues “for reliability.”
 - Dropping without metrics/DLQ.
 - Assuming the kernel socket buffer saves the application.

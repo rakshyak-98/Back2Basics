@@ -4,16 +4,17 @@
 
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Broad web-dev interviews want architecture judgment — boundaries between client, edge, and API.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Browser pipeline for a typical page:
 
 ```
@@ -26,7 +27,6 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 **Main thread** owns DOM, layout, paint, and most JS. Long tasks jank UX — see [[Rendering performance/INP]].
 
 ## Technical Details
-
 ### Script loading (`async` vs `defer`)
 
 ```html
@@ -68,12 +68,10 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on interactive flows from day one.
 
 ## Pros/Cons or Trade-offs
-
 - Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
 - Avoid reinventing bundler/security headers — platform defaults (Vercel, Cloudflare) first.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Third-party scripts** (ads, tags) often inject blocking sync scripts — sandbox or load after consent.
 

@@ -4,16 +4,17 @@
 
 > JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 JS concurrency interviews check event loop vs threads — async I/O without parallel CPU by default.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel threads unless you explicitly spawn workers.
 
 ```
@@ -32,7 +33,6 @@ Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
 Any code that must stay "concurrent" must **yield** — return from the callback quickly so the loop can poll I/O and render.
 
 ## Technical Details
-
 ### Non-blocking I/O pattern (Node)
 
 ```javascript
@@ -75,12 +75,10 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 ```
 
 ## Pros/Cons or Trade-offs
-
 - CPU-bound parallel pipelines — use workers, Rust sidecar, or batch job queue, not async/await alone.
 - Replacing proper backpressure — `async` does not throttle producers.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > `Promise.all` with 10 000 concurrent HTTP calls is "concurrent" but will exhaust sockets and memory — concurrency ≠ unbounded parallelism.
 

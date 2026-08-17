@@ -4,6 +4,10 @@
 
 > A display manager (DM) shows the graphical login greeter and starts the user’s X11 or Wayland session after authentication.
 
+
+
+
+
 ## Interview Relevance
 Graphical login troubleshooting: GDM/SDDM/LightDM, PAM auth, session `.desktop` files, and escaping a login loop via TTY when the greeter starts but the session dies.
 
@@ -22,7 +26,6 @@ Examples: **GDM** (GNOME), **SDDM** (KDE), **LightDM** (generic). The DM runs pr
 - **Logs:** `journalctl -u gdm` (or sddm/lightdm) plus `~/.xsession-errors`.
 
 ## Technical Details
-
 ```bash
 systemctl status gdm
 # or sddm, lightdm

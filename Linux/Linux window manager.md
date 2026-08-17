@@ -4,6 +4,10 @@
 
 > The window manager controls focus, placement, decorations, and workspaces — the policy layer above the display server.
 
+
+
+
+
 ## Interview Relevance
 Desktop architecture question: stacking vs tiling, X11 WM as a separate client vs Wayland compositor-includes-WM, and how display managers pick a session.
 
@@ -22,7 +26,6 @@ A **window manager** (WM) handles keyboard shortcuts, stacking or tiling layout,
 - **Session selection:** Display manager `.desktop` files start the WM/compositor chain.
 
 ## Technical Details
-
 | Style | Examples | Protocol |
 |-------|----------|----------|
 | Stacking | Openbox, Metacity | X11 |

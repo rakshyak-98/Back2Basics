@@ -4,6 +4,10 @@
 
 > A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
 
+
+
+
+
 ## Interview Relevance
 Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit codes, and knowing when to stop writing Bash.
 
@@ -22,7 +26,6 @@ A script is a file executed by bash via shebang (`#!/usr/bin/env bash`) or `bash
 - **Functions:** Structure; see [[Bash functions]].
 
 ## Technical Details
-
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

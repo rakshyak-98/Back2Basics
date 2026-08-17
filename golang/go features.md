@@ -4,17 +4,18 @@
 
 > Go language shape — no class inheritance; embed structs, satisfy interfaces implicitly, maps iterate randomly on purpose.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Language-shape questions (no inheritance, implicit interfaces, random map range) test whether you know Go’s deliberate constraints, not just syntax.
 
 ## Sources
-
 - [Effective Go](https://go.dev/doc/effective_go) — deep-dive
 - [Go FAQ](https://go.dev/doc/faq) — overview
 
 ## Key Concepts
-
 ```txt
 Cat { Animal }  →  Cat.Eat() may shadow Animal.Eat()
 type Reader interface { Read([]byte) (int, error) }
@@ -28,7 +29,6 @@ any type with Read(…) satisfies Reader
 | Random map range | Don’t rely on order |
 
 ## Technical Details
-
 ```go
 type Animal struct{}
 func (a *Animal) Eat() { fmt.Println("Eating") }
@@ -60,11 +60,9 @@ func main() {
 | Unexpected Eat() | Shadow vs promote | Call `c.Animal.Eat()` explicitly |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Deep “is-a” trees — redesign with interfaces + small structs.
 - **Trade-off:** Ordered maps as API — use slices or sorted keys.
 
 ## Mistakes to Avoid
-
 - Embedding ≠ inheritance — no polymorphic “base” type; use interfaces.
 - Map iteration order — never ship logic that depends on it.

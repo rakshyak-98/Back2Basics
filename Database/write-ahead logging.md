@@ -4,6 +4,10 @@
 
 > Protocol: append change records to a log and harden them before acknowledging commit — the foundation of crash-safe [[ACID]] durability in PostgreSQL, InnoDB, and most relational engines.
 
+
+
+
+
 ## Interview Relevance
 Explain why dirty pages can flush later than commit, what a checkpoint LSN does, and how durability knobs trade fsync frequency for speed.
 
@@ -16,11 +20,15 @@ Explain why dirty pages can flush later than commit, what a checkpoint LSN does,
 ## Core Definition
 WAL separates “make commit durable” from “write data pages.” Recovery replays redo from the last checkpoint so committed work survives crashes.
 
-## Key Concepts
-- **Redo records:** Describe page changes; appended sequentially.
-- **Commit rule:** Log durable (per policy) before commit ack.
-- **Checkpoint LSN:** Bound for recycling old log; dirty pages flushed to advance it.
-- **Async data writes:** Page flush order can lag because redo reconstructs state.
+## Recall Cues
+- Explain why dirty pages can flush later than commit, what a checkpoint LSN does, and how durability knobs trade fsync frequency for speed?
+- What is step 1: Transaction modifies pages in the **buffer pool**?
+- What is step 2: Engine appends **redo** to the [[WAL (Write-Ahead Log)]]?
+- What is step 3: On `COMMIT`, log reaches durable media (policy-dependent)?
+- What is step 4: Dirty pages flush asynchronously later?
+- What mistake is **Believing committed data is on the heap pages at commit time**?
+- What mistake is **Disabling sync on financial ledgers for benchmark glory**?
+- What mistake is **Starving checkpoints until the log fills and writers stall**?
 
 ## Technical Details
 1. Transaction modifies pages in the **buffer pool**.
@@ -38,6 +46,14 @@ SHOW ENGINE INNODB STATUS\G
 
 Long checkpoints or tiny log capacity increase write amplification and stall risk.
 
+## Mistakes to Avoid
+- Believing committed data is on the heap pages at commit time.
+- Disabling sync on financial ledgers for benchmark glory.
+- Starving checkpoints until the log fills and writers stall.
+
+## Comparison
+vs [[WAL (Write-Ahead Log)]]: that note is the log artifact/LSN view; this note is the protocol and operational checks. vs shadow paging: different durability strategies.
+
 ## Real-World Applications
 Tuning `synchronous_commit` / `innodb_flush_log_at_trx_commit` for money paths versus bulk-load windows; sizing WAL/redo for peak write bursts.
 
@@ -45,11 +61,3 @@ Tuning `synchronous_commit` / `innodb_flush_log_at_trx_commit` for money paths v
 - **Pro:** Crash safety with sequential log I/O instead of only random page writes.
 - **Con:** Log I/O and fsync latency on the commit path; operational need to manage log volume.
 - **Trade-off:** Full sync commit vs batched durability (possible loss on OS crash).
-
-## Comparison
-vs [[WAL (Write-Ahead Log)]]: that note is the log artifact/LSN view; this note is the protocol and operational checks. vs shadow paging: different durability strategies.
-
-## Mistakes to Avoid
-- Believing committed data is on the heap pages at commit time.
-- Disabling sync on financial ledgers for benchmark glory.
-- Starving checkpoints until the log fills and writers stall.

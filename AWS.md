@@ -4,6 +4,10 @@
 
 > Amazon Web Services — cloud building blocks (compute, storage, network, identity) you compose with APIs; misconfigured IAM or security groups usually break first.
 
+
+
+
+
 ## Interview Relevance
 Interviewers expect you to separate identity ([[IAM]]), network reachability ([[Security group]], VPC), and data plane (EC2/Lambda/storage). Signal Well-Architected thinking: least privilege, blast radius, cost.
 

@@ -4,17 +4,18 @@
 
 > GC reclaims heap objects your program can’t reach — you don’t `free()`, but you can still leak via lingering references.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 GC interviews cover reachability, mark-and-sweep intuition, and memory leak patterns in JS.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [Garbage Collection — Wikipedia](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)) — overview
 
 ## Key Concepts
-
 ```txt
 roots → reachable graph stays  |  unreachable → collect
 ```
@@ -29,7 +30,6 @@ roots → reachable graph stays  |  unreachable → collect
 | **WeakMap** | Non-retaining keys | “Metadata without leaks.” |
 
 ## Technical Details
-
 ```js
 // Chrome DevTools → Memory → heap snapshot / allocation timeline
 el.removeEventListener('click', handler)
@@ -43,12 +43,10 @@ cache.delete(key)
 | WeakRef | Advanced; don’t abuse |
 
 ## Pros/Cons or Trade-offs
-
 - **Manual arena allocators in WASM** — different story.
 - **Trying to force GC for correctness** — fix references instead.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Closures capture more than you think** — accidental retain of big objects.
 
@@ -61,4 +59,3 @@ cache.delete(key)
 | Detached DOM nodes | listeners/closures | Remove listeners; null refs |
 | Worker retain | open ports | Close MessagePorts |
 | GC pauses | huge heaps | Smaller objects; pool wisely |
-

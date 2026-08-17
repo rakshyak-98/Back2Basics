@@ -4,24 +4,24 @@
 
 > A container is a running (or created) instance of an image: isolated process, writable layer, and optional mounts and ports.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers check image versus container, publish flags, volume persistence, and why `docker commit` is not a build system.
 
 ## Sources
-
 - [Docker — Run a container](https://docs.docker.com/engine/containers/run/) — overview
 - [Docker — Container lifecycle](https://docs.docker.com/engine/containers/) — deep-dive
 
 ## Key Concepts
-
 - **Image → container:** immutable template plus a writable layer and namespaces.
 - **Lifecycle:** `create` / `start` / `run` / `stop` / `rm`; `--rm` deletes on exit.
 - **Publish vs expose:** `-p host:container` publishes; Dockerfile `EXPOSE` alone does not.
 - **Persistence:** named volumes and bind mounts survive `docker rm`; the writable layer does not.
 
 ## Technical Details
-
 ```txt
 image (immutable) → container (writable layer + namespaces)
 ```
@@ -70,25 +70,21 @@ Prefer Dockerfile rebuilds over `commit` for production. `import` flattens; `loa
 | `name already in use` | Stale container | `docker rm -f name` |
 
 ## Real-World Applications
-
 One-off debug shells, long-running services on a single host, and the building block under [[Docker compose]] and Kubernetes pods.
 
 **Example:** `docker run -d --name my-nginx -p 8080:80 nginx:latest` publishes container port 80 on host 8080 for a quick reverse-proxy smoke test.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fast start, dense packing, easy cleanup with `--rm`.
 - **Con:** Multi-service local stacks need [[Docker compose]]; clusters need Kubernetes/ECS.
 - **Con:** Secrets in environment or commit layers leak via `inspect` and image history.
 
 ## Comparison
-
 - vs image: image is the template; container is the instance.
 - vs VM: shared kernel, thinner isolation ([[Docker Runtime Security]]).
 - vs `docker commit` workflow: unreproducible — fix the [[docker file]] instead.
 
 ## Mistakes to Avoid
-
 - Using `commit` as a production build system.
 - Mapping `-p 80:80` in hardened setups without understanding root/capability needs — prefer high host ports.
 - Confusing `docker import` (flat) with `docker load` (layered).

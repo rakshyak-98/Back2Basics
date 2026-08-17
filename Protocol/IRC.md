@@ -4,25 +4,28 @@
 
 > IRC (Internet Relay Chat) — clients join a server or network of servers for channels and DMs; text chat over a simple TCP protocol.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use IRC to probe simple line protocols, TLS versus cleartext ports, and why product chat moved to Slack/Discord with SSO and push history.
 
 ## Sources
-
 - [RFC 1459 — Internet Relay Chat Protocol](https://datatracker.ietf.org/doc/html/rfc1459) — deep-dive
 - [IRCv3 working group](https://ircv3.net/) — overview
 - [Wikipedia — IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat) — overview
 
-## Key Concepts
-
-- **Network:** linked IRC servers that share state (Libera, OFTC) — not one box.
-- **Channel / nick:** named rooms (`#ops`) and display identity; NickServ handles collisions.
-- **PRIVMSG:** all chat is PRIVMSG under the hood (nick or channel).
-- **IRCv3:** modern extensions (CAP, SASL, batches) — real clients negotiate capabilities.
+## Recall Cues
+- Why do interviewers care about Interviewers use IRC to probe simple line protocols, TLS versus cleartext ports, and why product chat moved to Slack/Discord with SSO and push history?
+- What is step 1: Client opens TCP (often TLS on 6697)?
+- What is step 2: Registers nick; optional SASL/NickServ authentication?
+- What is step 3: `JOIN #channel` → receives traffic for that room?
+- What mistake is **Treating port 6667 as production — credentials and chat leak on the wire**?
+- What mistake is **Confusing services (NickServ/ChanServ) with the IRC daemon — linking failures look like “auth broken.”**?
+- What mistake is **Bursting PRIVMSG from bots without rate limits**?
 
 ## Technical Details
-
 ```txt
 Client ──TCP 6667/6697──► IRC server ◄──► other servers (same network)
                               │
@@ -68,26 +71,22 @@ SASL   = true
 | Bot banned for flood | Burst PRIVMSG | Pace messages; use server-side limits |
 | Split / missing users | Net split between servers | Wait for sync; check network status |
 
-## Real-World Applications
+## Mistakes to Avoid
+- Treating port 6667 as production — credentials and chat leak on the wire.
+- Confusing services (NickServ/ChanServ) with the IRC daemon — linking failures look like “auth broken.”
+- Bursting PRIVMSG from bots without rate limits.
 
+## Comparison
+- vs Slack/Teams/Discord: those win for customer chat, SSO, and guaranteed history.
+- vs [[webSocket]] product chat: WebSocket apps own the product UX; IRC is a shared public protocol.
+- vs [[WebRTC]]: IRC is text; realtime A/V needs WebRTC.
+
+## Real-World Applications
 Open-source project chat, ops channels on Libera/OFTC, and bots that bridge CI status into `#deploy`.
 
 **Example:** A deploy bot SASL-authenticates, joins `#ops`, and PRIVMSG’s release notes without flooding past network limits.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Simple, scriptable, federated networks — low protocol overhead.
 - **Con:** History and mobile push usually need a bouncer (ZNC); not product-grade moderation/SSO.
 - **Con:** DCC file transfer bypasses the server — NAT and malware risk.
-
-## Comparison
-
-- vs Slack/Teams/Discord: those win for customer chat, SSO, and guaranteed history.
-- vs [[webSocket]] product chat: WebSocket apps own the product UX; IRC is a shared public protocol.
-- vs [[WebRTC]]: IRC is text; realtime A/V needs WebRTC.
-
-## Mistakes to Avoid
-
-- Treating port 6667 as production — credentials and chat leak on the wire.
-- Confusing services (NickServ/ChanServ) with the IRC daemon — linking failures look like “auth broken.”
-- Bursting PRIVMSG from bots without rate limits.

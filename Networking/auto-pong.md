@@ -4,22 +4,22 @@
 
 > Auto-pong answers a ping automatically — prove the path is alive without app-level chatter.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use ping/pong to separate **protocol keepalives** (WebSocket control frames, ICMP echo) from business heartbeats, and to diagnose idle disconnects behind load balancers and [[NAT (Network Address Translation)]].
 
 ## Sources
-
 - [RFC 6455 — The WebSocket Protocol (Ping/Pong)](https://www.rfc-editor.org/rfc/rfc6455#section-5.5.2) — deep-dive
 - [RFC 792 — Internet Control Message Protocol](https://www.rfc-editor.org/rfc/rfc792) — deep-dive
 - [MDN — WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) — overview
 
 ## Core Definition
-
 Auto-pong is a stack-level reply to a ping probe (WebSocket pong frames, kernel ICMP Echo Reply) so liveness timers succeed without application code handling every probe.
 
 ## Key Concepts
-
 - **Ping / pong:** probe + mandatory reply → control frames, not business payload.
 - **Auto-pong:** reply without app code → kernel/WS stack answers so timers don’t expire.
 - **Keepalive:** periodic probes on idle links → detect half-open [[TCP]] / dead NAT mappings.
@@ -27,7 +27,6 @@ Auto-pong is a stack-level reply to a ping probe (WebSocket pong frames, kernel 
 - **ICMP echo:** classic `ping` tool → network reachability, not HTTP health.
 
 ## Technical Details
-
 ```txt
 WebSocket:  ping frame  →  auto pong frame
 ICMP:       Echo Request →  Echo Reply
@@ -67,25 +66,21 @@ ping -c 3 192.168.1.1
 | ICMP works, app dead | Only L3 alive | Add app health on the real port |
 
 ## Real-World Applications
-
 Chat backends, IoT device tunnels, and game servers keep WebSocket or TCP sessions alive through NAT/LB idle timeouts with protocol ping/pong.
 
 **Example:** Connections drop after 60s of silence behind a load balancer — enable WebSocket ping every 30s so the LB sees traffic and auto-pong keeps the peer marked alive.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Cheap liveness without inventing JSON heartbeat schemas.
 - **Con:** ICMP success ≠ service up — port 443 can still be down.
 - **Con:** Aggressive intervals on huge fan-out waste CPU and battery.
 
 ## Comparison
-
 - vs app-level JSON ping: protocol frames are answered by the stack; app pings need both sides to handle them.
 - vs [[TCP]] keepalive: different layer; pick one thoughtfully — don’t triple-probe blindly.
 - vs HTTP health checks: hit the real application port/path; don’t rely on ICMP alone.
 
 ## Mistakes to Avoid
-
 - Treating ICMP success as proof the app is up.
 - Assuming all proxies forward WebSocket control frames — test through the real LB path.
 - App-level JSON ping without a pong handler — one side “auto,” the other silent ⇒ flapping.

@@ -4,6 +4,10 @@
 
 > dmidecode prints SMBIOS/DMI tables from firmware — vendor, model, serial, slots, and memory layout as the BIOS recorded them.
 
+
+
+
+
 ## Interview Relevance
 Hardware inventory: system serial/model, memory DIMM layout, and knowing firmware can lie (especially VMs) — confirm PCI with lspci.
 
@@ -22,7 +26,6 @@ SMBIOS/DMI tables live in firmware. `dmidecode` dumps typed records (`-t system`
 - **Sensitivity:** Serials are inventory secrets.
 
 ## Technical Details
-
 ```bash
 sudo dmidecode -t system
 sudo dmidecode -t bios

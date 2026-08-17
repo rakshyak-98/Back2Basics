@@ -4,26 +4,25 @@
 
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **User-triggered events** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Wikipedia — user triggered event](https://en.wikipedia.org/wiki/user_triggered_event) — overview
 
 ## Core Definition
-
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.
 
 ## Key Concepts
-
 - Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It…
 - Categories: - **Direct user events** — `click`, `keydown`, `pointerdown`, `submit`, drag/drop initiated by user. - **Synthetic but trusted** — programmatic click on a focused bu…
 - Common handlers: `onclick`, `onchange`, `onselect`, `ondrag`, `ondrop`, `onsubmit`.
 
 ## Technical Details
-
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.
 
 ```
@@ -102,22 +101,18 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **user triggered event** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Activation does not survive `await`** — any microtask/macrotask gap can consume transient activation. Open popups / start media **before** the first `await`; **`dispatchEvent` is not a user gesture** — tests and programmatic events won't unlock autoplay or popups; design UX for real clicks.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Browser events caused directly by user input — the gate for privileged APIs, pop…).
 - **Con / when not:** **Background automation** — don't hack `click()` from `setInterval` to bypass policies; use proper permissions API or server-side flow.
 - **Con / when not:** **Scroll handlers for "user intent"** — scrolling doesn't grant activation for popups/clipboard.
 - **Con / when not:** **Global document listeners for everything** — attach to interactive elements; reduces noise and eases passive/listener tuning.
 
 ## Comparison
-
 vs [[event listener]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[debouncing]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Activation does not survive `await`** — any microtask/macrotask gap can consume transient activation. Open popups / start media **before** the first `await`.
 - **`dispatchEvent` is not a user gesture** — tests and programmatic events won't unlock autoplay or popups; design UX for real clicks.
 - **Delegated listeners still count** — activation propagates from real user target; use event delegation on `document` without losing gesture if handler runs synchronously.

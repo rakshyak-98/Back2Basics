@@ -4,17 +4,18 @@
 
 > Feature importance — "Importance" is not one number — definition depends on method:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Feature importance to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 "Importance" is **not one number** — definition depends on method:
 
 ```txt
@@ -33,7 +34,6 @@ Use importance for **debugging and prioritization**, not legal causality without
 | SHAP | Consistent local/global | Compute; approximate on large data |
 
 ## Technical Details
-
 ### XGBoost / sklearn tree built-in
 
 ```python
@@ -72,13 +72,11 @@ shap.summary_plot(shap_values, X_sample, feature_names=feature_names)
 Fit importance on **validation** data the model didn't train on.
 
 ## Pros/Cons or Trade-offs
-
 - **Regulatory causal claims** — importance ≠ causal effect; run proper experiments.
 - **Production monitoring** — track **feature distribution drift**, not static importance charts.
 - **Deep vision/NLP** — use saliency/attention/LLM explainers, not tabular impurity.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **High-cardinality categoricals** inflate tree impurity importance — don't trust raw `feature_importances_` alone.
 
@@ -92,4 +90,3 @@ Fit importance on **validation** data the model didn't train on.
 | SHAP slow | Full dataset | Sample 1k–5k rows |
 | All near zero | Wrong scoring metric | Match business metric in permutation |
 | Train vs val importance differs | Overfit | Compare on held-out only |
-

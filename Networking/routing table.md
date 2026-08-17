@@ -4,22 +4,22 @@
 
 > Kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use routing tables to check longest-prefix match, default routes, and whether you can debug with `ip route get` — plus how cloud subnet route tables relate to the Linux `main` table.
 
 ## Sources
-
 - [man 8 ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive
 - [Kerrisk — The Linux Programming Interface (networking chapters)](https://man7.org/tlpi/) — deep-dive
 - [Wikipedia — Routing table](https://en.wikipedia.org/wiki/Routing_table) — overview
 
 ## Core Definition
-
 Each entry stores a destination prefix and a target (gateway, interface, or local delivery). The kernel picks the most specific matching route; on a tie, the lowest metric wins.
 
 ## Key Concepts
-
 - **Longest-prefix match:** `/32` beats `/24` beats `0.0.0.0/0` → not “first match.”
 - **Default route:** `0.0.0.0/0` (or `::/0`) → where unknown destinations go.
 - **Metric:** tie-breaker among equal prefixes → which path is preferred.
@@ -27,7 +27,6 @@ Each entry stores a destination prefix and a target (gateway, interface, or loca
 - **Ephemeral vs persistent:** `ip route` changes apply now but may vanish on reboot/DHCP; daemons (systemd-networkd, NetworkManager, Netplan) own persistence.
 
 ## Technical Details
-
 ```
 Destination        Gateway         Iface   Metric
 10.0.1.0/24        0.0.0.0         eth0    100   ← wins for 10.0.1.5
@@ -107,25 +106,21 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 **Mental map:** cloud route table ≈ Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after the routing decision. Related: [[FIB (Forwarding Information Base)]].
 
 ## Real-World Applications
-
 Hosts, containers, and cloud VPCs all forward by consulting a route table before a packet leaves an interface.
 
 **Example:** A private subnet cannot reach the internet — missing `0.0.0.0/0` → NAT Gateway in the cloud route table (or wrong subnet association).
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Longest-prefix match is predictable and scales with [[CIDR (Classless Inter-Domain Routing)]].
 - **Con:** Manual `ip route add` fights persistence daemons — DHCP renew or carrier flap can wipe routes silently.
 - **Con:** Source-based / PBR paths complicate SNAT and asymmetric return traffic.
 
 ## Comparison
-
 - vs [[FIB (Forwarding Information Base)]]: FIB is the forwarding plane’s compiled view; the routing table is the control-plane entries that feed it.
 - vs [[PBR (Policy Based Routing)]]: main-table LPM is destination-based; PBR selects an alternate table by policy.
 - vs security groups / NACLs: those filter; they do not choose next hops.
 
 ## Mistakes to Avoid
-
 - Guessing from `ip route show` alone — use `ip route get <dst>` as the sanity check.
 - Hand-editing routes on managed nodes (EKS/GKE) — fix the CNI or cloud route table instead.
 - Adding static routes for every microservice — use service discovery/DNS for application-level routing.

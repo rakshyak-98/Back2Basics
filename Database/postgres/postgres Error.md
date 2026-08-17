@@ -4,6 +4,10 @@
 
 > PostgreSQL error reporting — `SQLSTATE`, `DETAIL`, `HINT`, and `CONTEXT` fields that turn failed queries into actionable fixes.
 
+
+
+
+
 ## Interview Relevance
 Reliability interviews care which errors are retryable (`40001`, `40P01`) versus permanent constraint failures.
 

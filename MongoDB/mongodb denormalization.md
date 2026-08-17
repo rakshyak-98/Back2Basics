@@ -4,17 +4,18 @@
 
 > Denormalization copies data into documents you’ll read together — fewer joins, more update fan-out.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Denormalization questions probe embed vs reference trade-offs for read patterns and update fan-out.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 User.name ──duplicate──► Order.customerName (fast read)
                  ↑ update must sync copies
@@ -30,7 +31,6 @@ User.name ──duplicate──► Order.customerName (fast read)
 | **16MB limit** | Doc size cap | “Don’t embed unbounded arrays.” |
 
 ## Technical Details
-
 ```js
 // embed for bounded 1-to-few
 { _id, title, comments: [{ userId, text, at }] }
@@ -46,12 +46,10 @@ User.name ──duplicate──► Order.customerName (fast read)
 | Migration plan | How renames propagate |
 
 ## Pros/Cons or Trade-offs
-
 - **Highly shared mutable data** — normalize + join/lookup.
 - **Strong relational constraints** — SQL may fit better.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Unbounded arrays** — “embed all events” will hit 16MB and rewrite cost.
 
@@ -64,4 +62,3 @@ User.name ──duplicate──► Order.customerName (fast read)
 | Doc too large | unbounded embed | Cap, bucket, or ref |
 | Painful updates | Over-duplicated | Normalize hot fields |
 | Slow populate chains | Too normalized | Embed read-together data |
-

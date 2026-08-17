@@ -4,6 +4,10 @@
 
 > lspci lists PCI devices the kernel sees — vendor/device IDs, topology, and which kernel driver is bound.
 
+
+
+
+
 ## Interview Relevance
 Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device present” from “driver working,” and when to use lsusb/dmidecode instead.
 
@@ -22,7 +26,6 @@ The kernel discovers PCI devices at boot under `/sys/bus/pci/devices/`. `lspci` 
 - **Not USB:** Peripherals on USB need `lsusb`.
 
 ## Technical Details
-
 ```bash
 lspci
 lspci -tv

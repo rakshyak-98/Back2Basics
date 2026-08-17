@@ -4,6 +4,10 @@
 
 > awk walks a file line by line — match a pattern, run an action on fields.
 
+
+
+
+
 ## Interview Relevance
 Classic filter question: `$1`/`NF`/`NR`, `-F`, `BEGIN`/`END` aggregates — and knowing when CSV/JSON needs something else.
 
@@ -22,7 +26,6 @@ For each record (usually a line), awk splits fields on `FS`, optionally matches 
 - **Whitespace split:** Collapses runs of spaces; empty columns can disappear.
 
 ## Technical Details
-
 ```txt
 input lines ──► split on FS ──► match pattern? ──► run action ──► next line
 ```

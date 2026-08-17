@@ -4,6 +4,10 @@
 
 > Curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts.
 
+
+
+
+
 ## Interview Relevance
 Not a memorization list — shows you pick the right tool for “what’s big,” “who holds this,” and “safe delete preview,” with flags that reduce noise.
 
@@ -22,7 +26,6 @@ These commands answer recurring questions: where am I, what changed, what’s bi
 - **Open files:** Deleted-but-open explains `df` vs `du` mismatches ([[lsof]]).
 
 ## Technical Details
-
 ```bash
 cd -
 pwd -P

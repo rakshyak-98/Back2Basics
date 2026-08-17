@@ -4,22 +4,22 @@
 
 > Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use `EventEmitter` under the hood.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **Node events driven** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **on / emit**, **once**, **Built-ins**.
 
 ## Sources
-
 - [Wikipedia — Node events driven](https://en.wikipedia.org/wiki/Node_events_driven) — overview
 
 ## Key Concepts
-
 - **on / emit:** Subscribe / publish — Observer pattern in core.
 - **once:** Single-shot listener — First connect, handshake done.
 - **Built-ins:** http, fs, stream — You already write event-driven code.
 
 ## Technical Details
-
 ```txt
 ee.on('login', cb)  …  ee.emit('login', user) → cb(user)
 ```
@@ -41,21 +41,17 @@ ee.emit('ready')
 | `off` / `removeListener` | Prevent leaks |
 
 ## Real-World Applications
-
 In production APIs and tooling, **Node events driven** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`error` is special** — no listener ⇒ thrown / process abort paths; **Sync emit** — listeners run immediately on the stack; heavy work blocks the loop.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use…).
 - **Con / when not:** **Request/response RPC** — promises/async APIs clearer than ad-hoc events.
 - **Con / when not:** **Cross-process** — need IPC/queue, not in-process emitters.
 
 ## Comparison
-
 vs [[EventEmitter]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[event emitter]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`error` is special** — no listener ⇒ thrown / process abort paths.
 - **Sync emit** — listeners run immediately on the stack; heavy work blocks the loop.
 - **Memory climb:** check Listeners never removed; fix: `off` on cleanup

@@ -4,28 +4,27 @@
 
 > Socket statistics from the kernel — faster, richer replacement for netstat on modern Linux.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Go-to tool for “who is listening,” CLOSE-WAIT vs TIME-WAIT, and Recv-Q/Send-Q diagnosis — interviewers expect `ss -luntp` muscle memory.
 
 ## Sources
-
 - [man ss](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive
 - [Wikipedia — ss (utility)](https://en.wikipedia.org/wiki/Ss_(utility)) — overview
 
 ## Core Definition
-
 `ss` reads `/proc/net/*` and netlink — the same truth the kernel uses for TCP/UDP state — without guessing from `/proc/<pid>/fd` alone.
 
 ## Key Concepts
-
 - **LISTEN / ESTABLISHED / TIME-WAIT / CLOSE-WAIT:** states tell you handshake, app bugs, or churn.
 - **Recv-Q / Send-Q:** unread bytes vs unacked bytes — slow app vs slow peer/network.
 - **`-luntp`:** listen + UDP + numeric + TCP + process — default inventory one-liner.
 - **Filters:** ss filter syntax (`sport = :443`), not grep alone.
 
 ## Technical Details
-
 ```
 Client ──SYN──► LISTEN (ss -lnt)
          ◄──SYN-ACK──
@@ -77,23 +76,19 @@ Half-open flow: `ss -s` → `state syn-recv` → `state close-wait -p` → `ss -
 | Listen backlog drops | Recv-Q on LISTEN | Raise `somaxconn`; faster accept |
 
 ## Real-World Applications
-
 Port inventory, DB pool leak hunts, and load-balancer timeout / half-open diagnosis.
 
 **Example:** nginx upstream stuck — count `ss -tan state established '( dport = :8080 )'` and inspect timers with `ss -o`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fast, filterable, shows TCP internals (`-ti`).
 - **Con:** Point-in-time only — no history without flow logs or eBPF.
 
 ## Comparison
-
 - vs [[netstat]]: prefer `ss` everywhere modern Linux is available.
 - vs tcpdump: `ss` is state; capture is payloads and packet timing.
 
 ## Mistakes to Avoid
-
 - Running without root and trusting an empty `-p` column.
 - Running `ss` on the host namespace and expecting container localhost listeners.
 - Grepping instead of learning ss filter syntax when the filter silently returns empty.

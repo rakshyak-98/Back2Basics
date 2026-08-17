@@ -4,25 +4,25 @@
 
 > Cilium is an eBPF-powered CNI — pod networking, optional kube-proxy replacement, NetworkPolicy (including L7), and Hubble flow observability.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask why eBPF beats iptables at scale, how identity is label-based, and how you debug DROPPED verdicts with Hubble.
 
 ## Sources
-
 - [Cilium documentation](https://docs.cilium.io/) — deep-dive
 - [Cilium — Network Policy](https://docs.cilium.io/en/stable/security/policy/) — overview
 - Brendan Burns et al., *Kubernetes: Up and Running* — overview
 
 ## Key Concepts
-
 - **eBPF dataplane:** filter/NAT/route in-kernel without iptables chain explosion at large Service counts.
 - **Identity = labels:** policies survive Pod IP changes.
 - **Components:** cilium-agent (per node), cilium-operator, Hubble relay/UI, optional Envoy for L7.
 - **kube-proxy replacement:** BPF service LB maps — do not run both modes blindly.
 
 ## Technical Details
-
 ```
 Pod eth0 ──► veth ──► node eBPF (Cilium) ──► cluster routing / encap
                            │
@@ -83,25 +83,21 @@ kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 | High CPU on cilium-agent | Map pressure, policy count | Split policies; reduce L7 scope |
 
 ## Real-World Applications
-
 Zero-trust namespace policies, replacing kube-proxy at scale, and incident “who dropped my packet?” with Hubble.
 
 **Example:** Frontend→API suddenly fails; Hubble shows DROPPED on a new deny-all NetworkPolicy missing an allow from `app=frontend`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Unified networking, policy, and observability with strong scale characteristics.
 - **Con:** Tiny single-node labs may prefer simpler CNIs; Cilium shines with policy + Hubble needs.
 - **Con:** L7 policy adds proxy latency/resources; NetworkPolicy is not application authZ.
 
 ## Comparison
-
 - vs flannel/canal: simpler overlay; less policy/observability depth.
 - vs [[ingress]]: Cilium can also do Ingress; classic ingress-nginx still common at the edge.
 - Complements mTLS/authZ — does not replace them.
 
 ## Mistakes to Avoid
-
 - First deny-all NetworkPolicy without allows — instant outage (default is allow-all without NP).
 - Running kube-proxy and Cilium BPF LB together incorrectly.
 - Host firewall blocking Geneve/VXLAN between nodes.

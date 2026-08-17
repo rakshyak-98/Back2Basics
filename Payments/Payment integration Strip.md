@@ -4,22 +4,22 @@
 
 > *(Stripe Checkout integration.)* The browser asks your API for a Checkout Session, redirects to Stripe’s hosted page, then your server confirms payment via webhook — not the return URL alone.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers want the end-to-end Checkout flow: create session server-side, redirect, verify webhook signatures, and keep secrets off the client.
 
 ## Sources
-
 - [Stripe — Checkout quickstart](https://docs.stripe.com/checkout/quickstart) — deep-dive
 - [Stripe — Checkout Session API](https://docs.stripe.com/api/checkout/sessions) — deep-dive
 - [Stripe — Fulfill orders with webhooks](https://docs.stripe.com/checkout/fulfillment) — overview
 
 ## Core Definition
-
 Checkout Session integration outsources card entry to Stripe. Your backend creates a session with line items and URLs; the frontend redirects; fulfillment runs when a signed webhook reports `checkout.session.completed` (or related PaymentIntent events).
 
 ## Key Concepts
-
 - **Server creates the session:** price, currency, `success_url`, `cancel_url`, and metadata (`orderId`).
 - **Client only redirects:** no secret key in the browser.
 - **Return URL ≠ paid:** user can close the tab; webhook still arrives.
@@ -27,7 +27,6 @@ Checkout Session integration outsources card entry to Stripe. Your backend creat
 - **PCI path:** hosted Checkout aligns with reduced SAQ when no PAN touches your servers ([[SAQ GSS]] / SAQ A patterns).
 
 ## Technical Details
-
 ```
 Browser ──POST /checkout-session──► Your API ──create Checkout Session──► Stripe
    │                                      │
@@ -74,25 +73,21 @@ if (event.type === 'checkout.session.completed') {
 | Wrong mode keys | `sk_test` vs `sk_live` | Separate environments |
 
 ## Real-World Applications
-
 Application fees, course checkout, and any one-page “pay then unlock” flow that can use hosted UI.
 
 **Example:** Frontend shows “Redirecting to Payment,” POSTs to `applications/checkout-session`, and navigates to `session.url` — fulfillment waits for `checkout.session.completed`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fast PCI-friendly integration; Stripe owns card UI and SCA.
 - **Con:** Less control than Payment Element / custom PaymentIntents.
 - **Con:** Mobile WebViews and in-app browsers need extra care for redirects.
 
 ## Comparison
-
 - vs [[Strip]] PaymentIntents + Elements: more UX control, slightly more PCI/JS surface.
 - vs [[razorpay integration]]: same redirect/hosted idea; different order and signature APIs.
 - vs direct charge API with PAN: expands PCI to SAQ D — avoid.
 
 ## Mistakes to Avoid
-
 - Exposing `sk_live` / `sk_test` in frontend bundles.
 - Marking orders paid from `success_url` alone.
 - Skipping webhook signature verification.

@@ -4,6 +4,10 @@
 
 > `/etc` holds host-local configuration — the authoritative text files operators edit (or template via configuration management) to define how this machine behaves.
 
+
+
+
+
 ## Interview Relevance
 FHS literacy: know that `/etc` is admin config (not `/usr`), name high-traffic paths (`fstab`, `sshd_config`, `sudoers`), and describe safe edit/validate habits.
 
@@ -21,7 +25,6 @@ Unlike `/usr` (vendor-shipped), **`/etc` is for local administrators**. Daemons 
 - **Generated files:** Some paths (often `resolv.conf`) are managed by NetworkManager or systemd-resolved — do not hand-edit blindly.
 
 ## Technical Details
-
 | File / dir | Purpose |
 |------------|---------|
 | `/etc/fstab` | Filesystem mounts — [[file mount]] |

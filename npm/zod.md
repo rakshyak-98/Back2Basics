@@ -4,21 +4,21 @@
 
 > TypeScript-first schema library — parse and validate untrusted data at runtime, then infer static types from the same schema.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use Zod to check whether you validate at system boundaries (HTTP bodies, environment variables, queue payloads), handle refinements, and avoid trusting TypeScript types alone at runtime.
 
 ## Sources
-
 - [Zod documentation](https://zod.dev/) — deep-dive
 - [Zod GitHub repository](https://github.com/colinhacks/zod) — overview
 
 ## Core Definition
-
 Zod defines schemas in TypeScript that both *validate* values at runtime (`parse` / `safeParse`) and *infer* types (`z.infer<typeof schema>`), so the type checker and the running process agree on shape.
 
 ## Key Concepts
-
 - **Schema as source of truth:** one object describes validation and types → fewer drift bugs than separate interfaces and validators.
 - **`parse` vs `safeParse`:** `parse` throws; `safeParse` returns `{ success, data | error }` → prefer safeParse at HTTP edges.
 - **Optional / default / nullable:** control missing vs null vs defaulted fields explicitly.
@@ -26,7 +26,6 @@ Zod defines schemas in TypeScript that both *validate* values at runtime (`parse
 - **Transforms:** coerce strings to numbers/dates carefully → document failure modes for bad input.
 
 ## Technical Details
-
 ```js
 import { z } from "zod";
 
@@ -80,24 +79,20 @@ if (!result.success) {
 | Huge error objects in logs | Logging full ZodError — prefer `flatten()` |
 
 ## Real-World Applications
-
 Validate API request bodies, CLI flags, and environment configuration before the rest of the app runs.
 
 **Example:** An Express route `safeParse`s the body, returns 400 with field errors, and only then writes to the database.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Single schema for types and runtime checks; excellent TypeScript ergonomics.
 - **Con:** Bundle size and parse cost matter on hot paths — keep schemas at boundaries, not deep inside tight loops.
 - **Con:** Complex `superRefine` logic can become hard to test if mixed with business rules.
 
 ## Comparison
-
 - vs class-validator / Joi: Zod is TypeScript-native with inference; Joi is JS-first; class-validator ties to decorators/classes.
 - vs OpenAPI-only generation: generated clients help clients; Zod still validates *your* server’s inbound data.
 
 ## Mistakes to Avoid
-
 - Believing compile-time types protect you from malformed JSON — they do not.
 - Using `parse` in request handlers without a try/catch (prefer `safeParse`).
 - Encoding business workflow in schemas until they become unreadable mini-programs.

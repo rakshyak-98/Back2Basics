@@ -4,21 +4,21 @@
 
 > Injection of executable script into a page another user's browser will run — steals sessions, defaces UI, exfiltrates data.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Must-know web vuln: stored/reflected/DOM XSS, output encoding, and why CSP is defense-in-depth not a substitute for encoding.
 
 ## Sources
-
 - [OWASP — Cross Site Scripting](https://owasp.org/www-community/attacks/xss/) — overview
 - [OWASP — XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) — deep-dive
 
 ## Core Definition
-
 XSS injects executable script into a page another user's browser will run — sessions, DOM, and data are at risk.
 
 ## Key Concepts
-
 XSS = attacker's JS runs in **victim origin** context:
 
 ```txt
@@ -36,7 +36,6 @@ Defense layers:
 4. **Framework defaults** — React/Vue escape text nodes
 
 ## Technical Details
-
 ### CSP header (primary HTTP control)
 
 ```http
@@ -77,21 +76,17 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 | Markdown/HTML renderer XSS | Allowlist tags | Use safe parser; no raw HTML pass-through |
 
 ## Real-World Applications
-
 Stored XSS in a comment field steals session cookies unless output is encoded and CSP blocks inline script.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear attack classes (stored/reflected/DOM) map to concrete defenses.
 - **Con:** Don't rely on **WAF alone** — fix source encoding. Don't disable CSP globally for one widget — isolate vendor subdomain.
 
 ## Comparison
-
 - vs [[XSRF (cross-site request forgery)]]: XSS runs attacker script in the victim origin; CSRF forges requests using the victim's cookies.
 - vs [[content security policy]]: CSP is defense-in-depth after encoding.
 
 ## Mistakes to Avoid
-
 - `dangerouslySetInnerHTML` — name is accurate.
 - JSON is not HTML-safe — `</script>` in JSON inside `<script>` breaks out.
 - CSP bypass via JSONP/old plugins — audit third-party script allowlist.

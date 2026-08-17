@@ -4,22 +4,22 @@
 
 > DASH serves the same idea as HLS over HTTP — an [[MPD]] menu plus segments — as an open MPEG standard.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk DASH end-to-end — not just name it. Signal fluency with **MPD**, **Period**, **AdaptationSet**, **Representation** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — DASH](https://en.wikipedia.org/wiki/DASH) — overview
 - [DASH Industry Forum](https://dashif.org/) — overview
 - [ISO/IEC 23009-1 DASH](https://www.iso.org/standard/83314.html) — deep-dive
 
 ## Core Definition
-
 Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, Apple Safari does **not** play DASH natively — plan dual packaging or HLS-only for iOS.
 
 ## Key Concepts
-
 - **MPD:** XML root playlist — “DASH starts with the Media Presentation Description.”
 - **Period:** Time slice of the show — “Live and VoD are Periods on a timeline.”
 - **AdaptationSet:** Group of same media type — “Video Adaptations hold the ABR ladder.”
@@ -43,7 +43,6 @@ Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, 
 | ffmpeg + mp4box / Bento4 | DIY segment + MPD |
 
 ## Technical Details
-
 ```txt
 GET manifest.mpd  ([[MPD]])
         │
@@ -99,25 +98,21 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 ```
 
 ## Real-World Applications
-
 Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, Apple Safari does **not** play DASH natively — plan dual packaging or HLS-only for iOS.
 
 Used wherever DASH sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
 - **Con / skip when:** **Interactive sub-second** — [[WebRTC]], not segment DASH.
 - **Con / skip when:** **Legacy Apple-only TS devices** — HLS TS path may be mandatory.
 
 ## Comparison
-
 - vs [[HLS]]: **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
 - vs [[WebRTC]]: **Interactive sub-second** — [[WebRTC]], not segment DASH.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | 404 on every segment | `$Number$` / `BaseURL` wrong | Fix template paths; CDN prefix |

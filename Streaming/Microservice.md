@@ -4,31 +4,17 @@
 
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Microservice to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice) — overview
 
-## Key Concepts
-
-Streaming stacks fail when teams draw microservices around **org charts** instead of **failure domains and bitrate paths**. Split where **scale, deploy cadence, and blast radius** differ — keep hot paths colocated when IPC cost matters.
-
-| Service | Owns | Scale driver | Split when |
-|---------|------|--------------|------------|
-| **Ingest** | RTMP/SRT/WebRTC receive | Concurrent live channels | Protocol teams differ |
-| **Transcoder** | ABR ladder encode | GPU/CPU | [[NVENC]] fleet independent of API |
-| **Packager** | HLS/DASH segments, fmp4 | Disk I/O | Different release from encode codecs |
-| **Origin** | Segment storage + tokenized URL | Egress bandwidth | CDN integration cadence |
-| **Manifest edge** | Signed playlists, geo rules | RPS, auth | Security isolation |
-| **License (DRM)** | Widevine/FairPlay/PlayReady | Crypto compliance | Audit boundary mandatory |
-| **Catalog/metadata** | VOD titles, images | CRUD | Classic REST microservice |
-| **Analytics/beacon** | QoE events | Write throughput | Never block playback path |
-
 ## Technical Details
-
 ```txt
 Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Player
               │              │              │
@@ -83,22 +69,18 @@ manifest_sign_failures
 Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 ## Real-World Applications
-
 Used wherever Microservice sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
 - **Con / skip when:** **Split analytics before playback SLO met** — observability yes, service boundary no.
 - **Con / skip when:** **Separate team microservice for configuration flags** — use platform feature flags.
 
 ## Comparison
-
 - vs [[flussonic]]: **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Live start slow | Chain ingest→transcode→packager sync | Async buffer; start packaging lowest rung first |

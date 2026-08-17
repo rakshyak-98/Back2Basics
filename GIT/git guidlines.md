@@ -4,17 +4,18 @@
 
 > git guidlines — feat: add new inventory endpoint
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Guideline questions check team conventions — trunk-based vs long-lived branches and review norms.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```vbnet
 feat: add new inventory endpoint
 fix: correct inventory route response
@@ -47,7 +48,6 @@ Ticket: AT-123
 - describe what and why, not how
 
 ## Technical Details
-
 Use conventional prefixes in subject line:
 - `feat:` new behavior
 - `fix:` bug repair
@@ -55,11 +55,9 @@ Use conventional prefixes in subject line:
 - `chore:` tooling or maintenance
 
 ## Pros/Cons or Trade-offs
-
 - Do not rewrite published history on shared branches to fix message typos.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > One commit should be **one logical change** — easier to revert and bisect.
 
@@ -68,4 +66,3 @@ Use conventional prefixes in subject line:
 | History hard to read | Mixed message styles | Agree on prefix convention in team doc |
 | Revert hard to find | No scope in subject | Add scope: `fix(auth): ...` |
 | Broken bisect | WIP commits on main | Squash or rebase before merge to main |
-

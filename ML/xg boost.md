@@ -4,17 +4,18 @@
 
 > Optimized distributed GBDT — histogram splits, regularized leaf weights, sparsity-aware — **Chen & Guestrin**; default for production tabular ML at scale.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about XGBoost to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 XGBoost = [[Gradient boosting]] + engineering:
 
 ```txt
@@ -31,7 +32,6 @@ Obj = Σ loss(yᵢ, ŷᵢ) + Σ Ω(tree_k)
 **Distributed:** DMatrix + column blocks; multi-GPU / cluster via `xgboost.dtrain` patterns or Spark XGBoost.
 
 ## Technical Details
-
 ### Python (native API)
 
 ```python
@@ -101,14 +101,12 @@ loaded.load_model("model.json")
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Small n, wide p with linear signal** — logistic + L1 may generalize with zero tuning.
 - **Pure image/text/audio** — deep nets or pretrained embeddings dominate.
 - **Need fully native categorical without encoding** — CatBoost often less pipeline work.
 - **Regulatory mandate for linear interpretability** — use GAM/GLM with documented coefficients.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Version skew train vs serve:** XGBoost JSON models are not always forward-compatible across major versions — pin version in serving container.
 
@@ -129,4 +127,3 @@ loaded.load_model("model.json")
 | Worse than LightGBM on categoricals | One-hot explosion | Native cat in LightGBM/CatBoost; target encoding w/ CV |
 | Different results same seed | Threading / data order | `seed`, `deterministic_histogram=1` (version-dependent) |
 | Slow batch predict | Python loop over rows | `Booster.predict(DMatrix)` batch; Treelite/ONNX |
-

@@ -4,6 +4,10 @@
 
 > Message broker — middleware that accepts messages from producers and delivers them to consumers via queues or streams.
 
+
+
+
+
 ## Interview Relevance
 Interviewers want delivery guarantees (at-most/at-least/exactly-once *effects*), ordering, backpressure, and when to pick a queue broker vs a log (Kafka). Name failure modes: poison messages, consumer lag, duplicate processing.
 

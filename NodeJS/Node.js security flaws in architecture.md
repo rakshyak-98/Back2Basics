@@ -4,28 +4,27 @@
 
 > single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Node.js Security — Architectural Flaws** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive
 - [OWASP — Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html) — overview
 - [Wikipedia — Node.js security flaws in architecture](https://en.wikipedia.org/wiki/Node.js_security_flaws_in_architecture) — overview
 
 ## Core Definition
-
 Node services typically sit **directly on the internet** with:
 
 ## Key Concepts
-
 - Node services typically sit **directly on the internet** with:
 - One language/runtime handling authentication, business logic, and serialization - **npm dependency graph** — transitive packages run with full process privileges - **Dynamic `…
 - Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/session**, **file uploads**, **SSRF outbound calls**, **deserialization**, **ReDoS in regex**.
 
 ## Technical Details
-
 Node services typically sit **directly on the internet** with:
 
 - One language/runtime handling authentication, business logic, and serialization
@@ -142,21 +141,17 @@ We will … because …
 | … | … |
 
 ## Real-World Applications
-
 In production APIs and tooling, **Node.js security flaws in architecture** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains; **Dynamic `require(userInput)`** — arbitrary code load.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (single-process trust boundary, huge dependency trees, and prototype pollution ma…).
 - **Con / when not:** **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
 - **Con / when not:** **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
 
 ## Comparison
-
 vs [[Express middleware]]: know when each applies — do not treat them as interchangeable. vs [[TLS (Transport Layer Security)]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains.
 - **Dynamic `require(userInput)`** — arbitrary code load.
 - **Error handler leaking stack** — see [[express error handler]]; hide stack in prod.

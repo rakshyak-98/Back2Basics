@@ -4,6 +4,10 @@
 
 > Editor configuration lives in dotfiles and language-server settings — align `$EDITOR`, terminal capabilities, and keybindings so remote and local editing behave the same.
 
+
+
+
+
 ## Interview Relevance
 Small but real ops signal: can you set `$EDITOR`/`$VISUAL`, survive `crontab -e` / `visudo` / `git commit`, and keep a minimal portable vimrc for jump boxes.
 
@@ -21,7 +25,6 @@ Tools that open an interactive editor honor `$EDITOR` (and often `$VISUAL`). Per
 - **Remote edit:** scp-style paths, SSHFS, or local edit + sync.
 
 ## Technical Details
-
 ```bash
 export EDITOR=vim
 export VISUAL=vim

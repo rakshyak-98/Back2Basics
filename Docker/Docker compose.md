@@ -4,24 +4,24 @@
 
 > Compose runs a multi-service stack on one host from a YAML file — great for development, CI, and small single-node production; not a cluster scheduler.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask Compose to see if you know service DNS, healthchecks versus weak `depends_on`, secrets handling, and when you graduate to Kubernetes or Swarm.
 
 ## Sources
-
 - [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) — deep-dive
 - [Docker Compose overview](https://docs.docker.com/compose/) — overview
 
 ## Key Concepts
-
 - **One host / one stack:** `docker compose up` parses YAML + `.env`, creates a project network, builds/pulls, starts containers — not multi-node HA.
 - **v2 CLI:** `docker compose` (plugin) replaces legacy `docker-compose` (hyphen); same Compose Specification via Engine API.
 - **Project + service DNS:** project name defaults to directory (or `-p`); service name is DNS on the default network (`http://api:8080` from a sibling).
 - **Health-gated start:** without `condition: service_healthy`, `depends_on` only waits for container start — first requests race the database.
 
 ## Technical Details
-
 ```
 docker compose up
     │
@@ -139,25 +139,21 @@ Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment
 | Prod outage after `down -v` | Operator ran destructive down | Backups; document runbooks; avoid `-v` in prod |
 
 ## Real-World Applications
-
 Local full-stack development, CI integration tests, and small single-node SaaS or edge boxes.
 
 **Example:** An API and Postgres share a `backend` network; the API waits on `service_healthy` before migrations run so first boot does not race an empty database.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One YAML describes the whole stack — fast iteration, shared with teammates and CI.
 - **Con:** No multi-node HA, PDB, or autoscaling — plan a migration path early for large production.
 - **Con:** Resource `deploy.resources` is Swarm-oriented; standalone needs `mem_limit` / `cpus` patterns verified with `docker compose config`.
 
 ## Comparison
-
 - vs [[kubectl]] / Kubernetes: Compose is single-host; K8s is cluster scheduling, rolling updates, and policy.
 - vs [[Swarm network]]: Swarm adds multi-host overlay and routing mesh; Compose alone stays on one Engine.
 - vs plain `docker run`: Compose owns networks, volumes, and dependency order declaratively.
 
 ## Mistakes to Avoid
-
 - Bind-mounting database data directories — SELinux (`:Z`), path drift, corrupt on laptop sleep; use named volumes for state.
 - `restart: always` on a development laptop — daemon restart resurrects everything and fights for ports.
 - Leaving the deprecated `version:` key; committing `.env` with production credentials; building without pinned base digests.

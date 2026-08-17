@@ -4,24 +4,24 @@
 
 > Points a systemd unit at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/networkd without console access.
 
 ## Sources
-
 - [systemd.unit(5) — mask](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive
 - [systemctl(1)](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html) — overview
 
 ## Key Concepts
-
 - **disable:** no auto-start; manual start still works.
 - **mask:** symlink to `/dev/null` — start always fails until unmask.
 - **`--now`:** stop immediately while masking.
 - **Sockets:** mask `foo.socket` too if activation respawns the service.
 
 ## Technical Details
-
 ```txt
 enabled  → starts at boot
 disabled → no auto-start; manual start ok
@@ -51,21 +51,17 @@ sudo systemctl mask --now cups.socket cups.service
 | Can’t mask | Read-only `/usr` | Mask via `/etc/systemd/system` |
 
 ## Real-World Applications
-
 Hard-disable Bluetooth or CUPS on a locked-down server image so package scripts cannot quietly re-enable them.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Reliable “stay dead” against reactivation paths.
 - **Con:** Easy lockout if you mask critical remote-access units.
 
 ## Comparison
-
 - vs `disable`: softer; allows manual start.
 - vs uninstall: mask leaves binaries; remove the package if attack surface matters.
 
 ## Mistakes to Avoid
-
 - Masking sshd/networkd without console/serial.
 - Masking only the `.service` when a `.socket` still activates it.
 - Treating mask as uninstall.

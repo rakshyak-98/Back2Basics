@@ -4,20 +4,20 @@
 
 > AV1 is an open video codec — same quality at lower bitrate than H.264/HEVC, but encode cost and device support still gate rollout.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk AV1 end-to-end — not just name it. Signal fluency with **AV1**, **SVT-AV1 / libaom**, **NVENC AV1**, **HW decode** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — AV1](https://en.wikipedia.org/wiki/AV1) — overview
 
 ## Core Definition
-
 “AV1 stream” means the **payload** is AV1 inside MPTS/SPTS or CMAF — transport is still MPEG-TS / fMP4, not a separate network protocol.
 
 ## Key Concepts
-
 - **AV1:** Modern open video codec — “Better compression; we still need a fallback ladder.”
 - **SVT-AV1 / libaom:** Software encoders — “CPU-heavy; use for VOD farms, not cheap live.”
 - **NVENC AV1:** NVIDIA HW encode — “Ada+ only — T4/A2 do not encode AV1.”
@@ -34,7 +34,6 @@ Interviewers probe whether you can walk AV1 end-to-end — not just name it. Sig
 Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, Nvidia, …) backs the codec. Royalty-free licensing is the business pitch; **encode cost and client decode** are the operations pitch.
 
 ## Technical Details
-
 ```txt
 Mezzanine / live source
       │
@@ -73,13 +72,11 @@ ffprobe -hide_banner out_av1.mp4   # confirm codec_name=av1
 Debug: `ffprobe` codec → chrome://media-internals or player codec log → compare bitrate at matched VMAF versus H.264 rung.
 
 ## Real-World Applications
-
 “AV1 stream” means the **payload** is AV1 inside MPTS/SPTS or CMAF — transport is still MPEG-TS / fMP4, not a separate network protocol.
 
 Used wherever AV1 sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Broad STB estate without AV1 decode** — stay on H.264/HEVC until devices catch up.
 - **Con / skip when:** **Cheap live on pre-Ada GPUs** — no AV1 NVENC; software live may miss latency SLOs.
@@ -87,11 +84,9 @@ Used wherever AV1 sits in an ingest → package → CDN → player path. Concret
 - **Con / skip when:** **You only needed a container change** — remux; do not [[transcoding\|transcode]] to AV1 “because modern.”
 
 ## Comparison
-
 - vs [[transcoding\|transcode]]: **You only needed a container change** — remux; do not [[transcoding\|transcode]] to AV1 “because modern.”
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | NVENC AV1 fails on T4/A2 | GPU generation | Use H.264/HEVC NVENC or software AV1 elsewhere |

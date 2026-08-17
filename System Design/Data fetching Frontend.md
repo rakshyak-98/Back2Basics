@@ -4,24 +4,24 @@
 
 > Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Query-cache keys, invalidation after mutations, waterfall avoidance, and auth refresh races.
 
 ## Sources
-
 - TanStack Query / SWR documentation — overview
 - [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111) — HTTP caching related patterns — overview
 
 ## Key Concepts
-
 - **Layers:** API module → cache (React Query/SWR) → UI states.
 - **Stale-while-revalidate:** serve cache; refresh in background.
 - **Invalidate on mutate:** keep UI coherent after POST/PATCH.
 - **Complete query keys:** filters belong in the key.
 
 ## Technical Details
-
 ```txt
 UI → query hook → cache → network → API
          ↑ invalidate / setQueryData
@@ -53,22 +53,18 @@ useMutation({
 | Auth flicker | Single refresh mutex |
 
 ## Real-World Applications
-
 SPA dashboards, mobile web apps, and BFFs feeding typed hooks.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Deduped fetches; fewer loading bugs.
 - **Con:** Cache-key mistakes show wrong data.
 - **Trade-off:** server-state libraries vs global client stores for remote data.
 
 ## Comparison
-
 - vs [[Real-time Subscription]]: push updates vs pull/query cache.
 - vs [[cache system]]: browser/query cache is one cache layer.
 
 ## Mistakes to Avoid
-
 - `useEffect` fetch without cleanup / race on id change.
 - Incomplete cache keys.
 - Putting server data only in Redux without a fetch cache.

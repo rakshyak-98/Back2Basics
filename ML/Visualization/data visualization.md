@@ -4,17 +4,18 @@
 
 > Viz checks whether the data and model make sense — plots before metrics, residual plots after fit.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about data visualization to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 ```txt
 EDA plots → train → residual / pred-vs-actual → decide next feature
 ```
@@ -29,7 +30,6 @@ EDA plots → train → residual / pred-vs-actual → decide next feature
 | **Residual** | y − ŷ | “Structure left = missing signal.” |
 
 ## Technical Details
-
 ```python
 import matplotlib.pyplot as plt
 plt.hist(y, bins=30); plt.title('label distribution')
@@ -44,12 +44,10 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 | Color by segment | Hidden cohorts |
 
 ## Pros/Cons or Trade-offs
-
 - **Automated nightly metrics only** — still sample-plot failures.
 - **Huge dashboards nobody reads** — fewer sharper plots.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Default axes lie** — truncated y-axis exaggerates tiny effects.
 
@@ -62,4 +60,3 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 | One bar dominates | imbalance | Resample / other metric |
 | Fan-shaped residuals | heteroscedasticity | Transform target / model |
 | Overplot ink | millions of points | Hexbin / sample |
-

@@ -4,21 +4,21 @@
 
 > Public-key algorithm from factoring hardness — historically TLS and signatures; prefer modern curves for new signing when you can.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Crypto: RSA keygen/sign/encrypt roles, padding (OAEP/PSS), and why new systems prefer ECDSA/Ed25519 for signing.
 
 ## Sources
-
 - [RFC 8017 — PKCS #1 RSA Cryptography](https://www.rfc-editor.org/rfc/rfc8017) — deep-dive
 - [Wikipedia — RSA (cryptosystem)](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) — overview
 
 ## Core Definition
-
 RSA is a public-key algorithm based on the hardness of factoring large composites; used historically for TLS key exchange and still for signatures and legacy interop.
 
 ## Key Concepts
-
 **RSA** uses math on large composites (factorization hardness):
 
 ```txt
@@ -38,7 +38,6 @@ Limits:
 - **Padding critical** — raw RSA malleable
 
 ## Technical Details
-
 ### Generate key pair
 
 ```bash
@@ -81,21 +80,17 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 | Weak key detected | <2048 bits | Regenerate; HSM stored keys |
 
 ## Real-World Applications
-
 Legacy TLS and JWT RS256 still use RSA; greenfield signing prefers Ed25519 or ECDSA where interop allows.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Ubiquitous interop for legacy TLS and JWT RS256 ecosystems.
 - **Con:** Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** or Ed25519 certs. RSA for legacy interop only.
 
 ## Comparison
-
 - vs ECDSA/Ed25519: smaller keys/signatures and often preferred for new signing.
 - vs [[symmetrical encryption]]: RSA is not for bulk payload encryption — hybrid crypto uses both.
 
 ## Mistakes to Avoid
-
 - Don't use RSA without padding — textbook RSA broken.
 - Private key in PEM on disk — chmod 600; prefer [[KMS]].
 - Quantum threat — plan migration timelines (PQ hybrids emerging); RSA not long-term for new 10y secrets.

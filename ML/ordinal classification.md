@@ -4,17 +4,18 @@
 
 > Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Ordinal classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 Nominal multiclass treats "medium" versus "large" as equally wrong as "small" versus "large". Ordinal models encode **rank structure**:
 
 ```txt
@@ -35,7 +36,6 @@ Approaches:
 **Ordinal cross-entropy** (sometimes used) applies class weights by distance from true rank — not standard softmax CE.
 
 ## Technical Details
-
 ```python
 import numpy as np
 from sklearn.metrics import mean_absolute_error, cohen_kappa_score
@@ -64,13 +64,11 @@ pred = clf.predict(X_test)
 Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ## Pros/Cons or Trade-offs
-
 - **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
 - **True continuous measurement** — [[regression]] without bucketing.
 - **Binary decision** — [[binary classification]].
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Standard softmax** on star ratings wastes order information and treats all misclassifications equally in the loss (unless you post-hoc weight).
 
@@ -84,4 +82,3 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 | Classes collapsed to middle | Imbalance | Class weights; focal loss variants |
 | Good accuracy, bad user UX | Far-off errors hidden | Report MAE / off-by-2 rate |
 | Label order ambiguous | Domain definition | Lock encoding doc (low=0 vs low=1) |
-

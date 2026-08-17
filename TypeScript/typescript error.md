@@ -4,22 +4,22 @@
 
 > `TSxxxx` diagnostics from the type checker — read the first error, fix the root type, and avoid `as any` or blanket `@ts-ignore` band-aids.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch how you debug TypeScript errors: narrow unions, install missing types, align TypeScript versions, and keep `tsc --noEmit` in CI so the bundler cannot hide type failures.
 
 ## Sources
-
 - [TypeScript Handbook — Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html) — deep-dive
 - [TypeScript — Error codes (playground / messages)](https://www.typescriptlang.org/docs/handbook/2/basic-types.html) — overview
 - [TypeScript Compiler Options](https://www.typescriptlang.org/tsconfig) — overview
 
 ## Core Definition
-
 A TypeScript error is a static diagnostic (`TSxxxx`) produced when values, arguments, or imports do not match declared types. Fixing the earliest error often collapses cascades from one bad generic or missing module.
 
 ## Key Concepts
-
 - **Assignability (`TS2322`):** value not assignable to target type.
 - **Argument mismatch (`TS2345`):** call site types disagree with parameters.
 - **Missing property (`TS2339`):** property does not exist on the type.
@@ -28,7 +28,6 @@ A TypeScript error is a static diagnostic (`TSxxxx`) produced when values, argum
 - **Narrowing over asserting:** guards and control flow beat `as` casts.
 
 ## Technical Details
-
 ```txt
 edit → tsc → TSxxxx + message + related spans
 ```
@@ -69,25 +68,21 @@ function len(x: string | null) {
 | Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade package |
 
 ## Real-World Applications
-
 CI runs `tsc --noEmit` so Vite/webpack green builds cannot ship broken types; developers fix the first `TS2322` instead of silencing hundreds of follow-ons.
 
 **Example:** `TS2307` after adding a package — install matching `@types/*` or add an [[ambient modules]] shim, do not cast the import to `any`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Failures at compile time beat production type confusion.
 - **Con:** Cascades from one bad generic can look like hundreds of unrelated errors.
 - **Con:** `skipLibCheck` trades noise for occasional missed declaration bugs.
 
 ## Comparison
-
 - vs runtime exceptions: type errors are static; they do not replace input validation at boundaries.
 - vs ESLint: lint catches style/patterns; `tsc` enforces the type system.
 - vs `@ts-ignore` / `any`: both silence the checker — prefer `@ts-expect-error` with a reason or proper narrowing.
 
 ## Mistakes to Avoid
-
 - Using `// @ts-ignore` without a plan — prefer `@ts-expect-error` and fix soon.
 - Disabling `strict` to green CI permanently.
 - Treating type errors like stack traces — different layer; start from the first diagnostic.

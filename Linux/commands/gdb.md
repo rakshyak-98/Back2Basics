@@ -4,6 +4,10 @@
 
 > gdb (GNU Debugger) stops a program mid-flight — inspect stack, memory, and variables when it crashes or misbehaves.
 
+
+
+
+
 ## Interview Relevance
 Shows you can get a backtrace from a core or live attach, know symbols/build-id matter, and that attaching pauses production.
 
@@ -22,7 +26,6 @@ gdb loads a binary (ideally with debug symbols), runs or attaches to a PID, or o
 - **Threads:** `info threads` / `thread apply all bt`.
 
 ## Technical Details
-
 ```bash
 gdb ./myapp
 (gdb) run arg1 arg2

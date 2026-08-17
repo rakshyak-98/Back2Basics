@@ -4,24 +4,23 @@
 
 > Long-lived process accepting client requests — **connection model + state strategy** define scale and failure modes.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Connection lifecycle, process model, pooling, and overload behavior of a long-lived server.
 
 ## Sources
-
 - [Wikipedia — server](https://en.wikipedia.org/wiki/server) — overview
 
 ## Key Concepts
-
 - **Long-lived accept loop:** bind/listen/accept or equivalent event loop.
 - **Process models:** process-per-conn, thread pool, or async reactor.
 - **Connection lifecycle:** keepalive, timeouts, graceful drain.
 - **Overload:** queue bounds, 503, and [[backpressure]] before OOM.
 
-
 ## Technical Details
-
 ### How it works
 
 A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread versus event loop**, **stateless versus session**, **HTTP versus WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
@@ -46,7 +45,7 @@ Client ──► load balancer ──► server pool
 ---
 
 
-## Configuration and commands
+### Configuration and commands
 
 ### Node HTTP server (minimal)
 
@@ -111,34 +110,27 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 ```
 
 ---
-## When not to use
 
+## Real-World Applications
+HTTP API servers, reverse proxies, and gRPC services behind load balancers.
+
+## Pros/Cons or Trade-offs
 - **Pure static site** — object storage + CDN, no application server.
 - **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
 - **Long batch ETL** — job queue worker, not synchronous HTTP server.
 
 ---
 
-## Real-World Applications
-
-HTTP API servers, reverse proxies, and gRPC services behind load balancers.
-
-
-## Pros/Cons or Trade-offs
 
 - **Pro:** Persistent process amortizes startup and holds pools.
 - **Con:** Memory leaks and connection storms accumulate over uptime.
 - **Trade-off:** thread-per-request simplicity vs async scalability.
 
-
 ## Comparison
-
 - vs [[node serverless]]: always-on process vs on-demand invocations.
 - vs [[concurrent connection]]: servers must size for live sockets, not just RPS.
 
-
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Blocking the event loop** — one sync bcrypt stalls all Node clients.
 

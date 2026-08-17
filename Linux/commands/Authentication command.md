@@ -4,6 +4,10 @@
 
 > Host and user crypto helpers — ssh-keygen/keyscan/ssh-add for SSH trust; gpg for signing and encrypting.
 
+
+
+
+
 ## Interview Relevance
 Separates host-key trust from user auth, and shows safe CI known_hosts practices plus Git commit signing basics.
 
@@ -22,7 +26,6 @@ SSH trust has two layers: verify the **server** (`known_hosts`) then prove the *
 - **Layering:** SSH/GPG ≠ OAuth/OIDC or TLS/ACME.
 
 ## Technical Details
-
 ```bash
 ssh-keyscan hostname
 ssh-keyscan -p 2222 hostname

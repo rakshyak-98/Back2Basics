@@ -4,22 +4,22 @@
 
 > Razorpay capture confirms an authorized payment and moves money toward settlement — without capture (when required), an authorization can expire and never pay you.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers separate authorization (hold) from capture (take funds), ask when auto-capture is enough, and how partial capture / failure webhooks should update order state.
 
 ## Sources
-
 - [Razorpay — Capture payments](https://razorpay.com/docs/payments/payments/capture-settings/) — deep-dive
 - [Razorpay — Payments API](https://razorpay.com/docs/api/payments/) — deep-dive
 - [Razorpay — Webhooks (payments)](https://razorpay.com/docs/webhooks/payments/) — overview
 
 ## Core Definition
-
 After the customer authenticates, a payment may be authorized but not yet captured. Capture is the merchant/PSP step that finalizes the charge against that authorization. Razorpay can auto-capture on success or leave capture to your API for delayed fulfillment (for example, ship-then-capture).
 
 ## Key Concepts
-
 - **Authorize:** issuer approves a hold — funds may be reserved.
 - **Capture:** converts the authorization into a capturable/settling payment.
 - **Auto-capture:** Checkout settings capture immediately — simpler shops.
@@ -27,7 +27,6 @@ After the customer authenticates, a payment may be authorized but not yet captur
 - **Partial capture / void:** capture less than authorized, or release the hold if you cannot fulfill.
 
 ## Technical Details
-
 ```
 Checkout success → payment authorized
         │
@@ -58,25 +57,21 @@ await razorpay.payments.capture(paymentId, amountPaise, 'INR');
 | Customer charged, no stock | Captured before inventory lock | Capture after reservation |
 
 ## Real-World Applications
-
 Marketplaces that verify inventory after payment UI success, hotels holding deposits, and merchants that auto-capture digital downloads.
 
 **Example:** Order stays `Authorized` overnight because manual capture was enabled and the worker crashed — monitor aging authorizations and capture or release before expiry.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Delayed capture reduces charging for unfulfillable orders.
 - **Con:** Authorization windows expire — ops must watch stuck payments.
 - **Con:** More states to model (`Authorized`, `Captured`, `Failed`) than auto-capture shops.
 
 ## Comparison
-
 - vs [[razorpay integration]]: full Order/Checkout/verify path vs this capture-focused note.
 - vs [[Strip]] authorize/capture: same commerce idea; Stripe uses PaymentIntent `capture_method`.
 - vs void/refund: void/release before capture; refund after capture.
 
 ## Mistakes to Avoid
-
 - Marking orders paid on authorization when your settings require capture.
 - Capturing a different amount/currency than the Order without a deliberate partial-capture design.
 - Ignoring `payment.failed` after a capture attempt.

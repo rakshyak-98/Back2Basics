@@ -4,17 +4,18 @@
 
 > Lambda runs your code in response to events without managing servers — cold starts, timeout limits, and IAM execution roles are usually what bite first.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Lambda questions probe cold starts, IAM execution roles, concurrency limits, and when containers/EC2 fit better.
 
 ## Sources
-
 - [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) — deep-dive
 - [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) — overview
 
 ## Technical Details
-
 ### Execution model
 
 1. **Upload** deployment package or container image to Lambda.

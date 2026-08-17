@@ -4,6 +4,10 @@
 
 > Sourcing runs another file in the current shell — functions, variables, and cd persist; executing `./script.sh` usually does not.
 
+
+
+
+
 ## Interview Relevance
 Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never `exit` from a sourced helper unless you mean to kill the caller.
 
@@ -22,7 +26,6 @@ Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never `e
 - **`exit` in sourced file:** Exits the caller shell/script.
 
 ## Technical Details
-
 ```txt
 . lib/utils.sh   →  functions available immediately
 ./lib/utils.sh   →  subshell; functions gone when script ends

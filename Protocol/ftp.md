@@ -4,23 +4,23 @@
 
 > FTP transfers files over TCP with separate control (21) and data channels — NAT and firewalls make passive mode common, and SFTP/HTTPS replace FTP for most new designs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers test active versus passive mode, FTPS versus SFTP (not the same), and why cleartext FTP is rarely acceptable now.
 
 ## Sources
-
 - [RFC 959 — FTP](https://datatracker.ietf.org/doc/html/rfc959) — deep-dive
 - [RFC 4217 — Securing FTP with TLS](https://datatracker.ietf.org/doc/html/rfc4217) — overview
 
 ## Key Concepts
-
 - **Two channels:** control on 21; data on a second connection (active or passive).
 - **Active vs passive:** active needs inbound to the client; passive has the client dial a high server port — works through client NAT.
 - **FTPS ≠ SFTP:** FTPS is FTP+TLS; SFTP is an SSH subsystem ([[SCP (Secure Copy Protocol)]] family).
 
 ## Technical Details
-
 | Mode | Control | Data | Firewall note |
 |------|---------|------|---------------|
 | **Active** | Client:ephemeral → Server:21 | Server:20 → Client:ephemeral | Client must accept inbound — rarely works |
@@ -49,25 +49,21 @@ curl -u user:pass ftp://ftp.example.com/file.txt -O
 ```
 
 ## Real-World Applications
-
 Legacy mainframe/batch partner drops, declining anonymous mirrors, and embedded devices with tiny stacks.
 
 **Example:** A partner still requires FTP; you force FTPS + passive mode with a fixed PASV port range opened on the firewall.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Ubiquitous legacy support and simple anonymous read mirrors.
 - **Con:** Cleartext by default; firewall/NAT complexity.
 - **Con:** Prefer SFTP, S3, or rsync-over-SSH for new designs.
 
 ## Comparison
-
 - vs [[SCP (Secure Copy Protocol)]] / SFTP: encrypted, single-channel over SSH — usually better.
 - vs [[TFTP]]: TFTP is UDP/no-auth for PXE; FTP is TCP with optional auth.
 - vs HTTPS object storage: better for scale and CDN.
 
 ## Mistakes to Avoid
-
 - Exposing anonymous write FTP on sensitive networks.
 - Confusing SFTP with FTPS in security reviews.
 - Using active mode through client-side NAT without understanding inbound requirements.

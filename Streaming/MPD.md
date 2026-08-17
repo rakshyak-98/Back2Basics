@@ -4,16 +4,17 @@
 
 > MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about MPD to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — MPD](https://en.wikipedia.org/wiki/MPD) — overview
 
 ## Key Concepts
-
 The **MPD** is the **root document** for **[[DASH]]** playback. It describes **Periods** (timeline slices), **AdaptationSets** (video/audio/subtitle tracks), and **Representations** (bitrate rungs). Players fetch the MPD, pick a Representation, then request **segments** via `SegmentTemplate`, `SegmentList`, or `SegmentBase`.
 
 | Element | Purpose |
@@ -27,7 +28,6 @@ The **MPD** is the **root document** for **[[DASH]]** playback. It describes **P
 **Static MPD** (VoD): full timeline known. **Dynamic MPD** (live): `type="dynamic"`, `availabilityStartTime`, `minimumUpdatePeriod`, `timeShiftBufferDepth`.
 
 ## Technical Details
-
 ```txt
 GET manifest.mpd
     │
@@ -103,22 +103,18 @@ mpd-parser-cli manifest.mpd   # @streaming/mpd-parser npm, if available
 Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD `initialization`.
 
 ## Real-World Applications
-
 Used wherever MPD sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
 - **Con / skip when:** **Sub-second live** — DASH segment model adds latency; LL-HLS or WebRTC.
 - **Con / skip when:** **Raw TS progressive** — use HLS TS manifests instead.
 
 ## Comparison
-
 - vs [[HLS]]: **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Player 404 segments | `$Number$` base URL wrong | `BaseURL` element; CDN path prefix |

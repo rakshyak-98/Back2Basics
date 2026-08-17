@@ -4,17 +4,18 @@
 
 > Go — compiled language with packages, modules (`go.mod`), and `package main` + `func main` as the executable entry.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers expect the Go mental model: compiled packages/modules, `package main` entry, and a toolchain that owns build/test — not a scripting runtime.
 
 ## Sources
-
 - [Go documentation](https://go.dev/doc/) — overview
 - [Go spec](https://go.dev/ref/spec) — deep-dive
 
 ## Key Concepts
-
 ```txt
 go.mod module path
    └── dir/package  ← import "module/dir"
@@ -28,7 +29,6 @@ package main → binary
 | Visibility | Uppercase = exported |
 
 ## Technical Details
-
 ```bash
 go mod init github.com/you/app
 go get example.com/lib@v1.2.3
@@ -63,13 +63,11 @@ func main() { fmt.Println("hi") }
 | Enum “invalid value” | No exhaustiveness | Validate at boundaries |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** One-off scripts with heavy FFI to Python ML — call out or use another runtime.
 - **Trade-off:** GUI-heavy desktop — possible, not Go’s sweet spot.
 - **Trade-off:** Tiny glue without concurrency needs — shell may be enough.
 
 ## Mistakes to Avoid
-
 - **All files in a dir share one package name** (except `_test` external tests).
 - Folder name ≠ package name required — but matching reduces pain.
 - No real enums — consts don’t stop arbitrary values.

@@ -4,16 +4,17 @@
 
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Intrinsic sizing interviews cover width/height hints to reduce CLS in responsive layouts.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their allowed attributes. **`IntrinsicAttributes`** is the small set every JSX element gets (mainly `key` and `ref`). Component authors extend this when wrapping native elements.
 
 ```
@@ -34,7 +35,6 @@ TypeScript: React.ButtonHTMLAttributes<HTMLButtonElement>
 Custom components do **not** automatically accept every DOM attribute unless you forward them (spread or explicit passthrough).
 
 ## Technical Details
-
 ### Extend native element props on a wrapper
 
 ```tsx
@@ -74,12 +74,10 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Plain JavaScript React project without TS — compiler won't enforce intrinsic attrs.
 - Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Spreading unknown props onto DOM nodes can inject invalid attributes silently in JS — TypeScript catches this only if your props interface is tight.
 

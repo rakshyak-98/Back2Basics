@@ -4,26 +4,25 @@
 
 > API contract as machine-readable truth — design, codegen, validation, and breaking-change discipline for service engineers — **OpenAPI 3.x**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **OpenAPI specification** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Spec**, **Runtime validation**.
 
 ## Sources
-
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) — deep-dive
 - [Wikipedia — open api specification](https://en.wikipedia.org/wiki/open_api_specification) — overview
 
 ## Core Definition
-
 OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
 
 ## Key Concepts
-
 - **Spec:** Source of truth for routes + models — | **Codegen**
 - **Runtime validation:** Reject bad requests at boundary (ajv, express-openapi-validator) — | **Diff (oasdiff, openapi-diff)**
 
 ## Technical Details
-
 OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
 
 ```txt
@@ -136,22 +135,18 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 **Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.orders.v2+json`. Don't rely on `info.version` alone — consumers ignore it.
 
 ## Real-World Applications
-
 In production APIs and tooling, **open api specification** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Spec drift** — code-first without CI diff → docs lie. Treat spec mismatch as build failure; **`additionalProperties: false`** — strict mode breaks forward-compatible clients adding fields. Use intentionally at trust boundaries only.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (API contract as machine-readable truth — design, codegen, validation, and breaki…).
 - **Con / when not:** **Internal-only service** with one caller and shared monorepo — protobuf/ts types may suffice.
 - **Con / when not:** **Streaming / WebSocket-primary APIs** — OpenAPI support is awkward; document separately.
 - **Con / when not:** **Early prototype** — don't codegen before shape stabilizes; sketch specification yes, gate no.
 
 ## Comparison
-
 vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[gRPC]]: know when each applies — do not treat them as interchangeable. vs [[JWT authentication]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Spec drift** — code-first without CI diff → docs lie. Treat spec mismatch as build failure.
 - **`additionalProperties: false`** — strict mode breaks forward-compatible clients adding fields. Use intentionally at trust boundaries only.
 - **Codegen merge pain** — commit generated code or generate in CI; don't hand-edit generated files.

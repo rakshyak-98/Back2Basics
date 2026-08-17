@@ -4,20 +4,20 @@
 
 > Stream a PDF into the browser — render pages as bytes arrive (PDF.js + HTTP range), don’t wait for the whole file.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk pdf-stream-viewing end-to-end — not just name it. Signal fluency with **Range request**, **206 Partial Content**, **PDF.js**, **Linearized PDF** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — pdf-stream-viewing](https://en.wikipedia.org/wiki/pdf-stream-viewing) — overview
 
 ## Core Definition
-
 This is document progressive loading, not media [[ABR]]. Same HTTP range idea as video segment fetches, different parser.
 
 ## Key Concepts
-
 - **Range request:** Client asks for a byte slice — “We fetch only the pages needed.”
 - **206 Partial Content:** Server honors the range — “No 206 ⇒ progressive view falls back to full download.”
 - **PDF.js:** Mozilla’s JS PDF engine — “Renders to canvas; talks HTTP range under the hood.”
@@ -32,7 +32,6 @@ This is document progressive loading, not media [[ABR]]. Same HTTP range idea as
 4. **Render** — `getPage(n)` → viewport → canvas as the user navigates.
 
 ## Technical Details
-
 ```txt
 Browser (PDF.js)
       │  Range: bytes=0-65535
@@ -83,13 +82,11 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 ```
 
 ## Real-World Applications
-
 This is document progressive loading, not media [[ABR]]. Same HTTP range idea as video segment fetches, different parser.
 
 Used wherever pdf-stream-viewing sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Tiny PDFs** — single GET is simpler; range complexity buys nothing.
 - **Con / skip when:** **Print-faithful desktop application** — native viewers / print pipelines beat canvas.
@@ -97,7 +94,6 @@ Used wherever pdf-stream-viewing sits in an ingest → package → CDN → playe
 - **Con / skip when:** **DRM’d or encrypted PDFs with proprietary plugins** — PDF.js may not unlock vendor schemes.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Spins until 100% then shows | No Accept-Ranges / 200 only | Enable ranges on origin or CDN |

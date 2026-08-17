@@ -4,16 +4,17 @@
 
 > Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Network management to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management) — overview
 
 ## Key Concepts
-
 Streaming **breaks at the network layer** before the player shows a useful error: **RTMP stall**, **UDP TS gaps**, **CDN 502**, **TLS reset**. Operators correlate **publisher uplink**, **origin ingest**, and **viewer last-mile** — each hop has different tools and SLOs.
 
 | Symptom layer | First tool | Typical culprit |
@@ -26,7 +27,6 @@ Streaming **breaks at the network layer** before the player shows a useful error
 This note is **streaming-focused triage** — see [[Networking]] for routing/BGP.
 
 ## Technical Details
-
 ```txt
 Publisher ──► Ingest (RTMP/SRT) ──► Origin ──► CDN ──► Player
      │              │                  │         │
@@ -90,22 +90,18 @@ sudo nft list ruleset | grep -E '1935|443'
 ```
 
 ## Real-World Applications
-
 Used wherever Network management sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Application codec debug** — use `ffprobe`, not packet capture first.
 - **Con / skip when:** **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
 - **Con / skip when:** **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
 
 ## Comparison
-
 - vs [[EME]]: **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | OBS disconnect loop | `ss -ti` retransmits; Wi-Fi | Wired uplink; lower bitrate; RTMPS if middlebox |

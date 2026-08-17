@@ -4,16 +4,17 @@
 
 > Doppler — stores secrets in projects × configs (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Doppler (secrets) interviews cover syncing secrets to runtimes without baking them into images.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Doppler stores secrets in **projects** × **configs** (development/staging/production). The CLI or SDK injects values at runtime — nothing sensitive lives in the repository.
 
 ```
@@ -35,7 +36,6 @@ Developer / CI
 Replaces checked-in `.env` files and ad-hoc `export` in shell history.
 
 ## Technical Details
-
 ### Install + login (Ubuntu)
 
 ```bash
@@ -77,13 +77,11 @@ doppler configure unset config
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Static, non-sensitive configuration (feature flags, public URLs) — use normal configuration files or [[NodeJS/node-convict]].
 - Air-gapped or strict data-residency without Doppler region support — use [[Security/KMS]] or Vault on-prem.
 - One-off local scripts where `.env.local` (gitignored) is simpler and the team agrees.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > `doppler secrets download > .env` recreates the problem you moved away from — prefer `doppler run` or the SDK so secrets never touch disk.
 

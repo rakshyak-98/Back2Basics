@@ -4,17 +4,18 @@
 
 > EFS is a managed, regional NFS file system that multiple EC2 instances mount concurrently — ideal for shared content, not for low-latency database block I/O.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 EFS questions contrast shared NFS-style storage with EBS and S3 — throughput modes and mount targets.
 
 ## Sources
-
 - [Amazon EFS User Guide](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html) — overview
 - [NFSv4.1 protocol (RFC 5661)](https://datatracker.ietf.org/doc/html/rfc5661) — deep-dive
 
 ## Key Concepts
-
 EFS presents a **POSIX file system** over NFSv4.1. Mount targets (one per AZ in your VPC) provide ENIs in your subnets. Clients mount:
 
 ```bash
@@ -25,7 +26,6 @@ sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,ret
 Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS.
 
 ## Technical Details
-
 ### Performance modes and classes
 
 | Option | Trade-off |
@@ -44,7 +44,6 @@ Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS
 - **Access points** provide application-specific POSIX user/group and root directory isolation.
 
 ## Comparison
-
 **vs [[EBS (Elastic Block Store)]]**
 
 | Need | Pick |
@@ -54,7 +53,6 @@ Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS
 | Read-heavy static assets | EFS + CloudFront origin |
 
 ## Mistakes to Avoid
-
 | Symptom | Check |
 |---------|-------|
 | Mount timeout | Security group, subnet routing, mount target health |

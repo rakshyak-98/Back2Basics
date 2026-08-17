@@ -4,6 +4,10 @@
 
 > Shell scripting automates repeatable operator work — compose POSIX/Bash builtins and core utilities with explicit error handling.
 
+
+
+
+
 ## Interview Relevance
 Shows discipline: `set -euo pipefail`, quoting, when to leave Bash for Python/jq — not clever one-liners that break on spaces.
 
@@ -22,7 +26,6 @@ Bash scripts glue [[Commands]] into pipelines. Prefer small scripts with `set -e
 - **Exit codes:** Non-zero means failure for automation and CI.
 
 ## Technical Details
-
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

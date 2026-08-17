@@ -4,30 +4,17 @@
 
 > Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Unbound breakpoint questions diagnose source-map/path mismatches — a common IDE debugging trap.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
-## Key Concepts
-
-A breakpoint is **bound** when the debugger links it to an exact script location (file URL + line → bytecode offset). **Unbound** means the IDE shows the breakpoint (often hollow/grey) but the runtime has no matching source line loaded.
-
-```
-IDE breakpoint (app.ts:42)
-        │
-        ▼ source map / path resolution
-Runtime script (bundle.js)  ──► bound ✓
-                         or ──► unbound ✗ (module not loaded, map mismatch)
-```
-
-Typical causes: typo path, webpack path prefix, breakpoint in dead code, lazy-loaded chunk not fetched yet.
-
 ## Technical Details
-
 ### VS Code — verify launch config
 
 ```json
@@ -64,11 +51,9 @@ module.exports = {
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Optimizers (Terser)** drop unreachable code — breakpoint in removed branch stays unbound forever.
 

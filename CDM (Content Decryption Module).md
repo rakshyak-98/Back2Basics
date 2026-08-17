@@ -4,6 +4,10 @@
 
 > CDM decrypts DRM-protected media inside a secure player sandbox — keys never leave the trusted path.
 
+
+
+
+
 ## Interview Relevance
 Interviewers want you to separate the browser API ([[EME]]), the license server, and the CDM that actually holds keys and decrypts samples. Signal that you know HDCP, offline licenses, and “black screen” failures are policy/CDM issues, not “bad video files.”
 

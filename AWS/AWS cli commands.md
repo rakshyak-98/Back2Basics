@@ -4,20 +4,21 @@
 
 > The AWS CLI maps almost every AWS API to `aws <service> <operation>` — combine `--query`, `--output`, and JMESPath filters to script infrastructure without clicking the console.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AWS cli commands to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 - How do you filter `describe-instances` to running instances in one AZ?
 - What command confirms which account your credentials belong to?
 
 ## Sources
-
 - [AWS CLI Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html) — deep-dive
 - [Using the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) — overview
 
 ## Technical Details
-
 ### Global flags
 
 ```bash

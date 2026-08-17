@@ -4,6 +4,10 @@
 
 > Design patterns — named, reusable object designs; use them only where variation is real.
 
+
+
+
+
 ## Interview Relevance
 Interviewers care less about reciting GoF names and more about *when* you reach for Strategy, Factory, Adapter, or DI — and when a plain function wins. Signal: encapsulate what varies; program to interfaces; composition over inheritance.
 

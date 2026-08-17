@@ -4,24 +4,24 @@
 
 > Day-2 host work — patch, observe, control services, and recover with packages, systemd, logs, and backups.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Runbook discipline: enable vs start, unattended upgrades awareness, journal scoping, and blast radius before fleet changes.
 
 ## Sources
-
 - [Debian Reference — System maintenance](https://www.debian.org/doc/manuals/debian-reference/ch09.en.html) — overview
 - [systemd documentation](https://www.freedesktop.org/software/systemd/man/latest/) — deep-dive
 
 ## Key Concepts
-
 - **Patch → service → logs:** the daily loop.
 - **Backup before risky change:** snapshots/images beat hope.
 - **enable vs start:** boot persistence vs now.
 - **Canaries:** one host before the fleet.
 
 ## Technical Details
-
 ```txt
 patch (apt) → services (systemctl) → logs (journalctl)
                  │
@@ -49,21 +49,17 @@ sudo needrestart
 | Can’t SSH | console/cloud serial | Fix sshd/firewall out-of-band |
 
 ## Real-World Applications
-
 Monthly patch window: snapshot, upgrade, `needrestart`, verify critical units, vacuum journals if disk pressure rises.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Repeatable day-2 operations on classic VMs/bare metal.
 - **Con:** Endless surgery on pets that should be cattle — rebuild instead.
 
 ## Comparison
-
 - vs [[Linux management]]: broader philosophy; this note is the day-2 checklist.
 - vs app deploy pipelines: keep OS management separate from application releases.
 
 ## Mistakes to Avoid
-
 - Upgrading snowflake hosts without rollback.
 - Manual `/etc` drift fighting config management.
 - Treating application deploys as OS package upgrades casually.

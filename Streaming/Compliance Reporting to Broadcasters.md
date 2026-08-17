@@ -4,29 +4,17 @@
 
 > Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Compliance Reporting to Broadcasters to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Compliance Reporting to Broadcasters](https://en.wikipedia.org/wiki/Compliance_Reporting_to_Broadcasters) — overview
 
-## Key Concepts
-
-**Compliance reporting** is the **contractual data pipeline** that proves how licensed content was **sold, entitled, and consumed** per **Content ID (CID)** and **Broadcaster Network ID**. Studios and rights holders use it for **revenue share, minimum guarantees, and geo/format restrictions**. Errors become legal exposure — design for **immutability, idempotency, and late-arriving data**.
-
-| Data source | Proves | Typical grain |
-|-------------|--------|---------------|
-| **Subscription/transaction** | Who paid, when, plan | Order ID, user hash, SKU |
-| **Entitlement grant** | Right to play title X | CID, window start/end, geo |
-| **Consumption telemetry** | Actual plays | CID, start/end, device, territory |
-| **Ad insertion (optional)** | Commercial obligations | SCTE-35, pod position |
-
-Reports must **join on stable IDs** — internal UUIDs useless to licensor; map to **canonical CID** at ingest ([[CMS]] metadata).
-
 ## Technical Details
-
 ```txt
 Billing (subs/PPV) ──► Entitlement ledger ──► Playback beacons
         │                      │                      │
@@ -87,18 +75,15 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 ```
 
 ## Real-World Applications
-
 Used wherever Compliance Reporting to Broadcasters sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Internal product analytics** — use warehouse/BI stack; don't overload compliance schema.
 - **Con / skip when:** **Pre-revenue MVP** — still **log raw events** early; retrofitting CIDs is painful.
 - **Con / skip when:** **Real-time licensor API before legal requires it** — batch daily/weekly unless contract mandates SLA.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Licensor rejects report | Schema version drift | Pin contract appendix; validation gate before export |

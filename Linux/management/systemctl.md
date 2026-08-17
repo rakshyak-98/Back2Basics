@@ -4,17 +4,18 @@
 
 > CLI for systemd — start/stop/enable units, inspect state, and reload after unit-file edits.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Daily muscle memory: status first, enable ≠ start, daemon-reload after edits, mask vs disable, reload vs restart.
 
 ## Sources
-
 - [systemctl(1)](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html) — deep-dive
 - [systemd documentation index](https://www.freedesktop.org/software/systemd/man/latest/) — overview
 
 ## Key Concepts
-
 - **start/stop:** runtime only — not boot persistence.
 - **enable/disable:** boot symlinks under `*.wants`.
 - **reload vs restart:** config reread (needs `ExecReload=`) vs full bounce.
@@ -22,7 +23,6 @@ Daily muscle memory: status first, enable ≠ start, daemon-reload after edits, 
 - **isolate:** switch target — can tear down the session.
 
 ## Technical Details
-
 ```txt
 systemctl <verb> <unit>
         │
@@ -77,21 +77,17 @@ Unit search order: `/etc/systemd/system` → `/run` → `/usr/lib/systemd/system
 | Slow boot | `systemd-analyze blame` | Disable unused; fix slow units |
 
 ## Real-World Applications
-
 Incident on sshd: `status` → journal → fix drop-in → `daemon-reload` → `restart`, confirm `is-enabled` for reboot survival.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One CLI for lifecycle, deps, and failure inventory.
 - **Con:** Wrong verb (`reload`/`isolate`) surprises operators.
 
 ## Comparison
-
 - vs [[commands/systemctl]]: sibling command note in `commands/`; this one lives under management with deeper analyze/list coverage.
 - vs SysV `service`: prefer systemctl on systemd hosts.
 
 ## Mistakes to Avoid
-
 - Restart when reload was enough (or reload when unsupported).
 - `isolate` as a casual toggle.
 - Setting shell `ulimit` and expecting services to inherit — use `LimitNOFILE=` in the unit.

@@ -4,6 +4,10 @@
 
 > groupadd creates a Unix group (name + GID) — it does not add members; file permissions and sudo/docker access hang off group membership.
 
+
+
+
+
 ## Interview Relevance
 Shows you know GID vs membership, `-r` system groups, and the classic `usermod -G` without `-a` lockout.
 
@@ -22,7 +26,6 @@ Groups are numeric **GID** + name mappings. File permissions use UID for owner, 
 - **/etc/group:** Local membership; LDAP/SSSD may shadow via NSS.
 
 ## Technical Details
-
 ```txt
 groupadd devops ──► /etc/group: devops:x:1005:
 usermod -aG devops alice ──► alice in supplementary groups

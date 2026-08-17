@@ -4,24 +4,24 @@
 
 > Day-one Docker CLI for build, run, debug, and cleanup — the on-call toolkit when containers misbehave.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch how you build with context/`.dockerignore`, debug with logs/inspect, and avoid destructive `prune` mistakes in production.
 
 ## Sources
-
 - [Docker CLI reference](https://docs.docker.com/reference/cli/docker/) — deep-dive
 - [Docker Engine overview](https://docs.docker.com/engine/) — overview
 
 ## Key Concepts
-
 - **Image vs container:** image = template; container = running or stopped instance with a writable layer.
 - **Build context:** everything sent to the daemon during `docker build` — `.dockerignore` matters for size and secrets.
 - **Networks & volumes:** user-defined networks give DNS between containers; volumes persist past container delete; bind mounts tie to a host path.
 - **Compose plugin:** `docker compose` orchestrates multi-service stacks on one host ([[Docker compose]]).
 
 ## Technical Details
-
 ```txt
 Dockerfile → docker build → image (layers, immutable)
                 ↓
@@ -134,25 +134,21 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 | Network alias not resolving | Same user-defined network? | `docker network connect`; use service name in compose |
 
 ## Real-World Applications
-
 Local development loops, CI image builds, and first-response triage when a service container will not stay up.
 
 **Example:** `docker logs -f --tail 200 myapp` plus `docker inspect` network JSON pinpoints a mis-attached network after a bad recreate.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One CLI covers build, run, network, volume, and transfer — fast feedback.
 - **Con:** Not a cluster orchestrator — use [[kubectl]] or systemd for production HA at scale.
 - **Con:** Rootful Docker for untrusted code is risky — prefer rootless or sandbox ([[Docker Runtime Security]]).
 
 ## Comparison
-
 - vs [[Docker compose]]: CLI manages one container at a time; Compose owns multi-service YAML.
 - vs [[kubectl]]: Engine-local versus cluster API.
 - vs Podman CLI: similar UX; different daemon/rootless defaults, same OCI images.
 
 ## Mistakes to Avoid
-
 - `docker system prune -a --volumes` in production — deletes unused volumes including orphaned database data.
 - Relying on `:latest` in production — pin digest or semver tag.
 - Sending secrets in build context because `.env` is missing from `.dockerignore`.

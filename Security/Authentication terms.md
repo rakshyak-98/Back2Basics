@@ -4,21 +4,21 @@
 
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Staff interviews expect precise AuthN vs AuthZ vocabulary — sessions, tokens, MFA, SSO — without conflating identity proof with permissions.
 
 ## Sources
-
 - [NIST SP 800-63B — Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html) — deep-dive
 - [OWASP — Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
 
 ## Core Definition
-
 A shared glossary of identity primitives so design reviews, incidents, and API specs use the same words for AuthN, AuthZ, sessions, and tokens.
 
 ## Key Concepts
-
 Authentication stack layers:
 
 ```txt
@@ -49,7 +49,6 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 | **RBAC / ABAC** | Role vs attribute based authorization |
 
 ## Technical Details
-
 ### TOTP setup (concept)
 
 ```bash
@@ -90,20 +89,16 @@ authz_denied  user_id=... resource=... action=delete
 | Session fixation | Cookie not rotated on login | Regenerate session ID |
 
 ## Real-World Applications
-
 Use this vocabulary in design docs and incident write-ups so AuthN, AuthZ, MFA, and session vs token are not conflated.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Shared vocabulary reduces design and incident ambiguity.
 - **Con:** Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
 
 ## Comparison
-
 - vs [[JWT authentication]] / [[single-sign-on (SSO)]]: glossary vs concrete mechanisms — use terms consistently when designing those systems.
 
 ## Mistakes to Avoid
-
 - OAuth ≠ authentication — unless using OIDC ID token validated properly.
 - `top_secret` in TOTP — compromise = forge all future codes; treat like password hash seed.
 - Bearer token in URL — logs, Referer leaks — use Authorization header.

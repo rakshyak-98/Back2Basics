@@ -4,17 +4,18 @@
 
 > CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about CMAF to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF) — overview
 - [CTA CMAF](https://cta.tech/) — overview
 
 ## Key Concepts
-
 **CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[[DASH]]** can share the **same `.m4s` media segments** — only the **manifests differ** (`.m3u8` versus `.mpd`). Each **CMAF chunk** is a `moof`+`mdat` pair; a **CMAF segment** is typically 2–6 seconds of chunks aligned on keyframes.
 
 | Concept | Meaning |
@@ -27,7 +28,6 @@ Interviewers ask about CMAF to see if you understand the pipeline role, failure 
 Without CMAF, operators stored **duplicate TS for HLS + separate DASH segments** — double egress, double cache footprint.
 
 ## Technical Details
-
 ```txt
 Encoder ──► fMP4 chunks (CMAF) ──► origin storage
                     │                    │
@@ -82,22 +82,18 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 ```
 
 ## Real-World Applications
-
 Used wherever CMAF sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
 - **Con / skip when:** **Single-ecosystem (Apple-only)** — TS HLS still works but loses DASH unification benefit.
 - **Con / skip when:** **Sub-second WebRTC** — CMAF segment model adds seconds of latency; use WebRTC for that path.
 
 ## Comparison
-
 - vs [[MPEG-TS]]: **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Safari plays, Chrome DASH fails | Init segment URL mismatch | Same `initialization` source; CORS on init |

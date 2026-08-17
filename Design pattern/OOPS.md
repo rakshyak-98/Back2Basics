@@ -4,16 +4,17 @@
 
 > Object-oriented programming organizes code around objects that combine state and behavior — using encapsulation, abstraction, inheritance, and polymorphism to manage change at scale.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 OOP interviews want encapsulation, inheritance, polymorphism, and abstraction with trade-offs — not a buzzword checklist.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* — deep-dive
 
 ## Technical Details
-
 **Four pillars**
 
 | Pillar | Meaning | Practical signal |
@@ -36,7 +37,6 @@ Linked in vault as [[System Design/SOLID]] — Single responsibility, Open/close
 See hub [[Design pattern]] routing table — creational (who creates), structural (how parts compose), behavioral (how objects collaborate).
 
 ## Comparison
-
 **OOP vs other paradigms**
 
 - **Procedural** — functions + data structures; fine for scripts and pipelines.
@@ -46,7 +46,6 @@ See hub [[Design pattern]] routing table — creational (who creates), structura
 Many systems mix paradigms (Go structs + interfaces, Rust traits, TypeScript classes + functions).
 
 ## Mistakes to Avoid
-
 - Anemic domain model — data classes with all logic in services.
 - God objects — one class knows every rule.
 - Inheritance for code reuse only — fragile base classes.

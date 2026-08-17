@@ -4,16 +4,17 @@
 
 > Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Manifest to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest) — overview
 
 ## Key Concepts
-
 A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls **media segments** over HTTP. **[[ABR]]** decisions use manifest-declared `BANDWIDTH` / `Representation` attributes — wrong manifest = wrong quality or failed playback.
 
 | Format | Files | Spec |
@@ -25,7 +26,6 @@ A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs,
 **Master** manifest lists renditions; **media** manifest lists segment sequence for one rendition.
 
 ## Technical Details
-
 ```txt
 Player boot
     │
@@ -95,18 +95,15 @@ ffmpeg -i in.mp4 -c copy -f hls -hls_time 4 -hls_list_size 0 -master_pl_name mas
 For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 ## Real-World Applications
-
 Used wherever Manifest sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Progressive MP4 only** — single URL, no manifest; no ABR.
 - **Con / skip when:** **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
 - **Con / skip when:** **Embedding segment list in application** — manifests exist to update without application release.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | 403 on segments, manifest OK | Token not propagated to child URLs | Relative paths; CDN signed cookie |

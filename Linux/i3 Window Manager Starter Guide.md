@@ -4,6 +4,10 @@
 
 > i3 is a manual tiling window manager for X11 — keyboard-driven workspaces, splits, and a plain-text config at `~/.config/i3/config`.
 
+
+
+
+
 ## Interview Relevance
 Desktop Linux depth check: tiling vs stacking, how session selection works via the display manager, and how `WM_CLASS` rules assign apps to workspaces.
 
@@ -22,7 +26,6 @@ i3 places windows in a tree of horizontal/vertical splits. You drive focus, move
 - **X11 only:** Native i3 targets X; Sway is the Wayland cousin.
 
 ## Technical Details
-
 Install: `sudo apt install i3` (Debian/Ubuntu). Select **i3** from the display manager session menu.
 
 | Key | Action |

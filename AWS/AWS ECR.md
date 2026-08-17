@@ -4,17 +4,18 @@
 
 > Elastic Container Registry stores Docker/OCI images privately in your AWS account — Lambda, ECS, and EKS pull images using IAM-authenticated `docker push` and `docker pull`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 ECR questions cover private container registries, image scanning, and IAM for push/pull in CI/CD.
 
 ## Sources
-
 - [Amazon ECR User Guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html) — overview
 - [OCI Image Specification](https://github.com/opencontainers/image-spec) — deep-dive
 
 ## Technical Details
-
 ### Repositories and images
 
 - **Repository** — logical name (`my-app/backend`)

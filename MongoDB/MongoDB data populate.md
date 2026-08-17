@@ -4,17 +4,18 @@
 
 > Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Populate questions cover reference hydration costs versus embedding — N+1 risk in application joins.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 ```
@@ -29,7 +30,6 @@ Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 | **vs `$lookup`** | Aggregation join | “Prefer `$lookup` for heavy reports.” |
 
 ## Technical Details
-
 ```js
 const post = await Post.findById(id).populate('author', 'name email')
 await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
@@ -42,12 +42,10 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | Match/options | Filter populated set |
 
 ## Pros/Cons or Trade-offs
-
 - **Analytics joins** — aggregation `$lookup`.
 - **Data always read together** — embed instead of reference.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Populate is not free** — lists with nested populate can explode query count.
 
@@ -60,4 +58,3 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | N+1 slowness | Many populates | `$lookup` or batch |
 | Huge payloads | No select | Project fields |
 | Circular populate | A↔B depth | Cap depth; redesign |
-

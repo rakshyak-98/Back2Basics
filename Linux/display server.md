@@ -4,6 +4,10 @@
 
 > The display server is the broker between applications and the GPU — it owns input devices, window surfaces, and the path to the framebuffer clients draw into.
 
+
+
+
+
 ## Interview Relevance
 Classic systems question: X11 vs Wayland, where the WM sits, and how to tell which session type a host is running (`XDG_SESSION_TYPE`). Strong answers mention DRM/KMS and the display manager that starts the session.
 
@@ -22,7 +26,6 @@ Linux desktops use **X11** (legacy network-transparent protocol) or **Wayland** 
 - **Display manager:** Greeter that starts the graphical session — [[Linux display manager]].
 
 ## Technical Details
-
 ```
 applications (GTK/Qt/SDL)
         │

@@ -4,16 +4,17 @@
 
 > Structured clone deep-copies certain JS values for `postMessage`, IndexedDB, and friends — richer than JSON, still limited.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Structured clone interviews cover what postMessage/IndexedDB can copy — and what fails (functions, DOM).
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 value → structuredClone → independent copy
 postMessage uses same algorithm (+ transfer list)
@@ -29,7 +30,6 @@ postMessage uses same algorithm (+ transfer list)
 | **vs JSON** | types preserved | “Date stays Date.” |
 
 ## Technical Details
-
 ```js
 const copy = structuredClone(obj)
 worker.postMessage(buf, [buf]) // transfer
@@ -42,12 +42,10 @@ worker.postMessage(buf, [buf]) // transfer
 | Platforms | Older browsers need polyfills/libs |
 
 ## Pros/Cons or Trade-offs
-
 - **Need functions across realms** — redesign with messages.
 - **Tiny POJOs** — JSON may be enough and more portable.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Class instances become plain objects** — methods gone.
 
@@ -60,4 +58,3 @@ worker.postMessage(buf, [buf]) // transfer
 | Buffer empty after post | transferred | Don’t use on sender after |
 | Lost prototype | class instance | Rehydrate after clone |
 | Slow clone | huge graph | Transfer buffers; shrink payload |
-

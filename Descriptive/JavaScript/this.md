@@ -4,16 +4,17 @@
 
 > `this` is the call-site receiver in JS — how you invoke the function decides what `this` is (unless bound/arrow).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 this-binding interviews check call-site rules, arrow functions, and bind/call/apply.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 obj.fn()     → this = obj
 fn()         → undefined (strict) / global
@@ -32,7 +33,6 @@ new Fn()     → this = new object
 | **strict mode** | Bare call → undefined | “Avoid accidental global.” |
 
 ## Technical Details
-
 ```js
 const obj = {
   n: 1,
@@ -51,12 +51,10 @@ obj.f.bind({ n: 2 })() // 2
 | strict | Default in modules |
 
 ## Pros/Cons or Trade-offs
-
 - **Pure functions** — pass arguments; avoid `this`.
 - **Most modern React** — function components + hooks.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Arrows on prototypes** — share one lexical `this` (usually wrong).
 
@@ -69,4 +67,3 @@ obj.f.bind({ n: 2 })() // 2
 | Wrong object | nested callback | arrow or bind |
 | Arrow on prototype | expected dynamic this | use method syntax |
 | DOM handler loses this | class method pass | bind or arrow field |
-

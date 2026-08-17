@@ -4,17 +4,18 @@
 
 > PDF is a fixed-layout document format — pages, fonts, and vectors aimed at print-faithful rendering.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 PDF questions may touch generation/rendering pipelines — fixed layout versus HTML.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [PDF — Wikipedia](https://en.wikipedia.org/wiki/PDF) — overview
 
 ## Key Concepts
-
 ```txt
 objects (page, font, stream) → xref → viewer renders page N
 ```
@@ -29,7 +30,6 @@ objects (page, font, stream) → xref → viewer renders page N
 | **PDF/A** | Archival subset | “Long-term preservation.” |
 
 ## Technical Details
-
 ```bash
 pdftotext file.pdf -     # extract text
 pdfinfo file.pdf         # metadata, page count
@@ -43,12 +43,10 @@ qpdf --check file.pdf    # structural check
 | Encryption | Permissions / open password |
 
 ## Pros/Cons or Trade-offs
-
 - **Editable web content** — HTML.
 - **Data interchange** — JSON/CSV.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **“Text” may be curves** — extractors return nothing useful.
 
@@ -61,4 +59,3 @@ qpdf --check file.pdf    # structural check
 | Missing glyphs | fonts not embedded | Embed fonts |
 | Huge file | images uncompressed | Recompress; downsample |
 | Corrupt xref | bad merge | qpdf repair / regenerate |
-

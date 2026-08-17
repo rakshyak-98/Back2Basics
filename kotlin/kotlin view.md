@@ -4,23 +4,23 @@
 
 > Generated binding class for an XML layout — type-safe getters for views so you avoid `findViewById` casts and null mistakes.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Android interviews contrast `findViewById`, ButterKnife-era binders, View Binding, and Jetpack Compose as the newer UI model.
 
 ## Sources
-
 - [Android — View binding](https://developer.android.com/topic/libraries/view-binding) — deep-dive
 
 ## Key Concepts
-
 - **Generated class:** `ActivityMainBinding` (from `activity_main.xml`).
 - **Type-safe access:** `binding.titleText.text = …`
 - **Lifecycle:** inflate in `onCreate` / `onCreateView`; clear references in fragment `onDestroyView`.
 - **Null safety:** binding replaces nullable `findViewById` results for required ids.
 
 ## Technical Details
-
 Enable in module `build.gradle`; inflate:
 
 ```kotlin
@@ -41,23 +41,19 @@ override fun onCreate(savedInstanceState: Bundle?) {
 | Compose | Declarative UI; no XML binding |
 
 ## Real-World Applications
-
 Activities/Fragments still on XML migrate to View Binding quickly; new screens may go Compose.
 
 **Example:** Fragment leaks — null out `_binding` in `onDestroyView`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Safer and faster than `findViewById`.
 - **Con:** Still XML-based; Compose is the long-term direction for many teams.
 
 ## Comparison
-
 - vs Data Binding: View Binding is lighter (no expression language).
 - vs Flutter widgets: Flutter rebuilds widget trees; Android XML binding points at mutable views.
 
 ## Mistakes to Avoid
-
 - Holding fragment binding after view destruction.
 - Mixing outdated kotlin-synthetic plugins with View Binding.
 - Assuming Compose and View Binding are interchangeable in one file without interop wrappers.

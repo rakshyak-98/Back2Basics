@@ -4,16 +4,17 @@
 
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Constructor interviews check new, prototypes, and class syntax equivalence.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 A **constructor function** is a normal function intended to be called with `new`. It creates an object, links prototypes, runs the body with `this` bound to that object, and returns it (unless overridden).
 
 ```
@@ -34,7 +35,6 @@ new Person('Ada')
 Constructors are **not** special to the engine — only `new` gives them constructor semantics.
 
 ## Technical Details
-
 ### ES5 constructor + prototype methods
 
 ```javascript
@@ -86,13 +86,11 @@ class Admin extends User {
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Simple data holders — plain objects or `Object.create(null)` suffice.
 - Heavy inheritance hierarchies — favor composition or factory functions.
 - TypeScript codebase — `class` + interfaces gives better tooling.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Arrow functions cannot be constructors — no `prototype`, `new` throws.
 

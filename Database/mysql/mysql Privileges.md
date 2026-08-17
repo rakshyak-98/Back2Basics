@@ -4,6 +4,10 @@
 
 > MySQL privilege model — global, database, table, column, and routine grants checked on each statement so accounts only do what you allow.
 
+
+
+
+
 ## Interview Relevance
 Interviewers probe least-privilege design, `GRANT` levels, and MySQL 8 roles versus “give the app root.” Expect a concrete grant example and how privileges differ from PostgreSQL’s role/ACL model ([[ACL (postgreSQL)]]).
 

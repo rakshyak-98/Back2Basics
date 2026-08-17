@@ -4,6 +4,10 @@
 
 > Release cycle — the contract for when change ships, how much risk rides together, and what happens when production goes red.
 
+
+
+
+
 ## Interview Relevance
 Staff interviews love deploy ≠ release, feature flags, rollback criteria, and expand/contract migrations. This is operational maturity, not semver trivia.
 

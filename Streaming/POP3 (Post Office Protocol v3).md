@@ -4,16 +4,17 @@
 
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about POP3 to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3) — overview
 
 ## Key Concepts
-
 **POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 TLS). Default mental model: **download to one device**, server mailbox often **emptied** after retrieval — though `leave mail on server` exists as client setting.
 
 | Command phase | Commands |
@@ -25,7 +26,6 @@ Interviewers ask about POP3 to see if you understand the pipeline role, failure 
 **versus IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
 
 ## Technical Details
-
 ```txt
 MUA ── TCP 995 ──► MDA (Dovecot/Courier)
        USER/PASS or AUTH
@@ -68,18 +68,15 @@ sudo systemctl status dovecot
 ```
 
 ## Real-World Applications
-
 Used wherever POP3 sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **New product email client** — ship IMAP + OAuth2.
 - **Con / skip when:** **Team shared inbox** — IMAP namespaces or web UI.
 - **Con / skip when:** **Mobile-first** — IMAP IDLE push approximations win.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Auth fails | `doveadm auth test`; SASL logs | Password scheme; app password; MFA not on POP |

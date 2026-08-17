@@ -4,16 +4,17 @@
 
 > Media server that ingests live UDP/SRT/RTMP, packages HLS/DASH, and can encrypt with DRM keys — the packaging edge in front of players.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk flussonic end-to-end — not just name it. Signal fluency with **Ingest**, **Package**, **DRM encrypt**, **PSSH** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic) — overview
 
 ## Key Concepts
-
 - **Ingest:** How live bytes enter Flussonic — “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.”
 - **Package:** Remux/segment for OTT — “We output DASH/HLS the CDN and players understand.”
 - **DRM encrypt:** Scramble samples with KMS keys — “Flussonic encrypts; it does not authorize viewers.”
@@ -47,7 +48,6 @@ DoveRunner → allow/deny → key material to CDM
 ```
 
 ## Technical Details
-
 ```txt
 Encoder / headend
    │  udp://host:port  (or [[SRT]] / [[RTMP]] / [[RTSP]])
@@ -113,24 +113,20 @@ token signature + expiry OK?
 Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, not the identity provider.
 
 ## Real-World Applications
-
 Used wherever flussonic sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
 - **Con / skip when:** **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
 - **Con / skip when:** **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
 
 ## Comparison
-
 - vs [[WebRTC]]: **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
 - vs [[How to attach stream to HTTP handlers]]: **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
 - vs [[Microservice]]: **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | No segments / empty manifest | Ingest bitrate / `udp://` reachability | Fix encoder → Flussonic path; confirm MPEG-TS on the wire ([[MPEG-TS]]) |

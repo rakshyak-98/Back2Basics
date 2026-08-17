@@ -4,6 +4,10 @@
 
 > ALSA (Advanced Linux Sound Architecture) is the kernel sound layer — cards and PCM devices show up as `/dev/snd` and tools like `aplay` / `amixer`.
 
+
+
+
+
 ## Interview Relevance
 Interviewers use sound-stack questions to see if you separate kernel drivers (ALSA) from userspace mixers (PipeWire / PulseAudio) when debugging “no audio” on Linux desktops and servers with HDMI audio.
 
@@ -21,7 +25,6 @@ ALSA provides drivers, the mixer API, and PCM I/O. Desktop sessions usually talk
 - **Userspace stack:** PipeWire/PulseAudio sit above ALSA; fixing sinks often means both layers.
 
 ## Technical Details
-
 ```bash
 aplay -l
 arecord -l

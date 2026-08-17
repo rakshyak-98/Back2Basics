@@ -4,26 +4,25 @@
 
 > Throughput is the rate of successful work completed per unit time — requests per second, transactions per second, megabits per second — while error rate and latency remain within service level objectives.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Distinguish throughput vs latency; Little’s law intuition; find the bottleneck stage.
 
 ## Sources
-
 - Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application — overview
 - Google SRE Book — capacity planning and load testing — deep-dive
 - Brendan Gregg, *Systems Performance* — utilization and saturation analysis — overview
 
 ## Key Concepts
-
 - **Rate of successful work:** ops/sec, bits/sec, jobs/sec — define the unit.
 - **Not latency:** high throughput can coexist with bad p99.
 - **Bottleneck stage:** pipeline rate equals the slowest stage.
 - **Little’s law intuition:** concurrency ≈ throughput × latency.
 
-
 ## Technical Details
-
 ### Find the bottleneck layer
 
 ```txt
@@ -42,7 +41,7 @@ Peak requests per second with fifty percent errors is not useful throughput — 
 | Data store | Connection pool exhaustion, disk input/output, hot rows |
 | External API | Partner rate limits |
 
-## Measurement
+### Measurement
 
 ```bash
 # Example load generators
@@ -52,7 +51,7 @@ hey -z 30s -c 50 https://api.example.com/health
 
 Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces — optimize the **slowest** stage first (Amdahl).
 
-## Knobs that move throughput
+### Knobs that move throughput
 
 | Knob | Effect |
 |------|--------|
@@ -63,25 +62,18 @@ Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces �
 | [[backpressure]] | Prevents overload collapse |
 
 ## Real-World Applications
-
 Capacity planning, load tests, and SLO conversations about RPS vs latency.
 
-
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear capacity language for sizing.
 - **Con:** Vanity throughput without success criteria (errors count).
 - **Trade-off:** batching for throughput vs interactive latency.
 
-
 ## Comparison
-
 - vs latency SLOs: complementary metrics.
 - vs [[Scaling Throughput in High-load system]]: how to raise the number.
 
-
 ## Mistakes to Avoid
-
 | Symptom | Likely cause |
 |---------|--------------|
 | Requests per second flat, low CPU | Pool or lock wait |

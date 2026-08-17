@@ -4,18 +4,19 @@
 
 > Goroutine — lightweight concurrent function the Go runtime schedules onto OS threads (`go f()`).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Goroutines + scheduler questions separate “cheap threads” myths from M:N scheduling, leaks, and when channels vs mutexes fit.
 
 ## Sources
-
 - [Go blog — Concurrency is not parallelism](https://go.dev/blog/concurrency-is-not-parallelism) — overview
 - [Go scheduler design notes (G-M-P)](https://go.dev/src/runtime/proc.go) — deep-dive
 - [Effective Go — Concurrency](https://go.dev/doc/effective_go#concurrency) — deep-dive
 
 ## Key Concepts
-
 ```txt
 main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
 ```
@@ -28,7 +29,6 @@ main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
 | `context` | Cancel / deadline |
 
 ## Technical Details
-
 ```go
 var wg sync.WaitGroup
 ctx, cancel := context.WithCancel(context.Background())
@@ -66,13 +66,11 @@ wg.Wait()
 | Too many goroutines | Unbounded spawn | Worker pool |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Tiny sync work — plain function call.
 - **Trade-off:** One goroutine per request without limits — bound concurrency.
 - **Trade-off:** Sharing structs “carefully” — prefer message passing or clear mutex.
 
 ## Mistakes to Avoid
-
 - Loop variable capture (old Go) — pass `v := v` or use Go 1.22+ per-iter semantics.
 - No join without sync — `go f()` alone doesn’t wait.
 - Blocking forever on chan — always plan cancellation.

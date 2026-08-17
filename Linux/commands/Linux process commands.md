@@ -4,6 +4,10 @@
 
 > The everyday toolkit to list, inspect, signal, and prioritize processes — ps, top, pgrep, kill, lsof.
 
+
+
+
+
 ## Interview Relevance
 Incident flow: find → watch → explain (fds/ports) → act (TERM then service restart) — without reckless `killall`.
 
@@ -22,7 +26,6 @@ Use [[ps]]/`pgrep` to find, [[top]]/`pidstat` to watch, [[lsof]]/`/proc` to expl
 - **Service layer:** `systemctl` for managed daemons.
 
 ## Technical Details
-
 ```txt
 find  →  ps / pgrep / pidof
 watch →  top / htop / pidstat

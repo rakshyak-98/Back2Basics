@@ -4,6 +4,10 @@
 
 > MySQL-specific partitioning rules — `PARTITION BY`, subpartitions, and the hard requirement that unique indexes include the partition expression columns.
 
+
+
+
+
 ## Interview Relevance
 The unique-key-includes-partition-columns rule is a frequent gotcha question. Also: when subpartitioning helps versus when an archive table is simpler.
 

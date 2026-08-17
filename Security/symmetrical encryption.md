@@ -4,21 +4,21 @@
 
 > Symmetric encryption — same secret key encrypts and decrypts; fast bulk crypto once both sides share the key.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Crypto basics: same key both ways, AES-GCM preferred, key distribution problem that asymmetric crypto solves.
 
 ## Sources
-
 - [NIST SP 800-38D — GCM](https://csrc.nist.gov/publications/detail/sp/800-38d/final) — deep-dive
 - [Wikipedia — Symmetric-key algorithm](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) — overview
 
 ## Core Definition
-
 Symmetric encryption uses the same secret key to encrypt and decrypt; it is fast for bulk data once both sides share the key.
 
 ## Key Concepts
-
 ```txt
 Key exchange (ECDHE / RSA wrap)
         │
@@ -33,7 +33,6 @@ Shared session key ──AES-GCM──► encrypted bytes on the wire
 | SSH session | Symmetric after kex |
 
 ## Technical Details
-
 ```bash
 # Illustrative OpenSSL enc (prefer libsodium/age for new tools)
 openssl enc -aes-256-gcm -in plain.bin -out cipher.bin -K <hexkey> -iv <hexiv>
@@ -65,23 +64,19 @@ const tag = cipher.getAuthTag()
 | Slow bulk encrypt | Soft AES / tiny buffer loops | Hardware AES-NI; larger chunks |
 
 ## Real-World Applications
-
 TLS record protection and disk/volume encryption use AES-GCM (or similar) with keys from KMS or handshake.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** High throughput for bulk data once keys are established.
 - **Con:** First contact with no shared secret — need asymmetric ([[Asymmetrical Encryption]]) or pre-provisioned keys.
 - **Con:** Password storage — use password hashes (Argon2/yescrypt), not reversible AES.
 - **Con:** Long-term identity — certificates/signatures, not a static AES key.
 
 ## Comparison
-
 - vs [[Asymmetrical Encryption]]: shared secret vs key pair — TLS uses both (handshake then bulk).
 - vs [[HMAC (Hash based Message Authentication Codes)]]: encryption hides plaintext; HMAC authenticates (AEAD does both).
 
 ## Mistakes to Avoid
-
 - ECB mode — identical blocks leak patterns; never for real data.
 - Homegrown CBC without MAC — padding oracles; use AEAD.
 - Symmetric alone doesn’t authenticate the peer — combine with proper handshake / signatures.

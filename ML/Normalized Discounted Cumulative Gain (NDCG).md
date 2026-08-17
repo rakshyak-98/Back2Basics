@@ -4,17 +4,18 @@
 
 > Graded ranking metric — relevant items higher in the list score more; normalized to [0,1] vs ideal ranking — **Järvelin & Kekäläinen (2002)**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Normalized Discounted Cumulative Gain (NDCG) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 **DCG** sums relevance with a **logarithmic position discount** (top ranks matter most):
 
 ```txt
@@ -32,7 +33,6 @@ Rank 10 same item          → heavily discounted
 versus [[Mean Average Precision (MAP)]]: MAP is binary relevance; NDCG handles **graded** judgment (somewhat relevant versus exact match).
 
 ## Technical Details
-
 ```python
 import numpy as np
 
@@ -63,13 +63,11 @@ ndcg = ndcg_score(y_true, y_score, k=10)
 Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
 ## Pros/Cons or Trade-offs
-
 - **Binary classification without ranking** — [[binary classification]] metrics.
 - **Continuous score prediction** — [[regression]] + [[Visualization/predicated versus actual plot]].
 - **Uniform relevance only** — [[Mean Average Precision (MAP)]] may be simpler to explain.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Position bias in logged data** — users rarely see rank 20; NDCG on biased logs favors old rankers.
 
@@ -83,4 +81,3 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 | Compare @k across teams | Different k | Fix k in SLA (e.g. @10) |
 | IDCG = 0 | No relevant items | Exclude query from aggregate |
 | sklearn shape errors | Query matrix layout | `(n_queries, n_items)` 2D arrays |
-

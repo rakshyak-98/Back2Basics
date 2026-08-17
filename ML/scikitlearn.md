@@ -4,17 +4,18 @@
 
 > scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 sklearn literacy covers estimators, pipelines, cross-validation, and avoiding leakage in preprocessing.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 ```txt
 Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 ```
@@ -29,7 +30,6 @@ Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 | **CV** | Cross-validate | “`cross_val_score` / GridSearch.” |
 
 ## Technical Details
-
 ```python
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -49,12 +49,10 @@ pipe.score(X_test, y_test)
 | `class_weight` | Imbalance |
 
 ## Pros/Cons or Trade-offs
-
 - **Deep learning on GPU** — PyTorch/TF.
 - **Huge distributed training** — Spark/XGBoost distributed stacks.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **fit on full dataset then split** — leaks; always split first.
 
@@ -67,4 +65,3 @@ pipe.score(X_test, y_test)
 | ConvergenceWarning | max_iter / scale | Scale features; raise iters |
 | Leakage | preprocess outside pipeline | Put all steps inside |
 | Slow GridSearch | huge grid | RandomSearch; fewer params |
-

@@ -4,17 +4,18 @@
 
 > Predict one label from **K > 2** classes — reduction strategies, metrics, and production pitfalls.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Multiclass classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 Binary classifiers naturally output one score; multiclass extends via:
 
 ```txt
@@ -33,7 +34,6 @@ Softmax / multinomial: Single model, K outputs summing to 1 (logistic extension)
 **Imbalance:** macro versus micro versus weighted F1 — pick metric matching business cost (rare class recall versus overall accuracy).
 
 ## Technical Details
-
 ### sklearn strategies
 
 ```python
@@ -80,13 +80,11 @@ y_enc = le.fit_transform(y_train)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Extremely large K (millions of labels)** — extreme classification, embeddings + ANN retrieval ([[ANN]]), not full softmax.
 - **Ordinal classes** (small < medium < large) — treat as [[ordinal classification]], not nominal multiclass.
 - **Need interpretable per-class rules** — shallow [[Decision tree]] or separate binary models per business line.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Hierarchical labels treated flat:** "dog" vs "golden retriever" as sibling classes wastes signal — use taxonomy-aware loss or cascade.
 
@@ -107,4 +105,3 @@ y_enc = le.fit_transform(y_train)
 | Great val, bad prod slice | Train skew vs prod geography | Stratified split by segment; monitor per-class recall |
 | K increases, latency spikes | OvO explosion | Switch to OvR or native multiclass; model distillation |
 | Label string mismatch at serve | Encoder drift | Version `LabelEncoder` / label map with model artifact |
-

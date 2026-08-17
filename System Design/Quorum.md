@@ -4,24 +4,24 @@
 
 > A quorum is the minimum number of replicas that must participate in a read or write for the operation to count — the lever that trades availability against staleness.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 State `R + W > N`, give a Dynamo-style example, and distinguish quorum counting from [[Raft]] consensus.
 
 ## Sources
-
 - Giuseppe DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007) — deep-dive
 - Martin Kleppmann, *Designing Data-Intensive Applications* — replication chapter — deep-dive
 
 ## Key Concepts
-
 - **N / W / R:** replicas, write acks, read responses.
 - **Overlap rule:** `R + W > N` ⇒ read/write sets intersect.
 - **Majority:** `floor(N/2)+1` — also used in Raft, different mechanism.
 - **Not consensus:** counting rule ≠ single ordered log.
 
 ## Technical Details
-
 | Parameter | Meaning |
 |-----------|---------|
 | **N** | Replication factor |
@@ -52,22 +52,18 @@ etcd / Raft: implicit majority on commit
 Accept W=1 for high-ingest telemetry — not ledger balances ([[Eventual consistency]]).
 
 ## Real-World Applications
-
 Cassandra/Dynamo-style stores, MongoDB majority concerns, and any replica set with tunable consistency.
 
 ## Pros/Cons or Trade-offs
-
 - **Higher W/R:** stronger freshness; lower availability under failure.
 - **Lower W/R:** faster/more available; stale or divergent reads.
 - **Trade-off:** per-operation quorum vs always-on Raft for metadata.
 
 ## Comparison
-
 - vs [[Raft]]: Raft = consensus log; quorum = how many must answer.
 - vs [[Eventual consistency]]: weak quorums enable eventual models.
 
 ## Mistakes to Avoid
-
 - Claiming consistency when R+W ≤ N.
 - Computing N from stale membership during reconfiguration.
 - Split-brain “fixes” that accept writes without quorum.

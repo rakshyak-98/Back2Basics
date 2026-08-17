@@ -4,16 +4,17 @@
 
 > Multiple renditions or simultaneous publish destinations from one source — **ABR ladders + multi-CDN push**, not "many viewers".
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Multi Stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Multi Stream](https://en.wikipedia.org/wiki/Multi_Stream) — overview
 
 ## Key Concepts
-
 **Multi-stream** covers two distinct patterns engineers conflate:
 
 1. **ABR multi-rendition** — one live event encoded to **multiple bitrates/resolutions** (ladder); player picks one via [[Manifest (streaming)]].
@@ -26,7 +27,6 @@ Interviewers ask about Multi Stream to see if you understand the pipeline role, 
 | **Multi-audio/caption** | Manifest complexity | Wrong `#EXT-X-MEDIA` grouping |
 
 ## Technical Details
-
 ```txt
 Pattern A — ABR (one publisher, many renditions)
   OBS/encoder ──► transcoder ──► 1080p + 720p + 480p ──► packager ──► [[HLS]]/[[DASH]]
@@ -91,18 +91,15 @@ Origin storage:              sum(all rung bitrates) × duration
 ```
 
 ## Real-World Applications
-
 Used wherever Multi Stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Single destination VoD** — one mezzanine + ladder at origin; no multi-push.
 - **Con / skip when:** **Player-side multi-stream** — viewers need **one** manifest; don't expose raw parallel URLs.
 - **Con / skip when:** **Ten destinations from one laptop** — use origin + CDN fanout instead of publisher-side replication.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | One CDN OK, other black | Single dest fail in multi-push | Independent reconnect per output; don't block on one |

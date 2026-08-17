@@ -4,17 +4,18 @@
 
 > Functions — first-class values with multiple returns; methods are functions with a receiver.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Multiple returns, defer, and method receivers show up constantly — value vs pointer receiver and first-class functions are the depth checks.
 
 ## Sources
-
 - [Go spec — Function types](https://go.dev/ref/spec#Function_types) — deep-dive
 - [Effective Go — Functions](https://go.dev/doc/effective_go#functions) — overview
 
 ## Key Concepts
-
 ```txt
 func Add(a, b int) int
 func (s *Server) Start() error
@@ -29,7 +30,6 @@ f := func(x int) int { return x + 1 }
 | Variadic `...T` | Soft argc |
 
 ## Technical Details
-
 ```go
 func Load(path string) ([]byte, error) {
   b, err := os.ReadFile(path)
@@ -64,13 +64,11 @@ sum := func(xs ...int) int {
 | Nil receiver panic | Called on nil | Guard or document |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** God functions 200+ lines — split.
 - **Trade-off:** Methods on every DTO — keep domain focused.
 - **Trade-off:** Returning `any` everywhere — type it.
 
 ## Mistakes to Avoid
-
 - No default args / overloads — use options structs.
 - Defer closes over vars — watch loop + defer.
 - First-class funcs aren’t generics substitutes — use type params when needed.

@@ -4,6 +4,10 @@
 
 > Hub for Linux command notes — route from symptom to the right tool instead of memorizing every flag.
 
+
+
+
+
 ## Interview Relevance
 Interviewers care less about memorizing flags and more about choosing the right tool (`ss` vs `netstat`, `systemctl` vs init scripts). This map is how you show structured recall under pressure.
 
@@ -21,7 +25,6 @@ Each leaf under `Linux/commands/` focuses on one binary or small family with run
 - **Families:** Process, network, service, package, and auth command clusters.
 
 ## Technical Details
-
 | Job | Start here |
 |-----|------------|
 | Find files | [[Find command]] |

@@ -4,21 +4,21 @@
 
 > Windows GUI SSH (and serial/telnet) client with saved sessions — not a shell; keys use `.ppk`, not OpenSSH by default.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Checks Windows remote-access literacy: host-key verification, Pageant, `.ppk` vs OpenSSH, and when to prefer WSL/`ssh` instead.
 
 ## Sources
-
 - [PuTTY documentation](https://www.chiark.greenend.org.uk/~sgtatham/putty/docs.html) — deep-dive
 - [Wikipedia — PuTTY](https://en.wikipedia.org/wiki/PuTTY) — overview
 
 ## Core Definition
-
 PuTTY is a GUI terminal and connection manager. It speaks SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and optionally credentials — treat saved sessions as secrets on shared PCs.
 
 ## Key Concepts
-
 - **Not a shell:** it opens a terminal to a remote shell or serial device.
 - **`.ppk` keys:** PuTTY-specific; convert with PuTTYgen for OpenSSH/WSL.
 - **Pageant:** agent so you unlock the key once per session.
@@ -26,7 +26,6 @@ PuTTY is a GUI terminal and connection manager. It speaks SSH, telnet, serial, a
 - **Host key (TOFU):** verify fingerprint out-of-band before Accept.
 
 ## Technical Details
-
 ```
 PuTTY.exe → TCP 22 → sshd → shell
 Pageant → SSH key agent → PuTTY auth without passphrase each time
@@ -62,23 +61,19 @@ plink -batch -i key.ppk user@host "systemctl is-active nginx"
 | Idle disconnect | Keepalives | 30–60s; match `ClientAliveInterval` |
 
 ## Real-World Applications
-
 Bastion access from locked-down Windows desktops, serial console to appliances, and local port forwards to internal databases.
 
 **Example:** Convert `.ppk` once, then use the same key from WSL OpenSSH so runbooks stay Linux-shaped ([[SSH]]).
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Familiar GUI session store for Windows fleets without WSL.
 - **Con:** Format/crypto drift vs OpenSSH; saved passwords in registry are a shared-PC risk.
 
 ## Comparison
-
 - vs OpenSSH `ssh`: same protocol; OpenSSH matches Linux operations docs and automation.
 - vs [[rsync]]/PSCP: use rsync for real sync; PSCP is one-off copy.
 
 ## Mistakes to Avoid
-
 - Blindly accepting changed host keys.
 - Storing passwords in saved sessions on shared machines — prefer keys + Pageant.
 - Assuming `.ppk` works with Linux `ssh` without conversion.

@@ -4,17 +4,18 @@
 
 > QUIC — (Quick UDP Internet Connections) moves transport into user space over UDP, integrating encryption and stream multiplexing. Designed to fix TCP head-of-line blocking and slow
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 QUIC/HTTP3 interviews test UDP transport literacy — 0-RTT, stream multiplexing, and curing TCP head-of-line blocking.
 
 ## Sources
-
 - [RFC 9000 — QUIC](https://www.rfc-editor.org/rfc/rfc9000) — deep-dive
 - [Cloudflare — What is QUIC?](https://www.cloudflare.com/learning/performance/what-is-quic/) — overview
 
 ## Key Concepts
-
 **QUIC** (Quick UDP Internet Connections) moves transport into user space over **UDP**, integrating encryption and stream multiplexing. Designed to fix **TCP head-of-line blocking** and slow connection setup for web apps.
 
 ```
@@ -39,7 +40,6 @@ HTTP/3
 Originated by Jim Roskind at Google; standardized as IETF QUIC; **HTTP/3** = HTTP over QUIC.
 
 ## Technical Details
-
 ### Verify HTTP/3 on site
 
 ```bash
@@ -90,12 +90,10 @@ tc qdisc add dev eth0 root netem loss 1%
 | Connection migration fails | NAT rebinding | QUIC connection IDs — usually CDN handles |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler operations.
 - **Trade-off:** Legacy clients only — maintain dual stack until analytics show negligible h3 need.
 
 ## Mistakes to Avoid
-
 - Middleboxes that block UDP — corporate networks may force HTTP/2 fallback; always serve h2/h1 too.
 - **0-RTT data** — replay attack surface; disable for authentication-changing POST.
 - **Load balancer stickiness** — QUIC connection != TCP connection; use compatible LB (CDN).

@@ -4,6 +4,10 @@
 
 > A TCP session between client and `mysqld` — authentication, character set, session variables, and one unit of server work until disconnect.
 
+
+
+
+
 ## Interview Relevance
 Interviewers ask how connections relate to `max_connections`, why pooling exists, and what state lives on a session (autocommit, temp tables, prepared statements).
 

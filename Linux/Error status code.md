@@ -4,6 +4,10 @@
 
 > Every Linux process exits with an 8-bit status (0–255) — shells, systemd, and CI pipelines use it to decide whether a step succeeded.
 
+
+
+
+
 ## Interview Relevance
 Tests whether you read `$?`, interpret signal exits (137 = SIGKILL/OOM), and handle `grep`’s “no match = 1” under `set -e` without cargo-culting.
 
@@ -23,7 +27,6 @@ Convention: **0 = success**, **1–255 = failure** (meaning is program-specific 
 - **Program-specific meanings:** Do not assume POSIX `sysexits` everywhere.
 
 ## Technical Details
-
 | Code | Typical meaning |
 |------|-----------------|
 | 0 | Success |

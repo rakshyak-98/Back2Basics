@@ -4,17 +4,18 @@
 
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Rebase interviews check the golden rule (do not rewrite shared history), ours/theirs inversion during conflicts, and force-with-lease versus force.
 
 ## Sources
-
 - [Pro Git — Rewriting History](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History) — deep-dive
 - [git-rebase documentation](https://git-scm.com/docs/git-rebase) — overview
 
 ## Key Concepts
-
 ```txt
               └──x──y  (your branch)
 
@@ -29,7 +30,6 @@ After rebase onto main:
 **Golden rule:** never rebase commits **already pushed** that others may have pulled — unless team explicitly uses `git pull --rebase` culture and coordinates force-push.
 
 ## Technical Details
-
 ### Daily update (feature branch)
 
 ```bash
@@ -85,13 +85,11 @@ git rebase -i --autosquash origin/main
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Shared long-lived branch** multiple people commit to — merge or trunk-based with short branches.
 - **Integrating released tags** — don't rewrite history consumers depend on.
 - **You need true merge context** — complex binary conflicts sometimes easier with one merge commit.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Rebase rewrites SHAs** — open PRs with review comments on old commits become confusing; notify reviewers after force-push.
 
@@ -113,4 +111,3 @@ git rebase -i --autosquash origin/main
 | Empty commit skipped | Already applied patch | `git rebase --skip` or `--keep-empty` |
 | Wrong file kept in conflict | ours/theirs confusion | Re-read labels; re-run conflict resolution |
 | CI fails only after rebase | Hidden dependency on old base | Run tests locally on rebased branch before push |
-

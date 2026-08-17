@@ -4,17 +4,18 @@
 
 > SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about SCTP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP) — overview
 - [RFC 9260 — SCTP](https://datatracker.ietf.org/doc/html/rfc9260) — deep-dive
 
 ## Key Concepts
-
 **SCTP** sits **above IP**, offering **multiple streams** with optional **reliable ordered** delivery — unlike TCP's single byte stream. In **[[WebRTC]]**, SCTP runs **inside DTLS** (UDP) as **SCTP-over-DTLS**, carrying **DataChannel** messages (chat, game state, file transfer) **separate from** SRTP audio/video.
 
 | Feature | SCTP | TCP | UDP |
@@ -27,7 +28,6 @@ Interviewers ask about SCTP to see if you understand the pipeline role, failure 
 Telecom origin (SS7 transport) — streaming engineers meet SCTP via **browser RTC**, not CDN packaging.
 
 ## Technical Details
-
 ```txt
 WebRTC stack (simplified)
   Media: SRTP (UDP) — A/V
@@ -87,22 +87,18 @@ mtr -u turn.example.com
 ```
 
 ## Real-World Applications
-
 Used wherever SCTP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
 - **Con / skip when:** **Replacing TCP API** — use HTTP/gRPC for server-client CRUD.
 - **Con / skip when:** **Broadcast MPEG-TS** — UDP multicast / SRT, not WebRTC DataChannel.
 
 ## Comparison
-
 - vs [[HLS]]: **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | DataChannel never opens | `pc.connectionState` | ICE failure; add TURN |

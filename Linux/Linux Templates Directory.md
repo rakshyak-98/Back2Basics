@@ -4,6 +4,10 @@
 
 > Distribution packages ship template and default files under `/usr/share` and related paths — copy or use drop-ins instead of editing vendor copies that upgrades overwrite.
 
+
+
+
+
 ## Interview Relevance
 Package-hygiene question: explain `.dpkg-dist` / `.rpmnew`, `/etc/skel`, and why `systemctl edit` beats editing units under `/usr/lib`.
 
@@ -22,7 +26,6 @@ Debian-family packages place **conffiles** in `/etc` and pristine examples/templ
 - **Drop-ins:** Preferred customization pattern for systemd and many daemons.
 
 ## Technical Details
-
 | Pattern | Example |
 |---------|---------|
 | `*.dpkg-dist` / `*.rpmnew` | Left after package manager merge conflict |

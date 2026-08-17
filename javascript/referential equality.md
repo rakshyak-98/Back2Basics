@@ -4,26 +4,25 @@
 
 > Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Referential equality** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Wikipedia — referential equality](https://en.wikipedia.org/wiki/referential_equality) — overview
 
 ## Core Definition
-
 Primitives compared by **value**; objects, arrays, functions by **reference**:
 
 ## Key Concepts
-
 - Primitives compared by **value**; objects, arrays, functions by **reference**:
 - React re-renders when state/props change. **`React.memo`**, **`useMemo`**, **`useCallback`**, **`useEffect` deps`** use `Object.is` (like `===` for refs).
 - Stable references let you **skip** subtree work ([[Optimizing performance]]).
 
 ## Technical Details
-
 Primitives compared by **value**; objects, arrays, functions by **reference**:
 
 ```javascript
@@ -76,22 +75,18 @@ return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 See [[React State management]] — don't memo everything; profile first.
 
 ## Real-World Applications
-
 In production APIs and tooling, **referential equality** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Premature useCallback everywhere** — costs memory; only for heavy children or effect deps; **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Referential equality — primitives compared by value; objects, arrays, functions …).
 - **Con / when not:** **Cheap leaf components** — memo + callback overhead > re-render cost.
 - **Con / when not:** **Server Components** — client referential equality rules don't apply on server.
 - **Con / when not:** **Replacing proper state design** — lift or colocate instead of memo band-aids.
 
 ## Comparison
-
 vs [[Optimizing performance]]: know when each applies — do not treat them as interchangeable. vs [[react hooks]]: know when each applies — do not treat them as interchangeable. vs [[React State management]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Premature useCallback everywhere** — costs memory; only for heavy children or effect deps.
 - **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
 - **memo useless:** check Unstable prop refs; fix: useCallback/useMemo upstream

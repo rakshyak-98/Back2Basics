@@ -4,17 +4,18 @@
 
 > A security group is a stateful virtual firewall on an EC2 ENI (or other VPC resources) — if you allow inbound TCP 443, return traffic is permitted automatically without an explicit outbound rule.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Security group interviews check stateful allow-lists, distinction from NACLs, and least-privilege ingress/egress.
 
 ## Sources
-
 - [Security groups for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html) — overview
 - [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html) — overview
 
 ## Technical Details
-
 ```bash
 aws ec2 describe-security-groups --group-ids sg-0abc123
 aws ec2 authorize-security-group-ingress \

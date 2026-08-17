@@ -4,17 +4,18 @@
 
 > pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git Submodule` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 parent-repo/
   vendor/lib/     → commit abc1234 of github.com/org/lib
@@ -24,7 +25,6 @@ parent-repo/
 Parent tracks **pointer**, not submodule files directly.
 
 ## Technical Details
-
 ### Clone with submodules
 
 ```bash
@@ -72,12 +72,10 @@ git commit -m "Remove lib submodule"
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
 - **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Detached HEAD is default** inside submodule — easy to commit locally and forget to push submodule remote before updating parent.
 
@@ -104,4 +102,3 @@ git commit -m "Remove lib submodule"
 git diff vendor/lib
 git submodule foreach 'git rev-parse HEAD'
 ```
-

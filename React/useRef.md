@@ -4,22 +4,22 @@
 
 > Holds a mutable box that survives renders without re-rendering — DOM nodes or “remember this value.”
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers want Rules of Hooks, dependency arrays, and when a custom hook beats an HOC — not a list of hook names.
 
 ## Sources
-
 - [Wikipedia — useRef](https://en.wikipedia.org/wiki/useRef) — overview
 
 ## Key Concepts
-
 - **ref:** Mutable box React keeps across renders — “I store the DOM node without causing a re-render.”
 - **`.current`:** The actual value — “Focus via `inputRef.current.focus()`.”
 - **forwardRef:** Pass a parent ref into a child — “Wrapper must forwardRef or the ref never reaches the input.”
 
 ## Technical Details
-
 ```txt
 render → same ref object
            └─ .current  ← mutate freely (DOM | timer id | previous value)
@@ -46,17 +46,14 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
 | `forwardRef` | Required when wrapping native elements |
 
 ## Real-World Applications
-
 Apply useRef in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Value drives UI** — use `useState` / `useReducer`.
 - **Con / skip when:** **Derived from props** — compute during render; don’t mirror into a reference unless you need “previous.”
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `ref.current` is null | Called before mount / wrong element | Use in `useEffect` or event handler |

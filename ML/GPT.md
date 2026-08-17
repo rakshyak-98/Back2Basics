@@ -4,18 +4,19 @@
 
 > GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 GPT questions check transformer next-token prediction, context limits, and hallucination failure modes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [GPT — Wikipedia](https://en.wikipedia.org/wiki/Generative_pre-trained_transformer) — overview
 
 ## Key Concepts
-
 ```txt
 messages[] → API → assistant tokens (+ optional tool_calls)
 ```
@@ -30,7 +31,6 @@ messages[] → API → assistant tokens (+ optional tool_calls)
 | **Tool/function call** | Structured side effect | “Model proposes; app executes.” |
 
 ## Technical Details
-
 ```python
 # sketch
 client.chat.completions.create(
@@ -50,12 +50,10 @@ client.chat.completions.create(
 | Seed (when available) | Repro experiments |
 
 ## Pros/Cons or Trade-offs
-
 - **Strict deterministic logic** — write code.
 - **Tiny classify with tons of labels** — classical model may win.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Training cutoff** — doesn’t know your private docs unless you pass them.
 
@@ -68,4 +66,3 @@ client.chat.completions.create(
 | 429 rate limit | headers | Backoff; smaller prompts |
 | Unstable JSON | free-form | schema / JSON mode |
 | Stale answers | no tools/RAG | Ground with retrieval |
-

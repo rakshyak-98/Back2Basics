@@ -4,17 +4,18 @@
 
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Embedding vs inheritance is a frequent Go design question — promotion rules, method sets, and when embedding hides a bad abstraction.
 
 ## Sources
-
 - [Effective Go — Embedding](https://go.dev/doc/effective_go#embedding) — deep-dive
 - [Go spec — Struct types](https://go.dev/ref/spec#Struct_types) — deep-dive
 
 ## Key Concepts
-
 ```go
 type Reader struct { io.Reader }  // embed interface
 type Engine struct { hp int }
@@ -31,7 +32,6 @@ Two cases:
 No virtual dispatch chain — method on outer replaces promoted method when called on outer type.
 
 ## Technical Details
-
 ### Struct embedding — promotion
 
 ```go
@@ -114,13 +114,11 @@ func NewServer(addr string) *Server {
 | `promoted method` hidden in interface assertion | Outer doesn't implement extra methods | Define all interface methods on outer explicitly |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Pure "has-a" with no promotion — use named field `logger Logger` for clarity.
 - **Trade-off:** Deep embedding chains — hard to trace method origin; prefer explicit delegation.
 - **Trade-off:** Hiding third-party types — embed locks API surface to theirs; wrap with named field + forwarders if stability matters.
 
 ## Mistakes to Avoid
-
 - Embedding ≠ inheritance — no LSP hierarchy; promoted methods copy by name, outer override is static dispatch.
 - Pointer vs value embed — `embed *T` promotes pointer-receiver methods; value embed `T` may not promote pointer-only methods on value of outer.
 - JSON serialization — anonymous embed fields flatten into parent JSON object; can surprise API consumers.

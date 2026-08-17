@@ -4,20 +4,17 @@
 
 > EBS is network-attached block storage for EC2 instances — the canonical note is [[EBS (Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AWS EBS(Elastic Block Store) to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 ## Sources
-
 - [Amazon EBS User Guide](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html) — overview
 
-## Key Concepts
-
-Amazon documents the product as **Amazon Elastic Block Store (EBS)**. The vault keeps two filenames for historical linking; content is unified here.
-
 ## Technical Details
-
 ### Quick attach workflow
 
 1. Create volume in the **same Availability Zone** as the target [[AWS EC2]] instance.
@@ -40,7 +37,6 @@ aws ec2 attach-volume --volume-id vol-0abc --instance-id i-0abc --device /dev/sd
 | Delete | Detach first; snapshots remain until deleted separately |
 
 ## Mistakes to Avoid
-
 - **Volume stuck attaching** — previous instance did not detach cleanly; force detach after verifying no I/O.
 - **Wrong AZ** — volume and instance must match AZ.
 - **Full disk** — expand volume, grow partition, resize filesystem.

@@ -4,22 +4,22 @@
 
 > Server-to-server HTTP callback when something happens — the receiver must verify, dedupe, and answer fast; it is not a durable message bus.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about webhooks to test signature verification, idempotency under retries, and why you enqueue work instead of doing heavy processing before returning 2xx.
 
 ## Sources
-
 - [Wikipedia — Webhook](https://en.wikipedia.org/wiki/Webhook) — overview
 - [Stripe — Webhooks](https://stripe.com/docs/webhooks) — deep-dive
 - [GitHub Docs — Validating webhook deliveries](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries) — deep-dive
 
 ## Core Definition
-
 A webhook is an HTTP POST (usually JSON) from a publisher to your public HTTPS endpoint when an event occurs. Delivery is at-least-once in practice: publishers retry on timeouts and 5xx, so handlers must be idempotent.
 
 ## Key Concepts
-
 - **Push vs poll:** lower latency than polling; you operate a public URL, cryptography, and replay handling.
 - **Signature verification:** HMAC over the *raw* body with a shared secret → reject unsigned or tampered payloads.
 - **Idempotency:** store `event.id` / delivery id before side effects → retries must not double-charge or double-email.
@@ -27,7 +27,6 @@ A webhook is an HTTP POST (usually JSON) from a publisher to your public HTTPS e
 - **Not a bus:** no global ordering, limited backlog, weak fan-out — use [[kafka]] / [[MQTT]] / SQS for internal high-volume streams.
 
 ## Technical Details
-
 ```
 Publisher                    Your service
     │  POST /hooks/stripe     │
@@ -99,26 +98,22 @@ curl -i -X POST https://api.example.com/webhooks/github \
 | Out-of-order events | Distributed delivery | Version fields per aggregate |
 
 ## Real-World Applications
-
 Stripe payment events, GitHub repository events, Slack interactivity, and SaaS “notify my backend” integrations.
 
 **Example:** Stripe sends `invoice.paid`; the API verifies the signature, writes the event id, enqueues a worker, returns 200, then the worker provisions access.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Near-real-time, simple HTTP, no always-on poller.
 - **Con:** You must expose and harden a public endpoint; retries create duplicates without idempotency.
 - **Con:** Poor fit for high-volume internal fan-out compared with a log/queue.
 
 ## Comparison
-
 - vs polling: webhooks push; polling is simpler operationally but slower and chatty.
 - vs [[SSE (Server-Sent Events)]]: SSE pushes to *browsers* over one long HTTP response; webhooks are server-to-server callbacks.
 - vs [[kafka]]: Kafka is a durable internal log; webhooks are external integration glue.
 - Alias stub: [[Web hooks]] redirects here.
 
 ## Mistakes to Avoid
-
 - Returning 200 before the event is durably enqueued — a crash loses the event with no retry.
 - Skipping signature checks because the URL is “secret.”
 - Disabling verification in staging and forgetting to re-enable it.

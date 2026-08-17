@@ -4,6 +4,10 @@
 
 > Process theory explains how the kernel schedules, isolates, and accounts for work — background you need before tuning PIDs, cgroups, or OOM behavior.
 
+
+
+
+
 ## Interview Relevance
 Foundational systems interview material: `fork`/`exec`/`wait`, zombie vs orphan, task states (especially `D`), and how cgroups/namespaces compose into containers.
 
@@ -22,7 +26,6 @@ A **process** is an address space plus resources (file descriptors, credentials,
 - **Isolation kit:** cgroups, namespaces, capabilities, seccomp.
 
 ## Technical Details
-
 ```
 fork() ──► child ──► execve("binary") ──► running ──► exit(status)
    │                                              │

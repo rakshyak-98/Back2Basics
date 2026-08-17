@@ -4,6 +4,10 @@
 
 > MySQL accounts are `user`@`host` pairs with an auth plugin and grants — apply least privilege for apps and humans.
 
+
+
+
+
 ## Interview Relevance
 Expect create-user + grant examples, plugin differences (`caching_sha2_password`), and “never use root in the app.”
 

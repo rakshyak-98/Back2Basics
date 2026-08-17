@@ -4,17 +4,18 @@
 
 > Data structures store data with different access costs — pick for the operations you run most.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers expect you to pick structures by access pattern and cost — not by name familiarity.
 
 ## Sources
-
 - [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure) — overview
 - [MIT 6.006 — Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
 
 ## Key Concepts
-
 ```txt
 ops you need → structure → complexity tradeoffs
 ```
@@ -29,7 +30,6 @@ ops you need → structure → complexity tradeoffs
 | **ADT vs impl** | Behavior vs layout | “Queue can be ring buffer.” |
 
 ## Technical Details
-
 ```text
 need O(1) avg lookup     → hash map
 need sorted order        → balanced tree / skip list
@@ -54,11 +54,9 @@ need relationships       → graph (adj list)
 | Memory blow | unbounded cache | Bound + eviction |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Tiny n — simplest container wins.
 - **Trade-off:** When a database index already solves it — don’t rebuild in application memory casually.
 
 ## Mistakes to Avoid
-
 - Premature cleverness — array + scan beats fancy trees at small n.
 - Language defaults — “list” in Python is array; LinkedList in Java is nodes.

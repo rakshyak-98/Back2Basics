@@ -4,6 +4,10 @@
 
 > We — this vault’s mission: force-multiply engineers with field notes you can retrieve, debug, and configure under incident pressure.
 
+
+
+
+
 ## Interview Relevance
 Culture questions (“how do you share knowledge?”) map here: durable notes beat tribal Slack. Staff signal: you build systems that make others faster ([[staff engineer]]).
 

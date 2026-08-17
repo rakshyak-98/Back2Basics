@@ -4,16 +4,17 @@
 
 > Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Progressive search interviews cover debounce, ranking, and accessibility of live results.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 Keystroke → debounce window → abort prior fetch → new query → render results
                 ↑                      ↑
@@ -28,7 +29,6 @@ Keystroke → debounce window → abort prior fetch → new query → render res
 3. **Client** — re-render 5k DOM nodes each key → main thread jank ([[Animation]])
 
 ## Technical Details
-
 ### Debounced fetch with abort
 
 ```javascript
@@ -113,13 +113,11 @@ API: GET /search?q=foo&limit=20
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
 - **Heavy analytics query** — batch/report UI, not per-keystroke.
 - **Offline-first with tiny dataset** — filter in memory; skip network entirely.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Debounce ≠ throttle** — throttle fires on interval (scroll); search wants debounce (quiet period).
 
@@ -140,4 +138,3 @@ API: GET /search?q=foo&limit=20
 | Mobile keyboard jank | Input handler work | Debounce; virtualize list |
 | Empty for valid terms | Encoding / case | `encodeURIComponent`; normalize Unicode NFC |
 | Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
-

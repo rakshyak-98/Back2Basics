@@ -4,17 +4,18 @@
 
 > Amazon Route 53 is AWS's authoritative DNS service and domain registrar — you create hosted zones, publish records, and optionally run health-checked routing policies that send traffic only to healthy endpoints.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Route 53 interviews check hosted zones, routing policies, health checks, and DNS failover patterns.
 
 ## Sources
-
 - [Amazon Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) — deep-dive
 - [Choosing a routing policy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html) — overview
 
 ## Technical Details
-
 ```bash
 aws route53 list-hosted-zones
 aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch file://change.json

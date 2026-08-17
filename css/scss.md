@@ -4,22 +4,22 @@
 
 > SCSS (Sassy CSS) extends CSS with variables, nesting, mixins, and `@use` modules — a build step compiles it to plain CSS the browser understands.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about SCSS to see if you know `@use` versus deprecated `@import`, when Sass variables lose to CSS custom properties, and when teams should prefer native CSS or [[tailwindcss]] instead.
 
 ## Sources
-
 - [Sass Docs — `@use`](https://sass-lang.com/documentation/at-rules/use/) — deep-dive
 - [Sass Docs — Breaking change: `@import`](https://sass-lang.com/documentation/breaking-changes/import/) — overview
 - [MDN — Using CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) — overview
 
 ## Core Definition
-
 SCSS is a stylesheet language compiled by Dart Sass (or compatible tools) into CSS; it adds authoring features (modules, mixins, functions) that disappear at runtime.
 
 ## Key Concepts
-
 - **Compile step:** `.scss` → `.css` via Vite/`sass-embedded` or the Sass CLI — browsers never see SCSS.
 - **`@use` / `@forward`:** modern module system with namespaces → replaces global `@import` pollution.
 - **Mixins / functions:** reusable chunks and calculations → keep what native CSS still lacks.
@@ -27,7 +27,6 @@ SCSS is a stylesheet language compiled by Dart Sass (or compatible tools) into C
 - **Migration pressure:** native nesting, `@layer`, and `@property` cover many former SCSS jobs in greenfield apps.
 
 ## Technical Details
-
 ```txt
 2026 stack options:
   Vite/Webpack + sass-embedded (dart-sass)
@@ -117,24 +116,20 @@ npm i -D sass-embedded
 | Dark mode wrong | Compile-time `$vars` only | Move theme to CSS custom properties |
 
 ## Real-World Applications
-
 Large design systems still organize tokens and component sheets in SCSS; many new apps use CSS modules + Tailwind and keep SCSS only in legacy packages.
 
 **Example:** A component library `@forward`s tokens from `index.scss` so apps `@use 'design-system' as ds` without reaching into private files.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong authoring structure (modules, mixins) for large shared stylesheets.
 - **Con:** Extra build dependency and mental model beside native CSS.
 - **Con:** Sass variables cannot switch at runtime for user themes — need `var(--*)`.
 
 ## Comparison
-
 - vs [[tailwindcss]]: Tailwind constrains design via utilities; SCSS authors arbitrary CSS with better structure.
 - vs plain CSS: native nesting and custom properties close the gap; SCSS still wins for complex mixins and shared libraries.
 
 ## Mistakes to Avoid
-
 - Keeping `@import` in new code — migrate to `@use` / `@forward`.
 - Using `@extend` across files until selector graphs become unreadable — prefer mixins or utilities.
 - Defining the same spacing/color tokens in both SCSS and Tailwind without a single source of truth.

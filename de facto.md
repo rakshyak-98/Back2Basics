@@ -4,6 +4,10 @@
 
 > De facto standard — so widely used it behaves like a standard without a formal vote.
 
+
+
+
+
 ## Interview Relevance
 Shows you can separate market habit from ratified specs, and name lock-in / drift risks when teams “just use what everyone uses.”
 

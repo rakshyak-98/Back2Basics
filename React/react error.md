@@ -4,22 +4,22 @@
 
 > React runtime errors you’ll hit in prod — wrong hook counts, hydration mismatches, and security headers that break assets.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use react error (common failures) to test whether you can apply the idea under production constraints, not recite docs.
 
 ## Sources
-
 - [Wikipedia — react error](https://en.wikipedia.org/wiki/react_error) — overview
 
 ## Key Concepts
-
 - **Rules of Hooks:** Same hooks, same order — “No hooks after conditional return.”
 - **Hydration mismatch:** Server HTML ≠ client — “Stabilize time/random on first paint.”
 - **nosniff:** Trust declared MIME — “Stops MIME-sniff XSS on uploaded files.”
 
 ## Technical Details
-
 ```tsx
 // ❌ early return before hooks
 function Bad({ user }) {
@@ -55,17 +55,14 @@ Content-Type: application/javascript; charset=utf-8
 1. …
 
 ## Real-World Applications
-
 Apply react error (common failures) in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Swallowing errors in empty catch** — use an error boundary for UI failures.
 - **Con / skip when:** **Treating hydration warnings as noise** — they often mean remounts and lost SSR wins.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Rendered fewer/more hooks | Conditional hooks / early return | Call all hooks unconditionally |

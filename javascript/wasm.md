@@ -4,28 +4,27 @@
 
 > WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **WebAssembly (Wasm)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [WebAssembly — Concepts](https://webassembly.org/docs/wasm-or-asmjs/) — overview
 - [MDN — WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly) — deep-dive
 - [Wikipedia — wasm](https://en.wikipedia.org/wiki/wasm) — overview
 
 ## Core Definition
-
 Wasm runs in the same **agent** as JS with:
 
 ## Key Concepts
-
 - Wasm runs in the same **agent** as JS with:
 - **Linear memory** (ArrayBuffer view) - **Table** of function refs - **No GC objects** (until Wasm GC proposal wider adoption)
 - Typical uses: crypto, codecs, image/audio processing, game physics, porting legacy libs — **not** a full DOM/UI replacement.
 
 ## Technical Details
-
 ```txt
 Rust/C/...  →  wasm-pack / emscripten  →  .wasm module
 Browser     →  WebAssembly.instantiate  →  linear memory + exported functions
@@ -80,22 +79,18 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **wasm** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]); **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module).
 - **Con / when not:** **Simple CRUD UI** — JS is faster to ship and debug.
 - **Con / when not:** **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
 - **Con / when not:** **When Web Crypto API suffices** — native `crypto.subtle` before bundling Rust crypto.
 
 ## Comparison
-
 vs [[javascript engine]]: know when each applies — do not treat them as interchangeable. vs [[polyfills]]: know when each applies — do not treat them as interchangeable. vs [[React build]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]).
 - **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
 - **`CompileError`:** check Wrong MIME / corrupt file; fix: Server `application/wasm`; rebuild

@@ -4,25 +4,25 @@
 
 > A cache stores copies of data closer to readers — process memory, Redis, CDN edge — to cut latency and shield the origin from repeated work.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Cache-aside + invalidation, stampede protection, HTTP cache safety for personalized JSON, and “cache is not source of truth.”
 
 ## Sources
-
 - Martin Kleppmann, *Designing Data-Intensive Applications* — caching — deep-dive
 - [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111) — HTTP Caching — deep-dive
 - Redis docs — eviction policies — deep-dive
 
 ## Key Concepts
-
 - **Layers:** browser/CDN, in-process, distributed ([[Redis]]), query/object caches.
 - **Eventually consistent** by nature ([[Eventual consistency]]).
 - **Cache-aside:** miss → origin → populate; write → delete/invalidate.
 - **Stampede:** singleflight/lock + TTL jitter.
 
 ## Technical Details
-
 ```txt
 Read:  App → L1 → L2 (Redis) → Database
 Write: App → Database → invalidate → entries expire
@@ -58,22 +58,18 @@ Watch hit rate, evictions, p99, fragmentation. Oversized values saturate network
 | Long DNS TTL pre-migration | Clients hit old IPs |
 
 ## Real-World Applications
-
 API response caching, session stores, CDN static assets, and protecting sharded DBs from hot keys.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Latency and origin protection.
 - **Con:** Consistency bugs; stampede; memory cost.
 - **Trade-off:** short TTL (fresher) vs hit rate.
 
 ## Comparison
-
 - vs DB replicas: replicas are durable copies; caches are disposable accelerators.
 - vs [[backpressure]]: cache misses under origin slowdown need shedding/singleflight.
 
 ## Mistakes to Avoid
-
 - TTL-only invalidation for user-visible correctness.
 - Marking private responses `public`.
 - No circuit breaker on miss path when origin is sick.

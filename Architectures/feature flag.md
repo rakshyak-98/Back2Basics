@@ -4,17 +4,18 @@
 
 > Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Feature flags show release-control maturity — dark launch, kill switches, and avoiding flag debt / inconsistent state.
 
 ## Sources
-
 - [Martin Fowler — Feature Toggles](https://martinfowler.com/articles/feature-toggles.html) — deep-dive
 - [LaunchDarkly — Feature flag best practices](https://docs.launchdarkly.com/guides/flags) — overview
 
 ## Key Concepts
-
 ```txt
 Dashboard → Flag service → SDKs (poll/SSE)
                               ↓
@@ -31,7 +32,6 @@ Dashboard → Flag service → SDKs (poll/SSE)
 | **Stale cache** | SDK holds old value | “Short TTL; listen for updates.” |
 
 ## Technical Details
-
 ```js
 if (featureFlags.isEnabled('new-checkout', { userId })) {
   showNewCheckout()
@@ -56,11 +56,9 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 | “Temporary” flag forever | Code archaeology | Remove flag + dead path |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** configuration that rarely changes — environment variables / configuration files may be enough.
 - **Trade-off:** Permanent product differences — that’s packaging/plans, not a forever flag.
 
 ## Mistakes to Avoid
-
 - Flags are not security — hide UI, still enforce authz server-side.
 - Combinatorial explosion — too many overlapping flags = untestable matrix.

@@ -4,17 +4,18 @@
 
 > multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git Worktree` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 repo/.git/          ← bare or main git dir
 repo/               ← worktree 1 (main)
@@ -25,7 +26,6 @@ repo/               ← worktree 1 (main)
 Switching branches in a worktree only updates that directory's files — no full checkout dance, no stashing WIP on the other branch.
 
 ## Technical Details
-
 ```bash
 # Create worktree for existing branch
 git worktree add ../project-feature feature-branch
@@ -63,12 +63,10 @@ git worktree remove ../project-hotfix
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Long-term second clone needs** — separate clone is simpler if you want different remotes or hooks.
 - **Replacing `git stash`** for tiny context switches — stash is lighter for 5-minute detours.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Same branch in two worktrees is forbidden** — Git prevents index corruption. Create a temp branch or use detached HEAD.
 
@@ -88,4 +86,3 @@ git worktree remove ../project-hotfix
 | Can't remove — dirty tree | `git status` in worktree | Commit, stash, or `--force` remove |
 | Submodule confusion | Each worktree needs `submodule update` | Run in each checkout separately |
 | Disk looks duplicated | Shared objects | Normal — only working files duplicate |
-

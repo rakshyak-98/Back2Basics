@@ -4,17 +4,18 @@
 
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about EME to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — EME](https://en.wikipedia.org/wiki/EME) — overview
 - [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/) — deep-dive
 
 ## Key Concepts
-
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
 
 | Piece              | Role                                       |
@@ -28,7 +29,6 @@ Interviewers ask about EME to see if you understand the pipeline role, failure m
 EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-AES / fMP4 `sinf`/`schi` boxes wrap the same keys for Apple.
 
 ## Technical Details
-
 ```txt
 Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
                     │
@@ -98,18 +98,15 @@ Mixed content blocked — manifest + segments + license all TLS
 ```
 
 ## Real-World Applications
-
 Used wherever EME sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
 - **Con / skip when:** **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
 - **Con / skip when:** **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `Unsupported keySystem` | Browser/OS; L1 vs L3 | Test Chrome+Android; provide clear fallback message |

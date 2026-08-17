@@ -4,16 +4,17 @@
 
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Percentage CSS/layout interviews check containing block rules — a common layout bug source.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 **Percent = parts per hundred.** Three operations cover 90% of production math:
 
 ```
@@ -32,7 +33,6 @@ Whole  = Part / (Rate / 100)
 ```
 
 ## Technical Details
-
 ### Quick mental table (anchor on 10%)
 
 | % | Trick | Example on 240 |
@@ -77,12 +77,10 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Statistical significance — use proper tests, not raw % delta on tiny samples.
 - GPU/memory "percent" in monitoring — know if it's of host, cgroup limit, or pod request.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Percentage points ≠ percent change.** Rate 5% → 7% is **+2 percentage points**, not +2% (that's +40% relative change).
 

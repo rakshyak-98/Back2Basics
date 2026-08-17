@@ -4,26 +4,25 @@
 
 > SuperTokens (Node SDK) — superTokens splits auth into a Core service (session store, refresh rotation) and your API (SDK middleware). Sessions live in httpOnly cookies +
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **SuperTokens (Node SDK)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [SuperTokens — Docs](https://supertokens.com/docs/guides) — deep-dive
 - [Wikipedia — SuperTokens](https://en.wikipedia.org/wiki/SuperTokens) — overview
 
 ## Core Definition
-
 [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
 ## Key Concepts
-
 - [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions li…
 - Recipe modules: **EmailPassword**, **ThirdParty** (OAuth), **Passwordless**, **Session**, **UserRoles**. SDK exposes `middleware()`, `errorHandler()`, and recipe APIs for sign-u…
 
 ## Technical Details
-
 [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
 ```
@@ -93,22 +92,18 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **SuperTokens** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`appInfo` domains must match real URLs** — subtle mismatch breaks cookie scope and OAuth redirects; **Middleware order** — SuperTokens middleware before body parsers on auth routes per docs.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (SuperTokens (Node SDK) — superTokens splits auth into a Core service (session st…).
 - **Con / when not:** **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
 - **Con / when not:** **Machine-to-machine only** — client credentials flow, not session cookies.
 - **Con / when not:** **Already deep into custom JWT** — migration cost versus incremental hardening.
 
 ## Comparison
-
 vs [[Security/JWT authentication]]: know when each applies — do not treat them as interchangeable. vs [[Security/single-sign-on (SSO)]]: know when each applies — do not treat them as interchangeable. vs [[Express middleware]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`appInfo` domains must match real URLs** — subtle mismatch breaks cookie scope and OAuth redirects.
 - **Middleware order** — SuperTokens middleware before body parsers on auth routes per docs.
 - **Don't roll custom JWT refresh** — use recipe session handling; rotation is easy to get wrong.

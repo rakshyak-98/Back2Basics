@@ -4,6 +4,10 @@
 
 > PostgreSQL pattern: put objects in a schema you can move with `ALTER … SET SCHEMA` — useful for extensions, tenant modules, and portable fixtures.
 
+
+
+
+
 ## Interview Relevance
 Shows schema-as-namespace fluency beyond `public`, including search_path pitfalls during blue/green schema cutovers.
 

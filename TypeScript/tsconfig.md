@@ -4,22 +4,22 @@
 
 > `tsconfig.json` tells the TypeScript compiler which files to include, how strict to check, how modules resolve, and whether to emit JavaScript.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about `tsconfig` to see if you enable `strict`, understand `module`/`moduleResolution`, and know that `paths` aliases are compile-time only unless the bundler mirrors them.
 
 ## Sources
-
 - [TypeScript Handbook — tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) — deep-dive
 - [TypeScript — Compiler Options](https://www.typescriptlang.org/tsconfig) — deep-dive
 - [TypeScript Handbook — Modules](https://www.typescriptlang.org/docs/handbook/modules.html) — overview
 
 ## Core Definition
-
 A `tsconfig.json` is the project file for `tsc`: `include`/`exclude` define roots; `compilerOptions` set target, module mode, strictness, emit, and tooling knobs such as incremental builds and path aliases.
 
 ## Key Concepts
-
 - **Safety flags:** `strict`, `noUncheckedIndexedAccess` → catch null and index bugs early.
 - **Module settings:** `module`, `moduleResolution`, `verbatimModuleSyntax` → must match Node or bundler reality.
 - **Emit vs check-only:** `noEmit` / `declaration` / `outDir` → CI often typechecks without emitting.
@@ -27,7 +27,6 @@ A `tsconfig.json` is the project file for `tsc`: `include`/`exclude` define root
 - **Incremental:** `incremental` + `tsBuildInfoFile` → faster rebuilds when cached in CI.
 
 ## Technical Details
-
 ```txt
 include/exclude → parse → typecheck → emit?
 ```
@@ -69,25 +68,21 @@ npx tsc -b  # project references
 | Emit into the repository | Accidental emit | `noEmit` or clean `outDir` |
 
 ## Real-World Applications
-
 Apps use `noEmit: true` with Vite/webpack owning emit; libraries emit `.d.ts` with `declaration: true`; monorepos use project references (`tsc -b`).
 
 **Example:** Imports work in the IDE via `paths` but crash in Node — aliases were never configured in the bundler or `exports`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One file encodes safety and module policy for the whole project.
 - **Con:** `skipLibCheck` speeds CI but can hide broken `.d.ts` issues.
 - **Con:** Multiple configs (app / Node / test) confuse editors if the wrong root is used.
 
 ## Comparison
-
 - vs command-line flags alone: `tsconfig` is shareable project truth; flags override for one-off runs.
 - vs [[ambient modules]] / [[Triple-Slash Directives]]: prefer `types`/`include` in `tsconfig` over scattered triple-slash refs.
 - vs bundler configuration: bundler owns runtime emit; `tsc --noEmit` owns type safety in CI.
 
 ## Mistakes to Avoid
-
 - Treating `paths` as Node resolution — runtime still needs real modules.
 - Loosening `strict` to silence errors instead of fixing types.
 - Mixing app and test `tsconfig` casually until IDE and CLI disagree.

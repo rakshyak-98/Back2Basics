@@ -4,21 +4,21 @@
 
 > Inspect PEM-encoded certs, keys, and CSRs with OpenSSL — confirm subject, expiry, SANs, and key type before install or debug TLS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Ops debugging: prove subject, SANs, expiry, and key match before installing a cert — OpenSSL one-liners.
 
 ## Sources
-
 - [OpenSSL — x509 command](https://www.openssl.org/docs/manmaster/man1/openssl-x509.html) — deep-dive
 - [RFC 7468 — Textual Encodings of PKIX](https://www.rfc-editor.org/rfc/rfc7468) — overview
 
 ## Core Definition
-
 Reading a PEM file means decoding the Base64 ASN.1 blob to inspect certificate or key fields before deploy or TLS troubleshooting.
 
 ## Key Concepts
-
 **PEM** files are Base64 DER with label lines:
 
 ```txt
@@ -39,7 +39,6 @@ Common labels:
 Always verify **which file is which** before pasting into servers — installing private key where cert goes breaks TLS silently or exposes key.
 
 ## Technical Details
-
 ### Certificate
 
 ```bash
@@ -94,21 +93,17 @@ openssl req  -in file.pem -text -noout
 | Wrong file order in fullchain | leaf vs intermediate | `fullchain`: leaf first, then intermediates |
 
 ## Real-World Applications
-
 Before Nginx reload, confirm SANs, dates, and that the private key modulus matches the certificate.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Catch SAN/expiry/key-mismatch before a production TLS outage.
 - **Con:** Don't `-text -noout` multi-GB PEM bundles in CI repeatedly — parse programmatically. For binary, use [[DER]] `-inform der`.
 
 ## Comparison
-
 - vs [[openssl]] general use: this note is the inspect-before-install checklist.
 - vs [[DER]]: convert when tools require binary.
 
 ## Mistakes to Avoid
-
 - Never commit private PEM to git — scan with gitleaks; rotate if leaked.
 - `BEGIN RSA PRIVATE KEY` vs PKCS#8 — some tools picky; convert with `openssl pkcs8`.
 - Windows line endings — CRLF can break parsers; `dos2unix file.pem`.

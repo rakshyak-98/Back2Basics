@@ -4,17 +4,18 @@
 
 > STS issues temporary security credentials after a principal proves it may assume a role — production AWS access should flow through STS rather than static access keys.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 STS interviews cover AssumeRole, temporary credentials, and federation — why long-lived keys are avoided.
 
 ## Sources
-
 - [AWS STS API Reference](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) — deep-dive
 - [Temporary security credentials in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) — overview
 
 ## Technical Details
-
 ### What STS provides
 
 STS returns **temporary credentials** (access key ID, secret access key, session token) with a defined expiration. Callers use these credentials like long-lived keys, but they expire automatically and can be scoped with session policies.
@@ -65,7 +66,6 @@ aws sts get-caller-identity
 Export the returned `AccessKeyId`, `SecretAccessKey`, and `SessionToken` into the environment for subsequent CLI calls, or use `aws sts assume-role` with `--profile` and role chaining in `~/.aws/config`.
 
 ## Mistakes to Avoid
-
 | Error | Typical cause |
 |-------|----------------|
 | `AccessDenied` on AssumeRole | Trust policy does not list your principal |

@@ -4,17 +4,18 @@
 
 > `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git log formatting` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 git log --pretty=format:"%h %ad | %an | %s" --date=short
          └─ hash  date      author  subject
@@ -23,7 +24,6 @@ git log --pretty=format:"%h %ad | %an | %s" --date=short
 **Author** (`%an`) wrote the patch; **committer** (`%cn`) applied it — differ after rebase/cherry-pick.
 
 ## Technical Details
-
 ### Common one-liners
 
 ```bash
@@ -75,12 +75,10 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Structured JSON export at scale** — `git cat-file`, libgit2, or platform API.
 - **File content history** — add `-p` or use [[git diff]].
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Rebase changes committer date** — `%cr` may say "2 minutes ago" for old work.
 

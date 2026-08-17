@@ -4,17 +4,18 @@
 
 > Indexes make MongoDB finds fast — without them, every query is a collection scan.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Index interviews check compound key order, ESR rule, covered queries, and when indexes hurt writes.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
 ```
@@ -29,7 +30,6 @@ Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
 | **TTL / text / 2dsphere** | Special indexes | “Expiry, search, geo.” |
 
 ## Technical Details
-
 ```js
 db.users.createIndex({ email: 1 }, { unique: true })
 db.users.createIndex({ name: 1, age: -1 })
@@ -47,12 +47,10 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Background (legacy) | Prefer rolling builds on replica set |
 
 ## Pros/Cons or Trade-offs
-
 - **Tiny collections** — scan is fine.
 - **Fields never queried** — don’t index “just in case.”
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Left-prefix rule** — `{a:1,b:1}` helps `{a}` and `{a,b}`, not `{b}` alone.
 
@@ -65,4 +63,3 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Write latency up | Too many indexes | Drop unused (`$indexStats`) |
 | Unique violation | Dup keys | Clean data; fix app |
 | Sort in memory | No index for sort | Extend compound index |
-

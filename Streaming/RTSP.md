@@ -4,17 +4,18 @@
 
 > RTSP is a control protocol for on-demand and live media — clients send PLAY/PAUSE over TCP, then receive RTP packets (usually UDP) carrying the actual A/V.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk RTSP end-to-end — not just name it. Signal fluency with **RTSP**, **RTP**, **SDP**, **Interleaved** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — RTSP](https://en.wikipedia.org/wiki/RTSP) — overview
 - [RFC 7826 — RTSP 2.0](https://datatracker.ietf.org/doc/html/rfc7826) — deep-dive
 
 ## Key Concepts
-
 - **RTSP:** Session control (RFC 2326 / 7826) — “RTSP negotiates the session; it doesn’t carry all the media bytes.”
 - **RTP:** Real-time transport of encoded frames — “After PLAY, media flows as RTP payloads.”
 - **SDP:** Session description (codecs, ports) — “DESCRIBE returns SDP — same family as WebRTC, different use.”
@@ -37,7 +38,6 @@ Interviewers probe whether you can walk RTSP end-to-end — not just name it. Si
 | **[[HLS]]** | HTTP segments | CDN → players | Yes |
 
 ## Technical Details
-
 ```txt
 Client (VLC, ffmpeg, NVR)          Media server / IP camera
         │── DESCRIBE rtsp://… ────────►│  (SDP: codecs, tracks)
@@ -111,11 +111,9 @@ timeout 10 ffprobe -rtsp_transport tcp -v error \
 ```
 
 ## Real-World Applications
-
 Used wherever RTSP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Browser-first live to thousands** — package [[HLS]] / [[DASH]] behind a CDN; RTSP doesn’t scale as viewer egress.
 - **Con / skip when:** **Encoder → cloud ingest from home uplink** — prefer [[SRT]] or [[RTMP]] with ARQ/TCP semantics tuned for contribution.
@@ -123,13 +121,11 @@ Used wherever RTSP sits in an ingest → package → CDN → player path. Concre
 - **Con / skip when:** **Untrusted WAN without TLS** — RTSP/RTP are often cleartext; VPN or RTSP-over-TLS gateway for remote access.
 
 ## Comparison
-
 - vs [[HLS]]: **Browser-first live to thousands** — package [[HLS]] / [[DASH]] behind a CDN; RTSP doesn’t scale as viewer egress.
 - vs [[SRT]]: **Encoder → cloud ingest from home uplink** — prefer [[SRT]] or [[RTMP]] with ARQ/TCP semantics tuned for contribution.
 - vs [[WebRTC]]: **Sub-second interactive** — [[WebRTC]] / WHIP, not RTSP pull + transcode.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Connection refused | `nc -zv host 554` | Wrong port; camera RTSP disabled |

@@ -4,34 +4,21 @@
 
 > Expire and replace secrets often so a leak has a short life — especially OAuth refresh tokens with reuse detection.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Session security: short-lived access tokens, refresh rotation, reuse detection, and signing-key rotation with overlap.
 
 ## Sources
-
 - [RFC 6819 — OAuth 2.0 Threat Model](https://www.rfc-editor.org/rfc/rfc6819) — deep-dive
 - [OAuth 2.0 Security BCP](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics) — overview
 
 ## Core Definition
-
 Token rotation expires and replaces credentials (access, refresh, or API keys) so a leak has a short useful life and reuse can signal theft.
 
-## Key Concepts
-
-Long-lived secrets **will** leak (logs, git, browser, support tickets). Rotation means: **short TTL** + **refresh path** + **revocation/list** + **key versioning** so old material stops working without hard-downtime if done right.
-
-```
-Access token (15m) ──► API
-       │
-       └── refresh token (rotating, bound to client) ──► new pair
-Signing keys (JWKS kid) ──► verify old + new during overlap window
-```
-
-OAuth **refresh token rotation** (RFC 6819 §5.2.2.3): each refresh issues new refresh token; reuse of old refresh = breach signal → revoke family.
-
 ## Technical Details
-
 ### JWT signing keys (asymmetric preferred)
 
 ```json
@@ -83,22 +70,18 @@ vault write -force auth/approle/role/myrole/secret-id
 | Mobile apps break on rotation | Hard-coded old public key | Pin to JWKS URL with update mechanism |
 
 ## Real-World Applications
-
 OAuth refresh-token rotation with reuse detection limits the window after a stolen refresh token.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Shrinks leak windows and can detect stolen refresh-token reuse.
 - **Con:** Rotate on every API request — unnecessary overhead; match risk (15m access / 7d refresh typical for web).
 - **Con:** Rotation without revocation store — stolen refresh works until natural expiry if you can't invalidate server-side.
 
 ## Comparison
-
 - vs long-lived API keys: rotation shrinks leak windows and enables reuse detection.
 - vs [[JWT authentication]]: rotation applies to refresh/signing keys that mint JWTs.
 
 ## Mistakes to Avoid
-
 - Rotating signing key without overlap — all in-flight access tokens die instantly → global 401.
 - Refresh token in localStorage — XSS steals long-lived credential; httpOnly cookie + rotation + short access token.
 - Logging tokens — rotation useless if every refresh logs bearer token at INFO.

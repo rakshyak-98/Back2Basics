@@ -4,6 +4,10 @@
 
 > `psql` — the interactive PostgreSQL terminal for connecting, meta-commands, schema inspection, and scripting [[SQL]].
 
+
+
+
+
 ## Interview Relevance
 Comfort with `\d`, `\dt`, `\timing`, and connection URIs signals you can debug without a GUI.
 

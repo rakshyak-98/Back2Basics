@@ -4,17 +4,18 @@
 
 > MongoDB users and roles live in databases — grant least privilege, usually via `admin`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 User management checks roles, auth databases, and least-privilege for app vs admin users.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 admin.createUser → roles[{ role, db }] → clients auth with authSource
 ```
@@ -29,7 +30,6 @@ admin.createUser → roles[{ role, db }] → clients auth with authSource
 | **SCRAM** | Password auth mechanism | “Default for users.” |
 
 ## Technical Details
-
 ```js
 use admin
 db.createUser({
@@ -49,12 +49,10 @@ db.dropUser('app')
 | X.509 / LDAP | Enterprise auth stories |
 
 ## Pros/Cons or Trade-offs
-
 - **Local disposable docker** — root is fine for throwaway demos.
 - **Managed Atlas** — prefer UI/API database users.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Users in app DB vs admin** — URI `authSource` must match where the user was created.
 
@@ -67,4 +65,3 @@ db.dropUser('app')
 | Auth failed | authSource mismatch | Point URI at user DB |
 | Can’t create user | not admin | Use root/userAdmin |
 | Too much privilege | `root` in apps | Replace with readWrite |
-

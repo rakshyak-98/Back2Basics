@@ -4,17 +4,18 @@
 
 > git commit — snapshot of the index; the unit of Git history.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Commit interviews probe atomic commits, message quality, and amend/fixup safety on shared history.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Technical Details
-
 ```bash
 git add file.txt
 git commit -m "describe the change"
@@ -25,11 +26,9 @@ git diff --cached                   # what will be committed
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Commit only stages what you added** — `git commit` does not pick up unstaged edits.
 
@@ -39,4 +38,3 @@ git diff --cached                   # what will be committed
 | Commit rejected (hook) | `.git/hooks/pre-commit` output | Fix hook failure or `--no-verify` only if policy allows |
 | Wrong files committed | `git show --stat HEAD` | `git reset --soft HEAD~1` then re-stage |
 | Author/email wrong | `git config user.name`; `git config user.email` | Set locally or globally before commit |
-

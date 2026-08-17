@@ -4,6 +4,10 @@
 
 > Linux memory management balances anonymous pages, file cache, swap, and cgroup limits — look here when workloads slow down or die with exit 137.
 
+
+
+
+
 ## Interview Relevance
 Interviewers want `MemAvailable` vs free, page cache reclaimability, overcommit, and how cgroup limits relate to OOM — not a textbook of every MM subsystem.
 
@@ -22,7 +26,6 @@ Physical RAM holds **anonymous** memory (heap, stack) and **page cache** (file-b
 - **cgroup memory:** Per-slice caps trigger local OOM before host exhaustion.
 
 ## Technical Details
-
 ```bash
 free -h
 cat /proc/meminfo | head -20

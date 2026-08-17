@@ -4,6 +4,10 @@
 
 > Multicast — one sender to many interested receivers; only hosts that joined the group get the traffic.
 
+
+
+
+
 ## Interview Relevance
 Networking interviews contrast unicast / broadcast / multicast, IGMP on the LAN, and PIM for routing trees. Signal efficiency: one packet in, replicated only where needed.
 

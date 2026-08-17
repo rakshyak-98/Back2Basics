@@ -4,17 +4,18 @@
 
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use MongoDB replica set to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 A replica set is a group of mongod processes that replicate the same data. One **primary** accepts writes; **secondaries** pull from the primary's **oplog** (capped collection of operations). **Arbiters** vote in elections but hold no data. Members heartbeat each other; primary loss triggers election (~seconds).
 
 ```
@@ -31,7 +32,6 @@ Client writes → Primary → oplog
 | Arbiter | No | No | None |
 
 ## Technical Details
-
 ### Initiate (lab / first deploy)
 
 ```js
@@ -62,12 +62,10 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Don't run production on standalone mongod — no failover, no oplog backup story.
 - Don't use arbiters as a substitute for a third data node when you care about durability.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Read from secondary without `secondaryOk`** — driver defaults to primary for consistency.
 >
