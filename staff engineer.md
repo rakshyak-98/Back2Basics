@@ -1,4 +1,4 @@
-[[general]] [[INDEX]] [[AGENT_NOTE_RULES]] [[Release cycle]] [[Code review]]
+[[general]] [[INDEX]] [[Release cycle]] [[Code review]]
 
 # staff engineer
 

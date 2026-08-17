@@ -1,4 +1,4 @@
-[[Descriptive]] [[README]] [[staff engineer]] [[INDEX]] [[AGENT_NOTE_RULES]] [[Configuration]] [[Terraform workflow]] [[gRPC]] [[marketplace application]]
+[[Descriptive]] [[README]] [[staff engineer]] [[INDEX]] [[Configuration]] [[Terraform workflow]] [[gRPC]] [[marketplace application]]
 
 # Mermaid (DSL)
 
