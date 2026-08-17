@@ -1,4 +1,4 @@
-[[commands]] [[iptables]] [[Linux network commands]] [[SSH]]
+[[Neovim CLI]] [[iptables]] [[Linux network commands]] [[SSH]]
 
 # ufw
 

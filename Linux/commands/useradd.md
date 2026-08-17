@@ -1,4 +1,4 @@
-[[commands]] [[user management]] [[userdel]] [[usermod]] [[passwd]] [[linux groups]] [[visudo]]
+[[Neovim CLI]] [[user management]] [[userdel]] [[usermod]] [[passwd]] [[linux groups]] [[visudo]]
 
 # useradd
 

@@ -1,4 +1,4 @@
-[[Github action]] [[Github cli]] [[Docker/Docker compose]] [[DevOps/Jenkins]]
+[[Github action]] [[GitHub CLI]] [[Docker/Docker compose]] [[DevOps/Jenkins]]
 
 # GitHub Actions runner
 

@@ -1,4 +1,4 @@
-[[cli]] [[Kubernates/kubectl]] [[Kubernates/Pods]]
+[[Helm CLI]] [[Kubernates/kubectl]] [[Kubernates/Pods]]
 
 # Helm
 
@@ -53,7 +53,7 @@ Chart + values → rendered manifests → cluster objects (release)
 - **Con:** Abstraction hides YAML — always `helm template` before big upgrades.
 
 ## Comparison
-- vs [[cli]]: conceptual model vs command cheat sheet.
+- vs [[Helm CLI]]: conceptual model vs command cheat sheet.
 - vs plain GitOps manifests: Helm adds packaging; GitOps still applies the output.
 
 

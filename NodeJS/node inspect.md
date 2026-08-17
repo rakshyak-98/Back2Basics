@@ -1,4 +1,4 @@
-[[NodeJS]] [[node debugger]] [[REPL]] [[node command]]
+[[NodeJS]] [[node debugger]] [[REPL]] [[NodeJS CLI]]
 
 # node inspect
 

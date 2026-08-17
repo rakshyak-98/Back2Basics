@@ -1,4 +1,4 @@
-[[IAM]] [[AWS Lambda]] [[Docker/docker file]] [[AWS cli commands]]
+[[IAM]] [[AWS Lambda]] [[Docker/docker file]] [[AWS CLI]]
 
 # AWS ECR
 

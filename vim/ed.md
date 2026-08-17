@@ -1,4 +1,4 @@
-[[vim commands]] [[vim config]] [[Linux/CLI]]
+[[Vim CLI]] [[vim config]] [[Linux/CLI]]
 
 # ed
 
@@ -62,7 +62,7 @@ ed myfile.txt
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Tiny binary, scriptable, always available on Unix-like systems.
-- **Con:** No visual context — high cognitive load; prefer [[vim commands]] or `sed` for day-to-day work.
+- **Con:** No visual context — high cognitive load; prefer [[Vim CLI]] or `sed` for day-to-day work.
 
 ## Comparison
 - vs Vim Ex mode (`:`): same address/command model, but Vim keeps a buffer UI and undo.

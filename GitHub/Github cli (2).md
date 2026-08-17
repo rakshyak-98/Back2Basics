@@ -1,1 +1,1 @@
-→ [[Github cli]]
+→ [[GitHub CLI]]

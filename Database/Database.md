@@ -62,7 +62,7 @@ Clients ──► [[connection pooling]] ──► SQL planner ──► buffer 
 
 - Engines and ecosystems:
 
-- **MySQL:** — [[mysql]] hub; default [[mysql engine]] is InnoDB ([[MySQL storage]])
+- **MySQL:** — [[mysql]] hub; default [[MySQL Engines]] is InnoDB ([[MySQL storage]])
 - **PostgreSQL:** — [[SQL/postgres]]
 - **Document / blob:** — [[GridFS]] (MongoDB), not a substitute for relational invariants
 - **Vectors:** — [[Vector database]] for similarity search alongside an OLTP store

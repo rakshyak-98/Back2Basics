@@ -1,4 +1,4 @@
-[[vim buffers]] [[vim commands]] [[Linux/commands/fzf]] [[Linux/CLI]]
+[[vim buffers]] [[Vim CLI]] [[Linux/commands/fzf]] [[Linux/CLI]]
 
 # netrw file explorer
 

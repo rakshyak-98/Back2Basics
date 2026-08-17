@@ -1,4 +1,4 @@
-[[mysql table]] [[mysql index]] [[mysql normalization]] [[ACID]] [[MySQL Error]] [[mysql engine]]
+[[mysql table]] [[mysql index]] [[mysql normalization]] [[ACID]] [[MySQL Error]] [[MySQL Engines]]
 
 # key Constraint
 
@@ -39,7 +39,7 @@ CHECK (balance >= 0)
 
 - Require indexed parent/child columns (index created automatically on child if…
 - `ON DELETE CASCADE` propagates deletes—use deliberately
-- InnoDB only ([[mysql engine]])
+- InnoDB only ([[MySQL Engines]])
 
 - Naming: explicit constraint names (`CONSTRAINT fk_orders_user`) make [[MySQL …
 

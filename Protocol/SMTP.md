@@ -1,4 +1,4 @@
-[[E mail server]] [[mail server]] [[TCP]] [[DNS]] [[TLS (Transport Layer Security)]]
+[[mail server]] [[mail server]] [[TCP]] [[DNS]] [[TLS (Transport Layer Security)]]
 
 # SMTP
 

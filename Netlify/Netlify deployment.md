@@ -1,4 +1,4 @@
-[[vercel deployment]] [[Deployment/render cli]] [[Proxy/Reverse Proxy]]
+[[vercel deployment]] [[Render CLI]] [[Proxy/Reverse Proxy]]
 
 # Netlify deployment
 

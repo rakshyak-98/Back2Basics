@@ -1,4 +1,4 @@
-[[Github action]] [[Airflow]] [[Docker compose]] [[terraform]] [[GIT/git command]] [[Slack]]
+[[Github action]] [[Airflow]] [[Docker compose]] [[terraform]] [[Git CLI]] [[Slack]]
 
 # Jenkins
 

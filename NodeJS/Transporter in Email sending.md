@@ -1,4 +1,4 @@
-[[NodeJS]] [[SMTP]] [[E mail server]] [[webhook]]
+[[NodeJS]] [[SMTP]] [[mail server]] [[webhook]]
 
 # Nodemailer Transporter
 

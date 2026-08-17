@@ -16,12 +16,12 @@
 | DNS not resolving / wrong answer | [[DNS]] · [[dig]] · [[DNS zone]] |
 | SSH auth fails / wrong key | [[ssh agent]] · [[SSH authentication]] · [[ssh allow local system with key]] |
 | Nginx 502/504/499 | [[Configuration]] · [[nginx using unix socket]] |
-| Container won’t start / compose drift | [[Docker compose]] · [[docker cli]] · [[Docker Runtime Security]] |
+| Container won’t start / compose drift | [[Docker compose]] · [[Docker CLI]] · [[Docker Runtime Security]] |
 | Pod CrashLoop / not Ready | [[Pods]] · [[kubectl]] · [[ingress]] |
 | Create / apply a Pod manifest | [[kubectl pod creation]] · [[Pods]] · [[kubectl]] |
 | Certbot / TLS renew fail | [[certbot error]] · [[TLS (Transport Layer Security)]] · [[ACME server]] |
 | Terraform state lock / drift | [[Terraform workflow]] · [[Terraform CLI]] · [[variable file]] |
-| Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
+| Redis latency / OOM / eviction | [[Redis CLI]] · [[redis installation]] |
 | Slow query / missing index | [[covering index]] · [[mysql index]] · [[Data access patterns]] |
 | Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
 | TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS (Transport Layer Security)]] |
@@ -56,7 +56,7 @@
 - Semantics: [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[OLTP]] · [[OLAP]]
 - Scaling: [[Horizontal vs Vertical Scaling]] · [[database sharding]] · [[scaling data migration]] · [[connection pooling]]
 - MySQL/Postgres: [[mysql]] · [[covering index]] · [[psql essential]]
-- Redis: [[redis-cli]] · [[redis installation]]
+- Redis: [[Redis CLI]] · [[redis installation]]
 - Mongo: [[WiredTiger storage engine]] · [[MongoDB]]
 
 ### Security & access
@@ -78,7 +78,7 @@
 
 ### Git / delivery
 - [[git error]] · [[git rebase]] · [[git ssh config]] · [[git worktree]]
-- Deploy CLIs: [[Deployment/render cli]] · [[Deployment/vercel cli]] · [[Deployment/vercel deployment]] · [[Netlify/Netlify deployment]]
+- Deploy CLIs: [[Deployment CLI]] · [[Vercel CLI]] · [[Render CLI]] · [[vercel deployment]] · [[Netlify/Netlify deployment]]
 
 ---
 
@@ -106,3 +106,5 @@
 ## Related-note clusters
 
 For folder groups, naming families, link hubs, and likely duplicate pairs across the vault, see [[Similar Notes — Cluster Map]].
+
+For executed merges, CLI file map, and recommended next merges, see [[Note Merge Plan]].

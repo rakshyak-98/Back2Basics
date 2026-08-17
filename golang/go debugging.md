@@ -1,4 +1,4 @@
-[[golang]] [[go cli]] [[go error]] [[go callstack]] [[go-routines]]
+[[golang]] [[Go CLI]] [[go error]] [[go callstack]] [[go-routines]]
 
 # go debugging
 

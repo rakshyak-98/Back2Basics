@@ -1,4 +1,4 @@
-[[CLI]] [[login shell]] [[terminal emulator]] [[terminal config]] [[editor config]] [[SSH]]
+[[NodeJS CLI]] [[login shell]] [[terminal emulator]] [[terminal config]] [[editor config]] [[SSH]]
 
 # Linux terminal
 
@@ -62,7 +62,7 @@ stty size           # rows cols
 - **Con:** Capability mismatches (`TERM`) cause subtle UI bugs; easy to lose work without a multiplexer.
 
 ## Comparison
-- vs [[CLI]]: terminal is the display/input path
+- vs [[NodeJS CLI]]: terminal is the display/input path
 
 
 ### Use cases

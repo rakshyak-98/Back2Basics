@@ -1,4 +1,4 @@
-[[commands]] [[Descriptive/LSP]] [[Descriptive/vscode]]
+[[Neovim CLI]] [[Descriptive/LSP]] [[Descriptive/vscode]]
 
 # Neovim setup
 

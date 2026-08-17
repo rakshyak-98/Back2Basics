@@ -1,4 +1,4 @@
-[[Next JS]] [[NextJS Deployment]] [[NextJS navigation]] [[vercel deployment]] [[vercel cli]]
+[[Next JS]] [[NextJS Deployment]] [[NextJS navigation]] [[vercel deployment]] [[Vercel CLI]]
 
 # ISR (Incremental Static Regeneration)
 

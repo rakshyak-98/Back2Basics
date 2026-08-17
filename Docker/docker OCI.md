@@ -1,4 +1,4 @@
-[[docker container]] [[docker file]] [[docker cli]] [[Docker Runtime Security]] [[AWS ECR]]
+[[docker container]] [[docker file]] [[Docker CLI]] [[Docker Runtime Security]] [[AWS ECR]]
 
 # docker OCI
 

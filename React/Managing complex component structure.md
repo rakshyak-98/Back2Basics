@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]] [[Data Fetching HOC component]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]] [[data fetching component]]
 
 # Managing complex component structure
 

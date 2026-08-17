@@ -1,4 +1,4 @@
-[[Linux terminal]] [[Find command]] [[bash script]] [[grep]] [[CLI]]
+[[Linux terminal]] [[Find command]] [[bash script]] [[grep]] [[NodeJS CLI]]
 
 # fzf
 

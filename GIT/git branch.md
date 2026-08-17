@@ -1,4 +1,4 @@
-[[git command]] [[git merge]] [[git rebase]] [[git diff]] [[git logs]] [[git worktree]]
+[[Git CLI]] [[git merge]] [[git rebase]] [[git diff]] [[git logs]] [[git worktree]]
 
 # Git branches
 

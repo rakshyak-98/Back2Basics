@@ -1,4 +1,4 @@
-[[SMTP]] [[E mail server]] [[mail server]] [[TCP]] [[TLS (Transport Layer Security)]]
+[[SMTP]] [[mail server]] [[mail server]] [[TCP]] [[TLS (Transport Layer Security)]]
 
 # IMAP (Internet Message Access Protocol)
 

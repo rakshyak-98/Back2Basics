@@ -1,4 +1,4 @@
-[[flutter cli]] [[flutter error]] [[dart]] [[android/adb device]] [[Descriptive/DAP (Debug Adapter Protocol)]]
+[[Flutter CLI]] [[flutter error]] [[dart]] [[android/adb device]] [[Descriptive/DAP (Debug Adapter Protocol)]]
 
 # Flutter debugging
 

@@ -1,4 +1,4 @@
-[[NodeJS]] [[CLI]] [[node command]] [[Node.js run as a non-privileged user]] [[node package json]] [[Deployment/vercel deployment]]
+[[NodeJS]] [[NodeJS CLI]] [[NodeJS CLI]] [[Node.js run as a non-privileged user]] [[node package json]] [[Deployment/vercel deployment]]
 
 # nvm (Node Version Manager)
 
@@ -99,7 +99,7 @@ set -Ux NVM_DIR $HOME/.nvm
 - **Con / when not:** **Windows native**
 
 ## Comparison
-- vs [[CLI]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

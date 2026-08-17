@@ -1,4 +1,4 @@
-[[Linux terminal]] [[login shell]] [[CLI]] [[terminal config]] [[editor config]] [[SSH]] [[puTTY]]
+[[Linux terminal]] [[login shell]] [[NodeJS CLI]] [[terminal config]] [[editor config]] [[SSH]] [[puTTY]]
 
 # terminal emulator
 

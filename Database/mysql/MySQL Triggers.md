@@ -1,4 +1,4 @@
-[[mysql triggers]] [[mysql Programmable SQL]] [[mysql table]] [[ACID]] [[mysql dump]] [[mysql data migrations]] [[mysql Events]]
+[[MySQL Triggers]] [[mysql Programmable SQL]] [[mysql table]] [[ACID]] [[mysql dump]] [[mysql data migrations]] [[mysql Events]]
 
 # MySQL Triggers
 
@@ -21,14 +21,14 @@
 - [MySQL Reference Manual — Triggers](https://dev.mysql.com/doc/refman/en/triggers.html) — deep-dive
 - [MySQL Reference Manual — CREATE TRIGGER](https://dev.mysql.com/doc/refman/en/create-trigger.html) — deep-dive
 - [MySQL Reference Manual — Trigger Syntax](https://dev.mysql.com/doc/refman/en/trigger-syntax.html) — overview
-- [[mysql triggers]] — overview
+- [[MySQL Triggers]] — overview
 
 ## Key Concepts
 - **Timing:** `BEFORE` can change `NEW` or signal errors; `AFTER` sees the row as stored.
 - **FOR EACH ROW:** row-level access to `OLD` / `NEW` images.
 - **Same transaction:** trigger work commits or rolls back with the statement
 - **Hidden call site:** every client path (app, admin SQL, migration) pays the cost.
-- **Complement to [[mysql triggers]]:** that leaf is the concise concept note; this note holds operational patterns.
+- **Complement to [[MySQL Triggers]]:** that leaf is the concise concept note; this note holds operational patterns.
 
 
 - **Core:** A MySQL trigger is a named program associated with a table event (`BEFORE`/`A…
@@ -72,7 +72,7 @@ SET NEW.updated_at = CURRENT_TIMESTAMP;
 - **Trade-off:** Trigger invariants vs application service layer + declarative constraints.
 
 ## Comparison
-- vs [[mysql triggers]]: shared topic
+- vs [[MySQL Triggers]]: shared topic
 
 
 ### Use cases

@@ -1,4 +1,4 @@
-[[golang/go.md]] [[golang/go-routines]] [[golang/go interface]] [[golang/go error]] [[golang/go cli]] [[golang/go project]] [[INDEX]]
+[[golang/go.md]] [[golang/go-routines]] [[golang/go interface]] [[golang/go error]] [[Go CLI]] [[golang/go project]] [[INDEX]]
 
 # golang
 
@@ -27,7 +27,7 @@
 - **Interfaces:** Satisfied implicitly; small interfaces preferred ([[golang/go interface]]).
 - **Errors:** Values, not exceptions; wrap with context ([[golang/go error]]).
 - **Modules & packages:** Explicit dependency versions
-- **Tooling:** `go build`, `go test -race`, `go vet` ([[golang/go cli]], [[golang/go build]]…
+- **Tooling:** `go build`, `go test -race`, `go vet` ([[Go CLI]], [[golang/go build]]…
 
 
 - **Core:** Go (Golang) is a statically typed, garbage-collected language with fast compi…

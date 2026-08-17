@@ -1,4 +1,4 @@
-[[golang]] [[go cli]] [[go build]] [[go project]]
+[[golang]] [[Go CLI]] [[go build]] [[go project]]
 
 # Makefile
 

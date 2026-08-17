@@ -1,4 +1,4 @@
-[[WAL (Write-Ahead Log)]] [[ACID]] [[ARIES]] [[mysql engine]] [[SQL/postgres]] [[MySQL storage]]
+[[WAL (Write-Ahead Log)]] [[ACID]] [[ARIES]] [[MySQL Engines]] [[SQL/postgres]] [[MySQL storage]]
 
 # write-ahead logging
 

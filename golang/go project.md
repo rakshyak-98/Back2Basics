@@ -1,4 +1,4 @@
-[[golang]] [[go learning]] [[go]] [[go-routines]] [[go cli]] [[gRPC]]
+[[golang]] [[go learning]] [[go]] [[go-routines]] [[Go CLI]] [[gRPC]]
 
 # go project
 

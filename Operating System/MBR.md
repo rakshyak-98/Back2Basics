@@ -1,4 +1,4 @@
-[[Operating System]] [[MBR(Master Boot Record)]] [[Boot/UEFI]] [[logical partitions]] [[Persistent Block Storage]]
+[[Operating System]] [[MBR]] [[Boot/UEFI]] [[logical partitions]] [[Persistent Block Storage]]
 
 # MBR
 
@@ -48,7 +48,7 @@ Byte 510–511: 0xAA55 signature
 - **Trade-off:** hybrid MBR on GPT for mixed BIOS/UEFI — complexity and footguns.
 
 ## Comparison
-- Alias note: [[MBR(Master Boot Record)]].
+- Alias note: [[MBR]].
 - vs [[Boot/UEFI]]: UEFI uses ESP + GPT; MBR is the BIOS-era first sector.
 
 

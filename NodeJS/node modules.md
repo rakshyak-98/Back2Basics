@@ -1,4 +1,4 @@
-[[NodeJS]] [[node package json]] [[npm command]] [[Runtime Errors]]
+[[NodeJS]] [[node package json]] [[NodeJS CLI]] [[Runtime Errors]]
 
 # node modules
 

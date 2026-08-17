@@ -1,4 +1,4 @@
-[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS Networking]] [[Security group]]
+[[AWS EC2]] [[AWS EBS(Elastic Block Store)]] [[AWS Networking]] [[Security group]]
 
 # AMI (Amazon Machine Image)
 

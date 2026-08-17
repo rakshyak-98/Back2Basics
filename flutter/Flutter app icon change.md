@@ -1,4 +1,4 @@
-[[flutter build]] [[android]] [[flutter cli]]
+[[flutter build]] [[android]] [[Flutter CLI]]
 
 # Flutter app icon change
 

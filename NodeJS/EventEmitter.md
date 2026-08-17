@@ -1,4 +1,4 @@
-[[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]] [[event emitter]] [[worker threads]]
+[[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]] [[EventEmitter]] [[worker threads]]
 
 # EventEmitter
 

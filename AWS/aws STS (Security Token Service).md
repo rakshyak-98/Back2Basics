@@ -1,4 +1,4 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[AWS EC2]] [[AWS Lambda]] [[AWS cli commands]]
+[[IAM]] [[ARN (Amazon Resource Name)]] [[AWS EC2]] [[AWS Lambda]] [[AWS CLI]]
 
 # aws STS (Security Token Service)
 

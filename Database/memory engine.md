@@ -1,4 +1,4 @@
-[[mysql engine]] [[MySQL Engines]] [[MySQL storage]] [[ACID]]
+[[MySQL Engines]] [[MySQL Engines]] [[MySQL storage]] [[ACID]]
 
 # memory engine
 
@@ -57,7 +57,7 @@ CREATE TABLE session_scratch (
 - **Con:** No durability; table locks; memory pressure can affect the whole server.
 
 ## Comparison
-- vs InnoDB ([[mysql engine]]): InnoDB gives row locks, [[ACID]], and crash rec…
+- vs InnoDB ([[MySQL Engines]]): InnoDB gives row locks, [[ACID]], and crash rec…
 
 
 ### Use cases

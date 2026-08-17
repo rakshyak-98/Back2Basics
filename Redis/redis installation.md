@@ -1,4 +1,4 @@
-[[redis-cli]] [[systemd]] [[connection pooling]] [[Docker compose]]
+[[Redis CLI]] [[systemd]] [[connection pooling]] [[Docker compose]]
 
 # redis installation
 

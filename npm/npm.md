@@ -1,4 +1,4 @@
-[[yarn]] [[pnpm cli]] [[npm script]] [[npm error]] [[node package json]] [[node modules]]
+[[yarn]] [[pnpm CLI]] [[npm script]] [[npm error]] [[node package json]] [[node modules]]
 
 # npm
 
@@ -67,12 +67,12 @@ npm install --force              # override with heuristics / warnings
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Default toolchain, huge registry, mature lockfile and workspace support.
-- **Con:** Nested `node_modules` can be large and slow compared with [[pnpm cli]]’s content-addressable store.
+- **Con:** Nested `node_modules` can be large and slow compared with [[pnpm CLI]]’s content-addressable store.
 - **Con:** Mixing npm and Yarn/pnpm in one project causes lockfile drift.
 
 ## Comparison
 - vs [[yarn]]: Yarn Classic/Berry emphasize deterministic installs and workspaces
-- vs [[pnpm cli]]: pnpm hard-links from a global store and is stricter about phantom dependencies a…
+- vs [[pnpm CLI]]: pnpm hard-links from a global store and is stricter about phantom dependencies a…
 
 
 ### Use cases

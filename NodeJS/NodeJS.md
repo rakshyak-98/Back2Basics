@@ -1,4 +1,4 @@
-[[NodeJS]] [[event emitter]] [[Stream]] [[npm command]] [[expressjs]] [[worker]] [[node modules]]
+[[NodeJS]] [[EventEmitter]] [[Stream]] [[NodeJS CLI]] [[expressjs]] [[worker]] [[node modules]]
 
 # NodeJS
 
@@ -69,7 +69,7 @@ node -e 'console.log(process.version)'
 - **Con / when not:** **Browser-only APIs** — DOM isn’t in Node.
 
 ## Comparison
-- vs [[event emitter]]: know when each applies
+- vs [[EventEmitter]]: know when each applies
 
 
 ### Use cases

@@ -1,4 +1,4 @@
-[[NodeJS]] [[node inspect]] [[node command]] [[Runtime Errors]]
+[[NodeJS]] [[node inspect]] [[NodeJS CLI]] [[Runtime Errors]]
 
 # REPL
 

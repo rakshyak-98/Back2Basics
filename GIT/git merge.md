@@ -1,4 +1,4 @@
-[[git]] [[git command]] [[git rebase]] [[git branch]] [[git diff]]
+[[git]] [[Git CLI]] [[git rebase]] [[git branch]] [[git diff]]
 
 # Git Merge
 

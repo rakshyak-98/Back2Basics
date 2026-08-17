@@ -1,4 +1,4 @@
-[[commands]] [[Bash/Bash syntax]] [[visudo]]
+[[Neovim CLI]] [[Bash/Bash syntax]] [[visudo]]
 
 # tee
 

@@ -1,4 +1,4 @@
-[[git command]] [[git diff]] [[git blame]] [[git branch]] [[git formating]]
+[[Git CLI]] [[git diff]] [[git blame]] [[git branch]] [[git formating]]
 
 # Git log
 

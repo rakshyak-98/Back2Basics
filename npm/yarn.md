@@ -90,7 +90,7 @@ yarn install
 
 ## Comparison
 - vs [[npm]]: Same registry; different lockfile and workspace UX. Prefer one manager per project.
-- vs [[pnpm cli]]: pnpm focuses on a content-addressable store and strict dependency isolation
+- vs [[pnpm CLI]]: pnpm focuses on a content-addressable store and strict dependency isolation
 
 
 ### Use cases

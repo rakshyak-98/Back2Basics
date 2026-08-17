@@ -1,4 +1,4 @@
-[[NodeJS]] [[EventEmitter]] [[Event Loop]] [[event emitter]] [[Stream Events]]
+[[NodeJS]] [[EventEmitter]] [[Event Loop]] [[EventEmitter]] [[Stream Events]]
 
 # Node events driven
 

@@ -1,4 +1,4 @@
-[[git command]] [[git branch]] [[git logs]] [[git formating]]
+[[Git CLI]] [[git branch]] [[git logs]] [[git formating]]
 
 # Git aliases
 

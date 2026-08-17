@@ -55,7 +55,7 @@ aws ce get-cost-and-usage \
 
 ### Common waste
 
-- Stopped EC2 still paying for attached [[EBS (Elastic Block Store)]]
+- Stopped EC2 still paying for attached [[AWS EBS(Elastic Block Store)]]
 - Unassociated [[Elastic IP]] addresses
 - Old EBS snapshots and AMIs
 - NAT Gateway processing large video egress — consider CloudFront

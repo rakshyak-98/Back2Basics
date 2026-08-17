@@ -1,4 +1,4 @@
-[[mysql engine]] [[write-ahead logging]] [[mysql index]] [[Configuration]] [[WAL (Write-Ahead Log)]] [[ACID]] [[mysql transaction]] [[SQL Configurations]] [[MMAP]]
+[[MySQL Engines]] [[write-ahead logging]] [[mysql index]] [[Configuration]] [[WAL (Write-Ahead Log)]] [[ACID]] [[mysql transaction]] [[SQL Configurations]] [[MMAP]]
 
 # MySQL storage
 
@@ -77,7 +77,7 @@ SHOW ENGINE INNODB STATUS\G
 - **Trade-off:** Full sync commit vs batched flush (throughput vs possible loss on OS crash).
 
 ## Comparison
-- vs [[mysql engine]] / [[MySQL Engines]]: engine choice (InnoDB vs others); th…
+- vs [[MySQL Engines]] / [[MySQL Engines]]: engine choice (InnoDB vs others); th…
 
 
 ### Use cases

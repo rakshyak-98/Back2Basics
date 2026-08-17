@@ -1,4 +1,4 @@
-[[NodeJS]] [[npm command]] [[nvm]] [[node environment configuration]] [[node command]] [[Release cycle]]
+[[NodeJS]] [[NodeJS CLI]] [[nvm]] [[node environment configuration]] [[NodeJS CLI]] [[Release cycle]]
 
 # package.json
 
@@ -121,7 +121,7 @@ echo "22.16.0" > .nvmrc
 - **Con / when not:** **Application secrets**
 
 ## Comparison
-- vs [[npm command]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

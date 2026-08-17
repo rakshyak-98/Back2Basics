@@ -1,4 +1,4 @@
-[[mysql function]] [[mysql triggers]] [[MySQL Events]] [[SQL]] [[mysql]]
+[[mysql function]] [[MySQL Triggers]] [[MySQL Events]] [[SQL]] [[mysql]]
 
 # mysql Programmable SQL
 
@@ -24,7 +24,7 @@
 ## Key Concepts
 - **Stored procedure:** Invoked with `CALL`; can run multi-statement workflows.
 - **Function:** Used in expressions
-- **[[mysql triggers]]:** Fire `BEFORE`/`AFTER` DML per row (or statement, depending on definition).
+- **[[MySQL Triggers]]:** Fire `BEFORE`/`AFTER` DML per row (or statement, depending on definition).
 - **[[MySQL Events]]:** Scheduler-driven jobs inside the server (cron-like).
 
 ## Technical Details

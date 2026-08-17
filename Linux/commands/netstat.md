@@ -1,4 +1,4 @@
-[[ss]] [[Linux network commands]] [[lsof]] [[ip]] [[commands]]
+[[ss]] [[Linux network commands]] [[lsof]] [[ip]] [[Neovim CLI]]
 
 # netstat
 

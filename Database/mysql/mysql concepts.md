@@ -1,4 +1,4 @@
-[[mysql]] [[mysql engine]] [[mysql transaction]] [[SQL]] [[MySQL storage]]
+[[mysql]] [[MySQL Engines]] [[mysql transaction]] [[SQL]] [[MySQL storage]]
 
 # mysql concepts
 

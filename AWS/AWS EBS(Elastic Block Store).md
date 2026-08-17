@@ -1,8 +1,8 @@
-[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EFS (Elastic File System)]] [[AWS Billing and cost management]]
+[[AWS EC2]] [[AWS EBS(Elastic Block Store)]] [[AWS EFS (Elastic File System)]] [[AWS Billing and cost management]]
 
 # AWS EBS(Elastic Block Store)
 
-> EBS is network-attached block storage for EC2 instances — the canonical note is [[EBS (Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
+> EBS is network-attached block storage for EC2 instances — the canonical note is [[AWS EBS(Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
 
 ```txt
         AWS EBS(Elastic Bl ──┬── Why it matters
@@ -44,4 +44,4 @@ aws ec2 attach-volume --volume-id vol-0abc --instance-id i-0abc --device /dev/sd
 - **Mistake:** **Wrong AZ** — volume and instance must match AZ
 - **Mistake:** **Full disk** — expand volume, grow partition, resize filesystem
 
-See [[EBS (Elastic Block Store)]] for volume types, encryption, and comparison with [[AWS EFS (Elastic File System)]].
+See [[AWS EBS(Elastic Block Store)]] for volume types, encryption, and comparison with [[AWS EFS (Elastic File System)]].

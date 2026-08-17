@@ -1,4 +1,4 @@
-[[systemd]] [[Services commands]] [[journalctl]] [[Service masking]] [[system service unit files]] [[commands]]
+[[systemd]] [[Services commands]] [[journalctl]] [[Service masking]] [[system service unit files]] [[Neovim CLI]]
 
 # systemctl
 
@@ -45,6 +45,16 @@ systemctl list-units --failed
 sudo systemctl daemon-reload
 systemctl cat nginx
 journalctl -u nginx -b --no-pager | tail
+systemctl reload ssh
+systemctl reload-or-restart ssh
+systemctl edit ssh
+systemctl show ssh -p FragmentPath
+systemctl reset-failed
+systemctl list-unit-files --type=service
+systemctl get-default
+systemctl list-dependencies ssh.service
+systemd-analyze blame
+systemd-analyze critical-chain
 ```
 
 | Knob | Why it matters |

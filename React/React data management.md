@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[Data Fetching HOC component]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
+[[react hooks]] [[React State management]] [[data fetching component]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
 
 # React data management
 

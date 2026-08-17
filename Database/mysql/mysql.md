@@ -1,8 +1,8 @@
-[[Database]] [[mysql connection]] [[cli]] [[mysql query]] [[mysql dump]] [[mysql engine]] [[mysql ssl connection]] [[mysql table]] [[mysql index]]
+[[Database]] [[mysql connection]] [[Helm CLI]] [[mysql query]] [[mysql dump]] [[MySQL Engines]] [[mysql ssl connection]] [[mysql table]] [[mysql index]]
 
 # mysql
 
-> MySQL server — relational database over TCP with [[SQL]], default transactional storage via InnoDB ([[mysql engine]]), and crash recovery through the redo log.
+> MySQL server — relational database over TCP with [[SQL]], default transactional storage via InnoDB ([[MySQL Engines]]), and crash recovery through the redo log.
 
 ```txt
         mysql ──┬── Why it matters
@@ -25,7 +25,7 @@
 - **Client → server TCP:** Optional TLS ([[mysql ssl connection]])
 - **Database ≡ schema:** `CREATE DATABASE` / `CREATE SCHEMA` are synonyms; `USE db` sets default.
 - **InnoDB path:** Buffer pool + redo/undo for [[ACID]] behavior.
-- **Ops surfaces:** [[cli]], [[mysql dump]], [[Configuration]] / [[variables]].
+- **Ops surfaces:** [[Helm CLI]], [[mysql dump]], [[Configuration]] / [[variables]].
 
 
 - **Core:** mysqld accepts SQL from clients, plans access paths, and delegates durable st…

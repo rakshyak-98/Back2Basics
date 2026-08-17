@@ -1,4 +1,4 @@
-[[NodeJS]] [[npm command]] [[node modules]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]]
+[[NodeJS]] [[NodeJS CLI]] [[node modules]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]]
 
 # node environment configuration
 
@@ -64,7 +64,7 @@ if (!url) throw new Error('DATABASE_URL required')
 - **Con / when not:** **Client-side secret environment**
 
 ## Comparison
-- vs [[npm command]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

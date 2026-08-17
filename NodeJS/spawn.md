@@ -1,4 +1,4 @@
-[[NodeJS]] [[child process]] [[fork]] [[CLI]] [[Node.js run as a non-privileged user]]
+[[NodeJS]] [[child process]] [[fork]] [[NodeJS CLI]] [[Node.js run as a non-privileged user]]
 
 # spawn
 

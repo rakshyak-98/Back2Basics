@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[Compound Components 1]] [[Stack from scratch]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[Compound Components]] [[Stack from scratch]]
 
 # Separate functional logic from presentation components
 

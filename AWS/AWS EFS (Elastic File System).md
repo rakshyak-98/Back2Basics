@@ -1,4 +1,4 @@
-[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS Networking]] [[Security group]]
+[[AWS EC2]] [[AWS EBS(Elastic Block Store)]] [[AWS Networking]] [[Security group]]
 
 # AWS EFS (Elastic File System)
 
@@ -56,7 +56,7 @@
 | High cost | IA lifecycle, throughput mode, data growth |
 
 ## Comparison
-- **vs [[EBS (Elastic Block Store)]]**
+- **vs [[AWS EBS(Elastic Block Store)]]**
 
 | Need | Pick |
 |------|------|

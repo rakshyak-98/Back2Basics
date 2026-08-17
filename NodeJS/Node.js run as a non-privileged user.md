@@ -1,4 +1,4 @@
-[[NodeJS]] [[CLI]] [[nvm]] [[Linux/commands/Services commands]] [[Nginx/Configuration]] [[Docker/Docker Runtime Security]]
+[[NodeJS]] [[NodeJS CLI]] [[nvm]] [[Linux/commands/Services commands]] [[Nginx/Configuration]] [[Docker/Docker Runtime Security]]
 
 # Node.js run as a non-privileged user
 
@@ -116,7 +116,7 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 - **Con / when not:** **Container**
 
 ## Comparison
-- vs [[CLI]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

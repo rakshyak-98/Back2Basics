@@ -1,4 +1,4 @@
-[[Bash]] [[bash script]] [[CLI]] [[Commands]] [[bash flags]] [[Bash syntax]]
+[[Bash]] [[bash script]] [[NodeJS CLI]] [[Commands]] [[bash flags]] [[Bash syntax]]
 
 # Scripting
 

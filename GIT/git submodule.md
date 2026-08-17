@@ -1,4 +1,4 @@
-[[git]] [[git command]] [[git branch]] [[git worktree]] [[git merge]]
+[[git]] [[Git CLI]] [[git branch]] [[git worktree]] [[git merge]]
 
 # Git Submodule
 

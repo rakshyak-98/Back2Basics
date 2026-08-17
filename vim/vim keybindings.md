@@ -1,4 +1,4 @@
-[[vim buffers]] [[vim commands]] [[vim mark]] [[Descriptive/LSP]] [[nvim/nvim setup]]
+[[vim buffers]] [[Vim CLI]] [[vim mark]] [[Descriptive/LSP]] [[nvim/nvim setup]]
 
 # vim keybindings
 

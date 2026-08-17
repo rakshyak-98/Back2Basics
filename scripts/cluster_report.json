@@ -1,38 +1,38 @@
 {
-  "note_count": 1112,
+  "note_count": 1117,
   "folder_cluster_count": 88,
-  "title_similarity_cluster_count": 38,
-  "likely_duplicate_pair_count": 106,
+  "title_similarity_cluster_count": 26,
+  "likely_duplicate_pair_count": 87,
   "prefix_cluster_count": 63,
   "topic_cluster_count": 41,
-  "basename_duplicate_count": 7,
+  "basename_duplicate_count": 5,
   "hubs": [
     [
       "NodeJS",
-      61
+      58
     ],
     [
       "react hooks",
-      59
-    ],
-    [
-      "React Architecture",
       57
     ],
     [
-      "React State management",
+      "React Architecture",
       56
+    ],
+    [
+      "React State management",
+      55
     ],
     [
       "HLS",
       43
     ],
     [
-      "TLS (Transport Layer Security)",
+      "Streaming",
       43
     ],
     [
-      "Streaming",
+      "TLS (Transport Layer Security)",
       42
     ],
     [
@@ -40,20 +40,20 @@
       37
     ],
     [
-      "ACID",
-      36
-    ],
-    [
       "DASH",
       35
     ],
     [
+      "ACID",
+      34
+    ],
+    [
       "mysql",
-      33
+      32
     ],
     [
       "DNS",
-      31
+      30
     ],
     [
       "Configuration",
@@ -64,12 +64,12 @@
       30
     ],
     [
-      "Design pattern",
+      "webSocket",
       28
     ],
     [
-      "webSocket",
-      28
+      "Design pattern",
+      27
     ],
     [
       "Database",
@@ -81,6 +81,10 @@
     ],
     [
       "WebRTC",
+      26
+    ],
+    [
+      "NodeJS CLI",
       26
     ],
     [
@@ -96,6 +100,10 @@
       22
     ],
     [
+      "Commands",
+      22
+    ],
+    [
       "CMAF",
       22
     ],
@@ -108,7 +116,7 @@
       21
     ],
     [
-      "Commands",
+      "ss",
       21
     ],
     [
@@ -118,14 +126,6 @@
     [
       "ingestion",
       21
-    ],
-    [
-      "ABR",
-      20
-    ],
-    [
-      "expressjs",
-      20
     ]
   ],
   "title_similarity_clusters": [
@@ -135,21 +135,6 @@
       "mysql connection",
       "mysql pool connection",
       "mysql ssl connection"
-    ],
-    [
-      "CLI",
-      "CLI",
-      "cli",
-      "cli"
-    ],
-    [
-      "Command",
-      "Commands",
-      "commands"
-    ],
-    [
-      "AWS EBS(Elastic Block Store)",
-      "EBS (Elastic Block Store)"
     ],
     [
       "ACME server",
@@ -172,24 +157,8 @@
       "Configuration"
     ],
     [
-      "MySQL Engines",
-      "mysql engine"
-    ],
-    [
-      "MySQL Events",
-      "mysql events 1"
-    ],
-    [
-      "MySQL Triggers",
-      "mysql triggers"
-    ],
-    [
       "mysql Privileges",
       "psql privileges"
-    ],
-    [
-      "mysql partitioning",
-      "mysql partitioning"
     ],
     [
       "mysql table",
@@ -204,12 +173,12 @@
       "variables"
     ],
     [
-      "Abstract Factor",
-      "Abstract Factory"
+      "Command",
+      "Commands"
     ],
     [
-      "docker OCI",
-      "docker cli"
+      "Docker CLI",
+      "docker OCI"
     ],
     [
       "Python",
@@ -232,10 +201,6 @@
       "linux groups"
     ],
     [
-      "systemctl",
-      "systemctl"
-    ],
-    [
       "Linux Key management",
       "Linux management"
     ],
@@ -256,24 +221,8 @@
       "buffer"
     ],
     [
-      "EventEmitter",
-      "event emitter"
-    ],
-    [
       "Blocking Vs Non-Blocking",
       "non-blocking"
-    ],
-    [
-      "E mail server",
-      "mail server"
-    ],
-    [
-      "Data Fetching HOC component",
-      "data fetching component"
-    ],
-    [
-      "Compound Components",
-      "Compound Components 1"
     ],
     [
       "React State management",
@@ -284,8 +233,8 @@
       "symmetrical encryption"
     ],
     [
-      "web worker",
-      "web workers"
+      "npm CLI",
+      "pnpm CLI"
     ]
   ],
   "likely_duplicate_pairs": [
@@ -296,46 +245,6 @@
       "reason": "exact",
       "path_a": "Nginx/Configuration.md",
       "path_b": "Nginx/Configuration.md"
-    },
-    {
-      "a": "MySQL Triggers",
-      "b": "mysql triggers",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "Database/mysql/MySQL Triggers.md",
-      "path_b": "Database/mysql/mysql triggers.md"
-    },
-    {
-      "a": "cli",
-      "b": "CLI",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "helm/cli.md",
-      "path_b": "NodeJS/CLI.md"
-    },
-    {
-      "a": "cli",
-      "b": "CLI",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "helm/cli.md",
-      "path_b": "NodeJS/CLI.md"
-    },
-    {
-      "a": "cli",
-      "b": "cli",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "helm/cli.md",
-      "path_b": "helm/cli.md"
-    },
-    {
-      "a": "mysql partitioning",
-      "b": "mysql partitioning",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "Database/mysql partitioning.md",
-      "path_b": "Database/mysql partitioning.md"
     },
     {
       "a": "mysql pool connection",
@@ -354,52 +263,12 @@
       "path_b": "Python/Python.md"
     },
     {
-      "a": "CLI",
-      "b": "CLI",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "NodeJS/CLI.md",
-      "path_b": "NodeJS/CLI.md"
-    },
-    {
-      "a": "CLI",
-      "b": "cli",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "NodeJS/CLI.md",
-      "path_b": "helm/cli.md"
-    },
-    {
-      "a": "Commands",
-      "b": "commands",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "Linux/Commands.md",
-      "path_b": "nvim/commands.md"
-    },
-    {
-      "a": "systemctl",
-      "b": "systemctl",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "Linux/management/systemctl.md",
-      "path_b": "Linux/management/systemctl.md"
-    },
-    {
       "a": "Next JS",
       "b": "Next js Build",
       "score": 1.0,
       "reason": "tokens",
       "path_a": "NextJS/Next JS.md",
       "path_b": "NextJS/Next js Build.md"
-    },
-    {
-      "a": "CLI",
-      "b": "cli",
-      "score": 1.0,
-      "reason": "exact",
-      "path_a": "NodeJS/CLI.md",
-      "path_b": "helm/cli.md"
     },
     {
       "a": "Blocking Vs Non-Blocking",
@@ -416,46 +285,6 @@
       "reason": "string",
       "path_a": "Security/Asymmetrical Encryption.md",
       "path_b": "Security/symmetrical encryption.md"
-    },
-    {
-      "a": "Abstract Factor",
-      "b": "Abstract Factory",
-      "score": 0.968,
-      "reason": "string",
-      "path_a": "Design pattern/Creation pattern/Abstract Factor.md",
-      "path_b": "Design pattern/Creation pattern/Abstract Factory.md"
-    },
-    {
-      "a": "MySQL Engines",
-      "b": "mysql engine",
-      "score": 0.96,
-      "reason": "string",
-      "path_a": "Database/mysql/MySQL Engines.md",
-      "path_b": "Database/mysql/mysql engine.md"
-    },
-    {
-      "a": "EventEmitter",
-      "b": "event emitter",
-      "score": 0.96,
-      "reason": "string",
-      "path_a": "NodeJS/EventEmitter.md",
-      "path_b": "NodeJS/event emitter.md"
-    },
-    {
-      "a": "web worker",
-      "b": "web workers",
-      "score": 0.952,
-      "reason": "string",
-      "path_a": "javascript/web worker.md",
-      "path_b": "javascript/web workers.md"
-    },
-    {
-      "a": "Compound Components 1",
-      "b": "Compound Components",
-      "score": 0.95,
-      "reason": "string",
-      "path_a": "React/React Pattern/Compound Components 1.md",
-      "path_b": "React/React Pattern/Compound Components.md"
     },
     {
       "a": "uWebSocket",
@@ -490,20 +319,12 @@
       "path_b": "Linux/Commands.md"
     },
     {
-      "a": "Command",
-      "b": "commands",
+      "a": "npm CLI",
+      "b": "pnpm CLI",
       "score": 0.933,
       "reason": "string",
-      "path_a": "Design pattern/Command.md",
-      "path_b": "nvim/commands.md"
-    },
-    {
-      "a": "MySQL Events",
-      "b": "mysql events 1",
-      "score": 0.923,
-      "reason": "string",
-      "path_a": "Database/mysql/MySQL Events.md",
-      "path_b": "Database/mysql/mysql events 1.md"
+      "path_a": "npm/npm CLI.md",
+      "path_b": "npm/pnpm CLI.md"
     },
     {
       "a": "Buffers",
@@ -514,36 +335,12 @@
       "path_b": "Operating System/buffer.md"
     },
     {
-      "a": "AWS EBS(Elastic Block Store)",
-      "b": "EBS (Elastic Block Store)",
-      "score": 0.92,
-      "reason": "string",
-      "path_a": "AWS/AWS EBS(Elastic Block Store).md",
-      "path_b": "AWS/EBS (Elastic Block Store).md"
-    },
-    {
-      "a": "Data Fetching HOC component",
-      "b": "data fetching component",
-      "score": 0.92,
-      "reason": "string",
-      "path_a": "React/Data Fetching HOC component.md",
-      "path_b": "React/React Pattern/data fetching component.md"
-    },
-    {
       "a": "linux groups",
       "b": "Linux cgroup",
       "score": 0.917,
       "reason": "string",
       "path_a": "Linux/commands/linux groups.md",
       "path_b": "Linux/management/Linux cgroup.md"
-    },
-    {
-      "a": "E mail server",
-      "b": "mail server",
-      "score": 0.917,
-      "reason": "string",
-      "path_a": "Protocol/E mail server.md",
-      "path_b": "Protocol/mail server.md"
     },
     {
       "a": "network managmeen",
@@ -602,12 +399,12 @@
       "path_b": "Database/mysql/MySQL Error.md"
     },
     {
-      "a": "docker OCI",
-      "b": "docker cli",
+      "a": "Docker CLI",
+      "b": "docker OCI",
       "score": 0.9,
       "reason": "string",
-      "path_a": "Docker/docker OCI.md",
-      "path_b": "Docker/docker cli.md"
+      "path_a": "Docker/Docker CLI.md",
+      "path_b": "Docker/docker OCI.md"
     },
     {
       "a": "mysql connection",
@@ -786,14 +583,6 @@
       "path_b": "Database/mysql/partitioning.md"
     },
     {
-      "a": "partitioning",
-      "b": "mysql partitioning",
-      "score": 0.8,
-      "reason": "token+string",
-      "path_a": "Database/mysql/partitioning.md",
-      "path_b": "Database/mysql partitioning.md"
-    },
-    {
       "a": "pre-parser",
       "b": "pdf parser",
       "score": 0.8,
@@ -898,12 +687,12 @@
       "path_b": "css/tailwindcss.md"
     },
     {
-      "a": "Github action",
-      "b": "Github cli",
+      "a": "GitHub CLI",
+      "b": "Github action",
       "score": 0.783,
       "reason": "token+string",
-      "path_a": "GitHub/Github action.md",
-      "path_b": "GitHub/Github cli.md"
+      "path_a": "GitHub/GitHub CLI.md",
+      "path_b": "GitHub/Github action.md"
     },
     {
       "a": "Buffer cache",
@@ -912,6 +701,14 @@
       "reason": "token+string",
       "path_a": "Operating System/Buffer cache.md",
       "path_b": "Operating System/buffer head.md"
+    },
+    {
+      "a": "kubectl CLI",
+      "b": "kubectl",
+      "score": 0.778,
+      "reason": "token+string",
+      "path_a": "Kubernates/kubectl CLI.md",
+      "path_b": "Kubernates/kubectl.md"
     },
     {
       "a": "Buffers",
@@ -1082,23 +879,71 @@
       "path_b": "Operating System/bus.md"
     },
     {
-      "a": "worker",
-      "b": "web worker",
+      "a": "NodeJS CLI",
+      "b": "NodeJS",
       "score": 0.75,
       "reason": "token+string",
-      "path_a": "NodeJS/worker.md",
-      "path_b": "javascript/web worker.md"
+      "path_a": "NodeJS/NodeJS CLI.md",
+      "path_b": "NodeJS/NodeJS.md"
+    },
+    {
+      "a": "Heap memory",
+      "b": "shared memory",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Operating System/Heap memory.md",
+      "path_b": "Operating System/shared memory.md"
+    },
+    {
+      "a": "Rolling Buffer",
+      "b": "kernel ring buffer",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Operating System/Rolling Buffer.md",
+      "path_b": "Operating System/kernel ring buffer.md"
+    },
+    {
+      "a": "RTQ Toolkit",
+      "b": "Redux toolkit",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "React/Redux/RTQ Toolkit.md",
+      "path_b": "React/Redux toolkit.md"
+    },
+    {
+      "a": "redux store architecture",
+      "b": "HES Architecture",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "React/Redux/redux store architecture.md",
+      "path_b": "System Design/HES Architecture.md"
+    },
+    {
+      "a": "typescript error",
+      "b": "typescript types",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "TypeScript/typescript error.md",
+      "path_b": "TypeScript/typescript types.md"
+    },
+    {
+      "a": "Flutter CLI",
+      "b": "flutter build",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "flutter/Flutter CLI.md",
+      "path_b": "flutter/flutter build.md"
     }
   ],
   "topic_clusters": {
     "docker": [
       "Docker",
+      "Docker CLI",
       "Docker Runtime Security",
       "Docker compose",
       "Swarm network",
       "Terraform docker",
       "docker OCI",
-      "docker cli",
       "docker container",
       "docker file"
     ],
@@ -1113,10 +958,12 @@
       "Pods",
       "ingress",
       "kubectl",
+      "kubectl CLI",
       "kubectl pod creation"
     ],
     "kubectl": [
       "kubectl",
+      "kubectl CLI",
       "kubectl pod creation"
     ],
     "pod": [
@@ -1129,7 +976,7 @@
       "ingress"
     ],
     "helm": [
-      "cli",
+      "Helm CLI",
       "helm"
     ],
     "terraform": [
@@ -1163,17 +1010,17 @@
       "web server"
     ],
     "redis": [
-      "redis installation",
-      "redis-cli"
+      "Redis CLI",
+      "redis installation"
     ],
     "mysql": [
       "Configuration",
+      "MySQL CLI",
       "MySQL Engines",
       "MySQL Error",
       "MySQL Events",
       "MySQL Triggers",
       "MySQL storage",
-      "cli",
       "covering index",
       "key Constraint",
       "mysql",
@@ -1295,15 +1142,15 @@
       "webSocket"
     ],
     "git": [
+      "Git CLI",
+      "GitHub CLI",
       "Github action",
       "Github action (2)",
-      "Github cli",
       "Github cli (2)",
       "Github runner",
       "git alias",
       "git blame",
       "git branch",
-      "git command",
       "git commit",
       "git commit template",
       "git credential",
@@ -1337,6 +1184,7 @@
       "Find command",
       "LSB (Linux Standard Base)",
       "Linux",
+      "Linux CLI",
       "Linux Key management",
       "Linux Process Theory",
       "Linux Templates Directory",
@@ -1534,7 +1382,6 @@
     "node": [
       "Ajv (Another JSON validator)",
       "Buffers",
-      "CLI",
       "Error handeling",
       "Event Loop",
       "EventEmitter",
@@ -1545,6 +1392,7 @@
       "Node.js run as a non-privileged user",
       "Node.js security flaws in architecture",
       "NodeJS",
+      "NodeJS CLI",
       "Optimization",
       "REPL",
       "Runtime Errors",
@@ -1601,18 +1449,18 @@
       "uWebSocket"
     ],
     "vim": [
-      "commands",
+      "Neovim CLI",
+      "Vim CLI",
       "ed",
       "netrw file explorer",
       "nvim setup",
       "vim buffers",
-      "vim commands",
       "vim config",
       "vim keybindings",
       "vim mark"
     ],
     "nvim": [
-      "commands",
+      "Neovim CLI",
       "nvim setup"
     ],
     "aws": [
@@ -1620,14 +1468,14 @@
       "ARN (Amazon Resource Name)",
       "AWS",
       "AWS Billing and cost management",
+      "AWS CLI",
+      "AWS CLI installation",
       "AWS EBS(Elastic Block Store)",
       "AWS EC2",
       "AWS ECR",
       "AWS EFS (Elastic File System)",
       "AWS Lambda",
       "AWS Networking",
-      "AWS cli commands",
-      "AWS cli installation",
       "EBS (Elastic Block Store)",
       "Elastic IP",
       "How to connect Godaddy domain with AWS EC2 instance",
@@ -1738,13 +1586,13 @@
       "wheel"
     ],
     "golang": [
+      "Go CLI",
       "Makefile",
       "Unbuffered channel",
       "go",
       "go SOLID",
       "go build",
       "go callstack",
-      "go cli",
       "go data structure",
       "go debugging",
       "go embedding",

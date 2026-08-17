@@ -1,4 +1,4 @@
-[[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]] [[DNS]]
+[[SMTP]] [[mail server]] [[TLS (Transport Layer Security)]] [[DNS]]
 
 # POP3 (Post Office Protocol v3)
 

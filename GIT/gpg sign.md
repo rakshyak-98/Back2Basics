@@ -1,4 +1,4 @@
-[[gpg]] [[git command]] [[git hook]] [[Authentication command]]
+[[gpg]] [[Git CLI]] [[git hook]] [[Authentication command]]
 
 # GPG sign (Git commits & tags)
 

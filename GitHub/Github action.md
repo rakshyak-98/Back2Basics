@@ -1,4 +1,4 @@
-[[Github runner]] [[Github cli]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
+[[Github runner]] [[GitHub CLI]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
 # GitHub Actions
 

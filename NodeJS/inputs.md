@@ -1,4 +1,4 @@
-[[NodeJS]] [[CLI]] [[Stream]] [[REPL]] [[node command]]
+[[NodeJS]] [[NodeJS CLI]] [[Stream]] [[REPL]] [[NodeJS CLI]]
 
 # Node.js stdin / readline inputs
 
@@ -120,7 +120,7 @@ process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 - **Con / when not:** **Complex CLI**
 
 ## Comparison
-- vs [[CLI]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

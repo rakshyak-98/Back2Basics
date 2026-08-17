@@ -1,4 +1,4 @@
-[[Docker compose]] [[docker cli]] [[docker container]] [[P2P (Peer-to-Peer)]]
+[[Docker compose]] [[Docker CLI]] [[docker container]] [[P2P (Peer-to-Peer)]]
 
 # Swarm network
 

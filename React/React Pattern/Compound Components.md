@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components 1]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]
 
 # Compound Components
 

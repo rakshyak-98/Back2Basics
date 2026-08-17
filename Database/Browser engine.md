@@ -1,8 +1,8 @@
-[[Database]] [[memory engine]] [[mysql engine]] [[WiredTiger storage engine]] [[SQL/postgres]]
+[[Database]] [[memory engine]] [[MySQL Engines]] [[WiredTiger storage engine]] [[SQL/postgres]]
 
 # Browser engine
 
-> Not a database topic—this note clarifies the naming collision between **browser rendering engines** (Blink, Gecko, WebKit) and **database storage engines** ([[mysql engine]], [[WiredTiger storage engine]]).
+> Not a database topic—this note clarifies the naming collision between **browser rendering engines** (Blink, Gecko, WebKit) and **database storage engines** ([[MySQL Engines]], [[WiredTiger storage engine]]).
 
 ```txt
         Browser engine ──┬── Why it matters
@@ -34,7 +34,7 @@
 - Database engines (storage):
 
 - Manage pages, indexes, [[ACID]], crash recovery
-- Examples: InnoDB ([[mysql engine]]), PostgreSQL heap/index AMs ([[SQL/postgre…
+- Examples: InnoDB ([[MySQL Engines]]), PostgreSQL heap/index AMs ([[SQL/postgre…
 
 - If you landed here looking for MySQL or PostgreSQL internals, see [[mysql eng…
 

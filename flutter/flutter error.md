@@ -1,4 +1,4 @@
-[[flutter build]] [[flutter cli]] [[android]] [[dart]]
+[[flutter build]] [[Flutter CLI]] [[android]] [[dart]]
 
 # Flutter errors
 

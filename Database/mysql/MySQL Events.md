@@ -1,4 +1,4 @@
-[[mysql Programmable SQL]] [[mysql events 1]] [[mysql]]
+[[mysql Programmable SQL]] [[MySQL Events]] [[mysql]]
 
 # MySQL Events
 
@@ -24,7 +24,7 @@
 ## Key Concepts
 - **In-server cron:** SQL jobs scheduled inside mysqld.
 - **Must be enabled:** `event_scheduler = ON`.
-- **Recurring or one-shot:** `EVERY` vs `AT` (see [[mysql events 1]]).
+- **Recurring or one-shot:** `EVERY` vs `AT` (see [[MySQL Events]]).
 - **Observability limit:** prefer external schedulers for complex workflows.
 
 ## Technical Details
@@ -57,7 +57,7 @@ SELECT * FROM information_schema.EVENTS;
 - **Con:** Easy to miss when scheduler is OFF after restore; limited metrics/alerting vs external job runners.
 
 ## Comparison
-- vs [[mysql events 1]]: core scheduler vs supplemental one-shot/privilege exam…
+- vs [[MySQL Events]]: core scheduler vs supplemental one-shot/privilege exam…
 
 
 ### Use cases

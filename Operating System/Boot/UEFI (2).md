@@ -1,4 +1,4 @@
-[[Operating System]] [[Boot/UEFI]] [[Boot/Extensible Firmware interface (efi)]] [[MBR]] [[MBR(Master Boot Record)]]
+[[Operating System]] [[Boot/UEFI]] [[Boot/Extensible Firmware interface (efi)]] [[MBR]] [[MBR]]
 
 # UEFI (2)
 

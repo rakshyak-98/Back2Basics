@@ -1,4 +1,4 @@
-[[git]] [[git command]] [[git commit]] [[git commit template]] [[gpg sign]]
+[[git]] [[Git CLI]] [[git commit]] [[git commit template]] [[gpg sign]]
 
 # Git Hooks
 

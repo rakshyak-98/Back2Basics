@@ -1,4 +1,4 @@
-[[DNS]] [[dns record]] [[Protocol/SMTP]] [[E mail server]] [[DNS zone]]
+[[DNS]] [[dns record]] [[Protocol/SMTP]] [[mail server]] [[DNS zone]]
 
 # DSN records
 

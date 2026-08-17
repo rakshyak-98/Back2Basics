@@ -1,4 +1,4 @@
-[[apache command]] [[PHP-FPM]] [[Proxy/Reverse Proxy]] [[Security/TLS (Transport Layer Security)]]
+[[Apache CLI]] [[PHP-FPM]] [[Proxy/Reverse Proxy]] [[Security/TLS (Transport Layer Security)]]
 
 # Apache modules
 

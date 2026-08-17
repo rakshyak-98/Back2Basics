@@ -1,4 +1,4 @@
-[[vim commands]] [[vim keybindings]] [[vim buffers]]
+[[Vim CLI]] [[vim keybindings]] [[vim buffers]]
 
 # vim mark
 

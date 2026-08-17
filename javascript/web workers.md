@@ -1,4 +1,4 @@
-[[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]] [[web worker]] [[Descriptive/JavaScript/Concurrency]]
+[[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]] [[web workers]] [[Descriptive/JavaScript/Concurrency]]
 
 # Web Workers
 

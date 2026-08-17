@@ -1,4 +1,4 @@
-[[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]] [[redis-cli]] [[covering index]]
+[[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]] [[Redis CLI]] [[covering index]]
 
 # Progressive search functionality
 

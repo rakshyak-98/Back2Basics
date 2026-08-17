@@ -1,4 +1,4 @@
-[[golang]] [[go package]] [[go project]] [[go cli]] [[go interface]]
+[[golang]] [[go package]] [[go project]] [[Go CLI]] [[go interface]]
 
 # go
 

@@ -26,7 +26,7 @@
 - **Compute:** VMs ([[AWS EC2]]), containers (ECS/EKS + [[AWS ECR]]), functions ([[AWS Lambd…
 - **Storage:** Block ([[EBS (Elastic Block Store)]]), file ([[AWS EFS (Elastic File System)]…
 - **Network:** VPC, subnets, routes, [[Security group]], [[Elastic IP]], DNS ([[Route53]]).
-- **Ops:** [[AWS cli commands]], billing alarms ([[AWS Billing and cost management]]).
+- **Ops:** [[AWS CLI]], billing alarms ([[AWS Billing and cost management]]).
 
 
 - **Core:** AWS is a global cloud platform of managed services
@@ -50,13 +50,13 @@ Internet / users
 | You need to… | Start here |
 |--------------|------------|
 | Launch a VM | [[AWS EC2]] → [[AMI (Amazon Machine Image)]] → [[Security group]] |
-| Durable disk | [[EBS (Elastic Block Store)]] |
+| Durable disk | [[AWS EBS(Elastic Block Store)]] |
 | Shared POSIX files | [[AWS EFS (Elastic File System)]] |
 | Serverless code | [[AWS Lambda]] |
 | Container images | [[AWS ECR]] |
 | DNS / domain | [[Route53]] · [[How to connect Godaddy domain with AWS EC2 instance]] |
 | Who can call APIs | [[IAM]] · [[aws STS (Security Token Service)]] |
-| CLI ops | [[AWS cli installation]] · [[AWS cli commands]] |
+| CLI ops | [[AWS CLI installation]] · [[AWS CLI]] |
 
 ## Mistakes to Avoid
 - **Mistake:** Long-lived access keys on laptops or in repositories

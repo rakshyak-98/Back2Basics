@@ -1,4 +1,4 @@
-[[NodeJS]] [[node environment configuration]] [[node package json]] [[CLI]]
+[[NodeJS]] [[node environment configuration]] [[node package json]] [[NodeJS CLI]]
 
 # node-convict
 

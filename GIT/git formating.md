@@ -1,4 +1,4 @@
-[[git logs]] [[git command]] [[git alias]] [[Release cycle]]
+[[git logs]] [[Git CLI]] [[git alias]] [[Release cycle]]
 
 # Git log formatting
 

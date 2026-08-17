@@ -15,6 +15,7 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 | How agents (and humans) write notes | [[AGENT_NOTE_RULES]] |
 | Symptom → note map | [[INDEX]] |
 | Similar / duplicate note clusters | [[Similar Notes — Cluster Map]] |
+| Merge plan & per-domain CLI map | [[Note Merge Plan]] |
 | Staff-level skill model | [[staff engineer]] |
 | Vault meta hub | [[general]] |
 

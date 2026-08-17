@@ -1,4 +1,4 @@
-[[CLI]] [[common commands]] [[Linux network commands]] [[Linux process commands]] [[Services commands]] [[management/Linux management]]
+[[CLI]] [[Linux CLI]] [[common commands]] [[Linux network commands]] [[Linux process commands]] [[Services commands]] [[management/Linux management]]
 
 # Commands
 
@@ -66,7 +66,7 @@ grep -rn 'PermitRootLogin' /etc/ssh/
 - **Con:** Hubs go stale if leaf notes are not linked when new tools become standard (`nft` vs `iptables`).
 
 ## Comparison
-- vs [[CLI]]: CLI is how you talk to the machine
+- vs [[NodeJS CLI]]: CLI is how you talk to the machine
 
 
 ### Use cases

@@ -1,4 +1,4 @@
-[[mysql engine]] [[MySQL storage]] [[memory engine]]
+[[MySQL Engines]] [[MySQL storage]] [[memory engine]]
 
 # MySQL Engines
 
@@ -51,7 +51,7 @@ SELECT engine, support FROM information_schema.ENGINES;
 - **Con:** Mixed engines mean mixed durability and locking semantics—easy to reason wrong under failure.
 
 ## Comparison
-- vs [[mysql engine]]: overview vs InnoDB-focused leaf. vs [[memory engine]]: M…
+- vs [[MySQL Engines]]: overview vs InnoDB-focused leaf. vs [[memory engine]]: M…
 
 
 ### Use cases

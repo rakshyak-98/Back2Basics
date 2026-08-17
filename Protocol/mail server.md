@@ -1,4 +1,4 @@
-[[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[TLS (Transport Layer Security)]] [[E mail server]]
+[[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[TLS (Transport Layer Security)]] [[mail server]]
 
 # mail server
 
@@ -83,7 +83,7 @@ swaks --to user@example.com --from test@example.com --server mail.example.com
 - **Con:** Deliverability is a reputation game — self-hosting outbound at scale is hard.
 
 ## Comparison
-- vs [[E mail server]]: ports and components here; architecture/ops depth there.
+- vs [[mail server]]: ports and components here; architecture/ops depth there.
 - vs chat ([[IRC]], Slack): email is store-and-forward with strong identity/DNS coupling.
 
 

@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[data fetching component]]
 
 # ad hoc system
 

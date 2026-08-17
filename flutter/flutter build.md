@@ -1,4 +1,4 @@
-[[flutter cli]] [[android]] [[dart/dart functions]] [[Nginx]]
+[[Flutter CLI]] [[android]] [[dart/dart functions]] [[Nginx]]
 
 # Flutter build and release
 
@@ -69,7 +69,7 @@ flutter clean && flutter pub get
 - **Con:** Obfuscation without symbols makes production crashes unreadable.
 
 ## Comparison
-- vs [[flutter cli]] `run`: local iteration; `build` produces store artifacts.
+- vs [[Flutter CLI]] `run`: local iteration; `build` produces store artifacts.
 - vs native Android release: Flutter still rides Gradle/Xcode
 
 

@@ -1,4 +1,4 @@
-[[apache command]] [[apache modules]] [[PHP-FPM]] [[Security/TLS (Transport Layer Security)]]
+[[Apache CLI]] [[apache modules]] [[PHP-FPM]] [[Security/TLS (Transport Layer Security)]]
 
 # Apache configurations
 

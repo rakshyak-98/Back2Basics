@@ -1,4 +1,4 @@
-[[docker cli]] [[Docker compose]] [[docker container]] [[docker file]] [[Docker Runtime Security]] [[docker OCI]] [[INDEX]]
+[[Docker CLI]] [[Docker compose]] [[docker container]] [[docker file]] [[Docker Runtime Security]] [[docker OCI]] [[INDEX]]
 
 # Docker
 
@@ -43,7 +43,7 @@ docker CLI ──► dockerd ──► containerd ──► runc ──► conta
 
 | Symptom / need | Go to |
 |----------------|-------|
-| Build or run | [[docker cli]] · [[docker file]] |
+| Build or run | [[Docker CLI]] · [[docker file]] |
 | Multi-service local | [[Docker compose]] |
 | Won’t start / exits | [[docker container]] · [[Docker Runtime Security]] |
 | Supply chain / rootless | [[docker OCI]] · [[Docker Runtime Security]] |

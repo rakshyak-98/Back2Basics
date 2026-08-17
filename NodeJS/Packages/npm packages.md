@@ -1,4 +1,4 @@
-[[NodeJS]] [[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]] [[Transporter in Email sending]]
+[[NodeJS]] [[NodeJS CLI]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]] [[Transporter in Email sending]]
 
 # npm packages
 
@@ -69,7 +69,7 @@ origin: (origin, cb) => {
 - **Con / when not:** **Unmaintained utils**
 
 ## Comparison
-- vs [[npm command]]: know when each applies
+- vs [[NodeJS CLI]]: know when each applies
 
 
 ### Use cases

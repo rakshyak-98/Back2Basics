@@ -1,4 +1,4 @@
-[[node package json]] [[node command]] [[husk]] [[yarn]] [[npm]] [[ecosystem]]
+[[node package json]] [[NodeJS CLI]] [[husk]] [[yarn]] [[npm]] [[ecosystem]]
 
 # npm script
 

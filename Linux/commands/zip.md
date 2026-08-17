@@ -1,4 +1,4 @@
-[[commands]] [[rsync]] [[gpg]] [[Find command]]
+[[Neovim CLI]] [[rsync]] [[gpg]] [[Find command]]
 
 # zip
 

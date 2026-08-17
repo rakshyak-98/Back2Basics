@@ -1,4 +1,4 @@
-[[Descriptive]] [[GIT/git command]] [[ssh/ssh allow local system with key]]
+[[Descriptive]] [[Git CLI]] [[ssh/ssh allow local system with key]]
 
 # VS Code (CLI and workspace ops)
 

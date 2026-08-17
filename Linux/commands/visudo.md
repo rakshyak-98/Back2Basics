@@ -1,4 +1,4 @@
-[[commands]] [[user management]] [[sudo]] [[linux groups]] [[useradd]]
+[[Neovim CLI]] [[user management]] [[sudo]] [[linux groups]] [[useradd]]
 
 # visudo
 

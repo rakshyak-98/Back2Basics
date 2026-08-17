@@ -1,4 +1,4 @@
-[[pnpm cli]] [[npm]] [[npm error]]
+[[pnpm CLI]] [[npm]] [[npm error]]
 
 # pnpm logs
 
@@ -52,7 +52,7 @@ pnpm store path                  # print store location when available
 | Sparse error only | Default reporter | Re-run with `--loglevel debug` |
 | Cannot reproduce in CI | Missing full log | Redirect stdout/stderr to artifact |
 | Fetch failures | Registry / proxy | Inspect debug lines for URL and HTTP status |
-| Build script denied | `allowBuilds` | See [[pnpm cli]] approve-builds |
+| Build script denied | `allowBuilds` | See [[pnpm CLI]] approve-builds |
 
 ## Mistakes to Avoid
 - **Mistake:** Digging only in store `tmp` folders when the real failure is a r…
@@ -64,7 +64,7 @@ pnpm store path                  # print store location when available
 
 ## Comparison
 - vs [[npm error]]: npm often writes `npm-debug.log` on failure
-- vs [[pnpm cli]]: this note is about *observability*
+- vs [[pnpm CLI]]: this note is about *observability*
 
 
 ### Use cases

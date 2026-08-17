@@ -1,4 +1,4 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]] [[React pattern categorisation]] [[Component Presentational Pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[data fetching component]] [[React pattern categorisation]] [[Component Presentational Pattern]]
 
 # data fetching component
 

@@ -1,4 +1,4 @@
-[[Commands]] [[Linux terminal]] [[bash script]] [[login shell]] [[Scripting]] [[Error status code]]
+[[Commands]] [[CLI]] [[Linux CLI]] [[bash script]] [[login shell]]
 
 # CLI
 

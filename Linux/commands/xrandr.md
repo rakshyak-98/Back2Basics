@@ -1,4 +1,4 @@
-[[commands]] [[x11]] [[wayland]] [[compositors]] [[gsetting]]
+[[Neovim CLI]] [[x11]] [[wayland]] [[compositors]] [[gsetting]]
 
 # xrandr
 

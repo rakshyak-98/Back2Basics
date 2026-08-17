@@ -1,4 +1,4 @@
-[[mysql]] [[mysql Programmable SQL]] [[SQL]] [[mysql triggers]]
+[[mysql]] [[mysql Programmable SQL]] [[SQL]] [[MySQL Triggers]]
 
 # mysql function
 
@@ -24,7 +24,7 @@
 ## Key Concepts
 - **Scalar / aggregate / window:** different call contexts in SELECT.
 - **User-defined functions:** `CREATE FUNCTION` with return type and DETERMINISTIC hint.
-- **Not triggers/procedures:** different call syntax and use cases ([[mysql triggers]]).
+- **Not triggers/procedures:** different call syntax and use cases ([[MySQL Triggers]]).
 
 ## Technical Details
 - Built-in examples:
@@ -42,7 +42,7 @@ DETERMINISTIC
 RETURN amount * 1.08;
 ```
 
-- Stored functions differ from [[mysql triggers]] and stored procedures in call…
+- Stored functions differ from [[MySQL Triggers]] and stored procedures in call…
 
 ## Mistakes to Avoid
 - **Mistake:** Marking non-deterministic functions as DETERMINISTIC
@@ -54,7 +54,7 @@ RETURN amount * 1.08;
 - **Con:** Heavy UDFs in hot queries hurt optimizer choices; binary UDFs raise security/ops burden.
 
 ## Comparison
-- vs [[mysql triggers]]: triggers fire on DML events
+- vs [[MySQL Triggers]]: triggers fire on DML events
 
 
 ### Use cases

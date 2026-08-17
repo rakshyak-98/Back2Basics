@@ -1,4 +1,4 @@
-[[IAM]] [[AWS Networking]] [[AWS ECR]] [[AWS cli commands]]
+[[IAM]] [[AWS Networking]] [[AWS ECR]] [[AWS CLI]]
 
 # AWS Lambda
 

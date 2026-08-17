@@ -1,4 +1,4 @@
-[[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[Security group]] [[Elastic IP]] [[AWS Networking]]
+[[AMI (Amazon Machine Image)]] [[AWS EBS(Elastic Block Store)]] [[Security group]] [[Elastic IP]] [[AWS Networking]]
 
 # AWS EC2
 
@@ -43,7 +43,7 @@ ssh -i ~/.ssh/my-key.pem ec2-user@<public-dns-or-ip>
 | Symptom | Check |
 |---------|-------|
 | Cannot SSH | Security group, NACL, wrong key, instance in private subnet without bastion |
-| Disk full | [[EBS (Elastic Block Store)]] volume size; expand volume and grow filesystem |
+| Disk full | [[AWS EBS(Elastic Block Store)]] volume size; expand volume and grow filesystem |
 | Status check failed | Instance or underlying hardware — stop/start or replace |
 | Metadata access from app | IMDSv2 hop limit when running in containers on EC2 |
 

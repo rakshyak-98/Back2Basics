@@ -1,4 +1,4 @@
-[[commands]] [[crontab]] [[Linux process commands]] [[supervisorctl]] [[renice]]
+[[Neovim CLI]] [[crontab]] [[Linux process commands]] [[supervisorctl]] [[renice]]
 
 # tsp cli
 

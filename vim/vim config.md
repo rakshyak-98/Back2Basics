@@ -1,4 +1,4 @@
-[[vim commands]] [[vim buffers]] [[nvim/nvim setup]] [[Linux/editor config]]
+[[Vim CLI]] [[vim buffers]] [[nvim/nvim setup]] [[Linux/editor config]]
 
 # vim config
 

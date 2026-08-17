@@ -1,4 +1,4 @@
-[[vercel cli]] [[Netlify/Netlify deployment]] [[CORS (Cross Origin Request Sharing)]] [[NextJS/ISR (Incremental Static Regeneration)]]
+[[Vercel CLI]] [[Netlify/Netlify deployment]] [[CORS (Cross Origin Request Sharing)]] [[NextJS/ISR (Incremental Static Regeneration)]]
 
 # Vercel deployment
 

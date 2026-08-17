@@ -1,4 +1,4 @@
-[[Operating System]] [[Linux Process Theory]] [[CLI]] [[Commands]] [[systemd]] [[Memory management]] [[Epoll]] [[INDEX]]
+[[Operating System]] [[Linux Process Theory]] [[NodeJS CLI]] [[Commands]] [[systemd]] [[Memory management]] [[Epoll]] [[INDEX]]
 
 # Linux
 
@@ -47,7 +47,7 @@ Hardware / hypervisors / containers
 
 | Need | Start here |
 |------|------------|
-| Everyday commands | [[Commands]] · [[CLI]] |
+| Everyday commands | [[Commands]] · [[NodeJS CLI]] |
 | Process debugging | [[Linux Process Theory]] · [[ps]] · [[top]] |
 | Services | [[systemctl]] · [[journalctl]] |
 | Packages | [[apt package manager]] |

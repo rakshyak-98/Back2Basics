@@ -1,4 +1,4 @@
-[[javascript]] [[event listener]] [[promise]] [[web worker]] [[Optimizing performance]]
+[[javascript]] [[event listener]] [[promise]] [[web workers]] [[Optimizing performance]]
 
 # throttle
 

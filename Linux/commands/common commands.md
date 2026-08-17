@@ -1,4 +1,4 @@
-[[CLI]] [[grep]] [[Find command]] [[Scripting]] [[date]] [[ss]] [[journalctl]] [[lsof]]
+[[NodeJS CLI]] [[grep]] [[Find command]] [[Scripting]] [[date]] [[ss]] [[journalctl]] [[lsof]]
 
 # Common commands — daily ops cheat sheet
 

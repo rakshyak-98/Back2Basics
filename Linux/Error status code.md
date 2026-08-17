@@ -1,4 +1,4 @@
-[[process]] [[bash flags]] [[systemd]] [[CLI]] [[bash script]] [[OOM (Linux Out Of Memory)]]
+[[process]] [[bash flags]] [[systemd]] [[NodeJS CLI]] [[bash script]] [[OOM (Linux Out Of Memory)]]
 
 # Error status code
 

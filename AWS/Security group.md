@@ -1,4 +1,4 @@
-[[AWS EC2]] [[AWS Networking]] [[IAM]] [[AWS cli commands]]
+[[AWS EC2]] [[AWS Networking]] [[IAM]] [[AWS CLI]]
 
 # Security group
 
