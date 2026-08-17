@@ -4,17 +4,18 @@
 
 > RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about RTMP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — RTMP](https://en.wikipedia.org/wiki/RTMP) — overview
 - [Adobe RTMP specification](https://rtmp.veriskope.com/docs/spec/) — deep-dive
 
 ## Key Concepts
-
 **RTMP** maintains a **persistent TCP connection** from **encoder (publisher)** to **ingest server**, sending **FLV-muxed** H.264/AAC (typical). Low protocol overhead → **~2–5 s glass-to-glass** to origin before packaging. **Players no longer use RTMP** in browsers (Flash removed); CDNs terminate RTMP at ingest and deliver **HTTP segments** to viewers.
 
 | Variant | Port | Notes |
@@ -26,7 +27,6 @@ Interviewers ask about RTMP to see if you understand the pipeline role, failure 
 **Publish** (one-to-one to origin) differs from **playback** (many-to-one HTTP) — don't expose RTMP URLs to end users.
 
 ## Technical Details
-
 ```txt
 OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
                                 │
@@ -92,23 +92,19 @@ timeout 10 ffplay rtmp://ingest/live/key
 ```
 
 ## Real-World Applications
-
 Used wherever RTMP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
 - **Con / skip when:** **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
 - **Con / skip when:** **Multi-tenant open ingest without authentication** — bot publish / abuse.
 
 ## Comparison
-
 - vs [[HLS]]: **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
 - vs [[WebRTC]]: **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Connection refused | `nc -zv host 1935` | Security group; RTMPS on 443 |

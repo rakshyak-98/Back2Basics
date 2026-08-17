@@ -4,24 +4,24 @@
 
 > How you install, run, upgrade, and supervise a service on a host — packages or images, plus systemd (or another process manager).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Lifecycle story: artifact → non-root user → unit with Restart → health check → journal — and avoid dual supervisors.
 
 ## Sources
-
 - [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive
 - [12-Factor App — Logs](https://12factor.net/logs) — overview
 
 ## Key Concepts
-
 - **Unit defines runtime:** `ExecStart`, `User=`, `Restart=`.
 - **Config vs data:** `/etc` vs `/var` so upgrades don’t wipe state.
 - **Health ≠ listen:** probe readiness, not only bind success.
 - **One supervisor:** systemd *or* Supervisor/Docker restart — not both fighting.
 
 ## Technical Details
-
 ```txt
 artifact (deb/oci/bin) → User=myapp → systemd unit
                               │
@@ -49,21 +49,17 @@ curl -fsS localhost:8080/healthz
 | Upgrade broke config | Diff `/etc` | Restore; migrate schema |
 
 ## Real-World Applications
-
 Deploy an API deb: package installs binary + unit, runs as `User=app`, logs to journal, `/healthz` gates the load balancer.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear host-local lifecycle with audit-friendly units.
 - **Con:** Multi-tenant SaaS usually wants an orchestrator, not ad-hoc host services.
 
 ## Comparison
-
 - vs [[supervisorctl]]: legacy Python supervisor vs native systemd.
 - vs Kubernetes: node-local app management vs cluster scheduling.
 
 ## Mistakes to Avoid
-
 - Running as root “just to work” instead of fixing permissions.
 - Running systemd and supervisord for the same process.
 - Marking healthy on port open alone.

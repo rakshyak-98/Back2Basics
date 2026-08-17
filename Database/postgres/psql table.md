@@ -4,6 +4,10 @@
 
 > Create and inspect PostgreSQL tables — types, constraints, indexes (including [[GIN]]), partitions, and `\d` introspection.
 
+
+
+
+
 ## Interview Relevance
 Schema design in Postgres: `TIMESTAMPTZ`, `JSONB`+GIN, identity/serial keys, and declarative partitioning.
 

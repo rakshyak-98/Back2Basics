@@ -4,16 +4,17 @@
 
 > One publisher → one ingest destination → one encoded bitrate path — **simplest live topology** before ABR and multi-CDN.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Single Stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Single Stream](https://en.wikipedia.org/wiki/Single_Stream) — overview
 
 ## Key Concepts
-
 **Single stream** means **one active encode pipeline** from source to **one ingest endpoint** — not multiple ladder rungs ([[Multi Stream]] ABR) and not fan-out to YouTube + origin simultaneously. OBS defaults here: **one RTMP push** at **one resolution/bitrate**. Origin may still **transcode to ABR** downstream — that's server-side, not publisher multi-stream.
 
 | Aspect | Single stream | When to expand |
@@ -24,7 +25,6 @@ Interviewers ask about Single Stream to see if you understand the pipeline role,
 | **Failure** | Single point | Backup ingest URL (failover encoder config) |
 
 ## Technical Details
-
 ```txt
 Single-stream publish path
   Camera ──► OBS ──► one RTMP ──► ingest ──► (optional) ladder ──► [[HLS]]
@@ -79,23 +79,19 @@ Manual switch on primary failure — not simultaneous push
 ```
 
 ## Real-World Applications
-
 Used wherever Single Stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
 - **Con / skip when:** **Direct ABR from publisher** — multiple encodes or hardware ladder (rare); usually server-side.
 - **Con / skip when:** **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
 
 ## Comparison
-
 - vs [[Multi Stream]]: **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
 - vs [[WebRTC]]: **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | New publish kicks old | Same stream key | Unique keys per event; or intentional takeover |

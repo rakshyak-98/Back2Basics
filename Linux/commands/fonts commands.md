@@ -4,6 +4,10 @@
 
 > fontconfig CLI tools list, match, and rebuild fonts when apps show missing glyphs or wrong faces.
 
+
+
+
+
 ## Interview Relevance
 Desktop/ops niche: `fc-list` / `fc-match` / `fc-cache`, user vs system font dirs, and Flatpak sandbox font isolation.
 
@@ -22,7 +26,6 @@ Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + siz
 - **Sandbox gap:** Snap/Flatpak may not see host fonts.
 
 ## Technical Details
-
 ```txt
 App → fontconfig → fc-match "Monospace" → best file on disk
 Install .ttf → fc-cache -f → app restart (sometimes)

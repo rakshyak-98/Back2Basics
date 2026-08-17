@@ -4,16 +4,17 @@
 
 > Abstraction hides irrelevant detail behind a simpler model — so callers work with stable concepts (interfaces, APIs) instead of concrete implementation mechanics.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Abstraction questions check hiding the right details — leaky and premature abstractions are common failure modes.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* (introduction to abstraction in OOP) — deep-dive
 
 ## Key Concepts
-
 Abstraction is both a **principle** and a technique:
 
 - **Data abstraction** — expose operations, hide representation (stack `push/pop`, not raw array index).
@@ -36,7 +37,6 @@ Many patterns **are** abstractions:
 - [[Design pattern/Strategy pattern]] — abstract algorithm slot
 
 ## Mistakes to Avoid
-
 - **Wrong abstraction** — forces awkward workarounds (leaky `UserDAO` that exposes SQL).
 - **Premature abstraction** — one implementation dressed as an interface "for flexibility."
 - **Abstraction inversion** — low-level details drive high-level names.

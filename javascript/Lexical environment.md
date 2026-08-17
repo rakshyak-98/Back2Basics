@@ -4,26 +4,25 @@
 
 > Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **Lexical environment** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Lexical scope**, **`var`**.
 
 ## Sources
-
 - [ECMA-262 — Lexical Environments](https://tc39.es/ecma262/#sec-lexical-environments) — deep-dive
 - [Wikipedia — Lexical environment](https://en.wikipedia.org/wiki/Lexical_environment) — overview
 
 ## Core Definition
-
 Each scope (function, block, module) has a **Lexical Environment**:
 
 ## Key Concepts
-
 - **Lexical scope:** Defined by source text nesting — | **Closure**
 - **`var`:** Function-scoped; hoisted ([[hoisting]]) — | **`let`/`const`**
 
 ## Technical Details
-
 Each scope (function, block, module) has a **Lexical Environment**:
 
 ```txt
@@ -83,21 +82,17 @@ export const secret = 42;
 Debug scope in DevTools **Scope** panel during breakpoint — practical view of environment records.
 
 ## Real-World Applications
-
 In production APIs and tooling, **Lexical environment** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`var` in blocks** — leaks to function scope; legacy footgun in loops + timeouts; **Dynamic `eval`** — can mutate lexical bindings in non-strict legacy modes; avoid.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Lexical environment — each scope (function, block, module) has a Lexical Environ…).
 - **Con / when not:** **Explaining to juniors** — start with "scope chain" intuition; specification terms second.
 - **Con / when not:** **Performance micro-hacks** — engines optimize closures; don't flatten scopes manually without profiling.
 
 ## Comparison
-
 vs [[variable]]: know when each applies — do not treat them as interchangeable. vs [[hoisting]]: know when each applies — do not treat them as interchangeable. vs [[Descriptive/JavaScript/execution context]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`var` in blocks** — leaks to function scope; legacy footgun in loops + timeouts.
 - **Dynamic `eval`** — can mutate lexical bindings in non-strict legacy modes; avoid.
 - **`undefined` before assignment:** check `var` hoisting; fix: Use `let`; declare before use

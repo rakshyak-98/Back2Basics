@@ -4,6 +4,10 @@
 
 > Pocket kit for “is it listening, reachable, or DNS?” — ss/lsof for sockets, nc/tcpdump to probe, dig/resolvectl for names.
 
+
+
+
+
 ## Interview Relevance
 Incident first five minutes: listening ports, route, DNS, and reachability — with the right tool per layer (not everything is `ping`).
 
@@ -22,7 +26,6 @@ Map the question to a tool: local listen → `ss`/`lsof`; path → `ip route get
 - **Capture sparingly:** tcpdump is powerful and noisy.
 
 ## Technical Details
-
 ```txt
 Listen?  ss -lntup / lsof -i
 Reach?   nc -zv host port

@@ -4,6 +4,10 @@
 
 > Repro — the minimal steps that reliably show whether a bug still exists; the human-executable test for triage and QA handoff.
 
+
+
+
+
 ## Interview Relevance
 Strong engineers turn “it broke once” into a stable reproduction. Interview signal: preconditions, environment pins, expected vs actual — same discipline as writing tests.
 

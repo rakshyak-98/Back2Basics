@@ -4,24 +4,24 @@
 
 > MQTT is a lightweight publish/subscribe protocol for constrained devices and unreliable networks — brokers fan out messages by topic, with QoS levels trading delivery guarantees for overhead.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HTTP polling for IoT telemetry.
 
 ## Sources
-
 - [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html) — deep-dive
 - [Eclipse Mosquitto documentation](https://mosquitto.org/documentation/) — overview
 
 ## Key Concepts
-
 - **Publisher / broker / subscriber:** devices publish to topics; the broker routes; subscribers use filters.
 - **Topic hierarchy:** slash-separated paths with `+` (one level) and `#` (multi-level suffix) wildcards.
 - **QoS:** 0 at most once; 1 at least once (may duplicate); 2 exactly once (four-step).
 - **Transport:** TCP 1883 cleartext (lab); 8883 TLS; WebSocket for browsers.
 
 ## Technical Details
-
 | Component | Function |
 |-----------|----------|
 | **Publisher** | Sends messages to a **topic** |
@@ -50,19 +50,16 @@ mosquitto_pub -h broker.example.com -t 'sensors/room1/temp' -m '22.5'
 Security baseline: unique credentials per device; TLS + cert pinning; ACLs per topic prefix.
 
 ## Real-World Applications
-
 IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny headers on flaky links.
 
 **Example:** Thousands of thermostats publish `sensors/+/temp` at QoS 0; a building dashboard subscribes once at the broker instead of polling each device over HTTP.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Persistent subscriptions, tiny headers, works on constrained devices.
 - **Con:** Broker is a required middle box — operational and ACL complexity.
 - **Con:** QoS 1 duplicates — consumers must be idempotent.
 
 ## Comparison
-
 | MQTT | HTTP |
 |------|------|
 | Persistent subscription | Request/response |
@@ -72,7 +69,6 @@ IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny he
 - vs [[webSocket]]: WebSocket is a full-duplex pipe; MQTT adds topic routing and QoS on top of a broker model.
 
 ## Mistakes to Avoid
-
 - Cleartext 1883 in production.
 - Shared credentials across all devices.
 - Using QoS 2 everywhere “for safety” — latency and broker load without need.

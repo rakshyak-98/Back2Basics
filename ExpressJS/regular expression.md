@@ -4,22 +4,22 @@
 
 > Express path patterns are not full JavaScript `RegExp` — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers test whether you understand `path-to-regexp` vs raw `RegExp` routes, route order, and why unbounded patterns are a denial-of-service risk.
 
 ## Sources
-
 - [Express — Routing](https://expressjs.com/en/guide/routing.html) — deep-dive
 - [path-to-regexp](https://github.com/pillarjs/path-to-regexp) — deep-dive
 - [OWASP — Regular expression Denial of Service](https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS) — overview
 
 ## Core Definition
-
 String routes go through `path-to-regexp` (`:param`, optional segments, inline parameter regex). RegExp routes match `req.path` yourself — you own anchors and greediness. Query strings are not part of the path match.
 
 ## Key Concepts
-
 - **String routes:** `'/users/:id'` — one path segment for `:id` unless you customize.
 - **Inline parameter regex:** `'/:id(\\d+)'` — constrains a named param (double backslashes in JS strings).
 - **RegExp routes:** `app.get(/^\/users\/(\d+)$/, ...)` — full path match; add `^` / `$`.
@@ -27,7 +27,6 @@ String routes go through `path-to-regexp` (`:param`, optional segments, inline p
 - **ReDoS:** unbounded `.+` in route patterns can burn CPU — bound length and charset.
 
 ## Technical Details
-
 ```txt
 String route '/users/:id'     → one segment for :id
 RegExp route /^\/users\/(\d+)$/ → full path match (query excluded)
@@ -74,25 +73,21 @@ app.get('/search/:q([^/]{1,100})', handler);
 **Gotchas:** string route `/[abc]/` is literal `[abc]`, not a character class. `strict routing` changes `/foo` vs `/foo/`. Default matching is case-sensitive. `app.use('/path', fn)` is a prefix match.
 
 ## Real-World Applications
-
 ID-constrained REST resources, optional file-path segments, and API versioning mounts under `/api/v1`.
 
 **Example:** Registering `GET /users/:id` before `GET /users/export` makes `export` parse as an id — reverse the order or constrain `:id` to digits.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Inline regex keeps invalid IDs out of handlers early.
 - **Con:** Complex patterns hide bugs; validation middleware is clearer for business rules.
 - **Con:** Raw RegExp routes are powerful and easy to get wrong (anchors, ReDoS).
 
 ## Comparison
-
 - vs [[express query handler]] validation: routing regex = shape of the path; Zod/Joi = semantics of values.
 - vs [[Nginx]] location regex: similar order and greediness pitfalls at the reverse-proxy layer.
 - vs Express 5 / newer `path-to-regexp`: splat and optional syntax differ by major version — verify docs for your version.
 
 ## Mistakes to Avoid
-
 - Unbounded `.+` captures that invite ReDoS.
 - Forgetting double backslashes in string route regex: `'/:id(\\d+)'`.
 - Putting parametric routes ahead of static siblings.

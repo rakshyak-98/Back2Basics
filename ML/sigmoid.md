@@ -4,18 +4,19 @@
 
 > Sigmoid — the sigmoid is a smooth S-curve saturating at 0 and 1. In logistic regression:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Sigmoid to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [sigmoid — Wikipedia](https://en.wikipedia.org/wiki/Sigmoid_function) — overview
 
 ## Key Concepts
-
 The sigmoid is a smooth **S-curve** saturating at 0 and 1. In logistic regression:
 
 ```txt
@@ -36,7 +37,6 @@ Large positive **z** → p ≈ 1; large negative **z** → p ≈ 0; **z = 0** �
 Derivatives: σ'(z) = σ(z)(1 − σ(z)) — vanishes at extremes → **saturation** slows learning in deep nets (why ReLU often preferred in hidden layers).
 
 ## Technical Details
-
 ```python
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -67,13 +67,11 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Hidden layers in deep CNNs/Transformers** — ReLU, GELU, SiLU dominate.
 - **Multiclass mutually exclusive labels** — softmax + cross-entropy.
 - **Regression on continuous y** — linear head, no sigmoid.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Sigmoid ≠ guaranteed calibrated probability** — especially on shifted data or after heavy oversampling.
 
@@ -87,4 +85,3 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 | Sigmoid in hidden layers, dead grads | Saturation | Switch hidden activations to ReLU/GELU |
 | miscalibrated probs | Reliability diagram | Platt scaling / isotonic |
 | Multiclass with sigmoid per class | Wrong head | Softmax + cross-entropy |
-

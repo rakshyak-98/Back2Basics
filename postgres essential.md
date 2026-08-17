@@ -4,6 +4,10 @@
 
 > PostgreSQL essentials — roles, databases, connections, and the few `psql` commands you need before tuning queries or replication.
 
+
+
+
+
 ## Interview Relevance
 Interviewers start Postgres with cluster vs database vs schema, auth (`pg_hba`), and why pools beat raising `max_connections`. Clear answers here unlock indexing and WAL follow-ups.
 

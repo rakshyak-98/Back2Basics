@@ -4,6 +4,10 @@
 
 > The initial RAM filesystem (initramfs) is a cpio archive the bootloader loads — early userspace that finds disks, unlocks encryption, mounts real root, then hands off to PID 1.
 
+
+
+
+
 ## Interview Relevance
 Boot troubleshooting classic: “gave up waiting for root device,” LUKS unlock in the initramfs shell, and when to regenerate with `update-initramfs` / `dracut` after adding storage drivers.
 
@@ -22,7 +26,6 @@ The kernel unpacks **initramfs** into a tmpfs root. Hooks load storage drivers (
 - **Distro tools:** `update-initramfs` (Debian) vs `dracut` (RHEL family).
 
 ## Technical Details
-
 | Path | Role |
 |------|------|
 | `/boot/initrd.img-*` | Generated image (Debian/Ubuntu naming) |

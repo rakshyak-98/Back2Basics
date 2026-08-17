@@ -4,6 +4,10 @@
 
 > WM_CLASS is an X11 property (instance, class) that window managers use to apply rules — placement, workspace, floating, and focus behavior.
 
+
+
+
+
 ## Interview Relevance
 Desktop/Linux niche: shows you can debug window rules with `xprop` and that Wayland apps may not expose the same hints (XWayland still does).
 
@@ -21,7 +25,6 @@ Format: two strings — **instance** (often program name) and **class** (often b
 - **Wayland gap:** Native Wayland clients use `app_id`, not WM_CLASS.
 
 ## Technical Details
-
 ```bash
 xprop WM_CLASS
 # WM_CLASS(STRING) = "firefox", "Firefox"

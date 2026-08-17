@@ -4,21 +4,21 @@
 
 > Managed cryptographic keys (often HSM-backed) so apps encrypt data without holding long-term master key material.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Cloud security: envelope encryption, CMK vs data keys, and why apps call KMS instead of storing raw master keys.
 
 ## Sources
-
 - [AWS KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/) — deep-dive
 - [NIST SP 800-57 — Key Management](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final) — overview
 
 ## Core Definition
-
 A Key Management Service stores and uses cryptographic keys (often in HSM-backed hardware) so applications encrypt data without holding long-term master key material.
 
 ## Key Concepts
-
 KMS stores **Customer Master Keys (CMKs)** — symmetric (default) or asymmetric (sign/verify). Data is encrypted with **data keys**; data keys are wrapped by CMK (**envelope encryption**). Every use calls `kms:Decrypt/GenerateDataKey` — logged in CloudTrail.
 
 ```
@@ -30,7 +30,6 @@ App ──► GenerateDataKey ──► plaintext data key + encrypted blob
 **Key policy** (resource-based, mandatory on CMK) + **IAM** (identity-based) **both** must allow — unlike most AWS resources where IAM alone suffices.
 
 ## Technical Details
-
 ### CMK key policy (minimum + admin)
 
 ```json
@@ -83,23 +82,19 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 | Higher latency | KMS API per-object encrypt | Data key caching (within compliance bounds); batch |
 
 ## Real-World Applications
-
 Envelope-encrypt database fields or S3 objects with a data key, wrapping that key with a KMS customer master key.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Master keys stay in HSM-backed service with IAM audit trails.
 - **Con:** application-level secrets in environment variables without envelope — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
 - **Con:** Password hashing — KMS encrypt ≠ bcrypt/Argon2; use for **encryption at rest**, not password storage.
 - **Con:** High-frequency per-field encrypt on hot path without cache — cost + latency; batch or use AES-GCM with rotated data keys.
 
 ## Comparison
-
 - vs app-local key files: KMS keeps master keys in HSM-backed service with IAM audit.
 - vs [[TLS (Transport Layer Security)]]: TLS protects data in transit; KMS protects keys for data at rest/app crypto.
 
 ## Mistakes to Avoid
-
 - IAM Allow alone is insufficient — CMK key policy must trust the caller (unless account root delegation pattern used correctly).
 - Scheduled deletion is irreversible after waiting period — all ciphertext using that CMK becomes undecryptable.
 - CloudWatch Logs SSE-KMS — needs key policy for `logs.region.amazonaws.com`.

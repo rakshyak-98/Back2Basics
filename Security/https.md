@@ -4,21 +4,21 @@
 
 > HTTP over TLS — encrypts and authenticates web traffic; browsers require valid PKI chain for padlock, APIs should pin or trust store consciously.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Baseline: HTTPS = HTTP over TLS — redirect, HSTS, and certificate trust are the operational checklist.
 
 ## Sources
-
 - [MDN — HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) — overview
 - [RFC 9110 — HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110) — deep-dive
 
 ## Core Definition
-
 HTTPS is HTTP carried over TLS so browsers and APIs get confidentiality, integrity, and (usually) server authentication via PKI.
 
 ## Key Concepts
-
 ```txt
 Client                          Server
   │── TCP connect ───────────────►│
@@ -38,7 +38,6 @@ Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
 HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
 
 ## Technical Details
-
 ### Nginx TLS baseline
 
 ```nginx
@@ -88,21 +87,17 @@ server {
 | HTTP/2 errors behind old proxy | ALPN not forwarded | Enable HTTP/2 on edge; proxy_protocol |
 
 ## Real-World Applications
-
 Every public web app terminates HTTPS at the edge, redirects HTTP, and serves HSTS once TLS is stable.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Confidentiality and server auth for web traffic users expect by default.
 - **Con:** Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
 
 ## Comparison
-
 - vs [[TLS (Transport Layer Security)]]: HTTPS is HTTP-over-TLS; TLS can protect other protocols too.
 - vs [[HTTP Strict Transport Security]]: HSTS forces browsers to stick to HTTPS after first visit.
 
 ## Mistakes to Avoid
-
 - TLS terminates at LB — backend HTTP is plaintext on network — use mTLS or private network.
 - `ssl_certificate` without full chain — Android/old clients fail intermittently.
 - HSTS before HTTPS stable — locks users out if cert breaks.

@@ -4,31 +4,17 @@
 
 > Historical browser plug-in model (1990s–2010s) — **removed from all major browsers** because the security boundary was unsalvageable.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Applets are historical — interviewers may ask why the web moved to JS and WASM instead.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
-## Key Concepts
-
-```txt
-Browser page → <applet> → JVM plugin in browser process → bytecode + full OS API
-```
-
-Applets ran **untrusted remote code** with near-native privileges inside the user's browser. Sandboxing relied on the Java SecurityManager — repeatedly bypassed via deserialization bugs, reflection, and JRE flaws.
-
-**Timeline for SEs:**
-- **Pre-2015:** enterprise apps (banking, intranet) still shipped `.jar` applets
-- **2017:** Oracle deprecated the Java browser plugin
-- **2021+:** browsers removed NPAPI/plugin support entirely
-
-**Replacement patterns:** static web apps, [[JavaScript]] SPAs, WebStart (also dead), desktop installers, or **WebAssembly** for compute-heavy client work — none replicate "download bytecode and run with legacy JRE in Chrome."
-
 ## Technical Details
-
 ### Recognize legacy artifacts
 
 ```html
@@ -53,11 +39,9 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Always** — for any new feature. Full stop.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Do not recommend applet revival** for any new system — compliance and browser support are zero.
 
@@ -73,4 +57,3 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 | Enterprise site requires Java 6 | Legacy vendor | Escalate vendor rewrite; isolate in Citrix/VDI temp |
 | Security scan flags applet | Compliance | Document decommission; remove HTML embed |
 | Signed jar trust prompts | Old cert chain | Not fixable in browser — replace integration |
-

@@ -4,16 +4,17 @@
 
 > Standardized boxes-and-lines notation for structure, behavior, and deployment — design reviews and onboarding — **UML 2.x subset for engineers**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 UML interviews check whether you pick the right diagram for the question — class vs sequence vs component.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 UML is a **visual DSL** for software design. Use a **small subset** in practice: class, sequence, component, deployment. Diagrams are contracts for conversation, not exhaustive code generators.
 
 ```
@@ -35,7 +36,6 @@ UML is a **visual DSL** for software design. Use a **small subset** in practice:
 | **Deployment** | Nodes, containers, networks |
 
 ## Technical Details
-
 ### Class diagram notation
 
 | Symbol | Meaning |
@@ -88,12 +88,10 @@ sequenceDiagram
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Solo script < 500 LOC — comment + function names beat ceremony.
 - Real-time pair programming — whiteboard sketch beats formal UML latency.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Auto-generated class diagrams from Java** expose every getter — useless noise. Curate public surface only.
 

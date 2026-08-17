@@ -4,17 +4,18 @@
 
 > Training fits model parameters on labeled data — split, fit, validate, then lock the test set.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about model tranning to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 ```txt
 raw → preprocess (fit on train only) → train → validate → test once
 ```
@@ -29,7 +30,6 @@ raw → preprocess (fit on train only) → train → validate → test once
 | **Early stopping** | Halt on val plateau | “Stop before overfit.” |
 
 ## Technical Details
-
 ```python
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
@@ -45,12 +45,10 @@ print(model.score(X_test, y_test))
 | Pipeline | Prevent leakage |
 
 ## Pros/Cons or Trade-offs
-
 - **No labels** — unsupervised / pretrained embeddings first.
 - **One-shot demo** — still keep a holdout if you’ll claim accuracy.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Scaling fit on all data** — classic leakage; fit scaler on train only.
 
@@ -63,4 +61,3 @@ print(model.score(X_test, y_test))
 | Underfit | high train error | Richer model / features |
 | Overfit | train≫val | Regularize; more data |
 | Unstable scores | tiny test | Cross-val; bigger holdout |
-

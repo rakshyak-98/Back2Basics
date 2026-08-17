@@ -4,6 +4,10 @@
 
 > Core computer-science fundamentals — the durable mental models behind every stack: algorithms, systems, networks, and data.
 
+
+
+
+
 ## Interview Relevance
 Staff and senior interviews still probe these foundations. Interviewers want proof you can reason from first principles when the framework docs run out — complexity, memory, concurrency, and failure.
 

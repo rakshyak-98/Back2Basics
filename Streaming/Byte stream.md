@@ -4,16 +4,17 @@
 
 > Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Byte stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream) — overview
 
 ## Key Concepts
-
 A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in message boundaries. TCP, pipes, and file reads all expose byte streams; **containers** (MP4, MPEG-TS, CMAF) impose structure on top. Streaming engineers care because players, packagers, and CDNs must agree on **where segment boundaries fall** in that stream.
 
 | Layer | Example | Boundary model |
@@ -26,7 +27,6 @@ A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in 
 **Progressive download** (single MP4 over HTTP) is a byte stream with a `moov` atom at the front or end — player needs index before seek works. **ABR streaming** splits the byte stream into **addressable HTTP objects** listed in [[Manifest (streaming)]].
 
 ## Technical Details
-
 ```txt
 Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
               │                              │
@@ -69,18 +69,15 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 ```
 
 ## Real-World Applications
-
 Used wherever Byte stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
 - **Con / skip when:** **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
 - **Con / skip when:** **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Player can't start | `moov` at end of MP4 | `ffmpeg -movflags +faststart` or use fMP4 HLS |

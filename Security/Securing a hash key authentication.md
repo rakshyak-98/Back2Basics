@@ -4,21 +4,21 @@
 
 > Shared-secret HMAC authentication done safely — vault the key, rotate it, verify tags in constant time, always over TLS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 API design: shared-secret HMAC auth — key storage, rotation, timing-safe compare, and transport over TLS.
 
 ## Sources
-
 - [OWASP — REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html) — overview
 - [RFC 2104 — HMAC](https://www.rfc-editor.org/rfc/rfc2104) — deep-dive
 
 ## Core Definition
-
 Hash-key authentication means client and server share a secret used to compute an HMAC (or similar) tag; securing it is key custody, rotation, and constant-time verification.
 
 ## Key Concepts
-
 **Hash-key authentication** = server and client share a secret used to compute [[HMAC (Hash based Message Authentication Codes)]] or compare API key hashes:
 
 ```txt
@@ -34,7 +34,6 @@ Threat model:
 Security = **key hygiene** + **transport** + **verification discipline**.
 
 ## Technical Details
-
 ### Generate strong secrets
 
 ```bash
@@ -98,21 +97,17 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 | Timing attacks | Non-constant compare | `crypto.timingSafeEqual` |
 
 ## Real-World Applications
-
 Partner webhooks and machine APIs authenticate with rotated HMAC secrets stored in a vault or KMS.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Simple machine auth when mutual TLS or OAuth is overkill — if keys are vaulted.
 - **Con:** Shared MAC keys **don't scale** to untrusted third-party integrators — use OAuth/mTLS or asymmetric webhook signatures per consumer.
 
 ## Comparison
-
 - vs [[HMAC (Hash based Message Authentication Codes)]]: HMAC is the primitive; this note is operational key hygiene.
 - vs [[KMS]]: prefer KMS/vault over long-lived plaintext secrets on disk.
 
 ## Mistakes to Avoid
-
 - Logging full request — includes `Authorization` — common leak vector.
 - MD5/SHA1 for password storage — use argon2/bcrypt/yescrypt — see [[yashcrypt]].
 - Same secret all environments — prod key in staging = breach multiplier.

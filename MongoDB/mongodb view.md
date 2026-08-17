@@ -4,17 +4,18 @@
 
 > A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Views questions check read-only aggregation shortcuts versus materialized collections.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 orders ──$group/$sort──► orderSummaryView (read-only)
 ```
@@ -29,7 +30,6 @@ orders ──$group/$sort──► orderSummaryView (read-only)
 | **Materialized view** | Stored result (Atlas/ondemand) | “Trade freshness for speed.” |
 
 ## Technical Details
-
 ```js
 db.createView('orderSummaryView', 'orders', [
   { $group: { _id: '$customerId', totalSpent: { $sum: '$amount' } } },
@@ -45,12 +45,10 @@ db.orderSummaryView.find().limit(20)
 | Permissions | Grant read on view, not raw |
 
 ## Pros/Cons or Trade-offs
-
 - **Write path** — views are read-only.
 - **Hot, simple filters** — a normal collection + index is clearer.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Views are not caches** — heavy `$lookup` views will hurt under load.
 
@@ -63,4 +61,3 @@ db.orderSummaryView.find().limit(20)
 | Can’t update via view | By design | Write to source collection |
 | Wrong totals | Pipeline bug / nulls | Fix `$group`; handle missing fields |
 | View missing | Wrong DB | `db.getCollectionNames()` |
-

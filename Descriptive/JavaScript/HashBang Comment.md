@@ -4,16 +4,17 @@
 
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Hashbang in JS modules is niche — interviewers may ask Node CLI script entry behavior.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 `#!` (hash-bang) at **byte 0, line 1** tells the kernel which program executes the file when run as `./script.js`. The JavaScript engine treats it as a **single-line comment** and removes it before parse.
 
 ```
@@ -31,7 +32,6 @@ node cli.js  ──► shebang ignored (node invoked directly)
 | Import/require from another file | Comment only |
 
 ## Technical Details
-
 ### Node CLI script
 
 ```javascript
@@ -70,12 +70,10 @@ Ensure built file retains shebang; bundlers may need `banner` plugin.
 Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbuild injects it.
 
 ## Pros/Cons or Trade-offs
-
 - Files only ever imported, never executed directly.
 - Browser bundles — bundler strips or breaks shebang if misplaced.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Shebang line length is limited (~128 bytes on Linux) — use `/usr/bin/env node`, not long absolute paths, when possible.
 

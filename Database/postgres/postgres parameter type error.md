@@ -4,6 +4,10 @@
 
 > `could not determine data type of parameter $N` and related bind mismatches — fix with explicit casts or typed placeholders in prepared statements.
 
+
+
+
+
 ## Interview Relevance
 Shows debugging skill with prepared statements and ORMs that send untyped `null` or reused `$1` across incompatible contexts.
 

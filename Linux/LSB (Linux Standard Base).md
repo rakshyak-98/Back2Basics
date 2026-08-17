@@ -4,6 +4,10 @@
 
 > The Linux Standard Base defined cross-distribution conventions — init script headers, FHS paths, and core library ABIs — so third-party packages could target “Linux” instead of each distro.
 
+
+
+
+
 ## Interview Relevance
 Rare as a deep dive, but useful to map legacy `### BEGIN INIT INFO` headers and `lsb_release` to today’s systemd targets and FHS layout.
 
@@ -21,7 +25,6 @@ LSB (Linux Foundation) specified behaviors Debian, RHEL, and others could implem
 - **lsb_release:** Reports distributor ID and release for scripts.
 
 ## Technical Details
-
 ```bash
 ### BEGIN INIT INFO
 # Provides:          myservice

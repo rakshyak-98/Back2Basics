@@ -4,25 +4,25 @@
 
 > MTU is the largest IP payload one link accepts without fragmentation — black-hole MTU issues show up as HTTPS that hangs on large responses but works for small pages.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 MTU questions separate people who have debugged tunnels and VPNs from those who only know "Ethernet is 1500." Interviewers look for Path MTU Discovery, DF bit behavior, MSS clamping, and why blocking [[ICMP]] breaks large transfers.
 
 ## Sources
-
 - [RFC 8200 — IPv6 (minimum MTU 1280)](https://www.rfc-editor.org/rfc/rfc8200) — deep-dive
 - [RFC 1191 — Path MTU Discovery](https://www.rfc-editor.org/rfc/rfc1191) — deep-dive
 - [Wikipedia — Maximum transmission unit](https://en.wikipedia.org/wiki/Maximum_transmission_unit) — overview
 
 ## Key Concepts
-
 - **Per-link maximum:** each hop has an MTU → the path MTU is the minimum along the route.
 - **Headers eat payload:** IP + transport headers reduce usable application bytes → TCP MSS is negotiated from MTU.
 - **Fragmentation vs PMTUD:** oversized packets may fragment (IPv4) or fail with "packet too big" → modern practice prefers discovery over fragmentation.
 - **Black holes:** ICMP blocked + DF set → large packets die silently while small ones work.
 
 ## Technical Details
-
 | Layer | Typical MTU |
 |-------|-------------|
 | Ethernet | 1500 bytes (often) |
@@ -55,20 +55,16 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-m
 ```
 
 ## Real-World Applications
-
 VPN/overlay networks, PPPoE last-mile links, and container/bridge paths with unexpected encapsulation. Example: after enabling a GRE tunnel, API health checks pass but file uploads hang — lowering tunnel MTU or enabling MSS clamping fixes it.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Larger MTU means fewer packets and less header overhead on a given path.
 - **Con:** Overlays shrink effective MTU; mismatched MTU without working PMTUD causes hard-to-debug hangs.
 
 ## Comparison
-
 vs [[Packet Fragment]]: MTU is the size limit; fragmentation is what happens (or fails) when a datagram exceeds it. Prefer sizing and PMTUD over relying on fragments.
 
 ## Mistakes to Avoid
-
 - Assuming every path is 1500 — tunnels and PPPoE almost always subtract overhead.
 - Blocking ICMP and then blaming "TCP" for large-transfer stalls.
 - Tuning only server MTU while client or middlebox MTU still mismatches.

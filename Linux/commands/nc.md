@@ -4,6 +4,10 @@
 
 > nc opens a raw TCP/UDP socket as client or listener — the common ops pattern is a connect probe: did SYN get SYN-ACK?
 
+
+
+
+
 ## Interview Relevance
 Reachability triage: `nc -zv`, timeout `-w`, OpenBSD vs GNU flag differences, and knowing TCP open ≠ HTTP/TLS OK.
 
@@ -22,7 +26,6 @@ netcat creates a raw socket. **Connect probe** (`-z`) tests whether a port answe
 - **Layer limit:** Proves TCP handshake, not app correctness.
 
 ## Technical Details
-
 | Variant | `-z` scan | Listen | Notes |
 |---------|-----------|--------|-------|
 | OpenBSD `nc` | yes | `-l` | Common on Debian/Ubuntu |

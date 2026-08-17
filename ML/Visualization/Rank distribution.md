@@ -4,17 +4,18 @@
 
 > Rank distribution — a ranker should produce a spread of scores so sorting separates good from bad items. Healthy distribution:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Rank distribution to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 A ranker should produce a **spread** of scores so sorting separates good from bad items. Healthy distribution:
 
 ```txt
@@ -37,7 +38,6 @@ Failure modes:
 Compare **train, value, and production** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
 
 ## Technical Details
-
 ```python
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -73,13 +73,11 @@ for p in [50, 90, 99]:
 Alert if p50 jumps week-over-week without redeploy explanation.
 
 ## Pros/Cons or Trade-offs
-
 - **Pure classification** without scores — use confusion matrix ([[binary classification]]).
 - **Regression error analysis** — [[Visualization/Residual plot]] instead.
 - **Small offline sets** — histograms noisy; rely on [[Mean Average Precision (MAP)]] with confidence intervals.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Global histogram hides per-query effects** — search quality is per-query; always check within-query rank stats too.
 
@@ -93,4 +91,3 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 | Prod distribution shifted | Feature null rate | Schema tests; default imputation |
 | Top-k always same items | Popularity bias | Negative sampling; diversify |
 | Bimodal after deploy | A/B bucket mixing | Split metrics by variant |
-

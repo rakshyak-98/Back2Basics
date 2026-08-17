@@ -4,17 +4,18 @@
 
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Frontend structure choices (Map/Set/ring buffers) show up in UI performance interviews — caches, dedupe, and render hot paths.
 
 ## Sources
-
 - [MDN — Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) — overview
 - [MDN — Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) — overview
 
 ## Key Concepts
-
 Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
 
 ```txt
@@ -33,7 +34,6 @@ Priority updates        → Map + sorted index (or heap lib)
 **Big-O in FE matters when:** virtual lists (10k+ rows), graph editors, real-time tick buffers, client search indexes.
 
 ## Technical Details
-
 ### Map vs Object
 
 ```javascript
@@ -135,13 +135,11 @@ meta.set(domNode, { lastMeasure: 42 });
 | Race in async fetch | Last-write-wins | Request id / AbortController + Map stamp |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** < 100 items — plain array + `find` is fine; don't pre-optimize.
 - **Trade-off:** Server-authoritative pagination — client Map of "all rows" fights product; page cache only.
 - **Trade-off:** Replace DB index — client structures mirror UX needs, not SQL semantics.
 
 ## Mistakes to Avoid
-
 - `Object` keys are strings — `obj[1]` and `obj["1"]` collide; use Map for numeric ids.
 - Spread huge Set/Map every render — O(n) allocation; derive memoized array in selector (Reselect, useMemo).
 - `JSON.stringify(Map)` → `{}` — serialize to entries array for persistence.

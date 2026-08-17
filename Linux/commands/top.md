@@ -4,17 +4,18 @@
 
 > Live process monitor — CPU, RAM, and load, refreshing until you quit.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort with `P`/`M` instead of guessing.
 
 ## Sources
-
 - [man top](https://man7.org/linux/man-pages/man1/top.1.html) — deep-dive
 - [Wikipedia — top (software)](https://en.wikipedia.org/wiki/Top_(software)) — overview
 
 ## Key Concepts
-
 - **Load average:** runnable + uninterruptible tasks (1/5/15 min) — compare to `nproc`, not to “100%.”
 - **`id` / `wa` / `st`:** idle, I/O wait, steal (hypervisor) — diagnose CPU-bound vs disk vs noisy neighbor.
 - **RES vs VIRT:** chase RES for pressure; scary VIRT is often mappings.
@@ -22,7 +23,6 @@ Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort wi
 - **Irix mode:** `%CPU` as % of one core vs whole machine — know the mode before comparing hosts.
 
 ## Technical Details
-
 ```txt
 ┌─ load avg │ Tasks │ %Cpu(s) │ MiB Mem / Swap ─┐
 │  us sy id wa …     total/used/free/buff-cache   │
@@ -67,21 +67,17 @@ nproc
 | VM slow, `st` high | Steal in header | Resize hypervisor / noisy neighbor |
 
 ## Real-World Applications
-
 Live incident triage on a SSH session, batch `-bn1` in Ansible one-liners, and spotting steal time on noisy cloud neighbors.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Always available in rescue shells; interactive sorting.
 - **Con:** Not a multi-day trend tool — use `sar`/metrics for history.
 
 ## Comparison
-
 - vs [[ps]]: snapshot vs live refresh.
 - vs `htop`: nicer UX; still learn stock `top` for busybox/rescue.
 
 ## Mistakes to Avoid
-
 - Equating load with CPU % — disk wait raises load while CPUs look idle.
 - Panicking because “used” RAM includes reclaimable cache.
 - Renicing randomly in production — cgroups are the real limiter.

@@ -4,28 +4,27 @@
 
 > Changes or locks the password hash in `/etc/shadow` — PAM decides when that hash is actually checked.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers want lock vs disable, shadow vs keys, and that `passwd -l` does not stop SSH public-key login.
 
 ## Sources
-
 - [man passwd](https://man7.org/linux/man-pages/man1/passwd.1.html) — deep-dive
 - [Wikipedia — passwd](https://en.wikipedia.org/wiki/passwd) — overview
 
 ## Core Definition
-
 `passwd` updates the encrypted password field in `/etc/shadow`. PAM stacks under `/etc/pam.d/` decide when password checks apply — SSH with `PasswordAuthentication no` never uses this path for remote login.
 
 ## Key Concepts
-
 - **User vs root:** user needs the current password; root can set without knowing the old one.
 - **Lock (`-l`):** prepends `!` to the hash — password auth fails; keys may still work.
 - **Expire (`-e` / `chage`):** force change at next password login — keys can bypass.
 - **NSS/LDAP:** local `passwd` may not apply when identity lives in a directory.
 
 ## Technical Details
-
 ```
 login attempt ──► PAM ──► /etc/shadow hash compare
                               ▲
@@ -66,23 +65,19 @@ getent shadow username | cut -d: -f1-2
 | Works locally, not SSH | `PasswordAuthentication` / PAM | `sshd -T`; `/etc/pam.d/sshd` |
 
 ## Real-World Applications
-
 Break-glass password reset, locking a compromised interactive account, and password aging with `chage` for contractors.
 
 **Example:** Offboard with more than `passwd -l` — combine lock, nologin shell, and key removal ([[userdel]] / disable playbook).
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Simple local credential control for break-glass and small fleets.
 - **Con:** Wrong tool for central identity (AD/Okta/LDAP) and for SSH key-only hosts.
 
 ## Comparison
-
 - vs [[usermod]] `-L` / nologin: fuller account disable than password lock alone.
 - vs [[getent]]: query resolved account data across NSS sources before changing local shadow.
 
 ## Mistakes to Avoid
-
 - Treating `passwd -l` as full disable — SSH keys, cron, and ownership remain.
 - Putting passwords on the shell history line with `echo | chpasswd` on shared hosts.
 - Using `passwd -d` (empty password) on production systems.

@@ -4,17 +4,18 @@
 
 > H3 maps lat/lng to hexagon IDs — bucket nearby points for density, surge, and spatial joins. **Uber**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 H3 shows spatial indexing literacy — hex cells for density/surge joins vs geohash/S2 trade-offs.
 
 ## Sources
-
 - [Uber blog — H3](https://www.uber.com/blog/h3/) — overview
 - [H3 docs](https://h3geo.org/docs/) — deep-dive
 
 ## Key Concepts
-
 ```txt
 lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
                  │
@@ -32,7 +33,6 @@ lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
 | **Compact** | Merge children → parent | “Store less for large areas.” |
 
 ## Technical Details
-
 ```python
 import h3
 cell = h3.latlng_to_cell(37.77, -122.42, 9)
@@ -56,11 +56,9 @@ parent = h3.cell_to_parent(cell, 7)
 | Slow polyfill | Huge polygons | Simplify geom; lower res |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Legal parcel boundaries — use real GIS polygons.
 - **Trade-off:** One-off distance between two points — haversine is enough.
 
 ## Mistakes to Avoid
-
 - Hex ≠ exact geography — coastlines and political borders won’t match cell edges.
 - Resolution drift — mixing res in one metric doubles or splits counts.

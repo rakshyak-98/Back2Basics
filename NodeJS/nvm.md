@@ -4,25 +4,24 @@
 
 > nvm (Node Version Manager) — nvm installs Node versions under ~/.nvm/versions/node/ and replaces node/npm on PATH when you nvm use. Shell startup sources nvm.sh to define
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **nvm (Node Version Manager)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [nvm-sh/nvm](https://github.com/nvm-sh/nvm) — deep-dive
 - [Wikipedia — nvm](https://en.wikipedia.org/wiki/nvm) — overview
 
 ## Core Definition
-
 nvm installs Node versions under `~/.nvm/versions/node/` and **replaces `node`/`npm` on PATH** when you `nvm use`. Shell startup sources `nvm.sh` to define the `nvm` function — non-interactive contexts (cron, systemd, `sudo`) often **don't load nvm**, so `node` is missing or wrong version.
 
 ## Key Concepts
-
 - nvm installs Node versions under `~/.nvm/versions/node/` and **replaces `node`/`npm` on PATH** when you `nvm use`. Shell startup sources `nvm.sh` to define the `nvm` function — …
 
 ## Technical Details
-
 nvm installs Node versions under `~/.nvm/versions/node/` and **replaces `node`/`npm` on PATH** when you `nvm use`. Shell startup sources `nvm.sh` to define the `nvm` function — non-interactive contexts (cron, systemd, `sudo`) often **don't load nvm**, so `node` is missing or wrong version.
 
 ```
@@ -76,22 +75,18 @@ set -Ux NVM_DIR $HOME/.nvm
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **nvm** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`sudo` resets environment** — `sudo node` uses system Node, not nvm's; use `sudo -u user -H bash -lc 'nvm use && …'`; **CI should not rely on nvm** — use `actions/setup-node`, Docker base image, or `mise`/`fnm` with explicit version.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (nvm (Node Version Manager) — nvm installs Node versions under ~/.nvm/versions/no…).
 - **Con / when not:** **Production containers** — bake Node version into Dockerfile; no nvm in image.
 - **Con / when not:** **System-wide Node for all users** — use distro packages or NodeSource with apt pinning.
 - **Con / when not:** **Windows native** — use nvm-windows or fnm; bash nvm is Unix-oriented.
 
 ## Comparison
-
 vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[node command]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`sudo` resets environment** — `sudo node` uses system Node, not nvm's; use `sudo -u user -H bash -lc 'nvm use && …'`.
 - **CI should not rely on nvm** — use `actions/setup-node`, Docker base image, or `mise`/`fnm` with explicit version.
 - **Cache dir permissions** — failed downloads leave corrupt partial files; clear `~/.nvm/.cache` after fixing perms.

@@ -4,17 +4,18 @@
 
 > Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Plugin questions cover reusable schema plugins and avoiding global side effects.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 A plugin is a function `(schema, options) => void` registered on a schema before `mongoose.model()`. Global plugins apply to every schema. Plugins compose: one adds soft-delete, another adds pagination, another adds audit fields.
 
 ```
@@ -24,7 +25,6 @@ mongoose.plugin(plugin)       → global (all schemas)
 ```
 
 ## Technical Details
-
 ### Write a plugin
 
 ```js
@@ -65,12 +65,10 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Audit | `createdBy`, `updatedBy` hooks |
 
 ## Pros/Cons or Trade-offs
-
 - Don't plugin one-off business logic — plain schema methods or service layer is clearer.
 - Don't global-plugin heavy side effects (external API calls) without opt-in per schema.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Plugin order matters** — pre-hooks run in registration order; conflicting plugins need explicit ordering.
 >

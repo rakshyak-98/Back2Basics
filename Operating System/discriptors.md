@@ -4,25 +4,25 @@
 
 > “Discriptors” here means **descriptors** — kernel-managed integer handles (chiefly file descriptors) for open files, sockets, pipes, and epoll instances.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing with [[Epoll]]. This note keeps the legacy spelling as an alias.
 
 ## Sources
-
 - Kerrisk, *The Linux Programming Interface* — file descriptors — deep-dive
 - Linux `open(2)`, `fcntl(2)` manual pages — deep-dive
 - [Wikipedia — File descriptor](https://en.wikipedia.org/wiki/File_descriptor) — overview
 
 ## Key Concepts
-
 - **Canonical term:** file descriptor ([[file descriptors]]).
 - **fd number:** index passed to [[system call]]s.
 - **`struct file`:** offset, flags, ops for one open instance.
 - **Windows analog:** opaque [[handle]]s.
 
 ## Technical Details
-
 | Concept | Role |
 |---------|------|
 | fd number | Index user space passes to [[system call]] |
@@ -32,22 +32,18 @@ Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing wit
 Limits (`RLIMIT_NOFILE`, `fs.file-max`) cause `EMFILE` when leaked. [[Epoll]] watches many descriptors for readiness — foundation of [[non-blocking]] servers.
 
 ## Real-World Applications
-
 Long-running servers, reverse proxies, and any code that `accept`s without reliable `close` paths.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Simple integer ABI for I/O objects.
 - **Con:** Easy to leak; process-wide limits.
 - **Trade-off:** raising `nofile` vs fixing leaks.
 
 ## Comparison
-
 - Canonical detail: [[file descriptors]].
 - vs [[handle]]: Windows object-manager tokens vs Unix small integers.
 
 ## Mistakes to Avoid
-
 - Editing only this alias and leaving [[file descriptors]] stale.
 - Ignoring `FD_CLOEXEC` across `exec`.
 - Raising limits forever instead of fixing descriptor leaks.

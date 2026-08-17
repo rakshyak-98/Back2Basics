@@ -4,24 +4,23 @@
 
 > On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 VOD/static CDN vs on-demand generation; cacheability and origin cost.
 
 ## Sources
-
 - [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file) — overview
 
 ## Key Concepts
-
 - **Static/VOD:** prepositioned files on disk/CDN — cache-friendly.
 - **On-demand:** generate/transcode at request time — flexible, costly.
 - **Hybrid:** mezzanine + derivative ladder on CDN.
 - **Origin protection:** cache HIT ratio dominates cost.
 
-
 ## Technical Details
-
 ### How it works
 
 ```txt
@@ -37,7 +36,7 @@ On-demand: mezz → request → packager/transcoder → CDN cache → players
 ---
 
 
-## Configuration and commands
+### Configuration and commands
 
 ```txt
 # Static publish sketch
@@ -54,42 +53,35 @@ player → CDN → origin packager (miss) → cache segments
 | Fallback | Pre-bake poster / audio-only |
 
 ---
-## Comparison
 
-- vs [[CMS]]: CMS holds metadata; streaming path delivers bytes.
-- vs live streaming: live is continuous; VOD is file-oriented.
+## Real-World Applications
+Video platforms choosing CDN packaging vs just-in-time packaging.
 
-
-## How to choose
-
-- Choose **A** when …
-- Choose **B** when …
-## When not to use
-
+## Pros/Cons or Trade-offs
 - **True live events** — live pipeline, not VOD JIT.
 - **Tiny catalog rarely played** — maybe progressive MP4 is enough.
 - **No CPU budget at edge** — pre-package everything.
 
 ---
 
-## Real-World Applications
-
-Video platforms choosing CDN packaging vs just-in-time packaging.
-
-
-## Pros/Cons or Trade-offs
 
 - **Pro (static):** cheap scale via CDN.
 - **Pro (on-demand):** fewer precomputed assets.
 - **Trade-off:** storage/precompute vs CPU/latency at edge.
 
-
 ## Comparison
+- vs [[CMS]]: CMS holds metadata; streaming path delivers bytes.
+- vs live streaming: live is continuous; VOD is file-oriented.
+
+
 
 - vs related vault notes linked above — pick boundaries from those siblings.
 
-## Mistakes to Avoid
 
+- Choose **A** when …
+- Choose **B** when …
+
+## Mistakes to Avoid
 > [!WARNING]
 > **“Static file” still needs manifests** — players want HLS/DASH, not one giant MP4 (unless progressive).
 

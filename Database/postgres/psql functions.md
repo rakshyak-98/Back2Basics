@@ -4,6 +4,10 @@
 
 > PostgreSQL built-in and user-defined functions — scalar, aggregate, window, and procedural languages (PL/pgSQL) callable from [[SQL]].
 
+
+
+
+
 ## Interview Relevance
 Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used in an index expression are classic Postgres deep cuts.
 

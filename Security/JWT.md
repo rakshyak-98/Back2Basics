@@ -4,22 +4,22 @@
 
 > Signed blob of claims the client carries — the server verifies the signature instead of looking up a session (until you add revocation).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and access vs refresh token roles.
 
 ## Sources
-
 - [RFC 7519 — JSON Web Token](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive
 - [RFC 7515 — JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515) — deep-dive
 - [jwt.io introduction](https://jwt.io/introduction) — overview
 
 ## Core Definition
-
 A JWT is three Base64url parts (header, payload, signature) carrying claims the client presents and the server verifies without a session lookup (until revocation is added).
 
 ## Key Concepts
-
 ```txt
 Client                         Server
   │  POST /login (creds)         │
@@ -39,7 +39,6 @@ Client                         Server
 **Access versus refresh:** short-lived access JWT in memory/`Authorization`; longer refresh in HttpOnly cookie → `POST /refresh` mints a new pair. Stateless until you add a denylist or rotate keys.
 
 ## Technical Details
-
 ```js
 const jwt = require('jsonwebtoken')
 
@@ -79,23 +78,19 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 | Role claim ignored / wrong | Custom claim name collision | Namespace claims; verify before use |
 
 ## Real-World Applications
-
 OIDC ID tokens and API access tokens are JWTs — parse claims only after signature and `alg` verification.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Portable, inspectable claims format widely supported across languages.
 - **Con:** Need instant server-side logout / session kill — opaque session IDs in Redis/DB.
 - **Con:** Huge authorization graphs in every request — keep JWT thin; fetch permissions server-side.
 - **Con:** Broadcast / manage connected clients — JWT is not a messaging channel; use WebSockets + sessions.
 
 ## Comparison
-
 - vs opaque session ids: JWT is self-contained claims; opaque ids need a lookup.
 - vs [[Token rotation]]: rotation policy sits on top of JWT access/refresh pairs.
 
 ## Mistakes to Avoid
-
 - Payload is not secret — Base64 ≠ encryption. Put secrets in the server, not in JWT claims.
 - Verify before trust — never branch on `decode()` claims; always `verify()` first.
 - One leaked HS256 secret = forge any user — prefer asymmetric keys across services.

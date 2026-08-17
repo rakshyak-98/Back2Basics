@@ -4,24 +4,24 @@
 
 > A DNS record is a typed tuple (owner name, class, type, TTL, rdata) published in a zone — operations break when TTL, CNAME chains, or apex constraints are wrong.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask for record anatomy, CNAME-at-apex rules, and TTL strategy — signals you have operated zones, not only read a glossary.
 
 ## Sources
-
 - [RFC 1035 — Resource record definitions](https://datatracker.ietf.org/doc/html/rfc1035#section-3.2) — deep-dive
 - [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208) — deep-dive
 
 ## Key Concepts
-
 - **Owner + type + rdata:** the lookup key and payload — same owner can have multiple types (except CNAME rules).
 - **TTL:** how long resolvers may cache — lower = faster change visibility, higher query load.
 - **CNAME exclusivity:** standard DNS forbids other types at the same owner — apex needs A/AAAA or provider ALIAS/ANAME.
 - **Delegation records:** NS (and glue) cut the tree into child [[DNS zone]]s.
 
 ## Technical Details
-
 ```
 owner-name  TTL  IN  TYPE  RDATA
 ```
@@ -74,24 +74,20 @@ dig +short TXT example.com
 ```
 
 ## Real-World Applications
-
 Every hostname clients hit is one or more records in a [[DNS zone]].
 
 **Example:** Moving `www` to a CDN — set CNAME to the CDN hostname, lower TTL beforehand, keep apex as A/ALIAS separately so email MX and apex stay valid.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Typed records keep concerns separate (address vs mail vs cert policy).
 - **Con:** CNAME chains and apex rules surprise people migrating to CDNs.
 - **Con:** Very low TTLs increase recursive query load worldwide.
 
 ## Comparison
-
 - vs [[DNS zone]]: a zone is the administrative unit; records are the rows inside it.
 - vs hosts file lines: no TTL, type system, or global publication.
 
 ## Mistakes to Avoid
-
 - Putting a CNAME at the apex without provider ALIAS/ANAME support — breaks coexisting MX/NS/SOA.
 - Leaving multi-hour TTLs during a cutover — old IPs linger in caches.
 - Multiple SPF TXT records — merge into one SPF string (see [[servers/DSN records]]).

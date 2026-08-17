@@ -4,16 +4,17 @@
 
 > Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding) — overview
 
 ## Key Concepts
-
 **Encoding** converts **uncompressed or mezzanine** video/audio into a **codec bitstream** (H.264, AAC, etc.) suitable for containers ([[CMAF]], TS) and protocols ([[HLS]], [[DASH]], [[RTMP]]). It is **lossy** for delivery codecs — you cannot recover discarded detail. Downstream **packaging** muxes encoded streams; **[[transcoding]]** is encode-after-decode when format changes.
 
 | Stage | Question | Wrong answer cost |
@@ -26,7 +27,6 @@ Interviewers ask about Encoding to see if you understand the pipeline role, fail
 **Encode once well** at mezzanine; ladder encodes can downscale from mezzanine rather than re-decoding consumer files.
 
 ## Technical Details
-
 ```txt
 Camera / file ──► Encode (codec params) ──► Elementary streams
                            │
@@ -86,22 +86,18 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 ```
 
 ## Real-World Applications
-
 Used wherever Encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
 - **Con / skip when:** **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
 - **Con / skip when:** **Maximum compression on mezzanine** — mezzanine should be high quality; crunch at delivery rungs.
 
 ## Comparison
-
 - vs [[re-encoding]]: **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Macroblocking live | Bitrate too low for motion | Raise `-b:v` or drop resolution |

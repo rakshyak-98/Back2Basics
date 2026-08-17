@@ -4,27 +4,20 @@
 
 > Web authentication proves who the user is on each request; authorization decides what they may do — sessions, tokens, and identity providers are transport mechanisms, not substitutes for object-level checks.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 401 vs 403 at the API boundary.
 
 ## Sources
-
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
 - [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749) — OAuth 2.0 — deep-dive
 - [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) — overview
 - NIST SP 800-63B — digital identity guidelines — overview
 
-## Key Concepts
-
-- **Authentication vs authorization:** who you are vs what you may do ([[IDOR]] still possible after login).
-- **Session cookies:** HttpOnly, Secure, SameSite; regenerate id after login.
-- **Bearer JWT:** short-lived access + refresh rotation; prefer httpOnly over localStorage.
-- **401 vs 403:** not authenticated vs authenticated but forbidden.
-
-
 ## Technical Details
-
 ### Authentication versus authorization
 
 | Term | Question |
@@ -34,7 +27,7 @@ Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 401 v
 
 Logging in successfully does not imply access to another user's invoice ([[IDOR]]) — enforce authorization on every handler.
 
-## Common patterns
+### Common patterns
 
 ```txt
 Browser ──HTTPS──► Application
@@ -62,7 +55,7 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 - **Secure** — Transport Layer Security only.
 - **SameSite** — reduces [[XSRF (cross-site request forgery)]] on cross-site posts.
 
-## Login flow (local credentials)
+### Login flow (local credentials)
 
 1. Serve form (include cross-site request forgery token for cookie sessions).
 2. Post credentials over Transport Layer Security.
@@ -71,13 +64,13 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 5. Create session; **regenerate session identifier** after login (prevents session fixation).
 6. Subsequent requests send cookie or `Authorization` header.
 
-## JSON Web Token cautions
+### JSON Web Token cautions
 
 Short-lived access tokens, refresh rotation, and revocation strategy for stolen tokens. Storing tokens in `localStorage` is vulnerable to cross-site scripting — prefer httpOnly cookies or strict Content Security Policy.
 
 See [[JWT authentication]] for claim design and validation.
 
-## Threat model highlights
+### Threat model highlights
 
 | Threat | Mitigation |
 |--------|------------|
@@ -87,7 +80,20 @@ See [[JWT authentication]] for claim design and validation.
 | Cross-site scripting | Content Security Policy, output encoding |
 | Cross-site request forgery | SameSite cookies, anti-forgery tokens |
 
-## Symptom → direction
+## Real-World Applications
+Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, and MFA with [[TOTP (Time based One Time Password)]].
+
+## Pros/Cons or Trade-offs
+- **Pro:** Clear identity boundary enables multi-client APIs.
+- **Con:** Token theft, CSRF, and session fixation if attributes/flows are wrong.
+- **Trade-off:** server sessions (revocable) vs JWT scale (harder instant revoke).
+
+## Comparison
+- vs [[API design]]: API contracts assume authn/authz status codes and scopes.
+- vs [[JWT authentication]]: claim/validation detail lives there; this note is web app patterns.
+
+## Mistakes to Avoid
+### Symptom → direction
 
 | Symptom | Check |
 |---------|-------|
@@ -98,27 +104,7 @@ See [[JWT authentication]] for claim design and validation.
 
 Service-to-service calls use mutual Transport Layer Security or signed tokens — not human login forms.
 
-## Real-World Applications
-
-Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, and MFA with [[TOTP (Time based One Time Password)]].
-
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Clear identity boundary enables multi-client APIs.
-- **Con:** Token theft, CSRF, and session fixation if attributes/flows are wrong.
-- **Trade-off:** server sessions (revocable) vs JWT scale (harder instant revoke).
-
-
-## Comparison
-
-- vs [[API design]]: API contracts assume authn/authz status codes and scopes.
-- vs [[JWT authentication]]: claim/validation detail lives there; this note is web app patterns.
-
-
-## Mistakes to Avoid
 
 - Skipping failure modes until production.
 - Ignoring idempotency, timeouts, or rollback where required.
 - Optimizing or distributing before measuring the real bottleneck.
-

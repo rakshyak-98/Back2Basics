@@ -4,17 +4,18 @@
 
 > Go errors — values you return (`error` interface), not exceptions; `panic` is for truly unrecoverable surprises.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Error handling is the Go culture check — `error` values, wrapping (`%w`), `errors.Is`/`As`, and never using panic for ordinary control flow.
 
 ## Sources
-
 - [Go blog — Working with Errors in Go 1.13](https://go.dev/blog/go1.13-errors) — deep-dive
 - [pkg.go.dev — errors](https://pkg.go.dev/errors) — deep-dive
 
 ## Key Concepts
-
 ```txt
 f() (T, error)
    └─ caller checks err
@@ -28,7 +29,6 @@ panic ──unwinds──► defers run ──► crash (or recover)
 | `panic` / `recover` | Abort / boundary only |
 
 ## Technical Details
-
 ```go
 if err != nil {
   return fmt.Errorf("load config: %w", err)
@@ -59,13 +59,11 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 | Silent ignore | `_ = f()` | Never drop err in prod paths |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Panic for control flow — never.
 - **Trade-off:** `recover` in every function — hides bugs.
 - **Trade-off:** Stringly errors only — use types/sentinels for branches.
 
 ## Mistakes to Avoid
-
 - **`(*T)(nil)` in interface is not nil error** — typed nil interface pitfall.
 - Don’t panic for user input — return `error`.
 - Stack traces — panics have them; plain `error` needs wrapping context.

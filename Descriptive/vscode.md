@@ -4,16 +4,17 @@
 
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Editor fluency shows debugging/LSP setup — when configuration belongs in shared workspace settings.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 `code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC. Opening paths attaches folders to the **current window** or spawns new windows depending on flags and settings.
 
 ```
@@ -25,7 +26,6 @@ code . ──► running instance ──► opens folder in window
 Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach points.
 
 ## Technical Details
-
 ### Open workspace
 
 ```bash
@@ -110,12 +110,10 @@ Common IDs:
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
 - **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Cursor vs VS Code CLI** — may be `cursor` not `code` on some installs; same flags usually apply.
 

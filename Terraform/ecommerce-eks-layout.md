@@ -4,25 +4,25 @@
 
 > Split e-commerce infra so Terraform owns cloud (VPC, EKS, RDS, MSK, ECR, IAM) per environment state, while Helm/GitOps owns workloads — one state per env, reusable modules.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers look for blast-radius-aware state splits, Terraform↔Helm handoff (IRSA, secrets), and why app manifests are not one mega Terraform root.
 
 ## Sources
-
 - [AWS — EKS best practices](https://aws.github.io/aws-eks-best-practices/) — overview
 - [Argo CD — Declarative GitOps](https://argo-cd.readthedocs.io/) — overview
 - Yevgeniy Brikman, *Terraform: Up & Running* (env/module layout) — deep-dive
 
 ## Key Concepts
-
 - **Terraform owns** network, cluster, databases, broker, IAM.
 - **Helm owns** Deployments/Rollouts, HPA, ConfigMaps; **Argo CD** syncs releases.
 - **One state per env** (`dev`/`test`/`staging`/`prod`); split modules (`network`, `eks`, `data`) to limit blast radius.
 - **Handoff:** Terraform outputs (IRSA ARNs, endpoints) become Helm values / External Secrets keys.
 
 ## Technical Details
-
 ```txt
 terraform/
   environments/     # one state per env
@@ -118,25 +118,21 @@ helm template payment deploy/helm/charts/services/payment \
 | State lock | [[Terraform workflow]] | `force-unlock` after confirming no run |
 
 ## Real-World Applications
-
 Multi-env commerce platforms on EKS with GitOps deploys and flash-sale node pools.
 
 **Example:** `prod` Terraform creates `prod-payment-irsa`; Helm values annotate the payment ServiceAccount; ESO injects `DATABASE_URL` without baking secrets into git.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear ownership boundaries and per-env blast radius.
 - **Con:** More repos/paths to learn than a single root.
 - **Con:** Coupling MSK+RDS+EKS in one module makes destroy dangerous — use `prevent_destroy` on prod data.
 
 ## Comparison
-
 - Local-only → [[Terraform docker]] + Compose until integration env needed.
 - ECS instead of EKS → swap `modules/eks` for ECS/Fargate; Helm becomes task definitions.
 - Platform architecture context → [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]].
 
 ## Mistakes to Avoid
-
 - One mega Terraform root for everything.
 - Copy-pasting Deployment YAML eight times — use a library chart.
 - `live-canary` without NetworkPolicy / MSK ACL prefixes — canary talks to prod topics.

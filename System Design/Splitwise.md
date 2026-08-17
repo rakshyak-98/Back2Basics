@@ -4,25 +4,24 @@
 
 > Splitwise-style systems track shared expenses in groups, derive who owes whom, and optionally simplify debts — a ledger and settlement tracker, not a payment processor unless integrated with one.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Model balances as a graph of debts; idempotent expense writes; settle-up consistency.
 
 ## Sources
-
 - Splitwise public product documentation — expense types and settlement semantics — overview
 - Martin Kleppmann, *Designing Data-Intensive Applications* — ledger and event sourcing patterns for audit trails — deep-dive
 
 ## Key Concepts
-
 - **Shared expenses:** group ledger of who paid / who owes.
 - **Balance graph:** net debts; minimize settle-up transfers.
 - **Idempotent writes:** retries must not double-charge an expense.
 - **Consistency:** money-like invariants beat casual eventual merges.
 
-
 ## Technical Details
-
 ### Core entities
 
 ```txt
@@ -43,7 +42,7 @@ Simplify: if Alice owes Bob $30 and Bob owes Alice $50 → net Bob owes Alice $2
 
 Product requirements typically include: create groups, add or remove members, create and edit expenses, notify members, role-based access control (administrator versus member), settle debts.
 
-## Application programming interface sketch
+### Application programming interface sketch
 
 See [[API design]] for conventions:
 
@@ -65,7 +64,7 @@ GET    /v1/groups/{id}/balances
 
 Store money as **integer minor units** (cents) — never floating point ([[marshalling]]).
 
-## Balance calculation
+### Balance calculation
 
 ```python
 def balances(group_id):
@@ -82,45 +81,37 @@ def balances(group_id):
 
 Persist **atomic expenses** as the audit trail; balances are derived (or materialized with careful invalidation).
 
-## Debt simplification
+### Debt simplification
 
 Optional **minimum cash flow** on the net graph: repeatedly match the largest creditor with the largest debtor until balances zero. User experience may show both gross pairwise debts and simplified nets.
 
-## Notifications and concurrency
+### Notifications and concurrency
 
 Emit events (`expense_added`, `settlement_recorded`) to an async queue ([[event-driven]]) — do not block the expense POST on email or push delivery. Use **idempotency keys** on create to survive client retries.
 
 Use database transactions or row locks per group when expense and settlement race ([[Concurrent modification]]).
 
-## Authorization
+### Authorization
 
 Users read only groups they belong to. Only payer or group administrator edits an expense. JSON Web Token subject maps to `user_id` ([[Authentication web application]]).
 
-## Scope limits
+### Scope limits
 
 This pattern fits **informal expense sharing**. Enterprise accounts payable, tax invoicing, and high-frequency trading ledgers need different consistency and compliance models.
 
 ## Real-World Applications
-
 Expense-sharing apps and lightweight social ledgers.
 
-
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear UX for multi-party balances.
 - **Con:** Currency FX, partial settles, and dispute workflows complicate the model.
 - **Trade-off:** simplify to pairwise nets vs full audit history.
 
-
 ## Comparison
-
 - vs [[Food delivery]]: marketplace logistics vs shared-expense accounting.
 - vs banking ledgers: Splitwise-style is social netting, not regulated core banking.
 
-
 ## Mistakes to Avoid
-
 - Skipping failure modes until production.
 - Ignoring idempotency, timeouts, or rollback where required.
 - Optimizing or distributing before measuring the real bottleneck.
-

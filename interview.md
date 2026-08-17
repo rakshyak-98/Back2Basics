@@ -4,6 +4,10 @@
 
 > Interview indexing notes — functional dependency and the index types you’ll be asked to compare under pressure.
 
+
+
+
+
 ## Interview Relevance
 Database interviews almost always hit indexes: what they speed up, what they cost on writes, and how functional dependency relates to keys/normalization. Be ready to sketch B+ trees vs hash vs bitmap.
 

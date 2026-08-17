@@ -4,20 +4,27 @@
 
 > The AWS CLI is the command-line client for AWS APIs — install v2, configure credentials through profiles or environment variables, and verify with `sts get-caller-identity`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AWS cli installation to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 - When is `AWS_SESSION_TOKEN` required?
 - Why store profiles in `~/.aws/config` vs exporting keys in every shell?
 
 ## Sources
-
 - [Installing or updating the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) — overview
 - [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) — overview
 
-## Technical Details
+## Recall Cues
+- Why do interviewers care about about AWS cli installation to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
+- When is `AWS_SESSION_TOKEN` required?
+- Why store profiles in `~/.aws/config` vs exporting keys in every shell??
+
+## Technical Details
 ### Linux (x86_64)
 
 ```bash

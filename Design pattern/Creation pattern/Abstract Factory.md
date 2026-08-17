@@ -4,16 +4,17 @@
 
 > Abstract Factory provides an interface for creating **families** of related objects without naming concrete classes — so a UI kit or cloud SDK can swap entire platforms behind one factory.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Abstract Factory interviews probe creating families of related products without specifying concrete classes.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* (Abstract Factory) — deep-dive
 
 ## Key Concepts
-
 A dialog needs a button and a checkbox that **match** the same platform skin. Factory Method per widget still leaves mismatched pairs if callers pick concrete types independently.
 
 Abstract Factory groups creation:
@@ -30,7 +31,6 @@ MacFactory → MacButton + MacCheckbox
 The client depends only on `AbstractFactory` and `Button`/`Checkbox` interfaces.
 
 ## Technical Details
-
 ```typescript
 interface UIFactory {
   createButton(): Button
@@ -46,12 +46,10 @@ function render(form: Form, factory: UIFactory) {
 Switch `WinFactory` vs `MacFactory` once at application bootstrap.
 
 ## Real-World Applications
-
 - Multiple products must stay consistent (themes, cross-platform UI, database driver families).
 - You already have [[Design pattern/Adapter]] layers per vendor and need coordinated creation.
 
 ## Pros/Cons or Trade-offs
-
 | Gain | Cost |
 |------|------|
 | Enforces compatible product sets | Many interfaces and classes |
@@ -61,7 +59,6 @@ Switch `WinFactory` vs `MacFactory` once at application bootstrap.
 - Products are unrelated — separate factories or direct construction suffice.
 
 ## Comparison
-
 **vs Factory Method**
 
 | | Factory Method | Abstract Factory |

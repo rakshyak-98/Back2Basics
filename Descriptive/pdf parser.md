@@ -4,17 +4,18 @@
 
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 PDF parsing interviews cover structured extraction limits and why PDFs are hostile to perfect text extract.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [PDF — Wikipedia](https://en.wikipedia.org/wiki/PDF) — overview
 
 ## Key Concepts
-
 A PDF is not plain text. It's a **byte-oriented format**: header, body of **indirect objects** (dictionaries, streams, arrays), cross-reference table, trailer. Pages reference **content streams** — lists of graphics/text **operators** (`Tj`, `Td`, `re`, …).
 
 ```
@@ -35,7 +36,6 @@ Parsing stages:
 4. **Text extraction** — map glyph IDs through font encoding to Unicode (hardest step).
 
 ## Technical Details
-
 ### Node — pdf-parse (text-only, quick)
 
 ```javascript
@@ -74,12 +74,10 @@ qpdf --show-object=trailer input.pdf
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Filling PDF forms at scale — use dedicated form libraries or vendor APIs (Adobe PDF Services).
 - Pixel-perfect rendering — use PDFium/mupdf canvas render, not text parser.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Text extraction ≠ visual reproduction** — PDF stores drawing instructions, not paragraphs. Tables and multi-column layouts need heuristics or ML.
 

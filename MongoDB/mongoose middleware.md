@@ -4,17 +4,18 @@
 
 > Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use Mongoose middleware to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 **Middleware** runs between Mongoose API call and MongoDB operation. Hooks attach to **`save`**, **`validate`**, **`remove`**, and **`find*` query methods** — not all methods trigger all hook types.
 
 ```txt
@@ -37,7 +38,6 @@ User.findOneAndUpdate(...)
 **Order matters:** global → schema → pre before op → post after op. Multiple pres on same hook run in registration order.
 
 ## Technical Details
-
 ### Document middleware (save path)
 
 ```javascript
@@ -92,13 +92,11 @@ User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag o
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Authorization / tenancy** — enforce at API/gateway layer; query middleware is defense-in-depth only.
 - **Cross-collection invariants** — use transaction + explicit domain service, not cascading hooks.
 - **Heavy I/O in pre hooks** — blocks request; queue async job in post-commit hook or outbox pattern.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`findOneAndUpdate` bypasses `save` middleware** — most common prod bug. Password/hash hooks on `pre('save')` silently skipped.
 
@@ -131,4 +129,3 @@ User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag o
 // Debug: log hook registration
 console.log(userSchema._pres.get('save'));
 ```
-

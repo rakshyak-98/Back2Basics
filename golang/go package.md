@@ -4,17 +4,18 @@
 
 > Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Package/visibility questions check uppercase export, one package per directory, and avoiding import cycles — basic module hygiene.
 
 ## Sources
-
 - [How to Write Go Code](https://go.dev/doc/code) — overview
 - [Go spec — Packages](https://go.dev/ref/spec#Packages) — deep-dive
 
 ## Key Concepts
-
 ```txt
 module github.com/acme/app
 import "github.com/acme/app/internal/auth"
@@ -27,7 +28,6 @@ import "github.com/acme/app/internal/auth"
 | `internal/` | Only parent tree may import |
 
 ## Technical Details
-
 ```bash
 go list ./...
 go doc encoding/json
@@ -57,13 +57,11 @@ func private() {} // same package only
 | Stale deps | Old sum/mod | `go mod tidy` |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Micro-packages of one tiny function — prefer cohesive packages.
 - **Trade-off:** Export everything “just in case” — keep API small.
 - **Trade-off:** Circular “utils” bags — name by domain.
 
 ## Mistakes to Avoid
-
 - `init()` order — dependency order; keep `init` tiny.
 - Test package `foo_test` — external test sees only exports.
 - Blank import — only for registering drivers (`database/sql`).

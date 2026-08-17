@@ -4,16 +4,17 @@
 
 > CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about CRF to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — CRF](https://en.wikipedia.org/wiki/CRF) — overview
 
 ## Key Concepts
-
 **CRF** tells the encoder **how hard to compress** (quality target), not a fixed bitrate. Complex scenes get **more bits**; static scenes get **fewer** — average file size **varies by content**. Scale: lower CRF = higher quality (x264 typical range **18–28**, sane default **23**).
 
 | Mode | Use when | Predictability |
@@ -25,7 +26,6 @@ Interviewers ask about CRF to see if you understand the pipeline role, failure m
 CRF is **single-pass friendly** for VoD; live ABR ladders usually use **CBR or capped VBR** ([[bitrate streaming]]).
 
 ## Technical Details
-
 ```txt
 CRF 18 ──► high quality, large files (archival-ish VoD)
 CRF 23 ──► default balance
@@ -83,18 +83,15 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 ```
 
 ## Real-World Applications
-
 Used wherever CRF sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Contractual max bitrate (broadcast)** — use CBR.
 - **Con / skip when:** **Live with fixed uplink** — CBR or capped VBR; CRF can spike and drop frames.
 - **Con / skip when:** **ABR manifest without maxrate** — player bandwidth math breaks on variable peaks.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | File huge vs expectation | CRF too low; action movie | Raise CRF 1–2; or tighten `-maxrate` |

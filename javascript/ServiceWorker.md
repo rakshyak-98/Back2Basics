@@ -4,26 +4,25 @@
 
 > Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Service Worker** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [MDN — Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) — deep-dive
 - [Wikipedia — ServiceWorker](https://en.wikipedia.org/wiki/ServiceWorker) — overview
 
 ## Core Definition
-
 Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
 
 ## Key Concepts
-
 - Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
 - Short-lived: wakes on events, may terminate when idle. **No DOM access.**
 
 ## Technical Details
-
 Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
 
 ```txt
@@ -94,22 +93,18 @@ New SW waits in **waiting** until tabs close — call `skipWaiting()` + `clients
 Requires **HTTPS** (localhost exempt). See [[content security policy]] for worker-source.
 
 ## Real-World Applications
-
 In production APIs and tooling, **ServiceWorker** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Cache API ≠ HTTP cache** — you must version and delete old caches on activate; **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Service Worker — unlike web workers (page-spawned, die with tab), a service work…).
 - **Con / when not:** **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
 - **Con / when not:** **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
 - **Con / when not:** **SSR-only apps with no offline need** — skip SW complexity.
 
 ## Comparison
-
 vs [[web workers]]: know when each applies — do not treat them as interchangeable. vs [[content security policy]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Cache API ≠ HTTP cache** — you must version and delete old caches on activate.
 - **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
 - **SW never registers:** check Not HTTPS / wrong path; fix: Serve over TLS; scope path

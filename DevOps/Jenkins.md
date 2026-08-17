@@ -4,22 +4,22 @@
 
 > Continuous integration controller — pipelines as code, agents run the steps; outages usually come from credentials, disk, or plugin drift.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use Jenkins to check whether you separate controller from agents, treat `Jenkinsfile` as versioned code, and can debug queue/agent/credential failures without blaming “CI is flaky.”
 
 ## Sources
-
 - [Jenkins User Handbook](https://www.jenkins.io/doc/book/) — deep-dive
 - [Jenkins Pipeline](https://www.jenkins.io/doc/book/pipeline/) — deep-dive
 - [Wikipedia — Jenkins (software)](https://en.wikipedia.org/wiki/Jenkins_(software)) — overview
 
 ## Core Definition
-
 Jenkins is an automation server: a controller schedules jobs and stores configuration, while agents execute build/test/deploy steps defined in Pipeline DSL (often a `Jenkinsfile` in source control).
 
 ## Key Concepts
-
 - **Controller:** schedules, stores job configuration, serves UI — should not run heavy builds in production.
 - **Agent / node:** executes steps (`agent { label 'docker' }`) — static VMs, Docker, or Kubernetes pods.
 - **Executor:** one concurrent step slot on an agent.
@@ -28,7 +28,6 @@ Jenkins is an automation server: a controller schedules jobs and stores configur
 - **Shared library:** reusable Groovy via `@Library` — pin versions like production code.
 
 ## Technical Details
-
 ```
 Developer push → webhook/poll SCM → Jenkins queue
        → agent allocated → checkout → build → test → deploy
@@ -84,24 +83,20 @@ kill -3 $(pgrep -f jenkins.war)   # thread dump if controller hung
 | Plugin upgrade broke pipeline | Plugin changelog | Pin versions; test on staging controller |
 
 ## Real-World Applications
-
 Teams keep a declarative `Jenkinsfile` per service: checkout, test, build with credential binding, archive JUnit, notify [[Slack]] on failure.
 
 **Example:** Builds hang in the queue because Docker-labeled agents are offline — restore agents and stop running executors on the controller.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Extremely flexible Pipeline DSL and plugin ecosystem; fits legacy and on-prem.
 - **Con:** Controller disk, plugin drift, and Groovy shared libraries become operational debt.
 - **Con:** Greenfield GitHub/GitLab-native CI is often simpler to operate than a self-hosted Jenkins fleet.
 
 ## Comparison
-
 - vs [[Github action]]: Actions are repository-native and hosted; Jenkins owns more of the platform ops surface.
 - vs [[Airflow]]: Airflow orchestrates data/batch DAGs; Jenkins is CI/CD, not a substitute for ETL scheduling.
 
 ## Mistakes to Avoid
-
 - Running production builds on the controller — agent-only execution.
 - Unpinned `@Library('foo@main')` — one Groovy change breaks every pipeline.
 - Echoing secrets in shells — wrap only needed steps in `withCredentials`.

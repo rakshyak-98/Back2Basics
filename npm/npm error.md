@@ -4,22 +4,22 @@
 
 > Common failure modes when npm or a script it launches dies — peer conflicts, lifecycle failures, and Node/V8 heap limits during builds.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers care less about memorizing messages and more about triage: read the *first* real error, distinguish installer vs application failures, and know when to raise the heap versus fixing a memory leak.
 
 ## Sources
-
 - [npm Docs — common errors](https://docs.npmjs.com/common-errors) — overview
 - [Node.js — `--max-old-space-size`](https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes) — deep-dive
 - [Baseline — browser mapping package](https://www.npmjs.com/package/baseline-browser-mapping) — overview
 
 ## Core Definition
-
 “npm error” usually means either the *installer* could not build a valid tree / run a lifecycle script, or a *script* npm started (build, test) crashed — including V8 out-of-memory during large compiles.
 
 ## Key Concepts
-
 - **Installer vs script:** `ERESOLVE` / fetch failures are install-time; `ELIFECYCLE` means a script exited non-zero — scroll to the child process error.
 - **Peer / tree conflicts:** see [[npm]] — fix ranges before relying on `--legacy-peer-deps`.
 - **Heap limit:** Node caps the V8 old-space size so one process cannot eat all RAM → large webpack/tsc builds sometimes need a higher ceiling *or* a leaner build.
@@ -27,7 +27,6 @@ Interviewers care less about memorizing messages and more about triage: read the
 - **Exit codes:** non-zero from scripts fails continuous integration — treat warnings that become errors under `CI=true` carefully.
 
 ## Technical Details
-
 **Stale Baseline data warning:**
 
 ```text
@@ -63,24 +62,20 @@ npm run build
 | Network `ETIMEDOUT` | Registry / proxy | Mirror, retry, check corporate proxy |
 
 ## Real-World Applications
-
 Debugging failed pipelines: distinguish “dependency tree broken” from “TypeScript ran out of memory compiling the monorepo.”
 
 **Example:** A CI build OOMs on a large TypeScript project — temporarily raise `--max-old-space-size`, then reduce project references / incremental build so the higher limit is not permanent.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Raising the heap unblocks legitimate large compiles quickly.
 - **Con:** A higher heap hides leaks and can thrash the machine — measure before normalizing large limits.
 - **Con:** Suppressing peer errors with flags hides real incompatibilities.
 
 ## Comparison
-
 - vs [[pnpm logs]]: same triage idea — capture verbose output; different package manager.
 - vs [[Runtime Errors]]: application exceptions at runtime; this note focuses on install/build tooling failures.
 
 ## Mistakes to Avoid
-
 - Only reading the last `npm ERR!` line — the actionable stack is often above.
 - Setting a huge heap globally instead of fixing an unbounded cache in the bundler.
 - Committing `--legacy-peer-deps` as the long-term answer to every install failure.

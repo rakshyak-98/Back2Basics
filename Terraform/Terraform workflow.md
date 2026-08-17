@@ -4,25 +4,26 @@
 
 > The core Terraform loop is init → plan → apply (and destroy) — desired HCL plus credentials plus state become cloud API calls and an updated state file.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe state locking, dependency graphs, lifecycle guards, and why apply must match the reviewed plan.
 
 ## Sources
-
 - [HashiCorp — Core Terraform workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) — deep-dive
 - Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
 - Scott Winkler, *Terraform in Action* — overview
 
-## Key Concepts
-
-- **Four commands:** init (plugins/backend), plan (diff), apply (execute), destroy (remove).
-- **DAG:** implicit edges from references; explicit `depends_on`; independent nodes parallelize — file order does not matter.
-- **State:** address → real ID map; remote + lock for teams.
-- **Lifecycle:** `create_before_destroy`, `prevent_destroy`, `ignore_changes`.
+## Recall Cues
+- Why do interviewers care about state locking, dependency graphs, lifecycle guards, and why apply must match the reviewed plan?
+- What mistake is **Interactive apply that diverges from the reviewed CI plan**?
+- What mistake is **Casual `force-unlock` while another run is alive**?
+- What mistake is **Destroy in production without a destroy plan review**?
+- What mistake is **Fighting both the console and Terraform on the same objects**?
 
 ## Technical Details
-
 ```txt
 .tf desired state  +  credentials  +  state file
                          │
@@ -86,26 +87,22 @@ Safe team loop: branch + PR with plan in CI; remote lock; secrets never in git; 
 | Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
 | Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
-## Real-World Applications
+## Mistakes to Avoid
+- Interactive apply that diverges from the reviewed CI plan.
+- Casual `force-unlock` while another run is alive.
+- Destroy in production without a destroy plan review.
+- Fighting both the console and Terraform on the same objects.
 
+## Comparison
+- Language blocks → [[terraform]]; plumbing → [[Terraform setup]]; CLI flags → [[Terraform CLI]].
+- Data-source-only applies can change state/outputs without changing cloud inventory.
+
+## Real-World Applications
 PR plans for network changes, production applies from saved plans, and guarded RDS modules with `prevent_destroy`.
 
 **Example:** CI posts `terraform plan` on a PR; after merge, apply uses `-out` artifact so production matches review.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Diff-driven changes with locking beat shared local state.
 - **Con:** Hotfixes outside Terraform create drift — import or accept it consciously.
 - **Con:** `force-unlock` during a live apply can corrupt state.
-
-## Comparison
-
-- Language blocks → [[terraform]]; plumbing → [[Terraform setup]]; CLI flags → [[Terraform CLI]].
-- Data-source-only applies can change state/outputs without changing cloud inventory.
-
-## Mistakes to Avoid
-
-- Interactive apply that diverges from the reviewed CI plan.
-- Casual `force-unlock` while another run is alive.
-- Destroy in production without a destroy plan review.
-- Fighting both the console and Terraform on the same objects.

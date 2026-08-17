@@ -4,17 +4,18 @@
 
 > Orchestration — a central coordinator drives the workflow; choreography — services react to events with no single brain.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Orchestration vs choreography is a system-design staple — central coordinator vs event-driven reactions, with failure/compensation implications.
 
 ## Sources
-
 - [Microsoft — Choreography vs orchestration](https://learn.microsoft.com/en-us/azure/architecture/patterns/choreography) — overview
 - [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) — deep-dive
 
 ## Key Concepts
-
 **Orchestration:** a central **coordinator** drives steps, knows global state, retries, timeouts, compensations. **Choreography:** each service reacts to **events** with no central brain — flow emerges from message contracts.
 
 ```txt
@@ -36,7 +37,6 @@ Choreography (Kafka/events):
 **Streaming note:** HLS/DASH manifests act as client-side [[Orchestration layer]] for rendition selection — different domain, same word.
 
 ## Technical Details
-
 ### Tool placement
 
 | Tool | Sweet spot | Not for |
@@ -103,13 +103,11 @@ Choreograph when:
 | "Works in dev" timeout | Step Functions 25s lambda limit | Break steps; use activity workers |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Single CRUD service — domain logic in application code suffices.
 - **Trade-off:** Sync request/response chain < 3 hops — direct calls + [[Idempotent-key]].
 - **Trade-off:** **Replace [[kafka]]** with Airflow — different problems; often complement (Airflow consumes Kafka).
 
 ## Mistakes to Avoid
-
 - Orchestrator as SPOF — HA cluster + persistence (Temporal/Camunda DB) required for prod.
 - Choreography saga without compensating events — partial failure leaves inconsistent state.
 - Airflow for online traffic — wrong latency model; batch scheduler not RPC bus.

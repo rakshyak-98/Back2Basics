@@ -4,17 +4,18 @@
 
 > Residual plot — residuals should look like random noise around zero:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Residual plot to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 Residuals should look like **random noise** around zero:
 
 ```txt
@@ -38,7 +39,6 @@ Structured patterns mean the model missed something:
 For **ordinal** models, off-by-k errors show as discrete bands — consider [[ordinal classification]] metrics too.
 
 ## Technical Details
-
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -79,13 +79,11 @@ print(f"Outlier count: {outliers.sum()}")
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Classification** — use calibration curves / confusion matrix.
 - **Huge datasets** — subsample scatter; use binned residual plots.
 - **Ranking-only goals** — [[Normalized Discounted Cumulative Gain (NDCG)]] on ranked lists.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Heteroscedasticity** violates OLS confidence intervals — predictions may still be OK; inference is wrong.
 
@@ -101,4 +99,3 @@ print(f"Outlier count: {outliers.sum()}")
 | Mean residual ≠ 0 | Systematic bias | Intercept issue; recalibrate |
 
 Pair with [[Visualization/predicated versus actual plot]] for full picture.
-

@@ -4,28 +4,17 @@
 
 > Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about WebRTC Signaling channels to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels) — overview
 
-## Key Concepts
-
-**WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted application logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
-
-| Message | Contents | Direction |
-|---------|----------|-----------|
-| **Offer/Answer** | Codecs, ICE ufrag/pwd, DTLS fingerprint | A ↔ B via server |
-| **ICE candidate** | Host/srflx/relay IP:port | Trickle ICE — incremental |
-| **Renegotiation** | New offer (add track, simulcast) | Same channel |
-
-Media never touches signaling server in pure P2P — **SFU** (Janus, mediasoup, LiveKit) terminates media; signaling still sets up session.
-
 ## Technical Details
-
 ```txt
 Browser A                    Signaling server                 Browser B
     │── offer (SDP) ─────────────►│◄── join room ────────────────│
@@ -101,23 +90,19 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 ```
 
 ## Real-World Applications
-
 Used wherever WebRTC Signaling channels sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
 - **Con / skip when:** **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
 - **Con / skip when:** **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
 
 ## Comparison
-
 - vs [[HLS]]: **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
 - vs [[RTMP]]: **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Stuck "connecting" | ICE failed in internals | Add TURN; corporate UDP block |

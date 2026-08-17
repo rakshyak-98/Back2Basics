@@ -4,6 +4,10 @@
 
 > InnoDB transactions group SQL statements under [[ACID]] rules — autocommit wraps each statement unless `START TRANSACTION` opens an explicit unit of work.
 
+
+
+
+
 ## Interview Relevance
 Expect isolation default (REPEATABLE READ), durability knobs, and why distributed XA is rare versus outbox/saga patterns.
 

@@ -4,6 +4,10 @@
 
 > jq is a JSON filter for the shell — select, reshape, and print without writing a script.
 
+
+
+
+
 ## Interview Relevance
 API/ops staple: path walks, `select`, `-r` for shell, and why whole-document load matters on big logs.
 
@@ -22,7 +26,6 @@ API/ops staple: path walks, `select`, `-r` for shell, and why whole-document loa
 - **Streaming:** Default loads whole doc; `--stream` or line-oriented JSON for huge inputs.
 
 ## Technical Details
-
 ```bash
 jq '.' file.json
 curl -s https://api.example.com/v1/item | jq .

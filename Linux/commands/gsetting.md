@@ -4,6 +4,10 @@
 
 > gsettings reads and writes GNOME/dconf keys — the schema’d way to change desktop settings from the shell.
 
+
+
+
+
 ## Interview Relevance
 Desktop Linux: schema/key model, dconf vs gsettings, and why SSH without a session bus cannot change the logged-in user’s desktop.
 
@@ -22,7 +26,6 @@ Desktop Linux: schema/key model, dconf vs gsettings, and why SSH without a sessi
 - **Per-user:** Root gsettings ≠ the GUI user’s settings.
 
 ## Technical Details
-
 ```txt
 gsettings ──► dconf DB (~/.config/dconf/user)
                  ▲

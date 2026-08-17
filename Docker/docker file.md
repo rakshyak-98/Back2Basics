@@ -4,24 +4,24 @@
 
 > A Dockerfile is a layer recipe: `FROM` a base, `RUN`/`COPY` changes, then `ENTRYPOINT`/`CMD` as the process that runs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe layer caching, multi-stage builds, exec versus shell form, and why you never bake secrets into image layers.
 
 ## Sources
-
 - [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — deep-dive
 - [Best practices for writing Dockerfiles](https://docs.docker.com/build/building/best-practices/) — overview
 
 ## Key Concepts
-
 - **Layers:** each instruction (roughly) adds a filesystem layer; order controls cache hits.
 - **Multi-stage:** build in one stage, copy artifacts into a slim runtime stage — smaller, safer images.
 - **ENTRYPOINT vs CMD:** ENTRYPOINT is the fixed main binary; CMD supplies default args (or the command if no entrypoint).
 - **Union filesystem:** overlay2 stacks layers; the container adds a thin writable layer on top.
 
 ## Technical Details
-
 ```txt
 FROM → RUN → COPY → … → ENTRYPOINT/CMD
   layer   layer   layer
@@ -80,25 +80,21 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | Build needs secrets | Secret in layer history | BuildKit secrets; never `ENV PASS=` |
 
 ## Real-World Applications
-
 CI builds reproducible application images; multi-stage Node/Go/Java builds ship only runtime bits to registries like [[AWS ECR]].
 
 **Example:** Copy `package*.json`, run `npm ci`, then copy app source — dependency layers stay cached across code-only commits.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Declarative, cacheable, reviewable image builds — the production path.
 - **Con:** Mis-ordered layers waste CI time; fat images increase pull latency and attack surface.
 - **Con:** Configuration that changes per environment should inject at runtime — do not bake twelve environment-specific images.
 
 ## Comparison
-
 - vs `docker commit`: Dockerfile is reproducible; commit is a debug escape hatch ([[docker OCI]]).
 - vs [[Docker compose]]: Dockerfile builds one image; Compose wires many containers.
 - vs VM golden images: containers share the host kernel and layer filesystem — lighter, different isolation story ([[Docker Runtime Security]]).
 
 ## Mistakes to Avoid
-
 - Preferring `ADD` for remote URLs / auto-tar — surprising; use `COPY` + explicit `RUN curl`.
 - Shell form `CMD npm start` versus exec form `CMD ["npm","start"]` — signal handling differs (PID 1).
 - Splitting `apt-get update` and install across `RUN`s — chain update, install, and clean in one layer.

@@ -4,24 +4,27 @@
 
 > P2P means peers talk to each other — share load and data without every byte going through your central server.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use P2P to test whether you know signaling vs media path, mesh vs SFU scaling, and why internet P2P still needs [[NAT Traversal]] infrastructure. Say clearly what is peer traffic and what still runs on your servers.
 
 ## Sources
-
 - [Wikipedia — P2P](https://en.wikipedia.org/wiki/P2P) — overview
 
-## Key Concepts
-
-- **Peer:** a node that both sends and receives → capacity lives at the edge, not only in a central server.
-- **Tracker / signaling:** a helper that introduces peers → meeting point is not the same as the data path.
-- **Mesh:** many peers interconnect directly → fan-out cost grows roughly O(N²).
-- **Relay / SFU:** a server that forwards media selectively → many-party calls upload once instead of N−1 mesh links.
-- **NAT reality:** unsolicited inbound is blocked → real-world P2P needs [[NAT Traversal]].
+## Recall Cues
+- Why do interviewers care about Interviewers use P2P to test whether you know signaling vs media path, mesh vs SFU scaling, and why internet P2P still needs [[NAT Traversal]] infrastructure?
+- Why do interviewers care about Say clearly what is peer traffic and what still runs on your servers?
+- What happens in the **Meet** step?
+- What happens in the **Path** step?
+- What happens in the **Exchange** step?
+- What mistake is **Claiming P2P needs no servers — you still need signaling, STUN/TURN, and often an SFU**?
+- What mistake is **Using full mesh beyond a handful of peers — CPU and uplink die around 5+ interactive users**?
+- What mistake is **Trusting peers by default — authenticate signaling, encrypt media/data, validate payloads**?
 
 ## Technical Details
-
 ```txt
      Peer A ←──direct or relay──► Peer B
         │                            │
@@ -60,22 +63,18 @@ pc.addTrack(localTrack)
 | Security incident | Trusting any peer | Authenticate signaling; encrypt; validate payloads |
 | Mobile battery drain | Always-on mesh | Limit links; duty-cycle; move heavy work to edge servers |
 
-## Real-World Applications
-
-Video calls ([[WebRTC]]), file sharing, game updates, and live contribution when you want edge capacity. Example: a 2-person WebRTC call uses host/srflx candidates; a 12-person meeting switches to an SFU so each client uploads one stream.
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Offloads bandwidth and compute to peers; can lower central server cost and latency for direct paths.
-- **Con:** NAT, trust, free-riders, and mesh scaling force signaling, TURN, and often an SFU — "no infrastructure" is a myth on the public internet.
-
-## Comparison
-
-vs client–server: client–server puts all data through your backend; P2P moves the heavy path peer↔peer (or via SFU) while still needing a control-plane meeting point. For one-to-many OTT video, prefer [[HLS]] / [[DASH]] + CDN over mesh.
-
 ## Mistakes to Avoid
-
 - Claiming P2P needs no servers — you still need signaling, STUN/TURN, and often an SFU.
 - Using full mesh beyond a handful of peers — CPU and uplink die around 5+ interactive users.
 - Trusting peers by default — authenticate signaling, encrypt media/data, validate payloads.
 - Choosing P2P for strong audit/compliance or tiny control-plane APIs where plain HTTPS to a backend is simpler.
+
+## Comparison
+vs client–server: client–server puts all data through your backend; P2P moves the heavy path peer↔peer (or via SFU) while still needing a control-plane meeting point. For one-to-many OTT video, prefer [[HLS]] / [[DASH]] + CDN over mesh.
+
+## Real-World Applications
+Video calls ([[WebRTC]]), file sharing, game updates, and live contribution when you want edge capacity. Example: a 2-person WebRTC call uses host/srflx candidates; a 12-person meeting switches to an SFU so each client uploads one stream.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Offloads bandwidth and compute to peers; can lower central server cost and latency for direct paths.
+- **Con:** NAT, trust, free-riders, and mesh scaling force signaling, TURN, and often an SFU — "no infrastructure" is a myth on the public internet.

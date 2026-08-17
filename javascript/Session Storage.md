@@ -4,28 +4,27 @@
 
 > Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **Session Storage** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **sessionStorage**, **localStorage**, **Cookie**, **Memory (React state)**.
 
 ## Sources
-
 - [MDN — sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) — deep-dive
 - [Wikipedia — Session Storage](https://en.wikipedia.org/wiki/Session_Storage) — overview
 
 ## Core Definition
-
 `sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.
 
 ## Key Concepts
-
 - **sessionStorage:** Tab — No
 - **localStorage:** Until cleared — No
 - **Cookie:** Configurable — Yes (auto)
 - **Memory (React state):** Page — No
 
 ## Technical Details
-
 `sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.
 
 ```txt
@@ -98,22 +97,18 @@ bc.postMessage({ type: 'logout' });
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **Session Storage** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **XSS = full storage read** — anything in sessionStorage/localStorage is stealable. Never store refresh tokens accessible to JS if avoidable; **Third-party scripts** — analytics tag XSS exfiltrates storage; CSP + script hygiene.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Session Storage — sessionStorage is a Storage object tied to a top-level browsin…).
 - **Con / when not:** **Authentication/session IDs** — HttpOnly cookies + SameSite.
 - **Con / when not:** **Preferences that should persist** — theme, locale → `localStorage` or account settings API.
 - **Con / when not:** **Large datasets** — IndexedDB or server fetch.
 
 ## Comparison
-
 vs [[CORS (Cross Origin Request Sharing)]]: know when each applies — do not treat them as interchangeable. vs [[JWT authentication]]: know when each applies — do not treat them as interchangeable. vs [[single-sign-on (SSO)]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **XSS = full storage read** — anything in sessionStorage/localStorage is stealable. Never store refresh tokens accessible to JS if avoidable.
 - **Third-party scripts** — analytics tag XSS exfiltrates storage; CSP + script hygiene.
 - **Subdomain scope** — `app.example.com` ≠ `www.example.com`; storage not shared.

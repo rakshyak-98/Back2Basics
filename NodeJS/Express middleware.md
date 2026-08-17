@@ -4,23 +4,23 @@
 
 > Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **Express middleware** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **next()**, **Error middleware**, **Router-level**.
 
 ## Sources
-
 - [Express — Using middleware](https://expressjs.com/en/guide/using-middleware.html) — deep-dive
 - [Wikipedia — Express middleware](https://en.wikipedia.org/wiki/Express_middleware) — overview
 
 ## Key Concepts
-
 - **next():** Continue chain — Forgot it = hung request.
 - **Error middleware:** `(err,req,res,next)` — Four args — must be last.
 - **Router-level:** `router.use` — Scope middleware to a mount.
 
 ## Technical Details
-
 ```txt
 app.use(A) → app.use(B) → app.get('/') → error mw
 ```
@@ -45,21 +45,17 @@ app.use((err, _req, res, _next) => {
 | Async errors | Pass to `next(err)` (or wrappers) |
 
 ## Real-World Applications
-
 In production APIs and tooling, **Express middleware** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5; **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call …).
 - **Con / when not:** **Business logic only used by one route** — put it in the route/handler module.
 - **Con / when not:** **Heavy CPU** — don’t block the middleware chain; queue/worker.
 
 ## Comparison
-
 vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[node error]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5.
 - **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”
 - **Request hangs:** check No `next` / no `res`; fix: Always continue or end

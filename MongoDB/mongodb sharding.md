@@ -4,43 +4,18 @@
 
 > MongoDB sharding splits a collection across shards by shard key — mongos routes queries using the config servers' chunk map.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask sharding to test shard-key choice, scatter-gather risk, and the roles of mongos, shards, and config servers — bad keys are hard to undo.
 
 ## Sources
-
 - [Sharding — MongoDB Manual](https://www.mongodb.com/docs/manual/sharding/) — deep-dive
 - [Shard Keys — MongoDB Manual](https://www.mongodb.com/docs/manual/core/sharding-shard-key/) — overview
 
-## Key Concepts
-
-A sharded cluster has three roles:
-
-| Role | What it is | Holds |
-|------|------------|-------|
-| **Config servers** (CSRS) | Replica set of config `mongod` | Cluster metadata, chunk map |
-| **Shards** | Each shard = [[mongodb replicaset]] | Subset of collection data (chunks) |
-| **mongos** | Stateless routers | Nothing durable — query planners + routing |
-
-```
-App → mongos → (shard key → chunk → shard)
-                    ↓
-              config servers (chunk map)
-```
-
-Documents land on shards by **shard key** ranges (or hashes). The **balancer** moves **chunks** between shards to even data size. Unsharded collections live on a database's **primary shard** until you shard them.
-
-| Key type | Distribution | Query locality | Typical use |
-|----------|--------------|----------------|-------------|
-| **Ranged** `{ tenantId: 1 }` | Contiguous ranges | Strong if queries include key | Tenancy, time+id compounds |
-| **Hashed** `{ userId: "hashed" }` | Even by hash | Equality OK; range scans = scatter | High-cardinality write fan-out |
-| **Compound** `{ a: 1, b: 1 }` | Prefix-ordered | Must lead with leftmost fields | Multi-field access patterns |
-
-**Shard key choice is hard to undo** — changing it means `reshardCollection` (or rebuild). Design for: high cardinality, even write spread, and queries that include the key (avoid scatter-gather).
-
 ## Technical Details
-
 All administrator below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
 
 ### 1. Deploy topology (lab sketch)
@@ -158,13 +133,11 @@ sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondaries — sharding adds mongos/CSRS/balancer complexity.
 - Access pattern is mostly global scans / heavy cross-entity analytics — use a warehouse, not more shards.
 - You cannot pick a stable shard key aligned to queries — fix the model first ([[mongodb schema]], [[mongodb denormalization]]).
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Low-cardinality or monotonically increasing keys** (`createdAt` alone, `country`) → hot shard / hotspot. Prefer high-cardinality + hash or compound with a random/high-card prefix.
 

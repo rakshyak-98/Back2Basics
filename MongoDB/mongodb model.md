@@ -4,17 +4,18 @@
 
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use MongoDB model (Mongoose schema) to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 A **model** is a compiled schema bound to a collection. The schema declares fields, types, defaults, validators, indexes, and middleware. MongoDB is schemaless at storage time; Mongoose enforces structure at the application layer unless you bypass it with `strict: false` or raw collection calls.
 
 ```
@@ -24,7 +25,6 @@ Schema (shape + rules) → Model (collection API) → MongoDB collection
 ```
 
 ## Technical Details
-
 ### Schema with compound unique index
 
 ```js
@@ -53,12 +53,10 @@ const users = await User.find({ tenantId }).lean(); // plain objects, faster
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Don't mirror SQL normalized schemas 1:1 — embed when read together, reference when independent lifecycle.
 - Don't skip indexes because "Mongo is fast" — unindexed collection scans hurt at scale.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Unique index created after dupes exist** — build fails or index stays partial; clean data first.
 >

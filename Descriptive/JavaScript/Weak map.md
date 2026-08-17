@@ -4,16 +4,17 @@
 
 > `WeakMap` keys are objects held weakly — if nothing else references the key, the entry can be GC’d.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 WeakMap questions check ephemeral metadata without preventing GC — versus Map leaks.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 WeakMap: object key → value   (key not kept alive by the map)
 ```
@@ -28,7 +29,6 @@ WeakMap: object key → value   (key not kept alive by the map)
 | **Private data** | Per-object store | “Before `#private` fields.” |
 
 ## Technical Details
-
 ```js
 const meta = new WeakMap()
 meta.set(el, { clicks: 0 })
@@ -42,12 +42,10 @@ meta.get(el).clicks++
 | FinalizationRegistry | Optional cleanup hooks |
 
 ## Pros/Cons or Trade-offs
-
 - **Need key listing / size** — Map.
 - **Primitive keys** — Map or object.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Values can keep keys alive** — if `value` points at `key`, GC won’t help.
 
@@ -60,4 +58,3 @@ meta.get(el).clicks++
 | Need to iterate | wrong structure | Use Map |
 | Entry “missing” | key GC’d | Expected if no other refs |
 | Leak still | value references key | Break cycle |
-

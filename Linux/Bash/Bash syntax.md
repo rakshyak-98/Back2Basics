@@ -4,6 +4,10 @@
 
 > Bash syntax is how the shell parses words, expansions, and control operators — so pipelines and scripts do what you meant.
 
+
+
+
+
 ## Interview Relevance
 Quoting, `[[ ]]`, parameter expansion, `&&`/`||`, and process substitution — the difference between a working script and a word-splitting bug.
 
@@ -22,7 +26,6 @@ The shell tokenizes a line, performs expansions (`$VAR`, `$(…)`, globs), appli
 - **End of options:** `--` before filenames starting with `-`.
 
 ## Technical Details
-
 ```bash
 mkdir -p new_dir && cd new_dir
 cmd1 || echo "failed"

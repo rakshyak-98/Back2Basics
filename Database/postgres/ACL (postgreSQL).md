@@ -4,6 +4,10 @@
 
 > PostgreSQL access control lists — privileges stored in the catalog on each object, evaluated per statement from role membership and `SET ROLE`.
 
+
+
+
+
 ## Interview Relevance
 Shows whether you understand role-based grants, reading `relacl`, and how row-level security sits beside table privileges.
 

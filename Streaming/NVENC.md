@@ -4,16 +4,17 @@
 
 > NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about NVENC to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC) — overview
 
 ## Key Concepts
-
 **NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datacenter L4/A10/A100 lines). It runs **parallel to CUDA cores** — multiple live channels per GPU without starving compute. Quality at equal bitrate historically lagged **libx264**; modern **RTX 40+ / Ada** encoders close the gap for live **CBR** workloads.
 
 | Use case | NVENC fit | Prefer libx264 when |
@@ -26,7 +27,6 @@ Interviewers ask about NVENC to see if you understand the pipeline role, failure
 Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
 
 ## Technical Details
-
 ```txt
 CPU: demux / mux / audio / orchestration
 GPU: NVENC ──► H.264/HEVC bitstream ──► packager ([[HLS]]/[[DASH]])
@@ -90,18 +90,15 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 ```
 
 ## Real-World Applications
-
 Used wherever NVENC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
 - **Con / skip when:** **Film grain VoD mastering** — software encode preserves detail better at same size.
 - **Con / skip when:** **One short clip monthly** — GPU fleet overhead not worth operations.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `No NVENC capable devices` | Driver, headless GPU | `nvidia-smi`; install datacenter driver; not CPU-only VM |

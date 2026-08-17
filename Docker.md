@@ -4,6 +4,10 @@
 
 > Docker packages apps into containers — same image on laptop and server; outages usually come from networking, mounts, or resource limits, not “the daemon is magic.”
 
+
+
+
+
 ## Interview Relevance
 Expect image vs container, layers, volumes vs bind mounts, networking, and why PID 1 / signals / resource limits matter. Security follow-ups: root in containers, supply chain, rootless.
 

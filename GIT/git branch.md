@@ -4,17 +4,18 @@
 
 > movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git branches` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 origin/main ──► commit C
      ▲
@@ -26,7 +27,6 @@ feature ──────► commit D (ahead 2)
 Creating a branch is instant (new reference). **Merging/rebasing** moves history; deleting branch removes reference only, not commits until GC.
 
 ## Technical Details
-
 ### List and inspect
 
 ```bash
@@ -83,12 +83,10 @@ git branch -m old-name new-name
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Immutable release tags** — use annotated tags for releases, not moving branch pointers.
 - **Storing unmerged WIP forever** — delete merged branches; rely on reflog short term.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Local branch name ≠ remote name** — tracking config maps them; verify with `-vv`.
 

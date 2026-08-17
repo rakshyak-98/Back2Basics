@@ -4,6 +4,10 @@
 
 > Encrypt the MySQL wire protocol with TLS — protect credentials and data in transit; required on most cloud-managed instances.
 
+
+
+
+
 ## Interview Relevance
 Security-minded interviews ask `ssl-mode` levels and why `REQUIRED` without identity checks is weaker than `VERIFY_IDENTITY`.
 

@@ -4,25 +4,25 @@
 
 > `redis-cli` is the interactive and scripted admin client — inspect memory, latency, persistence, and live traffic when Redis misbehaves under load.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `KEYS *`, and whether you understand single-threaded command execution.
 
 ## Sources
-
 - [Redis — redis-cli](https://redis.io/docs/latest/operate/oss_and_stack/management/cli/) — deep-dive
 - [Redis — Memory optimization](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/memory-optimization/) — overview
 - [Redis — Latency monitoring](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency-monitor/) — overview
 
 ## Key Concepts
-
 - **One thread executes commands:** slow `KEYS *`, huge `SMEMBERS`, or Lua loops spike latency for everyone.
 - **INFO first:** memory, persistence, replication, stats — on-call starting point.
 - **Eviction vs OOM:** `maxmemory-policy` decides whether writes fail or keys disappear.
 - **RDB vs AOF:** snapshots versus append log — durability windows differ.
 
 ## Technical Details
-
 ```
 redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
                               │
@@ -123,25 +123,21 @@ redis-cli TTL session:abc
 | AOF corrupt on boot | Logs | `redis-check-aof --fix`; restore RDB backup |
 
 ## Real-World Applications
-
 Incident triage when API latency climbs, capacity checks before a sale, and validating persistence after a crash.
 
 **Example:** `SLOWLOG GET` shows monitoring still runs `KEYS *`; replace with `SCAN` and latency returns to baseline.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Full visibility into a single Redis process without extra agents.
 - **Con:** `MONITOR` and `KEYS` can worsen the incident.
 - **Con:** More CPU cores do not speed one instance — shard or use cluster.
 
 ## Comparison
-
 - vs application metrics alone: `redis-cli` shows server-side eviction, forks, and slow commands metrics miss.
 - vs dedicated brokers: Redis lists/`BLPOP` are not a full message queue at scale.
 - vs object storage: values >512MB hurt — wrong store.
 
 ## Mistakes to Avoid
-
 - `KEYS *` in production — blocks the event loop.
 - `FLUSHALL` / `FLUSHDB` without ACL denial — no undo.
 - Taking BGSAVE on a huge primary during peak — prefer replica backups.

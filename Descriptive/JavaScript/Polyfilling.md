@@ -4,16 +4,17 @@
 
 > Polyfilling — transpiling rewrites syntax (class → function). Polyfilling adds missing functions or prototypes at runtime. No syntax change — only implementation.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Polyfill interviews cover shipping modern APIs on old runtimes — and feature detection vs UA sniffing.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 **Transpiling** rewrites syntax (`class` → function). **Polyfilling** adds **missing functions or prototypes** at runtime. No syntax change — only implementation.
 
 ```
@@ -35,7 +36,6 @@ Bundle: your app + polyfills (Promise, Array.prototype.flat, fetch)
 See also: [[polyfills]] (companion note on mechanics).
 
 ## Technical Details
-
 ### Browsers — core-js + Babel preset-env
 
 ```bash
@@ -83,13 +83,11 @@ Prefer specification-accurate implementations from core-js over hand-rolled shim
 Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Node 16 LTS.
 
 ## Pros/Cons or Trade-offs
-
 - Internal apps on locked Chrome version — set baseline, skip polyfills.
 - Syntax-only gaps — use Babel/TypeScript transpile, not polyfill.
 - Server Node with pinned LTS — upgrade runtime instead of patching `fetch`.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Mutating prototypes** affects all code in the page including third-party libs — order polyfills before app code.
 

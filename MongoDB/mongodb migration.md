@@ -4,17 +4,18 @@
 
 > MongoDB migrations are scripts that reshape documents — run carefully in batches with a rollback story.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Migration interviews cover schema evolution without downtime — expand/contract and dual-write pitfalls.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 1 deploy dual-read/write → 2 migrate docs → 3 remove old path
 ```
@@ -29,7 +30,6 @@ Migration interviews cover schema evolution without downtime — expand/contract
 | **Idempotent migrate** | Safe re-run | “Skip already-migrated docs.” |
 
 ## Technical Details
-
 ```js
 // batch rename field
 const cursor = db.users.find({ newEmail: { $exists: false }, email: { $exists: true } }).limit(1000)
@@ -51,12 +51,10 @@ npx migrate-mongo status
 | Index before filter | Migration scan speed |
 
 ## Pros/Cons or Trade-offs
-
 - **One-off analytics reshape** — aggregation `$out` may be enough.
 - **Schema still unstable weekly** — stabilize product first.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`save` in a loop** — prefer `updateOne`/`bulkWrite`; `save` is easy to get wrong.
 
@@ -69,4 +67,3 @@ npx migrate-mongo status
 | Half-migrated prod | Crash mid-run | Idempotent resume |
 | App breaks mid-cutover | Only new field | Dual-read until done |
 | Secondary lag | Huge writes | Throttle batches |
-

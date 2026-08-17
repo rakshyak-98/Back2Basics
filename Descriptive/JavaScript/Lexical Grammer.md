@@ -4,16 +4,17 @@
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Lexical grammar questions check how JS source is tokenized — ASI and grammar edge cases.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 **Lexical grammar** defines valid **tokens**. **Syntactic grammar** defines how tokens form statements and expressions. Two phases, one pipeline:
 
 ```
@@ -36,7 +37,6 @@ Key lexical rules engineers hit daily:
 Grammar is **not** context-free for regex versus divide — parser uses lookahead.
 
 ## Technical Details
-
 ### ASI (automatic semicolon insertion) — grammar + line terminators
 
 ```javascript
@@ -69,11 +69,9 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Annex B (legacy web grammar)** allows some browser-only sloppy patterns (`<!--` as comment) — don't rely on them in modules or Node.
 

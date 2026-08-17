@@ -4,23 +4,23 @@
 
 > Ingress is traffic in; egress is traffic out — cloud bills and firewalls care most about egress.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask ingress/egress to check cloud networking cost awareness and least-privilege firewall design. Expect answers on security-group directionality, NAT Gateway cost, VPC endpoints, and why "ingress free" does not mean serving traffic is free.
 
 ## Sources
-
 - [Wikipedia — Egress and Ingress](https://en.wikipedia.org/wiki/Egress_and_Ingress) — overview
 
 ## Key Concepts
-
 - **Ingress:** traffic coming into a VPC or host → security groups / NACLs allow inbound ports.
 - **Egress:** traffic leaving a VPC or host → often via [[NAT (Network Address Translation)]] Gateway; usually the metered direction.
 - **Data transfer OUT:** bytes leaving the cloud boundary → the bill line that typically hurts.
 - **Stay local when possible:** same-region / same-AZ paths → often avoid or reduce egress fees.
 
 ## Technical Details
-
 ```txt
 Internet ── ingress ──► VPC / host
 Internet ◄── egress ─── VPC / host
@@ -68,20 +68,16 @@ aws ce get-cost-and-usage \
 | Cross-AZ surprise cost | Architecture diagram | Collapse chatty tiers into one AZ or accept the fee |
 
 ## Real-World Applications
-
 Cloud cost control, firewall policy, and partner IP allow-lists on your [[outbound ip]]. Example: a batch job pulling container images and shipping logs to another region doubles the data-transfer line — VPC endpoints plus same-region logging cut the bill.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear directional language for firewalls and billing; locking egress improves least privilege and reduces surprise spend.
 - **Con:** Over-restricting egress breaks package updates, DNS, and SaaS APIs; NAT Gateway convenience carries hourly and per-GB cost.
 
 ## Comparison
-
 vs host firewall only: ingress/egress apply equally to cloud security groups, Kubernetes NetworkPolicies, service meshes, and host firewalls — not AWS-only vocabulary. Direction still means "into the trust boundary" vs "out of it."
 
 ## Mistakes to Avoid
-
 - Treating ingress free as "serving traffic is free" — roughly 1 GB in to clients means ~1 GB out (egress can cost).
 - Leaving "allow all egress" forever — convenient until malware phones home or a compliance audit fails.
 - Ignoring NAT IP changes — partners whitelisting your egress IP break when the NAT Gateway is rebuilt.

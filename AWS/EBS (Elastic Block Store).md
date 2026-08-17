@@ -4,17 +4,18 @@
 
 > EBS provides network-attached block volumes for EC2 — durable, snapshot-backed disks you attach to one instance at a time (except Multi-Attach on io2).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constraints.
 
 ## Sources
-
 - [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) — overview
 - [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) — overview
 
 ## Technical Details
-
 ### Volume types (gp3 is the default choice)
 
 | Type | Use case | Notes |
@@ -60,7 +61,6 @@ sudo xfs_growfs /data
 Enable encryption at creation; uses AWS-managed or customer-managed KMS keys. Encrypted snapshots stay encrypted when copied.
 
 ## Comparison
-
 **vs [[AWS EFS (Elastic File System)]]**
 
 | EBS | EFS |

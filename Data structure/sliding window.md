@@ -4,17 +4,18 @@
 
 > Sliding window — grow/shrink a contiguous range while keeping an invariant (sum, unique chars, etc.).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Sliding window is a high-frequency pattern — fixed vs variable window, invariant maintenance, and when two pointers apply.
 
 ## Sources
-
 - [Wikipedia — Sliding window protocol](https://en.wikipedia.org/wiki/Sliding_window_protocol) — overview
 - [NeetCode — Sliding Window](https://neetcode.io/practice) — overview
 
 ## Key Concepts
-
 Maintain indices `left` and `right` defining window `[left, right]`. Advance `right` to grow; advance `left` to shrink when a **validity invariant** breaks (sum too large, duplicate char seen, etc.).
 
 ```
@@ -32,7 +33,6 @@ Two flavors:
 Works when the problem asks: *longest/shortest subarray/substring such that …* or *count subarrays where …* (sometimes needs prefix sum + hash map instead).
 
 ## Technical Details
-
 ### Template — variable window (longest substring without repeating char)
 
 ```js
@@ -104,13 +104,11 @@ function minSubArrayLen(target, nums) {
 | Count subarrays off by one | Count at shrink vs expand step | Define whether each valid window counted once |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Subsequence (non-contiguous) — window requires contiguous segment; use DP or two-pointer on sorted arrays differently.
 - **Trade-off:** Arbitrary numeric targets with negatives — use [[Prefix sum]] + hash map.
 - **Trade-off:** Global optimization without contiguous constraint — e.g. max subarray sum with one deletion — may need Kadane variant, not pure window.
 
 ## Mistakes to Avoid
-
 - Non-negative numbers assumption — "minimum window with sum ≥ target" needs positive values (or non-decreasing contribution). Negative values break monotonic shrink.
 - `left` never goes backward — except rare jump tricks (character map). If you reset `left = 0` every time, you're back to O(n²).
 - Distinct vs at-most-k — "at most 2 distinct" uses shrink-on-invalid; "exactly 2 distinct" often needs `atMost(k) - atMost(k-1)`.

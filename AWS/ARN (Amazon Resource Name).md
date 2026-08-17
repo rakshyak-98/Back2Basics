@@ -4,17 +4,18 @@
 
 > An ARN is the stable, globally unique identifier AWS uses in IAM policies, CloudTrail logs, and cross-service references — get the partition, service, region, account, and resource path wrong and authorization silently fails.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 ARN literacy shows you can scope IAM policies precisely — wrong ARN patterns are a common AccessDenied root cause.
 
 ## Sources
-
 - [Identify AWS resources using ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) — deep-dive
 - [AWS service authorization reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html) — deep-dive
 
 ## Key Concepts
-
 ```
 arn:partition:service:region:account-id:resource
 ```
@@ -39,7 +40,6 @@ arn:aws:lambda:us-east-1:123456789012:function:processor
 S3 ARNs omit region and account in the bucket form; object ARNs append the key after the bucket name.
 
 ## Technical Details
-
 ### Where ARNs matter
 
 - **IAM policies** — `Resource` elements almost always use ARN patterns with `*` wildcards.

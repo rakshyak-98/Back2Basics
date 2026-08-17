@@ -4,16 +4,17 @@
 
 > Map URLs → layouts → screens — prefer **relative routes + route objects** so base path changes don't break — **React Router v6+ docs**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use React routes to test whether you can apply the idea under production constraints, not recite docs.
 
 ## Sources
-
 - [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes) — overview
 
 ## Key Concepts
-
 React Router v6 uses nested routes:
 
 ```txt
@@ -31,7 +32,6 @@ React Router v6 uses nested routes:
 | `basename` | Deploy under `/app` subpath |
 
 ## Technical Details
-
 ```txt
 URL /billing/invoices/42
   → Router matches route tree
@@ -87,17 +87,14 @@ function AppLayout() {
 Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login" />` or `<Outlet />`.
 
 ## Real-World Applications
-
 Apply React routes in feature code where the Key Concepts match; verify with the Mistakes table.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **File-based routing only** — Next.js application Router owns routes; don't fight framework.
 - **Con / skip when:** **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | 404 on refresh (SPA) | Server not fallback to index | nginx `try_files` / Vercel rewrite |

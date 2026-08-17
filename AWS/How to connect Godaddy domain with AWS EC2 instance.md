@@ -4,20 +4,21 @@
 
 > Pointing a GoDaddy-registered domain at an EC2 instance means delegating DNS to Route 53 (or updating A records at GoDaddy) so your hostname resolves to the instance's public IP or load balancer.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about How to connect Godaddy domain with AWS EC2 instance to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 - What is the difference between registrar and DNS hosting?
 - Why is an ALB often better than pointing A records at a single EC2 Elastic IP?
 
 ## Sources
-
 - [Making Amazon Route 53 the DNS service for a domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-in-use.html) — overview
 - [GoDaddy — Change nameservers for domains](https://www.godaddy.com/help/change-nameservers-for-my-domains-664) — overview
 
 ## Technical Details
-
 ### Recommended path: Route 53 as DNS
 
 GoDaddy remains **registrar**; AWS becomes **DNS host**. This unlocks alias records to ALB and health-checked failover.

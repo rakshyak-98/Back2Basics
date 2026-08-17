@@ -4,24 +4,24 @@
 
 > PowerDNS Authoritative serves DNS zones from SQL, LDAP, or BIND-style zone files with a modular architecture — the vault filename `PoserDNS` is a historical typo for PowerDNS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers contrast DB-backed authoritative DNS with BIND zone files, and where dnsdist sits for scaling and DDoS absorption.
 
 ## Sources
-
 - [PowerDNS Authoritative Server documentation](https://doc.powerdns.com/authoritative/) — deep-dive
 - [PowerDNS — dnsdist](https://doc.powerdns.com/dnsdist/) — overview
 
 ## Key Concepts
-
 - **Authoritative vs Recursor:** separate binaries — this note focuses on Authoritative hosting.
 - **Backends:** BIND files, generic SQL, LDAP — pick based on change rate and ops model.
 - **dnsdist:** load balancer / DDoS shield in front of authoritative servers.
 - **API automation:** JSON API for dynamic rrsets without editing flat files.
 
 ## Technical Details
-
 | Server | Role |
 |--------|------|
 | **Authoritative** | Answers from backend database |
@@ -62,24 +62,20 @@ Suits large dynamic zones where flat files are painful. Native signing with `pdn
 Many operators run PowerDNS authoritative + **Unbound** or **Recursor** for clients.
 
 ## Real-World Applications
-
 Multi-tenant DNS hosting, API-driven record platforms, and high-churn zones that outgrow hand-edited zone files.
 
 **Example:** Provisioning system inserts A/AAAA rows into PostgreSQL; PowerDNS serves them immediately — no `rndc reload` of a monolithic file.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** SQL/API backends fit automation and large dynamic zones.
 - **Con:** Database availability becomes part of DNS availability.
 - **Pro:** dnsdist adds front-door scaling that classic single BIND hosts lack.
 
 ## Comparison
-
 - vs [[BIND]]: PowerDNS favors DB backends and APIs; BIND favors text zones and long authoritative heritage.
 - vs [[Unbound]]: Unbound is recursive/validating; PowerDNS Authoritative hosts zones (use Recursor or Unbound for clients).
 
 ## Mistakes to Avoid
-
 - Running Recursor wide-open on the same public IP as Authoritative without ACLs.
 - Forgetting DS upload after `pdnsutil secure-zone`.
 - Treating the vault name `PoserDNS` as a different product — it is PowerDNS.

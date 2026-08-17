@@ -4,18 +4,19 @@
 
 > Decision tree — asks yes/no feature questions until a leaf assigns a class or average target value.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use decision trees to check impurity splits, overfit knobs (depth, min leaf), and why forests/boosting beat a single tree.
 
 ## Sources
-
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) — deep-dive
 
 ## Key Concepts
-
 A decision tree asks a sequence of **yes/no questions** on one feature at a time until a leaf assigns a class (classification) or average target (regression).
 
 ```txt
@@ -34,7 +35,6 @@ A decision tree asks a sequence of **yes/no questions** on one feature at a time
 **Ensembles:** single trees overfit; [[Random forest]] and [[Gradient boosting]] fix that by averaging or boosting many trees.
 
 ## Technical Details
-
 ### scikit-learn (classification)
 
 ```python
@@ -79,14 +79,12 @@ print(export_text(clf, feature_names=list(X.columns)))
 | `max_leaf_nodes` | hard cap on complexity |
 
 ## Pros/Cons or Trade-offs
-
 - **High-dimensional sparse text** without feature engineering — linear + hashing or embeddings beat deep single trees.
 - **Need calibrated probabilities** from one tree — use [[Random forest]], [[Gradient boosting]], or Platt/isotonic calibration.
 - **Strict monotonic or linear relationship** — prefer constrained boosting or GLM.
 - **Production latency at massive depth** — shallow tree or linear model; cache feature lookups.
 
 ## Comparison
-
 We will … because …
 
 **Positive:** …
@@ -98,7 +96,6 @@ We will … because …
 | … | … |
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Extrapolation:** trees cannot predict outside training range for regression — flat plateau at training min/max.
 
@@ -118,4 +115,3 @@ We will … because …
 | Unstable splits run-to-run | Small data + many ties | Set `random_state`; increase `min_samples_split` |
 | Biased toward majority class | Check `class_weight`, metric | `class_weight="balanced"`; optimize PR-AUC not accuracy |
 | Slow training on wide data | `max_features`, depth | Limit depth; use `max_features`; switch to [[Random forest]] / [[xg boost]] |
-

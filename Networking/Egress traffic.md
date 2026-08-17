@@ -4,25 +4,25 @@
 
 > Outbound packets leaving your network boundary toward the internet or another VPC — billed, filtered, and NAT'd differently from ingress.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use egress to test whether you separate outbound paths (NAT, filtering, cost) from inbound (load balancer, security groups) and can debug “private subnet has no internet” without opening inbound.
 
 ## Sources
-
 - [AWS — NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) — deep-dive
 - [AWS — NAT gateway basics](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html) — overview
 - [Wikipedia — Egress filtering](https://en.wikipedia.org/wiki/Egress_filtering) — overview
 
 ## Key Concepts
-
 - **Egress vs ingress:** source inside, destination outside (relative to the trust boundary) → opposite of inbound client traffic.
 - **NAT egress:** private hosts reach the internet without public IPs → return traffic only for established flows.
 - **Egress filtering:** security groups, NACLs, firewall policies on outbound → reduce data exfiltration and unwanted callbacks.
 - **Cost asymmetry:** cloud often bills NAT processing and data transfer out → egress volume shows up on the invoice.
 
 ## Technical Details
-
 ```txt
 Private subnet VM ──► NAT GW ──► IGW ──► Internet   (egress)
 Internet ──► IGW ──► ALB ──► app                    (ingress)
@@ -73,26 +73,22 @@ kubectl top pod -A --sort-by=network
 | Geo-blocked egress | Egress IP is NAT pool | Proxy in allowed region; VPN |
 
 ## Real-World Applications
-
 Private application tiers that pull packages, call external APIs, or push metrics while remaining unreachable from the public internet.
 
 **Example:** API pods in a private subnet route `0.0.0.0/0` to a NAT Gateway; partners allowlist the NAT’s Elastic IP(s), not each pod IP.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Outbound-only internet for private workloads without exposing each host.
 - **Pro:** Central place to filter and observe outbound traffic.
 - **Con:** NAT Gateway cost and AZ placement complexity; cross-AZ traffic can double-charge.
 - **Con:** Shared egress IPs couple many services to one allowlist surface.
 
 ## Comparison
-
 - vs [[Egress and Ingress]]: that note frames both directions; this leaf is outbound-only detail.
 - vs [[outbound ip]]: egress is the flow; outbound IP is the source address peers see after SNAT.
 - vs public subnet + IGW: direct egress with public IPs — simpler routing, weaker isolation.
 
 ## Mistakes to Avoid
-
 - Routing a private subnet’s default route to a NAT that lives only in another AZ — AZ-local black hole when that NAT fails or is missing.
 - NAT’ing everything when the tier needs direct inbound — split tiers: public LB for ingress, private app egress via NAT.
 - Ignoring DNS and API egress as a data-leak path — prefer VPC endpoints for cloud APIs where available.

@@ -4,18 +4,19 @@
 
 > Predict continuous target as weighted sum of features (+ intercept) — **Hastie ESL**; baseline every tabular regression problem should beat.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Linear regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [Linear regression — Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) — overview
 
 ## Key Concepts
-
 ```txt
 ŷ = β₀ + β₁x₁ + β₂x₂ + … + βₚxₚ
 ```
@@ -39,7 +40,6 @@ Interviewers ask about Linear regression to check whether you can choose models/
 For classification boundaries, see [[sigmoid]] + logistic regression (not this note).
 
 ## Technical Details
-
 ### sklearn baseline
 
 ```python
@@ -82,14 +82,12 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 - **Ridge/Lasso:** **always scale** — penalty is not rotation-invariant.
 
 ## Pros/Cons or Trade-offs
-
 - **Strong nonlinear interactions** without explicit feature crosses — [[Gradient boosting]] or GAM usually wins.
 - **Target is count / rate with bounds** — Poisson, Gamma GLM, or beta regression.
 - **Heavy outliers drive loss** — Huber / quantile regression, or robust tree models.
 - **Need calibrated uncertainty in production** — Bayesian linear or conformal prediction on residuals.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **R² on skewed targets:** optimizing R² on heavy-tailed revenue can chase outliers — also track MAE / MAPE on business slices.
 
@@ -110,4 +108,3 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 | Residual fan shape | Heteroscedasticity | Log-transform target; weighted least squares |
 | Predictions clip at extremes | Linear extrapolation | Polynomial features; [[Gradient boosting]]; log target |
 | `LinAlgError: singular matrix` | Perfect collinearity, p > n | Drop duplicate cols; Ridge; reduce features |
-

@@ -4,24 +4,23 @@
 
 > Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — goal: Build a minimal viable prototype of an event-driven serverless task manager by weekend (target
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scaling limits.
 
 ## Sources
-
 - [Wikipedia — node serverless](https://en.wikipedia.org/wiki/node_serverless) — overview
 
 ## Key Concepts
-
 - **Event → function:** S3/API/Dynamo streams trigger Node handlers.
 - **Autoscaling:** concurrency scales with events; watch account limits.
 - **Cold start:** init cost on infrequent paths.
 - **Idempotency:** at-least-once invokes need dedupe keys.
 
-
 ## Technical Details
-
 ### How it works
 
 
@@ -42,7 +41,7 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 ---
 
 
-## Configuration and commands
+### Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -50,32 +49,25 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 ```
 
 ---
-## When not to use
 
+## Real-World Applications
+AWS Lambda + API Gateway + DynamoDB prototypes and bursty workloads.
+
+## Pros/Cons or Trade-offs
 - Skip when a simpler existing approach already fits.
 
 ---
 
-## Real-World Applications
-
-AWS Lambda + API Gateway + DynamoDB prototypes and bursty workloads.
-
-
-## Pros/Cons or Trade-offs
 
 - **Pro:** No always-on servers; pay per use.
 - **Con:** Cold starts, timeouts, and distributed tracing pain.
 - **Trade-off:** serverless ops simplicity vs long-lived [[server]] control.
 
-
 ## Comparison
-
 - vs [[server]]: managed invoke vs process you patch/scale.
 - vs [[event-driven]]: serverless is a common host for event handlers.
 
-
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Prefer words you can say aloud in an interview.
 

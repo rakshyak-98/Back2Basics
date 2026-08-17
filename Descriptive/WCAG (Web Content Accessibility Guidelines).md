@@ -4,17 +4,18 @@
 
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 WCAG interviews probe accessibility levels (A/AA), semantic HTML, and keyboard/screen-reader paths.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [WCAG — Wikipedia](https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines) — overview
 
 ## Key Concepts
-
 WCAG defines **success criteria** grouped under four principles (**POUR**):
 
 ```
@@ -29,7 +30,6 @@ Conformance **levels**: **A** (minimum), **AA** (industry standard / many laws),
 Developed by W3C **WAI** (Web Accessibility Initiative) — referenced by ADA, EN 301 549, Section 508.
 
 ## Technical Details
-
 ### Level summary (what teams actually ship)
 
 | Level | Examples |
@@ -78,12 +78,10 @@ npx axe https://localhost:3000 --exit
 - Don't rely on color alone for errors — add icon + text
 
 ## Pros/Cons or Trade-offs
-
 - WCAG is not a substitute for **user testing** with assistive technology users.
 - Don't block ship on AAA contrast for decorative hero imagery — mark decorative `alt=""`.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Accessibility overlays** (widget that "fixes" your site) do not transfer liability and often break AT — fix source HTML/CSS/JS.
 

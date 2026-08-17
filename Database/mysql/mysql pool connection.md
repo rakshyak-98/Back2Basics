@@ -4,6 +4,10 @@
 
 > Application-side pool of reusable MySQL sessions — HikariCP, mysql2 pool, SQLAlchemy `QueuePool` — to cap server connections and amortize handshake cost.
 
+
+
+
+
 ## Interview Relevance
 Capacity planning: `pool_max × app_instances` versus `max_connections`. Stale connections and pool wait timeouts are common production war stories.
 

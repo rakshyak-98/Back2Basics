@@ -4,6 +4,10 @@
 
 > NTP (Network Time Protocol) keeps host clocks close enough that TLS, Kerberos, and distributed logs stay trustworthy.
 
+
+
+
+
 ## Interview Relevance
 Shows you know clock skew breaks auth and debugging, can name `systemd-timesyncd` vs chrony, and can verify offset — not just run `date`.
 
@@ -23,7 +27,6 @@ Clients poll trusted time sources and gradually steer the local clock. Cloud VMs
 - **Trust:** Wrong NTP source is as bad as no sync for Kerberos/TLS validity windows.
 
 ## Technical Details
-
 ```bash
 timedatectl status
 timedatectl show-timesync --all

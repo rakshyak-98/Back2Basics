@@ -4,24 +4,24 @@
 
 > A stateless service treats each request as independent — context travels with the call (tokens, cursors, headers) so any replica can handle it and restarts do not strand in-memory session maps.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Externalize state for horizontal scale; contrast WebSocket connection affinity with stateless handlers; limits of “stateless JWT auth.”
 
 ## Sources
-
 - Twelve-Factor App — “VI. Processes” — overview
 - Google SRE Book — horizontal scaling / session affinity — overview
 
 ## Key Concepts
-
 - **Process is stateless:** correctness does not depend on local prior-request memory.
 - **State still exists:** DB, Redis, client — externalized and addressable.
 - **Cursors/tokens:** pagination and auth travel with the request.
 - **Connections ≠ handlers:** sockets may be sticky; logic can still read shared logs.
 
 ## Technical Details
-
 ```txt
 Client: GET /events?cursor=abc
 Any replica → durable store → response
@@ -49,22 +49,18 @@ Sign opaque cursors (HMAC). External session store when needed — Redis, not lo
 | Tampered page token | HMAC validate |
 
 ## Real-World Applications
-
 Stateless API fleets behind LBs, mobile feeds with cursors, and twelve-factor web services.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Easy horizontal scale and rolling deploys.
 - **Con:** External store latency; larger request metadata.
 - **Trade-off:** sticky sessions (legacy speed) vs externalized state (scale).
 
 ## Comparison
-
 - vs sticky sessions: affinity hides local state; brittle under failover.
 - vs [[Horizontal vs Vertical Scaling]]: stateless unlocks horizontal app tier scale.
 
 ## Mistakes to Avoid
-
 - Calling JWT auth fully stateless while ignoring revocation.
 - Keeping the only subscriber registry in one pod’s memory.
 - Unsigned cursors clients can forge.

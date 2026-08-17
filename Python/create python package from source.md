@@ -4,29 +4,28 @@
 
 > Turn a source tree into an installable distribution — `pyproject.toml` + build backend so others can `pip install` your library.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Packaging questions separate “scripts in a folder” from shippable libraries: entry points, package layout, editable installs, and wheels vs sdists.
 
 ## Sources
-
 - [Python Packaging User Guide — Packaging Python Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/) — deep-dive
 - [PEP 517 — build system interface](https://peps.python.org/pep-0517/) — deep-dive
 - [PEP 621 — project metadata](https://peps.python.org/pep-0621/) — overview
 
 ## Core Definition
-
 A Python package for distribution needs importable modules, metadata (name, version, dependencies), and a build backend that produces an sdist and/or [[wheel]]. Consumers install from those artifacts, not by copying files by hand.
 
 ## Key Concepts
-
 - **`pyproject.toml`:** declares build-system and project metadata (PEP 518/621) → reproducible builds without ad-hoc `setup.py` alone.
 - **src layout:** `src/mypkg/...` avoids accidentally importing the working tree instead of the installed package.
 - **Editable install:** `pip install -e .` links the project for local development → changes show up without rebuild.
 - **Artifacts:** sdist (source) vs wheel (built) — prefer publishing wheels; see [[wheel]].
 
 ## Technical Details
-
 Minimal layout:
 
 ```
@@ -70,21 +69,17 @@ pip install dist/mypackage-0.1.0-*.whl
 | Build fails on clean CI | Missing build-system | Declare backend in `pyproject.toml` |
 
 ## Real-World Applications
-
 Internal metrics helper used by three services: package once, version on the private index, pin `mypackage==1.4.2` in each service — no more copy-pasted utils.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Versioning, dependencies, and entry points travel with the code.
 - **Con:** Overkill for a one-off notebook script — a module in the app tree may be enough.
 
 ## Comparison
-
 - vs [[wheel]]: this note is *how to author*; wheel is the *binary/built install format*.
 - vs copying a folder onto `PYTHONPATH`: fragile across environments; packaging encodes metadata.
 
 ## Mistakes to Avoid
-
 - Dashes in import names — distribution name can be `my-package`, import must be a valid identifier (`mypackage`).
 - Forgetting to include package data (templates, py.typed) in the build configuration.
 - Publishing without a virtual environment — pollutes the system interpreter.

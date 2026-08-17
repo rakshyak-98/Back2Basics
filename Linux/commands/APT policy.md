@@ -4,6 +4,10 @@
 
 > apt policy shows which versions exist, where they come from, and which pin priority wins — so you know what apt will install next.
 
+
+
+
+
 ## Interview Relevance
 Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how preferences.d pins steer upgrades.
 
@@ -22,7 +26,6 @@ Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how pr
 - **Pinning:** `/etc/apt/preferences.d/` rules to prefer an origin.
 
 ## Technical Details
-
 ```txt
 apt policy pkg
   Installed: …

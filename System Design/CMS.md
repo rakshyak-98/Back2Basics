@@ -4,24 +4,24 @@
 
 > A CMS lets editors create, review, and publish structured content — headless systems expose JSON APIs while frontends own presentation.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/preview auth separation from production keys.
 
 ## Sources
-
 - Strapi / Directus documentation — headless content modeling — overview
 - Jamstack architecture — decoupled content and delivery — overview
 
 ## Key Concepts
-
 - **Headless:** content API + multi-channel clients.
 - **Monolithic:** WordPress-style server-rendered sites.
 - **Publish webhook:** bust Redis/CDN on publish.
 - **Draft vs published:** tokenized preview; production filters `publish_at <= now`.
 
 ## Technical Details
-
 ```txt
 Editors → admin UI → content API → apps / CDN / [[Streaming]] metadata
                 │                    │
@@ -55,22 +55,18 @@ RBAC: author/editor/publisher. Separate preview credentials ([[Authentication we
 | Slow editor | Direct upload to object storage |
 
 ## Real-World Applications
-
 Streaming title metadata, marketing sites, and multi-channel product catalogs.
 
 ## Pros/Cons or Trade-offs
-
 - **Headless pro:** channel flexibility; **con:** more moving parts.
 - **Monolithic pro:** fast to ship a site; **con:** harder multi-app reuse.
 - **Trade-off:** CMS vs Markdown-in-git ([[KISS]] for tiny blogs).
 
 ## Comparison
-
 - vs [[IM (Information Management) production systems]]: broadcast MAM is specialized CMS for media ops.
 - vs static generators: git content vs editorial workflows.
 
 ## Mistakes to Avoid
-
 - Hot-path clients hitting raw CMS instead of BFF/edge cache.
 - Same API keys for preview and production.
 - No purge webhook → editors “publish” into stale CDN.

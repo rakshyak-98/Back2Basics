@@ -4,25 +4,25 @@
 
 > `kubectl` is the CLI to the Kubernetes API — read cluster state, apply manifests, and debug failing pods through the apiserver (not by SSHing to nodes first).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers watch context/namespace discipline, CrashLoop/ImagePull triage, and whether you debug HPA→scheduler→nodes→probes as a chain under load.
 
 ## Sources
-
 - [Kubernetes — kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) — overview
 - [Kubernetes — Troubleshooting Applications](https://kubernetes.io/docs/tasks/debug/debug-application/) — deep-dive
 - Brendan Burns et al., *Kubernetes: Up and Running* — overview
 
 ## Key Concepts
-
 - **API objects:** Pod, Service, Deployment… — `kubectl` is CRUD + watch + port-forward + debug.
 - **Context / namespace:** always know where you point ([[Kubernetes config]]).
 - **Controllers reconcile:** Deployment → ReplicaSet → Pod; deleting a Pod under a Deployment respawns it.
 - **Readiness = LB membership:** flaky readiness empties Endpoints → 502/503 at [[ingress]].
 
 ## Technical Details
-
 ```
 kubectl ──► kube-apiserver ──► etcd (desired state)
                 │
@@ -101,24 +101,20 @@ kubectl top nodes
 | Cross-service timeout | netpol; DNS FQDN | [[Cilium]] Hubble; `svc.ns.svc.cluster.local` |
 
 ## Real-World Applications
-
 On-call pod triage, rollout undo after bad image, and live HPA/endpoint watches during traffic spikes.
 
 **Example:** Ingress 503 → empty Endpoints → readiness failing on `/ready` because DB init lag — add `startupProbe` and init container.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fastest path to API truth (Events, describe, previous logs).
 - **Con:** Laptop `kubectl` is not a deploy pipeline — use GitOps/CI.
 - **Con:** `kubectl edit` drifts from Argo/Flux source of truth.
 
 ## Comparison
-
 - vs SSH to nodes: prefer `kubectl debug` / exec; node debug is last resort.
 - vs cloud console: kubectl is scriptable and closer to the API object model.
 
 ## Mistakes to Avoid
-
 - Deleting Pods under a Deployment as a “fix” without changing the template.
 - `logs` without `--previous` on CrashLoop.
 - HPA without `resources.requests.cpu`.

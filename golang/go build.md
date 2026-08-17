@@ -4,17 +4,18 @@
 
 > `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Build/module questions check modules vs GOPATH, cross-compile knobs (`GOOS`/`GOARCH`/`CGO`), and reproducible flags (`-trimpath`, ldflags) — production packaging literacy.
 
 ## Sources
-
 - [Go — Modules reference](https://go.dev/ref/mod) — deep-dive
 - [Go — Command go](https://pkg.go.dev/cmd/go) — deep-dive
 
 ## Key Concepts
-
 ```
 go.mod (module path + require)
   → go build ./cmd/app
@@ -22,7 +23,6 @@ go.mod (module path + require)
 ```
 
 ## Technical Details
-
 ### Module init
 
 ```bash
@@ -61,12 +61,10 @@ go install ./cmd/...           # puts binary in $GOBIN
 | Stale binary | Build cache | `go clean -cache` (last resort) |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Don't commit `go.sum` deletes — always commit after `go mod tidy`.
 - **Trade-off:** Don't vendor unless you have air-gap or reproducibility policy requiring it.
 
 ## Mistakes to Avoid
-
 - Private modules — set `GOPRIVATE=*.corp.com` and git credentials; CI needs same. `-race` in prod — 5–10× slower; never ship race binaries.
 - Working directory matters
 - for relative embed paths — use `//go:embed` from module root.

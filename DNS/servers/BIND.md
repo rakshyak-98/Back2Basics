@@ -4,24 +4,24 @@
 
 > BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive roles).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzone`/`rndc`, and why public authoritative hosts should not offer open recursion.
 
 ## Sources
-
 - [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/) — deep-dive
 - [ISC — BIND](https://www.isc.org/bind/) — overview
 
 ## Key Concepts
-
 - **Authoritative master/slave:** zone files + AXFR/IXFR distribution.
 - **Optional recursion:** powerful and dangerous if `allow-recursion` is wide open.
 - **DNSSEC tooling:** keygen/signzone plus DS at the registrar.
 - **Views / RPZ / RRL:** split-horizon answers, malware blocking, reflection mitigation.
 
 ## Technical Details
-
 | Mode | Use |
 |------|-----|
 | **Authoritative** | Host [[DNS zone]] files; answer for domains you own |
@@ -64,24 +64,20 @@ Publish DS record at registrar after signing.
 **Security:** RPZ for bad domains; response rate limiting against reflection; views for internal/external split ([[DNS zone]] split horizon).
 
 ## Real-World Applications
-
 ISP and enterprise authoritative hosting; secondary for registrar or multi-provider NS sets.
 
 **Example:** Edit zone file → bump SOA serial → `named-checkzone` → `rndc reload` → secondaries pull IXFR after NOTIFY.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Battle-tested authoritative feature set (DNSSEC, views, catalog zones, RPZ).
 - **Con:** Operational complexity vs managed DNS or DB-backed [[PoserDNS]].
 - **Con:** Misconfigured recursion turns you into an open amplifier.
 
 ## Comparison
-
 - vs [[Unbound]]: BIND for authoritative Internet zones; Unbound for validating recursion.
 - vs [[CoreDNS]]: CoreDNS fits Kubernetes service discovery plugins, not classic public zone masters.
 
 ## Mistakes to Avoid
-
 - Forgetting SOA serial increments — secondaries stall on old data.
 - Combining public authoritative service with world-open recursion.
 - Skipping `named-checkzone` / `named-checkconf` before reload.

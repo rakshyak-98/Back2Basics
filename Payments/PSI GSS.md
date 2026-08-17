@@ -4,22 +4,22 @@
 
 > Payment Card Industry Guest Service System (PSI GSS) means the shopper types the card on a PCI-validated provider’s hosted page or iframe — your servers never see PAN, track, or CVV.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers test PCI scoping: when hosted checkout keeps you on a short SAQ, and which one misconfiguration (logging PAN, custom card inputs) expands you to SAQ D.
 
 ## Sources
-
 - [PCI SSC — Document library (SAQ instructions)](https://www.pcisecuritystandards.org/document_library/) — deep-dive
 - [PCI SSC — SAQ A eligibility (outsourced e-commerce)](https://www.pcisecuritystandards.org/) — overview
 - [Wikipedia — PCI DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard) — overview
 
 ## Core Definition
-
 GSS-style architecture (hospitality and retail jargon for outsourced card entry) keeps cardholder data (CHD) inside the provider’s environment. The merchant receives tokens, redirects, or postMessage results only. Questionnaire pairing is [[SAQ GSS]] / SAQ A–class attestations when eligibility still holds.
 
 ## Key Concepts
-
 - **No CHD on merchant systems:** no PAN, CVV, or track data in apps, logs, or tickets.
 - **Hosted redirect or provider iframe:** payment UI originates from the validated [[PSP]].
 - **AOC on file:** provider Attestation of Compliance and a responsibility matrix.
@@ -27,7 +27,6 @@ GSS-style architecture (hospitality and retail jargon for outsourced card entry)
 - **Scope creep:** one route that accepts raw card JSON ends GSS eligibility.
 
 ## Technical Details
-
 ```
 Shopper enters card ──► Hosted payment page (PSP) ──► networks
                               │
@@ -67,25 +66,21 @@ res.redirect(session.url);
 | Mobile WebView checkout | In-app browser rules | Provider mobile SDK |
 
 ## Real-World Applications
-
 Hotel booking engines, restaurant online ordering, and any guest-facing checkout that must stay out of full PCI programs.
 
 **Example:** Front desk never keys cards into the admin panel — guests pay via PSP-hosted link; merchant systems only store `payment_token` and confirmation numbers.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Dramatically smaller compliance questionnaire when eligibility is real.
 - **Con:** Less control over card-field UX than a direct API (which expands scope).
 - **Con:** Vendor changes require fresh AOC and SAQ review.
 
 ## Comparison
-
 - vs [[SAQ GSS]]: PSI GSS is the technical pattern; SAQ GSS is the attestation path.
 - vs direct PAN API: full cardholder-data environment — typically SAQ D.
 - vs MOTO / staff key-entry: not GSS — CHD lands on merchant systems.
 
 ## Mistakes to Avoid
-
 - Accepting raw card JSON “only in staging” on merchant APIs.
 - Letting support tools paste PANs into tickets.
 - Overlaying custom inputs on provider iframes.

@@ -4,18 +4,19 @@
 
 > Supervised learning — you have pairs (xᵢ, yᵢ). The algorithm picks a function class (linear, tree, neural net) and minimizes empirical risk + regularization on training
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Supervised learning to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 - [supervised learning — Wikipedia](https://en.wikipedia.org/wiki/Supervised_learning) — overview
 
 ## Key Concepts
-
 You have pairs `(xᵢ, yᵢ)`. The algorithm picks a function class (linear, tree, neural net) and minimizes **empirical risk** + regularization on training data. Success = low error on **new** data from the same distribution.
 
 ```txt
@@ -35,7 +36,6 @@ Test set        → report once (never tune on this)
 **Distribution shift** (train 2022, deploy 2026) breaks supervised assumptions — monitor features and labels in production.
 
 ## Technical Details
-
 ```python
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -64,13 +64,11 @@ baseline.fit(X_train, y_train)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **No labels / labels too expensive** — semi-supervised or unsupervised clustering (different playbook).
 - **Need causal effect** ("what if we change price") — predictive model ≠ causal inference.
 - **Adversarial inputs** — supervised accuracy doesn't guarantee robustness.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Tuning on test set** — any decision using test labels (including feature selection) inflates scores. Hold out test until the end.
 
@@ -84,4 +82,3 @@ baseline.fit(X_train, y_train)
 | Metrics drift in prod | Label delay, shift | Retrain pipeline; feature monitoring |
 | Labels inconsistent | Annotation guidelines | Inter-rater agreement; gold set |
 | Slow iteration | No pipeline | sklearn Pipeline + single `fit` path |
-

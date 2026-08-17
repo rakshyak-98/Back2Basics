@@ -4,17 +4,18 @@
 
 > Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git patch files` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.patch
                                                     │
@@ -26,7 +27,6 @@ feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.pa
 Use for: mailing lists, exporting PR to air-gapped environment, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
 
 ## Technical Details
-
 ### Export range
 
 ```bash
@@ -78,12 +78,10 @@ git commit -C HEAD  # after manual apply
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Same repository, same remote** — push branch + PR.
 - **Interactive conflict-prone long series** — one merge or rebase onto target.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`git apply` vs `git am`** — apply doesn't create commit metadata; easy to lose authorship.
 

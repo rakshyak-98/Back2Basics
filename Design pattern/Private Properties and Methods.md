@@ -4,17 +4,18 @@
 
 > Private members hide implementation detail inside a class or module — so invariants stay enforceable and public APIs stay small.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask encapsulation mechanics — language privacy versus convention, and what invariants you protect.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* (encapsulation) — deep-dive
 - ECMAScript private fields specification — deep-dive
 
 ## Technical Details
-
 **Encapsulation**
 
 Callers use public methods; internal representation can change without breaking clients.
@@ -48,13 +49,11 @@ True privacy vs convention — know what your language actually enforces.
 - [[Design pattern/Builder]] — hide partial construction state until `build()`.
 
 ## Comparison
-
 **vs protected**
 
 `protected` exposes to subclasses — wider surface, harder to reason about than private + composition.
 
 ## Mistakes to Avoid
-
 - Reflection/serialization bypassing privacy.
 - Testing private logic directly — test through public behavior or use test-only package access.
 - Excessive `friend` or `@VisibleForTesting` — sign of misplaced responsibility.

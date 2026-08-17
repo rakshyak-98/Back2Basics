@@ -4,25 +4,25 @@
 
 > Serve files from disk with `root`/`alias` and `try_files` — check `$uri`, then `$uri/`, then 404 (or SPA/app fallback) without hitting the app.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Checks whether you can configure efficient static serving, explain `try_files`, and avoid proxying assets to the application unnecessarily.
 
 ## Sources
-
 - [nginx.org — Serving static content](https://nginx.org/en/docs/beginners_guide.html) — overview
 - [nginx.org — try_files](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files) — deep-dive
 - [nginx.org — ngx_http_headers_module (expires)](https://nginx.org/en/docs/http/ngx_http_headers_module.html) — overview
 
 ## Key Concepts
-
 - **`try_files $uri $uri/ =404`:** Exact file → directory (with `index`) → hard 404.
 - **`$uri`:** Request path mapped under `root` (e.g. `/style.css` → `/var/www/html/style.css`).
 - **Avoid backend calls:** Static locations keep CSS/JS/images off PHP/Node unless another location matches.
 - **Caching headers:** `expires` + `Cache-Control` for fingerprinted assets.
 
 ## Technical Details
-
 ```nginx
 location / {
     try_files $uri $uri/ =404;
@@ -50,21 +50,17 @@ location /assets/ {
 | Wrong MIME type | missing types block | `include mime.types;` |
 
 ## Real-World Applications
-
 CDN-origin or edge Nginx serving built frontend assets; long-lived cache on `/assets/` with content-hashed names.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Extremely efficient with `sendfile`; keeps app servers free.
 - **Con:** User uploads next to executable scripts under the same root is a security footgun.
 
 ## Comparison
-
 - vs [[nginx SPA deployment]]: static `=404` vs fallback to `index.html` for client routes.
 - vs `proxy_pass` everything: proxying static assets wastes app capacity.
 
 ## Mistakes to Avoid
-
 - `alias` trailing-slash mismatches with the `location` prefix.
 - Serving user uploads from a path that can execute scripts.
 - Omitting `mime.types` so browsers mis-handle assets.

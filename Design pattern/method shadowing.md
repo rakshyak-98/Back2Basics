@@ -4,16 +4,17 @@
 
 > Method shadowing (and field hiding) occurs when a subclass defines a static method or field with the same name as the parent — the subclass does **not** override the parent's static member; each type resolves its own version.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Method shadowing checks name-hiding across inheritance — override versus hide, and surprising dispatch.
 
 ## Sources
-
 - Java Language Specification — hiding vs overriding — deep-dive
 
 ## Technical Details
-
 **Static vs virtual override**
 
 ```java

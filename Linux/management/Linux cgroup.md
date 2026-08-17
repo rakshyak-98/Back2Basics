@@ -4,28 +4,27 @@
 
 > Control groups — kernel resource accounting and hard limits for CPU, memory, PIDs, and I/O (cgroup v2 unified under `/sys/fs/cgroup`).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Container/platform staple: v1 vs v2, `memory.max` vs `memory.high`, CPU throttle vs OOM kill, and how Docker/K8s map to cgroup files.
 
 ## Sources
-
 - [cgroup-v2 documentation — kernel.org](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) — deep-dive
 - [Wikipedia — cgroups](https://en.wikipedia.org/wiki/Cgroups) — overview
 
 ## Core Definition
-
 cgroups group processes and apply limits/priorities. Modern distros mount cgroup v2 at `/sys/fs/cgroup`. v1 used separate hierarchies per controller; v2 is one tree.
 
 ## Key Concepts
-
 - **Hard vs soft:** `memory.max` kills; `memory.high` pressures/reclaims first.
 - **CPU throttle ≠ kill:** CPU limits slow; memory overage can OOM.
 - **Slices/scopes:** systemd and container runtimes place tasks in a tree.
 - **PSI:** pressure stalls warn before hard failure.
 
 ## Technical Details
-
 ```
 /system.slice
   └─ docker.slice / kubepods.slice
@@ -72,22 +71,18 @@ Docker: `docker run -m 512m --memory-swap 512m`. Kubernetes: requests/limits; po
 | Can’t write memory.max | Controller not delegated | Enable in parent `subtree_control` |
 
 ## Real-World Applications
-
 Cap a noisy batch job with `MemoryMax=` / `CPUQuota=` on a systemd scope, or diagnose K8s `OOMKilled` against the container memory limit.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Hard multi-tenant isolation on one kernel.
 - **Con:** Mis-sized limits cause throttling/OOM that looks like “random” app failure.
 
 ## Comparison
-
 - vs [[renice]]: soft CPU hint vs hard caps.
 - vs ulimits: RLIMIT still matters (files, etc.) alongside cgroups.
 - vs [[OOM (Linux Out Of Memory)]]: global killer vs cgroup-local OOM.
 
 ## Mistakes to Avoid
-
 - Memory limit without swap policy — latency death spiral from swap.
 - Ignoring JVM/runtime ergonomics vs cgroup size.
 - Assuming CPU limits pin exclusive cores (use cpuset for pinning).

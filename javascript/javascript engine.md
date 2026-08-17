@@ -4,23 +4,23 @@
 
 > JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use **JavaScript engine** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **V8**, **JavaScriptCore**.
 
 ## Sources
-
 - [V8 — Docs](https://v8.dev/docs) — deep-dive
 - [MDN — JS execution model](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model) — overview
 - [Wikipedia — javascript engine](https://en.wikipedia.org/wiki/javascript_engine) — overview
 
 ## Key Concepts
-
 - **V8:** Chrome, Edge, Node.js, Deno — | **SpiderMonkey**
 - **JavaScriptCore:** Safari — | **Hermes**
 
 ## Technical Details
-
 Pipeline (simplified):
 
 ```txt
@@ -63,21 +63,17 @@ if ("structuredClone" in globalThis) { /* use */ }
 Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for missing builtins.
 
 ## Real-World Applications
-
 In production APIs and tooling, **javascript engine** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **User-agent engine detection** — brittle; use feature detects + integration tests; **Micro-optimizing for one engine** — V8-specific tricks may hurt JSC or future versions.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing …).
 - **Con / when not:** **Choosing framework** — engine differences rarely matter versus architecture.
 - **Con / when not:** **Security boundaries** — sandbox with CSP/isolation, not "pick V8 version".
 
 ## Comparison
-
 vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[Descriptive/JavaScript/pre-parser]]: know when each applies — do not treat them as interchangeable. vs [[wasm]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **User-agent engine detection** — brittle; use feature detects + integration tests.
 - **Micro-optimizing for one engine** — V8-specific tricks may hurt JSC or future versions.
 - **Slow first load:** check Parse/compile huge bundle; fix: Code-split; [[SWC]] minify; defer non-critical

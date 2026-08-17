@@ -4,6 +4,10 @@
 
 > Groups bundle users for shared file access and sudo — one primary GID plus optional supplementary memberships.
 
+
+
+
+
 ## Interview Relevance
 Expect primary vs supplementary, `usermod -aG`, session refresh, and why `getent group` can omit users who only have that GID as primary.
 
@@ -22,7 +26,6 @@ Expect primary vs supplementary, `usermod -aG`, session refresh, and why `getent
 - **No nested groups:** Linux groups don’t contain groups.
 
 ## Technical Details
-
 ```txt
 /etc/passwd  → user:…:UID:GID:…     (primary)
 /etc/group   → group:…:GID:u1,u2    (supplementary members)

@@ -4,22 +4,22 @@
 
 > Unions, generics, utility types, and narrowing describe values at compile time — they disappear at runtime, so they guide the checker rather than enforce data on the wire.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers drill TypeScript types to see if you can narrow unions, use generics without sliding to `any`, prefer `unknown`, and know structural typing and shallow utility types (`Partial`, `Omit`).
 
 ## Sources
-
 - [TypeScript Handbook — Everyday Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html) — overview
 - [TypeScript Handbook — Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html) — deep-dive
 - [TypeScript Handbook — Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) — deep-dive
 
 ## Core Definition
-
 TypeScript’s type system lets you name shapes (`type` / `interface`), compose them (unions, intersections, generics, mapped/conditional types), and narrow them in control flow — all erased when JavaScript is emitted.
 
 ## Key Concepts
-
 - **Union / `never`:** model alternatives; `never` helps exhaustiveness checks.
 - **`interface` vs `type`:** interfaces merge; type aliases are flexible combinations.
 - **Generics:** reuse logic across shapes with constraints (`extends`).
@@ -28,7 +28,6 @@ TypeScript’s type system lets you name shapes (`type` / `interface`), compose 
 - **Utility types:** `Pick`, `Omit`, `Partial`, `Readonly` — usually shallow.
 
 ## Technical Details
-
 ```txt
 value ──typeof/guard──► narrowed type
 Generic<T> ──reuse──► concrete
@@ -67,25 +66,21 @@ type PublicUser = Omit<User, 'email'>
 | Excess property errors | Fresh object literal | Assign via variable or widen intentionally |
 
 ## Real-World Applications
-
 API result types as discriminated unions (`ok: true | false`); DTO views via `Omit`/`Pick`; generic repository helpers constrained with `extends`.
 
 **Example:** A configuration object inferred as `string` for a status field — use `as const` or `satisfies` so `"admin" | "user"` stays narrow.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Express rich contracts and catch mismatches before runtime.
 - **Con:** Deep conditional types can become unreadable — favor clarity.
 - **Con:** Utility types are shallow; “deep partial” needs a custom mapped type.
 
 ## Comparison
-
 - vs [[typescript extend types]]: this note covers core type tools; that one covers `extends`, intersections, and augmentation.
 - vs runtime schemas (Zod): types do not validate JSON; schemas do.
 - vs `enum`: string unions are usually clearer for JSON APIs.
 
 ## Mistakes to Avoid
-
 - Using `any` to escape the checker — quarantine adapters; prefer `unknown`.
 - Expecting structural typing to reject extra fields on variables the way fresh literals do.
 - Encoding business rules in impenetrable conditional types.

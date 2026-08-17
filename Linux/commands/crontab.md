@@ -4,6 +4,10 @@
 
 > crontab schedules commands by minute — crond wakes each minute, matches the five time fields, and runs the job with a minimal environment.
 
+
+
+
+
 ## Interview Relevance
 Know the five fields, DOM/DOW OR semantics, absolute paths, logging, and when systemd timers are a better fit.
 
@@ -22,7 +26,6 @@ User crontabs live under `/var/spool/cron/crontabs/`; system jobs in `/etc/cron.
 - **Silence ≠ success:** Always log; mail may be unset.
 
 ## Technical Details
-
 ```txt
 * * * * *  command
 │ │ │ │ │

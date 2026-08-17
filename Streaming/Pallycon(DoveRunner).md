@@ -4,16 +4,17 @@
 
 > PallyCon (now DoveRunner) is multi-DRM SaaS — your backend mints a signed token so the player can ask for decryption keys.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk Pallycon end-to-end — not just name it. Signal fluency with **DoveRunner / PallyCon**, **pallycon-customdata-v2**, **Site ID / Site Key**, **Content ID** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — Pallycon](https://en.wikipedia.org/wiki/Pallycon) — overview
 
 ## Key Concepts
-
 - **DoveRunner / PallyCon:** Hosted multi-DRM + KMS — “We outsource Widevine/PlayReady/FairPlay licenses.”
 - **pallycon-customdata-v2:** Signed license request token — “Backend mints it; player only forwards it.”
 - **Site ID / Site Key:** Account credentials for token crypto — “Site Key never ships in the APK.”
@@ -33,7 +34,6 @@ Packaging keys often come via [[CPIX]]; playback authentication is the separate 
 4. **License request** — player calls DoveRunner license URL with that header; CDM decrypts.
 
 ## Technical Details
-
 ```txt
 User ──► Your app auth (OAuth / JWT / session)
               │
@@ -109,11 +109,9 @@ CSL does **not** apply to offline VOD download / persistent licenses the same wa
 | Account id in token | CSL keys off user identity you put in the token |
 
 ## Real-World Applications
-
 Used wherever Pallycon sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **No DRM requirement** — signed CDN URLs may be enough.
 - **Con / skip when:** **You already run a full in-house multi-DRM stack** — don’t add a second license path.
@@ -121,11 +119,9 @@ Used wherever Pallycon sits in an ingest → package → CDN → player path. Co
 - **Con / skip when:** **Offline-first download with CSL expectations** — CSL is streaming/renewal oriented.
 
 ## Comparison
-
 - vs [[CAS (Conditional Access System)]]: **CAS-only broadcast STBs** — use [[CAS (Conditional Access System)]]; DoveRunner is OTT/CDM-oriented.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | License 401 / invalid token | Token age, Site Key, content id | Remint server-side; verify Site ID; NTP on token host |

@@ -4,17 +4,18 @@
 
 > Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Service Layer interviews check where business rules live — thin controllers, transactional use-cases, and avoiding anemic “pass-through” services.
 
 ## Sources
-
 - [Martin Fowler — Service Layer](https://martinfowler.com/eaaCatalog/serviceLayer.html) — deep-dive
 - [Microsoft — N-tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier) — overview
 
 ## Key Concepts
-
 ```txt
 HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
 ```
@@ -36,7 +37,6 @@ HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
 4. **Return** — map domain result to HTTP/status.
 
 ## Technical Details
-
 ```ts
 // sketch — Nest / Express style
 class OrderService {
@@ -65,11 +65,9 @@ class OrderService {
 | Hard to test | Needs full HTTP | Unit-test service with fakes |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Tiny CRUD — one handler + one query is fine until rules grow.
 - **Trade-off:** Pure BFF glue — mapping APIs with no rules doesn’t need a service layer.
 
 ## Mistakes to Avoid
-
 - Anemic services — if the service only forwards to the repo, you added a layer for nothing.
 - Txn leakage — opening transactions in controllers usually races and nests badly.

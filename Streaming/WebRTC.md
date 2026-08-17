@@ -4,22 +4,22 @@
 
 > Browser P2P real-time A/V + data — media is encrypted UDP, not HTTP.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk WebRTC end-to-end — not just name it. Signal fluency with **getUserMedia**, **RTCPeerConnection**, **SDP**, **Signaling** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — WebRTC](https://en.wikipedia.org/wiki/WebRTC) — overview
 - [WebRTC W3C](https://www.w3.org/TR/webrtc/) — deep-dive
 - [MDN WebRTC API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) — overview
 
 ## Core Definition
-
 Signaling carries **SDP + candidates**. Media never goes through your WebSocket in pure P2P — only through TURN/SFU when those are in the path.
 
 ## Key Concepts
-
 - **getUserMedia:** Ask OS for camera/mic — “First I capture a local MediaStream.”
 - **RTCPeerConnection:** The session object — “One PC per remote peer (or SFU edge).”
 - **SDP:** Session Description Protocol — codecs + ICE creds — “Offer/answer swaps what we can send.”
@@ -45,7 +45,6 @@ Signaling carries **SDP + candidates**. Media never goes through your WebSocket 
 | `RTCPeerConnection.createDataChannel` | App messages over [[SCTP (Stream Control Transmission Protocol)]] |
 
 ## Technical Details
-
 ```txt
 getUserMedia / getDisplayMedia
         │
@@ -102,26 +101,22 @@ Debug: `chrome://webrtc-internals` — ICE state, selected pair, codecs.
 See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 
 ## Real-World Applications
-
 Signaling carries **SDP + candidates**. Media never goes through your WebSocket in pure P2P — only through TURN/SFU when those are in the path.
 
 Used wherever WebRTC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **One-to-many OTT (millions of viewers)** — [[HLS]] / [[DASH]] + CDN; WebRTC is for few peers or SFU-scale interactive.
 - **Con / skip when:** **OBS → origin ingest for linear** — usually [[RTMP]] / SRT into a packager ([[flussonic]]), not browser WebRTC.
 - **Con / skip when:** **Fire-and-forget file download** — HTTP range / Node streams ([[How to attach stream to HTTP handlers]]); no ICE needed.
 
 ## Comparison
-
 - vs [[HLS]]: **One-to-many OTT (millions of viewers)** — [[HLS]] / [[DASH]] + CDN; WebRTC is for few peers or SFU-scale interactive.
 - vs [[RTMP]]: **OBS → origin ingest for linear** — usually [[RTMP]] / SRT into a packager ([[flussonic]]), not browser WebRTC.
 - vs [[How to attach stream to HTTP handlers]]: **Fire-and-forget file download** — HTTP range / Node streams ([[How to attach stream to HTTP handlers]]); no ICE needed.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Permission denied / black local video | `getUserMedia` error; HTTPS? | Serve over HTTPS (or localhost); fix constraints |

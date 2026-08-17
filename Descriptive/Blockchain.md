@@ -4,17 +4,18 @@
 
 > A blockchain is a linked, append-only ledger of blocks — useful when many parties need a shared history without one admin DB.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Blockchain interviews check distributed ledger basics — immutability trade-offs, consensus, and when a DB is enough.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [Blockchain — Wikipedia](https://en.wikipedia.org/wiki/Blockchain) — overview
 
 ## Key Concepts
-
 ```txt
 tx → mempool → block(n) hashes block(n-1) → network consensus
 ```
@@ -29,7 +30,6 @@ tx → mempool → block(n) hashes block(n-1) → network consensus
 | **Smart contract** | On-chain program | “Ethereum VM example.” |
 
 ## Technical Details
-
 ```bash
 # ethereum sketch
 cast block latest
@@ -43,12 +43,10 @@ cast tx <hash>
 | Chain id | Replay protection |
 
 ## Pros/Cons or Trade-offs
-
 - **Ordinary CRUD apps** — a database is enough.
 - **Needs delete/GDPR erase of history** — poor fit for public ledgers.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Immutable mistakes** — bad contract deploys are forever (unless upgrade pattern).
 
@@ -61,4 +59,3 @@ cast tx <hash>
 | Wrong network | chain id / RPC | Point wallet to right chain |
 | Reorged tx | shallow confirmations | Wait deeper finality |
 | Contract revert | traces | Read error; fix calldata |
-

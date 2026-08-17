@@ -4,17 +4,18 @@
 
 > traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git log` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 git log main..feature     commits on feature not in main
 git log -p file.js        patches per commit for file
@@ -24,7 +25,6 @@ git show <sha>            one commit detail
 For merge commits, default log may hide individual parents — use `-m` or `--first-parent` depending on question.
 
 ## Technical Details
-
 ### Basics
 
 ```bash
@@ -86,12 +86,10 @@ git log --after="2 weeks ago"
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Working tree diff** — use [[git diff]] for unstaged/staged changes.
 - **Find introducing bug** — prefer `git bisect` over manual log scroll.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`A..B` dot is mandatory** — three-dot `A...B` is symmetric difference (different question).
 

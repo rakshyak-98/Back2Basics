@@ -4,6 +4,10 @@
 
 > A hex dump shows raw bytes of a file or memory region — use it to inspect magic headers, corrupted records, and protocol payloads.
 
+
+
+
+
 ## Interview Relevance
 Debugging literacy: prove you can read binary with `xxd`/`hexdump`, compare blobs, and recognize when “garbage text” is actually a structured header (ELF magic, PNG, etc.).
 
@@ -20,7 +24,6 @@ Hex dump tools print offsets, hexadecimal bytes, and often an ASCII sidebar. The
 - **strings:** Complementary — extract printable runs, not a full layout view.
 
 ## Technical Details
-
 ```bash
 xxd file.bin | head
 hexdump -C file.bin | head

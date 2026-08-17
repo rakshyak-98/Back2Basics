@@ -4,17 +4,18 @@
 
 > Interface — a method set; any type with those methods satisfies it **implicitly** (no `implements` keyword).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interfaces are Go’s polymorphism story — implicit satisfaction, small interfaces, and the empty interface/`any` trap.
 
 ## Sources
-
 - [Go blog — The Laws of Reflection](https://go.dev/blog/laws-of-reflection) — deep-dive
 - [Effective Go — Interfaces](https://go.dev/doc/effective_go#interfaces) — overview
 
 ## Key Concepts
-
 ```txt
 package userapi
 type Store interface { Get(id string) (User, error) }
@@ -30,7 +31,6 @@ func (s *Store) Get(id string) (User, error) { … }
 | Small interfaces | `io.Reader` style |
 
 ## Technical Details
-
 ```go
 type Reader interface {
   Read(p []byte) (n int, err error)
@@ -58,13 +58,11 @@ rc, ok := r.(io.ReadCloser)
 | Import cycle | Interface next to concrete | Move interface to consumer |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Single concrete forever — use the struct.
 - **Trade-off:** “IUserService” with 30 methods — split or drop.
 - **Trade-off:** Before writing tests — extract when mocking hurts.
 
 ## Mistakes to Avoid
-
 - Interface holds (type, value) — nil concrete in non-nil interface ≠ nil.
 - Don’t preemptively interface everything — wait for a second implementation / test need.
 - Exported interface + unexported method — awkward; keep methods consistent.

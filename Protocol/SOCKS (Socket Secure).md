@@ -4,24 +4,24 @@
 
 > SOCKS is a client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — useful for debug egress and jump-host paths (RFC 1928).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers distinguish SOCKS from HTTP proxies, `socks5` versus `socks5h` DNS behavior, and SSH `-D` as a dynamic SOCKS listener.
 
 ## Sources
-
 - [RFC 1928 — SOCKS Protocol Version 5](https://datatracker.ietf.org/doc/html/rfc1928) — deep-dive
 - [Wikipedia — SOCKS](https://en.wikipedia.org/wiki/SOCKS) — overview
 
 ## Key Concepts
-
 - **Tunnel after handshake:** unlike HTTP proxies (URL-level), SOCKS bridges a raw byte stream to the target.
 - **SOCKS4 vs SOCKS5:** v4 is TCP/IPv4 only; v5 adds UDP, auth, IPv6, and domain names.
 - **Remote DNS (`socks5h`):** resolve on the proxy — avoids local leak and reaches internal-only names.
 - **Not encryption:** payload is visible unless the inner protocol is TLS/SSH.
 
 ## Technical Details
-
 ```
 App ──SOCKS handshake──► Proxy (:1080) ──TCP connect──► target:443
      ◄──── byte stream bridged both ways ────►
@@ -76,24 +76,20 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 | UDP apps fail | SOCKS4 or no UDP associate | SOCKS5 with UDP relay; many tools TCP-only |
 
 ## Real-World Applications
-
 Developer access through a bastion, browser debugging of internal hostnames, and tooling that honors `ALL_PROXY`.
 
 **Example:** `ssh -N -D 1080 user@jump` plus `curl --socks5-hostname 127.0.0.1:1080` reaches a private service whose DNS only exists inside the VPC.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Protocol-agnostic TCP tunnel — SSH, HTTPS, databases all work.
 - **Con:** Manual `-D` tunnels are not a service mesh; chaining multiplies failure points.
 - **Con:** Browser SOCKS may not cover system DNS or QUIC/HTTP3 bypass paths.
 
 ## Comparison
-
 - vs HTTP CONNECT / forward proxy: use those when you must terminate or inspect HTTP; SOCKS stays a raw tunnel.
 - vs permanent mesh routing: sidecar/iptables beats ad-hoc SOCKS for production service paths.
 
 ## Mistakes to Avoid
-
 - Using `socks5://` when you need remote DNS — prefer `socks5h://` / `--socks5-hostname`.
 - Assuming SOCKS encrypts traffic.
 - Open-relay Dante/microsocks configs without `from:` ACLs.

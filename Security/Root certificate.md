@@ -4,21 +4,21 @@
 
 > Self-signed trust anchor at the top of a certificate chain — browsers and OS trust stores decide whether your TLS cert is "valid."
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Trust anchors: what a root is, why private CAs need distribution, and risks of installing extra roots.
 
 ## Sources
-
 - [RFC 5280 — X.509](https://www.rfc-editor.org/rfc/rfc5280) — deep-dive
 - [Mozilla CA Certificate Policy](https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/) — overview
 
 ## Core Definition
-
 A root certificate is a self-signed trust anchor at the top of a chain; OS/browser trust stores decide which roots are trusted.
 
 ## Key Concepts
-
 **PKI chain**:
 
 ```txt
@@ -35,7 +35,6 @@ Root CA (self-signed, in trust store)
 Trust stores: Mozilla/Apple/Microsoft/Google bundles on devices. Private roots (corp) require **manual install** on clients.
 
 ## Technical Details
-
 ### Inspect chain from server
 
 ```bash
@@ -78,21 +77,17 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 | Pinning failure | Pin changed on root rotation | Update pins before CA migration |
 
 ## Real-World Applications
-
 Enterprise MITM appliances and private CAs require distributing a corporate root to device trust stores.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Single trust anchor can vouch for an entire private CA hierarchy.
 - **Con:** Don't create a **private root CA** unless you can **distribute trust** to all clients (MDM, mTLS fleet). Public sites use public CAs ([[certbot (letsencrypt)]]).
 
 ## Comparison
-
 - vs leaf/intermediate certs: root is the trust anchor; leaves end the chain.
 - vs [[fingerprint]]: operators may pin a root fingerprint when distributing a private CA.
 
 ## Mistakes to Avoid
-
 - Never put root private key on server — only leaf + intermediate certs.
 - Root expiration — (e.g. legacy AddTrust) breaks old clients — monitor CA announcements years ahead.
 - Self-signed leaf ≠ private root — dev `mkcert` is fine locally; prod needs public or managed private PKI.

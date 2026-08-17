@@ -4,6 +4,10 @@
 
 > The OOM killer terminates processes when the kernel cannot free enough memory after reclaim — on the whole machine or inside a cgroup that hit its limit.
 
+
+
+
+
 ## Interview Relevance
 Core SRE signal: distinguish host OOM from cgroup/container OOM, read `dmesg` kill lines, and explain `oom_score_adj` / exit **137** — not just “add more RAM.”
 
@@ -22,7 +26,6 @@ When reclaim cannot satisfy an allocation, the kernel picks a victim by **oom_sc
 - **Userspace oomd:** Can kill earlier under pressure — see [[management/Linux out of memory daemon]].
 
 ## Technical Details
-
 ```bash
 dmesg -T | grep -iE 'oom|killed process'
 journalctl -k | grep -i oom

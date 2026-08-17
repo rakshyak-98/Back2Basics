@@ -4,17 +4,18 @@
 
 > `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Group/aggregate interviews check $group stages, accumulators, and memory limits.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 $match → $group(_id, accumulators) → $sort → $project
 ```
@@ -29,7 +30,6 @@ $match → $group(_id, accumulators) → $sort → $project
 | **allowDiskUse** | Spill to disk | “Big groups.” |
 
 ## Technical Details
-
 ```js
 db.orders.aggregate([
   { $match: { status: 'paid' } },
@@ -50,12 +50,10 @@ db.orders.aggregate([
 | `$project` after | Shape output |
 
 ## Pros/Cons or Trade-offs
-
 - **Simple counts with a filter** — `countDocuments` may suffice.
 - **Realtime per-request heavy groups** — precompute / rollups.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`$push` entire docs** — easy OOM; push only needed fields.
 
@@ -68,4 +66,3 @@ db.orders.aggregate([
 | Wrong totals | null fields | `$ifNull`; filter nulls |
 | Slow group | no match | Index + match first |
 | Too many groups | high-cardinality key | Bucket differently |
-

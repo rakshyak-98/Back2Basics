@@ -4,22 +4,22 @@
 
 > Alternative Node package manager — deterministic installs via a lockfile, with strong workspace support for monorepos (Classic and Berry).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use Yarn to check whether you can explain lockfile discipline, Classic versus Berry (node_modules vs Plug’n’Play), and why mixing Yarn with [[npm]] in one project causes drift.
 
 ## Sources
-
 - [Yarn Classic documentation](https://classic.yarnpkg.com/en/docs/) — overview
 - [Yarn Berry documentation](https://yarnpkg.com/getting-started) — deep-dive
 - [Wikipedia — Yarn (package manager)](https://en.wikipedia.org/wiki/Yarn_(package_manager)) — overview
 
 ## Core Definition
-
 Yarn installs JavaScript packages from the npm registry (or mirrors) using its own resolver and lockfile format, aiming for reproducible installs and convenient monorepo workspaces.
 
 ## Key Concepts
-
 - **Classic (v1) vs Berry (v2+):** Classic uses `yarn.lock` + hoisted `node_modules`; Berry uses `.yarnrc.yml`, can use Plug’n’Play (`.pnp.cjs`), and is enabled via Corepack.
 - **Lockfile:** pins exact versions → everyone and continuous integration get the same tree.
 - **Workspaces:** one root project owns multiple packages → install once, link locally.
@@ -27,7 +27,6 @@ Yarn installs JavaScript packages from the npm registry (or mirrors) using its o
 - **Zero-install (Berry):** commit the cache for offline installs → large repository size trade-off.
 
 ## Technical Details
-
 ### Daily commands
 
 ```bash
@@ -74,24 +73,20 @@ yarn install
 | Stale continuous integration cache | Cache key | Key cache on lockfile hash |
 
 ## Real-World Applications
-
 Teams pick Yarn for monorepos, faster installs than older npm, or Berry’s Plug’n’Play and constraints.
 
 **Example:** A polyrepo migrates to workspaces under one `yarn.lock` so shared libraries link locally without publishing for every change.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong workspace story; `yarn why` and interactive upgrades help day-to-day maintenance.
 - **Con:** Berry Plug’n’Play needs editor/tooling support; otherwise teams fall back to the node-modules linker.
 - **Con:** Zero-install commits grow the Git history and complicate reviews.
 
 ## Comparison
-
 - vs [[npm]]: Same registry; different lockfile and workspace UX. Prefer one manager per project.
 - vs [[pnpm cli]]: pnpm focuses on a content-addressable store and strict dependency isolation; Yarn Berry focuses on PnP and project constraints.
 
 ## Mistakes to Avoid
-
 - Running `yarn` and `npm install` interchangeably — two lockfiles mean silent version drift.
 - Jumping majors with non-interactive upgrade without reading changelogs.
 - Adopting Berry Plug’n’Play without committing the team to SDK and continuous integration setup.

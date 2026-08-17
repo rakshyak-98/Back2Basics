@@ -4,6 +4,10 @@
 
 > Common naming terms — short vocabulary for background workers, agents, and control-plane roles you’ll see in code and ops.
 
+
+
+
+
 ## Interview Relevance
 Clear naming shows system literacy: daemon vs service vs agent, proxy vs gateway, controller vs manager. Interviewers notice when you use these words precisely.
 

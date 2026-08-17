@@ -4,16 +4,17 @@
 
 > JavaScript — language of the browser (and Node): single-threaded event loop, prototypes, and first-class functions.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 JavaScript interviews span runtime model — event loop, types coercion, and module systems.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 call stack ←→ heap
      ↑
@@ -27,7 +28,6 @@ event loop ← tasks / microtasks
 | Workers | Parallel JS |
 
 ## Technical Details
-
 ```bash
 node -e 'console.log(1)'
 node --watch app.js
@@ -40,12 +40,10 @@ node --watch app.js
 | Bundler | Ship size |
 
 ## Pros/Cons or Trade-offs
-
 - **CPU-bound HPC** — native/Go/Rust.
 - **Shared-memory threads model** — careful with workers.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`==` coercion** — prefer `===`.
 
@@ -58,4 +56,3 @@ node --watch app.js
 | Unhandled rejection | Missing catch | Attach handlers |
 | `undefined is not a function` | Wrong type/import | Log; fix export |
 | Module not found | Path/CJS/ESM | Align module type |
-

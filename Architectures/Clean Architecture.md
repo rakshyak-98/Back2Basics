@@ -4,17 +4,18 @@
 
 > Clean Architecture — keep business rules independent of frameworks by pointing all source dependencies inward.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Clean Architecture interviews test the Dependency Rule — domain independence, adapter boundaries, and when the ceremony is worth it.
 
 ## Sources
-
 - [Robert C. Martin — Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — deep-dive
 - [Alistair Cockburn — Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) — overview
 
 ## Key Concepts
-
 Clean Architecture is a **dependency-management** pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable rule: **source code dependencies point inward only** — toward higher-level **policies** (business rules), never toward mechanisms (web, DB, frameworks).
 
 ```txt
@@ -51,7 +52,6 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 5. Independent of external agencies
 
 ## Technical Details
-
 ### Decision table: when Clean Architecture earns its cost
 
 | Signal | Lean toward Clean | Lean toward simpler layering / [[KISS]] |
@@ -342,11 +342,9 @@ FAIL:
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** **Pragmatic path:** Start with simple layered monolith (handler → service → repository). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
 
 ## Mistakes to Avoid
-
 - **Clean Architecture ≠ microservices.** Each service is usually a small hexagonal/clean app internally. Distribution is orthogonal to the Dependency Rule. See [[Multi-tier and Layered Architecture]].
 - **The database is not the center.** Martin ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): letting the DB schema drive design early "warps" use cases. Model use cases first; derive schema from identified queries and relationships.
 - **Pass-through layers are worse than no layers.** Adapters that only forward calls add navigation cost with zero boundary value. Every layer must earn its complexity ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/), [DEV: Clean Architecture Trap](https://dev.to/marcolenzo/the-clean-architecture-trap-241k)).

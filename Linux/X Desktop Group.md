@@ -4,6 +4,10 @@
 
 > The X Desktop Group (XDG) publishes freedesktop.org standards — base directories, `.desktop` files, icons, and portals that unify GNOME, KDE, and other desktops.
 
+
+
+
+
 ## Interview Relevance
 Useful for “where does config live?” — `XDG_CONFIG_HOME`, desktop entries, and portals for sandboxed apps on Wayland.
 
@@ -21,7 +25,6 @@ XDG (via freedesktop.org) defines shared desktop conventions: **Base Directory**
 - **MIME defaults:** `xdg-open` / `xdg-mime` choose handlers.
 
 ## Technical Details
-
 ```bash
 echo $XDG_CONFIG_HOME    # default ~/.config
 echo $XDG_DATA_HOME      # default ~/.local/share

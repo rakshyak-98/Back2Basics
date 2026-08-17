@@ -4,17 +4,18 @@
 
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 DSL questions separate internal vs external DSLs and when a constrained language beats a general-purpose API.
 
 ## Sources
-
 - [Martin Fowler — Domain-Specific Languages](https://martinfowler.com/books/dsl.html) — deep-dive
 - [Wikipedia — Domain-specific language](https://en.wikipedia.org/wiki/Domain-specific_language) — overview
 
 ## Key Concepts
-
 A **DSL** trades generality for **domain fit**: SQL for relations, Regex for strings, HCL for infra, CSS for styling, Mermaid for diagrams.
 
 ```
@@ -31,7 +32,6 @@ General-purpose (Java, Python)     DSL (SQL, Makefile, GraphQL schema)
 | **Declarative config** | [[Terraform/variable file]] HCL, K8s YAML | Engine interprets |
 
 ## Technical Details
-
 ### When to introduce a DSL
 
 ```text
@@ -96,12 +96,10 @@ See [[Descriptive/Mermaid (DSL)]].
 | Hard to test | No golden files | Snapshot parse → AST → eval |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** One-off 10-line configuration — JSON/YAML enough.
 - **Trade-off:** Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
 
 ## Mistakes to Avoid
-
 - Every DSL becomes a maintenance product — parsers, docs, migration, IDE support.
 - **YAML as DSL** — easy to start, painful at scale (no types, footgun syntax).
 - **Internal DSL** inherits host complexity — Ruby DSL unreadable to non-Ruby devs.

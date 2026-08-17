@@ -21,11 +21,12 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 ## What good looks like
 
-Leaf notes follow a fixed **interview-prep** section order (omit empties):
+Leaf notes pick a **shape** that matches how the topic is held in memory (omit empty sections):
 
-1. **Clear language** — plain-English blockquote; the writer owns comprehension.
-2. **Predictable sections** — Interview Relevance → Sources → Core Definition → Key Concepts → Technical Details → Applications → Trade-offs → Comparison → Mistakes to Avoid.
-3. **Networked organization** — `[[wikilinks]]` to siblings and parents; hubs route, leaves go deep.
+1. **Clear language** — plain-English blockquote as the **center**; the writer owns comprehension.
+2. **Mind Map** (default) — 4–7 primary `##` branches radiating from the center for associative topics.
+3. **Cornell** — numbered **Technical Details** spine plus **Recall Cues** for sequential flows (lectures, pipelines, runbooks).
+4. **Networked organization** — `[[wikilinks]]` to siblings and parents; hubs route, leaves go deep.
 
 See [[AGENT_NOTE_RULES]] for the full agent reference.
 
@@ -41,7 +42,7 @@ Use [[INDEX]] for on-call routing.
 
 ## Contributing to this vault
 
-1. Read [[AGENT_NOTE_RULES]]; use the interview-prep leaf skeleton; omit empty sections.
+1. Read [[AGENT_NOTE_RULES]]; choose Mind Map or Cornell shape; omit empty sections.
 2. Ground facts in authoritative sources (RFCs, official docs, university materials, Wikipedia + primaries); tag overview vs deep-dive.
 3. Prefer expanding one empty/stub over adding a fifth synonym.
 4. Merge duplicates with a redirect (`→ [[Canonical]]`).

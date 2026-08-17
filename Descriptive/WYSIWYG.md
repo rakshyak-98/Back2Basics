@@ -4,17 +4,18 @@
 
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safely.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [WYSIWYG — Wikipedia](https://en.wikipedia.org/wiki/WYSIWYG) — overview
 
 ## Key Concepts
-
 WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.
 
 ```
@@ -36,7 +37,6 @@ Categories:
 - **Block builders** — Notion-like; still WYSIWYG at block level.
 
 ## Technical Details
-
 ### TipTap (React) minimal
 
 ```bash
@@ -105,13 +105,11 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
 - **Highly structured content (products, legal clauses)** — use structured CMS fields, not free-form HTML.
 - **Email composition** — email HTML is its own nightmare; use email-specific builders.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Never trust stored HTML** — sanitize on write **and** read; CSP as backstop ([[Security]] / content security policy).
 

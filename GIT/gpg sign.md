@@ -4,17 +4,18 @@
 
 > GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 git commit -S ──► gpg signs hash ──► signature embedded in commit
 git log --show-signature ──► gpg --verify against trusted keys
@@ -27,7 +28,6 @@ git log --show-signature ──► gpg --verify against trusted keys
 | `gpg: signing failed: Inappropriate ioctl` | TTY/pinentry broken over SSH |
 
 ## Technical Details
-
 **Generate key (if none):**
 
 ```bash
@@ -79,13 +79,11 @@ git config --global user.signingkey ~/.ssh/id_ed25519.pub
 See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
 
 ## Pros/Cons or Trade-offs
-
 - **Internal-only repos with no audit requirement** — signing overhead may not pay off.
 - **Replace code review** — signature proves key holder signed, not that code is safe.
 - **Secrets in commits** — sign doesn't encrypt; use git-crypt/SOPS for confidentiality.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Key in git config but only public key imported** — signing needs **secret** key on that machine.
 

@@ -4,16 +4,17 @@
 
 > First compiler phase — scan source left-to-right into tokens; strip whitespace and comments — **ECMAScript lexical grammar**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Lexer interviews cover tokenization before parse — relevant to compilers and template engines.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Before parsing, the engine **tokenizes** source into atomic units: identifiers, keywords, numbers, strings, operators, punctuators. Insignificant input (spaces, comments, line terminators) is discarded or used only for ASI (automatic semicolon insertion).
 
 ```
@@ -37,7 +38,6 @@ VariableDeclaration …
 Invalid sequences (`@`, lone `#` in wrong place pre-private-fields) fail here with **SyntaxError** before execution.
 
 ## Technical Details
-
 ### Inspect tokens (Node — acorn/espree)
 
 ```javascript
@@ -69,12 +69,10 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Don't hand-roll a lexer for production JS — use established parser (Babel, TypeScript, acorn).
 - Runtime validation of user expressions — parse in sandbox, never `eval` unchecked.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **HTML `<script>`** parsing can treat `<!--` or `-->` as comment start in legacy browsers — avoid those sequences inside scripts in HTML.
 

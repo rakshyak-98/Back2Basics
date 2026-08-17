@@ -4,17 +4,18 @@
 
 > MongoDB documents are flexible by default — add fields freely; use JSON Schema validation when you need guardrails.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Schema design questions probe embedding vs referencing, unbounded arrays, and access-pattern-first modeling.
 
 ## Sources
-
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-
 ```txt
 App writes docs → (optional $jsonSchema) → BSON on disk
 Design for: queries you run, not SQL tables
@@ -30,7 +31,6 @@ Design for: queries you run, not SQL tables
 | **Polymorphism** | Type field + variants | “One collection, several shapes.” |
 
 ## Technical Details
-
 ```js
 db.createCollection('users', {
   validator: {
@@ -54,12 +54,10 @@ db.createCollection('users', {
 | Indexes | Schema ≠ speed — still index query fields |
 
 ## Pros/Cons or Trade-offs
-
 - **Strict relational invariants across many entities** — use SQL.
 - **Heavy multi-document joins as the default access** — rethink model.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Schema-less ≠ design-free** — bad embedding still kills performance.
 
@@ -72,4 +70,3 @@ db.createCollection('users', {
 | Mixed types on field | app bugs / no validator | Normalize + validate |
 | Slow “schema” evolution | huge backfill | [[mongodb migration]] in batches |
 | App assumes field always present | sparse docs | Default in app or `$ifNull` |
-

@@ -4,6 +4,10 @@
 
 > Removable USB storage shows up as a block device — identify with lsblk, filesystem it, mount it, sync, then unmount before you pull it.
 
+
+
+
+
 ## Interview Relevance
 Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limits, and `umount` before yanking the stick.
 
@@ -22,7 +26,6 @@ A USB block device appears as `/dev/sdX` (disk) and `/dev/sdX1` (partition). Ker
 - **Persistence:** UUID in fstab with `noauto` for occasional mounts.
 
 ## Technical Details
-
 ```txt
 lsblk ──► /dev/sdb1 ──► mkfs ──► mount ──► cp ──► umount ──► eject
 ```

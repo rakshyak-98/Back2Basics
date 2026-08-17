@@ -4,42 +4,18 @@
 
 > Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Estimator (ML / statistics) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
-## Key Concepts
-
-In sklearn, **Estimator** is the base contract:
-
-```txt
-estimator.fit(X, y)     # learns from training data
-estimator.predict(X)    # inference (classifiers, regressors)
-estimator.transform(X)  # preprocessing (scalers, encoders)
-```
-
-Statistical estimators (sample mean, MLE) **estimate population quantities** from a sample. Properties matter:
-
-| Property | Meaning |
-|----------|---------|
-| **Unbiased** | E[θ̂] = θ on average |
-| **Consistent** | θ̂ → θ as n → ∞ |
-| **Efficient** | Low variance among unbiased estimators |
-
-ML "estimators" prioritize **predictive loss** on held-out data, not unbiasedness of coefficients.
-
-```txt
-Pipeline: [Transformer₁ → Transformer₂ → Predictor]
-          fit/transform only on train inside CV
-```
-
 ## Technical Details
-
 ```python
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -78,12 +54,10 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
 - **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Fitting on test data** — even "just once" for scaling — invalidates all reported metrics.
 
@@ -97,4 +71,3 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 | CV worse than single split | Leakage in preprocessing | Pipeline wrapped in CV |
 | `fit` hangs | Huge one-hot, dense matrix | Sparse matrices; feature selection |
 | Coefficients "wrong sign" | Collinearity, scaling | Regularization; VIF review |
-

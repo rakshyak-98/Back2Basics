@@ -4,6 +4,10 @@
 
 > Server-side logic in MySQL — stored procedures, functions, triggers, and scheduled events that run inside `mysqld` with the server’s privileges and connection context.
 
+
+
+
+
 ## Interview Relevance
 Expect “when would you put logic in the database versus the app?” Signal: you know the objects, their firing rules, and the testability/deployment costs of DB-side code.
 

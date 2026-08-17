@@ -4,17 +4,18 @@
 
 > git commit template — git config to use custom commit template
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Commit templates enforce structure — interviewers care that templates aid clarity without bureaucracy.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 **Git configuration to use custom commit template**
 ```bash
 git config --global commit.template ~/.config/git/commit-template
@@ -39,18 +40,15 @@ See also: #456
 - revert      → revert previous commit
 
 ## Technical Details
-
 ```bash
 git config --global commit.template ~/.config/git/commit-template
 cat ~/.config/git/commit-template
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Skip a template when a project mandates commitizen or another enforced format.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > The template pre-fills the editor — it does not enforce format unless hooks do.
 
@@ -59,4 +57,3 @@ cat ~/.config/git/commit-template
 | Template not applied | Wrong path; not global | `git config --get commit.template`; use absolute path |
 | Editor opens empty | Template path typo | Verify file exists and is readable |
 | Template shows in log | Committed template file by mistake | Keep template outside repository or in dotfiles only |
-

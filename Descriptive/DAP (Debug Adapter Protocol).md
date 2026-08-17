@@ -4,16 +4,17 @@
 
 > DAP is how editors talk to debuggers — breakpoints, stacks, and variables over a standard protocol (cousin of LSP).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 DAP contrasts with LSP — debugging protocol for breakpoints/stacks; interviewers want the split clear.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 ```
@@ -28,7 +29,6 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | **vs LSP** | Debug ≠ IntelliSense | “Different servers.” |
 
 ## Technical Details
-
 ```json
 // launch.json request shapes map to DAP launch/attach
 { "type": "pwa-node", "request": "attach", "port": 9229 }
@@ -41,12 +41,10 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | Path mappings | Remote/container debug |
 
 ## Pros/Cons or Trade-offs
-
 - **Log-only investigation** — sometimes enough.
 - **production pausing** — prefer tracing/metrics.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **LSP green ≠ DAP ready** — language server doesn’t set breakpoints.
 
@@ -59,4 +57,3 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | Can’t connect | port | Open debug port; firewall |
 | Unbound BP | path map | Align remote paths |
 | No variables | optimize-out | Debug build / less optimize |
-

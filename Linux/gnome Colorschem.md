@@ -4,6 +4,10 @@
 
 > GNOME color schemes and accent colors live in GSettings — `gsettings` / `dconf` flip dark/light preference and GTK theme for the desktop session.
 
+
+
+
+
 ## Interview Relevance
 Light desktop-ops question: show you can change appearance non-interactively (`gsettings`) for golden images or remote sessions without clicking through Settings UI.
 
@@ -21,7 +25,6 @@ GNOME 42+ stores interface preference under `org.gnome.desktop.interface` keys s
 - **Terminal profiles:** GNOME Terminal uses its own paths under `/org/gnome/terminal/`.
 
 ## Technical Details
-
 ```bash
 gsettings get org.gnome.desktop.interface color-scheme
 gsettings get org.gnome.desktop.interface gtk-theme

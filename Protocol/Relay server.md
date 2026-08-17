@@ -4,25 +4,29 @@
 
 > A relay server is a middle box both peers dial out to — it forwards bytes when they cannot connect directly through NAT.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers separate STUN (discover addresses) from TURN/relay (carry media), and ask why relays are the expensive ICE fallback.
 
 ## Sources
-
 - [RFC 8656 — Traversal Using Relays around NAT (TURN)](https://datatracker.ietf.org/doc/html/rfc8656) — deep-dive
 - [RFC 8445 — ICE](https://datatracker.ietf.org/doc/html/rfc8445) — overview
 - [WebRTC — ICE](https://webrtc.org/getting-started/peer-connections) — overview
 
-## Key Concepts
-
-- **Outbound-only:** clients dial the relay — NATs allow out; relay avoids inbound hole-punching.
-- **Allocation:** TURN reserves ports; that address becomes the relay candidate.
-- **ICE order:** try host/srflx first; nominate relay only after cheaper paths fail.
-- **Cost:** server sees full bitrate — expensive fallback, not the happy path.
+## Recall Cues
+- Why do interviewers care about Interviewers separate STUN (discover addresses) from TURN/relay (carry media), and ask why relays are the expensive ICE fallback?
+- What is step 1: Allowlist TURN IPs/ports (best)?
+- What is step 2: TURN over TLS/WebSocket on 443?
+- What is step 3: Corporate forward HTTP proxy (if supported)?
+- What is step 4: VPN that exits where TURN is reachable?
+- What mistake is **Deploying only STUN and expecting hard NATs to work**?
+- What mistake is **Long-lived TURN credentials embedded in clients**?
+- What mistake is **Using relay for same-LAN peers that already have working host candidates**?
 
 ## Technical Details
-
 ```txt
 Peer A ──outbound──► Relay ◄──outbound── Peer B
                        │
@@ -71,27 +75,23 @@ turnutils_uclient -v -u user -w pass turn.example.com
 | One-way media via relay | Permissions / wrong peer addr | Check TURN permissions/channels |
 | Outbound totally blocked | Proxy/VPN required | Allowlist or tunnel; otherwise no P2P |
 
-## Real-World Applications
+## Mistakes to Avoid
+- Deploying only STUN and expecting hard NATs to work.
+- Long-lived TURN credentials embedded in clients.
+- Using relay for same-LAN peers that already have working host candidates.
+- Assuming a normal reverse proxy substitutes for TURN.
 
+## Comparison
+- vs [[STUN (Session Traversal Utilities for NAT)]]: STUN discovers; relay carries.
+- vs HTTPS reverse proxy: fronts your API; TURN is a media/data forwarder with allocations.
+- vs CDN/[[HLS]]: one-to-many broadcast should not use per-viewer relays.
+
+## Real-World Applications
 WebRTC calls behind symmetric NAT/CGNAT, enterprise Wi‑Fi that blocks UDP, and forced-relay debug of ICE.
 
 **Example:** Two phones on cellular CGNAT fail host/srflx; ICE nominates TURN on 443/TLS and the call still connects.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Connectivity of last resort when direct and STUN paths fail.
 - **Con:** Latency and cloud egress cost scale with bitrate and session count.
 - **Con:** Forcing relay hides root-cause NAT/firewall problems.
-
-## Comparison
-
-- vs [[STUN (Session Traversal Utilities for NAT)]]: STUN discovers; relay carries.
-- vs HTTPS reverse proxy: fronts your API; TURN is a media/data forwarder with allocations.
-- vs CDN/[[HLS]]: one-to-many broadcast should not use per-viewer relays.
-
-## Mistakes to Avoid
-
-- Deploying only STUN and expecting hard NATs to work.
-- Long-lived TURN credentials embedded in clients.
-- Using relay for same-LAN peers that already have working host candidates.
-- Assuming a normal reverse proxy substitutes for TURN.

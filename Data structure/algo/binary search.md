@@ -4,17 +4,18 @@
 
 > Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Binary search interviews fail on boundary conditions — mid overflow, inclusive ranges, and “first true” predicate search.
 
 ## Sources
-
 - [Wikipedia — Binary search algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) — overview
 - [CP-Algorithms — Binary search](https://cp-algorithms.com/numerics/binary-search.html) — deep-dive
 
 ## Key Concepts
-
 Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
 
 ```
@@ -24,7 +25,6 @@ sorted: [1,3,5,7,9]  target 7
 ```
 
 ## Technical Details
-
 ### Exact match (classic)
 
 ```js
@@ -77,10 +77,8 @@ while (lo < hi) {
 | TLE on "sorted" | Not monotonic predicate | Prove monotonicity before binary search |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Don't binary search unsorted data without transformation.
 - **Trade-off:** Don't use when n < ~50 — linear scan simpler and cache-friendly.
 
 ## Mistakes to Avoid
-
 - `(lo + hi) / 2` overflow — use `lo + ((hi - lo) >> 1)` in other languages. Duplicates — lower vs upper bound return different indices. Search on rotated array — modified invariant; don't paste vanilla template.

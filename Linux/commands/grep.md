@@ -4,6 +4,10 @@
 
 > grep filters lines matching a pattern — first tool for log triage, config audits, and “does this string exist anywhere?”
 
+
+
+
+
 ## Interview Relevance
 Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ripgrep/`jq` instead.
 
@@ -22,7 +26,6 @@ Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ripgr
 - **Exit codes:** 1 is “no match” — breaks `set -e` if mishandled.
 
 ## Technical Details
-
 ```bash
 grep -i error /var/log/syslog
 journalctl -u nginx --no-pager | grep -E 'error|crit|emerg'

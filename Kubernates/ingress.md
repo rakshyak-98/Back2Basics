@@ -4,25 +4,25 @@
 
 > Ingress routes HTTP(S) from the internet to Services by host and path — but only after an Ingress Controller is installed to watch Ingress objects and program the data plane.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers separate Ingress YAML from the controller, expect TLS + IngressClass fluency, and walk 502 versus 503 debugging.
 
 ## Sources
-
 - [Kubernetes — Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) — deep-dive
 - [ingress-nginx documentation](https://kubernetes.github.io/ingress-nginx/) — overview
 - [Gateway API](https://gateway-api.sigs.k8s.io/) — overview
 
 ## Key Concepts
-
 - **Two objects:** `Ingress` (rules you write) versus Ingress Controller (Deployment that configures nginx/Envoy/ALB…).
 - **Ingress alone does nothing** without a matching `ingressClassName`.
 - **Path:** Internet → LB/NodePort → controller → TLS/host/path → Service → Pod endpoints.
 - **Gateway API** is the successor spec; Ingress remains widely deployed.
 
 ## Technical Details
-
 ```
 Internet ──► LB / NodePort ──► Ingress Controller
                                       │
@@ -97,25 +97,21 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 Playbook: describe ingress → endpoints → pods Ready → app logs → controller logs → curl inside pod → NetworkPolicy/Hubble.
 
 ## Real-World Applications
-
 Public API hostnames with TLS (cert-manager), path-based routing to multiple Services, shared controller LoadBalancer for cost.
 
 **Example:** `api.example.com` TLS terminates at nginx; backend Service `targetPort: 8080` must match the container listen port or you get 502.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One edge for many HTTP Services with host/path/TLS.
 - **Con:** Controller outage is shared blast radius — run ≥2 replicas + PDB.
 - **Con:** Non-HTTP TCP needs LoadBalancer or Gateway TCPRoute, not classic Ingress.
 
 ## Comparison
-
 - vs ClusterIP alone: Ingress is for north-south HTTP; east-west stays on Service DNS.
 - vs mesh mTLS: mesh secures east-west; public clients still need edge TLS termination.
 - vs Gateway API: prefer platform guidance on new clusters.
 
 ## Mistakes to Avoid
-
 - Creating Ingress without IngressClass — silent no-op on modern clusters.
 - Stopping at a green cert when 502 means the backend is still broken.
 - `targetPort` ≠ `containerPort`; app bound to `127.0.0.1` only.

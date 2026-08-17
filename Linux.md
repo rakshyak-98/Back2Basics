@@ -4,6 +4,10 @@
 
 > Linux — the kernel plus userland that runs most servers; you control processes, files, networking, and services from the shell.
 
+
+
+
+
 ## Interview Relevance
 Linux questions probe processes, permissions, networking basics, and how you debug with `ps`, `ss`, logs, and systemd. Staff signal: reason about OOM, file descriptors, and cgroups — not only memorize commands.
 

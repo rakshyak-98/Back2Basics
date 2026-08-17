@@ -4,21 +4,21 @@
 
 > The stack that turns application draw requests into pixels — display server, compositor, window manager, and toolkit glue.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Layer cake question: DRM/KMS → display server → WM/shell → toolkit — and whether Wayland merges server+compositor.
 
 ## Sources
-
 - [Freedesktop.org — Desktop](https://www.freedesktop.org/wiki/) — overview
 - [Wayland architecture overview](https://wayland.freedesktop.org/architecture.html) — deep-dive
 
 ## Core Definition
-
 On Linux this usually means a Wayland compositor *or* an X11 server plus window manager, sitting above DRM/KMS and GPU drivers.
 
 ## Key Concepts
-
 - **Display server:** protocol endpoint ([[display server]]).
 - **Compositor:** blend buffers / vsync ([[compositors]]).
 - **Window manager:** focus, tiling, decorations ([[Linux window manager]]).
@@ -26,7 +26,6 @@ On Linux this usually means a Wayland compositor *or* an X11 server plus window 
 - **Stacking vs tiling:** floating DE shells vs i3/Sway layouts.
 
 ## Technical Details
-
 ```
 toolkit (GTK/Qt)
       │
@@ -48,20 +47,16 @@ GPU driver + DRM
 - **Tiling** (i3, Sway): automatic layout — [[i3 Window Manager Starter Guide]].
 
 ## Real-World Applications
-
 Pick Sway/i3 for keyboard-driven tiling on laptops, or GNOME/KDE when you need a full desktop shell and portal ecosystem.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Clear separation of concerns (especially on X11) aids debugging.
 - **Con:** Many moving parts; session type mismatches confuse tooling (`xrandr` on Wayland).
 
 ## Comparison
-
 - vs [[display server]]: one layer of this stack.
 - vs [[windowing system]] siblings [[x11]]/[[wayland]]: concrete protocols under this umbrella.
 
 ## Mistakes to Avoid
-
 - Treating “windowing system,” “display server,” and “WM” as synonyms in interviews.
 - Debugging the wrong layer (toolkit bug blamed on the compositor).

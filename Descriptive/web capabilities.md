@@ -4,16 +4,17 @@
 
 > Browser **capability APIs** gated by **Permissions Policy** (formerly Feature Policy) + user consent — know what works in iframe, third-party, and locked-down enterprise.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Capability questions check feature detection and progressive enhancement strategies.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 Page requests capability (camera, geolocation, clipboard, …)
         ↓
@@ -31,7 +32,6 @@ Browser grants/denies → PermissionStatus / DOMException
 **Secure context required:** HTTPS (or localhost) for most sensitive APIs — won't work on mixed HTTP intranet without exception.
 
 ## Technical Details
-
 ### Common capability APIs
 
 | API | Typical gate | Notes |
@@ -93,13 +93,11 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
 - **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
 - **Background location tracking** — regulatory minefield; native application with OS permission model.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Safari / Firefox lag** — check caniuse before shipping capability-critical path.
 
@@ -121,4 +119,3 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 | SharedArrayBuffer undefined | Not cross-origin isolated | COOP/COEP or drop threading |
 | Enterprise "blocked" with no prompt | Group policy | Document fallback; native app bridge |
 | Third-party embed broken | Sandbox + policy | Minimal sandbox flags; Storage Access API |
-

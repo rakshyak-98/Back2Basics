@@ -4,17 +4,18 @@
 
 > One-shot process snapshot — PID, state, TTY, CPU, memory, and command line from `/proc`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STAT/TTY/RSS, and pick BSD (`aux`) vs UNIX (`-ef`) styles deliberately.
 
 ## Sources
-
 - [man ps](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive
 - [Wikipedia — ps (Unix)](https://en.wikipedia.org/wiki/Ps_(Unix)) — overview
 
 ## Key Concepts
-
 - **Snapshot:** does not refresh — live contention needs [[top]] / `pidstat` / `perf`.
 - **TTY `?`:** no controlling terminal — daemons, `systemd`, `nohup`, `setsid`.
 - **STAT letters:** `R` runnable, `S` sleep, `D` uninterruptible disk, `Z` zombie.
@@ -22,7 +23,6 @@ Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STAT/T
 - **Forest / tree:** parent–child view to find which supervisor owns workers.
 
 ## Technical Details
-
 ```txt
 ps ──► /proc/<pid>/… ──► one snapshot
               │
@@ -60,23 +60,19 @@ No controlling TTY means no interactive I/O and no terminal-generated `SIGINT` /
 | Ctrl-C does nothing | `TTY` is `?` | Signal by PID from another session |
 
 ## Real-World Applications
-
 First step in “who owns this CPU/RAM?”, finding zombies, and mapping supervisor → worker trees before kill decisions.
 
 **Example:** After SIGQUIT on a supervisor, use `ps --ppid` / `pstree` and [[lsof]] to catch leftover workers still holding a port.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Scriptable, customizable columns, works over plain SSH without a TUI.
 - **Con:** Stale immediately; fragile to parse across locales — prefer `pgrep` / `/proc` in automation.
 
 ## Comparison
-
 - vs [[top]]: live refresh and sorting UI; `ps` is one shot.
 - vs [[lsof]] / [[ss]]: open files and sockets — not process tables.
 
 ## Mistakes to Avoid
-
 - Treating VSZ as “RAM used” — watch RSS (and PSS) under memory pressure.
 - Using `ps` as a continuous dashboard.
 - Parsing `ps` output in scripts when `pgrep`/`pidof` or `/proc` suffice.

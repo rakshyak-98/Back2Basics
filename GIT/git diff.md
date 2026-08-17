@@ -4,17 +4,18 @@
 
 > git diff — show unstaged, staged, or commit-to-commit file changes.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Diff questions check staged vs unstaged, word-diff, and reading patches in review.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```bash
 git diff --name-only;
 git diff --cached --name-only;
@@ -51,7 +52,6 @@ git diff --diff-filter=R --name-only;
 ```
 
 ## Technical Details
-
 ```bash
 git diff                            # unstaged changes
 git diff --cached                   # staged changes
@@ -62,11 +62,9 @@ git diff --stat
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > `git diff` without flags shows **working tree versus index** — not last commit.
 
@@ -76,4 +74,3 @@ git diff --stat
 | Diff shows whole file | File mode or encoding flip | Check `core.filemode`; normalize encoding |
 | Cannot diff binary | Expected for images/binaries | `git diff --numstat`; use external diff tool |
 | Wrong comparison range | `..` versus `...` syntax | `A..B` = reachable from B not A; `A...B` = symmetric difference since merge base |
-

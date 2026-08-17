@@ -4,22 +4,22 @@
 
 > `localhost` always means “this device” — the machine running the code, not your laptop by magic.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use localhost to catch bind/listen mistakes: phones and containers each have their own loopback — “works on my machine” often means the client hit the wrong host’s `127.0.0.1`.
 
 ## Sources
-
 - [RFC 1122 — Requirements for Internet Hosts (loopback)](https://www.rfc-editor.org/rfc/rfc1122) — deep-dive
 - [RFC 4291 — IPv6 Addressing Architecture (`::1`)](https://www.rfc-editor.org/rfc/rfc4291) — overview
 - [Wikipedia — localhost](https://en.wikipedia.org/wiki/Localhost) — overview
 
 ## Core Definition
-
 `localhost` is the conventional hostname for the loopback interface (`127.0.0.1` / `::1`); traffic never leaves the host that resolves and connects to it.
 
 ## Key Concepts
-
 - **localhost:** hostname for loopback → always the local OS network stack.
 - **127.0.0.1 / ::1:** IPv4 / IPv6 loopback → never leaves the host.
 - **0.0.0.0 listen:** accept on all interfaces → needed so LAN devices can connect.
@@ -27,7 +27,6 @@ Interviewers use localhost to catch bind/listen mistakes: phones and containers 
 - **10.0.2.2:** Android emulator → host → special alias to the development machine.
 
 ## Technical Details
-
 ```txt
 Browser on laptop  →  http://localhost:3000  →  laptop
 App on phone       →  http://localhost:3000  →  phone (empty)
@@ -98,25 +97,21 @@ server: {
 | Only IPv6 or only IPv4 fails | `localhost` → `::1` vs `127.0.0.1` | Pin family or listen on both |
 
 ## Real-World Applications
-
 Local development servers, health checks bound to loopback, and mkcert HTTPS for browser APIs that require secure contexts.
 
 **Example:** A phone can’t open the Vite app at `http://localhost:3000` — use the laptop’s LAN IP and bind `0.0.0.0`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Safe default for local-only services — no LAN exposure when bound to `127.0.0.1`.
 - **Con:** Confuses cross-device demos — each device’s localhost is itself.
 - **Con:** IPv4 vs IPv6 resolution order can make `localhost` hit the wrong family.
 
 ## Comparison
-
 - vs [[loopback]]: localhost is the hostname convention; loopback is the interface/address family.
 - vs LAN IP / `0.0.0.0`: required when other devices must connect.
 - vs production DNS names: never ship “localhost” as a service URL.
 
 ## Mistakes to Avoid
-
 - Treating localhost as “the backend server” — each process namespace has its own loopback.
 - Binding `127.0.0.1` then wondering why remote health checks fail.
 - Assuming localhost bypasses authentication on multi-user hosts.

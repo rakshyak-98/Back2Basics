@@ -4,18 +4,19 @@
 
 > Line-level authorship: which commit last touched each line — **forensics for regressions**, not a performance review weapon.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Blame interviews check archaeology of a line — when to use blame versus bisect, and etiquette on shared code.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 - [git blame — Wikipedia](https://en.wikipedia.org/wiki/Blame_(version_control_software)) — overview
 
 ## Key Concepts
-
 ```txt
 ```
 
@@ -26,7 +27,6 @@ Blame interviews check archaeology of a line — when to use blame versus bisect
 **Blame ≠ bug owner** — understand *why* the line exists (`git show abc1234`) before reverting.
 
 ## Technical Details
-
 ### Basic
 
 ```bash
@@ -77,13 +77,11 @@ VS Code / Cursor: GitLens or built-in blame gutter
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **Finding why code exists** — read commit message + PR + tests; blame only points to where.
 - **Binary files** — meaningless line blame.
 - **Before `-M/-C` on moved code** — you'll chase the wrong commit.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Force-pushed rebased history** — blame SHAs won't match old PR discussions; use reflog on maintainer machine if still available.
 
@@ -104,4 +102,3 @@ VS Code / Cursor: GitLens or built-in blame gutter
 | Ignore-revs not applied | Config path | `blame.ignoreRevsFile` in repo `.git/config` or local |
 | Binary / generated file noise | Should be gitignored | Stop blaming; fix `.gitattributes` export-ignore |
 | Slow on huge file | Full history | `-L` range; or blame specific commit snapshot |
-

@@ -4,24 +4,23 @@
 
 > Autonomous program — long-running agent that watches inputs, decides, and acts with little human babysitting (jobs, bots, controllers).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Long-running agent loop: observe → decide → act with idempotency and kill switches.
 
 ## Sources
-
 - [Wikipedia — autonomous program](https://en.wikipedia.org/wiki/autonomous_program) — overview
 
 ## Key Concepts
-
 - **Observe → decide → act loop:** long-running agent without constant human input.
 - **Idempotent actions:** retries and restarts must be safe.
 - **Kill switches / budgets:** bound blast radius and spend.
 - **Telemetry:** every decision should be auditable.
 
-
 ## Technical Details
-
 ### How it works
 
 ```txt
@@ -41,7 +40,7 @@ loop:
 ---
 
 
-## Configuration and commands
+### Configuration and commands
 
 ```txt
 Hard requirements
@@ -53,34 +52,27 @@ Hard requirements
 ```
 
 ---
-## When not to use
 
+## Real-World Applications
+Ops bots, trading agents, and workflow automations that watch queues or metrics.
+
+## Pros/Cons or Trade-offs
 - **Human-in-the-loop required by policy** — approval workflows instead.
 - **One-shot migrations** — scripts with supervision.
 - **Unclear objective** — autonomy amplifies bad goals.
 
 ---
 
-## Real-World Applications
-
-Ops bots, trading agents, and workflow automations that watch queues or metrics.
-
-
-## Pros/Cons or Trade-offs
 
 - **Pro:** Scales human attention.
 - **Con:** Silent wrong actions compound.
 - **Trade-off:** autonomy vs mandatory human approval gates.
 
-
 ## Comparison
-
 - vs cron scripts: richer sensing/decision loops vs fixed schedules.
 - vs [[event-driven]]: events may trigger autonomous handlers.
 
-
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Autonomy without observability** — you won’t know it went rogue.
 

@@ -4,6 +4,10 @@
 
 > Bash functions are reusable shell blocks in the current session or a sourced file — they share the shell’s environment unless you isolate them.
 
+
+
+
+
 ## Interview Relevance
 Shows `local`, return codes, sourcing vs executing, and why `export -f` is rare compared to sourcing a library.
 
@@ -22,7 +26,6 @@ A function is a named compound command. When defined in the current shell (or vi
 - **`export -f`:** Pass function to child bash — uncommon; prefer source.
 
 ## Technical Details
-
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

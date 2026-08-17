@@ -4,16 +4,17 @@
 
 > AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AAC to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — AAC](https://en.wikipedia.org/wiki/AAC) — overview
 
 ## Key Concepts
-
 **AAC** is a **lossy** perceptual audio codec: it throws away information humans rarely hear, yielding smaller files than MP3 at the same bitrate. In streaming stacks it sits inside **fMP4/CMAF segments** alongside H.264/HEVC/AV1 video; players decode AAC in software or hardware.
 
 | Profile | Typical use | `CODECS` string (HLS) |
@@ -26,7 +27,6 @@ Interviewers ask about AAC to see if you understand the pipeline role, failure m
 **AAC-LC @ 128 kbps stereo** is the industry default for VoD and live ABR. Surround broadcast may use AC-3/E-AC-3 (`ec-3`) or Dolby Digital Plus — separate audio renditions in the manifest.
 
 ## Technical Details
-
 ```txt
 PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
                                     │
@@ -82,18 +82,15 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 `BANDWIDTH` must include audio bitrate — see [[bitrate streaming]].
 
 ## Real-World Applications
-
 Used wherever AAC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **WebRTC voice** — prefer Opus (built into WebRTC); AAC adds encode latency.
 - **Con / skip when:** **Archival master** — store lossless (FLAC/PCM mezzanine); AAC only at delivery edge.
 - **Con / skip when:** **Ultra-low latency LL-HLS** — audio frame pacing matters; don't add redundant transcode hops.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | No audio on iOS/Safari | Codec not AAC-LC; wrong `mp4a` in CODECS | Re-encode AAC-LC; fix manifest CODECS string |

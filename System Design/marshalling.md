@@ -4,26 +4,25 @@
 
 > Marshalling converts runtime objects to bytes for network, disk, or inter-process communication and unmarshals them on the receiver — the explicit contract where languages, versions, and endianness meet.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Object↔bytes for RPC/storage; schema/versioning; difference from loose ‘serialization’ talk.
 
 ## Sources
-
 - Google Protocol Buffers Language Guide — overview
 - [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON — deep-dive
 - OWASP Deserialization Cheat Sheet — untrusted input risks — overview
 
 ## Key Concepts
-
 - **Runtime object → bytes** for network or disk (and back).
 - **RPC emphasis:** stubs marshal arguments/results across processes.
 - **Schema/version:** incompatible marshalers break silently.
 - **Security:** never deserialize untrusted blobs without limits.
 
-
 ## Technical Details
-
 ### Boundary crossing
 
 ```txt
@@ -43,7 +42,7 @@ Synonymous with **serialization** in most teams — see [[Serialization]] for fo
 
 Bugs appear **only cross-process**: field order, nullable fields, enum evolution, 32-bit versus 64-bit integers in JSON.
 
-## JSON marshalling
+### JSON marshalling
 
 ```python
 import json
@@ -55,7 +54,7 @@ user = json.loads(payload)
 
 Rules: UTF-8, ISO 8601 dates, explicit null versus omit policy. Never marshal arbitrary objects — define data transfer objects.
 
-## Protocol Buffers evolution
+### Protocol Buffers evolution
 
 ```protobuf
 message User {
@@ -68,25 +67,18 @@ message User {
 Field **numbers** are permanent; never reuse. Backward compatible changes add optional fields; breaking changes need coordination.
 
 ## Real-World Applications
-
 gRPC/Thrift stubs, Java RMI-era lessons, and cross-language IPC.
 
-
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Hides byte layout behind typed APIs.
 - **Con:** Version skew and gadget attacks on rich deserializers.
 - **Trade-off:** convenience vs explicit DTOs you control.
 
-
 ## Comparison
-
 - vs [[Serialization]]: overlapping; marshalling often implies RPC object graphs.
 - vs [[remote data]]: remote calls depend on a marshal format.
 
-
 ## Mistakes to Avoid
-
 | Symptom | Direction |
 |---------|-----------|
 | Garbled text | Wrong charset — force UTF-8 |

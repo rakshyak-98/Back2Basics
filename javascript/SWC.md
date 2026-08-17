@@ -4,23 +4,23 @@
 
 > SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **SWC (Speedy Web Compiler)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [SWC — Getting started](https://swc.rs/docs/getting-started) — deep-dive
 - [Wikipedia — SWC](https://en.wikipedia.org/wiki/SWC) — overview
 
 ## Key Concepts
-
 - Used for:
 - **Syntax lowering** (optional chaining, JSX, TypeScript strip) - **React Fast Refresh** transforms (Next) - **Jest** via `@swc/jest` instead of ts-jest/babel-jest
 - Not a full **polyfill** layer — pair with [[polyfills]] for missing runtime APIs.
 
 ## Technical Details
-
 ```txt
 TS/JSX/TSX  →  SWC parse/transform  →  ES target JS
                      ↓
@@ -87,21 +87,17 @@ module.exports = {
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **SWC** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Exotic Babel macros** (styled-components babel plugin, etc.) — verify SWC plugin exists before migrating.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS).
 - **Con / when not:** **Heavy custom Babel plugin chain** — migration cost may exceed build time savings.
 - **Con / when not:** **Non-JS languages** — SWC is JS/TS focused; use appropriate compiler (Rust, Go) for those.
 
 ## Comparison
-
 vs [[React build]]: know when each applies — do not treat them as interchangeable. vs [[polyfills]]: know when each applies — do not treat them as interchangeable. vs [[source map]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Exotic Babel macros** (styled-components babel plugin, etc.) — verify SWC plugin exists before migrating.
 
 > [!WARNING]

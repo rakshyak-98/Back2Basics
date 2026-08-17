@@ -4,29 +4,28 @@
 
 > Email deliverability depends on DNS records beyond MX — SPF, DKIM, and DMARC TXT records tell receiving servers which hosts may send mail for your domain and what to do when authentication fails.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Mail and platform interviews ask MX preference, single-SPF-record rule, DKIM selector rotation, and DMARC `p=` progression from `none` → `reject`.
 
 ## Sources
-
 - [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208) — deep-dive
 - [RFC 6376 — DKIM](https://datatracker.ietf.org/doc/html/rfc6376) — deep-dive
 - [RFC 7489 — DMARC](https://datatracker.ietf.org/doc/html/rfc7489) — deep-dive
 
 ## Core Definition
-
 Filename `DSN` in the vault is a historical typo for **DNS** mail records (not Delivery Status Notification, though email DSNs are related operationally).
 
 ## Key Concepts
-
 - **MX:** where to deliver mail — lower preference number = higher priority.
 - **SPF:** which IPs/includes may send for the domain (one SPF TXT).
 - **DKIM:** cryptographic signature verified via selector TXT public key.
 - **DMARC:** policy + reporting when SPF/DKIM alignment fails; **PTR** for sending IP reputation.
 
 ## Technical Details
-
 | Record | Purpose |
 |--------|---------|
 | **MX** | Mail exchanger host + priority |
@@ -88,24 +87,20 @@ dig +short TXT default._domainkey.example.com
 ```
 
 ## Real-World Applications
-
 Google Workspace / Microsoft 365 / SendGrid onboarding; brand protection against spoofed From domains.
 
 **Example:** Add ESP `include:` to SPF, publish DKIM for `selector1`, set DMARC `p=none` with `rua=`, watch reports for two weeks, then move to `p=reject`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Strong authentication reduces spoofing and improves inbox placement.
 - **Con:** SPF DNS lookup limits (`include:` chains) can break evaluation.
 - **Con:** Jumping to `p=reject` before inventorying all legitimate senders drops real mail.
 
 ## Comparison
-
 - vs generic [[dns record]]: these are the mail-auth subset operators touch weekly.
 - vs Delivery Status Notification (SMTP DSN): bounce messages are not the same as these DNS TXT/MX records — naming collision only.
 
 ## Mistakes to Avoid
-
 - Publishing multiple SPF TXT records instead of one merged string.
 - Orange-cloud / proxying MX targets that must reach the real mail host.
 - Enabling `p=reject` without reading `rua` aggregate reports first.

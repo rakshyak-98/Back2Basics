@@ -4,24 +4,29 @@
 
 > SQL DDL for changing existing table structure—add/drop columns, constraints, and indexes—with lock and rewrite behavior that can stall production if ignored.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about `ALTER TABLE` to see whether you know online DDL vs table rebuild, expand/contract migrations, and how PostgreSQL and MySQL differ on big tables. Signal: you plan zero-downtime schema change, not “run ALTER in production and hope.”
 
 ## Sources
-
 - [PostgreSQL Documentation — ALTER TABLE](https://www.postgresql.org/docs/current/sql-altertable.html) — deep-dive
 - [MySQL Reference Manual — ALTER TABLE](https://dev.mysql.com/doc/refman/en/alter-table.html) — deep-dive
 - [MySQL Reference Manual — Online DDL Operations](https://dev.mysql.com/doc/refman/en/innodb-online-ddl-operations.html) — deep-dive
 
-## Key Concepts
-
-- **DDL mutates structure:** add/drop columns, constraints, indexes on live tables → lock and rewrite cost depend on engine and operation.
-- **In-place vs copy:** some changes are metadata-only; others rebuild the whole table → hours of lock/IO on large InnoDB tables with `ALGORITHM=COPY`.
-- **Expand/contract:** additive, reversible steps beat one destructive rewrite → keep old and new shapes overlapping during deploys.
+## Recall Cues
+- Why do interviewers care about about `ALTER TABLE` to see whether you know online DDL vs table rebuild, expand/contract migrations, and how PostgreSQL and MySQL differ on big tables?
+- Why do interviewers care about Signal: you plan zero-downtime schema change, not “run ALTER in production and hope.”?
+- What is step 1: Add nullable column?
+- What is step 2: Deploy code that writes new column?
+- What is step 3: Backfill?
+- What is step 4: Add `NOT NULL` + default if needed?
+- What is step 5: Remove old column in later release?
+- What mistake is **Running `ALGORITHM=COPY` ALTER on multi-GB tables during peak traffic**?
 
 ## Technical Details
-
 ```sql
 ALTER TABLE orders ADD COLUMN shipped_at TIMESTAMPTZ;
 ALTER TABLE orders ADD CONSTRAINT orders_total_nonneg CHECK (total_cents >= 0);
@@ -43,22 +48,18 @@ Zero-downtime sequence:
 4. Add `NOT NULL` + default if needed
 5. Remove old column in later release
 
-## Real-World Applications
-
-Shipping a new `shipped_at` column without taking checkout offline. Example: add nullable column, dual-write from the app, batch backfill, then enforce `NOT NULL` after coverage hits 100%.
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Schema evolves with the product; constraints document invariants next to data.
-- **Con:** Naive ALTER on large tables causes lock storms and replication lag; multi-step migrations add operational complexity.
-
-## Comparison
-
-vs [[database migration]]: `ALTER TABLE` is the SQL statement; migrations are versioned, ordered scripts that apply ALTER (and data backfills) across environments. vs [[mysql data migrations]]: online tools like gh-ost wrap ALTER-like rebuilds when native online DDL is insufficient.
-
 ## Mistakes to Avoid
-
 - Running `ALGORITHM=COPY` ALTER on multi-GB tables during peak traffic.
 - Adding `NOT NULL` before backfill completes — migration fails or locks forever.
 - Dropping a column still referenced by old app versions still rolling out.
 - Skipping staging rehearsal with production-sized data.
+
+## Comparison
+vs [[database migration]]: `ALTER TABLE` is the SQL statement; migrations are versioned, ordered scripts that apply ALTER (and data backfills) across environments. vs [[mysql data migrations]]: online tools like gh-ost wrap ALTER-like rebuilds when native online DDL is insufficient.
+
+## Real-World Applications
+Shipping a new `shipped_at` column without taking checkout offline. Example: add nullable column, dual-write from the app, batch backfill, then enforce `NOT NULL` after coverage hits 100%.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Schema evolves with the product; constraints document invariants next to data.
+- **Con:** Naive ALTER on large tables causes lock storms and replication lag; multi-step migrations add operational complexity.

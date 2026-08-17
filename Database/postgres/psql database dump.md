@@ -4,6 +4,10 @@
 
 > Logical backups with `pg_dump` / `pg_dumpall` — schema, data, and globals for restore, cloning, and version upgrades.
 
+
+
+
+
 ## Interview Relevance
 Ops staple: custom format (`-Fc`) for parallel restore, globals dump for roles, and the difference between `pg_dump` and `pg_dumpall`.
 

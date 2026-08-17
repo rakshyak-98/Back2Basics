@@ -4,25 +4,24 @@
 
 > flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **normalizr** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Wikipedia — normalizer](https://en.wikipedia.org/wiki/normalizer) — overview
 
 ## Core Definition
-
 APIs often return **nested graphs** (posts with embedded authors and comments). Updating one entity forces copying whole trees. **normalizr** maps response shapes to **entity tables** keyed by id:
 
 ## Key Concepts
-
 - APIs often return **nested graphs** (posts with embedded authors and comments). Updating one entity forces copying whole trees. **normalizr** maps response shapes to **entity ta…
 - Only fields described in the **schema** are normalized; everything else is copied as-is onto the entity. Relationships use `schema.Entity` references or arrays of entities.
 
 ## Technical Details
-
 APIs often return **nested graphs** (posts with embedded authors and comments). Updating one entity forces copying whole trees. **normalizr** maps response shapes to **entity tables** keyed by id:
 
 ```
@@ -82,22 +81,18 @@ const postWithAuthor = denormalize(result.posts[0], post, entities);
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **normalizer** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Schema must match API exactly** — renamed fields need `processStrategy` or API adapter layer; **Arrays without entity schema stay nested** — only declared relations normalize.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pa…).
 - **Con / when not:** **Flat list with no shared references** — store array directly.
 - **Con / when not:** **GraphQL with normalized cache** — Apollo/Relay already dedupe; don't double-normalize.
 - **Con / when not:** **Real-time partial patches** — merge strategy may be simpler with Immer + id map by hand.
 
 ## Comparison
-
 vs [[React/React data management]]: know when each applies — do not treat them as interchangeable. vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[zustand]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Schema must match API exactly** — renamed fields need `processStrategy` or API adapter layer.
 - **Arrays without entity schema stay nested** — only declared relations normalize.
 - **Over-normalizing tiny payloads** — overhead not worth it for flat CRUD lists.

@@ -4,6 +4,10 @@
 
 > Broadcast — one sender; every host in the same Layer-2 broadcast domain receives the frame.
 
+
+
+
+
 ## Interview Relevance
 Classic networking: contrast unicast / broadcast / multicast, why routers stop broadcasts, and how broadcast storms and DHCP/ARP noise appear in packet captures.
 

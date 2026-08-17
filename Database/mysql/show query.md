@@ -4,6 +4,10 @@
 
 > Inspect live and historical MySQL queries — `SHOW PROCESSLIST`, Performance Schema, and the slow query log — to find what blocks production.
 
+
+
+
+
 ## Interview Relevance
 On-call / debugging signal: how do you find the culprit query, kill it safely, and prevent repeats with the slow log.
 

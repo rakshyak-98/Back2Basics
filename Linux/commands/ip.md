@@ -4,6 +4,10 @@
 
 > ip (iproute2) configures links, addresses, routes, and neighbors via netlink — the modern replacement for ifconfig/route.
 
+
+
+
+
 ## Interview Relevance
 Core networking: `ip route get`, ephemeral vs persisted config, and mapping legacy net-tools to iproute2.
 
@@ -22,7 +26,6 @@ Network configuration is objects: **link** (interface), **address** (IP on link)
 - **netns:** Containers = network namespaces + veth.
 
 ## Technical Details
-
 | Legacy | iproute2 |
 |--------|----------|
 | `ifconfig eth0` | `ip addr show dev eth0` |

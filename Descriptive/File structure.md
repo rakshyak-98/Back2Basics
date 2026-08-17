@@ -4,16 +4,17 @@
 
 > File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Project structure questions check modularity and discoverability — not a single correct tree.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 NGINX is modular C. The **core** owns memory pools, strings, and configuration parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
 
 ```
@@ -34,7 +35,6 @@ accept (event/) → parse HTTP (http/) → upstream (http/) → write (event/)
 ```
 
 ## Technical Details
-
 ### Build from source (inspect structure locally)
 
 ```bash
@@ -63,12 +63,10 @@ rg "ngx_http_upstream" src/http/
 Third-party modules typically live under `modules/` or are compiled via `--add-module=` pointing at your module's `config` script — same hook points as built-ins under `src/http/modules/`.
 
 ## Pros/Cons or Trade-offs
-
 - You only need runtime behavior — read [[Nginx/Configuration]] and `nginx -T`, not the full source tree.
 - Application-level folder layout (React `src/components`) — different topic; this note is NGINX C source structure.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > NGINX **never** blocks the worker on disk I/O in the hot path — if your custom module calls synchronous `read()` on large files inside the event callback, you stall every connection on that worker.
 

@@ -4,42 +4,18 @@
 
 > Tiers are where code runs; layers are how code is organized — keep them separate.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Tier vs layer confusion is a classic trap — deployment boundaries versus code organization, plus when microservices change the story.
 
 ## Sources
-
 - [Microsoft — Multitier architecture](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier) — overview
 - [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
 
-## Key Concepts
-
-Multi-level architecture is two orthogonal axes:
-
-```txt
-                    PHYSICAL (tiers)
-                    ─────────────────────────────────────►
-                    1-tier    2-tier      3-tier         n-tier
-                         ┌─────────┐  ┌────┬────┐  ┌───┬───┬───┬───┐
-  LOGIC (layers)         │ UI+logic│  │UI  │ DB │  │UI │API│BL │DB │
-  inside one deployable  │ + DB    │  │+log│    │  │   │GW │SVC│   │
-                         └─────────┘  └────┴────┘  └───┴───┴───┴───┘
-```
-
-| Term      | Separated by                                     | Question it answers          |
-| --------- | ------------------------------------------------ | ---------------------------- |
-| **Tier**  | Process, machine, network, security zone         | *Where does this run?*       |
-| **Layer** | Package, module, namespace, dependency direction | *Who may call whom in code?* |
-
-**Strict versus relaxed layering:** In a **strict** layered system, layer *N* talks only to layer *N−1*. In a **relaxed** system, upper layers may skip intermediate layers (faster to build, harder to change). Most production code is relaxed — document which skips are allowed.
-
-**Dependency rule (Martin / hexagonal / clean):** Source dependencies point **inward** only — toward higher-level **policies**. Outer rings (HTTP, DB, queues) depend on inner rings (use cases, entities) — never the reverse. Flow of control can go outward; compile-time deps cannot. Crossing that gap uses **Dependency Inversion** ([[SOLID]] DIP): inner layer defines the interface (port); outer layer implements it (adapter).
-
-**Martin's core thesis:** Architecture is about **managing dependencies so the system survives change** — not about picking Spring, Postgres, or microservices. Frameworks, the web, and the database are **details** to keep at the outer edge.
-
 ## Technical Details
-
 ### Failure signals
 
 | Symptom | Check | Fix |
@@ -429,11 +405,9 @@ FAIL when:
 **Bottom line:** Multi-tier answers *where* components run. Martin's Clean Architecture answers *which direction code is allowed to depend*. A correct system needs both diagrams — and they are independent.
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** **Rule of thumb:** Default to **3-tier deployment + layered (or hexagonal) monolith**. Split tiers and services when you have **measured** pain: deploy frequency, scale shape, blast radius, or compliance boundary — not because the diagram looks enterprise.
 
 ## Mistakes to Avoid
-
 - **Tiers ≠ layers.** A team that "went to microservices" but kept one shared database and synchronous chains still has a distributed monolith — worst of both worlds.
 - Skipping the service layer — controllers that call repositories directly bypass validation, authz, and transactions. First shortcut becomes permanent.
 - Framework dictates folder structure — Martin: frameworks are tools, not architecture. `controllers/models/views` layout defers use-case discovery; structure should scream domain operations.

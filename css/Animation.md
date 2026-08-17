@@ -4,22 +4,22 @@
 
 > Smooth UI motion comes from animating compositor-friendly properties (`transform`, `opacity`) — layout-thrashing width/top updates drop frames.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about CSS/JS animation to see if you know the render pipeline (style → layout → paint → composite), when `will-change` helps or hurts, and how to respect `prefers-reduced-motion`.
 
 ## Sources
-
 - [web.dev — Stick to compositor-only properties](https://web.dev/articles/stick-to-compositor-only-properties-and-manage-layer-count) — deep-dive
 - [MDN — `will-change`](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change) — overview
 - [MDN — `prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) — overview
 
 ## Core Definition
-
 Browsers update pixels through a pipeline; changing some CSS properties forces layout and paint every frame, while `transform` and `opacity` on a promoted layer can often update on the compositor alone.
 
 ## Key Concepts
-
 - **Pipeline:** JS → Style → Layout → Paint → Composite — later stages are cheaper when earlier ones are skipped.
 - **Compositor-friendly:** `transform`, `opacity` (with a layer) → typical interview “GPU-friendly” answer.
 - **Layout thrash:** interleaved geometry reads (`offsetHeight`) and style writes → forced synchronous layout each loop.
@@ -27,7 +27,6 @@ Browsers update pixels through a pipeline; changing some CSS properties forces l
 - **FLIP:** measure First/Last, invert with transform, Play — animate layout changes without animating layout properties.
 
 ## Technical Details
-
 ```txt
 JS → Style → Layout → Paint → Composite
          ↑              ↑
@@ -99,24 +98,20 @@ items.forEach((el, i) => {
 | CLS after animation | Layout-affecting exit | Animate transform/opacity; reserve space |
 
 ## Real-World Applications
-
 Card hover lifts, route transition shells, and list reorder animations (FLIP) keep interfaces feeling responsive without burning the main thread.
 
 **Example:** A kanban board measures card positions, then animates `transform` instead of tweening `top`/`left`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Compositor animations stay smooth under modest main-thread load.
 - **Con:** Not every design can avoid layout (height accordion) — measure carefully or use FLIP.
 - **Con:** Too many layers (`will-change`, large blurs) exhausts mobile GPUs.
 
 ## Comparison
-
 - vs [[Flash of Unstyled Content]]: FOUC is first-paint styling; animation cost is ongoing frame budget.
 - vs JS timers (`setInterval`): `requestAnimationFrame` syncs to refresh; still prefer CSS transitions when possible.
 
 ## Mistakes to Avoid
-
 - Leaving `will-change: transform` on everything permanently.
 - Animating `filter: blur()` on large areas every frame.
 - Ignoring `prefers-reduced-motion` — accessibility and vestibular safety.

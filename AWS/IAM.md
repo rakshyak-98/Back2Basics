@@ -4,17 +4,18 @@
 
 > Identity and Access Management decides which AWS principals can perform which API actions on which resources — an explicit `Deny` always wins over `Allow`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 IAM interviews probe least privilege, identity vs resource policies, role assumption, and why an explicit Deny wins — expect AccessDenied debugging.
 
 ## Sources
-
 - [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) — deep-dive
 - [Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) — deep-dive
 
 ## Key Concepts
-
 | Object | Role |
 |--------|------|
 | **Principal** | Who is calling: IAM user, role, federated user, or AWS service |
@@ -27,7 +28,6 @@ IAM interviews probe least privilege, identity vs resource policies, role assump
 Authorization is evaluated at request time. AWS combines all applicable policies; if any matching statement is `Deny`, the call fails even when another policy allows it.
 
 ## Technical Details
-
 ### Evaluation flow
 
 ```
@@ -71,7 +71,6 @@ aws iam simulate-principal-policy \
 ```
 
 ## Real-World Applications
-
 **Prefer roles over users.** EC2 instance profiles, Lambda execution roles, and CI/CD OIDC federation all assume roles and receive short-lived credentials. Long-lived access keys on IAM users are a common breach path.
 
 **Least privilege.** Start with AWS managed job-function policies only as a scaffold; tighten `Action` and `Resource` to specific [[ARN (Amazon Resource Name)]] patterns.

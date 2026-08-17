@@ -4,21 +4,21 @@
 
 > Text blob that describes a media session — codecs, ports, ICE credentials — swapped as offer/answer before media flows.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk SDP end-to-end — not just name it. Signal fluency with **Offer / Answer**, **m= lines**, **a=fingerprint**, **a=ice-ufrag / ice-pwd** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — SDP](https://en.wikipedia.org/wiki/SDP) — overview
 - [RFC 8866 — SDP](https://datatracker.ietf.org/doc/html/rfc8866) — deep-dive
 
 ## Core Definition
-
 When a WebRTC interviewer says SDP, they mean **Session Description Protocol** on [[WebRTC Signaling channels]] — offer/answer, not Bluetooth `sdptool`.
 
 ## Key Concepts
-
 - **Offer / Answer:** SDP dance (RFC 3264) — “One side offers capabilities; the other answers a subset.”
 - **m= lines:** Media sections (audio/video/app) — “Each m-line is a media kind we might send.”
 - **a=fingerprint:** DTLS cert hash — “We verify the DTLS peer matches SDP.”
@@ -52,7 +52,6 @@ When a WebRTC interviewer says SDP, they mean **Session Description Protocol** o
 Media still needs ICE + DTLS after SDP agrees — SDP alone does not open UDP.
 
 ## Technical Details
-
 ```txt
 Peer A                         Signaling                      Peer B
   │── createOffer() → SDP ────────►│──────── SDP offer ─────────►│
@@ -106,25 +105,21 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 | Codec prefs (`setCodecPreferences`) | Force H.264/VP8/AV1 before offer |
 
 ## Real-World Applications
-
 When a WebRTC interviewer says SDP, they mean **Session Description Protocol** on [[WebRTC Signaling channels]] — offer/answer, not Bluetooth `sdptool`.
 
 Used wherever SDP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
 - **Con / skip when:** **Bluetooth profile discovery** — different SDP; use BlueZ/`sdptool`, not WebRTC notes.
 - **Con / skip when:** **Plain file HTTP streaming** — [[How to attach stream to HTTP handlers]]; no session description.
 
 ## Comparison
-
 - vs [[HLS]]: **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
 - vs [[How to attach stream to HTTP handlers]]: **Plain file HTTP streaming** — [[How to attach stream to HTTP handlers]]; no session description.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `InvalidStateError` on setRemote | Wrong signaling order | setRemote(offer) before createAnswer; don’t double-apply |

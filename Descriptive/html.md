@@ -4,16 +4,17 @@
 
 > HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 HTML interviews check semantics, accessibility, and what belongs in markup versus CSS/JS.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 HTML → DOM → CSSOM → render
 ```
@@ -28,7 +29,6 @@ HTML → DOM → CSSOM → render
 | **forms** | Submit model | “name → payload.” |
 
 ## Technical Details
-
 ```html
 <!doctype html>
 <html lang="en">
@@ -49,12 +49,10 @@ HTML → DOM → CSSOM → render
 | `type` on button | Avoid accidental submit |
 
 ## Pros/Cons or Trade-offs
-
 - **Non-document UIs** — canvas/WebGL still need a host page.
 - **Data interchange** — JSON, not HTML scraping.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Clickable divs without keyboard** — not accessible.
 
@@ -67,4 +65,3 @@ HTML → DOM → CSSOM → render
 | Broken layout | invalid nesting | Validate HTML |
 | Form weird POST | button type | `type="button"` |
 | A11y fails | div soup | Semantic elements + labels |
-

@@ -4,42 +4,21 @@
 
 > One IdP login unlocks many apps — the Service Provider redirects to the Identity Provider, then back with an assertion or code.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Identity interviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and when SSO is overkill.
 
 ## Sources
-
 - [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive
 - [Wikipedia — Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on) — overview
 
 ## Core Definition
-
 SSO lets a user authenticate once at an Identity Provider and access multiple Service Providers without separate passwords per app.
 
-## Key Concepts
-
-SSO separates **authentication** (who you are) from **application sessions**. User authenticates once at the IdP (Okta, Azure AD, Google Workspace, Keycloak); the application receives a **signed token or assertion** and creates a local session.
-
-```
-User ──► App (SP) ──redirect──► IdP login
-         ◄── SAML Response / OIDC id_token + code ──
-App validates signature ──► session cookie / [[JWT authentication]]
-```
-
-| Term | SAML | OIDC |
-|------|------|------|
-| Identity Provider | IdP | IdP (same) |
-| App | Service Provider (SP) | Relying Party (RP) / OAuth client |
-| Wire format | XML assertion | JWT id_token (+ access_token) |
-| Transport | HTTP-Redirect / POST binding | Authorization Code + PKCE |
-| Metadata | `/metadata.xml` | `/.well-known/openid-configuration` |
-| Logout | SLO (often brittle) | RP-initiated end_session (varies) |
-
-**OAuth 2.0 alone** is authorization ("can this application access my Google Drive?"). **OIDC** adds identity (`id_token` with `sub`, `email`). Enterprise SSO integrations are almost always **OIDC** (greenfield) or **SAML** (legacy SaaS).
-
 ## Technical Details
-
 ### OIDC integration checklist (SE integrating SSO)
 
 1. **Register application** at IdP → get `client_id`, `client_secret` (or public client + PKCE).
@@ -90,23 +69,19 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 | Infinite redirect loop | Session not persisted; cookie domain | Fix cookie domain; check middleware order |
 
 ## Real-World Applications
-
 Employees open many internal apps after one IdP login via OIDC or SAML.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One strong login UX across many apps; central MFA and offboarding.
 - **Con:** Machine-to-machine APIs → client credentials grant or mTLS, not interactive SSO.
 - **Con:** Single small application with local users → SSO adds IdP dependency without ROI.
 - **Con:** Long-lived CLI tools → API keys or device code flow, not browser SSO redirect.
 
 ## Comparison
-
 - vs local username/password per app: SSO centralizes AuthN at an IdP.
 - vs [[JWT authentication]]: SSO protocols (OIDC/SAML) often deliver JWTs or assertions afterward.
 
 ## Mistakes to Avoid
-
 - Never trust the id_token from the front channel without signature verification — against JWKS. Always validate server-side.
 - SAML XML is easy to misconfigure — one wrong ACS URL or cert = opaque 500s. Keep metadata under version control.
 - **Just-in-time (JIT) provisioning** creates users on first login — plan default role; disable open signup.

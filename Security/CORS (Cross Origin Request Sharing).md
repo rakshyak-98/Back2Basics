@@ -4,48 +4,21 @@
 
 > Browser rule: JS on evil.com cannot read api.example.com responses unless that API opts in with CORS headers — curl ignores it.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Classic frontend/backend interview: CORS is browser-enforced, not server ACL — credentials, preflight, and ACAO vs * are the traps.
 
 ## Sources
-
 - [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) — overview
 - [Fetch Living Standard — CORS protocol](https://fetch.spec.whatwg.org/#http-cors-protocol) — deep-dive
 
 ## Core Definition
-
 CORS is a browser mechanism that allows (or blocks) reading cross-origin responses in JavaScript when the server opts in via response headers.
 
-## Key Concepts
-
-CORS is **not server access control** — it stops **browser JavaScript** on `https://evil.com` from reading responses from `https://api.example.com` unless the API explicitly allows it. curl/Postman ignore CORS.
-
-```
-Browser on https://myapp.com
-  │  GET https://api.example.com/data
-  │  Origin: https://myapp.com
-  ├──────────────────────────────► API
-  │◄──────────────────────────────┤
-  │  Access-Control-Allow-Origin: https://myapp.com
-  │  (browser exposes response to JS)
-```
-
-**Simple requests** (GET/HEAD/POST with safelisted headers) go direct. **Preflight** `OPTIONS` runs first for custom headers, PUT/PATCH/DELETE, `Content-Type: application/json`, etc.
-
-| Header | Role |
-|--------|------|
-| `Origin` | Sent by browser on cross-origin requests |
-| `Access-Control-Allow-Origin` | Echo specific origin or `*` (no credentials) |
-| `Access-Control-Allow-Credentials: true` | Allows cookies — **cannot** use `*` for ACAO |
-| `Access-Control-Allow-Methods` | Preflight: permitted verbs |
-| `Access-Control-Allow-Headers` | Preflight: permitted request headers |
-| `Access-Control-Max-Age` | Cache preflight (seconds) |
-
-Same-origin (`myapp.com` → `myapp.com/api`) → **no CORS** — preferred for monoliths and BFF patterns.
-
 ## Technical Details
-
 ### Express (`cors` package)
 
 ```javascript
@@ -121,23 +94,19 @@ curl -i 'https://api.example.com/users' \
 | Redirect on preflight | 301 http→https loses CORS | Fix URL to final HTTPS; avoid redirect on OPTIONS |
 
 ## Real-World Applications
-
 SPA on `app.example.com` calling `api.example.com` needs explicit ACAO (and credentials rules) — same-origin BFF avoids CORS entirely.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Lets a deliberate cross-origin SPA/API split work in browsers.
 - **Con:** Server-to-server calls → no CORS needed.
 - **Con:** Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
 - **Con:** "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
 ## Comparison
-
 - vs [[SOP (Same-Origin Policy)]]: SOP is the default deny; CORS is the server opt-in exception for browsers.
 - vs server ACLs: curl ignores CORS — still authenticate and authorize.
 
 ## Mistakes to Avoid
-
 - CORS is not authentication. — Any client without a browser can call your API. Still require [[JWT authentication]] / sessions.
 - Error responses must include CORS headers — or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
 - **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.

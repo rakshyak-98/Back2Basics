@@ -4,26 +4,25 @@
 
 > Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PATH to local node_modules/.bin and injects npm lifecycle env. npx runs package
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Node.js CLI** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive
 - [npm — run-script](https://docs.npmjs.com/cli/v10/commands/npm-run-script) — overview
 - [Wikipedia — CLI](https://en.wikipedia.org/wiki/CLI) — overview
 
 ## Core Definition
-
 The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
 
 ## Key Concepts
-
 - The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package bina…
 
 ## Technical Details
-
 The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
 
 ```
@@ -102,21 +101,17 @@ node --trace-warnings server.js
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **CLI** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`sudo node` uses root's PATH** — not your nvm Node; use `sudo -u` with login shell; **Remote inspect on 0.0.0.0** — exposes debugger; never in prod without tunnel/VPN.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PAT…).
 - **Con / when not:** **Production scaling** — process manager (systemd, K8s) not manual CLI.
 - **Con / when not:** **Heavy REPL exploration** — use `node` REPL or [[REPL]] note for interactive debugging.
 
 ## Comparison
-
 vs [[node command]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`sudo node` uses root's PATH** — not your nvm Node; use `sudo -u` with login shell.
 - **Remote inspect on 0.0.0.0** — exposes debugger; never in prod without tunnel/VPN.
 - **`npm run` hides failures** — scripts may swallow exit codes; use `set -e` in shell wrappers.

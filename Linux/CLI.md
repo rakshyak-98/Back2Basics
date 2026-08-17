@@ -4,6 +4,10 @@
 
 > The command-line interface is the primary operator surface on Linux — a text shell reads your line, runs programs, and wires their input and output through pipes.
 
+
+
+
+
 ## Interview Relevance
 Nearly every Linux interview starts at the CLI: pipes, redirection, exit status, and when to use shell vs a GUI or API. Interviewers watch for composure with `$?`, quoting, and debugging “command not found.”
 
@@ -22,7 +26,6 @@ A **command-line interface** (CLI) exposes the OS through a **shell** (often Bas
 - **Expansion:** Shell expands `$VAR`, globs, and quotes before exec.
 
 ## Technical Details
-
 ```
 you type:  grep error /var/log/syslog | wc -l
               │

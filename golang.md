@@ -4,6 +4,10 @@
 
 > Go — a compiled language built for simple concurrency and straightforward networked services; goroutines and interfaces dominate interviews.
 
+
+
+
+
 ## Interview Relevance
 Go interviews probe goroutines/channels, interfaces (implicit satisfaction), error handling, and tooling (`go test`, modules, race detector). Signal: you know when *not* to over-channel.
 

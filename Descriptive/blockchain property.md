@@ -4,17 +4,18 @@
 
 > Distributed ledger guarantees for builders — immutability, consensus, and transparency trade off against latency, cost, and privacy; don't treat "on-chain" as magic persistence.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Property questions check immutability, transparency, and what blockchain does not guarantee (correct business logic).
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [Blockchain — Wikipedia](https://en.wikipedia.org/wiki/Blockchain) — overview
 
 ## Key Concepts
-
 A blockchain is an **append-only, replicated log** where blocks link via cryptographic hashes. Network nodes agree on ordering through a **consensus** protocol (PoW, PoS, BFT variants).
 
 ```
@@ -35,7 +36,6 @@ Properties engineers care about:
 | Smart contracts | Deterministic code on-chain | Bugs are irreversible; audit + upgrade patterns |
 
 ## Technical Details
-
 ### Integration patterns (off-chain app + chain)
 
 ```
@@ -87,13 +87,11 @@ contract.on('Transfer', (from, to, value, event) => {
 - Rate-limit public RPC; self-host node for SLA.
 
 ## Pros/Cons or Trade-offs
-
 - **CRUD application with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
 - **Sub-second latency requirements** — chain finality is seconds to minutes.
 - **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Public = world-readable** — emails, KYC, trade secrets don't belong on public L1.
 

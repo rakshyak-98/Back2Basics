@@ -4,16 +4,17 @@
 
 > Capture devices → local preview → peer connection — fix constraints before you debug ICE.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end — not just name it. Signal fluency with **enumerateDevices**, **devicechange**, **constraints**, **MediaStream** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — WebRTC Get Started Guide](https://en.wikipedia.org/wiki/WebRTC_Get_Started_Guide) — overview
 
 ## Key Concepts
-
 - **enumerateDevices:** List cameras/mics/speakers — “I pick deviceId after listing inputs.”
 - **devicechange:** Hot-plug event — “USB cam plugged in — refresh the dropdown.”
 - **constraints:** What you ask the device for — “Exact deviceId + min width/height + echoCancellation.”
@@ -30,7 +31,6 @@ Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end — 
 5. **PeerConnection** — STUN/TURN + signaling; see [[WebRTC]] and [[ICE (Interactive Connectivity Establishment)]].
 
 ## Technical Details
-
 ```txt
 enumerateDevices / devicechange
         │
@@ -133,22 +133,18 @@ signaling.send({ type: 'offer', sdp: pc.localDescription })
 Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` only after PC exists.
 
 ## Real-World Applications
-
 Used wherever WebRTC Get Started Guide sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
 - **Con / skip when:** **VOD progressive download** — plain HTTP file/Byte stream; not a PeerConnection.
 - **Con / skip when:** **Debugging ICE first** — if local preview fails, fix devices/constraints before touching candidates.
 
 ## Comparison
-
 - vs [[RTMP]]: **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `getUserMedia` NotAllowedError | Permissions / insecure origin | HTTPS; user gesture; reset site permissions |

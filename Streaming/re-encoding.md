@@ -4,16 +4,17 @@
 
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Re-encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding) — overview
 
 ## Key Concepts
-
 **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.
 
 | Trigger | Action | Example |
@@ -26,7 +27,6 @@ Interviewers ask about Re-encoding to see if you understand the pipeline role, f
 See [[transcoding]] for ladder workflow; this note focuses on **when and how** to re-encode safely.
 
 ## Technical Details
-
 ```txt
 Source H.265 ──► decode ──► raw YUV ──► encode H.264 ──► [[HLS]] ladder
      │
@@ -85,22 +85,18 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 ```
 
 ## Real-World Applications
-
 Used wherever Re-encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
 - **Con / skip when:** **Quality-critical archive** — store mezzanine; re-encode only derivatives.
 - **Con / skip when:** **Real-time when copy works** — ingest `-c copy` to packager saves GPU.
 
 ## Comparison
-
 - vs [[CMAF]]: **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Worse quality than source | CRF too high; double encode | Lower CRF; encode from mezzanine once |

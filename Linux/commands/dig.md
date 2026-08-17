@@ -4,6 +4,10 @@
 
 > dig asks DNS questions and prints the raw answer — use it to see whether a name, type, or resolver is wrong.
 
+
+
+
+
 ## Interview Relevance
 DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth NS, and dig ≠ getent hosts.
 
@@ -22,7 +26,6 @@ DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth NS, 
 - **Auth query:** `@ns1…` bypasses recursive cache for truth from the zone.
 
 ## Technical Details
-
 ```bash
 dig example.com
 dig +short example.com

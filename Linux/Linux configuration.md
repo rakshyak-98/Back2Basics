@@ -4,6 +4,10 @@
 
 > Linux configuration is the sum of `/etc`, per-user dotfiles, kernel boot parameters, and systemd units that define how this host behaves.
 
+
+
+
+
 ## Interview Relevance
 Senior ops signal: know which layer wins (image → distro defaults → `/etc` → `$HOME` → `/run`), prefer drop-ins over editing vendor files, and verify with read-back (`systemctl cat`, `sysctl`, `nginx -T`).
 
@@ -14,14 +18,17 @@ Senior ops signal: know which layer wins (image → distro defaults → `/etc` �
 ## Core Definition
 Layers stack: **image/CM baseline** → **distribution defaults** in `/usr` → **local overrides** in `/etc` and `/home` → **runtime** (`/run`). Debug “my change did nothing” by finding which layer actually won.
 
-## Key Concepts
-- **Surface map:** `/etc`, systemd units, cmdline, sysctl, user session, packages.
-- **Drop-ins over forks:** `systemctl edit` beats editing `/usr/lib` units.
-- **Effective config:** Merged view matters more than the file you edited.
-- **Change discipline:** One change, rollback path, validate, reload only what you need.
+## Recall Cues
+- Why do interviewers care about Senior ops signal: know which layer wins (image → distro defaults → `/etc` → `$HOME` → `/run`), prefer drop-ins over editing vendor files, and verify with read-back (`systemctl cat`, `sysctl`, `nginx -T`)?
+- What is step 1: One change at a time; note rollback path?
+- What is step 2: Prefer drop-in overrides over editing vendor files?
+- What is step 3: Reload or restart only the affected daemon?
+- What is step 4: Verify with read-back (`nginx -T`, `sshd -t`)?
+- What mistake is **Editing `/usr/lib/systemd/system/*.service` and losing changes on package upgrade**?
+- What mistake is **Changing a file that is overridden by a higher-priority drop-in**?
+- What mistake is **Restarting unrelated services “just in case” after a one-line config tweak**?
 
 ## Technical Details
-
 | Surface | Examples |
 |---------|----------|
 | `/etc` | [[etc files]] |
@@ -43,17 +50,17 @@ Change discipline:
 3. Reload or restart only the affected daemon.
 4. Verify with read-back (`nginx -T`, `sshd -t`).
 
+## Mistakes to Avoid
+- Editing `/usr/lib/systemd/system/*.service` and losing changes on package upgrade.
+- Changing a file that is overridden by a higher-priority drop-in.
+- Restarting unrelated services “just in case” after a one-line config tweak.
+
+## Comparison
+vs [[etc files]]: `/etc` is one major surface; this note is the whole stack. vs containers: image layers + runtime mounts play a similar “who wins” game. vs [[Linux Templates Directory]]: templates are vendor starting points; configuration is what you actually apply.
+
 ## Real-World Applications
 Raise `net.core.somaxconn` via `/etc/sysctl.d/99-local.conf`, apply with `sysctl --system`, confirm with `sysctl net.core.somaxconn`, and leave the package’s defaults untouched.
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Text and layered — local policy without forking the distro.
 - **Con:** Many surfaces mean easy shadowing; undocumented edits become tribal knowledge.
-
-## Comparison
-vs [[etc files]]: `/etc` is one major surface; this note is the whole stack. vs containers: image layers + runtime mounts play a similar “who wins” game. vs [[Linux Templates Directory]]: templates are vendor starting points; configuration is what you actually apply.
-
-## Mistakes to Avoid
-- Editing `/usr/lib/systemd/system/*.service` and losing changes on package upgrade.
-- Changing a file that is overridden by a higher-priority drop-in.
-- Restarting unrelated services “just in case” after a one-line config tweak.

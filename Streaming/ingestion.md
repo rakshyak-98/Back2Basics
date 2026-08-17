@@ -4,16 +4,17 @@
 
 > Accept live or file video into the processing pipeline — **front door** where protocols, validation, and backpressure matter first.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about Ingestion to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
 
 ## Sources
-
 - [Wikipedia — ingestion](https://en.wikipedia.org/wiki/ingestion) — overview
 
 ## Key Concepts
-
 **Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, authentication, and isolation per tenant**.
 
 | Input type | Typical protocol | Latency | Ops note |
@@ -27,7 +28,6 @@ Interviewers ask about Ingestion to see if you understand the pipeline role, fai
 Ingest is **not** CDN delivery — keep hot path lean; don't sync-call catalog DB on every keyframe.
 
 ## Technical Details
-
 ```txt
 Publisher (OBS, encoder, partner)
         │
@@ -98,22 +98,18 @@ Max bitrate enforcement at ingest (drop or disconnect)
 ```
 
 ## Real-World Applications
-
 Used wherever Ingestion sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Client-direct to CDN** — browsers don't publish RTMP; use WebRTC/WHIP or dedicated encoder.
 - **Con / skip when:** **Heavy ML on ingest thread** — offload analysis async; keep ingest I/O bound.
 - **Con / skip when:** **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
 
 ## Comparison
-
 - vs [[Microservice]]: **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | OBS "Failed to connect" | DNS, 1935 blocked, bad key | Security group; rotate key; TLS RTMPS if required |

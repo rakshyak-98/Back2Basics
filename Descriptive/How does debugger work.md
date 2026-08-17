@@ -4,16 +4,17 @@
 
 > Debugger — runs (or attaches to) a process, stops at breakpoints, lets you inspect memory/stack and step.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Debugger questions check breakpoints, stepping, and how debug adapters talk to runtimes.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 run → hit BP → inspect → step/continue
 ```
@@ -25,7 +26,6 @@ run → hit BP → inspect → step/continue
 | Remote | gdbserver / debug port |
 
 ## Technical Details
-
 ```bash
 node --inspect=9229 app.js
 dlv exec ./app
@@ -39,12 +39,10 @@ gdb ./app
 | Optimized code | Vars may vanish |
 
 ## Pros/Cons or Trade-offs
-
 - **Trivial print bugs** — log first.
 - **Race without repro** — `-race`/stress first.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Prod attach** — security + perf; prefer careful sampling.
 
@@ -57,4 +55,3 @@ gdb ./app
 | “Optimized out” | `-O2` | Debug build |
 | Heisenbug | Timing | Log + reproduce less invasive |
 | Attach refused | Permissions/port | Correct pid/port |
-

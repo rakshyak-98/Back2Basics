@@ -4,17 +4,18 @@
 
 > scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers use `Git Hooks` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```
 git commit  →  pre-commit → commit-msg → post-commit
 git push    →  pre-push → (remote) pre-receive / update / post-receive
@@ -23,7 +24,6 @@ git push    →  pre-push → (remote) pre-receive / update / post-receive
 Exit non-zero from a hook **blocks** the operation.
 
 ## Technical Details
-
 ### Built-in sample hooks
 
 ```bash
@@ -103,12 +103,10 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
 
 ## Pros/Cons or Trade-offs
-
 - **Heavy integration tests in pre-commit** — belongs in CI; local hook should stay under ~10s.
 - **Security-only on client hooks** — attacker can bypass; enforce on server/PR checks.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **`.git/hooks` is not versioned** — use husky, lefthook, or `core.hooksPath` to share hooks via repo.
 
@@ -128,4 +126,3 @@ Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receiv
 | Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
 | CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
 | `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
-

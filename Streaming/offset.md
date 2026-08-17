@@ -4,16 +4,17 @@
 
 > An offset is how far you move from a known start — bytes in a file, or time from a timeline base in live DASH/HLS.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk offset end-to-end — not just name it. Signal fluency with **Byte offset**, **presentationTimeOffset**, **suggestedPresentationDelay**, **Range request** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — offset](https://en.wikipedia.org/wiki/offset) — overview
 
 ## Key Concepts
-
 - **Byte offset:** Bytes from start of file/object — “We seek to offset 1024 in the segment file.”
 - **presentationTimeOffset:** DASH time shift on a Representation — “PTO aligns segment timeline to the Period.”
 - **suggestedPresentationDelay:** How far behind live edge to play — “We sit a few seconds off the edge for stability.”
@@ -40,7 +41,6 @@ Interviewers probe whether you can walk offset end-to-end — not just name it. 
 | **Generic arrays** | Elements from index 0 | Count | `'d'` at offset 3 in `[a,b,c,d]` |
 
 ## Technical Details
-
 ```txt
 Base ──────────────────────────────►
       |---- offset ----|
@@ -87,18 +87,15 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 | 0-based vs 1-based indexes | API docs lie; verify with a hex dump |
 
 ## Real-World Applications
-
 Used wherever offset sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **“Offset” as a substitute for a real timestamp API** — prefer PTS/DTS or media time in player code.
 - **Con / skip when:** **Hand-computing PTO in production** — let the packager own timeline math.
 - **Con / skip when:** **Byte offsets into encrypted samples without cleartext maps** — use container indexes the DRM stack expects.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Seek lands on wrong frame | Byte vs time map; moov/sidx | Fix index; regenerate sidx |

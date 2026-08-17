@@ -4,6 +4,10 @@
 
 > Staff engineer — technical leadership through scope, influence, and craft — not through managing headcount.
 
+
+
+
+
 ## Interview Relevance
 “Staff-plus” interviews probe impact beyond your tickets: how you unblock teams, set technical direction, reduce risk, and raise the quality bar. Value is measured by others’ throughput and system health, not personal story points.
 

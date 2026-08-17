@@ -4,17 +4,18 @@
 
 > Compile Dart to shippable artifacts — debug uses JIT; profile/release use AOT (`libapp.so`, IPA, or web JS/Wasm).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers want the debug/profile/release matrix, Android App Bundle vs APK, signing, and why obfuscation needs retained symbols.
 
 ## Sources
-
 - [Flutter — Build and release an Android app](https://docs.flutter.dev/deployment/android) — deep-dive
 - [Flutter — Build and release modes](https://docs.flutter.dev/testing/build-modes) — overview
 
 ## Key Concepts
-
 - **Debug:** JIT + VM service → hot reload; slowest, asserts on.
 - **Profile:** AOT + tracing → performance work without full debug overhead.
 - **Release:** AOT, tree-shaken, asserts off → what you ship.
@@ -22,7 +23,6 @@ Interviewers want the debug/profile/release matrix, Android App Bundle vs APK, s
 - **Obfuscation + symbols:** rename Dart symbols; keep `--split-debug-info` for readable crashes.
 
 ## Technical Details
-
 ```
 Dart source ──► kernel / AOT ──► libapp.so (mobile) or js/wasm (web)
                  ├── debug: JIT + VM service
@@ -53,23 +53,19 @@ flutter clean && flutter pub get
 | Hot reload after native change | Plugins / enums | Full restart |
 
 ## Real-World Applications
-
 CI: test → build AAB with obfuscation → upload artifact + symbols to Play / crash reporter.
 
 **Example:** Play rejects a rebuild because `+41` was reused — bump to `+42` in `pubspec.yaml`.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** AAB lets Play deliver ABI splits; smaller downloads.
 - **Con:** Obfuscation without symbols makes production crashes unreadable.
 
 ## Comparison
-
 - vs [[flutter cli]] `run`: local iteration; `build` produces store artifacts.
 - vs native Android release: Flutter still rides Gradle/Xcode; you own both Dart and platform configs.
 
 ## Mistakes to Avoid
-
 - Committing keystores or `key.properties`.
 - Judging jank from debug builds.
 - Shipping without uploading obfuscation symbols.

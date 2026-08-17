@@ -4,6 +4,10 @@
 
 > Bash flags (`set -o` / `bash -e`) change shell behavior — strict mode, debug traces, noclobber, and friends.
 
+
+
+
+
 ## Interview Relevance
 `set -euo pipefail` is the expected baseline; know what each letter does and that `-e` has subtle exceptions.
 
@@ -22,7 +26,6 @@
 - **`bash -n`:** Syntax check without running.
 
 ## Technical Details
-
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

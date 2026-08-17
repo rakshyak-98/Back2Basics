@@ -4,29 +4,28 @@
 
 > Terraform declares cloud resources as code and applies planned changes — desired state in HCL, executed through provider plugins against cloud APIs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers expect declarative IaC versus ClickOps/scripts, resource versus data, state ownership, and when not to manage every app deploy with Terraform.
 
 ## Sources
-
 - [HashiCorp — What is Terraform?](https://developer.hashicorp.com/terraform/intro) — overview
 - Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
 - Scott Winkler, *Terraform in Action* — deep-dive
 
 ## Core Definition
-
 You describe the desired end state in HCL; Terraform computes create/update/delete against APIs through [[terraform provider]] plugins and records ownership in state.
 
 ## Key Concepts
-
 - **Declarative + plan:** review the diff before apply.
 - **Building blocks:** `terraform {}`, `provider`, `resource`, `data`, `variable`/`output`/`locals`, `module`.
 - **Implicit graph:** attribute references create dependencies; file order among `*.tf` does not.
 - **State:** maps addresses to real IDs — deleting state does not delete cloud resources.
 
 ## Technical Details
-
 ```hcl
 terraform {
   required_version = ">= 1.5.0"
@@ -94,24 +93,20 @@ module "s3_bucket" {
 | Module version jump | Unpinned `source` | Pin `version = "~> x.y"` |
 
 ## Real-World Applications
-
 VPCs, IAM, EKS/RDS baselines, and reusable registry modules reviewed in PRs.
 
 **Example:** A team pins `hashicorp/aws ~> 5.0`, plans in CI, and applies only the saved `tfplan` artifact.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Reviewable, versioned infrastructure with a dependency graph and remote state locking.
 - **Con:** Day-2 application image tags belong in CI/CD, not every Terraform apply.
 - **Con:** Half-baked HCL can be riskier than a careful console + runbook for one irreversible change.
 
 ## Comparison
-
 - Install / backends → [[Terraform setup]]; plugins → [[terraform provider]]; loop → [[Terraform workflow]]; flags → [[Terraform CLI]]; inputs → [[variable file]]; practice → [[Terraform docker]].
 - vs cloud SDKs alone: Terraform owns drift detection and team state; SDKs win for one-off inventory scripts.
 
 ## Mistakes to Avoid
-
 - Treating state deletion as resource deletion.
 - Unpinned providers/modules drifting between CI and laptop.
 - Expecting data sources to create infrastructure — they refresh reads and may change outputs only.

@@ -4,6 +4,10 @@
 
 > An SSH key works only if the server trusts the public key — generating a keypair alone does not grant access.
 
+
+
+
+
 ## Interview Relevance
 Catches a common ops myth: “I ran ssh-keygen, why can’t I log in?” Validity is trust configuration (and optional certificate lifetime), not the private key existing on disk.
 

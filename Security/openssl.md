@@ -4,21 +4,21 @@
 
 > The Swiss-army CLI for keys, CSRs, certs, and TLS debugging on the box.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Hands-on PKI: generate keys/CSRs, inspect certs, and debug TLS handshakes with the OpenSSL CLI.
 
 ## Sources
-
 - [OpenSSL documentation](https://www.openssl.org/docs/) — deep-dive
 - [man openssl](https://www.openssl.org/docs/manmaster/man1/openssl.html) — overview
 
 ## Core Definition
-
 OpenSSL is the standard CLI/library for keys, CSRs, certificates, and TLS debugging on Unix systems.
 
 ## Key Concepts
-
 ```txt
 private key ──► CSR ──► CA signs ──► leaf.crt
                  │
@@ -26,7 +26,6 @@ private key ──► CSR ──► CA signs ──► leaf.crt
 ```
 
 ## Technical Details
-
 ```bash
 # Self-signed lab cert (no passphrase on key)
 openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem \
@@ -78,23 +77,19 @@ openssl rand -hex 32
 | Typo `private.key` vs `privatekey.pem` | Path in docs vs disk | Align filenames in scripts |
 
 ## Real-World Applications
-
 Generate CSRs, inspect `fullchain.pem`, and `s_client`-debug handshake failures on the box.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Universal CLI for PKI and TLS debugging on servers and CI.
 - **Con:** Public production certs — use [[certbot (letsencrypt)]] / ACME, not hand-rolled OpenSSL + email CSR unless required.
 - **Con:** application-level crypto APIs — prefer language libs (crypto, NaCl); don’t shell out to openssl in hot paths.
 - **Con:** Password hashing — use Argon2/bcrypt/yescrypt, not ad-hoc OpenSSL digests.
 
 ## Comparison
-
 - vs [[certbot (letsencrypt)]]: OpenSSL is the toolkit; Certbot automates ACME issuance.
 - vs GUI cert managers: CLI is scriptable for CI and break-glass debugging.
 
 ## Mistakes to Avoid
-
 - Self-signed ≠ trusted — fine for lab; browsers warn; production needs a public CA or your distributed private root.
 - `-aes256` on keys — nginx/apache will hang waiting for a passphrase unless you unlock or use `-nodes`.
 - CN alone is fragile — add SANs (`subjectAltName`) for Chrome/modern TLS clients.

@@ -4,38 +4,18 @@
 
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 GPL interviews check copyleft obligations — distribution triggers and SaaS nuances (AGPL).
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [GPL — Wikipedia](https://en.wikipedia.org/wiki/GNU_General_Public_License) — overview
 
-## Key Concepts
-
-GPL grants use, modify, and redistribute rights with a ** reciprocity obligation**: if you distribute a GPL-covered **combined work**, recipients get source and GPL freedoms.
-
-```
-Your app ──links/includes──► GPL library
-                │
-                ▼
-     Combined work? ──YES──► must GPL your distributed code + provide source
-                │
-                NO (mere aggregation) ──► your app license unchanged
-```
-
-**Community Edition** servers (MySQL CE historically, many forks) often ship under GPL — using them as **separate processes** versus **linked libraries** changes compliance posture. Legal interpretation varies — escalate to counsel for product decisions.
-
-Versions:
-- **GPLv2** — no explicit patent grant; "system library" exception wording differs.
-- **GPLv3** — explicit patent license; anti-tivoization; compatible with Apache 2.0 in some combinations.
-
-Related licenses: **LGPL** (weaker copyleft — dynamic link boundary), **AGPL** (network use triggers source obligation).
-
 ## Technical Details
-
 ### Identify GPL in dependency tree
 
 ```bash
@@ -78,13 +58,11 @@ docker sbom myimage:tag | rg -i 'gpl'
 ```
 
 ## Pros/Cons or Trade-offs
-
 - **As a substitute for legal review** — this note orients engineers; compliance sign-off is legal/compliance team.
 - **Assuming LGPL == GPL** — LGPL has different linking rules; read the actual license text.
 - **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **AGPL in backend** — SaaS distributing no binaries can still trigger AGPL if users interact with modified AGPL code over network.
 

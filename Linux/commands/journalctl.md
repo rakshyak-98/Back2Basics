@@ -4,6 +4,10 @@
 
 > journalctl queries journald’s binary logs — filter by unit, boot, time, and priority instead of grepping flat files blindly.
 
+
+
+
+
 ## Interview Relevance
 Must-know ops: `-u` + `-b`, `--since`, `-p err`, vacuum retention, and persistent vs volatile storage.
 
@@ -22,7 +26,6 @@ journald collects unit stdout/stderr, syslog forwarding, kernel messages, and st
 - **Vacuum:** Size/time caps so journals don’t fill the disk.
 
 ## Technical Details
-
 ```bash
 journalctl -u nginx.service -b --no-pager
 journalctl -u myapp.service -f

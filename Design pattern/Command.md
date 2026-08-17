@@ -4,16 +4,17 @@
 
 > Command encapsulates a request as an object — so you can queue, log, undo, and wire requests to handlers without the invoker knowing operation details.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Command questions encapsulate requests as objects — queues, undo, logging, and decoupling invoker from receiver.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* (Command) — deep-dive
 
 ## Key Concepts
-
 ```
 Invoker → Command.execute()
               ↓
@@ -23,7 +24,6 @@ ConcreteCommand holds Receiver + parameters
 ```
 
 ## Technical Details
-
 **Undo / redo**
 
 Store executed commands; `undo()` reverses `execute()` if command stores enough state (often paired with [[Design pattern/Memento]]).
@@ -42,12 +42,10 @@ class InsertText implements Command {
 ```
 
 ## Real-World Applications
-
 - Decouple UI buttons from business operations.
 - Transactional workflows with rollback.
 - Remote invocation (command object serialized to message).
 
 ## Mistakes to Avoid
-
 - Command explosion — group related ops or use parameterized commands.
 - Undo without inverse operations — need snapshots ([[Design pattern/Memento]]).

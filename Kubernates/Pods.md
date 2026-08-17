@@ -4,24 +4,24 @@
 
 > A Pod is the smallest schedulable unit in Kubernetes — one or more containers that share network namespace and volumes on one node.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers check that you know Pods are ephemeral (new IP on restart), why production uses Deployments, and how probes gate Service endpoints.
 
 ## Sources
-
 - [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive
 - Brendan Burns et al., *Kubernetes: Up and Running* — overview
 
 ## Key Concepts
-
 - **Shared fate:** containers in a Pod share IP, localhost, and optional volumes.
 - **Ephemeral identity:** restart/reschedule creates a new Pod object/IP unless a controller recreates it.
 - **Controllers own resilience:** Deployment/StatefulSet/Job recreate Pods; bare Pods do not survive node loss.
 - **Probes:** readiness controls Service membership; liveness restarts stuck containers.
 
 ## Technical Details
-
 ```bash
 kubectl get pods -A -o wide
 kubectl describe pod my-pod -n default
@@ -39,25 +39,21 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 One main process per container; use sidecars for helpers (log shippers, proxies). Creation paths → [[kubectl pod creation]].
 
 ## Real-World Applications
-
 Application replicas behind a Service, debug shells (`netshoot`), and init containers waiting on dependencies.
 
 **Example:** An API Pod fails readiness → removed from Endpoints → [[ingress]] returns 503 until `/ready` passes.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Dense packing and co-located sidecars with shared localhost.
 - **Con:** No self-healing without a controller.
 - **Con:** In-memory state dies with the Pod — persist to volumes or external stores.
 
 ## Comparison
-
 - vs container: Pod is the Kubernetes API object; one or more containers inside.
 - vs Deployment: Deployment owns replica count and rolling updates of Pod templates.
 - Networking exposure → [[Kubernetes services]] · [[ingress]].
 
 ## Mistakes to Avoid
-
 - Running production apps as bare Pods.
 - Putting multiple unrelated main processes in one container.
 - Assuming Pod IP stays stable across restarts.

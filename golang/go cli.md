@@ -4,17 +4,18 @@
 
 > `go` CLI — module, build, test, and dig into deps/memory with the standard toolchain.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 The `go` tool is daily driver literacy — modules, test, vet, and profiling entrypoints signal you can operate a Go codebase without IDE magic.
 
 ## Sources
-
 - [Go — Command go](https://pkg.go.dev/cmd/go) — deep-dive
 - [Go — About the go command](https://go.dev/doc/go-commands) — overview
 
 ## Key Concepts
-
 ```txt
 go mod init → edit code → go test ./... → go build
 ```
@@ -28,7 +29,6 @@ go mod init → edit code → go test ./... → go build
 | `go doc` | Quick docs |
 
 ## Technical Details
-
 ```bash
 go mod init github.com/you/app
 go get example.com/lib@v1.2.3
@@ -77,13 +77,11 @@ grep Vm /proc/$pid/status
 | … | … | … |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Non-Go monorepo orchestration — Bazel/Make wrap `go`, don’t replace understanding.
 - **Trade-off:** Editing `go.sum` by hand — never.
 - **Trade-off:** `GO111MODULE=off` in 2026 — modules only.
 
 ## Mistakes to Avoid
-
 - `go get` on a main module — prefer `go get pkg@version` explicitly.
 - `pmap`/`/proc` are Linux ops tips — not part of Go itself.
 - `go run` rebuilds often — use `build` for timing tests.

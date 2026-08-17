@@ -4,6 +4,10 @@
 
 > fzf is an interactive fuzzy filter — pipe candidate lines in, type to narrow, pick one out for the next command.
 
+
+
+
+
 ## Interview Relevance
 Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` into fzf, and why non-interactive CI cannot use it.
 
@@ -22,7 +26,6 @@ Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` into 
 - **Exit codes:** Cancel/no match must be handled in scripts.
 
 ## Technical Details
-
 ```bash
 ls | fzf
 find . -type f | fzf

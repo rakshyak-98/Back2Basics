@@ -4,24 +4,24 @@
 
 > Linux IPC message bus — services expose methods and signals; desktop environments and systemd lean on it heavily.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Know system vs session bus, well-known names, activation-on-call, and `busctl` for live introspection.
 
 ## Sources
-
 - [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — deep-dive
 - [Wikipedia — D-Bus](https://en.wikipedia.org/wiki/D-Bus) — overview
 
 ## Key Concepts
-
 - **System vs session:** machine-wide vs per-user login session.
 - **Well-known name:** e.g. `org.freedesktop.hostname1` claimed by a service.
 - **Method vs signal:** RPC call vs publish/subscribe event.
 - **Activation:** first call may spawn the providing service.
 
 ## Technical Details
-
 ```txt
 client ──method call──► dbus-daemon/broker ──► service
          ◄── signal ───────────────────────────┘
@@ -51,21 +51,17 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 | Hang on call | Dead service | `busctl monitor`; restart provider |
 
 ## Real-World Applications
-
 `hostnamectl` and many desktop settings UIs are D-Bus clients — debug with `busctl introspect` when the CLI hangs or returns access denied.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Discoverable local control plane with introspection.
 - **Con:** Wrong bus address and activation side effects confuse newcomers.
 
 ## Comparison
-
 - vs gRPC/HTTP: those are cross-host; D-Bus is local machine IPC.
 - vs raw UNIX sockets: D-Bus adds naming, typing, and policy.
 
 ## Mistakes to Avoid
-
 - Calling the session bus as root expecting system services.
 - Triggering heavy desktop activation from a headless script unintentionally.
 - Using D-Bus as a high-throughput data plane.

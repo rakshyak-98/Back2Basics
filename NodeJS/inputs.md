@@ -4,26 +4,25 @@
 
 > Node.js stdin / readline inputs — CLI tools get input from process.stdin (readable stream) and write to process.stdout. The readline module provides an Interface that emits
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Node.js stdin / readline inputs** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Node.js — Readline](https://nodejs.org/api/readline.html) — deep-dive
 - [Wikipedia — inputs](https://en.wikipedia.org/wiki/inputs) — overview
 
 ## Core Definition
-
 CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for each newline-terminated chunk — no manual buffering.
 
 ## Key Concepts
-
 - CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for …
 - For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactiv…
 
 ## Technical Details
-
 CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for each newline-terminated chunk — no manual buffering.
 
 ```
@@ -96,23 +95,19 @@ process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **inputs** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Partial lines on raw `data` events** — lines can split across chunks; use readline or buffer until `
 `; **Logging while prompting** — concurrent `console.log` corrupts prompt; pause interface or serialize output.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node.js stdin / readline inputs — CLI tools get input from process.stdin (readab…).
 - **Con / when not:** **HTTP/API input** — use request body parsers, not readline.
 - **Con / when not:** **Binary stdin** — use stream `read()` without UTF-8 encoding.
 - **Con / when not:** **Complex CLI** — use `commander`/`yargs` for flags/subcommands.
 
 ## Comparison
-
 vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[REPL]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Partial lines on raw `data` events** — lines can split across chunks; use readline or buffer until `\n`.
 - **Logging while prompting** — concurrent `console.log` corrupts prompt; pause interface or serialize output.
 - **CI/non-interactive** — always provide env/flag bypass for automation.

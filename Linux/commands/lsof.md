@@ -4,6 +4,10 @@
 
 > lsof lists open files — and on Linux that includes sockets, pipes, and devices — showing which process holds them.
 
+
+
+
+
 ## Interview Relevance
 Classic: who holds this port/file, deleted-but-open disk leaks, and when to prefer `ss` + `/proc/<pid>/fd` on busy hosts.
 
@@ -22,7 +26,6 @@ Everything is a file descriptor. `lsof` maps PID ↔ path/socket. Use it to find
 - **Namespaces:** Host lsof may miss container netns.
 
 ## Technical Details
-
 ```bash
 sudo lsof -iTCP:8080 -sTCP:LISTEN
 sudo lsof -i :5432

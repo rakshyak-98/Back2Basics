@@ -4,22 +4,22 @@
 
 > Next.js intercepts in-app navigations so the browser does not full-reload — App Router uses `next/navigation`; Pages Router uses `next/router`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers check whether you know App Router versus Pages Router navigation APIs, when to use `<Link>` versus `<a target="_blank">`, and how client navigation differs from a full document load.
 
 ## Sources
-
 - [Next.js Docs — Linking and Navigating](https://nextjs.org/docs/app/getting-started/linking-and-navigating) — deep-dive
 - [Next.js Docs — `useRouter` (App)](https://nextjs.org/docs/app/api-reference/functions/use-router) — overview
 - [Next.js Docs — `next/link`](https://nextjs.org/docs/app/api-reference/components/link) — overview
 
 ## Core Definition
-
 Client-side navigation swaps route segments and fetches RSC/page payloads while keeping the document shell; new tabs and external URLs are normal browser navigations, not SPA pushes.
 
 ## Key Concepts
-
 - **App Router:** `next/link`, `useRouter` / `redirect` from `next/navigation` → works with Server Components (redirect on server; router hooks need `"use client"`).
 - **Pages Router:** `next/router` → different API; do not import it under `app/`.
 - **`<Link>` prefetch:** warms the next route → turn off for heavy rarely visited pages.
@@ -27,7 +27,6 @@ Client-side navigation swaps route segments and fetches RSC/page payloads while 
 - **Scroll and history:** default scroll restore; `replace` vs `push` changes back-button behavior.
 
 ## Technical Details
-
 ```txt
 Same tab in-app  → <Link href="..."> or router.push('/path')
 New tab          → <a href="..." target="_blank" rel="noopener noreferrer">
@@ -92,24 +91,20 @@ router.push('/about')
 | Scroll jumps | Default scroll restore | `scroll={false}` on `Link` if needed |
 
 ## Real-World Applications
-
 Dashboards use `<Link>` for sidebar routes; login gates call server `redirect`; docs links open in a new tab with a plain anchor.
 
 **Example:** Middleware that redirects unauthenticated users to `/login` must avoid a login ↔ home loop when cookies are missing or stale.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Fast in-app transitions and shared layouts without full reloads.
 - **Con:** Two router APIs (App vs Pages) confuse migrations.
 - **Con:** Prefetch can waste bandwidth on low-traffic heavy routes.
 
 ## Comparison
-
 - vs full page load: keeps client state and shared layout; harder to reason about for some authentication cookie clears.
 - vs [[React data management]]: navigation often should encode filter/state in the URL so refresh and share work.
 
 ## Mistakes to Avoid
-
 - Using `next/router` inside `app/` — import from `next/navigation` (see [[NextJS Error]]).
 - Putting external URLs in `<Link>` — use `<a>` for other origins.
 - Calling `router.push` after async work without checking the component is still mounted.

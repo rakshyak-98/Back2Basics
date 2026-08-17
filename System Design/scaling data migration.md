@@ -4,27 +4,19 @@
 
 > Moving data between database servers or nodes while scaling — much harder for relational databases introducing sharding than for partition-native NoSQL; replication and sharding solve different problems.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
 
 ## Sources
-
 - Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and rebalancing — deep-dive
 - Expand-Contract pattern (parallel change) — overview
 - Vitess / Citus resharding guides — deep-dive
 
-
-## Key Concepts
-
-- **Dual-write + backfill + cutover:** keep old and new paths consistent during move.
-- **Checksums / row counts:** prove convergence before switching reads.
-- **Expand-contract:** additive schema first; remove old path last.
-- **Rollback criteria:** define abort signals before starting traffic shift.
-
-
 ## Technical Details
-
 ### How it works
 
 ### 1. Relational database — [[mysql]] / [[postgres]]
@@ -297,7 +289,7 @@ But it makes application and database architecture more complicated.
 | Distributed SQL | Automatic range moves | SQL + distribution | Coordination latency and ops complexity |
 
 
-## Configuration and commands
+### Configuration and commands
 
 ### SQL sharding migration (common phases)
 
@@ -330,16 +322,8 @@ Scaling data migration (this note): move rows across nodes while scaling
 ```
 
 ---
-## When not to use
 
-- **Sharding migration before exhausting replicas + vertical scale** — see [[Horizontal vs Vertical Scaling]].
-- **Full resharding for a one-time archive** — time-based partition drop or cold storage may be simpler.
-- **Cross-shard transactions without saga** — if money paths need atomicity across shards, redesign or use distributed SQL first.
-
----
-
-
-## Interview map (words you can say)
+### Interview map (words you can say)
 
 | Word | Plain meaning | Say in interview |
 |------|---------------|------------------|
@@ -352,25 +336,26 @@ Scaling data migration (this note): move rows across nodes while scaling
 ---
 
 ## Real-World Applications
-
 Sharding an existing OLTP database, region migrations, and major engine upgrades under live write traffic.
 
-
 ## Pros/Cons or Trade-offs
+- **Sharding migration before exhausting replicas + vertical scale** — see [[Horizontal vs Vertical Scaling]].
+- **Full resharding for a one-time archive** — time-based partition drop or cold storage may be simpler.
+- **Cross-shard transactions without saga** — if money paths need atomicity across shards, redesign or use distributed SQL first.
+
+---
+
+
 
 - **Pro:** Live migration avoids long read-only windows.
 - **Con:** Dual-write bugs and lag create hard-to-debug divergence.
 - **Trade-off:** brief downtime cutover vs longer dual-running complexity.
 
-
 ## Comparison
-
 - vs [[database sharding]]: sharding is why many migrations exist; this note is the move itself.
 - vs [[Horizontal vs Vertical Scaling]]: scale decision precedes the migration plan.
 
-
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Replication ≠ sharding** — adding read replicas does not remove the need for a scaling data migration when writes or disk outgrow one primary.
 

@@ -4,6 +4,10 @@
 
 > `epoll` is Linux's scalable I/O readiness API — one thread can watch thousands of sockets without scanning every file descriptor each wait.
 
+
+
+
+
 ## Interview Relevance
 Backend / systems staple: contrast `select`/`poll` O(n) scans with `epoll`'s O(ready) waits, explain edge-triggered vs level-triggered, and name who uses it (Nginx, Node/libuv, Redis).
 
@@ -22,7 +26,6 @@ The `epoll` family (`epoll_create1`, `epoll_ctl`, `epoll_wait`) registers many f
 - **Scales readiness, not fd limits:** `ulimit -n` still caps open files.
 
 ## Technical Details
-
 ```
 epoll instance
   ├─ fd: socket A  (EPOLLIN)

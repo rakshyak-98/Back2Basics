@@ -4,6 +4,10 @@
 
 > APT (Advanced Package Tool) is Debian and Ubuntu's high-level package manager — it resolves dependencies from configured repositories and tracks installed `.deb` state.
 
+
+
+
+
 ## Interview Relevance
 Core Linux ops signal: can you update indexes, install/hold packages, recover from broken `dpkg`, and explain APT vs `dpkg` without guessing flags.
 
@@ -22,7 +26,6 @@ APT wraps `dpkg`: `apt update` refreshes indexes; `apt install` fetches and conf
 - **Lock files:** Only one APT/dpkg transaction at a time (`/var/lib/dpkg/lock*`).
 
 ## Technical Details
-
 ```bash
 sudo apt update
 sudo apt upgrade

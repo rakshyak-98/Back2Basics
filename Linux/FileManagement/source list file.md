@@ -4,6 +4,10 @@
 
 > An APT sources line tells apt where packages come from — URI, suite, components, and which key verifies them.
 
+
+
+
+
 ## Interview Relevance
 Debian/Ubuntu ops staple: parse a `deb` line, explain `signed-by`, and debug `apt update` failures (404, NO_PUBKEY) without guessing.
 
@@ -22,7 +26,6 @@ Each `deb`/`deb-src` line names a repository type, optional options (`arch=`, `s
 - **.list vs .sources:** Classic one-line format vs deb822 stanzas (newer style).
 
 ## Technical Details
-
 ```txt
 deb [arch=amd64 signed-by=/usr/share/keyrings/foo.gpg] https://ex/apt jammy main
  │    options                                           suite          component

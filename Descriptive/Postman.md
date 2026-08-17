@@ -4,16 +4,17 @@
 
 > API client + collection runner + Newman CLI for CI — design, debug, and regression-test HTTP APIs — **Postman docs + contract testing in pipelines**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Postman interviews are light tooling checks — collections, environments, and automating API regression.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 Postman wraps HTTP: environments hold variables (`{{baseUrl}}`), collections group requests, tests run **JavaScript assertions** on responses. **Newman** runs the same collections headless in CI.
 
 ```
@@ -34,7 +35,6 @@ Local GUI ──export──► Newman in CI ──► JUnit/HTML report
 | **Monitor** | Scheduled cloud runs (paid tiers) |
 
 ## Technical Details
-
 ### Install CLI (Linux)
 
 ```bash
@@ -80,12 +80,10 @@ pm.environment.set('lastUserId', json.id);
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Load testing at scale — use k6, Locust, or Gatling.
 - Long-lived gRPC streaming — use grpcurl or dedicated clients (Postman supports gRPC but lighter tooling exists).
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Commit **environment templates** with empty secrets — never commit filled env JSON with prod API keys.
 

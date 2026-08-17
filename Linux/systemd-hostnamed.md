@@ -4,24 +4,24 @@
 
 > D-Bus service behind `hostnamectl` — sets static, transient, and pretty hostname metadata.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Small systemd ecosystem question: static vs transient hostname, which files change, and that `hostnamectl` talks D-Bus not just `/etc/hostname`.
 
 ## Sources
-
 - [hostnamectl(1)](https://www.freedesktop.org/software/systemd/man/latest/hostnamectl.html) — deep-dive
 - [org.freedesktop.hostname1](https://www.freedesktop.org/software/systemd/man/latest/org.freedesktop.hostname1.html) — deep-dive
 
 ## Key Concepts
-
 - **Static:** persists in `/etc/hostname` across reboot.
 - **Transient:** kernel hostname until reboot (DHCP/cloud-init often sets this).
 - **Pretty / chassis:** human metadata in `/etc/machine-info`.
 - **D-Bus API:** `hostnamectl` is a client of `systemd-hostnamed`.
 
 ## Technical Details
-
 ```bash
 hostnamectl status
 sudo hostnamectl set-hostname app01.example.com
@@ -38,21 +38,17 @@ busctl introspect org.freedesktop.hostname1
 | Transient | kernel hostname (until reboot) |
 
 ## Real-World Applications
-
 Standardize VM names after clone: set static hostname, verify DHCP did not leave a stale transient name, confirm cloud-init won’t overwrite on next boot.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One CLI for hostname + machine metadata with policy-friendly D-Bus access.
 - **Con:** Cloud-init/DHCP can fight static settings if not coordinated.
 
 ## Comparison
-
 - vs editing `/etc/hostname` alone: misses pretty/transient and may skip hostnamed hooks.
 - vs [[services/D-Bus]]: hostnamed is one of many systemd D-Bus services.
 
 ## Mistakes to Avoid
-
 - Setting only transient and expecting it after reboot.
 - Fighting cloud-init that rewrites hostname every boot.
 - Assuming `hostname` CLI and `hostnamectl` always show the same fields.

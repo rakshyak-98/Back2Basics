@@ -4,17 +4,18 @@
 
 > git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Git error interviews check whether you can diagnose from messages — detached HEAD, rejected non-fast-forward, index locks.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Technical Details
-
 ```bash
 git status
 git remote -v
@@ -25,11 +26,9 @@ git config --list --show-origin
 1. …
 
 ## Pros/Cons or Trade-offs
-
 - Do not force-push to shared branches to silence errors — coordinate with the team.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Read the **first error line** in the message — later lines are often cascading noise.
 

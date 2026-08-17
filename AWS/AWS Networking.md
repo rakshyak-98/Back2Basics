@@ -4,20 +4,21 @@
 
 > AWS networking is VPC-centric: you define IP ranges, subnets per Availability Zone, route tables, gateways, and firewalls — most "cannot connect" incidents are routing or security group mistakes, not broken cables.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AWS Networking to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
 
 - What makes a subnet "public" in AWS terms?
 - Why do private subnets need a NAT gateway for outbound package updates?
 
 ## Sources
-
 - [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) — overview
 - [VPC with public and private subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html) — overview
 
 ## Technical Details
-
 ### VPC building blocks
 
 ```

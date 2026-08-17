@@ -4,6 +4,10 @@
 
 > `GRANT` / `REVOKE` on PostgreSQL objects — tables, sequences, schemas, functions — plus default privileges for objects created later.
 
+
+
+
+
 ## Interview Relevance
 Operational security: least privilege, `ALTER DEFAULT PRIVILEGES`, and column-level grants. Sequence `USAGE` is the classic missing grant.
 

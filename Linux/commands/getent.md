@@ -4,6 +4,10 @@
 
 > getent queries Name Service Switch (NSS) databases — the same path login and libc use — so it sees files, SSSD, LDAP, not just `/etc/passwd`.
 
+
+
+
+
 ## Interview Relevance
 Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `dig`, and reading `/etc/nsswitch.conf`.
 
@@ -22,7 +26,6 @@ When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and a
 - **Read-only:** getent does not create or edit accounts.
 
 ## Technical Details
-
 ```txt
 app / login ──► libc NSS ──► files │ sss │ ldap │ ...
                            ▲

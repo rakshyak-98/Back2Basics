@@ -4,6 +4,10 @@
 
 > diff compares files or trees line-by-line — verify deploy artifacts and config drift before rsync or rollback.
 
+
+
+
+
 ## Interview Relevance
 Know `diff -u` for patches, `diff -rq` for trees, and that content-identical ≠ same metadata (use rsync checksum dry-run).
 
@@ -22,7 +26,6 @@ Know `diff -u` for patches, `diff -rq` for trees, and that content-identical ≠
 - **Symlinks:** Flags decide follow vs compare as links.
 
 ## Technical Details
-
 ```bash
 diff -rq /etc/nginx/sites-available /backup/nginx-sites
 

@@ -4,23 +4,23 @@
 
 > Non-routable addresses stay on the private side — the public internet will not deliver packets to them.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask RFC 1918 / non-routable space to confirm you know why private IPs need [[NAT (Network Address Translation)]], VPN, or a public listener — and that “private” is not the same as “secure.”
 
 ## Sources
-
 - [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918) — deep-dive
 - [RFC 6598 — IANA-Reserved IPv4 Prefix for Shared Address Space (CGNAT)](https://www.rfc-editor.org/rfc/rfc6598) — deep-dive
 - [RFC 3927 — Dynamic Configuration of IPv4 Link-Local Addresses](https://www.rfc-editor.org/rfc/rfc3927) — overview
 - [Wikipedia — Private network](https://en.wikipedia.org/wiki/Private_network) — overview
 
 ## Core Definition
-
 Non-routable (special-use) addresses are prefixes that must not be forwarded on the public Internet — typically RFC 1918 private space, loopback, link-local, and CGNAT shared space — so global reachability requires translation, tunneling, or a different address.
 
 ## Key Concepts
-
 - **RFC 1918:** classic private IPv4 — `10/8`, `172.16/12`, `192.168/16`.
 - **Loopback:** only this host (`127.0.0.0/8`) — `127.0.0.1` never leaves the machine.
 - **Link-local:** same L2 segment (`169.254/16`) — APIPA; not a real LAN plan.
@@ -28,7 +28,6 @@ Non-routable (special-use) addresses are prefixes that must not be forwarded on 
 - **Unreachable from outside:** no global route → need NAT, VPN, or a public listener.
 
 ## Technical Details
-
 ```txt
 Internet ──✗── 10.x / 172.16–31 / 192.168.x
                 │
@@ -71,25 +70,21 @@ ss -tlnp | grep ':8080'
 | Overlap after VPC peer | Same RFC1918 on both sides | Renumber or use NAT |
 
 ## Real-World Applications
-
 Home LANs, cloud VPCs, and CGNAT mobile networks all use non-routable space behind an edge translator.
 
 **Example:** A teammate shares `http://192.168.1.20:3000` with a remote colleague — it fails until they use a tunnel/VPN or publish via a public load balancer.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Conserves public IPv4; simple private addressing inside orgs.
 - **Con:** Breaks end-to-end reachability — inbound needs NAT, VPN, or public frontends.
 - **Con:** Overlapping RFC 1918 blocks break peering and mergers.
 
 ## Comparison
-
 - vs public unicast: globally routable; private space is not.
 - vs [[NAT (Network Address Translation)]]: NAT is how private hosts share a public face.
 - vs [[CIDR (Classless Inter-Domain Routing)]]: CIDR is notation/sizing; non-routable is policy about which prefixes the public net rejects.
 
 ## Mistakes to Avoid
-
 - Treating private as secure — anyone on the LAN/VPC can still reach it.
 - Assuming `0.0.0.0` listen makes a service public — you still need a route/NAT/firewall hole.
 - Ignoring CGNAT `100.64/10` — inbound from the internet still fails without ISP help.

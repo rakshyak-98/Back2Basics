@@ -4,17 +4,18 @@
 
 > An Elastic IP is a static public IPv4 address you allocate to your account and associate with an instance or network interface — it survives stop/start but costs money when allocated and not attached.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Elastic IP questions cover public addressing, costs when unattached, and alternatives like load balancers.
 
 ## Sources
-
 - [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) — overview
 - [AWS EC2 pricing — Elastic IP](https://aws.amazon.com/ec2/pricing/on-demand/) — overview
 
 ## Technical Details
-
 ### Behavior
 
 - **Regional** resource tied to your VPC-capable account.
@@ -36,7 +37,6 @@ Disassociate before terminating the instance if you need to preserve the address
 Elastic IPs apply to **IPv4**. IPv6 addresses on VPC subnets are separate CIDR allocations; use EIPv6 patterns or load balancers for stable IPv6 endpoints.
 
 ## Real-World Applications
-
 | Use | Alternative |
 |-----|-------------|
 | Legacy server needs fixed public IP | Application Load Balancer + [[Route53]] |

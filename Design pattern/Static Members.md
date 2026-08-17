@@ -4,16 +4,17 @@
 
 > Static members belong to the type itself, not to any instance — shared constants, factory hooks, and singleton holders live here, but static overuse creates hidden global state.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Static member questions probe shared mutable state, testability, and when instance methods are safer.
 
 ## Sources
-
 - Java Language Specification — static members — deep-dive
 
 ## Technical Details
-
 **Class-level vs instance-level**
 
 ```typescript
@@ -42,13 +43,11 @@ Static methods cannot access instance fields without an instance reference.
 - **Rust** — associated functions on `impl` (`String::from`).
 
 ## Comparison
-
 **vs Singleton**
 
 Static accessors on a class often implement [[Design pattern/Singleton]] — same global-state risks apply.
 
 ## Mistakes to Avoid
-
 - **Global mutable statics** — race conditions and test pollution.
 - **Static abuse for "helpers"** — unrelated functions grouped in one class.
 - **method shadowing** — subclass static method with same name as parent static does not override; see [[Design pattern/method shadowing]].

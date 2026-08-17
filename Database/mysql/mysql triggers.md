@@ -4,6 +4,10 @@
 
 > Row-level actions fired automatically on INSERT/UPDATE/DELETE — set audit columns, cascade logic, or guard invalid transitions inside the same statement transaction.
 
+
+
+
+
 ## Interview Relevance
 Interviewers want awareness of hidden side effects: triggers complicate migrations, fail the whole statement on error, and are easy to miss in code review.
 

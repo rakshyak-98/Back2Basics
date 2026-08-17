@@ -4,21 +4,21 @@
 
 > ABR picks a lower or higher quality mid-play — match the viewer's bandwidth so playback stays smooth.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk ABR end-to-end — not just name it. Signal fluency with **Ladder**, **Rendition**, **Manifest**, **GOP aligned** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — ABR](https://en.wikipedia.org/wiki/ABR) — overview
 - [Apple HLS — content steering / ABR practices](https://developer.apple.com/documentation/http-live-streaming) — overview
 
 ## Core Definition
-
 ABR is a **client** decision. The origin only offers choices; the player chooses which segment to GET next.
 
 ## Key Concepts
-
 - **Ladder:** Set of quality rungs — “We ship several bitrates; ABR climbs or drops the ladder.”
 - **Rendition:** One rung’s encode — “Each rendition is its own resolution and bitrate.”
 - **Manifest:** Menu of rungs + segments — “The player reads the manifest, then fetches segments.”
@@ -34,7 +34,6 @@ ABR is a **client** decision. The origin only offers choices; the player chooses
 4. **Switch** — next segment from a higher or lower rung at a keyframe boundary.
 
 ## Technical Details
-
 ```txt
 Source
   │
@@ -84,24 +83,20 @@ ffmpeg -i <source> -c copy -f flv rtmp://cdn1/live/key \
 Debug: player stats (Shaka `getStats()`, hls.js `bandwidthEstimate`) + CDN 206/404 on the rung you expect.
 
 ## Real-World Applications
-
 ABR is a **client** decision. The origin only offers choices; the player chooses which segment to GET next.
 
 Used wherever ABR sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Single fixed bitrate contract** — one CBR pipe; no ladder (broadcast feed).
 - **Con / skip when:** **Sub-second interactive** — use [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]]; segment ABR adds seconds.
 - **Con / skip when:** **Mezzanine archive only** — store one high master; ladder at package time, not at archive.
 
 ## Comparison
-
 - vs [[WebRTC]]: **Sub-second interactive** — use [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]]; segment ABR adds seconds.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Endless buffer / never starts | Lowest rung still too fat | Add a 240–360p emergency rung |

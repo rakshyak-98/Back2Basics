@@ -4,6 +4,10 @@
 
 > Open standard — a documented rule set anyone can implement without asking a single vendor for permission.
 
+
+
+
+
 ## Interview Relevance
 Tests whether you can argue interoperability and lock-in: RFCs, W3C, ISO vs proprietary APIs that look “standard” but are not.
 

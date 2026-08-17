@@ -4,16 +4,17 @@
 
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 new-operator questions check instance creation steps and what happens without new in non-strict mode.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 `new Constructor(args)` is syntactic sugar for a fixed sequence — no magic keyword beyond this algorithm:
 
 ```
@@ -34,7 +35,6 @@ new User('Ada')
 Works on **any** function with a `prototype` object — convention marks "constructors" by naming (`PascalCase`).
 
 ## Technical Details
-
 ### Manual equivalent (understanding only)
 
 ```javascript
@@ -74,12 +74,10 @@ class Service {
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Object literals for simple data: `{ id: 1 }` not `new Object()`.
 - Factory functions when callers forget `new` often — export plain function returning object.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > `new String(1)` creates object wrapper; `String(1)` returns primitive — subtle `typeof` bugs.
 

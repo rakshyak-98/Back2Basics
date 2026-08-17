@@ -4,17 +4,18 @@
 
 > ARM (Advanced RISC Machine) — RISC load/store CPUs; AArch64 is the modern 64-bit server and mobile baseline.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 ARM/AArch64 questions check RISC load/store thinking, calling conventions, and why cloud graviton/apple silicon matter for builds.
 
 ## Sources
-
 - [Arm Architecture Reference Manual](https://developer.arm.com/documentation) — deep-dive
 - [Wikipedia — ARM architecture family](https://en.wikipedia.org/wiki/ARM_architecture_family) — overview
 
 ## Key Concepts
-
 **ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: simple instructions, register-register operations, explicit load/store to memory. **AArch64** (64-bit) is the modern server and mobile baseline.
 
 ```
@@ -32,7 +33,6 @@ ARM pipeline: PC may read as current + offset (+8 bytes in AArch64 EL0 debug)
 **PC quirk:** When reading PC in debug/asm, value often **points ahead** of current instruction due to pipeline prefetch (commonly **PC + 8** in ARM state) — branch/link math must account for this.
 
 ## Technical Details
-
 ### Check architecture (Linux)
 
 ```bash
@@ -79,12 +79,10 @@ gdb ./binary
 | Native module fail (node-gyp) | Prebuilt binary x86 only | Compile on arm64 CI |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** Don't pick ARM for workload depending on proprietary x86-only libs without port plan.
 - **Trade-off:** Desktop gaming GPU stack — still x86-heavy; ARM choice is workload-specific.
 
 ## Mistakes to Avoid
-
 - Assuming SIMD parity with x86 — NEON ≠ AVX512; vectorize carefully in crypto/video code.
 - **Apple Rosetta** — x86 binary translated; perf testing needs native arm64 build.
 - **Memory model** — weaker ordering than x86; lock-free code needs barriers.

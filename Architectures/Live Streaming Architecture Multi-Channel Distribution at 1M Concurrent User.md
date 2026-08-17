@@ -4,18 +4,19 @@
 
 > 1M concurrent live viewers — push encode once, fan out via CDN/edge; origin must not serve every player directly.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 1M-viewer live design interviews test encode-once/fan-out via CDN, origin protection, and multi-channel isolation.
 
 ## Sources
-
 - [Apple — HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
 - [DASH Industry Forum](https://dashif.org/) — overview
 - [AWS — Live streaming on AWS](https://aws.amazon.com/media/tech/live-streaming/) — overview
 
 ## Key Concepts
-
 ```txt
 camera/encoder → origin ingest → transcoder → packager
                                       ↓
@@ -31,7 +32,6 @@ camera/encoder → origin ingest → transcoder → packager
 | DRM/license | concurrent license QPS |
 
 ## Technical Details
-
 ```txt
 ABR: 1080p/720p/480p ladders, 2–6s segments
 CDN: cache manifests short TTL; segments longer
@@ -57,13 +57,11 @@ Health: stale manifest / 404 segment alerts
 | Hot manifest | Tiny TTL + thundering herd | Soft TTL; collapse requests |
 
 ## Pros/Cons or Trade-offs
-
 - **Trade-off:** <1k viewers interactive — WebRTC/SFU maybe.
 - **Trade-off:** VOD only — simpler caching.
 - **Trade-off:** Ultra-low-latency betting UX — specialized LL-HLS/WebRTC stacks.
 
 ## Mistakes to Avoid
-
 - WebRTC fanout ≠ OTT scale — use CDN HLS/DASH for 1M.
 - Short TTL everywhere — origin death.
 - One giant origin — multi-CDN / shield.

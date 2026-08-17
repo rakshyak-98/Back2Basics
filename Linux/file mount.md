@@ -4,6 +4,10 @@
 
 > Mounting attaches a filesystem to the directory tree — block devices, network shares, and loop images become accessible paths under a mountpoint.
 
+
+
+
+
 ## Interview Relevance
 Ops essential: read `findmnt`/`/proc/mounts`, write a correct `/etc/fstab` line (UUID, options, dump/fsck fields), and recover from busy umount or read-only remount.
 
@@ -22,7 +26,6 @@ The kernel tracks mounts in `/proc/mounts`. `/etc/fstab` defines boot-time mount
 - **ro remount:** Errors or explicit policy — [[media mount as read only]].
 
 ## Technical Details
-
 ```bash
 findmnt
 mount | column -t

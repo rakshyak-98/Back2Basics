@@ -4,17 +4,18 @@
 
 > AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask about AI chat with memory to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
 
 ## Sources
-
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-
 The model does not persist anything between HTTP calls. Every turn you send:
 
 ```txt
@@ -32,7 +33,6 @@ Token budget is finite (`context window`). Long chats hit **context rot** (early
 | **Structured memory** | DB rows (user prefs, facts) | Deterministic; needs schema + extraction |
 
 ## Technical Details
-
 ### Minimal chat loop (OpenAI-style)
 
 ```python
@@ -73,13 +73,11 @@ messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {
 Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming protects latency and cost.
 
 ## Pros/Cons or Trade-offs
-
 - **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
 - **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
 - **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Storing full chat in the client** — anyone can tamper with "memory." Treat client history as UX only; authoritative memory lives server-side with user/session ID.
 
@@ -93,4 +91,3 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 | Cost spike | Messages array growth | Hard cap turns; summarize; cache embeddings |
 | Duplicate / contradictory replies | Multiple memory sources unsynced | Single source of truth; version user profile row |
 | PII in logs | What you persist | Redact before store; TTL on conversation tables |
-

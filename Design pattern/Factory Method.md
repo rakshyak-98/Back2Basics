@@ -4,16 +4,17 @@
 
 > Factory Method defines an interface for creating an object, but lets subclasses or registrars decide which concrete type to instantiate — deferring `new` to a dedicated creator.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Factory Method checks deferred instantiation — subclasses or registrars pick the concrete type; contrast Abstract Factory families.
 
 ## Sources
-
 - Gamma et al., *Design Patterns* (Factory Method) — deep-dive
 
 ## Key Concepts
-
 Instead of:
 
 ```text
@@ -31,7 +32,6 @@ Client → Creator.createProduct()
 ```
 
 ## Technical Details
-
 ```typescript
 interface Product { render(): string }
 
@@ -48,12 +48,10 @@ class ConcreteCreator extends Creator {
 Registration tables (`Map<string, () => Product>`) are a functional variant without inheritance.
 
 ## Real-World Applications
-
 - Framework code must stay stable while product types grow (UI widgets per platform, parsers per format).
 - You want Open/Closed: add a new creator + product without editing the client.
 
 ## Comparison
-
 **Relationship to other creational patterns**
 
 | Pattern | What varies | Who picks the type |
@@ -65,6 +63,5 @@ Registration tables (`Map<string, () => Product>`) are a functional variant with
 Factory Method is the simplest "defer instantiation" pattern — one product type per creator.
 
 ## Mistakes to Avoid
-
 - Overkill when only one product type exists.
 - Deep creator hierarchies mirror product hierarchies — consider [[Design pattern/Creation pattern/Abstract Factory]] if you create **families** (button + checkbox + dialog together).

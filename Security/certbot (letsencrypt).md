@@ -4,21 +4,21 @@
 
 > Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Platform interviews ask how you obtain and renew free TLS certs safely — plugins, webroot/DNS-01, and renewal timers.
 
 ## Sources
-
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — deep-dive
 - [Let's Encrypt — Getting Started](https://letsencrypt.org/getting-started/) — overview
 
 ## Core Definition
-
 Certbot is an ACME client that proves domain control, installs Let's Encrypt certificates, and renews them before expiry.
 
 ## Key Concepts
-
 ```txt
 certbot ──ACME──► Let's Encrypt
    │                  │
@@ -38,7 +38,6 @@ certbot ──ACME──► Let's Encrypt
 Use **`--staging`** while debugging — avoids production rate limits; staging certs are untrusted.
 
 ## Technical Details
-
 ```bash
 certbot plugins
 certbot certificates
@@ -95,23 +94,19 @@ Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on
 | Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
 
 ## Real-World Applications
-
 Automate public HTTPS on Nginx/Apache with Certbot install + systemd renew timer before the 90-day cert expires.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Free, automated public TLS with short-lived certs and renew timers.
 - **Con:** Internal-only hostnames — public LE can’t validate private DNS; use private CA / step-ca.
 - **Con:** Devices without inbound 80/DNS API — pre-provision or use DNS-01 with automation.
 - **Con:** One-hour lab on localhost — `mkcert` / self-signed OpenSSL is faster.
 
 ## Comparison
-
 - vs [[ACME server]]: client vs CA API.
 - vs commercial CA portals: Certbot+LE is API-first and short-lived (≈90 days).
 
 ## Mistakes to Avoid
-
 - Staging certs look “broken” in browsers — expected; switch off `--staging` for real trust.
 - Standalone steals :80 — fails if nginx already listens; use webroot or stop nginx briefly.
 - IPv6 AAAA wrong — LE may prefer v6; align A/AAAA or remove bad AAAA.

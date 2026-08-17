@@ -4,22 +4,22 @@
 
 > Central brain that sequences tasks and services into a workflow — retries, timeouts, and rollback live in one place (unlike choreography, where peers react to events).
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask orchestration vs choreography to see if you pick a central workflow engine when order, compensation, and failure policy matter — and avoid DAGing a one-line cron.
 
 ## Sources
-
 - [Wikipedia — Orchestration (computing)](https://en.wikipedia.org/wiki/Orchestration_(computing)) — overview
 - [Apache Airflow — DAGs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html) — deep-dive
 - [[Architectures/Orchestration layer]] — deep-dive (distributed systems)
 
 ## Core Definition
-
 In DevOps, orchestration means a controller (pipeline engine, DAG scheduler, or workflow system) drives multi-step work with explicit dependencies, retries, and central error handling — contrast event-driven choreography without a single director.
 
 ## Key Concepts
-
 - **Central sequencing:** step B runs only after A succeeds → strict order and shared failure policy.
 - **Retries / timeouts:** orchestrator owns recovery knobs → steps stay idempotent.
 - **Compensating actions:** rollback or feature-flag off when a mid-pipeline step fails.
@@ -27,7 +27,6 @@ In DevOps, orchestration means a controller (pipeline engine, DAG scheduler, or 
 - **Decision signal:** 3+ dependent steps, or need for automated rollback → orchestrate; simple cron → do not.
 
 ## Technical Details
-
 ```
 Orchestrator (Airflow, Temporal, Jenkins pipeline)
     │
@@ -104,25 +103,21 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 | Helm hook ran twice | Failed release retried | Hook weights + delete policy |
 
 ## Real-World Applications
-
 Release pipelines sequence test → migrate → deploy → smoke; data platforms use [[Airflow]] DAGs for extract/transform/load with retries.
 
 **Example:** Deploy succeeds but migration fails — without orchestration you leave a half-applied release; with it you roll back or stop promotion.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** One place for retries, timeouts, visibility, and compensating actions.
 - **Con:** Orchestrator becomes a single point of failure — HA the controller and metadata store.
 - **Con:** Long synchronous pipelines block releases — split verify versus promote.
 
 ## Comparison
-
 - vs choreography ([[Architectures/Orchestration layer]], [[Messaging/webhook]]): choreography scales event peers; orchestration owns strict sequence and compensation.
 - vs [[Jenkins]] pipelines: Jenkins is CI-oriented orchestration; [[Airflow]] is batch/data DAG orchestration.
 - vs edge [[Edge orchestration tools for industrial IoT]]: same “desired workflow” idea, different constraints (offline, OT).
 
 ## Mistakes to Avoid
-
 - DAGing a bash one-liner — wait until workflow complexity justifies a controller.
 - Storing secrets in the DAG repository — use a vault or CI secret store.
 - Skipping idempotency — retries will double-charge or double-write.

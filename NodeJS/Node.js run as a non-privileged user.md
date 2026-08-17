@@ -4,26 +4,25 @@
 
 > Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Node.js run as a non-privileged user** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive
 - [Wikipedia — Node.js run as a non-privileged user](https://en.wikipedia.org/wiki/Node.js_run_as_a_non-privileged_user) — overview
 
 ## Core Definition
-
 Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
 ## Key Concepts
-
 - Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privilege…
 - Ports **< 1024** require root unless `setcap cap_net_bind_service` on the node binary (use sparingly) or a front proxy.
 
 ## Technical Details
-
 Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
 ```
@@ -93,21 +92,17 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **Node.js run as a non-privileged user** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Build as root, run as user** — `node_modules` owned by root breaks runtime writes and native rebuilds; **`setcap` on node** — any script run with that binary can bind low ports; prefer reverse proxy.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node.js run as a non-privileged user — node apps should run as a dedicated low-p…).
 - **Con / when not:** **One-shot CLI as your own user** — no need for service user locally.
 - **Con / when not:** **Container** — USER directive in Dockerfile replaces host user model (still non-root).
 
 ## Comparison
-
 vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[Linux/commands/Services commands]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Build as root, run as user** — `node_modules` owned by root breaks runtime writes and native rebuilds.
 - **`setcap` on node** — any script run with that binary can bind low ports; prefer reverse proxy.
 - **Secrets in world-readable `.env`** — mode `600`, owned by service user.

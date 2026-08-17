@@ -4,17 +4,18 @@
 
 > git repo config — know what it does, how to configure it, and how it fails in production.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Repo config interviews cover local vs global settings, and what belongs in committed project config.
 
 ## Sources
-
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
 - [Git reference documentation](https://git-scm.com/docs) — overview
 
 ## Key Concepts
-
 ```shell
 gpg --full-generate-key; # generate gpg key
 gpg --list-secret-keys --keyid-format=long;
@@ -40,7 +41,6 @@ git config user.signingkey <path to ssh .pub file>;
 ```
 
 ## Technical Details
-
 ```bash
 git config --local user.email "you@company.com"
 git config --local core.hooksPath .githooks
@@ -48,11 +48,9 @@ git config --list --local
 ```
 
 ## Pros/Cons or Trade-offs
-
 - Do not store secrets in repository config — use environment variables or a secret manager.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > Repository config in `.git/config` overrides global `~/.gitconfig` for the same keys.
 
@@ -61,4 +59,3 @@ git config --list --local
 | Wrong identity on commits | Local versus global config | `git config --show-origin user.email` |
 | Hooks not running | `core.hooksPath` unset | Set path; ensure scripts are executable |
 | Line ending chaos on Windows | `core.autocrlf` mismatch | Align team policy; add `.gitattributes` |
-

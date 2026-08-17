@@ -4,16 +4,17 @@
 
 > LF (`\n`) and CRLF (`\r\n`) are line endings — Unix vs classic Windows; mismatches break scripts and diffs.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Line-ending interviews cover cross-OS diffs and core.autocrlf — noisy PRs from CRLF churn.
 
 ## Sources
-
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-
 ```txt
 LF = \n          CRLF = \r\n
 ```
@@ -28,7 +29,6 @@ LF = \n          CRLF = \r\n
 | **shebang break** | `#!/bin/bash\r` | “bad interpreter” |
 
 ## Technical Details
-
 ```bash
 file file.sh           # shows CRLF if present
 dos2unix file.sh       # to LF
@@ -48,12 +48,10 @@ printf '\r\n' | od -c
 | Docker build scripts | Must be LF |
 
 ## Pros/Cons or Trade-offs
-
 - **Binary formats** — don’t “normalize” images.
 - **Protocols that define their own framing** — HTTP already specifies CRLF in headers.
 
 ## Mistakes to Avoid
-
 > [!WARNING]
 > **Mixing eol in one file** — some tools only look at first line.
 
@@ -66,4 +64,3 @@ printf '\r\n' | od -c
 | Noisy git diffs | eol churn | .gitattributes |
 | Make fails weirdly | `\r` in Makefile | Convert to LF |
 | CI only | checkout eol | Align attributes |
-

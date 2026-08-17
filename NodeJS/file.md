@@ -4,26 +4,25 @@
 
 > Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Node.js `file` module patterns** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Wikipedia — file](https://en.wikipedia.org/wiki/file) — overview
 
 ## Core Definition
-
 Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
 
 ## Key Concepts
-
 - Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
 - Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type inform…
 - Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
 
 ## Technical Details
-
 Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
 
 ```
@@ -103,21 +102,17 @@ reader.on('error', (err) => console.error(err));
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **file** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`existsSync` + `readFile` race** — file can disappear between calls; handle `ENOENT` on open; **Sync fs in request handlers** — one slow disk read blocks all HTTP clients on that process.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (Node.js `file` module patterns — node has no separate file package — file I/O li…).
 - **Con / when not:** **User uploads at scale** — stream to object storage (S3), don't buffer whole file in RAM.
 - **Con / when not:** **Watching many files** — use `fs.watch`/`chokidar` note separately; polling is expensive.
 
 ## Comparison
-
 vs [[node fs]]: know when each applies — do not treat them as interchangeable. vs [[Buffers]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **`existsSync` + `readFile` race** — file can disappear between calls; handle `ENOENT` on open.
 - **Sync fs in request handlers** — one slow disk read blocks all HTTP clients on that process.
 - **Default encoding is UTF-8 in promises API** — binary files need no encoding (Buffer).

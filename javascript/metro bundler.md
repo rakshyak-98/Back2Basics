@@ -4,26 +4,25 @@
 
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe **Metro Bundler** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
 
 ## Sources
-
 - [Metro — Concepts](https://metrobundler.dev/docs/concepts/) — deep-dive
 - [Wikipedia — metro bundler](https://en.wikipedia.org/wiki/metro_bundler) — overview
 
 ## Core Definition
-
 Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
 
 ## Key Concepts
-
 - Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development lo…
 - Key concepts: - **Transformer** — Babel (default) or experimental SWC; applies RN preset, Flow/TS, inline requires. - **Resolver** — `node_modules` + platform extensions (`.ios.…
 
 ## Technical Details
-
 Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
 
 ```
@@ -109,22 +108,18 @@ NODE_ENV=production npx react-native bundle ...
 ```
 
 ## Real-World Applications
-
 In production APIs and tooling, **metro bundler** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Cache lies** — after upgrading RN, Babel plugins, or `metro.config.js`, always `--reset-cache`. Symptom: old code runs, new code never appears; **Symlinks in monorepos** — Metro does not follow symlinks like webpack unless `watchFolders` is configured; "module not found" in CI but works locally often means path config drift.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Solves the job described above when used in the right layer (React Native's default JavaScript bundler — fast dev iteration via incremental t…).
 - **Con / when not:** **Web-only React (Vite/webpack)** — Metro is RN-specific; don't force it for SPA builds.
 - **Con / when not:** **Replacing Babel blindly with SWC** — RN toolchain assumptions (inline requires, Flow) may break; test on both platforms.
 - **Con / when not:** **Custom bundler for simple RN application** — default Metro + reset-cache solves 95% of cases; only eject configuration for monorepos, aliases, or asset pipelines.
 
 ## Comparison
-
 vs [[React]]: know when each applies — do not treat them as interchangeable. vs [[bundler]]: know when each applies — do not treat them as interchangeable. vs [[SWC]]: know when each applies — do not treat them as interchangeable.
 
 ## Mistakes to Avoid
-
 - **Cache lies** — after upgrading RN, Babel plugins, or `metro.config.js`, always `--reset-cache`. Symptom: old code runs, new code never appears.
 - **Symlinks in monorepos** — Metro does not follow symlinks like webpack unless `watchFolders` is configured; "module not found" in CI but works locally often means path config drift.
 - **Native modules ≠ JS bundle** — fixing Metro doesn't fix missing `pod install` / Gradle linking for native RN modules.

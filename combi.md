@@ -4,6 +4,10 @@
 
 > Rofi **combi** mode — one fuzzy launcher that merges window switcher, app menu, and run dialog.
 
+
+
+
+
 ## Interview Relevance
 Rare as a formal interview topic; useful systems/desktop literacy when discussing Linux tooling, UX for power users, and composing small Unix tools ([[Linux/commands/fzf]] kinship).
 

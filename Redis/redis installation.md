@@ -4,25 +4,28 @@
 
 > Install and harden Redis: package or image runs `redis-server` with `redis.conf`, systemd supervision, bind/ACL, and RDB/AOF under `/var/lib/redis`.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe bind/protected-mode, ACL versus `requirepass`, `maxmemory` policy, and why an open `0.0.0.0:6379` is an instant incident.
 
 ## Sources
-
 - [Redis — Install](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/) — overview
 - [Redis — Configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/) — deep-dive
 - [Redis — ACL](https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/) — deep-dive
 
-## Key Concepts
-
-- **Process model:** `redis-server` + systemd + listen address + persistence directory.
-- **Protected-mode:** default safety when unbound auth would expose you — not a substitute for ACL + firewall.
-- **ACL (6+):** per-user command/key permissions; prefer over legacy `requirepass`.
-- **Memory + persistence:** `maxmemory` + eviction; RDB/AOF trade durability for latency.
+## Recall Cues
+- Why do interviewers care about bind/protected-mode, ACL versus `requirepass`, `maxmemory` policy, and why an open `0.0.0.0:6379` is an instant incident?
+- What mistake is **`requirepass` committed in git — use secret mounts/templates**?
+- What mistake is **`daemonize yes` under systemd notify — breaks supervision**?
+- What mistake is **Leaving transparent huge pages enabled — latency spikes (Redis recommends `never`)**?
+- What mistake is **Missing `vm.overcommit_memory=1` so RDB fork fails**?
+- What mistake is **Blind package upgrades overwriting `/etc/redis/redis.conf`**?
+- What mistake is **Binding `127.0.0.1` inside Docker and expecting the host to reach it without network setup**?
 
 ## Technical Details
-
 ```
 Package / image ──► redis-server ──► reads redis.conf
                          │
@@ -119,28 +122,24 @@ sudo chmod 640 /etc/redis/redis.conf
 | OOM on host | no `maxmemory` | Set cap + eviction policy |
 | Exposed to internet scan | `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
 
-## Real-World Applications
-
-Local cache for a monolith, sidecar Redis in [[Docker compose]], and VPC-private Redis for session stores.
-
-**Example:** App and Redis on one host bind `127.0.0.1`, ACL user `app` limited to `~app:*`, `maxmemory-policy allkeys-lfu`.
-
-## Pros/Cons or Trade-offs
-
-- **Pro:** Fast install path with strong defaults if you keep bind local + ACL.
-- **Con:** Wrong bind exposes an in-memory database to the internet.
-- **Con:** Self-managed multi-master/cluster topology is harder than managed Redis.
-
-## Comparison
-
-- vs managed Redis (ElastiCache/Memorystore): managed wins for HA/patching; self-install wins for local/dev control.
-- vs Redis Stack packages: different unit name and module memory profile — do not assume identical.
-
 ## Mistakes to Avoid
-
 - `requirepass` committed in git — use secret mounts/templates.
 - `daemonize yes` under systemd notify — breaks supervision.
 - Leaving transparent huge pages enabled — latency spikes (Redis recommends `never`).
 - Missing `vm.overcommit_memory=1` so RDB fork fails.
 - Blind package upgrades overwriting `/etc/redis/redis.conf`.
 - Binding `127.0.0.1` inside Docker and expecting the host to reach it without network setup.
+
+## Comparison
+- vs managed Redis (ElastiCache/Memorystore): managed wins for HA/patching; self-install wins for local/dev control.
+- vs Redis Stack packages: different unit name and module memory profile — do not assume identical.
+
+## Real-World Applications
+Local cache for a monolith, sidecar Redis in [[Docker compose]], and VPC-private Redis for session stores.
+
+**Example:** App and Redis on one host bind `127.0.0.1`, ACL user `app` limited to `~app:*`, `maxmemory-policy allkeys-lfu`.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Fast install path with strong defaults if you keep bind local + ACL.
+- **Con:** Wrong bind exposes an in-memory database to the internet.
+- **Con:** Self-managed multi-master/cluster topology is harder than managed Redis.

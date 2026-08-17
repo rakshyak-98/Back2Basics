@@ -4,22 +4,22 @@
 
 > Full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers ask WebSocket to see if you know the Upgrade handshake, why proxies/load balancers kill idle connections, and when to choose WS versus HTTP, SSE, or a managed pub/sub.
 
 ## Sources
-
 - [RFC 6455 — The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455.html) — deep-dive
 - [MDN — Writing WebSocket servers](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers) — overview
 - [Wikipedia — WebSocket](https://en.wikipedia.org/wiki/WebSocket) — overview
 
 ## Core Definition
-
 WebSocket starts as HTTP/1.1 with an Upgrade handshake, then switches to a binary-framed protocol on the same [[TCP]] connection — no repeated HTTP headers per message.
 
 ## Key Concepts
-
 - **Upgrade handshake:** `Upgrade: websocket` + `Sec-WebSocket-Key` → `101 Switching Protocols` then framed messages.
 - **Full-duplex:** either side pushes anytime → chat, live dashboards, collaborative editors.
 - **`ws://` / `wss://`:** browser schemes; TLS via `wss://` (often terminated at the edge).
@@ -27,7 +27,6 @@ WebSocket starts as HTTP/1.1 with an Upgrade handshake, then switches to a binar
 - **Sticky sessions / shared backplane:** in-memory session state needs affinity or pub/sub across pods.
 
 ## Technical Details
-
 ```
 Client                          Server / Proxy
   │  GET /ws HTTP/1.1              │
@@ -117,25 +116,21 @@ function connect(url, attempt = 0) {
 HTTP/2 and HTTP/3 do not carry WebSocket the same way — browsers still upgrade over HTTP/1.1 to the edge; ALB/ingress may need dedicated WS listener rules.
 
 ## Real-World Applications
-
 Live dashboards, chat, collaborative editors, and game lobbies use WebSocket for server push without polling.
 
 **Example:** Connections die every ~60s behind nginx — default `proxy_read_timeout` killed idle sockets; raise it and send application pings under the LB idle limit.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Low overhead after handshake; true bidirectional push on one connection.
 - **Con:** Stateful; harder to load-balance than plain HTTP without sticky sessions or a shared backplane.
 - **Con:** Idle timeouts at every hop (proxy, LB, NAT) — heartbeats are mandatory in production.
 
 ## Comparison
-
 - vs ordinary HTTP/REST or [[gRPC]]: request/response CRUD is simpler to cache, debug, and load-balance — prefer HTTP unless you need continuous push.
 - vs SSE: SSE is server→client over HTTP; WebSocket is full-duplex.
 - vs high-frequency fan-out to millions of clients: dedicated pub/sub ([[MQTT]], SSE, or managed realtime) often scales better operationally.
 
 ## Mistakes to Avoid
-
 - Leaving nginx’s default 60s `proxy_read_timeout` — the #1 production WebSocket killer.
 - Round-robin without sticky sessions or a shared backplane when state lives in one pod’s memory.
 - Assuming HTTP GET `/health` proves WS works — add a lightweight WS ping probe or TCP check on the WS port.

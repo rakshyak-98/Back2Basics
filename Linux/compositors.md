@@ -4,6 +4,10 @@
 
 > A compositor composites window buffers into the final screen image — required for transparency, animations, and many modern desktop effects.
 
+
+
+
+
 ## Interview Relevance
 Separates people who treat “Wayland compositor” as a buzzword from those who know: on Wayland the compositor *is* the display server; on X11 compositing is often an optional add-on (Picom, Mutter effects).
 
@@ -23,7 +27,6 @@ Clients submit pixel buffers; the compositor blends them (and handles presentati
 - **XWayland:** X clients on Wayland still go through the compositor’s X compatibility path.
 
 ## Technical Details
-
 | Model | Who composites | Examples |
 |-------|----------------|----------|
 | X11 + compositor | Optional compositing manager on top of X server | Picom, Mutter (GNOME), KWin effects |

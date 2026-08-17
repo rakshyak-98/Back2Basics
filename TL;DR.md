@@ -4,6 +4,10 @@
 
 > TL;DR — put the outcome and key constraint first; details follow.
 
+
+
+
+
 ## Interview Relevance
 Communication skill interviews and staff promo packets reward executives who lead with the answer. Same habit in PRs, runbooks, and incident chat.
 

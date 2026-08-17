@@ -4,20 +4,20 @@
 
 > Transcoding decodes media then re-encodes it — new codec, size, or bitrate for devices and ABR ladders.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk transcoding end-to-end — not just name it. Signal fluency with **Transcode**, **Remux**, **Mezzanine**, **Ladder** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — transcoding](https://en.wikipedia.org/wiki/transcoding) — overview
 
 ## Core Definition
-
 Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and codecs already match, copy streams.
 
 ## Key Concepts
-
 - **Transcode:** Decode then encode again — “We change format or quality by full re-encode.”
 - **Remux:** Change container only — “No pixel rewrite — much cheaper than transcode.”
 - **Mezzanine:** High-quality intermediate — “Edit/archive in ProRes; deliver H.264 later.”
@@ -33,7 +33,6 @@ Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and co
 4. **Edit workflows** — highly compressed camera → mezzanine for NLEs.
 
 ## Technical Details
-
 ```txt
 Source file / live ingest
       │
@@ -75,13 +74,11 @@ ffmpeg -hwaccel cuda -i in.mp4 \
 Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -benchmark` CPU versus NVENC → spot A/V drift with `-async` / properly synced encodes.
 
 ## Real-World Applications
-
 Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and codecs already match, copy streams.
 
 Used wherever transcoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Only the container is wrong** — remux with stream copy.
 - **Con / skip when:** **Already have a correct ladder** — re-packaging/packaging only; don’t burn encode farm.
@@ -89,7 +86,6 @@ Used wherever transcoding sits in an ingest → package → CDN → player path.
 - **Con / skip when:** **Lossless archive requirement** — store mezzanine / original; transcode is for delivery copies.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Player won’t open file | Codec / container via ffprobe | Transcode to H.264+AAC in MP4/fMP4 |

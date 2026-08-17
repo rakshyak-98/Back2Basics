@@ -4,21 +4,21 @@
 
 > Memory-hard password hashing (yescrypt; filename typo for yescrypt) — raises attacker RAM cost per guess versus fast hashes.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Password storage: memory-hard KDFs (yescrypt/scrypt/Argon2) raise attacker cost versus fast hashes like SHA-256.
 
 ## Sources
-
 - [yescrypt — password hashing scheme](https://www.openwall.com/yescrypt/) — deep-dive
 - [OWASP — Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — overview
 
 ## Core Definition
-
 yescrypt is a memory-hard password hashing KDF (scrypt successor); the vault filename `yashcrypt.md` is a typo for yescrypt.
 
 ## Key Concepts
-
 **yescrypt** is a **password hashing** function (not general encryption), designed for **stored credentials**:
 
 ```txt
@@ -37,7 +37,6 @@ Used where:
 **If you encounter unknown `yashcrypt` in legacy docs:** treat as **yescrypt** or verify against system `crypt(3)` man page — do not invent a custom algorithm.
 
 ## Technical Details
-
 ### Linux password hash (yescrypt)
 
 ```bash
@@ -77,21 +76,17 @@ await bcrypt.compare(password, hash);
 | Unknown `yashcrypt` reference | Typo / internal name | Map to yescrypt or audit codebase |
 
 ## Real-World Applications
-
 Store password hashes with yescrypt (or Argon2id) parameters tuned for your login latency budget.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Memory-hard hashing raises offline cracking cost dramatically.
 - **Con:** Don't use password KDFs for **API signing** or **session tokens** — use [[HMAC (Hash based Message Authentication Codes)]] or random opaque tokens. KDFs are slow by design.
 
 ## Comparison
-
 - vs fast hashes (SHA-256): password KDFs must be slow/memory-hard.
 - vs [[HMAC (Hash based Message Authentication Codes)]]: HMAC authenticates messages; yescrypt hashes passwords for storage.
 
 ## Mistakes to Avoid
-
 - Never SHA256(password) for storage — use yescrypt/argon2/bcrypt/scrypt.
 - Per-user random salt — mandatory; prevents rainbow tables.
 - Constant-time compare — timing leaks hash prefix.

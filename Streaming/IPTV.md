@@ -4,20 +4,20 @@
 
 > IPTV delivers live TV and VOD over an IP network — set-top box or app, not satellite or cable RF.
 
-## Interview Relevance
 
+
+
+
+## Interview Relevance
 Interviewers probe whether you can walk IPTV end-to-end — not just name it. Signal fluency with **IPTV**, **Live**, **VOD**, **Time-shift** and when you would pick a different path.
 
 ## Sources
-
 - [Wikipedia — IPTV](https://en.wikipedia.org/wiki/IPTV) — overview
 
 ## Core Definition
-
 Same product word, different pipes. If you hear “multicast group / IGMP join,” think operator IPTV. If you hear “m3u8 / Widevine,” think OTT packaging.
 
 ## Key Concepts
-
 - **IPTV:** TV over IP on operator or private net — “Channels ride IP, not RF broadcast.”
 - **Live:** Real-time channel — “One multicast group per channel, or ABR unicast.”
 - **VOD:** Pick a title anytime — “Unicast pull from origin/CDN.”
@@ -40,7 +40,6 @@ Same product word, different pipes. If you hear “multicast group / IGMP join,�
 | **OTT “IPTV-like”** | Public internet, [[HLS]] / [[DASH]] + [[DRM]] in the app |
 
 ## Technical Details
-
 ```txt
 Headend / encoder
       │
@@ -84,13 +83,11 @@ UDP/SRT MPEG-TS ingest  ──►  [[flussonic]] / packager
 Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same group from a laptop on that VLAN.
 
 ## Real-World Applications
-
 Same product word, different pipes. If you hear “multicast group / IGMP join,” think operator IPTV. If you hear “m3u8 / Widevine,” think OTT packaging.
 
 Used wherever IPTV sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
 ## Pros/Cons or Trade-offs
-
 - **Pro:** Use when the note's core job matches the problem (see Key Concepts).
 - **Con / skip when:** **Millions of anonymous viewers on the public internet** — use [[HLS]] / [[DASH]] + CDN, not campus multicast.
 - **Con / skip when:** **Browser P2P calls** — that is [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not IPTV headend.
@@ -98,13 +95,11 @@ Used wherever IPTV sits in an ingest → package → CDN → player path. Concre
 - **Con / skip when:** **You need interactive ultra-low latency between two peers** — WebRTC, not multicast TV.
 
 ## Comparison
-
 - vs [[HLS]]: **Millions of anonymous viewers on the public internet** — use [[HLS]] / [[DASH]] + CDN, not campus multicast.
 - vs [[WebRTC]]: **Browser P2P calls** — that is [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not IPTV headend.
 - vs [[Byte stream]]: **Simple file download / progressive MP4 only** — no channel guide, no live mux; keep HTTP progressive or [[Byte stream]] ranges.
 
 ## Mistakes to Avoid
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | All STBs black on one channel | `ffprobe` / TSDuck on that multicast | Bad encode or wrong group — fix headend mapping |
