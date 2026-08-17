@@ -4,25 +4,31 @@
 
 > Startup settings in `.vimrc` / `init.vim` — indentation, search, syntax, and clipboard so Vim matches your project and OS.
 
-
-
-
+```txt
+        vim config ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops and platform interviews care whether you can make stock Vim usable on a fresh box: tabs vs spaces, clipboard feature flags, and why `set clipboard=` silently fails.
+- **Interview probes:** Ops and platform interviews care whether you can make stock Vim usable on a f…
 
 ## Sources
 - [Vim help — options](https://vimhelp.org/options.txt.html) — deep-dive
 - [Vim help — starting](https://vimhelp.org/starting.txt.html) — overview
 
-## Core Definition
-Vim reads user configuration on start (`~/.vimrc` or `$VIMINIT`). Options control editing behavior; feature flags at compile time (`+clipboard` vs `-clipboard`) decide what those options can do.
-
 ## Key Concepts
-- **Compile features:** `vim --version | grep clipboard` — `-clipboard` means `set clipboard=unnamedplus` cannot work until you install a build with `+clipboard` (often `vim-gtk3` on Debian/Ubuntu).
-- **Indentation triad:** `tabstop`, `shiftwidth`, `expandtab` → how Tab and `>>` behave; mismatch causes review noise.
-- **Search UX:** `incsearch`, `ignorecase` + `smartcase` → type-as-you-find without losing case-sensitive searches for mixed-case patterns.
-- **Filetype hooks:** `filetype indent on` → language-specific indent plugins; pair with project [[Linux/editor config|.editorconfig]] when teams share rules.
+- **Compile features:** `vim --version | grep clipboard`
+- **Indentation triad:** `tabstop`, `shiftwidth`, `expandtab` → how Tab and `>>` behave
+- **Search UX:** `incsearch`, `ignorecase` + `smartcase` → type-as-you-find without losing cas…
+- **Filetype hooks:** `filetype indent on` → language-specific indent plugins
+
+
+- **Core:** Vim reads user configuration on start (`~/.vimrc` or `$VIMINIT`). Options con…
 
 ## Technical Details
 ```bash
@@ -53,8 +59,10 @@ filetype plugin indent on
 | Indent jumps oddly | `filetype indent` | Toggle or set per-filetype overrides |
 | Configuration ignored | Wrong file (`init.vim` vs `.vimrc`) | Neovim uses `~/.config/nvim/init.vim` or `init.lua` — see [[nvim/nvim setup]] |
 
-## Real-World Applications
-Jump host with minimal Vim: drop a tiny `.vimrc` with `expandtab` / `shiftwidth` matching the repository, confirm `+clipboard` if you paste from the workstation.
+## Mistakes to Avoid
+- **Mistake:** Blaming `xclip` when the binary is `-clipboard`
+- **Mistake:** Setting `tabstop=2` but `shiftwidth=4`
+- **Mistake:** Copying a huge plugin-manager configuration onto production bast…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One file makes every new machine feel the same.
@@ -64,7 +72,6 @@ Jump host with minimal Vim: drop a tiny `.vimrc` with `expandtab` / `shiftwidth`
 - vs Neovim `init.lua`: same ideas, Lua API and built-in LSP (see [[nvim/nvim setup]]).
 - vs IDE settings sync: Vim configuration is plain text and SSH-friendly; no account required.
 
-## Mistakes to Avoid
-- Blaming `xclip` when the binary is `-clipboard` — the feature must be compiled in.
-- Setting `tabstop=2` but `shiftwidth=4` — `>>` and Tab will disagree.
-- Copying a huge plugin-manager configuration onto production bastions — prefer a minimal rc.
+
+### Use cases
+- Jump host with minimal Vim: drop a tiny `.vimrc` with `expandtab` / `shiftwid…

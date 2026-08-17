@@ -4,12 +4,18 @@
 
 > Source-to-source translator — rewrite modern (or alternate) syntax into another high-level dialect older runtimes or different platforms accept.
 
-
-
-
+```txt
+        Transpiler ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast transpile vs compile, why Babel/TypeScript exist, and the cost of source maps and downleveling for browser support matrices.
+- **Interview probes:** Interviewers contrast transpile vs compile, why Babel/TypeScript exist, and t…
 
 ## Sources
 - [Wikipedia — Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) — overview
@@ -26,7 +32,7 @@ Interviewers contrast transpile vs compile, why Babel/TypeScript exist, and the 
 Modern TS/JSX/ESNext ──transpile──► Plain JS ( + polyfills separately )
 ```
 
-Examples: TypeScript compiler (`tsc`), Babel, Dart→JS (historical), CoffeeScript→JS, Java→Java (Android desugar-style tools).
+- Examples: TypeScript compiler (`tsc`), Babel, Dart→JS (historical), CoffeeScr…
 
 | Concern | Handled by |
 |---------|------------|
@@ -34,20 +40,21 @@ Examples: TypeScript compiler (`tsc`), Babel, Dart→JS (historical), CoffeeScri
 | Missing runtime APIs | Polyfills / shims |
 | Native machine code | Real [[compiler]] / JIT |
 
-## Real-World Applications
-Web apps ship transpiled bundles so one codebase runs on a support policy (e.g. “last two Chrome versions + defined Safari”).
-
-**Example:** Optional chaining breaks an old WebView — lower `target` in Babel/`tsconfig` or drop that WebView from support.
+## Mistakes to Avoid
+- **Mistake:** Transpiling syntax but forgetting polyfills for `Promise`, `fetc…
+- **Mistake:** Debugging minified output without source maps
+- **Mistake:** Targeting “ESNext” in production with no defined browser policy
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Use new language features without abandoning old runtimes on day one.
 - **Con:** Build complexity, slower builds, and mismatches when source maps are missing.
 
 ## Comparison
-- vs [[compiler]]: compilers typically emit machine code or VM bytecode; transpilers emit another high-level language.
+- vs [[compiler]]: compilers typically emit machine code or VM bytecode
 - vs polyfill: transpile rewrites syntax; polyfill implements missing APIs at runtime.
 
-## Mistakes to Avoid
-- Transpiling syntax but forgetting polyfills for `Promise`, `fetch`, etc.
-- Debugging minified output without source maps.
-- Targeting “ESNext” in production with no defined browser policy.
+
+### Use cases
+- Web apps ship transpiled bundles so one codebase runs on a support policy (e.g
+
+- **Example:** Optional chaining breaks an old WebView

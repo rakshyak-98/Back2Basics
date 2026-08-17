@@ -4,12 +4,18 @@
 
 > Controlled inputs take value+onChange from React state; uncontrolled inputs use DOM state via refs.
 
-
-
-
+```txt
+        Controlled and Unc ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
+- **Interview probes:** Interviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Controlled and Uncontrolled component Pattern docs](https://react.dev/reference/react-dom/components/input) — deep-dive
@@ -20,10 +26,11 @@ Interviewers ask which composition pattern fits the API you want — and what br
 - **Keep for APIs:** compound components / providers when the JSX API matters.
 
 ## Technical Details
-See also sibling notes under `React Pattern/` and [[React design patterns]].
+- See also sibling notes under `React Pattern/` and [[React design patterns]].
 
-## Real-World Applications
-Reach for Controlled and Uncontrolled component Pattern when the component API needs that composition style; otherwise prefer hooks.
+## Mistakes to Avoid
+- **Mistake:** Introducing HOCs in greenfield 2026 code without a library const…
+- **Mistake:** Provider for high-frequency changing values
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared vocabulary in code reviews.
@@ -32,6 +39,6 @@ Reach for Controlled and Uncontrolled component Pattern when the component API n
 ## Comparison
 - vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
 
-## Mistakes to Avoid
-- Introducing HOCs in greenfield 2026 code without a library constraint.
-- Provider for high-frequency changing values.
+
+### Use cases
+- Reach for Controlled and Uncontrolled component Pattern when the component AP…

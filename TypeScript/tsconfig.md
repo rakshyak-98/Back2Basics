@@ -4,27 +4,33 @@
 
 > `tsconfig.json` tells the TypeScript compiler which files to include, how strict to check, how modules resolve, and whether to emit JavaScript.
 
-
-
-
+```txt
+        tsconfig ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about `tsconfig` to see if you enable `strict`, understand `module`/`moduleResolution`, and know that `paths` aliases are compile-time only unless the bundler mirrors them.
+- **Interview probes:** Interviewers ask about `tsconfig` to see if you enable `strict`, understand `…
 
 ## Sources
 - [TypeScript Handbook — tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) — deep-dive
 - [TypeScript — Compiler Options](https://www.typescriptlang.org/tsconfig) — deep-dive
 - [TypeScript Handbook — Modules](https://www.typescriptlang.org/docs/handbook/modules.html) — overview
 
-## Core Definition
-A `tsconfig.json` is the project file for `tsc`: `include`/`exclude` define roots; `compilerOptions` set target, module mode, strictness, emit, and tooling knobs such as incremental builds and path aliases.
-
 ## Key Concepts
 - **Safety flags:** `strict`, `noUncheckedIndexedAccess` → catch null and index bugs early.
-- **Module settings:** `module`, `moduleResolution`, `verbatimModuleSyntax` → must match Node or bundler reality.
+- **Module settings:** `module`, `moduleResolution`, `verbatimModuleSyntax` → must match Node or bun…
 - **Emit vs check-only:** `noEmit` / `declaration` / `outDir` → CI often typechecks without emitting.
 - **Path aliases:** `paths` + `baseUrl` → IDE/tsc only; runtime needs real resolution.
 - **Incremental:** `incremental` + `tsBuildInfoFile` → faster rebuilds when cached in CI.
+
+
+- **Core:** A `tsconfig.json` is the project file for `tsc`: `include`/`exclude` define r…
 
 ## Technical Details
 ```txt
@@ -67,10 +73,11 @@ npx tsc -b  # project references
 | Slow CI | No incremental cache | Cache `tsbuildinfo` |
 | Emit into the repository | Accidental emit | `noEmit` or clean `outDir` |
 
-## Real-World Applications
-Apps use `noEmit: true` with Vite/webpack owning emit; libraries emit `.d.ts` with `declaration: true`; monorepos use project references (`tsc -b`).
-
-**Example:** Imports work in the IDE via `paths` but crash in Node — aliases were never configured in the bundler or `exports`.
+## Mistakes to Avoid
+- **Mistake:** Treating `paths` as Node resolution
+- **Mistake:** Loosening `strict` to silence errors instead of fixing types
+- **Mistake:** Mixing app and test `tsconfig` casually until IDE and CLI disagr…
+- **Mistake:** Emitting build artifacts into source trees without a clean `outD…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One file encodes safety and module policy for the whole project.
@@ -78,12 +85,12 @@ Apps use `noEmit: true` with Vite/webpack owning emit; libraries emit `.d.ts` wi
 - **Con:** Multiple configs (app / Node / test) confuse editors if the wrong root is used.
 
 ## Comparison
-- vs command-line flags alone: `tsconfig` is shareable project truth; flags override for one-off runs.
-- vs [[ambient modules]] / [[Triple-Slash Directives]]: prefer `types`/`include` in `tsconfig` over scattered triple-slash refs.
+- vs command-line flags alone: `tsconfig` is shareable project truth
+- vs [[ambient modules]] / [[Triple-Slash Directives]]: prefer `types`/`include` in `tsconfig` over…
 - vs bundler configuration: bundler owns runtime emit; `tsc --noEmit` owns type safety in CI.
 
-## Mistakes to Avoid
-- Treating `paths` as Node resolution — runtime still needs real modules.
-- Loosening `strict` to silence errors instead of fixing types.
-- Mixing app and test `tsconfig` casually until IDE and CLI disagree.
-- Emitting build artifacts into source trees without a clean `outDir`.
+
+### Use cases
+- Apps use `noEmit: true` with Vite/webpack owning emit
+
+- **Example:** Imports work in the IDE via `paths` but crash in Node

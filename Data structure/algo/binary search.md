@@ -4,19 +4,24 @@
 
 > Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
-
-
-
+```txt
+        Binary search ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Binary search interviews fail on boundary conditions — mid overflow, inclusive ranges, and “first true” predicate search.
+- **Interview probes:** Binary search interviews fail on boundary conditions
 
 ## Sources
 - [Wikipedia — Binary search algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) — overview
 - [CP-Algorithms — Binary search](https://cp-algorithms.com/numerics/binary-search.html) — deep-dive
 
 ## Key Concepts
-Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
+- **Note:** Requires **sorted** array or monotonic predicate
 
 ```
 sorted: [1,3,5,7,9]  target 7
@@ -76,9 +81,9 @@ while (lo < hi) {
 | Off by one | Post-condition | Verify `lo` at exit equals intended bound |
 | TLE on "sorted" | Not monotonic predicate | Prove monotonicity before binary search |
 
+## Mistakes to Avoid
+- **Mistake:** `(lo + hi) / 2` overflow
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't binary search unsorted data without transformation.
 - **Trade-off:** Don't use when n < ~50 — linear scan simpler and cache-friendly.
-
-## Mistakes to Avoid
-- `(lo + hi) / 2` overflow — use `lo + ((hi - lo) >> 1)` in other languages. Duplicates — lower vs upper bound return different indices. Search on rotated array — modified invariant; don't paste vanilla template.

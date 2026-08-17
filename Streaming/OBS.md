@@ -4,18 +4,24 @@
 
 > Desktop capture + encode + publish for live — **default RTMP publisher** for creators and ops smoke tests.
 
-
-
-
+```txt
+        OBS (Open Broadcas ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about OBS to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about OBS to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — OBS](https://en.wikipedia.org/wiki/OBS) — overview
 
 ## Key Concepts
-**OBS** composes **scenes** (camera, display, browser, images), **encodes** in real time, and **publishes** via **[[RTMP]]** (or RTMPS) to an **ingest** endpoint, or **records** locally. It is a **single-publisher client** — not a CDN, packager, or DRM layer. Production stacks receive OBS at **[[ingestion]]**, then transcode/package to **[[HLS]]/[[DASH]]**.
+- **Note:** **OBS** composes **scenes** (camera, display, browser, images), **encodes** i…
 
 | Output          | Typical setting       | Pitfall                            |
 | --------------- | --------------------- | ---------------------------------- |
@@ -76,7 +82,7 @@ ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30 \
   "rtmp://ingest.example.com/live/STREAM_KEY"
 ```
 
-If ffmpeg works but OBS fails → OBS service URL or key typo.
+- If ffmpeg works but OBS fails → OBS service URL or key typo.
 
 ### Recording for later ladder (better quality than stream)
 
@@ -95,18 +101,6 @@ Search: "rtmp", "error", "disconnect"
 Linux: ~/.config/obs-studio/logs/
 ```
 
-## Real-World Applications
-Used wherever OBS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **24/7 unattended headless channel** — use ffmpeg/GStreamer on server with watchdog.
-- **Con / skip when:** **Multi-bitrate direct to players** — OBS sends one RTMP; packager creates ladder.
-- **Con / skip when:** **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
-
-## Comparison
-- vs [[DRM]]: **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,8 +112,21 @@ Used wherever OBS sits in an ingest → package → CDN → player path. Concret
 | Pixelated fast motion | Bitrate too low | +1000 Kbps or drop to 720p |
 | Stream OK, record corrupt | Disk full | MKV recoverable vs MP4 |
 
-- **Stream key in screenshot** — rotate key if leaked; use OBS secret field only.
-- **CBR off (VBR in OBS)** — uplink spikes → ingest buffer → added latency.
-- **Keyframe 0 (= auto)** — may not align with 2s HLS segments; set **2 s explicitly**.
-- **Browser source @ 60fps on 30fps output** — wasted CPU; match canvas FPS.
-- **OBS ≠ production transcoder** — one bitrate to ingest; ABR happens downstream ([[Multi Stream]] ladder).
+- **Mistake:** **Stream key in screenshot**
+- **CBR off (VBR in OBS)** — uplink spikes::** → ingest buffer → added latency
+- **Mistake:** **Keyframe 0 (= auto)**
+- **Mistake:** **Browser source @ 60fps on 30fps output**
+- **Mistake:** **OBS ≠ production transcoder**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **24/7 unattended headless channel**
+- **Con / skip when:** **Multi-bitrate direct to players**
+- **Con / skip when:** **Studio DRM**
+
+## Comparison
+- vs [[DRM]]: **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
+
+
+### Use cases
+- Used wherever OBS sits in an ingest → package → CDN → player path

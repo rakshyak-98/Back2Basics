@@ -4,19 +4,24 @@
 
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
-
-
-
+```txt
+        Frontend Datastruc ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Frontend structure choices (Map/Set/ring buffers) show up in UI performance interviews — caches, dedupe, and render hot paths.
+- **Interview probes:** Frontend structure choices (Map/Set/ring buffers) show up in UI performance i…
 
 ## Sources
 - [MDN — Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) — overview
 - [MDN — Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) — overview
 
 ## Key Concepts
-Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
+- **Note:** Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (orde…
 
 ```txt
 UI pattern              → Structure
@@ -29,9 +34,9 @@ FIFO work queue         → Array deque or ring buffer
 Priority updates        → Map + sorted index (or heap lib)
 ```
 
-**React note:** immutable updates — copy-on-write for Maps (`new Map(prev)`) or structural sharing (Immer).
+- **Note:** **React note:** immutable updates
 
-**Big-O in FE matters when:** virtual lists (10k+ rows), graph editors, real-time tick buffers, client search indexes.
+- **Note:** **Big-O in FE matters when:** virtual lists (10k+ rows), graph editors, real-…
 
 ## Technical Details
 ### Map vs Object
@@ -134,13 +139,13 @@ meta.set(domNode, { lastMeasure: 42 });
 | Duplicate keys in virtual list | Index as React key | Stable entity id from Map |
 | Race in async fetch | Last-write-wins | Request id / AbortController + Map stamp |
 
+## Mistakes to Avoid
+- **Mistake:** `Object` keys are strings
+- **Mistake:** Spread huge Set/Map every render
+- **`JSON.stringify(Map)`::** → `{}` — serialize to entries array for persistence
+- **Mistake:** Sorted array + splice for queue
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** < 100 items — plain array + `find` is fine; don't pre-optimize.
 - **Trade-off:** Server-authoritative pagination — client Map of "all rows" fights product; page cache only.
 - **Trade-off:** Replace DB index — client structures mirror UX needs, not SQL semantics.
-
-## Mistakes to Avoid
-- `Object` keys are strings — `obj[1]` and `obj["1"]` collide; use Map for numeric ids.
-- Spread huge Set/Map every render — O(n) allocation; derive memoized array in selector (Reselect, useMemo).
-- `JSON.stringify(Map)` → `{}` — serialize to entries array for persistence.
-- Sorted array + splice for queue — O(n); use ring buffer or dedicated deque.

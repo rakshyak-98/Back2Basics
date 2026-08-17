@@ -4,22 +4,27 @@
 
 > Locally optimal choice at each step — works when problem has **greedy choice property** and **optimal substructure**; otherwise wrong answer with confidence.
 
-
-
-
+```txt
+        Greedy algorithm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Greedy questions test whether you can prove a local choice is safe — exchange argument or counterexample, not vibes.
+- **Interview probes:** Greedy questions test whether you can prove a local choice is safe
 
 ## Sources
 - [Wikipedia — Greedy algorithm](https://en.wikipedia.org/wiki/Greedy_algorithm) — overview
 - [CLRS — Greedy algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) — deep-dive
 
 ## Key Concepts
-At each step, pick the best-looking option now without backtracking. Fast (often O(n log n) from sorting). Proof burden is on you: exchange argument or matroid. Classic wins: interval scheduling, Huffman, Dijkstra (non-negative weights), activity selection.
+- **Note:** At each step, pick the best-looking option now without backtracking
 
 ```
-Sort/preprocess → for each step pick max profit / min finish time / closest fit
+- **Note:** Sort/preprocess → for each step pick max profit / min finish time / closest f…
 ```
 
 ## Technical Details
@@ -66,9 +71,9 @@ function minCoins(amount) {
 | Interval bug | Sort by wrong endpoint | Activity: sort by **finish** time |
 | Knapsack wrong | Fractional vs 0/1 | Fractional greedy by value/weight; 0/1 needs DP |
 
+## Mistakes to Avoid
+- **Mistake:** Coin change — greedy only for canonical systems
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't greedy 0/1 knapsack or general coin change without proof.
 - **Trade-off:** Don't skip proof in interview — state why greedy safe or pivot to DP.
-
-## Mistakes to Avoid
-- Coin change — greedy only for canonical systems; general case is NP-hard (DP). Looks right on samples — greedy failures need crafted cases in review. Stable sort matters — tie-breaking can change interval results.

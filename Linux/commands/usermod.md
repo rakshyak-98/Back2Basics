@@ -4,25 +4,31 @@
 
 > Mutates an existing local account — shell, home, groups, lock — in passwd/shadow/group.
 
-
-
-
+```txt
+        usermod ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-The classic trap: `usermod -G` **replaces** supplementary groups; production always uses `-aG` to append.
+- **Interview probes:** The classic trap: `usermod -G` **replaces** supplementary groups
 
 ## Sources
 - [man usermod](https://man7.org/linux/man-pages/man8/usermod.8.html) — deep-dive
 - [Wikipedia — usermod](https://en.wikipedia.org/wiki/Usermod) — overview
-
-## Core Definition
-`usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) for local accounts. Active sessions keep old UID/GID until re-login. NSS/LDAP accounts need directory tools.
 
 ## Key Concepts
 - **`-aG` append vs `-G` replace:** forgetting `-a` drops sudo/docker membership.
 - **`-L` / `-U`:** lock/unlock password — keys may still work.
 - **`-d DIR -m`:** set home and move files; `-m` required to relocate contents.
 - **`-s` shell:** nologin to disable interactive login.
+
+
+- **Core:** `usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) for …
 
 ## Technical Details
 ```
@@ -52,7 +58,7 @@ sudo usermod -L compromised
 getent passwd alice
 ```
 
-After group change: full logout (or `newgrp`) for supplementary groups to apply.
+- After group change: full logout (or `newgrp`) for supplementary groups to app…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,8 +67,10 @@ After group change: full logout (or `newgrp`) for supplementary groups to apply.
 | Can’t login | Shell path | `usermod -s /bin/bash` |
 | Change ignored | sssd/LDAP | Directory tools |
 
-## Real-World Applications
-Adding engineers to `docker`/`sudo`, locking compromised accounts, and relocating homes during username renames.
+## Mistakes to Avoid
+- **Mistake:** `usermod -G docker` without `-a`
+- **Mistake:** Rename without `-m` leaving a mismatched home path
+- **Mistake:** Expecting running daemons to pick up new groups without restart/…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise local account surgery without recreate.
@@ -72,7 +80,6 @@ Adding engineers to `docker`/`sudo`, locking compromised accounts, and relocatin
 - vs [[useradd]]: create vs mutate.
 - vs [[passwd]] `-l`: similar password lock path; usermod also covers shell/home/groups.
 
-## Mistakes to Avoid
-- `usermod -G docker` without `-a`.
-- Rename without `-m` leaving a mismatched home path.
-- Expecting running daemons to pick up new groups without restart/re-login.
+
+### Use cases
+- Adding engineers to `docker`/`sudo`, locking compromised accounts, and reloca…

@@ -4,12 +4,18 @@
 
 > Immediately Invoked Function Expression — run a function once at definition time to make a private scope.
 
-
-
-
+```txt
+        IIFC (IIFE) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **IIFC (IIFE)** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **IIFE**, **module pattern**, **async IIFE**.
+- **Interview probes:** Interviewers use **IIFC (IIFE)** to check whether you can explain the mechani…
 
 ## Sources
 - [MDN — IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) — deep-dive
@@ -42,21 +48,22 @@ const counter = (() => {
 | Arrow IIFE | `( () => {} )()` |
 | Strict mode | `'use strict'` inside |
 
-## Real-World Applications
-In production APIs and tooling, **IIFC** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **ES modules already have scope** — IIFE rarely needed in modern apps; **Async IIFE errors** — become unhandled rejections if not caught.
+## Mistakes to Avoid
+- **Mistake:** **ES modules already have scope**
+- **Mistake:** **Async IIFE errors** — become unhandled rejections if not caught
+- **Mistake:** **Not a function error:** check Missing `()` invoke
+- **Mistake:** **ASI bug:** check `}(` after expression; fix: Leading semicolon
+- **Mistake:** **Unhandled rejection:** check Async IIFE
+- **Mistake:** **Globals leak:** check Forgot const/let
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Immediately Invoked Function Expression — run a function once at definition time…).
 - **Con / when not:** **ESM/CJS modules** — use real modules.
-- **Con / when not:** **React components** — don’t IIFE for render logic casually.
+- **Con / when not:** **React components**
 
 ## Comparison
-vs [[hoisting]]: know when each applies — do not treat them as interchangeable. vs [[Callback]]: know when each applies — do not treat them as interchangeable. vs [[UMD global]]: know when each applies — do not treat them as interchangeable.
+- vs [[hoisting]]: know when each applies
 
-## Mistakes to Avoid
-- **ES modules already have scope** — IIFE rarely needed in modern apps.
-- **Async IIFE errors** — become unhandled rejections if not caught.
-- **Not a function error:** check Missing `()` invoke; fix: Add invocation parens
-- **ASI bug:** check `}(` after expression; fix: Leading semicolon
-- **Unhandled rejection:** check Async IIFE; fix: `.catch` on the promise
-- **Globals leak:** check Forgot const/let; fix: Use block/module scope
+
+### Use cases
+- In production APIs and tooling, **IIFC** shows up whenever teams ship Node/JS…

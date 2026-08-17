@@ -4,12 +4,17 @@
 
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
-
-
-
+```txt
+        Regression ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Regression to check whether you can choose models/metr…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -17,15 +22,15 @@ Interviewers ask about Regression to check whether you can choose models/metrics
 - [Linear regression — Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) — overview
 
 ## Key Concepts
-Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
+- **Note:** Supervised task where **y ∈ ℝ** (or bounded interval treated as regression)
 
 ```txt
 Linear:     ŷ = β₀ + β₁x₁ + … + βₚxₚ
 Polynomial: add xᵢ², xᵢxⱼ → [[Model/Polynomial regression]]
-Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
+- **Note:** Nonlinear: [[Decision tree]], [[Gradient boosting]], [[ANN]]
 ```
 
-**Explanatory versus predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
+- **Note:** **Explanatory versus predictive:** OLS coefficients interpret causally only u…
 
 | Variant | Use when |
 |---------|----------|
@@ -57,12 +62,7 @@ pred = np.expm1(model.predict(X_test))
 
 ### Multinomial logistic (classification, not regression)
 
-Despite the name, **multinomial logistic regression** predicts **class probabilities** — see [[multiclass classification]], not this note.
-
-## Pros/Cons or Trade-offs
-- **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
-- **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
-- **Heavy zero-inflation** (counts with many zeros) — Poisson/negative binomial or two-part models.
+- Despite the name, **multinomial logistic regression** predicts **class probab…
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -80,3 +80,8 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
 Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual plot]] after every serious regression build.
+
+## Pros/Cons or Trade-offs
+- **Categorical unordered target**
+- **Ranking quality**
+- **Heavy zero-inflation** (counts with many zeros)

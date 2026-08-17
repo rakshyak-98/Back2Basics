@@ -4,18 +4,24 @@
 
 > Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
-
-
-
+```txt
+        Manifest (streamin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about Manifest to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Manifest to see if you understand the pipeline role, f…
 
 ## Sources
 - [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest) — overview
 
 ## Key Concepts
-A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls **media segments** over HTTP. **[[ABR]]** decisions use manifest-declared `BANDWIDTH` / `Representation` attributes — wrong manifest = wrong quality or failed playback.
+- **Note:** A **streaming manifest** is **metadata** listing segment URLs, bitrates, code…
 
 | Format | Files | Spec |
 |--------|-------|------|
@@ -23,7 +29,7 @@ A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs,
 | **DASH** | `.mpd` | ISO 23009-1 — see [[MPD]] |
 | **Smooth / MSS** | Legacy | Avoid greenfield |
 
-**Master** manifest lists renditions; **media** manifest lists segment sequence for one rendition.
+- **Note:** **Master** manifest lists renditions
 
 ## Technical Details
 ```txt
@@ -92,16 +98,7 @@ xmllint --noout manifest.mpd   # DASH MPD well-formed
 ffmpeg -i in.mp4 -c copy -f hls -hls_time 4 -hls_list_size 0 -master_pl_name master.m3u8 stream.m3u8
 ```
 
-For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
-
-## Real-World Applications
-Used wherever Manifest sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Progressive MP4 only** — single URL, no manifest; no ABR.
-- **Con / skip when:** **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
-- **Con / skip when:** **Embedding segment list in application** — manifests exist to update without application release.
+- For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -114,7 +111,16 @@ Used wherever Manifest sits in an ingest → package → CDN → player path. Co
 | DRM fail | `#EXT-X-KEY` / ContentProtection | Align with [[DRM]] / [[EME]] |
 | Infinite manifest poll storm | `#EXT-X-TARGETDURATION` too low | Match max segment duration |
 
-- **Stale `MEDIA-SEQUENCE` after packager restart** — players hang; bump sequence or `#EXT-X-DISCONTINUITY`.
-- **Absolute vs relative URLs** — CDN path drift breaks segments; prefer relative in same directory.
-- **Master without `INDEPENDENT-SEGMENTS`** — some players slow-switch on fMP4.
-- **LL-HLS partial tags on non-LL players** — gate features by player capability.
+- **Mistake:** **Stale `MEDIA-SEQUENCE` after packager restart**
+- **Mistake:** **Absolute vs relative URLs**
+- **Mistake:** **Master without `INDEPENDENT-SEGMENTS`**
+- **Mistake:** **LL-HLS partial tags on non-LL players**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Progressive MP4 only**
+- **Con / skip when:** **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
+- **Con / skip when:** **Embedding segment list in application**
+
+## Real-World Applications
+- **Scenario:** Used wherever Manifest sits in an ingest → package → CDN → player path

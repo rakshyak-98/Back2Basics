@@ -4,26 +4,32 @@
 
 > RTSP is a control protocol for on-demand and live media — clients send PLAY/PAUSE over TCP, then receive RTP packets (usually UDP) carrying the actual A/V.
 
-
-
-
+```txt
+        RTSP (Real Time St ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk RTSP end-to-end — not just name it. Signal fluency with **RTSP**, **RTP**, **SDP**, **Interleaved** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk RTSP end-to-end
 
 ## Sources
 - [Wikipedia — RTSP](https://en.wikipedia.org/wiki/RTSP) — overview
 - [RFC 7826 — RTSP 2.0](https://datatracker.ietf.org/doc/html/rfc7826) — deep-dive
 
 ## Key Concepts
-- **RTSP:** Session control (RFC 2326 / 7826) — “RTSP negotiates the session; it doesn’t carry all the media bytes.”
-- **RTP:** Real-time transport of encoded frames — “After PLAY, media flows as RTP payloads.”
-- **SDP:** Session description (codecs, ports) — “DESCRIBE returns SDP — same family as WebRTC, different use.”
-- **Interleaved:** RTP inside the RTSP TCP socket — “When UDP is blocked, RTP rides on the RTSP connection.”
-- **ANNOUNCE / RECORD:** Publisher pushes to server — “Less common than pull PLAY; some encoders publish this way.”
+- **RTSP:** Session control (RFC 2326 / 7826)
+- **RTP:** Real-time transport of encoded frames
+- **SDP:** Session description (codecs, ports)
+- **Interleaved:** RTP inside the RTSP TCP socket
+- **ANNOUNCE / RECORD:** Publisher pushes to server
 - **554:** Default RTSP port — “Cameras and NVRs listen here unless remapped.”
 - **Protocol:** Transport — Typical role
-- **RTSP:** TCP control + RTP/UDP media — IP cameras, NVR, surveillance, some IPTV headends
+- **RTSP:** TCP control + RTP/UDP media
 - **[[RTMP]]:** Single TCP (FLV mux) — Encoder → origin ingest
 - **[[SRT]]:** UDP + ARQ + encryption — Contribution over lossy WAN
 - **[[HLS]]:** HTTP segments — CDN → players
@@ -82,7 +88,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://cam/live" \
   /var/www/hls/cam/index.m3u8
 ```
 
-Run as a supervised service — cameras drop idle RTSP sessions; reconnect logic belongs in the bridge.
+- Run as a supervised service
 
 ### Publish RTSP (ffmpeg RTSP server pattern)
 
@@ -91,7 +97,7 @@ Run as a supervised service — cameras drop idle RTSP sessions; reconnect logic
 ffmpeg -re -i sample.mp4 -c copy -f rtsp rtsp://127.0.0.1:8554/live/stream
 ```
 
-Production publish paths usually use **MediaMTX**, **GStreamer RTSP server**, or vendor NVR — not raw ffmpeg alone.
+- Production publish paths usually use **MediaMTX**, **GStreamer RTSP server**,…
 
 ### ONVIF / camera discovery (ops)
 
@@ -100,7 +106,7 @@ rtsp://<ip>:554/Streaming/Channels/101   # Hikvision main stream (vendor-specifi
 rtsp://<ip>:554/cam/realmonitor?channel=1&subtype=0   # Dahua pattern
 ```
 
-Vendor URL paths differ — check camera docs; credentials often required on first DESCRIBE.
+- Vendor URL paths differ
 
 ### Health checks
 
@@ -109,21 +115,6 @@ nc -zv camera.example.com 554
 timeout 10 ffprobe -rtsp_transport tcp -v error \
   "rtsp://camera.example.com/stream"
 ```
-
-## Real-World Applications
-Used wherever RTSP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Browser-first live to thousands** — package [[HLS]] / [[DASH]] behind a CDN; RTSP doesn’t scale as viewer egress.
-- **Con / skip when:** **Encoder → cloud ingest from home uplink** — prefer [[SRT]] or [[RTMP]] with ARQ/TCP semantics tuned for contribution.
-- **Con / skip when:** **Sub-second interactive** — [[WebRTC]] / WHIP, not RTSP pull + transcode.
-- **Con / skip when:** **Untrusted WAN without TLS** — RTSP/RTP are often cleartext; VPN or RTSP-over-TLS gateway for remote access.
-
-## Comparison
-- vs [[HLS]]: **Browser-first live to thousands** — package [[HLS]] / [[DASH]] behind a CDN; RTSP doesn’t scale as viewer egress.
-- vs [[SRT]]: **Encoder → cloud ingest from home uplink** — prefer [[SRT]] or [[RTMP]] with ARQ/TCP semantics tuned for contribution.
-- vs [[WebRTC]]: **Sub-second interactive** — [[WebRTC]] / WHIP, not RTSP pull + transcode.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -137,8 +128,24 @@ Used wherever RTSP sits in an ingest → package → CDN → player path. Concre
 | High latency (30 s+) | Camera buffer + TCP | Substream; lower GOP; don’t stack HLS on top for “live” SLA |
 | Multiple clients, one fails | Camera max sessions | Aggregate with one pull → fan-out ([[HLS]]) |
 
-- **RTSP URL ≠ browser URL** — players need HTTP manifests or WebRTC; never expose raw camera RTSP to the public internet without auth and TLS termination.
-- **UDP RTP through NAT** — SETUP negotiates client ports; asymmetric NAT breaks unless TCP interleave or a reflector is used.
-- **SDP in DESCRIBE is not WebRTC SDP** — same acronym family ([[SDP (Session Description Protocol)]]) but different signaling stack; don’t paste camera SDP into `RTCPeerConnection`.
-- **Main vs sub stream** — `/101` vs `/102` style paths: main is high bitrate; sub is for mobile preview — pick intentionally for relay cost.
-- **Clock skew** — RTP timestamps come from the device; long runs may drift vs wall clock; remux/transcode bridges should not assume NTP on cheap cameras.
+- **Mistake:** **RTSP URL ≠ browser URL**
+- **Mistake:** **UDP RTP through NAT**
+- **Mistake:** **SDP in DESCRIBE is not WebRTC SDP**
+- **Mistake:** **Main vs sub stream**
+- **Mistake:** **Clock skew**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser-first live to thousands**
+- **Con / skip when:** **Encoder → cloud ingest from home uplink**
+- **Con / skip when:** **Sub-second interactive**
+- **Con / skip when:** **Untrusted WAN without TLS**
+
+## Comparison
+- vs [[HLS]]: **Browser-first live to thousands**
+- vs [[SRT]]: **Encoder → cloud ingest from home uplink**
+- vs [[WebRTC]]: **Sub-second interactive** — [[WebRTC]] / WHIP, not RTSP pull + transcode.
+
+
+### Use cases
+- Used wherever RTSP sits in an ingest → package → CDN → player path

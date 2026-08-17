@@ -4,12 +4,18 @@
 
 > MySQL accounts are `user`@`host` pairs with an auth plugin and grants — apply least privilege for apps and humans.
 
-
-
-
+```txt
+        mysql user ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect create-user + grant examples, plugin differences (`caching_sha2_password`), and “never use root in the app.”
+- **Interview probes:** Expect create-user + grant examples, plugin differences (`caching_sha2_passwo…
 
 ## Sources
 - [CREATE USER](https://dev.mysql.com/doc/refman/en/create-user.html) — deep-dive
@@ -30,8 +36,10 @@ SELECT user, host, plugin FROM mysql.user;
 SHOW GRANTS FOR 'app'@'10.%';
 ```
 
-## Real-World Applications
-Per-environment app users restricted to VPC CIDRs; human break-glass accounts with short-lived credentials and roles.
+## Mistakes to Avoid
+- **Mistake:** Application connections as `root`@`%`
+- **Mistake:** Wildcard hosts with powerful grants on the public internet
+- **Mistake:** Leaving unused accounts enabled after offboarding
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Host scoping limits stolen-password usefulness off-network.
@@ -39,9 +47,8 @@ Per-environment app users restricted to VPC CIDRs; human break-glass accounts wi
 - **Trade-off:** Shared app user vs per-service users (blast radius vs operational overhead).
 
 ## Comparison
-vs [[psql user]]: PostgreSQL roles unify users/groups; MySQL keeps `user`@`host` plus optional roles in 8.0+.
+- vs [[psql user]]: PostgreSQL roles unify users/groups
 
-## Mistakes to Avoid
-- Application connections as `root`@`%`.
-- Wildcard hosts with powerful grants on the public internet.
-- Leaving unused accounts enabled after offboarding.
+
+### Use cases
+- Per-environment app users restricted to VPC CIDRs

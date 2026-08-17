@@ -4,19 +4,22 @@
 
 > Symmetric encryption — same secret key encrypts and decrypts; fast bulk crypto once both sides share the key.
 
-
-
-
+```txt
+        symmetrical encryp ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Crypto basics: same key both ways, AES-GCM preferred, key distribution problem that asymmetric crypto solves.
+- **Interview probes:** Crypto basics: same key both ways, AES-GCM preferred, key distribution proble…
 
 ## Sources
 - [NIST SP 800-38D — GCM](https://csrc.nist.gov/publications/detail/sp/800-38d/final) — deep-dive
 - [Wikipedia — Symmetric-key algorithm](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) — overview
-
-## Core Definition
-Symmetric encryption uses the same secret key to encrypt and decrypt; it is fast for bulk data once both sides share the key.
 
 ## Key Concepts
 ```txt
@@ -31,6 +34,9 @@ Shared session key ──AES-GCM──► encrypted bytes on the wire
 | TLS record layer | After handshake, symmetric protects HTTP |
 | Disk / DB fields | Data key from [[KMS]] |
 | SSH session | Symmetric after kex |
+
+
+- **Core:** Symmetric encryption uses the same secret key to encrypt and decrypt
 
 ## Technical Details
 ```bash
@@ -63,8 +69,10 @@ const tag = cipher.getAuthTag()
 | Key leaked in logs | Debug printed key | Rotate; redact; use KMS |
 | Slow bulk encrypt | Soft AES / tiny buffer loops | Hardware AES-NI; larger chunks |
 
-## Real-World Applications
-TLS record protection and disk/volume encryption use AES-GCM (or similar) with keys from KMS or handshake.
+## Mistakes to Avoid
+- **Mistake:** ECB mode — identical blocks leak patterns; never for real data
+- **Mistake:** Homegrown CBC without MAC — padding oracles; use AEAD
+- **Mistake:** Symmetric alone doesn’t authenticate the peer
 
 ## Pros/Cons or Trade-offs
 - **Pro:** High throughput for bulk data once keys are established.
@@ -74,9 +82,8 @@ TLS record protection and disk/volume encryption use AES-GCM (or similar) with k
 
 ## Comparison
 - vs [[Asymmetrical Encryption]]: shared secret vs key pair — TLS uses both (handshake then bulk).
-- vs [[HMAC (Hash based Message Authentication Codes)]]: encryption hides plaintext; HMAC authenticates (AEAD does both).
+- vs [[HMAC (Hash based Message Authentication Codes)]]: encryption hides plaintext
 
-## Mistakes to Avoid
-- ECB mode — identical blocks leak patterns; never for real data.
-- Homegrown CBC without MAC — padding oracles; use AEAD.
-- Symmetric alone doesn’t authenticate the peer — combine with proper handshake / signatures.
+
+### Use cases
+- TLS record protection and disk/volume encryption use AES-GCM (or similar) wit…

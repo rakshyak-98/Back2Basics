@@ -4,19 +4,22 @@
 
 > fzf is an interactive fuzzy filter — pipe candidate lines in, type to narrow, pick one out for the next command.
 
-
-
-
+```txt
+        fzf ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` into fzf, and why non-interactive CI cannot use it.
+- **Interview probes:** Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` in…
 
 ## Sources
 - [junegunn/fzf](https://github.com/junegunn/fzf) — deep-dive
 - [fzf(1)](https://manpages.debian.org/fzf) — overview
-
-## Core Definition
-`fzf` reads stdin (or shell hooks), scores lines against a typed fuzzy pattern, and shows a TUI. It is a **filter**, not a search engine — you supply candidates, then use the selection via `$()` or key bindings.
 
 ## Key Concepts
 - **Pipe in, pick out:** `cmd | fzf` → selected line.
@@ -24,6 +27,9 @@ Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` into 
 - **Preview:** `--preview` side pane before open/kill.
 - **Multi-select:** `-m` with Tab.
 - **Exit codes:** Cancel/no match must be handled in scripts.
+
+
+- **Core:** `fzf` reads stdin (or shell hooks), scores lines against a typed fuzzy patter…
 
 ## Technical Details
 ```bash
@@ -44,7 +50,8 @@ cd "$(find . -type d | fzf)"
 grep '^Host ' ~/.ssh/config | awk '{print $2}' | fzf | xargs -I{} ssh {}
 ```
 
-Install hooks from distro examples (e.g. `/usr/share/doc/fzf/examples/key-bindings.bash`).
+- Install hooks from distro examples (e.g.
+- `/usr/share/doc/fzf/examples/key-bindings.bash`).
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,8 +61,10 @@ Install hooks from distro examples (e.g. `/usr/share/doc/fzf/examples/key-bindin
 | Slow on huge trees | `find /` | Scope; use `fd`; set `FZF_DEFAULT_COMMAND` |
 | xargs wrong | Spaces / blank | Quote `"$(fzf)"`; `xargs -r -I{}` |
 
-## Real-World Applications
-Fuzzy checkout of git branches, picking a journal unit to follow, and killing the right process without memorizing PIDs.
+## Mistakes to Avoid
+- **Mistake:** `fzf | xargs rm` without confirmation/`-r`
+- **Mistake:** Unquoted `"$(fzf)"` with paths containing spaces
+- **Mistake:** Using fzf in non-interactive CI scripts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Huge speed-up for interactive ops.
@@ -63,9 +72,8 @@ Fuzzy checkout of git branches, picking a journal unit to follow, and killing th
 - **Trade-off:** Interactive browsing vs explicit args in automation.
 
 ## Comparison
-vs plain Ctrl+R: fzf ranks fuzzy matches across full history. vs [[Find command]]/[[grep]]: those generate candidates; fzf selects among them.
+- vs plain Ctrl+R: fzf ranks fuzzy matches across full history. vs [[Find comma…
 
-## Mistakes to Avoid
-- `fzf | xargs rm` without confirmation/`-r`.
-- Unquoted `"$(fzf)"` with paths containing spaces.
-- Using fzf in non-interactive CI scripts.
+
+### Use cases
+- Fuzzy checkout of git branches, picking a journal unit to follow, and killing…

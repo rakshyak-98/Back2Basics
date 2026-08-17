@@ -4,19 +4,22 @@
 
 > GNOME Shell extensions are UUID-keyed bundles you install, enable, and reset — the CLI talks to Shell over D-Bus when a desktop session is running.
 
-
-
-
+```txt
+        GNOME customizatio ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Desktop Linux niche: extension lifecycle, Shell version compatibility, and why SSH-only sessions cannot drive `gnome-extensions`.
+- **Interview probes:** Desktop Linux niche: extension lifecycle, Shell version compatibility, and wh…
 
 ## Sources
 - [GNOME Shell extensions](https://wiki.gnome.org/Projects/GnomeShell/Extensions) — overview
 - [gnome-extensions(1)](https://man.archlinux.org/man/gnome-extensions.1) — deep-dive
-
-## Core Definition
-Extensions live under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/share/gnome-shell/extensions/` (system). `gnome-extensions` lists, installs from zip, enables/disables, and resets settings. Deeper prefs often sit in gsettings under `org.gnome.shell.extensions.*` ([[gsetting]]).
 
 ## Key Concepts
 - **UUID:** Stable extension id used by enable/disable/info.
@@ -24,6 +27,9 @@ Extensions live under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/s
 - **Session required:** Needs a running GNOME session / D-Bus address.
 - **reset vs disable:** reset clears extension prefs; disable stops loading it.
 - **System vs user install:** Packaged (`-system`) vs per-user zip.
+
+
+- **Core:** Extensions live under `~/.local/share/gnome-shell/extensions/` (user) or `/us…
 
 ## Technical Details
 ```txt
@@ -50,8 +56,10 @@ sudo apt install gnome-shell-extension-manager
 | CLI “not found” / fails | `$XDG_SESSION_TYPE` | Not on GNOME session; use gsettings/DE tools |
 | Install fails | Zip / metadata.json | Must contain UUID folder structure |
 
-## Real-World Applications
-Enabling a window-list or blur extension from extensions.gnome.org, and recovering a broken Shell after an upgrade by disabling incompatible extensions.
+## Mistakes to Avoid
+- **Mistake:** Automating installs from cron without a session D-Bus
+- **Mistake:** Mixing system and user install paths for the same UUID
+- **Mistake:** Assuming X11 window-rule extensions behave identically on Wayland
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast UI customization without rebuilding GNOME.
@@ -59,9 +67,8 @@ Enabling a window-list or blur extension from extensions.gnome.org, and recoveri
 - **Trade-off:** Per-user enables vs locked corporate dconf baselines.
 
 ## Comparison
-vs [[gsetting]]/dconf: settings keys vs extension bundles. vs i3/Sway: different customization model entirely. Related: [[wayland]], [[Linux display manager]].
+- vs [[gsetting]]/dconf: settings keys vs extension bundles
 
-## Mistakes to Avoid
-- Automating installs from cron without a session D-Bus.
-- Mixing system and user install paths for the same UUID.
-- Assuming X11 window-rule extensions behave identically on Wayland.
+
+### Use cases
+- Enabling a window-list or blur extension from extensions.gnome.org, and recov…

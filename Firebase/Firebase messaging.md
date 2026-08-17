@@ -4,12 +4,18 @@
 
 > Admin SDK / HTTP v1 sends pushes through FCM — single token, multicast (≤500), topics, or a fan-out job for large audiences.
 
-
-
-
+```txt
+        Firebase messaging ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers catch the classic bug: `tokens.slice(0, 500)` once — and they want per-token failure handling plus safe retries.
+- **Interview probes:** Interviewers catch the classic bug: `tokens.slice(0, 500)` once
 
 ## Sources
 - [Firebase Admin — Send messages](https://firebase.google.com/docs/cloud-messaging/send-message) — deep-dive
@@ -40,20 +46,21 @@ const response = await admin.messaging().sendEachForMulticast({
 | Retry storms | No backoff | Cap retries; circuit break |
 | Duplicate notifies | Unsafe retries | Idempotent send keys |
 
-## Real-World Applications
-Campaign worker reads user tokens, chunks by 500, sends, deletes dead tokens, logs `failureCount`.
-
-**Example:** 2,000 tokens with a single `slice(0, 500)` — 1,500 users silently skipped.
+## Mistakes to Avoid
+- **Mistake:** Dropping tokens beyond the first chunk
+- **Mistake:** Retrying forever on permanent token errors
+- **Mistake:** Mixing notification payload expectations across platforms withou…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Managed delivery across iOS/Android/Web.
 - **Con:** Application-level fan-out and hygiene still your job.
 
 ## Comparison
-- vs [[Multicast delivery]]: messaging note covers patterns; multicast note details the 500-token API.
+- vs [[Multicast delivery]]: messaging note covers patterns
 - vs email/SMS: push is device-permissioned and token-based.
 
-## Mistakes to Avoid
-- Dropping tokens beyond the first chunk.
-- Retrying forever on permanent token errors.
-- Mixing notification payload expectations across platforms without testing.
+
+### Use cases
+- Campaign worker reads user tokens, chunks by 500, sends, deletes dead tokens,…
+
+- **Example:** 2,000 tokens with a single `slice(0, 500)`

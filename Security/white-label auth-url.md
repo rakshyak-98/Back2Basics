@@ -4,19 +4,22 @@
 
 > White-label auth URL — users log in on your branded domain while an external IdP still runs the real authentication behind the scenes.
 
-
-
-
+```txt
+        white-label auth-u ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-B2B SaaS identity: branded login domains while an external IdP still owns credentials — DNS, TLS, and redirect_uri pitfalls.
+- **Interview probes:** B2B SaaS identity: branded login domains while an external IdP still owns cre…
 
 ## Sources
 - [OpenID Connect Core — redirect_uri](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive
 - [Auth0 — Custom Domains](https://auth0.com/docs/customize/custom-domains) — overview
-
-## Core Definition
-A white-label auth URL lets users sign in on your branded domain while an external Identity Provider still performs authentication behind the scenes.
 
 ## Key Concepts
 ```txt
@@ -33,6 +36,9 @@ App (partner.example)
 | **Callback / redirect_uri** | Must be exact allowlisted URL |
 
 Common with Auth0/Cognito/Okta custom domains + OIDC.
+
+
+- **Core:** A white-label auth URL lets users sign in on your branded domain while an ext…
 
 ## Technical Details
 ```txt
@@ -62,8 +68,10 @@ https://auth.yourbrand.com/authorize
 | Loop login ↔ app | Cookie `Secure`/`SameSite`; mixed domains | Align parent domain cookies carefully |
 | CORS on token endpoint | Browser calling token URL | Prefer server-side code exchange (BFF) |
 
-## Real-World Applications
-SaaS tenants log in at `auth.customer.com` CNAME'd to your IdP while branding stays on the customer domain.
+## Mistakes to Avoid
+- **Mistake:** Branding ≠ trust boundary
+- **Mistake:** Custom domain DNS cutover
+- **Mistake:** Shared IdP cookies across brands
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Tenant branding without hosting their credential store yourself.
@@ -72,10 +80,9 @@ SaaS tenants log in at `auth.customer.com` CNAME'd to your IdP while branding st
 - **Con:** Native apps with ASWebAuthenticationSession — different URL patterns; still OIDC but not “white-label web.”
 
 ## Comparison
-- vs vanilla [[single-sign-on (SSO)]]: same IdP flows with custom domain/branding and stricter DNS/TLS setup.
+- vs vanilla [[single-sign-on (SSO)]]: same IdP flows with custom domain/branding and stricter DNS/…
 - vs embedded login widgets: full redirect to branded auth URL keeps credentials off the app origin.
 
-## Mistakes to Avoid
-- Branding ≠ trust boundary — users still type passwords into the IdP; phishing education still matters.
-- Custom domain DNS cutover — broken CNAME = total login outage for that brand.
-- Shared IdP cookies across brands — understand session sharing; isolate tenants if required.
+
+### Use cases
+- SaaS tenants log in at `auth.customer.com` CNAME'd to your IdP while branding…

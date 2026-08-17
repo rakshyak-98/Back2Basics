@@ -4,12 +4,18 @@
 
 > Internal routing is same-LAN reachability — private IP to private IP with no internet hairpin required.
 
-
-
-
+```txt
+        Internal routing ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check whether you debug LAN reachability (bind address, subnet/VLAN, host firewall, AP isolation) before blaming NAT or the public internet path.
+- **Interview probes:** Interviewers check whether you debug LAN reachability (bind address, subnet/V…
 
 ## Sources
 - [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918) — overview
@@ -61,10 +67,12 @@ sudo ufw status
 | Phone can’t see laptop | AP client isolation | Disable isolation or use a travel router/VLAN that allows peer traffic |
 | Used public IP from LAN | Hairpin NAT | Use private IP on LAN instead |
 
-## Real-World Applications
-Homelab services, office printers, IoT devices, and VPC private subnet east-west traffic that never needs a public address.
-
-**Example:** Flask app bound to `127.0.0.1:5000` works on the Pi but times out from a laptop — rebinding to `0.0.0.0` and opening the host firewall fixes LAN access.
+## Mistakes to Avoid
+- **Mistake:** AP / “guest Wi‑Fi” isolation
+- **Mistake:** Wrong private IP after DHCP renew
+- **Mistake:** VPN split tunnel
+- **Mistake:** Assuming same Wi‑Fi = same network — guest networks and VLANs lie
+- **Mistake:** Exposing a service to the internet via forever port-forward
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Low latency, no NAT, no public exposure required for same-LAN clients.
@@ -73,12 +81,11 @@ Homelab services, office printers, IoT devices, and VPC private subnet east-west
 
 ## Comparison
 - vs [[localhost]]: loopback never leaves the host; internal routing is host-to-host on the LAN/VPC.
-- vs [[network gateway]] / internet path: off-subnet or public destinations need a gateway; same-subnet peers usually do not.
+- vs [[network gateway]] / internet path: off-subnet or public destinations need a gateway
 - vs hairpin via public IP: prefer private IP on LAN — hairpin NAT is often broken.
 
-## Mistakes to Avoid
-- AP / “guest Wi‑Fi” isolation — devices share SSID but cannot talk to each other.
-- Wrong private IP after DHCP renew — bookmarks rot; use DHCP reservation or mDNS.
-- VPN split tunnel — “internal” routes may go to the VPN instead of the LAN; check `ip route`.
-- Assuming same Wi‑Fi = same network — guest networks and VLANs lie.
-- Exposing a service to the internet via forever port-forward — prefer reverse proxy, VPN, or tunnel.
+
+### Use cases
+- Homelab services, office printers, IoT devices, and VPC private subnet east-w…
+
+- **Example:** Flask app bound to `127.0.0.1:5000` works on the Pi but times ou…

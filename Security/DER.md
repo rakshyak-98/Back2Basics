@@ -4,19 +4,22 @@
 
 > Distinguished Encoding Rules — canonical binary ASN.1 encoding for X.509 certs, keys, and CSRs; PEM is Base64-wrapped DER with headers.
 
-
-
-
+```txt
+        DER ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-PKI tooling interviews: PEM vs DER, when wire formats need binary ASN.1, and how to convert with OpenSSL.
+- **Interview probes:** PKI tooling interviews: PEM vs DER, when wire formats need binary ASN.1, and …
 
 ## Sources
 - [ITU-T X.690 — DER](https://www.itu.int/rec/T-REC-X.690/) — deep-dive
 - [Wikipedia — X.690](https://en.wikipedia.org/wiki/X.690) — overview
-
-## Core Definition
-DER (Distinguished Encoding Rules) is the canonical binary ASN.1 encoding used for X.509 certificates, keys, and CSRs; PEM is Base64-wrapped DER.
 
 ## Key Concepts
 ```txt
@@ -30,9 +33,9 @@ Logical cert (ASN.1 structure)
 ```
 
 **DER** properties:
-- **Binary** — not safe to paste in chat/logs without encoding
-- **Canonical** — one valid encoding per value (good for signatures)
-- **What TLS sends** on the wire (inside records)
+- **Binary:** — not safe to paste in chat/logs without encoding
+- **Canonical:** — one valid encoding per value (good for signatures)
+- **What TLS sends:** on the wire (inside records)
 
 Formats engineers confuse:
 | Format | Encoding |
@@ -40,6 +43,9 @@ Formats engineers confuse:
 | **DER** | Binary ASN.1 |
 | **PEM** | Base64 DER + labels |
 | **PKCS#12 (.p12)** | Encrypted bundle of key+cert |
+
+
+- **Core:** DER (Distinguished Encoding Rules) is the canonical binary ASN.1 encoding use…
 
 ## Technical Details
 ### PEM ↔ DER conversion
@@ -69,7 +75,7 @@ openssl asn1parse -inform der -i -in cert.der | head
 openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 ```
 
-**Why DER in Java/Android:** `CertificateFactory.generateCertificate(InputStream)` expects DER by default.
+- **Why DER in Java/Android:** `CertificateFactory.generateCertificate(InputStr…
 
 ### Failure signals
 
@@ -80,8 +86,10 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 | Signature verify fail | Re-encoded PEM altered whitespace | Sign/compare DER bytes |
 | Java keystore import fail | Wrong format | `keytool -importcert -file cert.der` |
 
-## Real-World Applications
-Java keystores, Windows cert stores, and some ACME payloads expect DER; convert with OpenSSL when tooling rejects PEM.
+## Mistakes to Avoid
+- **Mistake:** PEM is not "more secure"
+- **Mistake:** Double Base64
+- **Mistake:** Copy/paste corruption
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Canonical binary encoding for certs/keys in wire and keystore formats.
@@ -91,7 +99,6 @@ Java keystores, Windows cert stores, and some ACME payloads expect DER; convert 
 - vs PEM ([[read pem file]]): DER is binary; PEM is Base64 text with `BEGIN`/`END` markers.
 - vs [[Base64]]: Base64 is the encoding layer inside PEM, not the ASN.1 rules themselves.
 
-## Mistakes to Avoid
-- PEM is not "more secure" — same key material; PEM is encoding only.
-- Double Base64 — some APIs want PEM string, others raw DER — read API docs.
-- Copy/paste corruption — PEM needs exact line wraps; use files not Slack.
+
+### Use cases
+- Java keystores, Windows cert stores, and some ACME payloads expect DER

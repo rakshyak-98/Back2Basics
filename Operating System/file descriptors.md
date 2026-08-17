@@ -4,12 +4,18 @@
 
 > A file descriptor is a small non-negative integer naming an open file, socket, pipe, or device — every read, write, and mmap goes through it.
 
-
-
-
+```txt
+        File descriptors ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Walk fd table lifetime across `fork`/`exec`, `EMFILE` leaks, `O_NONBLOCK`, and why [[fsync]] takes an fd.
+- **Interview probes:** Walk fd table lifetime across `fork`/`exec`, `EMFILE` leaks, `O_NONBLOCK`, an…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive
@@ -23,7 +29,8 @@ Walk fd table lifetime across `fork`/`exec`, `EMFILE` leaks, `O_NONBLOCK`, and w
 - **Close-on-exec:** `FD_CLOEXEC` for safe `exec`.
 
 ## Technical Details
-Returned by `open()`, `socket()`, `pipe()`, `epoll_create1()`, etc. `dup2()` remaps stdio fds.
+- Returned by `open()`, `socket()`, `pipe()`, `epoll_create1()`, etc.
+- `dup2()` remaps stdio fds.
 
 | Flag | Effect |
 |------|--------|
@@ -35,10 +42,13 @@ Returned by `open()`, `socket()`, `pipe()`, `epoll_create1()`, etc. `dup2()` rem
 lsof -p PID
 ```
 
-Alias spelling note: [[discriptors]]. Windows analog: [[handle]].
+- Alias spelling note: [[discriptors]].
+- Windows analog: [[handle]].
 
-## Real-World Applications
-Servers, shells redirecting stdio, and epoll-based proxies watching thousands of fds.
+## Mistakes to Avoid
+- **Mistake:** Forgetting to close accepted sockets on all error paths
+- **Mistake:** Assuming fds survive `exec` without checking cloexec
+- **Mistake:** Using `O_DIRECT` without respecting alignment rules
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Uniform I/O ABI across files/sockets/devices.
@@ -49,7 +59,6 @@ Servers, shells redirecting stdio, and epoll-based proxies watching thousands of
 - vs [[handle]]: same role, different OS token shape.
 - vs paths: path is a name; fd is a live capability to an open object.
 
-## Mistakes to Avoid
-- Forgetting to close accepted sockets on all error paths.
-- Assuming fds survive `exec` without checking cloexec.
-- Using `O_DIRECT` without respecting alignment rules.
+
+### Use cases
+- Servers, shells redirecting stdio, and epoll-based proxies watching thousands…

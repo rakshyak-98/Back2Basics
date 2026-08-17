@@ -4,12 +4,16 @@
 
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
-
-
-
+```txt
+        GPL (GNU General P ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-GPL interviews check copyleft obligations — distribution triggers and SaaS nuances (AGPL).
+- **Interview probes:** GPL interviews check copyleft obligations
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -57,11 +61,6 @@ docker sbom myimage:tag | rg -i 'gpl'
 # Or run GPL component as sidecar with IPC only — document boundary
 ```
 
-## Pros/Cons or Trade-offs
-- **As a substitute for legal review** — this note orients engineers; compliance sign-off is legal/compliance team.
-- **Assuming LGPL == GPL** — LGPL has different linking rules; read the actual license text.
-- **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **AGPL in backend** — SaaS distributing no binaries can still trigger AGPL if users interact with modified AGPL code over network.
@@ -82,3 +81,8 @@ docker sbom myimage:tag | rg -i 'gpl'
 | Customer asks for source | GPL component in appliance | Publish source bundle matching exact versions |
 | Patent clause concern | GPLv3 vs v2 | Review with counsel; prefer v3 for patent grant clarity |
 | MySQL connector confusion | Oracle dual-licensing history | Verify **current** connector license (often GPL v2 with FOSS exception) |
+
+## Pros/Cons or Trade-offs
+- **As a substitute for legal review**
+- **Assuming LGPL == GPL**
+- **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.

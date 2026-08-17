@@ -4,12 +4,18 @@
 
 > A ring buffer stores a fixed-capacity stream by wrapping read/write indices around a circular array — atomics let one producer and one consumer update those indices without a lock.
 
-
-
-
+```txt
+        Atomic ring buffer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Concurrency classic: SPSC lock-free ring, memory barriers (“store data before index”), full/empty conditions, and when you still need locks for MPMC.
+- **Interview probes:** Concurrency classic: SPSC lock-free ring, memory barriers (“store data before…
 
 ## Sources
 - Linux kernel: `include/linux/kfifo.h`, `lib/kfifo.c` — deep-dive
@@ -19,7 +25,7 @@ Concurrency classic: SPSC lock-free ring, memory barriers (“store data before 
 ## Key Concepts
 - **Circular indices:** wrap instead of shifting elements.
 - **SPSC lock-free:** one producer, one consumer; atomics + barriers publish indices.
-- **Full/empty:** `(write + 1) % N == read` vs `write == read` (one slot reserved or explicit count).
+- **Full/empty:** `(write + 1) % N == read` vs `write == read` (one slot reserved or explicit c…
 - **MPMC needs more:** [[mutexes]], [[semaphores]], or a [[thread-safe queue]].
 
 ## Technical Details
@@ -38,10 +44,12 @@ Concurrency classic: SPSC lock-free ring, memory barriers (“store data before 
 | IPC | Pipe-like shared-memory channels |
 | Networking | NIC driver descriptor rings |
 
-Failure modes: overrun; torn reads (index before data); false sharing of indices on one cache line.
+- Failure modes: overrun
 
-## Real-World Applications
-`dmesg` rings, audio pipelines, DPDK/NIC descriptor rings, and user-space logging agents.
+## Mistakes to Avoid
+- **Mistake:** Publishing the write index before the slot data is fully written
+- **Mistake:** Using one SPSC ring with multiple producers without extra sync
+- **Mistake:** Putting read/write indices on the same cache line (false sharing)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Bounded memory, low overhead for SPSC.
@@ -49,10 +57,9 @@ Failure modes: overrun; torn reads (index before data); false sharing of indices
 - **Trade-off:** drop-oldest ([[Rolling Buffer]] policy) vs block producer.
 
 ## Comparison
-- vs [[Rolling Buffer]]: rolling emphasizes overwrite policy; atomic ring emphasizes lock-free structure.
+- vs [[Rolling Buffer]]: rolling emphasizes overwrite policy
 - vs [[thread-safe queue]]: queues often grow or block; rings are typically fixed-size.
 
-## Mistakes to Avoid
-- Publishing the write index before the slot data is fully written.
-- Using one SPSC ring with multiple producers without extra sync.
-- Putting read/write indices on the same cache line (false sharing).
+
+### Use cases
+- `dmesg` rings, audio pipelines, DPDK/NIC descriptor rings, and user-space log…

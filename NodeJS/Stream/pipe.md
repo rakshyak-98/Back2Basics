@@ -4,12 +4,18 @@
 
 > Connect readable → writable — `readable.pipe(writable)` moves chunks and applies backpressure; prefer `pipeline` for errors.
 
-
-
-
+```txt
+        pipe ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **pipe** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **pipe**, **pipeline**, **Chain**.
+- **Interview probes:** Interviewers use **pipe** to check whether you can explain the mechanism in p…
 
 ## Sources
 - [Node.js — readable.pipe](https://nodejs.org/api/stream.html#readablepipedestination-options) — deep-dive
@@ -48,21 +54,22 @@ fs.createReadStream('index.html').pipe(res)
 | Transform mid-chain | Compress/encrypt |
 | `end: false` option | Keep writable open |
 
-## Real-World Applications
-In production APIs and tooling, **pipe** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`pipe` does not forward errors well** — always prefer `pipeline`; **`.pipe(writable).on('error')` only listens on the last return** — attach to each stream or use `pipeline`.
+## Mistakes to Avoid
+- **Mistake:** **`pipe` does not forward errors well**
+- **Mistake:** **`.pipe(writable).on('error')` only listens on the last return**
+- **Mistake:** **Process crash:** check Unhandled stream `error`
+- **Mistake:** **Truncated output:** check Mid-pipe error ignored
+- **Mistake:** **Hang:** check Consumer never drains
+- **Mistake:** **Wrong API:** check Typo `createReadStrema`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Connect readable → writable — `readable.pipe(writable)` moves chunks and applies…).
-- **Con / when not:** **ObjectMode graphs needing custom control** — manual `write`/`drain` may be clearer.
+- **Con / when not:** **ObjectMode graphs needing custom control**
 - **Con / when not:** **Already-buffered tiny payloads** — skip streams.
 
 ## Comparison
-vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[Stream Events]]: know when each applies — do not treat them as interchangeable. vs [[Stream/stream error]]: know when each applies — do not treat them as interchangeable.
+- vs [[Stream]]: know when each applies
 
-## Mistakes to Avoid
-- **`pipe` does not forward errors well** — always prefer `pipeline`.
-- **`.pipe(writable).on('error')` only listens on the last return** — attach to each stream or use `pipeline`.
-- **Process crash:** check Unhandled stream `error`; fix: `pipeline` or `.on('error')`
-- **Truncated output:** check Mid-pipe error ignored; fix: Destroy both; don’t ignore
-- **Hang:** check Consumer never drains; fix: Check backpressure / end
-- **Wrong API:** check Typo `createReadStrema`; fix: Fix method name
+
+### Use cases
+- In production APIs and tooling, **pipe** shows up whenever teams ship Node/JS…

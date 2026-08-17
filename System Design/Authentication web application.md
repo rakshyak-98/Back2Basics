@@ -4,12 +4,17 @@
 
 > Web authentication proves who the user is on each request; authorization decides what they may do — sessions, tokens, and identity providers are transport mechanisms, not substitutes for object-level checks.
 
-
-
-
+```txt
+        Authentication web ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 401 vs 403 at the API boundary.
+- **Interview probes:** Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 40…
 
 ## Sources
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
@@ -25,7 +30,7 @@ Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 401 v
 | **Authentication** | Who are you? |
 | **Authorization** | What may you do on this resource? |
 
-Logging in successfully does not imply access to another user's invoice ([[IDOR]]) — enforce authorization on every handler.
+- Logging in successfully does not imply access to another user's invoice ([[ID…
 
 ### Common patterns
 
@@ -51,9 +56,9 @@ Identity provider or local user store → session or JSON Web Token → APIs
 Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 ```
 
-- **HttpOnly** — JavaScript cannot read (reduces cross-site scripting token theft).
-- **Secure** — Transport Layer Security only.
-- **SameSite** — reduces [[XSRF (cross-site request forgery)]] on cross-site posts.
+- **HttpOnly:** — JavaScript cannot read (reduces cross-site scripting token theft).
+- **Secure:** — Transport Layer Security only.
+- **SameSite:** — reduces [[XSRF (cross-site request forgery)]] on cross-site posts.
 
 ### Login flow (local credentials)
 
@@ -66,9 +71,10 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 
 ### JSON Web Token cautions
 
-Short-lived access tokens, refresh rotation, and revocation strategy for stolen tokens. Storing tokens in `localStorage` is vulnerable to cross-site scripting — prefer httpOnly cookies or strict Content Security Policy.
+- Short-lived access tokens, refresh rotation, and revocation strategy for stol…
+- Storing tokens in `localStorage` is vulnerable to cross-site scripting
 
-See [[JWT authentication]] for claim design and validation.
+- See [[JWT authentication]] for claim design and validation.
 
 ### Threat model highlights
 
@@ -79,18 +85,6 @@ See [[JWT authentication]] for claim design and validation.
 | Man-in-the-middle | Transport Layer Security everywhere |
 | Cross-site scripting | Content Security Policy, output encoding |
 | Cross-site request forgery | SameSite cookies, anti-forgery tokens |
-
-## Real-World Applications
-Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, and MFA with [[TOTP (Time based One Time Password)]].
-
-## Pros/Cons or Trade-offs
-- **Pro:** Clear identity boundary enables multi-client APIs.
-- **Con:** Token theft, CSRF, and session fixation if attributes/flows are wrong.
-- **Trade-off:** server sessions (revocable) vs JWT scale (harder instant revoke).
-
-## Comparison
-- vs [[API design]]: API contracts assume authn/authz status codes and scopes.
-- vs [[JWT authentication]]: claim/validation detail lives there; this note is web app patterns.
 
 ## Mistakes to Avoid
 ### Symptom → direction
@@ -105,6 +99,19 @@ Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, and M
 Service-to-service calls use mutual Transport Layer Security or signed tokens — not human login forms.
 
 
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
+
+## Pros/Cons or Trade-offs
+- **Pro:** Clear identity boundary enables multi-client APIs.
+- **Con:** Token theft, CSRF, and session fixation if attributes/flows are wrong.
+- **Trade-off:** server sessions (revocable) vs JWT scale (harder instant revoke).
+
+## Comparison
+- vs [[API design]]: API contracts assume authn/authz status codes and scopes.
+- vs [[JWT authentication]]: claim/validation detail lives there; this note is web app patterns.
+
+
+### Use cases
+- Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, an…

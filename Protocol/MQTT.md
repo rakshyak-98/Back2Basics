@@ -4,12 +4,18 @@
 
 > MQTT is a lightweight publish/subscribe protocol for constrained devices and unreliable networks — brokers fan out messages by topic, with QoS levels trading delivery guarantees for overhead.
 
-
-
-
+```txt
+        MQTT ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HTTP polling for IoT telemetry.
+- **Interview probes:** Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HT…
 
 ## Sources
 - [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html) — deep-dive
@@ -17,7 +23,7 @@ Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HTTP 
 
 ## Key Concepts
 - **Publisher / broker / subscriber:** devices publish to topics; the broker routes; subscribers use filters.
-- **Topic hierarchy:** slash-separated paths with `+` (one level) and `#` (multi-level suffix) wildcards.
+- **Topic hierarchy:** slash-separated paths with `+` (one level) and `#` (multi-level suffix) wildc…
 - **QoS:** 0 at most once; 1 at least once (may duplicate); 2 exactly once (four-step).
 - **Transport:** TCP 1883 cleartext (lab); 8883 TLS; WebSocket for browsers.
 
@@ -28,7 +34,7 @@ Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HTTP 
 | **Broker** | Routes messages (Mosquitto, HiveMQ, AWS IoT Core) |
 | **Subscriber** | Receives messages for subscribed topic filters |
 
-OASIS MQTT 5.0; v3.1.1 still widely deployed.
+- OASIS MQTT 5.0; v3.1.1 still widely deployed.
 
 ```
 sensors/building-a/floor-2/temperature
@@ -40,19 +46,20 @@ sensors/building-a/floor-2/temperature
 | **1** | At least once (may duplicate) | PUBACK |
 | **2** | Exactly once | Four-step |
 
-Choose QoS 0 for telemetry where loss is acceptable; QoS 1 for commands.
+- Choose QoS 0 for telemetry where loss is acceptable; QoS 1 for commands.
 
 ```bash
 mosquitto_sub -h broker.example.com -t 'sensors/+/temp' -u device -P secret
 mosquitto_pub -h broker.example.com -t 'sensors/room1/temp' -m '22.5'
 ```
 
-Security baseline: unique credentials per device; TLS + cert pinning; ACLs per topic prefix.
+- Security baseline: unique credentials per device
 
-## Real-World Applications
-IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny headers on flaky links.
-
-**Example:** Thousands of thermostats publish `sensors/+/temp` at QoS 0; a building dashboard subscribes once at the broker instead of polling each device over HTTP.
+## Mistakes to Avoid
+- **Mistake:** Cleartext 1883 in production
+- **Mistake:** Shared credentials across all devices
+- **Mistake:** Using QoS 2 everywhere “for safety”
+- **Mistake:** Assuming MQTT replaces point-to-point TCP without planning broke…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Persistent subscriptions, tiny headers, works on constrained devices.
@@ -66,10 +73,10 @@ IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny he
 | Tiny headers | Heavier per message |
 | Broker required | Direct client-server |
 
-- vs [[webSocket]]: WebSocket is a full-duplex pipe; MQTT adds topic routing and QoS on top of a broker model.
+- vs [[webSocket]]: WebSocket is a full-duplex pipe
 
-## Mistakes to Avoid
-- Cleartext 1883 in production.
-- Shared credentials across all devices.
-- Using QoS 2 everywhere “for safety” — latency and broker load without need.
-- Assuming MQTT replaces point-to-point TCP without planning broker HA and ACLs.
+
+### Use cases
+- IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny…
+
+- **Example:** Thousands of thermostats publish `sensors/+/temp` at QoS 0

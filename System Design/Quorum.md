@@ -4,12 +4,18 @@
 
 > A quorum is the minimum number of replicas that must participate in a read or write for the operation to count — the lever that trades availability against staleness.
 
-
-
-
+```txt
+        Quorum ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-State `R + W > N`, give a Dynamo-style example, and distinguish quorum counting from [[Raft]] consensus.
+- **Interview probes:** State `R + W > N`, give a Dynamo-style example, and distinguish quorum counti…
 
 ## Sources
 - Giuseppe DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007) — deep-dive
@@ -28,7 +34,7 @@ State `R + W > N`, give a Dynamo-style example, and distinguish quorum counting 
 | **W** | Nodes that must ack a write |
 | **R** | Nodes consulted for a read |
 
-**Example:** N=3, W=2, R=2 → R+W=4 > 3.
+- **Example:** N=3, W=2, R=2 → R+W=4 > 3.
 
 | Configuration | Effect |
 |---------------|--------|
@@ -49,10 +55,12 @@ etcd / Raft: implicit majority on commit
 | Quorum lost | Majority unavailable | Stop unsafe writes; restore nodes |
 | Hot partition | Skewed shard key | Reshard; cache ([[database sharding]]) |
 
-Accept W=1 for high-ingest telemetry — not ledger balances ([[Eventual consistency]]).
+- Accept W=1 for high-ingest telemetry
 
-## Real-World Applications
-Cassandra/Dynamo-style stores, MongoDB majority concerns, and any replica set with tunable consistency.
+## Mistakes to Avoid
+- **Mistake:** Claiming consistency when R+W ≤ N
+- **Mistake:** Computing N from stale membership during reconfiguration
+- **Mistake:** Split-brain “fixes” that accept writes without quorum
 
 ## Pros/Cons or Trade-offs
 - **Higher W/R:** stronger freshness; lower availability under failure.
@@ -63,7 +71,6 @@ Cassandra/Dynamo-style stores, MongoDB majority concerns, and any replica set wi
 - vs [[Raft]]: Raft = consensus log; quorum = how many must answer.
 - vs [[Eventual consistency]]: weak quorums enable eventual models.
 
-## Mistakes to Avoid
-- Claiming consistency when R+W ≤ N.
-- Computing N from stale membership during reconfiguration.
-- Split-brain “fixes” that accept writes without quorum.
+
+### Use cases
+- Cassandra/Dynamo-style stores, MongoDB majority concerns, and any replica set…

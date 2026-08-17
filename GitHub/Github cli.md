@@ -4,12 +4,18 @@
 
 > Terminal client for GitHub — auth, PRs, issues, secrets, and API calls without clicking through the website.
 
-
-
-
+```txt
+        GitHub CLI (`gh`) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers look for PR workflow fluency (`create`/`checks`/`merge`), scripting with `--json`, and safe secret handling from the shell.
+- **Interview probes:** Interviewers look for PR workflow fluency (`create`/`checks`/`merge`), script…
 
 ## Sources
 - [GitHub CLI manual](https://cli.github.com/manual/) — deep-dive
@@ -38,10 +44,10 @@ gh api user --jq .login
 | Wrong repo | `gh repo view` | `cd` to root or `-R owner/repo` |
 | Cannot set secret | Role | Need maintain/admin (or org role) |
 
-## Real-World Applications
-Incident response and local PR hygiene: open PR, watch checks, merge, without leaving the terminal.
-
-**Example:** `gh pr checks` fails on fork secrets — expected; use trusted workflows or labels for deploy jobs.
+## Mistakes to Avoid
+- **Mistake:** Echoing secrets into shell history — pipe from file/env
+- **Mistake:** `gh repo delete --yes` without confirmation culture
+- **Mistake:** Using long-lived PATs in dotfiles instead of `gh auth login` sto…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast, scriptable, consistent with browser features.
@@ -51,7 +57,8 @@ Incident response and local PR hygiene: open PR, watch checks, merge, without le
 - vs browser UI: CLI wins for bulk/scripted ops; UI wins for visual review.
 - vs raw REST: `gh api` is thinner than dedicated commands but more flexible.
 
-## Mistakes to Avoid
-- Echoing secrets into shell history — pipe from file/env.
-- `gh repo delete --yes` without confirmation culture — prefer archive.
-- Using long-lived PATs in dotfiles instead of `gh auth login` store.
+
+### Use cases
+- Incident response and local PR hygiene: open PR, watch checks, merge, without…
+
+- **Example:** `gh pr checks` fails on fork secrets

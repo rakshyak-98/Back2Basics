@@ -4,19 +4,24 @@
 
 > Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
-
-
-
+```txt
+        Mongoose plugin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Plugin questions cover reusable schema plugins and avoiding global side effects.
+- **Interview probes:** Plugin questions cover reusable schema plugins and avoiding global side effec…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-A plugin is a function `(schema, options) => void` registered on a schema before `mongoose.model()`. Global plugins apply to every schema. Plugins compose: one adds soft-delete, another adds pagination, another adds audit fields.
+- **Note:** A plugin is a function `(schema, options) => void` registered on a schema bef…
 
 ```
 plugin(schema) → adds paths / hooks / statics
@@ -64,10 +69,6 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Unique validator | async uniqueness check |
 | Audit | `createdBy`, `updatedBy` hooks |
 
-## Pros/Cons or Trade-offs
-- Don't plugin one-off business logic — plain schema methods or service layer is clearer.
-- Don't global-plugin heavy side effects (external API calls) without opt-in per schema.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Plugin order matters** — pre-hooks run in registration order; conflicting plugins need explicit ordering.
@@ -82,3 +83,7 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Global plugin breaks one schema | `schema.plugin` override | Disable per-schema or guard with option flag |
 | Duplicate index from plugin | `schema.indexes()` | Merge indexes; one plugin owns index |
 | Method not on document | Applied to wrong schema | Confirm `schema.plugin` on correct schema |
+
+## Pros/Cons or Trade-offs
+- Don't plugin one-off business logic
+- Don't global-plugin heavy side effects (external API calls) without opt-in pe…

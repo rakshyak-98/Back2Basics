@@ -4,12 +4,17 @@
 
 > JavaScript — language of the browser (and Node): single-threaded event loop, prototypes, and first-class functions.
 
-
-
-
+```txt
+        Javascript ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-JavaScript interviews span runtime model — event loop, types coercion, and module systems.
+- **Interview probes:** JavaScript interviews span runtime model
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -39,10 +44,6 @@ node --watch app.js
 | Engine (V8) | Perf quirks |
 | Bundler | Ship size |
 
-## Pros/Cons or Trade-offs
-- **CPU-bound HPC** — native/Go/Rust.
-- **Shared-memory threads model** — careful with workers.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **`==` coercion** — prefer `===`.
@@ -56,3 +57,7 @@ node --watch app.js
 | Unhandled rejection | Missing catch | Attach handlers |
 | `undefined is not a function` | Wrong type/import | Log; fix export |
 | Module not found | Path/CJS/ESM | Align module type |
+
+## Pros/Cons or Trade-offs
+- **CPU-bound HPC** — native/Go/Rust.
+- **Shared-memory threads model** — careful with workers.

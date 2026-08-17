@@ -4,12 +4,18 @@
 
 > A subdomain is any domain below another in the DNS tree (`api.example.com` under `example.com`) — you delegate it with NS records or manage it in the same zone with individual records.
 
-
-
-
+```txt
+        Sub Domain ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask same-zone records vs NS delegation, wildcard depth, and how TLS SANs cover hostnames — ownership and blast-radius design.
+- **Interview probes:** Interviewers ask same-zone records vs NS delegation, wildcard depth, and how …
 
 ## Sources
 - [RFC 1034 — Domain name space and resource records](https://datatracker.ietf.org/doc/html/rfc1034) — deep-dive
@@ -30,7 +36,7 @@ api.example.com
 └── leftmost = most specific host
 ```
 
-Each label can have its own records or be **delegated** to a separate [[DNS zone]] with its own [[name server]] set.
+- Each label can have its own records or be **delegated** to a separate [[DNS z…
 
 | Approach | When |
 |----------|------|
@@ -46,7 +52,7 @@ staging.example.com.  NS  ns2.staging-provider.net.
 *.example.com.  A  203.0.113.50
 ```
 
-Matches one level (`foo.example.com`) but not `bar.foo.example.com` unless another wildcard exists deeper.
+- Matches one level (`foo.example.com`) but not `bar.foo.example.com` unless an…
 
 | Subdomain | Typical use |
 |-----------|-------------|
@@ -56,23 +62,24 @@ Matches one level (`foo.example.com`) but not `bar.foo.example.com` unless anoth
 | `_dmarc`, `_domainkey` | Email authentication [[dns record]] |
 | `internal` | Private split-horizon only |
 
-TLS certificates must include every hostname clients hit — use SAN certificates or wildcard `*.example.com` (does not cover apex).
+- TLS certificates must include every hostname clients hit
 
-## Real-World Applications
-Product environments (`prod`, `staging`), service prefixes (`api`, `cdn`), and email auth labels under the same registered domain.
-
-**Example:** Platform delegates `k8s.example.com` NS to cluster DNS ops while marketing keeps apex records in the parent zone.
+## Mistakes to Avoid
+- **Mistake:** Assuming `*.example.com` covers `a.b.example.com`
+- **Mistake:** Expecting wildcard TLS `*.example.com` to cover the apex `exampl…
+- **Mistake:** Delegating without glue when NS hostnames are inside the child z…
 
 ## Pros/Cons or Trade-offs
 - **Pro (same zone):** one place to edit; fewer glue/DS moving parts.
 - **Pro (delegation):** team autonomy and smaller blast radius.
-- **Con (delegation):** broken NS/glue or DNSSEC DS mistakes take the whole subtree offline.
+- **Con (delegation):** broken NS/glue or DNSSEC DS mistakes take the whole sub…
 
 ## Comparison
-- vs [[top-level Domain]]: TLD is the public rightmost label (`com`); subdomain sits under a registered name.
-- vs [[DNS zone]]: a subdomain may or may not be its own zone — zone cut happens only with NS delegation.
+- vs [[top-level Domain]]: TLD is the public rightmost label (`com`)
+- vs [[DNS zone]]: a subdomain may or may not be its own zone
 
-## Mistakes to Avoid
-- Assuming `*.example.com` covers `a.b.example.com`.
-- Expecting wildcard TLS `*.example.com` to cover the apex `example.com`.
-- Delegating without glue when NS hostnames are inside the child zone.
+
+### Use cases
+- Product environments (`prod`, `staging`), service prefixes (`api`, `cdn`), an…
+
+- **Example:** Platform delegates `k8s.example.com` NS to cluster DNS ops while…

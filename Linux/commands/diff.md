@@ -4,19 +4,22 @@
 
 > diff compares files or trees line-by-line — verify deploy artifacts and config drift before rsync or rollback.
 
-
-
-
+```txt
+        diff ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Know `diff -u` for patches, `diff -rq` for trees, and that content-identical ≠ same metadata (use rsync checksum dry-run).
+- **Interview probes:** Know `diff -u` for patches, `diff -rq` for trees, and that content-identical …
 
 ## Sources
 - [diff(1)](https://man7.org/linux/man-pages/man1/diff.1.html) — deep-dive
 - [GNU Diffutils](https://www.gnu.org/software/diffutils/manual/) — overview
-
-## Core Definition
-`diff` reports line-level deltas between two files. Recursive quiet mode (`-rq`) lists paths that differ in content or presence. Exit 0 means identical (for the comparison mode used).
 
 ## Key Concepts
 - **`-u`:** Unified diff — patch-friendly.
@@ -24,6 +27,9 @@ Know `diff -u` for patches, `diff -rq` for trees, and that content-identical ≠
 - **Whitespace:** `-w`/`-B` reduce noise on configs.
 - **Metadata blind spot:** Owner/mode ignored; rsync can check.
 - **Symlinks:** Flags decide follow vs compare as links.
+
+
+- **Core:** `diff` reports line-level deltas between two files
 
 ## Technical Details
 ```bash
@@ -52,8 +58,10 @@ fi
 | Symlink false match | Follow behavior | Check `-N` / symlink flags |
 | Huge binary files | Not line-oriented | checksum/`cmp` |
 
-## Real-World Applications
-Confirming a config rollback matches backup, generating a reviewable patch, and CI checks that deployed trees match golden artifacts.
+## Mistakes to Avoid
+- **Mistake:** Treating content-identical as fully equivalent for security-sens…
+- **Mistake:** Patching without reviewing unified context
+- **Mistake:** Diffing minified/generated blobs instead of sources
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal, scriptable, patch workflow.
@@ -61,9 +69,8 @@ Confirming a config rollback matches backup, generating a reviewable patch, and 
 - **Trade-off:** Quick `diff -rq` vs authoritative `rsync -c` dry-run.
 
 ## Comparison
-vs [[rsync]]: sync engine with checksum/metadata awareness. vs `cmp`: byte identity without nice diffs. vs git diff: VCS-aware history.
+- vs [[rsync]]: sync engine with checksum/metadata awareness
 
-## Mistakes to Avoid
-- Treating content-identical as fully equivalent for security-sensitive perms.
-- Patching without reviewing unified context.
-- Diffing minified/generated blobs instead of sources.
+
+### Use cases
+- Confirming a config rollback matches backup, generating a reviewable patch, a…

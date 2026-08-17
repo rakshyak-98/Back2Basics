@@ -4,20 +4,23 @@
 
 > Churn is a high rate of short-lived TCP connections — each open/close costs handshake, ports, and CPU; idle timeout mismatch makes it worse.
 
-
-
-
+```txt
+        connection churn ( ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use connection churn to test whether you can diagnose TIME_WAIT exhaustion, 502s after idle, and keepalive/timeout ladders across load balancer, app, and client pools — not just “scale more servers.”
+- **Interview probes:** Interviewers use connection churn to test whether you can diagnose TIME_WAIT …
 
 ## Sources
 - [Linux TCP — tcp(7)](https://man7.org/linux/man-pages/man7/tcp.7.html) — deep-dive
 - [AWS — Application Load Balancer idle timeout](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#connection-idle-timeout) — overview
 - [ss(8) — Linux manual page](https://man7.org/linux/man-pages/man8/ss.8.html) — overview
-
-## Core Definition
-Churn is a high rate of short-lived TCP connections (HTTP/1.0-style close per request, health checks, misconfigured pools) or idle timeout mismatch (load balancer closes while the client still thinks the connection is open).
 
 ## Key Concepts
 | Pattern | Cost |
@@ -26,6 +29,9 @@ Churn is a high rate of short-lived TCP connections (HTTP/1.0-style close per re
 | LB idle < app keepalive | Ghost requests, 502s, RST storms |
 | No connection reuse | Ephemeral port / `TIME_WAIT` exhaustion |
 | Aggressive health checks | Accept queue + churn even at zero user traffic |
+
+
+- **Core:** Churn is a high rate of short-lived TCP connections (HTTP/1.0-style close per…
 
 ## Technical Details
 ```
@@ -37,7 +43,7 @@ Client                    Load balancer              Server
   LB idle 60s closes ◄── client still sends ──► RST / half-open ([[half-open connections]])
 ```
 
-**Align timeouts (LB < client < server or a consistent ladder):**
+- **Align timeouts (LB < client < server or a consistent ladder):** 
 
 ```
 LB idle timeout:     60s   (AWS ALB default)
@@ -72,7 +78,7 @@ sysctl net.ipv4.tcp_fin_timeout       # default 60 — how long FIN-WAIT-2 etc
 # server.headersTimeout   = 66000;  // slightly higher (Node gotcha)
 ```
 
-**HTTP keepalive headers:**
+- **HTTP keepalive headers:** 
 
 | Layer | Knob |
 |-------|------|
@@ -91,9 +97,11 @@ sysctl net.ipv4.tcp_fin_timeout       # default 60 — how long FIN-WAIT-2 etc
 | CLOSE-WAIT climbing | `ss -tan state close-wait -p` | App not closing sockets ([[Epoll]] event loop bug) |
 | TLS handshake latency spikes | Metrics new conn rate | Session resumption; connection pooling; HTTP/2 |
 
-**Node.js agent gotcha:** If `keepAliveTimeout` ≤ LB idle timeout, LB sends FIN first while Node still has a request in flight → **502** on next reuse. Set Node **65s+** when ALB is **60s**.
+- **Node.js agent gotcha:** If `keepAliveTimeout` ≤ LB idle timeout, LB sends F…
+- Set Node **65s+** when ALB is **60s**.
 
-**Half-open after LB drop:** Client sends on a dead connection → RST or hang until timeout. Fix: keepalive probes + match timeouts; see [[half-open connections]].
+- **Half-open after LB drop:** Client sends on a dead connection → RST or hang …
+- Fix: keepalive probes + match timeouts; see [[half-open connections]].
 
 ```bash
 # Quick churn rate estimate (two samples 5s apart)
@@ -102,10 +110,12 @@ ss -tan state established | wc -l; sleep 5; ss -tan state established | wc -l
 ss -tan state time-wait | wc -l
 ```
 
-## Real-World Applications
-HTTP APIs behind ALB/nginx, microservice meshes, and health-check-heavy platforms where connection reuse dominates latency and port usage.
-
-**Example:** Node behind ALB returns intermittent 502 after quiet periods — `keepAliveTimeout` was 5s below ALB idle; raising it above the LB timeout stopped the RST-on-reuse failures.
+## Mistakes to Avoid
+- **Mistake:** Enabling `tcp_tw_recycle` from old blog posts
+- **Mistake:** Widening `ip_local_port_range` as the primary fix instead of kee…
+- **Mistake:** Tuning `fin_timeout` to 5 globally
+- **Mistake:** Ignoring sidecar/service mesh hops
+- **Mistake:** Monitoring with `curl` every 10s from 50 pods without keepalive
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Aggressive short connections simplify some clients — no idle state to manage.
@@ -114,13 +124,12 @@ HTTP APIs behind ALB/nginx, microservice meshes, and health-check-heavy platform
 - **Trade-off:** HTTP/2 one TCP, many streams reduces handshake churn but still one connection to manage.
 
 ## Comparison
-- vs long-lived [[webSocket]] / gRPC streams: different failure mode — read idle and proxy timeouts, not TIME_WAIT storms.
+- vs long-lived [[webSocket]] / gRPC streams: different failure mode
 - vs UDP: no TIME_WAIT; different tools (`ss -u`).
 - vs database pool churn: same CLOSE-WAIT / leak signatures in [[ss]], different pool knobs.
 
-## Mistakes to Avoid
-- Enabling `tcp_tw_recycle` from old blog posts — removed in Linux 4.12; breaks clients behind NAT.
-- Widening `ip_local_port_range` as the primary fix instead of keepalive and pooling.
-- Tuning `fin_timeout` to 5 globally — can break legitimate slow closes; fix application reuse first.
-- Ignoring sidecar/service mesh hops — each hop needs keepalive alignment.
-- Monitoring with `curl` every 10s from 50 pods without keepalive — artificial churn.
+
+### Use cases
+- HTTP APIs behind ALB/nginx, microservice meshes, and health-check-heavy platf…
+
+- **Example:** Node behind ALB returns intermittent 502 after quiet periods

@@ -4,12 +4,18 @@
 
 > PostgreSQL access control lists — privileges stored in the catalog on each object, evaluated per statement from role membership and `SET ROLE`.
 
-
-
-
+```txt
+        ACL (postgreSQL) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows whether you understand role-based grants, reading `relacl`, and how row-level security sits beside table privileges.
+- **Interview probes:** Shows whether you understand role-based grants, reading `relacl`, and how row…
 
 ## Sources
 - [Privileges](https://www.postgresql.org/docs/current/ddl-priv.html) — overview
@@ -33,10 +39,12 @@ SELECT relname, relacl FROM pg_class WHERE relname = 'orders';
 | Schema | USAGE, CREATE |
 | Function | EXECUTE |
 
-Privilege letters in ACL strings include forms like `arwdDxt` for tables — decode via docs when auditing.
+- Privilege letters in ACL strings include forms like `arwdDxt` for tables
 
-## Real-World Applications
-App roles get DML on `app` schema; analysts get `SELECT`; RLS enforces tenant_id isolation on shared tables.
+## Mistakes to Avoid
+- **Mistake:** Granting on tables but not `USAGE` on the schema or sequences
+- **Mistake:** Assuming `GRANT SELECT` alone enforces multi-tenant isolation (n…
+- **Mistake:** Auditing only `psql` `\dp` once and never after migrations creat…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fine-grained, schema-native security model.
@@ -44,9 +52,8 @@ App roles get DML on `app` schema; analysts get `SELECT`; RLS enforces tenant_id
 - **Trade-off:** RLS power vs policy complexity and planning overhead.
 
 ## Comparison
-vs [[mysql Privileges]]: MySQL uses `user`@`host` privilege tables; PostgreSQL uses roles + catalog ACLs. Operational GRANT syntax is similar at the surface ([[psql privileges]]).
+- vs [[mysql Privileges]]: MySQL uses `user`@`host` privilege tables
 
-## Mistakes to Avoid
-- Granting on tables but not `USAGE` on the schema or sequences.
-- Assuming `GRANT SELECT` alone enforces multi-tenant isolation (need RLS or separate schemas).
-- Auditing only `psql` `\dp` once and never after migrations create new objects.
+
+### Use cases
+- App roles get DML on `app` schema

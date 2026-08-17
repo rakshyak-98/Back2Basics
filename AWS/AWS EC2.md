@@ -4,20 +4,20 @@
 
 > EC2 provides resizable virtual machines in a VPC — you choose an image, instance type, storage, and security groups; the first outage is usually networking or disk, not the hypervisor.
 
-
-
-
+```txt
+        AWS EC2 ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-EC2 interviews cover instance types, AMIs, EBS vs instance store, security groups, and failure domains across AZs.
+- **Interview probes:** EC2 interviews cover instance types, AMIs, EBS vs instance store, security gr…
 
 ## Sources
 - [Amazon EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html) — overview
 - [Instance types](https://aws.amazon.com/ec2/instance-types/) — overview
-
-## Recall Cues
-- Why do interviewers care about EC2 interviews cover instance types, AMIs, EBS vs instance store, security groups, and failure domains across AZs?
-- What is step 1: Pick region and AZ for latency and compliance?
 
 ## Technical Details
 ```bash
@@ -26,13 +26,11 @@ aws ec2 start-instances --instance-ids i-0abc123
 aws ec2 stop-instances --instance-ids i-0abc123
 ```
 
-Connect:
-
 ```bash
 ssh -i ~/.ssh/my-key.pem ec2-user@<public-dns-or-ip>
 ```
 
-Default Linux user varies by AMI: `ec2-user` (Amazon Linux), `ubuntu` (Ubuntu), `admin` (Debian).
+- Default Linux user varies by AMI: `ec2-user` (Amazon Linux), `ubuntu` (Ubuntu…
 
 1. Pick region and AZ for latency and compliance.
 2. Select AMI (Amazon Linux, Ubuntu, Windows, or golden image).

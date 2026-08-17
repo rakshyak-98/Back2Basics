@@ -4,32 +4,29 @@
 
 > Code review — a second engineer checks correctness, security, and clarity before a change merges.
 
-
-
-
+```txt
+        Code review ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows engineering culture maturity: what you look for, how you give feedback, and how you keep reviews from blocking [[Release cycle]] without rubber-stamping.
+- **Interview probes:** Shows engineering culture maturity: what you look for, how you give feedback,…
 
 ## Sources
 - [Google Engineering Practices — Code Review](https://google.github.io/eng-practices/review/) — deep-dive
 - [Wikipedia — Code review](https://en.wikipedia.org/wiki/Code_review) — overview
 
-## Core Definition
-Code review is a human (or human+tool) inspection of a proposed change against standards: behavior, tests, security, operability, and maintainability — before it becomes the team’s long-term liability.
-
-## Recall Cues
-- Why do interviewers care about Shows engineering culture maturity: what you look for, how you give feedback, and how you keep reviews from blocking [[Release cycle]] without rubber-stamping?
-- What is step 1: Intent clear from PR description / TL;DR?
-- What is step 2: Tests cover happy path + one failure mode?
-- What is step 3: No secrets; migrations are expand/contract safe?
-- What is step 4: Observability: logs/metrics for new failure modes?
-- What is step 6: Rollout: flag, canary, or documented rollback?
-- What mistake is **Approving without running or reading tests**?
-- What mistake is **Blocking on style that a formatter already owns**?
+## Key Concepts
+- **Core:** Code review is a human (or human+tool) inspection of a proposed change agains…
 
 ## Technical Details
-Typical checklist (adapt per stack):
+- Typical checklist (adapt per stack):
+
 1. Intent clear from PR description / TL;DR.
 2. Tests cover happy path + one failure mode.
 3. No secrets; migrations are expand/contract safe.
@@ -37,20 +34,21 @@ Typical checklist (adapt per stack):
 5. Performance: N+1, unbounded loops, missing indexes called out.
 6. Rollout: flag, canary, or documented rollback.
 
-Tools accelerate (linters, SAST) but do not replace judgment on architecture and product risk.
+- Tools accelerate (linters, SAST) but do not replace judgment on architecture …
 
 ## Mistakes to Avoid
-- Approving without running or reading tests.
-- Blocking on style that a formatter already owns.
-- Mega-PRs (“LGTM” without understanding).
-- Review as gatekeeping instead of shared quality ownership.
-
-## Comparison
-vs pair programming: review is async and archival; pairing is sync. vs CI: automation checks mechanical rules; review checks intent and trade-offs. Related: [[staff engineer]] ownership of review quality.
-
-## Real-World Applications
-PR for a payment webhook: reviewer verifies signature check, idempotency, and that failures go to a DLQ — not only that TypeScript compiles.
+- **Mistake:** Approving without running or reading tests
+- **Mistake:** Blocking on style that a formatter already owns
+- **Mistake:** Mega-PRs (“LGTM” without understanding)
+- **Mistake:** Review as gatekeeping instead of shared quality ownership
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Catches bugs early; spreads knowledge; raises bar.
 - **Con:** Slow queues; nitpick culture; large PRs that cannot be reviewed well.
+
+## Comparison
+- vs pair programming: review is async and archival
+
+
+### Use cases
+- PR for a payment webhook: reviewer verifies signature check, idempotency, and…

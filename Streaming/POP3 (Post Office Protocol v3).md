@@ -4,18 +4,24 @@
 
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
-
-
-
+```txt
+        POP3 (Post Office  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about POP3 to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about POP3 to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3) — overview
 
 ## Key Concepts
-**POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 TLS). Default mental model: **download to one device**, server mailbox often **emptied** after retrieval — though `leave mail on server` exists as client setting.
+- **Note:** **POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 …
 
 | Command phase | Commands |
 |---------------|----------|
@@ -23,7 +29,7 @@ Interviewers ask about POP3 to see if you understand the pipeline role, failure 
 | **Transaction** | `LIST`, `UIDL`, `RETR n`, `DELE n` |
 | **Update** | Deletes committed on `QUIT` |
 
-**versus IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
+- **Note:** **versus IMAP:** POP3 is **offline-first, single-client**
 
 ## Technical Details
 ```txt
@@ -67,15 +73,6 @@ sudo systemctl status dovecot
 ✗ Folder hierarchy / Sent sync across devices
 ```
 
-## Real-World Applications
-Used wherever POP3 sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **New product email client** — ship IMAP + OAuth2.
-- **Con / skip when:** **Team shared inbox** — IMAP namespaces or web UI.
-- **Con / skip when:** **Mobile-first** — IMAP IDLE push approximations win.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,7 +88,16 @@ journalctl -u dovecot -f
 sudo tail -f /var/log/mail.log
 ```
 
-- **Delete on QUIT** — user blames server; client setting caused data loss on other devices.
-- **Plain POP3 port 110** — credentials cleartext; disable or force STLS.
-- **Google/Outlook consumer** — POP3 disabled by default; app passwords required.
-- **No server-side search** — must download headers/bodies locally — slow on big mailboxes.
+- **Mistake:** **Delete on QUIT**
+- **Mistake:** **Plain POP3 port 110**
+- **Mistake:** **Google/Outlook consumer**
+- **Mistake:** **No server-side search**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **New product email client** — ship IMAP + OAuth2.
+- **Con / skip when:** **Team shared inbox** — IMAP namespaces or web UI.
+- **Con / skip when:** **Mobile-first** — IMAP IDLE push approximations win.
+
+## Real-World Applications
+- **Scenario:** Used wherever POP3 sits in an ingest → package → CDN → player path

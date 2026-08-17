@@ -4,12 +4,18 @@
 
 > PostgreSQL pattern: put objects in a schema you can move with `ALTER … SET SCHEMA` — useful for extensions, tenant modules, and portable fixtures.
 
-
-
-
+```txt
+        relocatable schema ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows schema-as-namespace fluency beyond `public`, including search_path pitfalls during blue/green schema cutovers.
+- **Interview probes:** Shows schema-as-namespace fluency beyond `public`, including search_path pitf…
 
 ## Sources
 - [Schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) — overview
@@ -30,10 +36,12 @@ CREATE TABLE app_v2.users (...);
 ALTER TABLE app_v2.users SET SCHEMA public;
 ```
 
-Always set `search_path` intentionally in apps and migrations (`SET search_path TO app, public`).
+- Always set `search_path` intentionally in apps and migrations (`SET search_pa…
 
-## Real-World Applications
-Blue/green schema versions in one database; packaging logical modules; cloning schema-only dumps into test DBs.
+## Mistakes to Avoid
+- **Mistake:** Moving tables while apps still depend on old search_path
+- **Mistake:** Forgetting grants after relocation
+- **Mistake:** Assuming extension objects happily move without extension-aware …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast logical isolation without a new cluster.
@@ -41,9 +49,8 @@ Blue/green schema versions in one database; packaging logical modules; cloning s
 - **Trade-off:** Schema relocation vs separate databases per tenant/module.
 
 ## Comparison
-vs MySQL: database/schema synonymy means “move between schemas” is a different operational story (often dump/restore between databases).
+- vs MySQL: database/schema synonymy means “move between schemas” is a differen…
 
-## Mistakes to Avoid
-- Moving tables while apps still depend on old search_path.
-- Forgetting grants after relocation.
-- Assuming extension objects happily move without extension-aware procedures.
+
+### Use cases
+- Blue/green schema versions in one database

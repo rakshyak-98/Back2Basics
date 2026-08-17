@@ -4,34 +4,40 @@
 
 > DRM (Digital Rights Management) encrypts the stream and only hands keys to entitled players — stops casual copying.
 
-
-
-
+```txt
+        DRM ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk DRM end-to-end — not just name it. Signal fluency with **DRM**, **License server**, **CDM**, **CENC** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk DRM end-to-end
 
 ## Sources
 - [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM) — overview
 - [W3C EME](https://www.w3.org/TR/encrypted-media/) — overview
 
 ## Key Concepts
-- **DRM:** Encrypt + license gate for playback — “We protect the asset; the player must prove entitlement.”
-- **License server:** Issues keys after auth / policy checks — “Keys never ship in the clear to random clients.”
-- **CDM:** Secure decrypt module in the device/browser — “EME talks to the CDM; JS never sees the raw key on L1.”
-- **CENC:** One encryption format many DRMs share — “Encrypt once; serve Widevine + PlayReady from the same files.”
-- **PSSH:** Blob telling the CDM which system + key id — “Manifest carries PSSH so the player knows who to ask.”
-- **KID:** Key ID — name of the key, not the key — “License maps KID → CEK for this content.”
-- **Multi-DRM:** Same asset, several CDMs — “Android Widevine, Safari FairPlay, Edge PlayReady.”
+- **DRM:** Encrypt + license gate for playback
+- **License server:** Issues keys after auth / policy checks
+- **CDM:** Secure decrypt module in the device/browser
+- **CENC:** One encryption format many DRMs share
+- **PSSH:** Blob telling the CDM which system + key id
+- **KID:** Key ID — name of the key, not the key — “License maps KID → CEK for this cont…
+- **Multi-DRM:** Same asset, several CDMs
 
 **Flow:**
 
-1. **Get keys** — KMS / DRM vendor returns CEK + KID + PSSH (often via [[CPIX]]).
-2. **Encrypt + package** — packager applies CENC; writes protection into [[HLS]]/[[DASH]] manifests.
-3. **Entitle** — your backend decides the user may play; mint a short-lived license token ([[streaming license]] / [[Pallycon(DoveRunner)]]).
-4. **Play** — player uses [[EME]]; CDM fetches license; decrypts segments.
+- **Note:** 1. **Get keys**
+- **Note:** 2. **Encrypt + package**
+- **Note:** 3. **Entitle**
+- **Note:** 4. **Play** — player uses [[EME]]; CDM fetches license; decrypts segments.
 
-Browser OTT uses [[EME]] + a CDM (Widevine / PlayReady / FairPlay). Broadcast STBs often use [[CAS (Conditional Access System)]] (ECM/EMM) instead — different stack, same goal (only entitled devices decode).
+- **Note:** Browser OTT uses [[EME]] + a CDM (Widevine / PlayReady / FairPlay). Broadcast…
 
 ### License server options (pick one path)
 
@@ -45,7 +51,7 @@ Browser OTT uses [[EME]] + a CDM (Widevine / PlayReady / FairPlay). Broadcast ST
 Caution! The stream has been secured with DRM…
 ```
 
-That banner means encryption is on — not a player bug. Only CDM-compatible players can decrypt.
+- **Note:** That banner means encryption is on
 
 ## Technical Details
 ```txt
@@ -63,7 +69,7 @@ Clear mezzanine / live ingest
         └──── decrypt if entitled ┘
 ```
 
-Typical live path (Flussonic-style packager + DoveRunner):
+- Typical live path (Flussonic-style packager + DoveRunner):
 
 ```txt
 Live input (UDP / RTMP)
@@ -85,11 +91,11 @@ CDM decrypt → playback
 | Key rotation / KID in manifest | Stale KID ⇒ black screen after renew |
 | Security level (L1 vs L3) | HD/UHD policy may require hardware CDM |
 
-Debug: browser `chrome://media-internals` + player DRM logs; confirm `ContentProtection` / `#EXT-X-KEY` present.
+- Debug: browser `chrome://media-internals` + player DRM logs
 
 ### Multi-DRM
 
-**Multi-DRM** means one CENC-encrypted asset (ISO/IEC 23001-7) with several DRM signaling blobs so Widevine, PlayReady, and FairPlay clients can each get a license for the **same** ciphertext.
+- **Multi-DRM:** means one CENC-encrypted asset (ISO/IEC 23001-7) with several D…
 
 ```txt
 One encrypted ladder
@@ -98,17 +104,8 @@ One encrypted ladder
    └── FairPlay / HLS key URI → FPS license
 ```
 
-Pack once; license paths differ per platform. Do not re-encode per DRM.
-
-## Real-World Applications
-Used wherever DRM sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
-- **Con / skip when:** **You only need link expiry** — CDN token authentication, not full CDM.
-- **Con / skip when:** **Broadcast STB already on CAS** — don’t bolt Widevine onto a CAS-only headend without a real dual-stack design.
-- **Con / skip when:** **WebRTC P2P demos** — ICE/media path first; DRM is an OTT packaging concern.
+- Pack once; license paths differ per platform.
+- Do not re-encode per DRM.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -121,7 +118,17 @@ Used wherever DRM sits in an ingest → package → CDN → player path. Concret
 | HD blocked, SD plays | Widevine L3 only | Require L1 devices or lower policy max resolution |
 | Live encrypt OK, VOD fails | Different key endpoint / content id | Align content id + CPIX request with asset id |
 
-- **DRM ≠ CAS** — browser/mobile OTT uses DRM + [[EME]]; classic IPTV STBs often use [[CAS (Conditional Access System)]]. Mixing license paths breaks half the fleet.
-- **Encrypt without manifest signaling** — ciphertext with no PSSH/KEY tags looks like a corrupt stream to the player.
-- **Long-lived license tokens in the app** — mint short-lived tokens on your backend; never ship site keys to the client.
-- **Player compatibility** — Widevine-only streams fail on FairPlay-only Safari unless you multi-DRM or offer a clear fallback (usually not allowed for premium).
+- **Mistake:** **DRM ≠ CAS**
+- **Mistake:** **Encrypt without manifest signaling**
+- **Mistake:** **Long-lived license tokens in the app**
+- **Mistake:** **Player compatibility**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Internal / low-value clips**
+- **Con / skip when:** **You only need link expiry**
+- **Con / skip when:** **Broadcast STB already on CAS**
+- **Con / skip when:** **WebRTC P2P demos**
+
+## Real-World Applications
+- **Scenario:** Used wherever DRM sits in an ingest → package → CDN → player path

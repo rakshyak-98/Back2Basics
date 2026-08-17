@@ -4,25 +4,18 @@
 
 > The AWS CLI is the command-line client for AWS APIs — install v2, configure credentials through profiles or environment variables, and verify with `sts get-caller-identity`.
 
-
-
-
+```txt
+        AWS cli installati ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Interviewers ask about AWS cli installation to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- When is `AWS_SESSION_TOKEN` required?
-- Why store profiles in `~/.aws/config` vs exporting keys in every shell?
+- **Interview probes:** Interviewers ask about AWS cli installation to see whether you can design and…
 
 ## Sources
 - [Installing or updating the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) — overview
 - [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) — overview
-
-## Recall Cues
-- Why do interviewers care about about AWS cli installation to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- When is `AWS_SESSION_TOKEN` required?
-- Why store profiles in `~/.aws/config` vs exporting keys in every shell??
 
 ## Technical Details
 ### Linux (x86_64)
@@ -40,20 +33,18 @@ aws --version   # aws-cli/2.x ...
 brew install awscli
 ```
 
-Or download the macOS pkg from [AWS CLI install page](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+- Or download the macOS pkg from [AWS CLI install page](https://docs.aws.amazon…
 
 ### Windows
 
-Download and run the MSI installer from AWS documentation.
+- Download and run the MSI installer from AWS documentation.
 
-Interactive:
+- Interactive:
 
 ```bash
 aws configure
 # AWS Access Key ID, Secret, default region, output format (json)
 ```
-
-Files:
 
 - `~/.aws/credentials` — access keys per profile
 - `~/.aws/config` — region, output, role assumption
@@ -74,7 +65,7 @@ export AWS_SESSION_TOKEN=...      # required for temporary credentials
 export AWS_DEFAULT_REGION=us-east-1
 ```
 
-Prefer **IAM roles** and `aws sso login` over long-lived keys on laptops.
+- Prefer **IAM roles** and `aws sso login` over long-lived keys on laptops.
 
 ```bash
 aws configure sso
@@ -85,10 +76,10 @@ aws sso login --profile my-sso-profile
 aws sts get-caller-identity
 ```
 
-Returns account, ARN, and user/role ID — confirms authentication works.
+- Returns account, ARN, and user/role ID — confirms authentication works.
 
 ```bash
 complete -C aws_completer aws
 ```
 
-Add to `~/.bashrc` for persistent completion.
+- Add to `~/.bashrc` for persistent completion.

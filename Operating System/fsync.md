@@ -4,12 +4,18 @@
 
 > fsync pushes one file’s dirty cache data toward stable storage — the durability boundary databases rely on after writing a commit record.
 
-
-
-
+```txt
+        fsync ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Durability classic: `write` ≠ durable; `fsync` vs `fdatasync` vs `sync`; drive write-cache caveats.
+- **Interview probes:** Durability classic: `write` ≠ durable
 
 ## Sources
 - Linux `fsync(2)` manual page — deep-dive
@@ -29,20 +35,22 @@ Durability classic: `write` ≠ durable; `fsync` vs `fdatasync` vs `sync`; drive
 | `fdatasync(fd)` | Data only where possible |
 | `sync()` | Global flush — heavy |
 
-Failure modes:
+- Failure modes:
 
-- Drive write cache without capacitor — “fsync success” still lost on power loss.
+- Drive write cache without capacitor
 - Network filesystems — only as strong as server guarantees.
-- Containers — host crash still matters; [[Persistent Block Storage]] semantics pass through.
+- Containers — host crash still matters
 
 ```bash
 strace -e fsync -p PID
 ```
 
-Pair with [[disk IOPS]] for sync-heavy workloads.
+- Pair with [[disk IOPS]] for sync-heavy workloads.
 
-## Real-World Applications
-PostgreSQL/MySQL commit paths, write-ahead logs, and editors that “save” safely.
+## Mistakes to Avoid
+- **Mistake:** Believing `write` return means crash-safe
+- **Mistake:** Calling `sync()` in a tight loop on a multi-tenant host
+- **Mistake:** Ignoring disk write-cache policy in durability claims
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Explicit durability for critical files.
@@ -53,7 +61,6 @@ PostgreSQL/MySQL commit paths, write-ahead logs, and editors that “save” saf
 - vs [[Buffer cache]]: cache makes writes fast; fsync forces them out.
 - vs `fflush`: user-space buffer only — not disk.
 
-## Mistakes to Avoid
-- Believing `write` return means crash-safe.
-- Calling `sync()` in a tight loop on a multi-tenant host.
-- Ignoring disk write-cache policy in durability claims.
+
+### Use cases
+- PostgreSQL/MySQL commit paths, write-ahead logs, and editors that “save” safe…

@@ -4,18 +4,24 @@
 
 > Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
-
-
-
+```txt
+        Encoding ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Encoding to see if you understand the pipeline role, f…
 
 ## Sources
 - [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding) — overview
 
 ## Key Concepts
-**Encoding** converts **uncompressed or mezzanine** video/audio into a **codec bitstream** (H.264, AAC, etc.) suitable for containers ([[CMAF]], TS) and protocols ([[HLS]], [[DASH]], [[RTMP]]). It is **lossy** for delivery codecs — you cannot recover discarded detail. Downstream **packaging** muxes encoded streams; **[[transcoding]]** is encode-after-decode when format changes.
+- **Note:** **Encoding** converts **uncompressed or mezzanine** video/audio into a **code…
 
 | Stage | Question | Wrong answer cost |
 |-------|----------|-------------------|
@@ -24,7 +30,7 @@ Interviewers ask about Encoding to see if you understand the pipeline role, fail
 | **Live** | CBR cap vs quality | Uplink drops, macroblocking |
 | **DRM** | Encode clear or encrypted? | Re-package if keys rotate wrong |
 
-**Encode once well** at mezzanine; ladder encodes can downscale from mezzanine rather than re-decoding consumer files.
+- **Note:** **Encode once well** at mezzanine
 
 ## Technical Details
 ```txt
@@ -43,7 +49,7 @@ ffmpeg -i camera.mov -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p \
   -c:a pcm_s24le -movflags +faststart mezzanine.mov
 ```
 
-Store mezzanine; generate delivery from it ([[re-encoding]] only when targets change).
+- Store mezzanine
 
 ### Live encode to ingest ([[RTMP]])
 
@@ -75,7 +81,7 @@ ffmpeg -i mezzanine.mov -c:v libx264 -crf 20 -maxrate 5800k -bufsize 11600k \
 ffmpeg -hwaccel cuda -i in.mp4 -c:v h264_nvenc -preset p4 -b:v 4500k -c:a aac out.mp4
 ```
 
-See [[NVENC]] for GPU fleet sizing.
+- See [[NVENC]] for GPU fleet sizing.
 
 ### QC after encode
 
@@ -84,18 +90,6 @@ ffmpeg -i out.mp4 -vf signalstats -f null -
 ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv | head
 # Verify regular IDR at expected GOP
 ```
-
-## Real-World Applications
-Used wherever Encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
-- **Con / skip when:** **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
-- **Con / skip when:** **Maximum compression on mezzanine** — mezzanine should be high quality; crunch at delivery rungs.
-
-## Comparison
-- vs [[re-encoding]]: **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -107,7 +101,20 @@ Used wherever Encoding sits in an ingest → package → CDN → player path. Co
 | 60fps stutter on 30fps ladder | Frame rate mismatch | Separate ladders or force `-r 30` |
 | GPU encode banding | NVENC rate control | Tune CQ/VBR; increase `-b:v` floor |
 
-- **Encoding ≠ packaging** — H.264 elementary stream still needs HLS/DASH mux ([[CMAF]]).
-- **Double encode quality loss** — OBS → RTMP → transcode → ladder = generational loss; minimize hops.
-- **Interlaced source** — deinterlace (`-vf yadif`) before H.264 progressive delivery.
-- **Color range** — TV vs PC levels wrong → crushed blacks; tag `-color_range tv`.
+- **Mistake:** **Encoding ≠ packaging**
+- **Double encode quality loss** — OBS::** → RTMP → transcode → ladder = generational loss; minimize hops
+- **Mistake:** **Interlaced source**
+- **Color range** — TV vs PC levels wrong::** → crushed blacks; tag `-color_range tv`
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Remux only**
+- **Con / skip when:** **Encode on every playback**
+- **Con / skip when:** **Maximum compression on mezzanine**
+
+## Comparison
+- vs [[re-encoding]]: **Remux only**
+
+
+### Use cases
+- Used wherever Encoding sits in an ingest → package → CDN → player path

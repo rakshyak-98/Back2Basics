@@ -4,12 +4,17 @@
 
 > GC reclaims heap objects your program can’t reach — you don’t `free()`, but you can still leak via lingering references.
 
-
-
-
+```txt
+        Garbage Collection ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-GC interviews cover reachability, mark-and-sweep intuition, and memory leak patterns in JS.
+- **Interview probes:** GC interviews cover reachability, mark-and-sweep intuition, and memory leak p…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -42,10 +47,6 @@ cache.delete(key)
 | `--expose-gc` (node) | Force GC in experiments only |
 | WeakRef | Advanced; don’t abuse |
 
-## Pros/Cons or Trade-offs
-- **Manual arena allocators in WASM** — different story.
-- **Trying to force GC for correctness** — fix references instead.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Closures capture more than you think** — accidental retain of big objects.
@@ -59,3 +60,7 @@ cache.delete(key)
 | Detached DOM nodes | listeners/closures | Remove listeners; null refs |
 | Worker retain | open ports | Close MessagePorts |
 | GC pauses | huge heaps | Smaller objects; pool wisely |
+
+## Pros/Cons or Trade-offs
+- **Manual arena allocators in WASM** — different story.
+- **Trying to force GC for correctness** — fix references instead.

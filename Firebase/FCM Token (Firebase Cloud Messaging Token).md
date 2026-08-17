@@ -4,12 +4,18 @@
 
 > Registration token for one app install on one device — your backend stores it to target push; it rotates on reinstall, clear-data, and refresh callbacks.
 
-
-
-
+```txt
+        FCM Token (Firebas ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want token lifecycle (store, refresh, delete on `not-registered`), HTTP v1 + service account (not legacy server keys), and per-platform storage.
+- **Interview probes:** Interviewers want token lifecycle (store, refresh, delete on `not-registered`…
 
 ## Sources
 - [Firebase — About FCM messages](https://firebase.google.com/docs/cloud-messaging/concept-options) — overview
@@ -39,10 +45,10 @@ const token = await getToken(messaging, { vapidKey: VAPID_KEY });
 | `platform` | ios / android / web |
 | `updated_at` | Stale cleanup |
 
-## Real-World Applications
-Multi-device users: store many tokens per user; send to all active devices; prune dead ones from batch responses.
-
-**Example:** User reinstalls the app — old token fails; refresh handler upserts the new token.
+## Mistakes to Avoid
+- **Mistake:** Treating a token as a permanent user id
+- **Mistake:** Still using deprecated legacy server keys for new work
+- **Mistake:** Ignoring refresh events until sends start failing in production
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise device targeting without building your own push pipe.
@@ -52,7 +58,8 @@ Multi-device users: store many tokens per user; send to all active devices; prun
 - vs topics: tokens target explicit devices; topics broadcast to subscribers.
 - vs [[Multicast delivery]]: token is the address; multicast is how you send to many addresses.
 
-## Mistakes to Avoid
-- Treating a token as a permanent user id.
-- Still using deprecated legacy server keys for new work.
-- Ignoring refresh events until sends start failing in production.
+
+### Use cases
+- Multi-device users: store many tokens per user
+
+- **Example:** User reinstalls the app

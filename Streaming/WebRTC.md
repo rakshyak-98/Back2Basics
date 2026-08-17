@@ -4,37 +4,40 @@
 
 > Browser P2P real-time A/V + data — media is encrypted UDP, not HTTP.
 
-
-
-
+```txt
+        WebRTC ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk WebRTC end-to-end — not just name it. Signal fluency with **getUserMedia**, **RTCPeerConnection**, **SDP**, **Signaling** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk WebRTC end-to-end
 
 ## Sources
 - [Wikipedia — WebRTC](https://en.wikipedia.org/wiki/WebRTC) — overview
 - [WebRTC W3C](https://www.w3.org/TR/webrtc/) — deep-dive
 - [MDN WebRTC API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) — overview
 
-## Core Definition
-Signaling carries **SDP + candidates**. Media never goes through your WebSocket in pure P2P — only through TURN/SFU when those are in the path.
-
 ## Key Concepts
 - **getUserMedia:** Ask OS for camera/mic — “First I capture a local MediaStream.”
 - **RTCPeerConnection:** The session object — “One PC per remote peer (or SFU edge).”
-- **SDP:** Session Description Protocol — codecs + ICE creds — “Offer/answer swaps what we can send.”
+- **SDP:** Session Description Protocol
 - **Signaling:** Your app’s side channel — “WebRTC has no built-in signaling — I own that.”
 - **ICE:** Path finder behind NAT — “Gather candidates, check pairs, pick a path.”
-- **STUN / TURN:** Discover public face / relay media — “STUN finds; TURN carries when direct fails.”
+- **STUN / TURN:** Discover public face / relay media
 - **DataChannel:** Reliable/unreliable messages — “SCTP over DTLS — not the same pipe as RTP.”
 - **SFU:** Server that fans out media — “Clients uplink once; SFU forwards to N peers.”
 
 **Flow:**
 
-1. **Capture** — `getUserMedia` → local preview + tracks on the PC.
-2. **Signal** — create offer → setLocalDescription → send SDP via [[WebRTC Signaling channels]]; remote answers.
-3. **ICE** — exchange candidates; [[ICE (Interactive Connectivity Establishment)]] picks host → srflx → relay ([[TURN server (Traversal Using Relays around NAT)]]).
-4. **Media** — SRTP flows peer-to-peer or via TURN/SFU; DataChannel optional.
+- **Note:** 1. **Capture** — `getUserMedia` → local preview + tracks on the PC.
+- **Note:** 2. **Signal**
+- **Note:** 3. **ICE** — exchange candidates
+- **Note:** 4. **Media** — SRTP flows peer-to-peer or via TURN/SFU; DataChannel optional.
 
 ### Three APIs you actually use
 
@@ -43,6 +46,9 @@ Signaling carries **SDP + candidates**. Media never goes through your WebSocket 
 | `navigator.mediaDevices.getUserMedia` | Capture camera/mic (or `getDisplayMedia` for screen) |
 | `RTCPeerConnection` | Negotiate, ICE, encrypt, send/receive A/V |
 | `RTCPeerConnection.createDataChannel` | App messages over [[SCTP (Stream Control Transmission Protocol)]] |
+
+
+- **Core:** Signaling carries **SDP + candidates**. Media never goes through your WebSock…
 
 ## Technical Details
 ```txt
@@ -96,25 +102,9 @@ signaling.send({ type: 'offer', sdp: pc.localDescription })
 | Trickle ICE | Send candidates as they arrive — faster connect |
 | `getStats()` | Bitrate, packet loss, RTT for live quality dashboards |
 
-Debug: `chrome://webrtc-internals` — ICE state, selected pair, codecs.
+- Debug: `chrome://webrtc-internals` — ICE state, selected pair, codecs.
 
-See [[WebRTC Get Started Guide]] for constraints / device enumeration.
-
-## Real-World Applications
-Signaling carries **SDP + candidates**. Media never goes through your WebSocket in pure P2P — only through TURN/SFU when those are in the path.
-
-Used wherever WebRTC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **One-to-many OTT (millions of viewers)** — [[HLS]] / [[DASH]] + CDN; WebRTC is for few peers or SFU-scale interactive.
-- **Con / skip when:** **OBS → origin ingest for linear** — usually [[RTMP]] / SRT into a packager ([[flussonic]]), not browser WebRTC.
-- **Con / skip when:** **Fire-and-forget file download** — HTTP range / Node streams ([[How to attach stream to HTTP handlers]]); no ICE needed.
-
-## Comparison
-- vs [[HLS]]: **One-to-many OTT (millions of viewers)** — [[HLS]] / [[DASH]] + CDN; WebRTC is for few peers or SFU-scale interactive.
-- vs [[RTMP]]: **OBS → origin ingest for linear** — usually [[RTMP]] / SRT into a packager ([[flussonic]]), not browser WebRTC.
-- vs [[How to attach stream to HTTP handlers]]: **Fire-and-forget file download** — HTTP range / Node streams ([[How to attach stream to HTTP handlers]]); no ICE needed.
+- See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -127,8 +117,25 @@ Used wherever WebRTC sits in an ingest → package → CDN → player path. Conc
 | Connect then silence on network change | `iceConnectionState` failed | `restartIce()` + new offer |
 | High CPU / choppy | Encoder overload in stats | Lower resolution/fps; prefer hardware codecs |
 
-- **No signaling in the standard** — you must build WebSocket/HTTPS/WHIP. Forgetting auth on rooms = free SFU / TURN abuse.
-- **STUN ≠ TURN** — STUN only discovers addresses. Without [[TURN server (Traversal Using Relays around NAT)]], a slice of users never connect.
-- **SDP in logs** — contains ICE passwords and DTLS fingerprints; scrub production logs.
-- **P2P tutorials ≠ SFU products** — LiveKit/Janus/mediasoup: you signal to the server; media topology differs.
-- **Mobile background** — OS may pause camera; renegotiate or swap tracks on resume.
+- **Mistake:** **No signaling in the standard**
+- **Mistake:** **STUN ≠ TURN**
+- **Mistake:** **SDP in logs**
+- **Mistake:** **P2P tutorials ≠ SFU products**
+- **Mistake:** **Mobile background**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **One-to-many OTT (millions of viewers)**
+- **Con / skip when:** **OBS → origin ingest for linear**
+- **Con / skip when:** **Fire-and-forget file download**
+
+## Comparison
+- vs [[HLS]]: **One-to-many OTT (millions of viewers)**
+- vs [[RTMP]]: **OBS → origin ingest for linear**
+- vs [[How to attach stream to HTTP handlers]]: **Fire-and-forget file download**
+
+
+### Use cases
+- Signaling carries **SDP + candidates**. Media never goes through your WebSock…
+
+- Used wherever WebRTC sits in an ingest → package → CDN → player path

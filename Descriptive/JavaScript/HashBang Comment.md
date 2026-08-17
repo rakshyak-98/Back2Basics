@@ -4,18 +4,23 @@
 
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
-
-
-
+```txt
+        HashBang comment ( ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Hashbang in JS modules is niche — interviewers may ask Node CLI script entry behavior.
+- **Interview probes:** Hashbang in JS modules is niche
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-`#!` (hash-bang) at **byte 0, line 1** tells the kernel which program executes the file when run as `./script.js`. The JavaScript engine treats it as a **single-line comment** and removes it before parse.
+- **Note:** `#!` (hash-bang) at **byte 0, line 1** tells the kernel which program execute…
 
 ```
 ./cli.js  ──► kernel reads #!/usr/bin/env node
@@ -63,23 +68,19 @@ chmod +x cli.js
 }
 ```
 
-Ensure built file retains shebang; bundlers may need `banner` plugin.
+- Ensure built file retains shebang; bundlers may need `banner` plugin.
 
 ### TypeScript source (run compiled output)
 
-Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbuild injects it.
-
-## Pros/Cons or Trade-offs
-- Files only ever imported, never executed directly.
-- Browser bundles — bundler strips or breaks shebang if misplaced.
+- Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/es…
 
 ## Mistakes to Avoid
 > [!WARNING]
 > Shebang line length is limited (~128 bytes on Linux) — use `/usr/bin/env node`, not long absolute paths, when possible.
 
-- **Only one argument** historically on some systems — `env node --experimental-vm-modules` may fail; use wrapper script.
-- **Windows:** shebang ignored unless WSL/Git Bash; use `node script.js` in `.cmd` shims for npm bins.
-- **ES modules:** shebang + `"type":"module"` in package.json is fine.
+- **Mistake:** **Only one argument** historically on some systems
+- **Mistake:** **Windows:** shebang ignored unless WSL/Git Bash
+- **Mistake:** **ES modules:** shebang + `"type":"module"` in package.json is f…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,3 +89,7 @@ Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbui
 | Wrong Node version | `which node` vs shebang path | Use `env node` + nvm default |
 | Shebang not first line | BOM or blank line before `#!` | Move to line 1; remove BOM |
 | Works with `node x` not `./x` | Missing shebang or exec bit | Add both |
+
+## Pros/Cons or Trade-offs
+- Files only ever imported, never executed directly.
+- Browser bundles — bundler strips or breaks shebang if misplaced.

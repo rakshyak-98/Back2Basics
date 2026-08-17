@@ -4,18 +4,23 @@
 
 > JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
-
-
-
+```txt
+        JavaScript concurr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-JS concurrency interviews check event loop vs threads — async I/O without parallel CPU by default.
+- **Interview probes:** JS concurrency interviews check event loop vs threads
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel threads unless you explicitly spawn workers.
+- **Note:** JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurr…
 
 ```
 Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
@@ -30,7 +35,7 @@ Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
 | **Worker threads (Node)** | Yes | Shared `ArrayBuffer` optional |
 | **`Promise.all` + fetch** | Concurrent I/O, not CPU | Still one JS thread |
 
-Any code that must stay "concurrent" must **yield** — return from the callback quickly so the loop can poll I/O and render.
+- **Note:** Any code that must stay "concurrent" must **yield**
 
 ## Technical Details
 ### Non-blocking I/O pattern (Node)
@@ -74,18 +79,14 @@ h.enable();
 setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); }, 5000);
 ```
 
-## Pros/Cons or Trade-offs
-- CPU-bound parallel pipelines — use workers, Rust sidecar, or batch job queue, not async/await alone.
-- Replacing proper backpressure — `async` does not throttle producers.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > `Promise.all` with 10 000 concurrent HTTP calls is "concurrent" but will exhaust sockets and memory — concurrency ≠ unbounded parallelism.
 
-- **`setTimeout(0)` is not instant** — queues after current stack + microtasks.
-- **Microtasks starve I/O:** infinite `Promise.resolve().then(...)` loop blocks rendering.
-- **Node `cluster`:** multi-process for CPU; each process has its own event loop.
-- **Atomics / SharedArrayBuffer:** real shared memory; needs COOP/COEP headers in browser.
+- **Mistake:** **`setTimeout(0)` is not instant**
+- **Mistake:** **Microtasks starve I/O:** infinite `Promise.resolve().then(...)…
+- **Mistake:** **Node `cluster`:** multi-process for CPU
+- **Mistake:** **Atomics / SharedArrayBuffer:** real shared memory
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,3 +95,7 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 | `UnhandledPromiseRejection` | Missing `await` / `.catch()` | Always handle async errors |
 | High CPU, low throughput | Busy-wait loop | Backoff, queue, or worker pool |
 | Works locally, stalls in prod | Larger prod payloads | Stream instead of buffering entire body |
+
+## Pros/Cons or Trade-offs
+- CPU-bound parallel pipelines
+- Replacing proper backpressure — `async` does not throttle producers.

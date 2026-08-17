@@ -4,12 +4,18 @@
 
 > Package manager commands for Kubernetes — add repos, install/upgrade releases, diff values, and rollback when a chart deploy goes wrong.
 
-
-
-
+```txt
+        Helm CLI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want release vs chart, `values.yaml` overrides, upgrade/rollback, and three-way merge awareness.
+- **Interview probes:** Interviewers want release vs chart, `values.yaml` overrides, upgrade/rollback…
 
 ## Sources
 - [Helm — Commands](https://helm.sh/docs/helm/) — deep-dive
@@ -40,10 +46,10 @@ helm uninstall my-release
 | Upgrade | `helm upgrade <release> <chart>` |
 | Rollback | `helm rollback <release> <revision>` |
 
-## Real-World Applications
-Deploy ingress-nginx or a third-party operator with env-specific values per cluster.
-
-**Example:** Bad image tag — `helm rollback my-release 1` restores prior revision quickly.
+## Mistakes to Avoid
+- **Mistake:** `--set` sprawl unreviewed in CI
+- **Mistake:** Upgrading without checking `helm get values` drift
+- **Mistake:** Assuming chart `kind` quirks without reading CRD notes in the ch…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Repeatable installs; rich ecosystem charts.
@@ -53,7 +59,8 @@ Deploy ingress-nginx or a third-party operator with env-specific values per clus
 - vs raw `kubectl apply`: Helm tracks revisions and packages.
 - vs Kustomize: Helm packages params; Kustomize overlays plain manifests.
 
-## Mistakes to Avoid
-- `--set` sprawl unreviewed in CI.
-- Upgrading without checking `helm get values` drift.
-- Assuming chart `kind` quirks without reading CRD notes in the chart README.
+
+### Use cases
+- Deploy ingress-nginx or a third-party operator with env-specific values per c…
+
+- **Example:** Bad image tag

@@ -4,12 +4,18 @@
 
 > An ECU is an embedded computer that reads sensors and drives actuators in real time — cars, ABS, and industrial controllers often run an RTOS on bare metal or a thin POSIX layer.
 
-
-
-
+```txt
+        Electronic Control ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Useful for embedded / systems roles: contrast deterministic control loops with general-purpose Linux desktops, and name how I/O and scheduling differ.
+- **Interview probes:** Useful for embedded / systems roles: contrast deterministic control loops wit…
 
 ## Sources
 - [Wikipedia — Electronic control unit](https://en.wikipedia.org/wiki/Electronic_control_unit) — overview
@@ -23,17 +29,20 @@ Useful for embedded / systems roles: contrast deterministic control loops with g
 - **Static resources:** fixed RAM, usually no swap — limits decided at build time.
 
 ## Technical Details
-Unlike a PC booting [[Boot/UEFI]] and a desktop OS, a typical ECU:
+- Unlike a PC booting [[Boot/UEFI]] and a desktop OS, a typical ECU:
 
 ```txt
 Control algorithm → RTOS scheduler → drivers → MCU hardware
 Optional: AUTOSAR, OBD diagnostics, secure boot
 ```
 
-Resource isolation ideas resemble [[cgroup (Control Group)]] but are usually compile-time budgets, not dynamic cgroups. [[RAM and Swap memory]] swap is rarely present.
+- Resource isolation ideas resemble [[cgroup (Control Group)]] but are usually …
+- [[RAM and Swap memory]] swap is rarely present.
 
-## Real-World Applications
-Engine management, brake controllers, and battery-management systems. Industrial PLCs follow the same pattern: sensor → control law → actuator with watchdog resets.
+## Mistakes to Avoid
+- **Mistake:** Assuming Linux desktop scheduling guarantees for closed-loop con…
+- **Mistake:** Ignoring watchdog and brown-out behavior in failure analysis
+- **Mistake:** Treating CAN like Ethernet TCP
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Deterministic latency; small trusted computing base.
@@ -41,10 +50,9 @@ Engine management, brake controllers, and battery-management systems. Industrial
 - **Trade-off:** AUTOSAR/middleware portability vs bare-metal simplicity.
 
 ## Comparison
-- vs general-purpose OS: ECUs optimize worst-case latency; desktops optimize throughput and compatibility.
+- vs general-purpose OS: ECUs optimize worst-case latency
 - vs [[Boot/UEFI]] PCs: firmware + OS stack is far heavier than MCU reset vectors.
 
-## Mistakes to Avoid
-- Assuming Linux desktop scheduling guarantees for closed-loop control without PREEMPT_RT / careful design.
-- Ignoring watchdog and brown-out behavior in failure analysis.
-- Treating CAN like Ethernet TCP — different reliability and timing models.
+
+### Use cases
+- Engine management, brake controllers, and battery-management systems

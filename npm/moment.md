@@ -4,27 +4,33 @@
 
 > Once-dominant JavaScript date library — parse, format, and manipulate calendar times (now in maintenance mode; prefer modern alternatives for new code).
 
-
-
-
+```txt
+        moment ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use Moment to probe mutability pitfalls, timezone mistakes, and whether you know it is legacy — choosing `Intl`, `Temporal` (where available), or libraries like Luxon/Day.js for greenfield work.
+- **Interview probes:** Interviewers use Moment to probe mutability pitfalls, timezone mistakes, and …
 
 ## Sources
 - [Moment.js documentation](https://momentjs.com/docs/) — deep-dive
 - [Moment project status](https://momentjs.com/docs/#/-project-status/) — overview
 - [MDN — `Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) — overview
 
-## Core Definition
-Moment wraps JavaScript `Date` with a fluent API for parsing, formatting, comparing, and arithmetic. The project is in maintenance mode: no new features; existing apps may keep it, new apps should pick a smaller or immutable alternative.
-
 ## Key Concepts
-- **Mutable by default:** `moment().add(1, "day")` mutates the instance → clone before mutating when sharing references.
+- **Mutable by default:** `moment().add(1, "day")` mutates the instance → clone before mutating when sh…
 - **Parse with format:** `moment(str, "YYYY-MM-DD")` avoids ambiguous free-parse behavior.
-- **Display vs instant:** formatting for humans is locale/timezone sensitive — be explicit about UTC versus local.
-- **Bundle size:** Moment is large historically (especially with locales) → tree-shaking-friendly libs win in browsers.
+- **Display vs instant:** formatting for humans is locale/timezone sensitive
+- **Bundle size:** Moment is large historically (especially with locales) → tree-shaking-friendl…
 - **Maintenance mode:** security/critical fixes only — plan migration rather than expanding usage.
+
+
+- **Core:** Moment wraps JavaScript `Date` with a fluent API for parsing, formatting, com…
 
 ## Technical Details
 ```js
@@ -54,10 +60,10 @@ moment().clone().add(1, "day")             // avoid shared mutation
 | Shared state bugs | Mutated a moment still held elsewhere |
 | Huge browser bundle | Full Moment + locales imported |
 
-## Real-World Applications
-Legacy dashboards and APIs still format timestamps with Moment; new services often keep Moment only at the edges until migrated.
-
-**Example:** A report generator formats `created_at` with `moment.utc(ts).format("YYYY-MM-DD")` so all regions see the same calendar day.
+## Mistakes to Avoid
+- **Mistake:** Calling `.add` / `.subtract` on a shared moment without `.clone(…
+- **Mistake:** Parsing locale-ambiguous strings without an explicit format
+- **Mistake:** Adding Moment to a new greenfield app without checking modern al…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Familiar API; still fine for frozen legacy codepaths.
@@ -68,7 +74,8 @@ Legacy dashboards and APIs still format timestamps with Moment; new services oft
 - vs native `Date` / `Intl`: sufficient for many display-only needs without a dependency.
 - vs Day.js / Luxon / Temporal: smaller or immutable models; better default for new projects.
 
-## Mistakes to Avoid
-- Calling `.add` / `.subtract` on a shared moment without `.clone()`.
-- Parsing locale-ambiguous strings without an explicit format.
-- Adding Moment to a new greenfield app without checking modern alternatives.
+
+### Use cases
+- Legacy dashboards and APIs still format timestamps with Moment
+
+- **Example:** A report generator formats `created_at` with `moment.utc(ts).for…

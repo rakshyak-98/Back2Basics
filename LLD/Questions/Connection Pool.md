@@ -4,12 +4,18 @@
 
 > Reuse a bounded set of open database connections — acquire, use, release — so request threads do not pay connect cost or exhaust the database.
 
-
-
-
+```txt
+        Connection Pool (L ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic LLD: thread safety, max size, timeouts, validation (borrow/return), and failure modes when the pool is exhausted.
+- **Interview probes:** Classic LLD: thread safety, max size, timeouts, validation (borrow/return), a…
 
 ## Sources
 - [HikariCP — About](https://github.com/brettwooldridge/HikariCP) — deep-dive
@@ -29,7 +35,7 @@ Request → borrow conn → query → return conn → pool
         wait up to timeout → error
 ```
 
-API sketch: `acquire()`, `release(conn)`, `close()`, metrics for active/idle/wait.
+- API sketch: `acquire()`, `release(conn)`, `close()`, metrics for active/idle/…
 
 | Failure | Design response |
 |---------|-----------------|
@@ -37,10 +43,10 @@ API sketch: `acquire()`, `release(conn)`, `close()`, metrics for active/idle/wai
 | Stale conn | Validate or recreate |
 | Leak | Try/finally or use-with-resource; leak detection |
 
-## Real-World Applications
-Web APIs with HikariCP/pgbouncer: app pool sized below database capacity accounting for replicas and admin slots.
-
-**Example:** 50 app pods × 20 connections → far above Postgres `max_connections` — shrink pools or add a pooler.
+## Mistakes to Avoid
+- **Mistake:** Holding a connection across slow external HTTP calls
+- **Mistake:** Unlimited pool growth
+- **Mistake:** Swallowing acquire timeouts without metrics/alerts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Latency and connection stability under load.
@@ -50,7 +56,8 @@ Web APIs with HikariCP/pgbouncer: app pool sized below database capacity account
 - vs opening a connection per request: simpler, dies under concurrency.
 - vs external pooler (PgBouncer): move pooling out of the app for many languages/instances.
 
-## Mistakes to Avoid
-- Holding a connection across slow external HTTP calls.
-- Unlimited pool growth.
-- Swallowing acquire timeouts without metrics/alerts.
+
+### Use cases
+- Web APIs with HikariCP/pgbouncer: app pool sized below database capacity acco…
+
+- **Example:** 50 app pods × 20 connections → far above Postgres `max_connectio…

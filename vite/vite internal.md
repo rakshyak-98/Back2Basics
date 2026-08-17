@@ -4,12 +4,18 @@
 
 > How Vite wires env and config into the client — `import.meta.env` replaces Webpack-style `process.env` in browser code.
 
-
-
-
+```txt
+        Vite internals ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask why `process.env.API_URL` is undefined in Vite apps and how `define` / env prefixes prevent leaking the whole environment.
+- **Interview probes:** Interviewers ask why `process.env.API_URL` is undefined in Vite apps and how …
 
 ## Sources
 - [Vite — Env Variables and Modes](https://vitejs.dev/guide/env-and-mode.html) — deep-dive
@@ -35,12 +41,12 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 });
 ```
 
-Do not expect Node’s `process.env` to exist in browser bundles unless you explicitly define replacements (and still avoid shipping secrets).
+- Do not expect Node’s `process.env` to exist in browser bundles unless you exp…
 
-## Real-World Applications
-Feature-flag client builds with `VITE_FEATURE_X=true` per environment; keep private API keys on the server only.
-
-**Example:** Migrating from Webpack `DefinePlugin` — replace `process.env.X` reads with `import.meta.env.VITE_X`.
+## Mistakes to Avoid
+- **Mistake:** Prefixing secrets with `VITE_`
+- **Mistake:** Mixing SSR `process.env` assumptions into client components
+- **Mistake:** Assuming `.env` changes apply without restarting the dev server
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast refresh and clear client/server env boundary.
@@ -50,7 +56,8 @@ Feature-flag client builds with `VITE_FEATURE_X=true` per environment; keep priv
 - vs Webpack: different env injection and dev serving model.
 - vs [[vite config]]: internals explain the mechanism behind the knobs.
 
-## Mistakes to Avoid
-- Prefixing secrets with `VITE_`.
-- Mixing SSR `process.env` assumptions into client components.
-- Assuming `.env` changes apply without restarting the dev server.
+
+### Use cases
+- Feature-flag client builds with `VITE_FEATURE_X=true` per environment
+
+- **Example:** Migrating from Webpack `DefinePlugin`

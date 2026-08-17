@@ -4,25 +4,31 @@
 
 > Server Components render on the server and send UI to the client; use client marks the interactive boundary that ships JS.
 
-
-
-
+```txt
+        RSC (React Server  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe what can run on the server, what must be client, and how data fetching moves out of the browser bundle.
+- **Interview probes:** Interviewers probe what can run on the server, what must be client, and how d…
 
 ## Sources
 - [Server Components](https://react.dev/reference/rsc/server-components) — deep-dive
 - [use client](https://react.dev/reference/rsc/use-client) — overview
 
-## Core Definition
-RSC boundaries separate server-only code (filesystem, secrets, direct DB) from client components that use state and browser APIs.
-
 ## Key Concepts
 - **Default server:** less JS shipped.
 - **`"use client"`:** opt into hooks/events.
-- **Pass serializable props** across the boundary.
-- **No server-only imports** into client files.
+- **Pass serializable props:** across the boundary.
+- **No server-only imports:** into client files.
+
+
+- **Core:** RSC boundaries separate server-only code (filesystem, secrets, direct DB) fro…
 
 ## Technical Details
 ```tsx
@@ -33,16 +39,17 @@ async function Page() {
 }
 ```
 
-## Real-World Applications
-Next.js app router page fetches posts on the server; like button is a small client island.
+## Mistakes to Avoid
+- **Mistake:** Marking the root layout client “to use hooks.”
+- **Mistake:** Passing functions/classes across the server→client boundary
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Smaller bundles, closer data.
 - **Con:** Wrong boundary causes bundle bloat or serialisation errors.
 
 ## Comparison
-- vs SSR of client trees: RSC can keep code off the client entirely; SSR still ships the component JS for hydration.
+- vs SSR of client trees: RSC can keep code off the client entirely
 
-## Mistakes to Avoid
-- Marking the root layout client “to use hooks.”
-- Passing functions/classes across the server→client boundary.
+
+### Use cases
+- Next.js app router page fetches posts on the server

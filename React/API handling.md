@@ -4,25 +4,31 @@
 
 > How React apps call backends — fetch in effects or query libraries, handle loading/error, and keep server data out of UI stores.
 
-
-
-
+```txt
+        API handling ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask where API calls live, how you cancel them, and why duplicating server payloads in Redux is usually wrong.
+- **Interview probes:** Interviewers ask where API calls live, how you cancel them, and why duplicati…
 
 ## Sources
 - [React — Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects) — overview
 - [TanStack Query overview](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive
 
-## Core Definition
-API handling is the boundary between UI and HTTP: request lifecycle, cache, retries, and mapping responses into props — not putting every JSON field into global client state.
-
 ## Key Concepts
-- **Fetch placement:** Prefer a data library ([[react-query]] / RTK Query) over ad-hoc `useEffect` + `useState` for lists and detail views.
+- **Fetch placement:** Prefer a data library ([[react-query]] / RTK Query) over ad-hoc `useEffect` +…
 - **Loading / error / empty:** Model all three explicitly; never leave the UI on a spinner forever.
-- **Cancellation:** Abort in-flight requests on unmount or key change to avoid setState-after-unmount and race conditions.
+- **Cancellation:** Abort in-flight requests on unmount or key change to avoid setState-after-unm…
 - **Auth headers:** Centralize the client (interceptor) so tokens and CSRF stay in one place.
+
+
+- **Core:** API handling is the boundary between UI and HTTP: request lifecycle, cache, r…
 
 ## Technical Details
 ```tsx
@@ -39,17 +45,18 @@ const { data, error, isPending } = useQuery({
 | Ephemeral UI (modal open) | `useState` / [[zustand]] |
 | Cross-feature client snapshot | [[Redux]] only when many views share it |
 
-## Real-World Applications
-Dashboard that loads `/api/orders` with stale-while-revalidate: show cached rows instantly, refetch in background, surface toast on error.
+## Mistakes to Avoid
+- **Mistake:** Fetching in every child without a shared cache (N identical GETs)
+- **Mistake:** Ignoring AbortController / query cancellation on rapid navigation
+- **Mistake:** Treating HTTP errors as empty data instead of an error state
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared API client + query cache cuts duplicate requests and loading flicker.
 - **Con:** Hand-rolled effects recreate caching/race bugs the libraries already solved.
 
 ## Comparison
-- vs putting API JSON in [[Redux]]: use Redux for client intent; use a query layer for server cache ([[React data management]]).
+- vs putting API JSON in [[Redux]]: use Redux for client intent
 
-## Mistakes to Avoid
-- Fetching in every child without a shared cache (N identical GETs).
-- Ignoring AbortController / query cancellation on rapid navigation.
-- Treating HTTP errors as empty data instead of an error state.
+
+### Use cases
+- Dashboard that loads `/api/orders` with stale-while-revalidate: show cached r…

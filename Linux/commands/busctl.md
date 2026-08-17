@@ -4,19 +4,22 @@
 
 > busctl introspects and calls D-Bus APIs — the same IPC bus systemd, NetworkManager, logind, and desktop services use.
 
-
-
-
+```txt
+        busctl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Platform debugging: system vs session bus, introspect-before-call, and when to use busctl vs systemctl vs journalctl.
+- **Interview probes:** Platform debugging: system vs session bus, introspect-before-call, and when t…
 
 ## Sources
 - [busctl(1)](https://www.freedesktop.org/software/systemd/man/latest/busctl.html) — deep-dive
 - [D-Bus specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — overview
-
-## Core Definition
-D-Bus is the machine IPC bus. **busctl** wraps libsystemd’s bus API — list names, walk object trees, get properties, call methods, monitor traffic. Same world as `systemctl`, `hostnamectl`, `loginctl`.
 
 ## Key Concepts
 - **System vs session bus:** Machine-wide vs per-user desktop (`--user`).
@@ -24,6 +27,9 @@ D-Bus is the machine IPC bus. **busctl** wraps libsystemd’s bus API — list n
 - **polkit:** Many system-bus methods need authorization.
 - **monitor/capture:** Watch or pcap traffic for race hunts.
 - **Not every daemon:** Some services only expose sockets/units.
+
+
+- **Core:** D-Bus is the machine IPC bus. **busctl** wraps libsystemd’s bus API
 
 ## Technical Details
 | Bus | Socket | Scope |
@@ -63,8 +69,10 @@ busctl status
 | AccessDenied | polkit | Root or correct user session |
 | Monitor floods | Broad monitor | Filter by service name |
 
-## Real-World Applications
-Confirming hostname1 properties match `hostnamectl`, debugging logind seat issues, and verifying systemd still answers on D-Bus during weird hangs.
+## Mistakes to Avoid
+- **Mistake:** Broad `busctl monitor` on busy production hosts
+- **Mistake:** Calling methods without `introspect` for types
+- **Mistake:** Expecting a session bus inside cron/SSH without a desktop login
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise API access beyond what CLI wrappers expose.
@@ -72,9 +80,8 @@ Confirming hostname1 properties match `hostnamectl`, debugging logind seat issue
 - **Trade-off:** busctl for API debug vs [[systemctl]] for unit lifecycle.
 
 ## Comparison
-vs [[systemctl]]: unit start/stop/status. vs [[journalctl]]: logs. vs raw dbus-monitor: busctl is higher-level. Cron has no session bus by default.
+- vs [[systemctl]]: unit start/stop/status
 
-## Mistakes to Avoid
-- Broad `busctl monitor` on busy production hosts.
-- Calling methods without `introspect` for types.
-- Expecting a session bus inside cron/SSH without a desktop login.
+
+### Use cases
+- Confirming hostname1 properties match `hostnamectl`, debugging logind seat is…

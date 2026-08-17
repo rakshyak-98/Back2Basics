@@ -4,12 +4,18 @@
 
 > A thread is the unit of CPU scheduling inside a [[process]] — own stack and registers, shared address space and file descriptors with siblings.
 
-
-
-
+```txt
+        Thread ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Core OS question: process vs thread, what is shared vs private, and how races appear without [[mutexes]] / atomics.
+- **Interview probes:** Core OS question: process vs thread, what is shared vs private, and how races…
 
 ## Sources
 - Silberschatz — threads and concurrency — deep-dive
@@ -23,14 +29,17 @@ Core OS question: process vs thread, what is shared vs private, and how races ap
 - **Creation:** `pthread_create`, `clone`, or language runtimes (JVM threads, Go Ms).
 
 ## Technical Details
-The kernel scheduler runs threads and performs [[context switching]] when blocked or preempted.
+- The kernel scheduler runs threads and performs [[context switching]] when blo…
 
-Synchronize shared mutable state with [[mutexes]], [[semaphores]], or atomics — otherwise data races corrupt [[Heap memory]] structures.
+- Synchronize shared mutable state with [[mutexes]], [[semaphores]], or atomics
 
-Pools of workers: [[thread pool]]. Contrasts: [[Single-threaded]], [[multi-threaded]].
+- Pools of workers: [[thread pool]].
+- Contrasts: [[Single-threaded]], [[multi-threaded]].
 
-## Real-World Applications
-Web servers (one request per worker thread), parallel compute, and UI toolkits with a main thread plus background workers.
+## Mistakes to Avoid
+- **Mistake:** Sharing mutable heap without synchronization
+- **Mistake:** Creating unbounded threads per request
+- **Mistake:** Ignoring stack size × thread count under memory limits
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Overlap I/O and CPU; use multiple cores in one process.
@@ -41,7 +50,6 @@ Web servers (one request per worker thread), parallel compute, and UI toolkits w
 - vs [[process]]: processes isolate memory; threads share it.
 - vs green threads/goroutines: user-space tasks multiplexed onto OS threads.
 
-## Mistakes to Avoid
-- Sharing mutable heap without synchronization.
-- Creating unbounded threads per request.
-- Ignoring stack size × thread count under memory limits.
+
+### Use cases
+- Web servers (one request per worker thread), parallel compute, and UI toolkit…

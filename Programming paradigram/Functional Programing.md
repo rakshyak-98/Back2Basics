@@ -4,12 +4,18 @@
 
 > Compose pure functions and immutable data — minimize shared mutable state so behavior is easier to test, reason about, and parallelize.
 
-
-
-
+```txt
+        Functional program ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want purity, immutability, higher-order functions, and honest trade-offs vs imperative code — not buzzwords.
+- **Interview probes:** Interviewers want purity, immutability, higher-order functions, and honest tr…
 
 ## Sources
 - [Wikipedia — Functional programming](https://en.wikipedia.org/wiki/Functional_programming) — overview
@@ -36,10 +42,10 @@ const total = items
 | Avoid shared mutable state | Fewer race bugs |
 | Pure core | Unit test without mocks for I/O |
 
-## Real-World Applications
-Reducers, data transforms in ETL, React render functions as pure with respect to props/state inputs.
-
-**Example:** Move date formatting and pricing math into pure helpers; keep DB writes in adapters.
+## Mistakes to Avoid
+- **Mistake:** Claiming “we are functional” while mutating global arrays everyw…
+- **Mistake:** Overusing monadic jargon in interviews without concrete examples
+- **Mistake:** Copying huge structures on every update without need
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Testability and safer concurrency stories.
@@ -49,7 +55,8 @@ Reducers, data transforms in ETL, React render functions as pure with respect to
 - vs OOP: FP centers values/transforms; OOP centers objects/messages — hybrids are normal.
 - vs [[purely declarative]]: FP is a paradigm; declarative UI/config is one application style.
 
-## Mistakes to Avoid
-- Claiming “we are functional” while mutating global arrays everywhere.
-- Overusing monadic jargon in interviews without concrete examples.
-- Copying huge structures on every update without need.
+
+### Use cases
+- Reducers, data transforms in ETL, React render functions as pure with respect…
+
+- **Example:** Move date formatting and pricing math into pure helpers

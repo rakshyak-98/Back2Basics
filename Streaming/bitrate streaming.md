@@ -4,18 +4,24 @@
 
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
-
-
-
+```txt
+        Bitrate streaming ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about Bitrate streaming to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Bitrate streaming to see if you understand the pipelin…
 
 ## Sources
 - [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming) — overview
 
 ## Key Concepts
-**Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.
+- **Note:** **Bitrate streaming** means encoding the same content at **multiple bitrates/…
 
 | Term | Meaning |
 |------|---------|
@@ -80,16 +86,7 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 720p.m3u8
 ```
 
-`BANDWIDTH` must include **video + audio + mux overhead** — player overestimates need if wrong → unnecessary downswitch.
-
-## Real-World Applications
-Used wherever Bitrate streaming sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
-- **Con / skip when:** **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
-- **Con / skip when:** **20-rung ladder** — storage/CDN cost; diminishing returns beyond ~5–6 rungs.
+- `BANDWIDTH` must include **video + audio + mux overhead**
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -107,9 +104,18 @@ ffprobe -show_streams -select_streams v manifest.m3u8
 mediainfo segment000.ts
 ```
 
-- **CRF ladder without maxrate** — VOD rungs blow past CDN budget; cap with `-maxrate`/`-bufsize`.
-- **Different GOP across rungs** — player switches mid-GOP → flash/block until next keyframe.
-- **Upscale low rung** — 240p stretched to 4K TV looks awful; cap max display resolution in player logic.
-- **BANDWIDTH typo** — 5932800 vs 593280 — player math breaks.
-- **Per-title encoding ignored** — one ladder for cartoons and sports wastes bits; per-content analysis if scale warrants.
-- **Audio-only HLS variant forgotten** — accessibility + ultra-low bandwidth path missing.
+- **Mistake:** **CRF ladder without maxrate**
+- **Different GOP across rungs**::** → flash/block until next keyframe
+- **Mistake:** **Upscale low rung**
+- **Mistake:** **BANDWIDTH typo** — 5932800 vs 593280 — player math breaks
+- **Mistake:** **Per-title encoding ignored**
+- **Mistake:** **Audio-only HLS variant forgotten**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Internal mezzanine archive**
+- **Con / skip when:** **CRF for live broadcast contractual bitrate**
+- **Con / skip when:** **20-rung ladder**
+
+## Real-World Applications
+- **Scenario:** Used wherever Bitrate streaming sits in an ingest → package → CDN → player pa…

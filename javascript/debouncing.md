@@ -4,26 +4,33 @@
 
 > Delay function execution until **input stops** for N ms — coalesce burst calls into one — **UI search, resize, autocomplete**.
 
-
-
-
+```txt
+        Debouncing ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Debouncing** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Debouncing** to see if you understand what it does opera…
 
 ## Sources
 - [CSS-Tricks — Debouncing and Throttling](https://css-tricks.com/debouncing-throttling-explained-examples/) — overview
 - [Wikipedia — debouncing](https://en.wikipedia.org/wiki/debouncing) — overview
 
-## Core Definition
-Each invocation **resets a timer**. Only after `delay` ms of silence does `func` run with the **latest** arguments.
-
 ## Key Concepts
-- Each invocation **resets a timer**. Only after `delay` ms of silence does `func` run with the **latest** arguments.
-- versus [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
+- **Each invocation:** Each invocation **resets a timer**
+- **versus [[throttle]]:** versus [[throttle]]: throttle fires at most once per window **during** contin…
+
+
+- **Core:** Each invocation **resets a timer**
 
 ## Technical Details
-Each invocation **resets a timer**. Only after `delay` ms of silence does `func` run with the **latest** arguments.
+- Each invocation **resets a timer**.
+- Only after `delay` ms of silence does `func` run with the **latest** argument…
 
 ```txt
 keystroke t → timer 300ms
@@ -32,7 +39,7 @@ keystroke h → reset timer 300ms
 (stop)      → fire search("teh")
 ```
 
-versus [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
+- versus [[throttle]]: throttle fires at most once per window **during** contin…
 
 | Use debounce | Use throttle |
 |--------------|--------------|
@@ -77,25 +84,26 @@ const debouncedSearch = useMemo(
 useEffect(() => () => debouncedSearch.cancel?.(), [debouncedSearch]); // if using lodash
 ```
 
-Search box: **300 ms** typical; resize: **150–250 ms**.
+- Search box: **300 ms** typical; resize: **150–250 ms**.
 
-## Real-World Applications
-In production APIs and tooling, **debouncing** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **New debounce every render** — defeats purpose; memoize or use `useCallback` + ref pattern; **Debounce submit** — user expects immediate click; debounce input only, not form submit.
+## Mistakes to Avoid
+- **Mistake:** **New debounce every render**
+- **Mistake:** **Debounce submit**
+- **Mistake:** **Never fires:** check Delay too long
+- **Mistake:** **Fires too often:** check Debounce not applied
+- **Mistake:** **Stale closure:** check Old state in handler
+- **Mistake:** **Memory leak on unmount:** check Pending timer
+- **Mistake:** **First keystroke lag:** check Trailing-only
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Delay function execution until **input stops** for N ms — coalesce burst calls i…).
-- **Con / when not:** **Must execute every event** — gaming input, drawing apps — use throttle or raw handler.
-- **Con / when not:** **Server-side rate limiting substitute** — debounce is client UX only; enforce limits on API.
-- **Con / when not:** **Critical safety actions** — e-stop, payment confirm — never debounce.
+- **Con / when not:** **Must execute every event**
+- **Con / when not:** **Server-side rate limiting substitute**
+- **Con / when not:** **Critical safety actions**
 
 ## Comparison
-vs [[throttle]]: Throttle guarantees periodic runs; debounce collapses a burst into one trailing call. vs [[user triggered event]]: know when each applies — do not treat them as interchangeable. vs [[event listener]]: know when each applies — do not treat them as interchangeable.
+- vs [[throttle]]: Throttle guarantees periodic runs; debounce collapses a burs…
 
-## Mistakes to Avoid
-- **New debounce every render** — defeats purpose; memoize or use `useCallback` + ref pattern.
-- **Debounce submit** — user expects immediate click; debounce input only, not form submit.
-- **Never fires:** check Delay too long; fix: Reduce ms; add leading edge
-- **Fires too often:** check Debounce not applied; fix: Wrap stable function ref (`useMemo`)
-- **Stale closure:** check Old state in handler; fix: Pass refs or recreate debounce on deps
-- **Memory leak on unmount:** check Pending timer; fix: `clearTimeout` in cleanup
-- **First keystroke lag:** check Trailing-only; fix: `leading: true` for instant first char
+
+### Use cases
+- In production APIs and tooling, **debouncing** shows up whenever teams ship N…

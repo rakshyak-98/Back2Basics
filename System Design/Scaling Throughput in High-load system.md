@@ -4,12 +4,18 @@
 
 > High-load throughput optimization removes per-request overhead — batching, asynchronous job queues, connection multiplexing, and warm pools — when REST-per-call and connection churn saturate the control plane.
 
-
-
-
+```txt
+        Scaling Throughput ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Remove per-request overhead: pooling, batching, caching, async — measure before scaling out.
+- **Interview probes:** Remove per-request overhead: pooling, batching, caching, async
 
 ## Sources
 - Google gRPC performance guide — channel reuse, streaming — overview
@@ -47,7 +53,7 @@ GET  /jobs/{id} → status (queued, running, failed, complete)
 Workers pull queue with bounded concurrency ([[backpressure]])
 ```
 
-Clients poll or subscribe ([[Real-time Subscription]]) for completion — define partial failure on batch endpoints (per-item error array).
+- Clients poll or subscribe ([[Real-time Subscription]]) for completion
 
 ### Connection and protocol tuning
 
@@ -58,8 +64,10 @@ Clients poll or subscribe ([[Real-time Subscription]]) for completion — define
 | Good average, bad p99 | Lock contention, garbage collection — profile |
 | Softirq storm | Batch packets; fewer short-lived connections ([[concurrent connection]]) |
 
-## Real-World Applications
-High-QPS APIs, ad/telemetry ingest, and checkout spikes.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 Low queries-per-second create-read-update-delete does not need batch endpoints. Strict synchronous user experience (payment confirmation) may require optimized synchronous path, not `202`.
@@ -77,7 +85,6 @@ Public browser clients may still need REST or JSON gateway even when internal ea
 - vs [[Throughput]]: metric definition vs how to raise it under load.
 - vs [[Horizontal vs Vertical Scaling]]: optimize before/while scaling out.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- High-QPS APIs, ad/telemetry ingest, and checkout spikes.

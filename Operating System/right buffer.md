@@ -4,12 +4,18 @@
 
 > Choosing the right buffer size balances latency, memory, and drop behavior — too small causes syscalls or overruns; too large hides backpressure until memory pressure hits.
 
-
-
-
+```txt
+        Right buffer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Capacity interviews: how you pick socket/ring sizes, what you measure (drops, syscall rate), and full-queue policy.
+- **Interview probes:** Capacity interviews: how you pick socket/ring sizes, what you measure (drops,…
 
 ## Sources
 - Stevens, *UNIX Network Programming* — socket buffer tuning — deep-dive
@@ -29,10 +35,13 @@ Capacity interviews: how you pick socket/ring sizes, what you measure (drops, sy
 | Memory budget per connection? | OOM under fan-in |
 | Durability need? | Large RAM buffer loses data on crash |
 
-Tune with `strace` syscall counts, drop counters, `perf`. Related: [[Rolling Buffer]], [[kernel ring buffer]], [[multiple levels of buffering]].
+- Tune with `strace` syscall counts, drop counters, `perf`.
+- Related: [[Rolling Buffer]], [[kernel ring buffer]], [[multiple levels of buf…
 
-## Real-World Applications
-Audio low-latency rings, bulk TCP windows, and kernel log_buf sizing.
+## Mistakes to Avoid
+- **Mistake:** Copying a blog’s `SO_RCVBUF` without measuring
+- **Mistake:** Unlimited in-memory queues “to never block.”
+- **Mistake:** Ignoring per-connection buffer memory under C10k fan-in
 
 ## Pros/Cons or Trade-offs
 - **Small buffers:** low latency; fragile under bursts.
@@ -43,7 +52,6 @@ Audio low-latency rings, bulk TCP windows, and kernel log_buf sizing.
 - vs [[buffer]]: buffer is the object; “right buffer” is the sizing decision.
 - vs unlimited queues: bounded buffers force an explicit policy.
 
-## Mistakes to Avoid
-- Copying a blog’s `SO_RCVBUF` without measuring.
-- Unlimited in-memory queues “to never block.”
-- Ignoring per-connection buffer memory under C10k fan-in.
+
+### Use cases
+- Audio low-latency rings, bulk TCP windows, and kernel log_buf sizing.

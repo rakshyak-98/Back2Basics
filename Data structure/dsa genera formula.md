@@ -4,28 +4,33 @@
 
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
-
-
-
+```txt
+        DSA combinatorics  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Combinatorics formulas are a speed check — interviewers watch whether you apply counting formulas only when the model matches.
+- **Interview probes:** Combinatorics formulas are a speed check
 
 ## Sources
 - [Wikipedia — Combinatorics](https://en.wikipedia.org/wiki/Combinatorics) — overview
 - [CP-Algorithms — Combinatorics](https://cp-algorithms.com/combinatorics/binomial-coefficients.html) — deep-dive
 
 ## Key Concepts
-Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or **bounding work** (max operations). These closed forms avoid brute-force enumeration.
+- **Note:** Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or…
 
 ```
-Substrings in string length n:     n(n+1)/2     (choose start × end)
+- **Note:** Substrings in string length n: n(n+1)/2 (choose start × end)
 Pairs from n items:                n(n-1)/2     (unordered)
 Subsets of n elements:             2^n
 Permutations of n distinct:        n!
 ```
 
-Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
+- **Note:** Always verify: **distinct versus identical**, **ordered versus unordered**, *…
 
 ## Technical Details
 ### Subarrays / substrings (contiguous)
@@ -74,7 +79,7 @@ Always verify: **distinct versus identical**, **ordered versus unordered**, **co
 
 ### Modular counts
 
-When output is mod `10^9+7`:
+- When output is mod `10^9+7`:
 
 ```js
 // (n choose k) mod MOD — use precomputed fact/modinv, not raw factorial
@@ -91,11 +96,11 @@ When output is mod `10^9+7`:
 | n! overflow | n > 20 in 64-bit | Use BigInt or modular factorial |
 | C(n,k) wrong for large n,k | Cancel before multiply | Use multiplicative formula with mod inverse |
 
+## Mistakes to Avoid
+- **Mistake:** `n(n+1)/2` is substrings, not subsequences
+- **Mistake:** Duplicate elements
+- **Mistake:** Interview "formula" questions
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Problem has constraint structure — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.
 - **Trade-off:** Replacing proof with memorization — formulas are sanity checks; derive from small n on whiteboard if unsure.
-
-## Mistakes to Avoid
-- `n(n+1)/2` is substrings, not subsequences — subsequence count is exponential (2^n) for binary choice per position.
-- Duplicate elements — distinct substring count ≠ n(n+1)/2; need suffix structures or rolling hash with set.
-- Interview "formula" questions — state assumptions aloud (distinct? contiguous?) before plugging numbers.

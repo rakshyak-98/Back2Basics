@@ -4,12 +4,17 @@
 
 > `mongosh` is the modern MongoDB shell — connect, explore, run scripts against clusters.
 
-
-
-
+```txt
+        mongosh ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-mongosh interviews check interactive ops — useful queries, rs/status helpers, and not running dangerous commands blindly.
+- **Interview probes:** mongosh interviews check interactive ops
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -48,10 +53,6 @@ db.users.find().limit(5)
 | `--quiet` | Clean script output |
 | Read preference | Secondary reads for heavy ad-hoc |
 
-## Pros/Cons or Trade-offs
-- **Application runtime** — use the official driver.
-- **Complex application logic** — keep business code out of shell scripts.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Paste passwords in shell history** — use config/env / prompting.
@@ -65,3 +66,7 @@ db.users.find().limit(5)
 | TLS errors | CA / allowInvalid | Fix certs; don’t disable in prod |
 | Command unknown | old mongosh | Upgrade |
 | Slow shell queries | no index / huge result | Limit + index |
+
+## Pros/Cons or Trade-offs
+- **Application runtime** — use the official driver.
+- **Complex application logic** — keep business code out of shell scripts.

@@ -4,12 +4,18 @@
 
 > FastCGI Process Manager for PHP — a master supervises a worker pool; Nginx/Apache proxy requests to a Unix socket or TCP port.
 
-
-
-
+```txt
+        PHP-FPM ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask pool modes (`static`/`dynamic`/`ondemand`), how you size `max_children` from RAM, and why 502 ≠ PHP stack trace.
+- **Interview probes:** Interviewers ask pool modes (`static`/`dynamic`/`ondemand`), how you size `ma…
 
 ## Sources
 - [PHP — FPM configuration](https://www.php.net/manual/en/install.fpm.configuration.php) — deep-dive
@@ -48,10 +54,10 @@ request_terminate_timeout = 60s
 | 500 | PHP ran and failed |
 | Max children reached | Undersized pool or slow app |
 
-## Real-World Applications
-One pool per app/site for isolation; status page (`pm.status_path`) scraped internally for capacity.
-
-**Example:** Workers at ~80MB and host has 8GB for PHP — oversized `max_children` risks OOM; size from memory, not wishful QPS.
+## Mistakes to Avoid
+- **Mistake:** World-writable sockets
+- **Mistake:** `max_children` larger than RAM allows
+- **Mistake:** Exposing `/fpm-status` to the public internet
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Stable, observable, works with Nginx/Apache FastCGI.
@@ -61,7 +67,8 @@ One pool per app/site for isolation; status page (`pm.status_path`) scraped inte
 - vs classic [[CGI]]: persistent workers vs process-per-request.
 - vs `mod_php`: FPM isolates PHP from the web server process model.
 
-## Mistakes to Avoid
-- World-writable sockets.
-- `max_children` larger than RAM allows.
-- Exposing `/fpm-status` to the public internet.
+
+### Use cases
+- One pool per app/site for isolation
+
+- **Example:** Workers at ~80MB and host has 8GB for PHP

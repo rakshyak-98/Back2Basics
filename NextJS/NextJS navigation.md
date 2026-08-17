@@ -4,27 +4,33 @@
 
 > Next.js intercepts in-app navigations so the browser does not full-reload — App Router uses `next/navigation`; Pages Router uses `next/router`.
 
-
-
-
+```txt
+        Next.js navigation ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check whether you know App Router versus Pages Router navigation APIs, when to use `<Link>` versus `<a target="_blank">`, and how client navigation differs from a full document load.
+- **Interview probes:** Interviewers check whether you know App Router versus Pages Router navigation…
 
 ## Sources
 - [Next.js Docs — Linking and Navigating](https://nextjs.org/docs/app/getting-started/linking-and-navigating) — deep-dive
 - [Next.js Docs — `useRouter` (App)](https://nextjs.org/docs/app/api-reference/functions/use-router) — overview
 - [Next.js Docs — `next/link`](https://nextjs.org/docs/app/api-reference/components/link) — overview
 
-## Core Definition
-Client-side navigation swaps route segments and fetches RSC/page payloads while keeping the document shell; new tabs and external URLs are normal browser navigations, not SPA pushes.
-
 ## Key Concepts
-- **App Router:** `next/link`, `useRouter` / `redirect` from `next/navigation` → works with Server Components (redirect on server; router hooks need `"use client"`).
+- **App Router:** `next/link`, `useRouter` / `redirect` from `next/navigation` → works with Ser…
 - **Pages Router:** `next/router` → different API; do not import it under `app/`.
 - **`<Link>` prefetch:** warms the next route → turn off for heavy rarely visited pages.
 - **New tab / download:** use `<a>` — `router.push` cannot open a tab.
 - **Scroll and history:** default scroll restore; `replace` vs `push` changes back-button behavior.
+
+
+- **Core:** Client-side navigation swaps route segments and fetches RSC/page payloads whi…
 
 ## Technical Details
 ```txt
@@ -90,10 +96,11 @@ router.push('/about')
 | 404 on client nav | Missing route file | Check `app/` segment or `pages/` file |
 | Scroll jumps | Default scroll restore | `scroll={false}` on `Link` if needed |
 
-## Real-World Applications
-Dashboards use `<Link>` for sidebar routes; login gates call server `redirect`; docs links open in a new tab with a plain anchor.
-
-**Example:** Middleware that redirects unauthenticated users to `/login` must avoid a login ↔ home loop when cookies are missing or stale.
+## Mistakes to Avoid
+- **Mistake:** Using `next/router` inside `app/`
+- **Mistake:** Putting external URLs in `<Link>` — use `<a>` for other origins
+- **Mistake:** Calling `router.push` after async work without checking the comp…
+- **Mistake:** Client-navigating to logout that must clear httpOnly cookies
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast in-app transitions and shared layouts without full reloads.
@@ -101,11 +108,11 @@ Dashboards use `<Link>` for sidebar routes; login gates call server `redirect`; 
 - **Con:** Prefetch can waste bandwidth on low-traffic heavy routes.
 
 ## Comparison
-- vs full page load: keeps client state and shared layout; harder to reason about for some authentication cookie clears.
-- vs [[React data management]]: navigation often should encode filter/state in the URL so refresh and share work.
+- vs full page load: keeps client state and shared layout
+- vs [[React data management]]: navigation often should encode filter/state in the URL so refresh a…
 
-## Mistakes to Avoid
-- Using `next/router` inside `app/` — import from `next/navigation` (see [[NextJS Error]]).
-- Putting external URLs in `<Link>` — use `<a>` for other origins.
-- Calling `router.push` after async work without checking the component is still mounted.
-- Client-navigating to logout that must clear httpOnly cookies — prefer a server route or form POST.
+
+### Use cases
+- Dashboards use `<Link>` for sidebar routes
+
+- **Example:** Middleware that redirects unauthenticated users to `/login` must…

@@ -4,12 +4,17 @@
 
 > Browser **capability APIs** gated by **Permissions Policy** (formerly Feature Policy) + user consent — know what works in iframe, third-party, and locked-down enterprise.
 
-
-
-
+```txt
+        web capabilities ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Capability questions check feature detection and progressive enhancement strategies.
+- **Interview probes:** Capability questions check feature detection and progressive enhancement stra…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -26,10 +31,10 @@ Browser grants/denies → PermissionStatus / DOMException
 ```
 
 **Two layers SEs confuse:**
-1. **Permissions Policy** (`Permissions-Policy` header / `allow` attribute) — **who may call the API** (top-level versus embedded frame)
-2. **Permission query** (`navigator.permissions.query`) — **user's choice** (granted/denied/prompt)
+- **Note:** 1. **Permissions Policy** (`Permissions-Policy` header / `allow` attribute)
+- **Note:** 2. **Permission query** (`navigator.permissions.query`)
 
-**Secure context required:** HTTPS (or localhost) for most sensitive APIs — won't work on mixed HTTP intranet without exception.
+- **Note:** **Secure context required:** HTTPS (or localhost) for most sensitive APIs
 
 ## Technical Details
 ### Common capability APIs
@@ -92,11 +97,6 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 # All subresources need CORP/CORS — breaks lazy third-party widgets
 ```
 
-## Pros/Cons or Trade-offs
-- **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
-- **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
-- **Background location tracking** — regulatory minefield; native application with OS permission model.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Safari / Firefox lag** — check caniuse before shipping capability-critical path.
@@ -119,3 +119,8 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 | SharedArrayBuffer undefined | Not cross-origin isolated | COOP/COEP or drop threading |
 | Enterprise "blocked" with no prompt | Group policy | Document fallback; native app bridge |
 | Third-party embed broken | Sandbox + policy | Minimal sandbox flags; Storage Access API |
+
+## Pros/Cons or Trade-offs
+- **File download/upload**
+- **First-party authentication session**
+- **Background location tracking**

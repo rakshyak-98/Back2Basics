@@ -4,19 +4,24 @@
 
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
-
-
-
+```txt
+        MongoDB replica se ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use MongoDB replica set to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+- **Interview probes:** Interviewers use MongoDB replica set to test MongoDB data modeling and ops ju…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-A replica set is a group of mongod processes that replicate the same data. One **primary** accepts writes; **secondaries** pull from the primary's **oplog** (capped collection of operations). **Arbiters** vote in elections but hold no data. Members heartbeat each other; primary loss triggers election (~seconds).
+- **Note:** A replica set is a group of mongod processes that replicate the same data. On…
 
 ```
 Client writes → Primary → oplog
@@ -61,10 +66,6 @@ db.printReplicationInfo()      // oplog window
 mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 ```
 
-## Pros/Cons or Trade-offs
-- Don't run production on standalone mongod — no failover, no oplog backup story.
-- Don't use arbiters as a substitute for a third data node when you care about durability.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Read from secondary without `secondaryOk`** — driver defaults to primary for consistency.
@@ -81,3 +82,7 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 | Split-brain (two primaries) | `rs.conf()` priorities, votes | Odd number of voting members; fix network partition |
 | Writes fail during election | Brief window | Retry with backoff; tune `serverSelectionTimeoutMS` |
 | Arbiter-only RS (even count) | Design review | Prefer 3 data-bearing nodes; arbiter is cost hack with risk |
+
+## Pros/Cons or Trade-offs
+- Don't run production on standalone mongod
+- Don't use arbiters as a substitute for a third data node when you care about …

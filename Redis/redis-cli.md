@@ -4,12 +4,18 @@
 
 > `redis-cli` is the interactive and scripted admin client — inspect memory, latency, persistence, and live traffic when Redis misbehaves under load.
 
-
-
-
+```txt
+        redis-cli ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `KEYS *`, and whether you understand single-threaded command execution.
+- **Interview probes:** Interviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `…
 
 ## Sources
 - [Redis — redis-cli](https://redis.io/docs/latest/operate/oss_and_stack/management/cli/) — deep-dive
@@ -122,10 +128,12 @@ redis-cli TTL session:abc
 | Data "vanished" | Eviction + no TTL | TTL on cache keys; monitor `evicted_keys` |
 | AOF corrupt on boot | Logs | `redis-check-aof --fix`; restore RDB backup |
 
-## Real-World Applications
-Incident triage when API latency climbs, capacity checks before a sale, and validating persistence after a crash.
-
-**Example:** `SLOWLOG GET` shows monitoring still runs `KEYS *`; replace with `SCAN` and latency returns to baseline.
+## Mistakes to Avoid
+- **Mistake:** `KEYS *` in production — blocks the event loop
+- **Mistake:** `FLUSHALL` / `FLUSHDB` without ACL denial — no undo
+- **Mistake:** Taking BGSAVE on a huge primary during peak
+- **Mistake:** Using `SELECT` with cluster (DB 0 only)
+- **Mistake:** Treating Redis as durable source of truth without AOF/RDB consci…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Full visibility into a single Redis process without extra agents.
@@ -133,13 +141,12 @@ Incident triage when API latency climbs, capacity checks before a sale, and vali
 - **Con:** More CPU cores do not speed one instance — shard or use cluster.
 
 ## Comparison
-- vs application metrics alone: `redis-cli` shows server-side eviction, forks, and slow commands metrics miss.
+- vs application metrics alone: `redis-cli` shows server-side eviction, forks, and slow commands me…
 - vs dedicated brokers: Redis lists/`BLPOP` are not a full message queue at scale.
 - vs object storage: values >512MB hurt — wrong store.
 
-## Mistakes to Avoid
-- `KEYS *` in production — blocks the event loop.
-- `FLUSHALL` / `FLUSHDB` without ACL denial — no undo.
-- Taking BGSAVE on a huge primary during peak — prefer replica backups.
-- Using `SELECT` with cluster (DB 0 only).
-- Treating Redis as durable source of truth without AOF/RDB consciously enabled.
+
+### Use cases
+- Incident triage when API latency climbs, capacity checks before a sale, and v…
+
+- **Example:** `SLOWLOG GET` shows monitoring still runs `KEYS *`

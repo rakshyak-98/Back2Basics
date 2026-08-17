@@ -4,12 +4,18 @@
 
 > A semaphore counts permits — threads wait at zero and post when releasing a resource — generalizing [[mutexes]] from binary locks to N-way pools.
 
-
-
-
+```txt
+        Semaphores ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Counting vs binary semaphores, producer-consumer, and SysV semaphores living in an [[IPC namespace]].
+- **Interview probes:** Counting vs binary semaphores, producer-consumer, and SysV semaphores living …
 
 ## Sources
 - Dijkstra — semaphore original definition — overview
@@ -18,7 +24,7 @@ Counting vs binary semaphores, producer-consumer, and SysV semaphores living in 
 
 ## Key Concepts
 - **Count of permits:** `wait` decrements (blocks at 0); `post` increments.
-- **Binary ≈ mutex-like** (ownership semantics differ).
+- **Binary ≈ mutex-like:** (ownership semantics differ).
 - **Counting:** models empty/full slots, connection pools.
 - **IPC variants:** POSIX vs System V (namespaced).
 
@@ -27,12 +33,15 @@ Counting vs binary semaphores, producer-consumer, and SysV semaphores living in 
 count = 3 → three threads may enter; fourth blocks until post
 ```
 
-POSIX: `sem_wait`, `sem_post`. System V semaphores coordinate across processes ([[Inter Process Communication]]) and respect [[IPC namespace]] in containers.
+- POSIX: `sem_wait`, `sem_post`.
+- System V semaphores coordinate across processes ([[Inter Process Communicatio…
 
-Used with [[critical sections]] when bounded occupancy matters — not only exclusive ownership.
+- Used with [[critical sections]] when bounded occupancy matters
 
-## Real-World Applications
-Bounded buffers, connection pools, and classic producer-consumer labs.
+## Mistakes to Avoid
+- **Mistake:** Using a binary semaphore as a mutex without clarifying ownership…
+- **Mistake:** Forgetting to destroy/unlink named semaphores
+- **Mistake:** Spurious wakeups-style logic bugs when replacing condvars carele…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Natural model for N identical resources.
@@ -43,7 +52,6 @@ Bounded buffers, connection pools, and classic producer-consumer labs.
 - vs [[mutexes]]: exclusive ownership vs counting permits.
 - vs lock-free rings: semaphores often pair with queues for blocking policy.
 
-## Mistakes to Avoid
-- Using a binary semaphore as a mutex without clarifying ownership/reentrancy.
-- Forgetting to destroy/unlink named semaphores.
-- Spurious wakeups-style logic bugs when replacing condvars carelessly.
+
+### Use cases
+- Bounded buffers, connection pools, and classic producer-consumer labs.

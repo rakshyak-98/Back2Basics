@@ -4,30 +4,35 @@
 
 > Clean Architecture — keep business rules independent of frameworks by pointing all source dependencies inward.
 
-
-
-
+```txt
+        Clean Architecture ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Clean Architecture interviews test the Dependency Rule — domain independence, adapter boundaries, and when the ceremony is worth it.
+- **Interview probes:** Clean Architecture interviews test the Dependency Rule
 
 ## Sources
 - [Robert C. Martin — Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — deep-dive
 - [Alistair Cockburn — Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) — overview
 
 ## Key Concepts
-Clean Architecture is a **dependency-management** pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable rule: **source code dependencies point inward only** — toward higher-level **policies** (business rules), never toward mechanisms (web, DB, frameworks).
+- **Note:** Clean Architecture is a **dependency-management** pattern, not a deployment d…
 
 ```txt
         ┌──────────────────────────────────────────┐
-        │  Frameworks & Drivers  (DB, web, UI, SDK)   │  ◄── details / mechanisms
+- **Note:** │ Frameworks & Drivers (DB, web, UI, SDK) │ ◄── details / mechanisms
         ├──────────────────────────────────────────┤
         │  Interface Adapters  (controllers,        │
-        │    presenters, gateways, repo impl)       │  ◄── format conversion
+- **Note:** │ presenters, gateways, repo impl) │ ◄── format conversion
         ├──────────────────────────────────────────┤
-        │  Use Cases  (application-specific rules)   │  ◄── orchestrates per goal
+- **Note:** │ Use Cases (application-specific rules) │ ◄── orchestrates per goal
         ├──────────────────────────────────────────┤
-        │  Entities  (enterprise / critical rules)   │  ◄── innermost policy
+- **Note:** │ Entities (enterprise / critical rules) │ ◄── innermost policy
         └──────────────────────────────────────────┘
               ▲ compile-time deps point IN only
               │ runtime control flow may go OUT (via DIP)
@@ -41,9 +46,9 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 | **DIP at boundary** | Inner layer defines interface (port); outer layer implements (adapter) |
 | **Composition root** | Outermost wiring point where concrete adapters are injected ([[Design pattern/Dependency Injection]]) |
 
-**Control flow versus compile-time deps:** A use case may *call* a database (outward control flow), but it calls an **interface it owns**; the Postgres adapter implements that interface. Source deps oppose control flow at boundaries — classic [[SOLID]] Dependency Inversion.
+- **Note:** **Control flow versus compile-time deps:** A use case may *call* a database (…
 
-**Martin's five properties** of a well-architected system ([Ch. 22](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)):
+- **Note:** **Martin's five properties** of a well-architected system ([Ch
 
 1. Independent of frameworks
 2. Testable without UI, DB, or web server
@@ -63,11 +68,13 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 | Infra volatility | Expect DB/framework swaps | Stack locked for project life |
 | Team size | Boundaries prevent stepping on each other | Solo dev, < 3 engineers |
 
-**Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one implementation, merge one-liner pass-through controllers.
+- **Martin's bar:** Earn structure when **testability and longevity** justify ~…
+- Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blo…
 
 ### Lineage (what Clean Architecture synthesizes)
 
-Martin explicitly credits prior work. These patterns share the same goal — **separation of concerns via inward dependencies** — with different emphasis:
+- Martin explicitly credits prior work.
+- These patterns share the same goal
 
 | Pattern | Author | Year | Emphasis |
 |---------|--------|------|----------|
@@ -78,39 +85,42 @@ Martin explicitly credits prior work. These patterns share the same goal — **s
 | **DCI** (Data, Context, Interaction) | James Coplien & Trygve Reenskaug | 2009 | Runtime role injection for behavior vs data separation |
 | **Clean Architecture** | Robert C. Martin | 2012 blog / 2017 book | Unified concentric diagram + Dependency Rule as the single invariant |
 
-In practice, teams often use "Clean Architecture" as an umbrella term. The **invariant** across all of them: protect the core from volatile outer details via interfaces and inward-pointing dependencies.
+- In practice, teams often use "Clean Architecture" as an umbrella term.
+- The **invariant** across all of them: protect the core from volatile outer de…
 
 ### The four rings (typical layers)
 
-Circles are **schematic** — you may need more than four. The Dependency Rule always applies regardless of ring count.
+- Circles are **schematic** — you may need more than four.
+- The Dependency Rule always applies regardless of ring count.
 
 ### 1. Entities (innermost)
 
-**Enterprise-wide or application-wide critical business rules.** Most stable; least affected by UI, DB, or framework changes.
+- **Enterprise-wide or application-wide critical business rules.:** Most stable
 
-- Can be objects with methods, or plain data + functions — Martin is explicit either works
-- Hold **invariants** ("account balance cannot go negative", "order total must match line items")
-- Zero imports from outer layers — no ORM annotations, no HTTP types, no SDK clients
-- In a single-application context without an enterprise, entities = the application's core business objects
+- Can be objects with methods, or plain data + functions
+- Hold **invariants** ("account balance cannot go negative", "order total must …
+- Zero imports from outer layers
+- In a single-application context without an enterprise, entities = the applica…
 
-**Not:** anemic structs with all logic pushed to a "service god class". Entities should enforce critical rules; use cases **orchestrate**, not replace, entity behavior.
+- **Not:** anemic structs with all logic pushed to a "service god class".
+- Entities should enforce critical rules
 
 ### 2. Use Cases (application business rules)
 
-**Application-specific operations** — one class/function per user goal or system operation.
+- **Application-specific operations:** 
 
 - Orchestrate entities; coordinate data flow in and out
-- Define **outbound port interfaces** (e.g., `OrderRepository`, `PaymentGateway`, `NotificationSender`)
+- Define **outbound port interfaces** (e.g., `OrderRepository`, `PaymentGateway…
 - Isolated from DB schema, UI framework, and HTTP response types
-- Change when **application operations** change — not when Postgres becomes MongoDB
+- Change when **application operations** change
 
-Examples: `TransferMoney`, `RegisterUser`, `PlaceOrder`, `CancelSubscription`.
+- Examples: `TransferMoney`, `RegisterUser`, `PlaceOrder`, `CancelSubscription`.
 
-Maps closely to the [[Service Layer]] in traditional layering — but in Clean Architecture the service/use-case layer **owns** repository interfaces; implementations live outside.
+- Maps closely to the [[Service Layer]] in traditional layering
 
 ### 3. Interface Adapters
 
-Convert between **use-case-friendly** formats and **external-agency** formats.
+- Convert between **use-case-friendly** formats and **external-agency** formats.
 
 | Adapter type | Examples | Direction |
 |--------------|----------|-----------|
@@ -118,15 +128,16 @@ Convert between **use-case-friendly** formats and **external-agency** formats.
 | **Driven (secondary)** | Repository implementations, email senders, payment API clients, presenters | In → outside |
 | **Presenters** | Format use-case output for a specific UI/API contract | Outbound from use case |
 
-- MVC lives **here**: controllers, views, presenters — models passed across boundaries are usually **simple DTOs**, not rich entities
-- **All SQL** restricted to repository adapters in this ring (if using SQL)
-- Repository **interface** is owned by use cases; **implementation** is an adapter
+- MVC lives **here**: controllers, views, presenters
+- **All SQL:** restricted to repository adapters in this ring (if using SQL)
+- Repository **interface** is owned by use cases
 
 ### 4. Frameworks & Drivers (outermost)
 
-Glue to volatile details: Express, Spring, Postgres driver, React, Kafka client. **Minimal code** — mostly configuration and wiring at the **composition root**.
+- Glue to volatile details: Express, Spring, Postgres driver, React, Kafka clie…
+- **Minimal code:** 
 
-Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): *"The database is a detail."* Defer DB and framework decisions until use cases and entities are understood and tested.
+- Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/…
 
 ### The Dependency Rule (the invariant)
 
@@ -139,7 +150,9 @@ Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/
 | **Adapters** | Push framework types inward across boundaries |
 | **Any inner ring** | Use data formats generated by outer frameworks (e.g., ORM row objects, `gin.Context`) as use-case parameters |
 
-**Data crossing boundaries:** Only **simple data structures** — structs, DTOs, primitives, maps. Never pass ORM entities, DB row objects, or HTTP request objects inward. Map at the adapter edge.
+- **Data crossing boundaries:** Only **simple data structures**
+- Never pass ORM entities, DB row objects, or HTTP request objects inward.
+- Map at the adapter edge.
 
 ```txt
   Controller ──► UseCase ──► Entity
@@ -152,7 +165,7 @@ Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/
 
 ### Crossing boundaries: Dependency Inversion in practice
 
-When a use case must call outward (save to DB, send HTTP response), the inner layer defines the contract:
+- When a use case must call outward (save to DB, send HTTP response), the inner…
 
 ```txt
 Use Case                    Interface Adapters
@@ -163,9 +176,9 @@ CreateOrderInteractor  ──►  IOrderRepository (port, defined HERE)
        └──► Order (entity)   PostgresOrderRepository
 ```
 
-Same pattern for presenters: use case calls `CreateOrderOutputPort` (interface in inner layer); `CreateOrderJsonPresenter` implements it in the adapter ring.
+- Same pattern for presenters: use case calls `CreateOrderOutputPort` (interfac…
 
-**Composition root** (`main.ts`, `cmd/server`, DI module) is the only place that knows all concrete types:
+- **Composition root:** (`main.ts`, `cmd/server`, DI module) is the only place t…
 
 ```typescript
 // composition root — outermost wiring
@@ -174,7 +187,7 @@ const useCase = new CreateOrderInteractor(repo);
 const controller = new CreateOrderController(useCase);
 ```
 
-See [[Design pattern/Dependency Injection]] for wiring patterns and test doubles.
+- See [[Design pattern/Dependency Injection]] for wiring patterns and test doub…
 
 ### Screaming Architecture
 
@@ -186,7 +199,8 @@ See [[Design pattern/Dependency Injection]] for wiring patterns and test doubles
 | "It's a Rails app" | "It's an accounting / streaming / healthcare system" |
 | New hire asks "where are use cases?" | Use cases visible in top-level package names |
 
-Good architecture **defers** framework and DB decisions. You should be able to deliver as console application, web application, or thick client without rewriting core policy.
+- Good architecture **defers** framework and DB decisions.
+- You should be able to deliver as console application, web application, or thi…
 
 ### Comparison: Clean vs Hexagonal vs Onion
 
@@ -198,7 +212,8 @@ Good architecture **defers** framework and DB decisions. You should be able to d
 | **Shared invariant** | Dependencies point inward | Dependencies point inward | **Dependency Rule** — source deps inward only |
 | **Practical difference** | Mostly naming/diagram | Extra rings for domain/application services | Explicit "what data crosses boundaries" rules |
 
-All three produce similar folder structures in production code. Pick one vocabulary per team and enforce the Dependency Rule — not three competing diagrams.
+- All three produce similar folder structures in production code.
+- Pick one vocabulary per team and enforce the Dependency Rule
 
 ### Standard structure / code
 
@@ -219,7 +234,7 @@ src/
   main.ts                        # composition root
 ```
 
-Frontend analogue: [[frontend layered architecture]] — `domain/` (entities + use cases + port interfaces) with `infrastructure/` implementing repositories.
+- Frontend analogue: [[frontend layered architecture]]
 
 ### TypeScript sketch (minimal)
 
@@ -303,7 +318,7 @@ const result = await new PlaceOrderInteractor(fakeRepo).execute(sampleRequest);
 expect(result.total).toBe(42);
 ```
 
-If business-rule tests require Docker, the Dependency Rule is already violated.
+- If business-rule tests require Docker, the Dependency Rule is already violate…
 
 ### Triage (design review / when architecture breaks)
 
@@ -341,13 +356,13 @@ FAIL:
   □ Microservices split before entities/use cases stable in monolith
 ```
 
+## Mistakes to Avoid
+- **Mistake:** **Clean Architecture ≠ microservices.** Each service is usually …
+- **Mistake:** **The database is not the center.** Martin ([No DB](https://blog…
+- **Mistake:** **Pass-through layers are worse than no layers.** Adapters that …
+- **Mistake:** **DTO mapping fatigue.** Not every transition needs a new type
+- **Mistake:** **MVC `Model` ≠ Entity.** In Clean Architecture, MVC models are …
+- **Mistake:** **Discipline erodes under deadline pressure.** One `import` of a…
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** **Pragmatic path:** Start with simple layered monolith (handler → service → repository). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
-
-## Mistakes to Avoid
-- **Clean Architecture ≠ microservices.** Each service is usually a small hexagonal/clean app internally. Distribution is orthogonal to the Dependency Rule. See [[Multi-tier and Layered Architecture]].
-- **The database is not the center.** Martin ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): letting the DB schema drive design early "warps" use cases. Model use cases first; derive schema from identified queries and relationships.
-- **Pass-through layers are worse than no layers.** Adapters that only forward calls add navigation cost with zero boundary value. Every layer must earn its complexity ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/), [DEV: Clean Architecture Trap](https://dev.to/marcolenzo/the-clean-architecture-trap-241k)).
-- **DTO mapping fatigue.** Not every transition needs a new type. Reuse shapes when identical; map only at real boundary mismatches.
-- **MVC `Model` ≠ Entity.** In Clean Architecture, MVC models are often dumb data passed across the adapter ring; critical rules live in entities.
-- **Discipline erodes under deadline pressure.** One `import` of an ORM type into a use case starts the leak. Enforce with arch-unit, ESLint `import/no-restricted-paths`, or module boundaries in code review.

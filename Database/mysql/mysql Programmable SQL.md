@@ -4,12 +4,18 @@
 
 > Server-side logic in MySQL — stored procedures, functions, triggers, and scheduled events that run inside `mysqld` with the server’s privileges and connection context.
 
-
-
-
+```txt
+        mysql Programmable ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect “when would you put logic in the database versus the app?” Signal: you know the objects, their firing rules, and the testability/deployment costs of DB-side code.
+- **Interview probes:** Expect “when would you put logic in the database versus the app?” Signal: you…
 
 ## Sources
 - [MySQL Stored Objects](https://dev.mysql.com/doc/refman/en/stored-objects.html) — overview
@@ -17,7 +23,7 @@ Expect “when would you put logic in the database versus the app?” Signal: yo
 
 ## Key Concepts
 - **Stored procedure:** Invoked with `CALL`; can run multi-statement workflows.
-- **Function:** Used in expressions; stricter rules (e.g. no arbitrary side effects in some contexts).
+- **Function:** Used in expressions
 - **[[mysql triggers]]:** Fire `BEFORE`/`AFTER` DML per row (or statement, depending on definition).
 - **[[MySQL Events]]:** Scheduler-driven jobs inside the server (cron-like).
 
@@ -29,10 +35,12 @@ Expect “when would you put logic in the database versus the app?” Signal: yo
 | Trigger | DML on a table |
 | Event | Event scheduler timeline |
 
-Definer vs invoker security matters: `DEFINER` runs as the owner — privilege escalation risk if poorly reviewed.
+- Definer vs invoker security matters: `DEFINER` runs as the owner
 
-## Real-World Applications
-Enforce audit columns or soft invariants that every client must obey; schedule nightly archive moves when ops wants the job inside MySQL rather than an external worker.
+## Mistakes to Avoid
+- **Mistake:** Hiding business-critical branching only in triggers (invisible t…
+- **Mistake:** Overusing events instead of an observable job runner with retrie…
+- **Mistake:** Ignoring `DEFINER` privileges on shared production accounts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Centralized invariants, fewer round trips, works for every client language.
@@ -40,9 +48,8 @@ Enforce audit columns or soft invariants that every client must obey; schedule n
 - **Trade-off:** Prefer application code for complex workflows unless DBAs require database-enforced rules.
 
 ## Comparison
-vs app services: programmable SQL shares the transaction with the triggering statement; app workers are easier to observe and roll back independently.
+- vs app services: programmable SQL shares the transaction with the triggering …
 
-## Mistakes to Avoid
-- Hiding business-critical branching only in triggers (invisible to API reviewers).
-- Overusing events instead of an observable job runner with retries and metrics.
-- Ignoring `DEFINER` privileges on shared production accounts.
+
+### Use cases
+- Enforce audit columns or soft invariants that every client must obey

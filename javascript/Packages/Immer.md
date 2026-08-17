@@ -4,12 +4,18 @@
 
 > Write “mutating” updates that produce immutable next state — Immer uses a draft proxy (powers RTK reducers).
 
-
-
-
+```txt
+        Packages/Immer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Packages/Immer** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **draft**, **produce**, **structural sharing**.
+- **Interview probes:** Interviewers use **Packages/Immer** to check whether you can explain the mech…
 
 ## Sources
 - [Immer — Docs](https://immerjs.github.io/immer/) — deep-dive
@@ -40,21 +46,22 @@ const next = produce(state, (draft) => {
 | `original(draft)` | Base snapshot |
 | Freeze (dev) | Catch accidental mutates of result |
 
-## Real-World Applications
-In production APIs and tooling, **Immer** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Don’t mutate `original` or freeze results** — only the draft; **Returning a new object from recipe replaces root** — don’t mix with draft mutations carelessly.
+## Mistakes to Avoid
+- **Mistake:** **Don’t mutate `original` or freeze results** — only the draft
+- **Mistake:** **Returning a new object from recipe replaces root**
+- **Mistake:** **“Cannot assign to read only”:** check Mutating outside produce
+- **Mistake:** **Returned undefined oddly:** check Recipe returned a value + mu…
+- **Mistake:** **Perf issues:** check Huge trees / frequent produce
+- **Mistake:** **Class instances weird:** check Proxies + classes
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Write “mutating” updates that produce immutable next state — Immer uses a draft …).
 - **Con / when not:** **Trivial one-field updates** — spread may be enough.
-- **Con / when not:** **Hot per-frame game state** — proxy cost may matter; measure.
+- **Con / when not:** **Hot per-frame game state**
 
 ## Comparison
-vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[Redux/Immutability in Redux]]: know when each applies — do not treat them as interchangeable. vs [[Redux toolkit]]: know when each applies — do not treat them as interchangeable.
+- vs [[Packages/npm packages]]: know when each applies
 
-## Mistakes to Avoid
-- **Don’t mutate `original` or freeze results** — only the draft.
-- **Returning a new object from recipe replaces root** — don’t mix with draft mutations carelessly.
-- **“Cannot assign to read only”:** check Mutating outside produce; fix: Only mutate draft
-- **Returned undefined oddly:** check Recipe returned a value + mutated; fix: Either mutate *or* return new root
-- **Perf issues:** check Huge trees / frequent produce; fix: Normalize; split state
-- **Class instances weird:** check Proxies + classes; fix: Prefer plain objects
+
+### Use cases
+- In production APIs and tooling, **Immer** shows up whenever teams ship Node/J…

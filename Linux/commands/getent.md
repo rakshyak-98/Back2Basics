@@ -4,19 +4,22 @@
 
 > getent queries Name Service Switch (NSS) databases — the same path login and libc use — so it sees files, SSSD, LDAP, not just `/etc/passwd`.
 
-
-
-
+```txt
+        getent ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `dig`, and reading `/etc/nsswitch.conf`.
+- **Interview probes:** Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `d…
 
 ## Sources
 - [getent(1)](https://man7.org/linux/man-pages/man1/getent.1.html) — deep-dive
 - [nsswitch.conf(5)](https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html) — deep-dive
-
-## Core Definition
-When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and asks each configured source (files, systemd, sss, ldap, …). `getent` exposes that same resolution path.
 
 ## Key Concepts
 - **NSS:** Pluggable lookup order for passwd, group, hosts, services, …
@@ -24,6 +27,9 @@ When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and a
 - **hosts:** Name→IP via nsswitch (often files before DNS) — not pure DNS.
 - **shadow:** Password aging; usually root-only.
 - **Read-only:** getent does not create or edit accounts.
+
+
+- **Core:** When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` an…
 
 ## Technical Details
 ```txt
@@ -55,8 +61,10 @@ cat /etc/nsswitch.conf
 | Different than `id` | Cached sssd | `sss_cache -E`; restart `sssd` |
 | Host resolves in dig not app | nsswitch order | Compare `getent hosts` vs [[dig]] |
 
-## Real-World Applications
-Confirming an LDAP user exists before debugging SSH, verifying `docker` group membership from SSSD, and checking whether an internal hostname comes from `/etc/hosts` or DNS.
+## Mistakes to Avoid
+- **Mistake:** Debugging login with file greps on enterprise hosts
+- **Mistake:** Treating `getent hosts` as equivalent to `dig`
+- **Mistake:** Dumping entire directory passwd databases in scripts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Authoritative for “will login see this user?”
@@ -64,9 +72,8 @@ Confirming an LDAP user exists before debugging SSH, verifying `docker` group me
 - **Trade-off:** Fast local files vs slower networked NSS sources.
 
 ## Comparison
-vs `grep /etc/passwd`: files only — misses SSSD/LDAP. vs [[dig]]: DNS-only path. vs [[useradd]]/[[passwd]]: those mutate; getent only reads.
+- vs `grep /etc/passwd`: files only
 
-## Mistakes to Avoid
-- Debugging login with file greps on enterprise hosts.
-- Treating `getent hosts` as equivalent to `dig`.
-- Dumping entire directory passwd databases in scripts.
+
+### Use cases
+- Confirming an LDAP user exists before debugging SSH, verifying `docker` group…

@@ -4,12 +4,18 @@
 
 > Network Interface Card — hardware (or virtio) port that moves L2 frames between host memory and the wire; 10G is the common server step-up from 1G.
 
-
-
-
+```txt
+        NIC (10 NIC) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about NICs to see if you separate line rate from application throughput, and whether you debug speed, PCIe, softirq, and packet-per-second limits — not only “buy a faster card.”
+- **Interview probes:** Interviewers ask about NICs to see if you separate line rate from application…
 
 ## Sources
 - [Wikipedia — Network interface controller](https://en.wikipedia.org/wiki/Network_interface_controller) — overview
@@ -30,7 +36,7 @@ Speed tiers (common server):
 | 10 GbE | ~1.25 GB/s |
 | 25/100 GbE | datacenter / AI fabric |
 
-**10G** is the usual step up when 1G saturates (storage, video ingest, Kubernetes node east-west). Bottleneck moves to **PCIe lanes**, **CPU softirq**, and **packet rate** (PPS), not headline Gbps alone.
+- **Note:** **10G** is the usual step up when 1G saturates (storage, video ingest, Kubern…
 
 ## Technical Details
 ```txt
@@ -68,7 +74,7 @@ cat /proc/interrupts | grep eth0
 ip -s link show ens5
 ```
 
-**Why multiple queues:** single-queue NIC + many cores → one CPU handles all RX interrupts.
+- **Why multiple queues:** single-queue NIC + many cores → one CPU handles all …
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,10 +83,11 @@ ip -s link show ens5
 | Latency spikes | coalesce settings | Tune `ethtool -c`; disable LRO on forwarders |
 | VM shows 10G but slow | Credit-based limit | Right-size instance; check [[Egress traffic]] caps |
 
-## Real-World Applications
-Database replicas, video ingest nodes, and Kubernetes workers that saturate 1G east-west or storage traffic.
-
-**Example:** Backup job tops out at ~110 MB/s on a “10G” VM — `ethtool` shows 1000 Mb/s because autoneg fell back; fixing the SFP/cable restores 10G.
+## Mistakes to Avoid
+- **Mistake:** Equating line rate with application throughput
+- **Mistake:** Enabling jumbo frames without end-to-end path support
+- **Mistake:** Reading bonding/VLAN stats on the wrong iface (slave vs master)
+- **Mistake:** Deploying 10G NICs without matching switch ports and storage
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Higher line rate removes the NIC as the first bottleneck for local/datacenter transfers.
@@ -90,11 +97,11 @@ Database replicas, video ingest nodes, and Kubernetes workers that saturate 1G e
 
 ## Comparison
 - vs [[ethtool]]: NIC is the hardware/netdev; ethtool is how you query and tune it.
-- vs [[MTU (Maximum Transmission Unit)]]: frame size policy on the path; NIC must support and negotiate it.
+- vs [[MTU (Maximum Transmission Unit)]]: frame size policy on the path
 - vs [[Egress traffic]] caps: a fast NIC does not bypass cloud NAT or internet egress limits.
 
-## Mistakes to Avoid
-- Equating line rate with application throughput — TCP window, RTT, and loss dominate WAN.
-- Enabling jumbo frames without end-to-end path support — black hole or fragmentation.
-- Reading bonding/VLAN stats on the wrong iface (slave vs master).
-- Deploying 10G NICs without matching switch ports and storage — bottleneck just moves to the uplink.
+
+### Use cases
+- Database replicas, video ingest nodes, and Kubernetes workers that saturate 1…
+
+- **Example:** Backup job tops out at ~110 MB/s on a “10G” VM

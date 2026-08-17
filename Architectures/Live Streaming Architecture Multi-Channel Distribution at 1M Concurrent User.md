@@ -4,12 +4,17 @@
 
 > 1M concurrent live viewers — push encode once, fan out via CDN/edge; origin must not serve every player directly.
 
-
-
-
+```txt
+        Live Streaming Arc ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-1M-viewer live design interviews test encode-once/fan-out via CDN, origin protection, and multi-channel isolation.
+- **Interview probes:** 1M-viewer live design interviews test encode-once/fan-out via CDN, origin pro…
 
 ## Sources
 - [Apple — HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
@@ -56,12 +61,12 @@ Health: stale manifest / 404 segment alerts
 | DRM errors | License service | Scale license; clock skew |
 | Hot manifest | Tiny TTL + thundering herd | Soft TTL; collapse requests |
 
+## Mistakes to Avoid
+- **Mistake:** WebRTC fanout ≠ OTT scale — use CDN HLS/DASH for 1M
+- **Mistake:** Short TTL everywhere — origin death
+- **Mistake:** One giant origin — multi-CDN / shield
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** <1k viewers interactive — WebRTC/SFU maybe.
 - **Trade-off:** VOD only — simpler caching.
 - **Trade-off:** Ultra-low-latency betting UX — specialized LL-HLS/WebRTC stacks.
-
-## Mistakes to Avoid
-- WebRTC fanout ≠ OTT scale — use CDN HLS/DASH for 1M.
-- Short TTL everywhere — origin death.
-- One giant origin — multi-CDN / shield.

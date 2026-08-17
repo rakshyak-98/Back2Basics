@@ -4,19 +4,24 @@
 
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
-
-
-
+```txt
+        WYSIWYG (What You  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safely.
+- **Interview probes:** WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safe…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [WYSIWYG — Wikipedia](https://en.wikipedia.org/wiki/WYSIWYG) — overview
 
 ## Key Concepts
-WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.
+- **Note:** WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirro…
 
 ```
 Toolbar / shortcuts
@@ -28,13 +33,13 @@ Command layer (bold, link, heading)
 Document model ◄──► contenteditable / canvas view
        │
        ▼
-Serializer ──► stored HTML / JSON ──► rendered page (should match)
+- **Note:** Serializer ──► stored HTML / JSON ──► rendered page (should match)
 ```
 
 Categories:
-- **contenteditable + execCommand** (legacy — avoid new builds).
-- **Framework editors** — TipTap (ProseMirror), Slate, Quill, CKEditor 5, TinyMCE.
-- **Block builders** — Notion-like; still WYSIWYG at block level.
+- **contenteditable + execCommand:** (legacy — avoid new builds).
+- **Framework editors:** — TipTap (ProseMirror), Slate, Quill, CKEditor 5, TinyMCE.
+- **Block builders:** — Notion-like; still WYSIWYG at block level.
 
 ## Technical Details
 ### TipTap (React) minimal
@@ -104,11 +109,6 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 .article-body { /* same rules */ }
 ```
 
-## Pros/Cons or Trade-offs
-- **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
-- **Highly structured content (products, legal clauses)** — use structured CMS fields, not free-form HTML.
-- **Email composition** — email HTML is its own nightmare; use email-specific builders.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Never trust stored HTML** — sanitize on write **and** read; CSP as backstop ([[Security]] / content security policy).
@@ -131,3 +131,8 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 | Undo broken across transactions | Custom commands bypass history | Use editor's chain API |
 | Mobile keyboard covers toolbar | Fixed toolbar z-index | `visualViewport` adjust; bottom sheet UI |
 | Huge HTML in DB | Nested spans from toggles | Normalize schema; store JSON |
+
+## Pros/Cons or Trade-offs
+- **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
+- **Highly structured content (products, legal clauses)**
+- **Email composition**

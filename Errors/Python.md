@@ -4,12 +4,18 @@
 
 > `StaleElementReferenceException` means the WebElement you hold no longer points at a DOM node — the page re-rendered and your reference died.
 
-
-
-
+```txt
+        Python errors (Sel ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Automation interviews: explain staleness, re-find elements after DOM updates, and prefer explicit waits over blind sleeps.
+- **Interview probes:** Automation interviews: explain staleness, re-find elements after DOM updates,…
 
 ## Sources
 - [Selenium — Stale element](https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/#staleelementreferenceexception) — deep-dive
@@ -44,10 +50,10 @@ def click_retry(driver, by, value, tries=3):
 | `NoSuchElementException` | Not present (yet/wrong selector) |
 | `TimeoutException` | Wait condition never true |
 
-## Real-World Applications
-UI test suites for SPAs: every click that triggers re-render may invalidate prior elements.
-
-**Example:** Find rows, click “delete,” then assert on the same row variable — re-query the table instead.
+## Mistakes to Avoid
+- **Mistake:** Storing elements in lists across page updates
+- **Mistake:** Fixed `time.sleep` as the only synchronization strategy
+- **Mistake:** Catching all exceptions and continuing silently
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Explicit waits make intent clear.
@@ -57,7 +63,8 @@ UI test suites for SPAs: every click that triggers re-render may invalidate prio
 - vs Playwright auto-waiting: similar problem space with different defaults.
 - vs unit tests: UI tests are coupled to render timing by nature.
 
-## Mistakes to Avoid
-- Storing elements in lists across page updates.
-- Fixed `time.sleep` as the only synchronization strategy.
-- Catching all exceptions and continuing silently.
+
+### Use cases
+- UI test suites for SPAs: every click that triggers re-render may invalidate p…
+
+- **Example:** Find rows, click “delete,” then assert on the same row variable

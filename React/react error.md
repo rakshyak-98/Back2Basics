@@ -4,12 +4,18 @@
 
 > React runtime errors you’ll hit in prod — wrong hook counts, hydration mismatches, and security headers that break assets.
 
-
-
-
+```txt
+        react error (commo ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers use react error (common failures) to test whether you can apply the idea under production constraints, not recite docs.
+- **Interview probes:** Interviewers use react error (common failures) to test whether you can apply …
 
 ## Sources
 - [Wikipedia — react error](https://en.wikipedia.org/wiki/react_error) — overview
@@ -54,14 +60,6 @@ Content-Type: application/javascript; charset=utf-8
 
 1. …
 
-## Real-World Applications
-Apply react error (common failures) in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Swallowing errors in empty catch** — use an error boundary for UI failures.
-- **Con / skip when:** **Treating hydration warnings as noise** — they often mean remounts and lost SSR wins.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,5 +69,13 @@ Apply react error (common failures) in feature code where the Key Concepts match
 | Hydration failed | Server vs client text | Defer dynamic bits; match SSR |
 | Invalid hook call | Duplicate React / call outside component | One React copy; only in function components/hooks |
 
-- **Error codes in prod** — map `#NNN` at https://react.dev/errors/NNN (version-specific).
-- **`nosniff` + wrong MIME** — legitimate JS served as `text/plain` will refuse to run.
+- **Mistake:** **Error codes in prod**
+- **Mistake:** **`nosniff` + wrong MIME**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Swallowing errors in empty catch**
+- **Con / skip when:** **Treating hydration warnings as noise**
+
+## Real-World Applications
+- **Scenario:** Apply react error (common failures) in feature code where the Key Concepts ma…

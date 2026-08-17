@@ -4,25 +4,31 @@
 
 > Controlled port and service discovery — map what is listening; authorization and scope come before any scan.
 
-
-
-
+```txt
+        nmap ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Tests whether you understand scan types (SYN vs connect), noisy flags (`-A`, vuln scripts), and that unauthorized scanning is an incident — not “just reconnaissance.”
+- **Interview probes:** Tests whether you understand scan types (SYN vs connect), noisy flags (`-A`, …
 
 ## Sources
 - [Nmap Reference Guide](https://nmap.org/book/man.html) — deep-dive
 - [Wikipedia — nmap](https://en.wikipedia.org/wiki/nmap) — overview
 
-## Core Definition
-nmap sends crafted packets (TCP SYN, connect, UDP, and more) and classifies responses as open, closed (RST), or filtered (timeout/no response). Version detection and NSE scripts add fingerprinting — traffic that IDS/SOC may alert on.
-
 ## Key Concepts
 - **Open / closed / filtered:** SYN-ACK, RST, or silence (often firewall).
-- **`-sS` vs `-sT`:** SYN needs root/`CAP_NET_RAW`; connect works unprivileged with a full handshake.
+- **`-sS` vs `-sT`:** SYN needs root/`CAP_NET_RAW`
 - **`-sV` / `-sC`:** version and default scripts — slower, noisier.
 - **Authorization first:** internal segments still need change tickets on sensitive networks.
+
+
+- **Core:** nmap sends crafted packets (TCP SYN, connect, UDP, and more) and classifies r…
 
 ## Technical Details
 ```
@@ -52,7 +58,7 @@ nmap -oA /tmp/scan-hostname -sV -p 1-1024 hostname
 ndiff scan1.xml scan2.xml
 ```
 
-Avoid on production without approval:
+- Avoid on production without approval:
 
 ```bash
 nmap -A -T4 target       # OS + version + scripts + traceroute — noisy
@@ -67,10 +73,11 @@ nmap --script=vuln       # intrusive; can change fragile services
 | Slow scan | `-p-` on large ranges | Narrow ports; `-T4`; care with `--min-rate` |
 | SOC alert | Scan source logged | Approved scanner IP; ticket reference |
 
-## Real-World Applications
-Authorized inventory before a firewall change, localhost listen audit, or diffing two XML outputs with `ndiff` after a deployment.
-
-**Example:** Prefer `ss -lntp` for “what is my application listening on?” — non-invasive and instant.
+## Mistakes to Avoid
+- **Mistake:** Scanning without authorization
+- **Mistake:** Running `-sV` / vuln scripts against legacy embedded gear withou…
+- **Mistake:** Forgetting IPv6 (`-6`) and different firewall rules than IPv4
+- **Mistake:** Treating “port open” as application healthy
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Rich discovery (ports, versions, scripts) across many hosts.
@@ -80,8 +87,8 @@ Authorized inventory before a firewall change, localhost listen audit, or diffin
 - vs [[ss]]: local socket table — use for this host; nmap for remote/authorized discovery.
 - vs [[nc]]: single-port probe/debug; nmap for systematic sweeps.
 
-## Mistakes to Avoid
-- Scanning without authorization — illegal/unethical off networks you own; sensitive internal still needs tickets.
-- Running `-sV` / vuln scripts against legacy embedded gear without a maintenance window.
-- Forgetting IPv6 (`-6`) and different firewall rules than IPv4.
-- Treating “port open” as application healthy — use HTTP/synthetic checks for that.
+
+### Use cases
+- Authorized inventory before a firewall change, localhost listen audit, or dif…
+
+- **Example:** Prefer `ss -lntp` for “what is my application listening on?”

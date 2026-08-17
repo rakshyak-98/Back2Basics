@@ -4,12 +4,18 @@
 
 > A buffer is a temporary memory region that decouples producers and consumers — smoothing speed mismatches between CPU, kernel, network, and disk.
 
-
-
-
+```txt
+        Buffer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect stacked-buffering questions: where bytes sit between `fwrite` and NAND, buffer vs cache, and how undersized buffers create syscall storms.
+- **Interview probes:** Expect stacked-buffering questions: where bytes sit between `fwrite` and NAND…
 
 ## Sources
 - Tanenbaum, *Modern Operating Systems* — I/O buffering — deep-dive
@@ -27,17 +33,20 @@ Expect stacked-buffering questions: where bytes sit between `fwrite` and NAND, b
 App fwrite buffer → socket SO_SNDBUF → NIC ring → switch → disk queue → NAND page program
 ```
 
-[[multiple levels of buffering]] add latency but improve throughput. Tuning one layer without others shifts bottlenecks — shrinking TCP buffers under a bursty writer causes more [[system call]]s.
+- [[multiple levels of buffering]] add latency but improve throughput.
+- Tuning one layer without others shifts bottlenecks
 
 | Term | Intent |
 |------|--------|
 | Buffer | Absorb timing differences; often drained in order |
 | Cache | Keep copies for faster reuse; eviction policies vary |
 
-Ring-style: [[Rolling Buffer]], [[atomic ring buffer]], [[kernel ring buffer]].
+- Ring-style: [[Rolling Buffer]], [[atomic ring buffer]], [[kernel ring buffer]…
 
-## Real-World Applications
-`stdio` buffering, TCP `SO_SNDBUF`/`SO_RCVBUF`, database page buffers, and kernel page/block caching ([[Buffer cache]]).
+## Mistakes to Avoid
+- **Mistake:** Flushing only the app buffer and assuming disk durability
+- **Mistake:** Unlimited buffering without backpressure
+- **Mistake:** Tuning only one layer in a stacked path
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Higher throughput; fewer syscalls; smoother latency.
@@ -48,7 +57,6 @@ Ring-style: [[Rolling Buffer]], [[atomic ring buffer]], [[kernel ring buffer]].
 - vs [[Buffer cache]]: specialized kernel page cache for file/block data.
 - vs queue: buffers often contiguous byte regions; queues emphasize message ordering/policy.
 
-## Mistakes to Avoid
-- Flushing only the app buffer and assuming disk durability.
-- Unlimited buffering without backpressure.
-- Tuning only one layer in a stacked path.
+
+### Use cases
+- `stdio` buffering, TCP `SO_SNDBUF`/`SO_RCVBUF`, database page buffers, and ke…

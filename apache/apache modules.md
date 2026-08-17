@@ -4,12 +4,18 @@
 
 > Features loaded into httpd — static (compiled in) or shared (`LoadModule`) so you toggle capability without rebuilding Apache.
 
-
-
-
+```txt
+        Apache modules ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want MPM choice (event vs prefork), why fewer modules are safer, and how `rewrite`/`ssl`/`proxy` show up in production vhosts.
+- **Interview probes:** Interviewers want MPM choice (event vs prefork), why fewer modules are safer,…
 
 ## Sources
 - [Apache — Dynamic Shared Object (DSO) Support](https://httpd.apache.org/docs/current/dso.html) — deep-dive
@@ -17,7 +23,7 @@ Interviewers want MPM choice (event vs prefork), why fewer modules are safer, an
 
 ## Key Concepts
 - **Static vs shared:** baked-in vs `.so` via `LoadModule`.
-- **MPM:** prefork/worker/event → concurrency model; PHP-FPM pairs with event/worker, not classic `mod_php`+prefork.
+- **MPM:** prefork/worker/event → concurrency model
 - **Least modules:** smaller memory and attack surface.
 - **Distro packaging:** `a2enmod` / `libapache2-mod-*` on Debian.
 
@@ -41,20 +47,21 @@ LoadModule rewrite_module modules/mod_rewrite.so
 | `headers` | Security headers |
 | `proxy` + `proxy_http` / `proxy_fcgi` | Reverse proxy / FastCGI |
 
-## Real-World Applications
-TLS terminator + reverse proxy to an app, or `proxy_fcgi` to PHP-FPM, with `rewrite` for front-controller frameworks.
-
-**Example:** `Invalid command 'RewriteRule'` after deploy — `mod_rewrite` not loaded.
+## Mistakes to Avoid
+- **Mistake:** Loading `mod_info`/`mod_status` publicly without IP allowlists
+- **Mistake:** Dual `LoadModule` lines for the same module
+- **Mistake:** New stacks still enabling `mod_php` instead of FPM
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Enable only what you need; swap MPM for workload.
 - **Con:** Wrong MPM + `mod_php` combinations cause mysterious instability.
 
 ## Comparison
-- vs Nginx modules: Nginx often needs rebuild for third-party modules; Apache DSO is more dynamic on distros.
+- vs Nginx modules: Nginx often needs rebuild for third-party modules
 - vs [[PHP-FPM]]: modules are httpd features; FPM is the PHP worker pool.
 
-## Mistakes to Avoid
-- Loading `mod_info`/`mod_status` publicly without IP allowlists.
-- Dual `LoadModule` lines for the same module.
-- New stacks still enabling `mod_php` instead of FPM.
+
+### Use cases
+- TLS terminator + reverse proxy to an app, or `proxy_fcgi` to PHP-FPM, with `r…
+
+- **Example:** `Invalid command 'RewriteRule'` after deploy

@@ -4,12 +4,18 @@
 
 > *(Filename typo for **Stripe**.)* Stripe is a Payment Service Provider API for cards, wallets, subscriptions, and Connect marketplaces — use Checkout or Elements so card data never hits your server.
 
-
-
-
+```txt
+        Strip ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect PaymentIntents, webhook signature verification with the raw body, idempotency keys, and amounts in the smallest currency unit (cents).
+- **Interview probes:** Interviewers expect PaymentIntents, webhook signature verification with the r…
 
 ## Sources
 - [Stripe — Documentation](https://docs.stripe.com/) — deep-dive
@@ -17,15 +23,15 @@ Interviewers expect PaymentIntents, webhook signature verification with the raw 
 - [Stripe — Payment Intents](https://docs.stripe.com/payments/paymentintents) — overview
 - [Stripe — Checkout](https://docs.stripe.com/payments/checkout) — overview
 
-## Core Definition
-Stripe provides APIs and client SDKs so merchants accept payments under Stripe’s acquiring relationships. Browser code (Stripe.js / Checkout) creates PaymentMethods; your server confirms PaymentIntents and treats signed webhooks as the source of truth for fulfillment.
-
 ## Key Concepts
 - **Checkout:** hosted payment page — smallest PCI scope for many shops.
 - **PaymentIntents:** server-created intent + client confirmation — supports SCA / 3-D Secure.
 - **Connect:** platforms and marketplaces with split payouts.
 - **Billing:** subscriptions and invoices.
 - **Webhooks:** async state (`payment_intent.succeeded`, disputes) — verify signatures.
+
+
+- **Core:** Stripe provides APIs and client SDKs so merchants accept payments under Strip…
 
 ## Technical Details
 ```
@@ -94,10 +100,12 @@ stripe trigger payment_intent.succeeded
 | Connect payout stuck | KYC / capabilities | Connect onboarding status |
 | Test keys in production | `sk_test` in environment | Separate secrets; scan CI |
 
-## Real-World Applications
-SaaS subscriptions, one-time e-commerce Checkout, and marketplaces paying out connected accounts.
-
-**Example:** EU card requires Strong Customer Authentication — PaymentIntent enters `requires_action`; the client completes 3DS, then `payment_intent.succeeded` fires.
+## Mistakes to Avoid
+- **Mistake:** Logging full PaymentMethod or card objects
+- **Mistake:** Parsing the webhook body as JSON before signature verification
+- **Mistake:** Treating amounts as major units (off-by-100 bugs)
+- **Mistake:** Fulfilling from the success URL without a verified webhook or re…
+- **Mistake:** Using Dashboard webhook secrets against Stripe CLI-forwarded eve…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Excellent docs, test clocks/cards, and PCI-reducing Checkout/Elements.
@@ -106,13 +114,12 @@ SaaS subscriptions, one-time e-commerce Checkout, and marketplaces paying out co
 
 ## Comparison
 - vs [[payment gateway]]: Stripe is a full [[PSP]] with gateway APIs built in.
-- vs [[Payment integration Strip]]: this note is the platform; that note is the Checkout-session client flow.
-- vs [[razorpay integration]]: Razorpay is stronger for India/UPI; Stripe for many global card markets.
+- vs [[Payment integration Strip]]: this note is the platform
+- vs [[razorpay integration]]: Razorpay is stronger for India/UPI
 - vs crypto-only stacks: different rails entirely.
 
-## Mistakes to Avoid
-- Logging full PaymentMethod or card objects.
-- Parsing the webhook body as JSON before signature verification.
-- Treating amounts as major units (off-by-100 bugs).
-- Fulfilling from the success URL without a verified webhook or retrieve.
-- Using Dashboard webhook secrets against Stripe CLI-forwarded events (or the reverse).
+
+### Use cases
+- SaaS subscriptions, one-time e-commerce Checkout, and marketplaces paying out…
+
+- **Example:** EU card requires Strong Customer Authentication

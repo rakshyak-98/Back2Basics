@@ -4,12 +4,18 @@
 
 > Generated binding class for an XML layout — type-safe getters for views so you avoid `findViewById` casts and null mistakes.
 
-
-
-
+```txt
+        Kotlin View Bindin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Android interviews contrast `findViewById`, ButterKnife-era binders, View Binding, and Jetpack Compose as the newer UI model.
+- **Interview probes:** Android interviews contrast `findViewById`, ButterKnife-era binders, View Bin…
 
 ## Sources
 - [Android — View binding](https://developer.android.com/topic/libraries/view-binding) — deep-dive
@@ -17,11 +23,11 @@ Android interviews contrast `findViewById`, ButterKnife-era binders, View Bindin
 ## Key Concepts
 - **Generated class:** `ActivityMainBinding` (from `activity_main.xml`).
 - **Type-safe access:** `binding.titleText.text = …`
-- **Lifecycle:** inflate in `onCreate` / `onCreateView`; clear references in fragment `onDestroyView`.
+- **Lifecycle:** inflate in `onCreate` / `onCreateView`
 - **Null safety:** binding replaces nullable `findViewById` results for required ids.
 
 ## Technical Details
-Enable in module `build.gradle`; inflate:
+- Enable in module `build.gradle`; inflate:
 
 ```kotlin
 private lateinit var binding: ActivityMainBinding
@@ -40,10 +46,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
 | View Binding | Compile-time views for that layout |
 | Compose | Declarative UI; no XML binding |
 
-## Real-World Applications
-Activities/Fragments still on XML migrate to View Binding quickly; new screens may go Compose.
-
-**Example:** Fragment leaks — null out `_binding` in `onDestroyView`.
+## Mistakes to Avoid
+- **Mistake:** Holding fragment binding after view destruction
+- **Mistake:** Mixing outdated kotlin-synthetic plugins with View Binding
+- **Mistake:** Assuming Compose and View Binding are interchangeable in one fil…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Safer and faster than `findViewById`.
@@ -53,7 +59,8 @@ Activities/Fragments still on XML migrate to View Binding quickly; new screens m
 - vs Data Binding: View Binding is lighter (no expression language).
 - vs Flutter widgets: Flutter rebuilds widget trees; Android XML binding points at mutable views.
 
-## Mistakes to Avoid
-- Holding fragment binding after view destruction.
-- Mixing outdated kotlin-synthetic plugins with View Binding.
-- Assuming Compose and View Binding are interchangeable in one file without interop wrappers.
+
+### Use cases
+- Activities/Fragments still on XML migrate to View Binding quickly
+
+- **Example:** Fragment leaks — null out `_binding` in `onDestroyView`.

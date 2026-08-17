@@ -4,19 +4,25 @@
 
 > Expire and replace secrets often so a leak has a short life — especially OAuth refresh tokens with reuse detection.
 
-
-
-
+```txt
+        Token rotation ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Session security: short-lived access tokens, refresh rotation, reuse detection, and signing-key rotation with overlap.
+- **Interview probes:** Session security: short-lived access tokens, refresh rotation, reuse detectio…
 
 ## Sources
 - [RFC 6819 — OAuth 2.0 Threat Model](https://www.rfc-editor.org/rfc/rfc6819) — deep-dive
 - [OAuth 2.0 Security BCP](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics) — overview
 
-## Core Definition
-Token rotation expires and replaces credentials (access, refresh, or API keys) so a leak has a short useful life and reuse can signal theft.
+## Key Concepts
+- **Core:** Token rotation expires and replaces credentials (access, refresh, or API keys…
 
 ## Technical Details
 ### JWT signing keys (asymmetric preferred)
@@ -31,8 +37,8 @@ Token rotation expires and replaces credentials (access, refresh, or API keys) s
 }
 ```
 
-- Issue with `kid` in header; verifiers accept both keys for **overlap period** (e.g. 7 days).
-- Stop signing with old `kid`; remove from JWKS after max access token TTL elapsed.
+- Issue with `kid` in header
+- Stop signing with old `kid`
 
 ### OAuth2 refresh rotation (server)
 
@@ -56,7 +62,7 @@ vault write -force auth/approle/role/myrole/secret-id
 
 ### Session cookies
 
-- Rolling session: extend expiry on activity; rotate session id on privilege change (login, password reset) to prevent fixation.
+- Rolling session: extend expiry on activity
 
 ### Failure signals
 
@@ -69,8 +75,11 @@ vault write -force auth/approle/role/myrole/secret-id
 | KMS decrypt fail after key delete | Data encrypted with deleted CMK | Restore key from deletion pending; re-encrypt data |
 | Mobile apps break on rotation | Hard-coded old public key | Pin to JWKS URL with update mechanism |
 
-## Real-World Applications
-OAuth refresh-token rotation with reuse detection limits the window after a stolen refresh token.
+## Mistakes to Avoid
+- **Rotating signing key without overlap::** → global 401
+- **Mistake:** Refresh token in localStorage
+- **Mistake:** Logging tokens
+- **Mistake:** Symmetric JWT secret in 12 microservices
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shrinks leak windows and can detect stolen refresh-token reuse.
@@ -81,8 +90,6 @@ OAuth refresh-token rotation with reuse detection limits the window after a stol
 - vs long-lived API keys: rotation shrinks leak windows and enables reuse detection.
 - vs [[JWT authentication]]: rotation applies to refresh/signing keys that mint JWTs.
 
-## Mistakes to Avoid
-- Rotating signing key without overlap — all in-flight access tokens die instantly → global 401.
-- Refresh token in localStorage — XSS steals long-lived credential; httpOnly cookie + rotation + short access token.
-- Logging tokens — rotation useless if every refresh logs bearer token at INFO.
-- Symmetric JWT secret in 12 microservices — rotation requires coordinated deploy; use asymmetric + JWKS.
+
+### Use cases
+- OAuth refresh-token rotation with reuse detection limits the window after a s…

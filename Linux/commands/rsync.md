@@ -4,19 +4,22 @@
 
 > Delta file sync over SSH or local — backups and deploys with `-a`, dry-run, and careful trailing slashes.
 
-
-
-
+```txt
+        rsync ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic operations question: trailing-slash semantics, `--delete` danger, and always dry-run (`-n`) before production mirrors.
+- **Interview probes:** Classic operations question: trailing-slash semantics, `--delete` danger, and…
 
 ## Sources
 - [rsync man page](https://download.samba.org/pub/rsync/rsync.1) — deep-dive
 - [Wikipedia — rsync](https://en.wikipedia.org/wiki/Rsync) — overview
-
-## Core Definition
-rsync compares file lists and transfers changed blocks (rolling checksum). Archive mode `-a` preserves permissions, times, symlinks, and recursion — the usual default for backups.
 
 ## Key Concepts
 - **Trailing slash:** `src/` copies contents into dest; `src` creates `dest/src/`.
@@ -24,6 +27,9 @@ rsync compares file lists and transfers changed blocks (rolling checksum). Archi
 - **`-n` dry run:** always first on production paths.
 - **`-a` archive:** `rlptgoD` metadata preservation.
 - **Receiver is last:** tattoo this before any `--delete` command.
+
+
+- **Core:** rsync compares file lists and transfers changed blocks (rolling checksum). Ar…
 
 ## Technical Details
 ```
@@ -66,10 +72,11 @@ rsync -avP src/ dest/
 | All files re-copied | Clock skew; ownership | `-c`; fix NTP; `--no-owner` if intentional |
 | SSH hangs | Firewall; wrong key | `ssh -v`; BatchMode |
 
-## Real-World Applications
-Nightly mirrors, artifact deploys over SSH, and checksum dry-runs before cutover ([[diff]] complement).
-
-**Example:** Quiesce or snapshot databases before rsyncing data directories — live DB files without a consistent snapshot risk corruption.
+## Mistakes to Avoid
+- **Mistake:** `--delete` with reversed paths — wipes the wrong side
+- **Mistake:** Cron mirrors without a prior `-n` review
+- **Mistake:** NFS + `-a` across UID domains without `--numeric-ids`
+- **Mistake:** `-z` on a saturated 10G LAN where CPU costs more than bandwidth
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Efficient deltas, rich metadata flags, works over SSH with one boring path.
@@ -79,8 +86,8 @@ Nightly mirrors, artifact deploys over SSH, and checksum dry-runs before cutover
 - vs `scp`: whole-file copy each time; rsync deltas and mirrors.
 - vs Syncthing/git: those handle conflict-aware sync; rsync is last-writer-wins push/pull.
 
-## Mistakes to Avoid
-- `--delete` with reversed paths — wipes the wrong side.
-- Cron mirrors without a prior `-n` review.
-- NFS + `-a` across UID domains without `--numeric-ids`.
-- `-z` on a saturated 10G LAN where CPU costs more than bandwidth.
+
+### Use cases
+- Nightly mirrors, artifact deploys over SSH, and checksum dry-runs before cuto…
+
+- **Example:** Quiesce or snapshot databases before rsyncing data directories

@@ -4,21 +4,24 @@
 
 > Online Analytical Processing — large scans and aggregations over historical data where throughput and columnar compression beat single-row latency.
 
-
-
-
+```txt
+        OLAP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast OLAP with [[OLTP]]: schema shape, storage (row vs column), and where to run heavy reports. Signal: you protect the primary with replicas or a warehouse and accept eventual consistency for analytics.
+- **Interview probes:** Interviewers contrast OLAP with [[OLTP]]: schema shape, storage (row vs colum…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 3 — deep-dive
 - [Wikipedia — Online analytical processing](https://en.wikipedia.org/wiki/Online_analytical_processing) — overview
 - [Google BigQuery docs — columnar storage concepts](https://cloud.google.com/bigquery/docs/storage_overview) — overview
 - Codd, E.F., OLAP-related papers / star schema practice — overview
-
-## Core Definition
-OLAP workloads answer aggregate questions over wide time ranges and dimensions. Engines optimize sequential I/O, compression, and CPU for GROUP BY — not millisecond point updates.
 
 ## Key Concepts
 - **Scan-heavy queries:** millions of rows, few columns, heavy aggregation.
@@ -27,8 +30,11 @@ OLAP workloads answer aggregate questions over wide time ranges and dimensions. 
 - **ETL / ELT:** copy from [[OLTP]] sources; lag and [[BASE]]-style freshness are acceptable.
 - **Isolation from primary:** ad-hoc SQL must not evict hot OLTP pages from the buffer pool.
 
+
+- **Core:** OLAP workloads answer aggregate questions over wide time ranges and dimension…
+
 ## Technical Details
-Typical query shape:
+- Typical query shape:
 
 ```sql
 SELECT region, SUM(revenue)
@@ -37,9 +43,9 @@ WHERE sold_date BETWEEN '2024-01-01' AND '2024-12-31'
 GROUP BY region;
 ```
 
-These patterns stress **sequential I/O** and **CPU for aggregation**, not index point lookups.
+- These patterns stress **sequential I/O** and **CPU for aggregation**, not ind…
 
-Architecture patterns:
+- Architecture patterns:
 
 | Pattern | Why |
 |---------|-----|
@@ -54,10 +60,13 @@ OLTP primary ──CDC/ETL──► warehouse / column store ──► BI / note
                  └── optional: reporting replica (monitor lag)
 ```
 
-*What breaks first if OLAP and OLTP share one MySQL primary?* Buffer pool eviction of hot OLTP pages and replication lag on replicas used for reporting.
+- *What breaks first if OLAP and OLTP share one MySQL primary?* Buffer pool evi…
 
-## Real-World Applications
-Nightly load of orders into a star schema for finance dashboards; analysts query BigQuery/Snowflake/ClickHouse while checkout stays on PostgreSQL/MySQL. Read replicas with lag SLOs for lighter internal reports.
+## Mistakes to Avoid
+- **Mistake:** Running ad-hoc year-long `GROUP BY` on the OLTP primary at peak …
+- **Mistake:** Treating warehouse tables as authoritative for inventory deducti…
+- **Mistake:** Ignoring replica lag when “live” dashboards read from a replica
+- **Mistake:** Over-normalizing a warehouse until every report becomes a ten-wa…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cheap large aggregates; schema tuned for questions, not write paths.
@@ -65,10 +74,8 @@ Nightly load of orders into a star schema for finance dashboards; analysts query
 - **Trade-off:** Freshness (near-real-time CDC) vs batch cost and simplicity.
 
 ## Comparison
-vs [[OLTP]]: few rows / high concurrency / normalized vs many rows / scan throughput / denormalized. vs [[Data access patterns]]: OLAP is the analytics end of the access spectrum. vs [[Vector database]]: similarity search is another specialized store — not a substitute for dimensional analytics.
+- vs [[OLTP]]: few rows / high concurrency / normalized vs many rows / scan thr…
 
-## Mistakes to Avoid
-- Running ad-hoc year-long `GROUP BY` on the OLTP primary at peak traffic.
-- Treating warehouse tables as authoritative for inventory deduction.
-- Ignoring replica lag when “live” dashboards read from a replica.
-- Over-normalizing a warehouse until every report becomes a ten-way join tax.
+
+### Use cases
+- Nightly load of orders into a star schema for finance dashboards

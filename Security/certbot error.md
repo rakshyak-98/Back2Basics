@@ -4,20 +4,26 @@
 
 > Certbot/ACME failures cluster into DNS, HTTP reachability, policy/rate limits, and local web-server misconfiguration.
 
-
-
-
+```txt
+        Certbot error ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops interviews triage Let's Encrypt failures — DNS, HTTP-01 reachability, rate limits, and reading ACME problem documents.
+- **Interview probes:** Ops interviews triage Let's Encrypt failures
 
 ## Sources
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — overview
 - [Let's Encrypt — Challenge Types](https://letsencrypt.org/docs/challenge-types/) — deep-dive
 - [RFC 8555 — ACME](https://www.rfc-editor.org/rfc/rfc8555) — deep-dive
 
-## Core Definition
-Certbot errors are usually ACME challenge, DNS, rate-limit, or local web-server configuration failures while proving domain control.
+## Key Concepts
+- **Core:** Certbot errors are usually ACME challenge, DNS, rate-limit, or local web-serv…
 
 ## Technical Details
 ```shell
@@ -83,15 +89,19 @@ The ACME server refuses to issue for this domain name, because it is forbidden b
 (and 1 more problems. Refer to sub-problems for more information.)
 ```
 
-**Cause:** At least one `-d` name violates CA policy (fake TLD, internal-only name submitted to public CA, or blocklisted pattern).
+- **Cause:** At least one `-d` name violates CA policy (fake TLD, internal-only…
 
-**Fix:**
 1. `grep -i subproblem /var/log/letsencrypt/letsencrypt.log` — identify each failing SAN.
 2. Remove non-public names from the cert request; use internal CA for `.local` / `.internal`.
 3. Re-run with only valid FQDNs: `certbot certonly --webroot ... -d valid.example.com`.
 
-## Real-World Applications
-On-call renewals fail from DNS drift, blocked HTTP-01, or rate limits — triage the ACME problem detail then re-run dry-run renew.
+## Mistakes to Avoid
+- **Mistake:** `certbot certonly` doesn't install into nginx
+- **Mistake:** Staging vs production:
+- **Mistake:** **Wildcard requires DNS-01**
+- **Mistake:** **Cloudflare orange-cloud proxy** is fine for http-01 if origin …
+- **Mistake:** **Multiple servers** sharing one name need shared webroot or DNS…
+- **Mistake:** **Short cert lifetime (90d)**
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Structured ACME problem details speed up renew triage.
@@ -102,10 +112,6 @@ On-call renewals fail from DNS drift, blocked HTTP-01, or rate limits — triage
 - vs [[certbot (letsencrypt)]]: happy-path install/renew vs failure triage.
 - vs [[ACME server]]: client errors often mirror ACME problem documents from the CA.
 
-## Mistakes to Avoid
-- `certbot certonly` doesn't install into nginx — you must point `ssl_certificate` at `/etc/letsencrypt/live/...` and reload.
-- Staging vs production: — Hit `https://acme-staging-v02.api.letsencrypt.org/directory` for tests — avoids rate limits while iterating.
-- **Wildcard requires DNS-01** — HTTP-01 cannot prove `*.example.com`.
-- **Cloudflare orange-cloud proxy** is fine for http-01 if origin serves challenge; DNS-01 easier for wildcards.
-- **Multiple servers** sharing one name need shared webroot or DNS-01 — standalone mode only works on one host.
-- **Short cert lifetime (90d)** — monitor expiry externally (uptime check), not only `certbot.timer` locally.
+
+### Use cases
+- On-call renewals fail from DNS drift, blocked HTTP-01, or rate limits

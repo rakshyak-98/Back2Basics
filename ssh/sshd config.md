@@ -4,12 +4,18 @@
 
 > `sshd_config` is the server SSH policy file — who can log in, how they authenticate, and which session features are allowed.
 
-
-
-
+```txt
+        sshd config ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block ordering, and how to avoid locking yourself out.
+- **Interview probes:** Interviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block order…
 
 ## Sources
 - [OpenSSH — sshd_config](https://man.openbsd.org/sshd_config) — deep-dive
@@ -17,7 +23,7 @@ Interviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block ordering
 
 ## Key Concepts
 - **Server vs client config:** `sshd_config` ≠ `~/.ssh/config`.
-- **Layers:** network (`Port`/`ListenAddress`), auth, session features, then `Match` overrides.
+- **Layers:** network (`Port`/`ListenAddress`), auth, session features, then `Match` overri…
 - **Effective config:** `sshd -T` shows what actually applies after drop-ins.
 - **Reload carefully:** validate with `sshd -t`; keep a second session open.
 
@@ -57,7 +63,7 @@ AllowUsers deploy admin
 | `UseDNS no` | Avoid slow/broken PTR delays |
 | `ClientAliveInterval` | Drop dead NAT sessions |
 
-Port/Listen changes on socket-activated installs need `daemon-reload` + restart `ssh.socket`.
+- Port/Listen changes on socket-activated installs need `daemon-reload` + resta…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,10 +73,11 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 | Slow login | DNS / GSSAPI | `UseDNS no`; disable unused GSSAPI |
 | Wrong port | `ss -tlnp \| grep ssh` | Match socket unit + config |
 
-## Real-World Applications
-Hardening internet-facing bastions, restricting deploy users, and fixing slow logins caused by reverse DNS.
-
-**Example:** Drop `PasswordAuthentication no` into `sshd_config.d`, run `sshd -t`, reload, and confirm with a second key-based session still open.
+## Mistakes to Avoid
+- **Mistake:** Changing auth on the only live session
+- **Mistake:** Putting directives after a `Match` block without realizing they …
+- **Mistake:** Root login with password
+- **Mistake:** Password authentication on internet hosts when keys work
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Central policy with drop-ins and `Match` for per-network rules.
@@ -79,10 +86,10 @@ Hardening internet-facing bastions, restricting deploy users, and fixing slow lo
 
 ## Comparison
 - vs client `~/.ssh/config`: client chooses identity/jump; server enforces policy.
-- vs cloud security groups: SGs filter packets; `sshd_config` filters authentication and session features.
+- vs cloud security groups: SGs filter packets
 
-## Mistakes to Avoid
-- Changing auth on the only live session.
-- Putting directives after a `Match` block without realizing they are scoped.
-- Root login with password; `GatewayPorts yes` without understanding exposure.
-- Password authentication on internet hosts when keys work.
+
+### Use cases
+- Hardening internet-facing bastions, restricting deploy users, and fixing slow…
+
+- **Example:** Drop `PasswordAuthentication no` into `sshd_config.d`, run `sshd…

@@ -4,27 +4,22 @@
 
 > Vertical scaling makes one machine bigger; horizontal scaling adds machines — relational databases usually scale up and out for reads first, because cross-node atomic transactions are expensive.
 
-
-
-
+```txt
+        Horizontal vs Vert ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Walk the typical OLTP scale path (vertical → tune → replicas → cache → shard) and explain why read replicas do not fix a write-saturated primary.
+- **Interview probes:** Walk the typical OLTP scale path (vertical → tune → replicas → cache → shard)…
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and replication — deep-dive
 - Amazon Dynamo paper (DeCandia et al., SOSP 2007) — overview
 - Google Spanner paper (Corbett et al., OSDI 2012) — deep-dive
-
-## Recall Cues
-- Walk the typical OLTP scale path (vertical → tune → replicas → cache → shard) and explain why read replicas do not fix a write-saturated primary?
-- What is step 1: Vertical — bigger primary?
-- What is step 3: Read replicas for read-heavy workloads?
-- What is step 4: Cache hot keys ([[cache system]])?
-- What is step 5: Shard when single primary write QPS or disk is the limit?
-- What mistake is **Sharding on day one without evidence**?
-- What mistake is **Expecting replicas to absorb write load**?
-- What mistake is **Ignoring shard-key locality for multi-row transactions**?
 
 ## Technical Details
 ```txt
@@ -47,7 +42,7 @@ Horizontal: more database nodes (replicas, shards, distributed SQL)
 5. Shard when single primary write QPS or disk is the limit
 ```
 
-[[BASE]] NoSQL is partition-first; Spanner/CockroachDB/Yugabyte target distributed SQL.
+- [[BASE]] NoSQL is partition-first
 
 | Question | If yes → |
 |----------|----------|
@@ -57,18 +52,19 @@ Horizontal: more database nodes (replicas, shards, distributed SQL)
 | Under ~100 GB, moderate QPS? | Vertical + replicas may suffice |
 
 ## Mistakes to Avoid
-- Sharding on day one without evidence.
-- Expecting replicas to absorb write load.
-- Ignoring shard-key locality for multi-row transactions.
-
-## Comparison
-- vs [[database sharding]]: sharding is one horizontal write strategy.
-- vs [[scaling data migration]]: migration pain often appears when you finally shard.
-
-## Real-World Applications
-Growing SaaS Postgres/MySQL fleets and deciding when Vitess/Citus/Dynamo-style partitions are worth the ops cost.
+- **Mistake:** Sharding on day one without evidence
+- **Mistake:** Expecting replicas to absorb write load
+- **Mistake:** Ignoring shard-key locality for multi-row transactions
 
 ## Pros/Cons or Trade-offs
 - **Vertical pro:** simple semantics; **con:** ceiling and blast radius.
 - **Horizontal pro:** capacity and failover; **con:** coordination and ops.
 - **Trade-off:** shard early vs exhaust cheaper levers first.
+
+## Comparison
+- vs [[database sharding]]: sharding is one horizontal write strategy.
+- vs [[scaling data migration]]: migration pain often appears when you finally shard.
+
+
+### Use cases
+- Growing SaaS Postgres/MySQL fleets and deciding when Vitess/Citus/Dynamo-styl…

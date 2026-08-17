@@ -2,14 +2,20 @@
 
 # BIND
 
-> BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive roles).
+> BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive r…
 
-
-
-
+```txt
+        BIND ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzone`/`rndc`, and why public authoritative hosts should not offer open recursion.
+- **Interview probes:** Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzo…
 
 ## Sources
 - [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/) — deep-dive
@@ -28,7 +34,7 @@ Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzone`
 | **Recursive** | Resolver for clients (lock down `allow-recursion`) |
 | **Secondary** | AXFR/IXFR slave from primary |
 
-ISC BIND 9 is current; BIND 8 is obsolete.
+- ISC BIND 9 is current; BIND 8 is obsolete.
 
 ```bind
 ; /etc/bind/db.example.com
@@ -59,14 +65,14 @@ dnssec-keygen -a ECDSAP256SHA256 example.com
 dnssec-signzone -o example.com db.example.com
 ```
 
-Publish DS record at registrar after signing.
+- Publish DS record at registrar after signing.
 
-**Security:** RPZ for bad domains; response rate limiting against reflection; views for internal/external split ([[DNS zone]] split horizon).
+- **Security:** RPZ for bad domains
 
-## Real-World Applications
-ISP and enterprise authoritative hosting; secondary for registrar or multi-provider NS sets.
-
-**Example:** Edit zone file → bump SOA serial → `named-checkzone` → `rndc reload` → secondaries pull IXFR after NOTIFY.
+## Mistakes to Avoid
+- **Mistake:** Forgetting SOA serial increments — secondaries stall on old data
+- **Mistake:** Combining public authoritative service with world-open recursion
+- **Mistake:** Skipping `named-checkzone` / `named-checkconf` before reload
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Battle-tested authoritative feature set (DNSSEC, views, catalog zones, RPZ).
@@ -75,9 +81,10 @@ ISP and enterprise authoritative hosting; secondary for registrar or multi-provi
 
 ## Comparison
 - vs [[Unbound]]: BIND for authoritative Internet zones; Unbound for validating recursion.
-- vs [[CoreDNS]]: CoreDNS fits Kubernetes service discovery plugins, not classic public zone masters.
+- vs [[CoreDNS]]: CoreDNS fits Kubernetes service discovery plugins, not classic public zone master…
 
-## Mistakes to Avoid
-- Forgetting SOA serial increments — secondaries stall on old data.
-- Combining public authoritative service with world-open recursion.
-- Skipping `named-checkzone` / `named-checkconf` before reload.
+
+### Use cases
+- ISP and enterprise authoritative hosting
+
+- **Example:** Edit zone file → bump SOA serial → `named-checkzone` → `rndc rel…

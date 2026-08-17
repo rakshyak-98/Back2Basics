@@ -4,12 +4,18 @@
 
 > MySQL native `JSON` type with binary storage and `JSON` functions—validate on write, query with paths, index via generated columns.
 
-
-
-
+```txt
+        mysql json ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-JSON-in-MySQL questions test path operators (`->>`), generated-column indexes, and the rule: relational columns for hot filters, JSON for evolving attributes.
+- **Interview probes:** JSON-in-MySQL questions test path operators (`->>`), generated-column indexes…
 
 ## Sources
 - [MySQL Reference Manual — JSON Data Type](https://dev.mysql.com/doc/refman/en/json.html) — deep-dive
@@ -18,7 +24,7 @@ JSON-in-MySQL questions test path operators (`->>`), generated-column indexes, a
 ## Key Concepts
 - **Validated JSON type:** binary storage, not opaque TEXT.
 - **Path extraction:** `->` / `->>` and `JSON_EXTRACT`.
-- **Indexing:** generated columns (STORED/VIRTUAL) + secondary indexes — not raw JSON blobs as B-trees.
+- **Indexing:** generated columns (STORED/VIRTUAL) + secondary indexes
 - **Modeling rule:** hot filters as real columns; JSON for flexible attributes.
 
 ## Technical Details
@@ -27,27 +33,26 @@ INSERT INTO events (payload) VALUES ('{"type":"click","id":1}');
 SELECT payload->>'$.type' AS event_type FROM events WHERE id = 1;
 ```
 
-Indexing:
-
 ```sql
 ALTER TABLE events ADD event_type VARCHAR(50)
   AS (JSON_UNQUOTE(JSON_EXTRACT(payload, '$.type'))) STORED,
   ADD INDEX idx_event_type (event_type);
 ```
 
-Prefer relational columns for hot filters; JSON for evolving attributes.
+- Prefer relational columns for hot filters; JSON for evolving attributes.
 
-## Real-World Applications
-Event payloads and sparsely populated product attributes. Example: store analytics properties in JSON but index `event_type` via a generated column for dashboard filters.
+## Mistakes to Avoid
+- **Mistake:** Filtering on JSON paths in hot queries without generated-column …
+- **Mistake:** Putting core relational keys only inside JSON
+- **Mistake:** Storing invalid-as-TEXT “JSON” instead of the native JSON type
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Schema flexibility without constant migrations for leaf attributes.
 - **Con:** Easy to create unindexable query patterns; JSON-everywhere loses relational clarity and constraints.
 
 ## Comparison
-vs [[mysql columns]] typed fields: typed columns win for invariants and simple indexes. vs PostgreSQL `jsonb` + [[GIN]]: similar problem, different operators and index types.
+- vs [[mysql columns]] typed fields: typed columns win for invariants and simpl…
 
-## Mistakes to Avoid
-- Filtering on JSON paths in hot queries without generated-column indexes.
-- Putting core relational keys only inside JSON.
-- Storing invalid-as-TEXT “JSON” instead of the native JSON type.
+
+### Use cases
+- Event payloads and sparsely populated product attributes

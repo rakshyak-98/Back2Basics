@@ -4,12 +4,18 @@
 
 > Built-in CLI debugger — `node inspect script.js`; step with `n`/`s`/`c`, inspect with `repl`.
 
-
-
-
+```txt
+        node inspect ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **node inspect** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **next / step / out**, **backtrace (`bt`)**, **repl**.
+- **Interview probes:** Interviewers use **node inspect** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Debugging](https://nodejs.org/en/learn/getting-started/debugging) — deep-dive
@@ -42,20 +48,21 @@ debugger // pause when inspector attached
 | `watch('expr')` | Auto-print on stop |
 | `break <line>` | Set breakpoint |
 
-## Real-World Applications
-In production APIs and tooling, **node inspect** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Different from `--inspect`** — `node inspect` is the legacy CLI; CDP is `--inspect` + DevTools/VS Code; **Never pauses:** check No `debugger;` / break; fix: Add statement or `b <line>`.
+## Mistakes to Avoid
+- **Mistake:** **Different from `--inspect`**
+- **Mistake:** **Never pauses:** check No `debugger;` / break
+- **Mistake:** **Can’t see vars:** check Not in `repl`
+- **Mistake:** **Wrong file:** check Sourcemaps / cwd; fix: Run entry you expect
+- **Mistake:** **Prefer GUI:** check CLI friction
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Built-in CLI debugger — `node inspect script.js`; step with `n`/`s`/`c`, inspect…).
-- **Con / when not:** **Day-to-day IDE debug** — VS Code [[node debugger]] is faster.
+- **Con / when not:** **Day-to-day IDE debug**
 - **Con / when not:** **production** — don’t leave `debugger;` in shipped code.
 
 ## Comparison
-vs [[node debugger]]: know when each applies — do not treat them as interchangeable. vs [[REPL]]: know when each applies — do not treat them as interchangeable. vs [[node command]]: know when each applies — do not treat them as interchangeable.
+- vs [[node debugger]]: know when each applies
 
-## Mistakes to Avoid
-- **Different from `--inspect`** — `node inspect` is the legacy CLI; CDP is `--inspect` + DevTools/VS Code.
-- **Never pauses:** check No `debugger;` / break; fix: Add statement or `b <line>`
-- **Can’t see vars:** check Not in `repl`; fix: Enter `repl`; exit with Ctrl+C
-- **Wrong file:** check Sourcemaps / cwd; fix: Run entry you expect
-- **Prefer GUI:** check CLI friction; fix: [[node debugger]] / DevTools
+
+### Use cases
+- In production APIs and tooling, **node inspect** shows up whenever teams ship…

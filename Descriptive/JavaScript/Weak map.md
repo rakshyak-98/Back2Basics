@@ -4,19 +4,24 @@
 
 > `WeakMap` keys are objects held weakly — if nothing else references the key, the entry can be GC’d.
 
-
-
-
+```txt
+        Weak map ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-WeakMap questions check ephemeral metadata without preventing GC — versus Map leaks.
+- **Interview probes:** WeakMap questions check ephemeral metadata without preventing GC
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
 ```txt
-WeakMap: object key → value   (key not kept alive by the map)
+- **Note:** WeakMap: object key → value (key not kept alive by the map)
 ```
 
 ### Interview map (words you can say)
@@ -41,10 +46,6 @@ meta.get(el).clicks++
 | WeakSet | Presence without values |
 | FinalizationRegistry | Optional cleanup hooks |
 
-## Pros/Cons or Trade-offs
-- **Need key listing / size** — Map.
-- **Primitive keys** — Map or object.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Values can keep keys alive** — if `value` points at `key`, GC won’t help.
@@ -58,3 +59,7 @@ meta.get(el).clicks++
 | Need to iterate | wrong structure | Use Map |
 | Entry “missing” | key GC’d | Expected if no other refs |
 | Leak still | value references key | Break cycle |
+
+## Pros/Cons or Trade-offs
+- **Need key listing / size** — Map.
+- **Primitive keys** — Map or object.

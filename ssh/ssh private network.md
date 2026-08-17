@@ -4,12 +4,18 @@
 
 > Reach SSH on private (RFC1918) hosts via VPN or a jump host — and firewall port 22 so only trusted private source ranges can connect.
 
-
-
-
+```txt
+        ssh private networ ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check that you know private IPs are not internet-routable, and that bastion/`ProxyJump` plus tight `ufw`/SG rules are the usual pattern.
+- **Interview probes:** Interviewers check that you know private IPs are not internet-routable, and t…
 
 ## Sources
 - [RFC 1918 — Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918) — overview
@@ -17,7 +23,7 @@ Interviewers check that you know private IPs are not internet-routable, and that
 - [UFW community docs](https://help.ubuntu.com/community/UFW) — overview
 
 ## Key Concepts
-- **Non-routable addresses:** `10/8`, `172.16/12`, `192.168/8` need VPN or jump — not public routes ([[non-Routable address]]).
+- **Non-routable addresses:** `10/8`, `172.16/12`, `192.168/8` need VPN or jump
 - **Least exposure:** delete wide-open `allow 22` rules; allow from private CIDR only.
 - **ProxyJump:** one public bastion; inner hosts stay private.
 - **Source IP reality:** NAT egress can break `from=` / firewall expectations.
@@ -28,7 +34,7 @@ ip addr show | grep inet
 ip route
 ```
 
-Remove wide-open SSH rules, then allow from the private network:
+- Remove wide-open SSH rules, then allow from the private network:
 
 ```bash
 sudo ufw delete allow 22
@@ -56,10 +62,11 @@ ssh -J bastion.internal user@10.0.5.20
 | Wrong source IP seen on inner host | Jump not used | Use `ProxyJump` or `-J` |
 | MTU black hole | VPN plus small MTU | Lower interface MTU on client |
 
-## Real-World Applications
-VPC admin access, lab networks locked to `192.168.1.0/24`, and zero-public-SSH fleets behind a bastion.
-
-**Example:** Laptop VPN gets `10.0.0.0/8` routes; `ufw` allows SSH only from that range; operators never open 22 to `0.0.0.0/0`.
+## Mistakes to Avoid
+- **Mistake:** Exposing RFC1918 addresses to the internet with port forwarding
+- **Mistake:** `ufw allow ... proto http` typos when you meant `tcp`
+- **Mistake:** Assuming the bastion’s client IP is what the inner host sees wit…
+- **Mistake:** Deleting all SSH rules before confirming alternate access
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shrinks attack surface versus public SSH.
@@ -68,10 +75,10 @@ VPC admin access, lab networks locked to `192.168.1.0/24`, and zero-public-SSH f
 
 ## Comparison
 - vs public SSH + keys only: private network + jump is defense in depth; keys alone are not enough.
-- vs [[SOCKS (Socket Secure)]] `-D`: SOCKS tunnels app traffic; ProxyJump is for SSH itself (can combine).
+- vs [[SOCKS (Socket Secure)]] `-D`: SOCKS tunnels app traffic
 
-## Mistakes to Avoid
-- Exposing RFC1918 addresses to the internet with port forwarding.
-- `ufw allow ... proto http` typos when you meant `tcp`.
-- Assuming the bastion’s client IP is what the inner host sees without understanding jump behavior.
-- Deleting all SSH rules before confirming alternate access.
+
+### Use cases
+- VPC admin access, lab networks locked to `192.168.1.0/24`, and zero-public-SS…
+
+- **Example:** Laptop VPN gets `10.0.0.0/8` routes

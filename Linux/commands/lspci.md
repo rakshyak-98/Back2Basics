@@ -4,19 +4,22 @@
 
 > lspci lists PCI devices the kernel sees — vendor/device IDs, topology, and which kernel driver is bound.
 
-
-
-
+```txt
+        lspci ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device present” from “driver working,” and when to use lsusb/dmidecode instead.
+- **Interview probes:** Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device presen…
 
 ## Sources
 - [lspci(8)](https://man7.org/linux/man-pages/man8/lspci.8.html) — deep-dive
 - [pci.ids](https://pci-ids.ucw.cz/) — overview
-
-## Core Definition
-The kernel discovers PCI devices at boot under `/sys/bus/pci/devices/`. `lspci` reads that tree and resolves names via **pci.ids**. It shows presence and binding hints — not firmware health or application readiness.
 
 ## Key Concepts
 - **`-k`:** Kernel driver in use / modules.
@@ -24,6 +27,9 @@ The kernel discovers PCI devices at boot under `/sys/bus/pci/devices/`. `lspci` 
 - **`-t`:** Bus/bridge tree.
 - **vendor:device IDs:** Match quirks, firmware, DKMS packages.
 - **Not USB:** Peripherals on USB need `lsusb`.
+
+
+- **Core:** The kernel discovers PCI devices at boot under `/sys/bus/pci/devices/`. `lspc…
 
 ## Technical Details
 ```bash
@@ -49,8 +55,10 @@ dmesg | grep -i '03:00.0'
 | Device, no driver | `lspci -k` empty driver | Install modules; modprobe |
 | Wrong link speed | `lspci -vv` LnkSta | Slot/cable/BIOS Gen |
 
-## Real-World Applications
-Confirming a GPU is visible before installing drivers, finding which module owns a NIC, and verifying PCI passthrough into a VM.
+## Mistakes to Avoid
+- **Mistake:** Assuming “in lspci” means “working.”
+- **Mistake:** Using lspci inside unprivileged containers and trusting the view
+- **Mistake:** Confusing USB gadgets with PCI devices
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast inventory of PCI topology and drivers.
@@ -58,9 +66,8 @@ Confirming a GPU is visible before installing drivers, finding which module owns
 - **Trade-off:** Numeric `-n` when pci.ids is stale vs human names when updated.
 
 ## Comparison
-vs [[dmidecode]]: DMI/SMB BIOS inventory (CPU/RAM/serial). vs `lsusb`: USB tree. vs [[ip]]/[[ss]]: network config/sockets after the NIC is found. vs [[nvidia-smi]]: driver/runtime status after GPU is bound.
+- vs [[dmidecode]]: DMI/SMB BIOS inventory (CPU/RAM/serial)
 
-## Mistakes to Avoid
-- Assuming “in lspci” means “working.”
-- Using lspci inside unprivileged containers and trusting the view.
-- Confusing USB gadgets with PCI devices.
+
+### Use cases
+- Confirming a GPU is visible before installing drivers, finding which module o…

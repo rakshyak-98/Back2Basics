@@ -4,12 +4,18 @@
 
 > Concurrent modification — two writers read-modify-write the same record; last write wins unless you version or lock.
 
-
-
-
+```txt
+        Concurrent modific ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Optimistic concurrency (`version`/`If-Match`), lost updates, and when to serialize vs CRDT/append-only.
+- **Interview probes:** Optimistic concurrency (`version`/`If-Match`), lost updates, and when to seri…
 
 ## Sources
 - [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview
@@ -45,8 +51,10 @@ If-Match: "etag-88"
 | Skipped workflow state | Check-then-act | One conditional transition |
 | Blind PUT JSON | Whole replace | PATCH + ETag |
 
-## Real-World Applications
-Ticket systems, document editors, and inventory reservations.
+## Mistakes to Avoid
+- **`read::** → app logic → write` with no version
+- **Mistake:** Long-held DB locks
+- **Mistake:** Weak ETags on the wrong representation
 
 ## Pros/Cons or Trade-offs
 - **Optimistic:** high throughput; retries under contention.
@@ -57,7 +65,6 @@ Ticket systems, document editors, and inventory reservations.
 - vs [[race condition]]: race is the general hazard; this is the RMW data pattern.
 - vs [[Eventual consistency]]: eventual replicas need merge policies for concurrent writes.
 
-## Mistakes to Avoid
-- `read → app logic → write` with no version.
-- Long-held DB locks.
-- Weak ETags on the wrong representation.
+
+### Use cases
+- Ticket systems, document editors, and inventory reservations.

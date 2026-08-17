@@ -4,26 +4,35 @@
 
 > Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PATH to local node_modules/.bin and injects npm lifecycle env. npx runs package
 
-
-
-
+```txt
+        Node.js CLI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Node.js CLI** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Node.js CLI** to see if you understand what it does oper…
 
 ## Sources
 - [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive
 - [npm — run-script](https://docs.npmjs.com/cli/v10/commands/npm-run-script) — overview
 - [Wikipedia — CLI](https://en.wikipedia.org/wiki/CLI) — overview
 
-## Core Definition
-The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
-
 ## Key Concepts
-- The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package bina…
+- **The:** `node`:** The **`node` binary** executes JavaScript (file or `-e`)
+
+
+- **Core:** The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets …
 
 ## Technical Details
-The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+- The **`node` binary** executes JavaScript (file or `-e`).
+- **`npm run`:** sets PATH to local `node_modules/.bin` and injects npm lifecycl…
+- **`npx`:** runs package binaries without global install.
+- Production services rarely use CLI ad hoc
 
 ```
 Developer shell          CI / systemd
@@ -100,24 +109,25 @@ node --trace-warnings server.js
 ```bash
 ```
 
-## Real-World Applications
-In production APIs and tooling, **CLI** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`sudo node` uses root's PATH** — not your nvm Node; use `sudo -u` with login shell; **Remote inspect on 0.0.0.0** — exposes debugger; never in prod without tunnel/VPN.
+## Mistakes to Avoid
+- **Mistake:** **`sudo node` uses root's PATH**
+- **Mistake:** **Remote inspect on 0.0.0.0**
+- **Mistake:** **`npm run` hides failures**
+- **Mistake:** **`command not found: node`:** check PATH
+- **Mistake:** **Wrong Node version:** check `node -v` vs engines
+- **Mistake:** **Module not found ESM/CJS:** check `"type":"module"` in package…
+- **Mistake:** **Env vars undefined:** check Not loaded before import
+- **Mistake:** **Permission errors:** check Running as root vs appuser
+- **Mistake:** **Works in npm script, not direct:** check Relative cwd
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PAT…).
-- **Con / when not:** **Production scaling** — process manager (systemd, K8s) not manual CLI.
-- **Con / when not:** **Heavy REPL exploration** — use `node` REPL or [[REPL]] note for interactive debugging.
+- **Con / when not:** **Production scaling**
+- **Con / when not:** **Heavy REPL exploration**
 
 ## Comparison
-vs [[node command]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
+- vs [[node command]]: know when each applies
 
-## Mistakes to Avoid
-- **`sudo node` uses root's PATH** — not your nvm Node; use `sudo -u` with login shell.
-- **Remote inspect on 0.0.0.0** — exposes debugger; never in prod without tunnel/VPN.
-- **`npm run` hides failures** — scripts may swallow exit codes; use `set -e` in shell wrappers.
-- **`command not found: node`:** check PATH; nvm not loaded; fix: Absolute path; source nvm in shell profile
-- **Wrong Node version:** check `node -v` vs engines; fix: `nvm use`; align Docker/CI
-- **Module not found ESM/CJS:** check `"type":"module"` in package.json; fix: Use `.mjs` or `"type":"module"` consistently
-- **Env vars undefined:** check Not loaded before import; fix: `--import dotenv/config` or systemd EnvironmentFile
-- **Permission errors:** check Running as root vs appuser; fix: [[Node.js run as a non-privileged user]]
-- **Works in npm script, not direct:** check Relative cwd; fix: `cd` to project root; check `process.cwd()`
+
+### Use cases
+- In production APIs and tooling, **CLI** shows up whenever teams ship Node/JS …

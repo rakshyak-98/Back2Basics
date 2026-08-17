@@ -4,12 +4,18 @@
 
 > MIME type labels what bytes are — browser/OS picks how to open, render, or download them.
 
-
-
-
+```txt
+        mime type ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about MIME/`Content-Type` to see if you know it is a **claim about format**, not proof of safety — wrong types cause download-vs-render bugs, XSS, and API client failures.
+- **Interview probes:** Interviewers ask about MIME/`Content-Type` to see if you know it is a **claim…
 
 ## Sources
 - [RFC 2045 — MIME Part One](https://www.rfc-editor.org/rfc/rfc2045) — deep-dive
@@ -17,15 +23,15 @@ Interviewers ask about MIME/`Content-Type` to see if you know it is a **claim ab
 - [IANA Media Types Registry](https://www.iana.org/assignments/media-types/media-types.xhtml) — overview
 - [MDN — MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types) — overview
 
-## Core Definition
-A media type (historically MIME type) is a `type/subtype` label, optionally with parameters such as `charset`, carried in HTTP as `Content-Type` so clients choose the right parser or handler.
-
 ## Key Concepts
 - **MIME / media type:** `type/subtype` label → declares content format for the client.
 - **Content-Type:** HTTP header carrying the media type → server’s claim about the body.
 - **charset:** text encoding parameter → `text/html; charset=utf-8` avoids mojibake.
 - **octet-stream:** opaque binary → unknown bytes; often forces download.
 - **xdg-mime:** desktop default app for a type → Linux maps MIME → `.desktop` handler.
+
+
+- **Core:** A media type (historically MIME type) is a `type/subtype` label, optionally w…
 
 ## Technical Details
 ```txt
@@ -76,10 +82,11 @@ Content-Disposition: attachment; filename="report.pdf"
 | PDF inline vs download | Disposition + type | `inline` vs `attachment`; keep `application/pdf` |
 | Upload rejected | Server MIME allowlist | Whitelist real types; don’t trust client-only |
 
-## Real-World Applications
-APIs, browsers, CDNs, and desktop file managers all branch on media types.
-
-**Example:** An API returns JSON with `Content-Type: application/octet-stream` — the browser downloads a file instead of parsing; fix the response header to `application/json`.
+## Mistakes to Avoid
+- **Mistake:** Treating extension as MIME
+- **Mistake:** Relying on sniffing
+- **Mistake:** Using MIME alone for authentication or trust
+- **Mistake:** Serving user uploads as `text/html`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One shared vocabulary for format across HTTP, email, and OS handlers.
@@ -87,11 +94,11 @@ APIs, browsers, CDNs, and desktop file managers all branch on media types.
 - **Con:** Desktop MIME databases and HTTP headers are separate systems that can disagree.
 
 ## Comparison
-- vs [[Registered Media Types (RMT)]]: RMT is the IANA registry and registration trees; this note is the day-to-day `Content-Type` / handler behavior.
+- vs [[Registered Media Types (RMT)]]: RMT is the IANA registry and registration trees
 - vs file extension: extension is a hint on disk; HTTP clients should prefer the declared header.
 
-## Mistakes to Avoid
-- Treating extension as MIME — renaming `.txt` to `.html` does not make it HTML; servers must set `Content-Type`.
-- Relying on sniffing — browsers that ignore the declared type can turn “text” into executable HTML; prefer `X-Content-Type-Options: nosniff`.
-- Using MIME alone for authentication or trust — validate content; MIME is a claim.
-- Serving user uploads as `text/html` — XSS; store and serve with safe types plus disposition.
+
+### Use cases
+- APIs, browsers, CDNs, and desktop file managers all branch on media types.
+
+- **Example:** An API returns JSON with `Content-Type: application/octet-stream`

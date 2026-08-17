@@ -4,12 +4,18 @@
 
 > SOLID names five object-oriented design habits that keep modules focused, substitutable, and open to extension without turning every change into a shotgun edit.
 
-
-
-
+```txt
+        SOLID ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Define each SOLID letter with a one-line example and a violation smell.
+- **Interview probes:** Define each SOLID letter with a one-line example and a violation smell.
 
 ## Sources
 - Robert C. Martin, "The Principles of OOD" — [butunclebob.com](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html) — overview
@@ -46,7 +52,7 @@ class OrderService {
 }
 ```
 
-Production injects `StripeGateway`; tests inject `FakeGateway` — no network calls required.
+- **Note:** Production injects `StripeGateway`; tests inject `FakeGateway`
 
 ### Smells and which principle speaks to them
 
@@ -69,7 +75,7 @@ Production injects `StripeGateway`; tests inject `FakeGateway` — no network ca
 | **I** | Interface Segregation | Many small interfaces beat one fat interface that forces empty implementations. |
 | **D** | Dependency Inversion | High-level policy depends on abstractions; low-level details implement them. |
 
-Robert C. Martin introduced the acronym; the ideas draw on earlier work by Barbara Liskov, Bertrand Meyer, and others.
+- Martin introduced the acronym
 
 ### Over-application risks
 
@@ -80,12 +86,14 @@ Robert C. Martin introduced the acronym; the ideas draw on earlier work by Barba
 | Anemic layers | Empty data transfer objects with all logic in services — ceremony without real seams |
 | Performance | Virtual dispatch and indirection have cost; measure hot paths |
 
-Scripts, one-off glue, and throwaway spikes should not carry full SOLID ceremony ([[KISS]]).
+- Scripts, one-off glue, and throwaway spikes should not carry full SOLID cerem…
 
-*When would you choose composition over inheritance?* When behavior varies independently of the type hierarchy — most policy and integration code.
+- *When would you choose composition over inheritance?* When behavior varies in…
 
-## Real-World Applications
-Class/module design in large codebases and hexagonal/ports-and-adapters services.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Change isolation and testability.
@@ -95,13 +103,12 @@ Class/module design in large codebases and hexagonal/ports-and-adapters services
 ## Comparison
 - **GRASP** answers *who should own this responsibility?* (Information Expert, Creator, Controller).
 - **SOLID** answers *how should types relate?* at class and interface boundaries.
-- **System design** applies the same separation at service scale: domain logic should not embed HTTP or SQL dialect.
+- **System design** applies the same separation at service scale: domain logic should not embed HTT…
 
 
 - vs [[GRASP]]: GRASP assigns responsibilities; SOLID constrains dependency shape.
 - vs [[solid diagram]]: diagram is the visual mnemonic for these five.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- Class/module design in large codebases and hexagonal/ports-and-adapters servi…

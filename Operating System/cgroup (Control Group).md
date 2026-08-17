@@ -4,12 +4,18 @@
 
 > Control groups (cgroups) are the Linux kernel mechanism that limits and accounts for CPU, memory, I/O, and pids — the enforcement layer behind containers and systemd slices.
 
-
-
-
+```txt
+        cgroup (Control Gr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Container interviews: namespaces isolate *view*; cgroups isolate *resources*. Know v2 controllers (`memory.max`, CPU quota) and how OOM kills inside a group.
+- **Interview probes:** Container interviews: namespaces isolate *view*
 
 ## Sources
 - [Linux kernel docs — Control Groups v2](https://docs.kernel.org/admin-guide/cgroup-v2.html) — deep-dive
@@ -30,7 +36,8 @@ Container interviews: namespaces isolate *view*; cgroups isolate *resources*. Kn
 | `io` | Bandwidth on block devices |
 | `pids.max` | Fork bomb containment |
 
-[[IPC namespace]], [[UTS namespace]], and PID/network namespaces **isolate view**; cgroups **isolate resources**. A pod is typically both.
+- [[IPC namespace]], [[UTS namespace]], and PID/network namespaces **isolate vi…
+- A pod is typically both.
 
 ```bash
 systemd-cgls
@@ -38,10 +45,12 @@ cat /sys/fs/cgroup/user.slice/user-1000.slice/memory.current
 cat /sys/fs/cgroup/.../cpu.stat   # nr_throttled → [[context switching]] pressure
 ```
 
-See also [[Linux/management/Linux cgroup]] and [[logical partitions]] (conceptual analogy).
+- See also [[Linux/management/Linux cgroup]] and [[logical partitions]] (concep…
 
-## Real-World Applications
-Kubernetes pod limits, systemd `MemoryMax=`, and multi-tenant hosts preventing one job from starving others.
+## Mistakes to Avoid
+- **Mistake:** Setting container memory == JVM heap with no headroom
+- **Mistake:** Debugging host-wide metrics while the pod is CPU-throttled
+- **Mistake:** Confusing cgroup OOM with host OOM without checking which group …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Hard multi-tenant isolation and accounting.
@@ -50,9 +59,8 @@ Kubernetes pod limits, systemd `MemoryMax=`, and multi-tenant hosts preventing o
 
 ## Comparison
 - vs namespaces: view vs resources.
-- vs [[RAM and Swap memory]]: cgroups decide who may consume RAM; swap/OOM policy still applies underneath.
+- vs [[RAM and Swap memory]]: cgroups decide who may consume RAM
 
-## Mistakes to Avoid
-- Setting container memory == JVM heap with no headroom.
-- Debugging host-wide metrics while the pod is CPU-throttled.
-- Confusing cgroup OOM with host OOM without checking which group died.
+
+### Use cases
+- Kubernetes pod limits, systemd `MemoryMax=`, and multi-tenant hosts preventin…

@@ -4,12 +4,18 @@
 
 > Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — goal: Build a minimal viable prototype of an event-driven serverless task manager by weekend (target
 
-
-
-
+```txt
+        Prototype Plan: Se ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scaling limits.
+- **Interview probes:** Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scal…
 
 ## Sources
 - [Wikipedia — node serverless](https://en.wikipedia.org/wiki/node_serverless) — overview
@@ -23,11 +29,12 @@ Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scaling
 ## Technical Details
 ### How it works
 
-
-**Author:** Rakshyak (@rakshak_sat)
-**Date:** March 10, 2026
-**Goal:** Build a minimal viable prototype of an event-driven serverless task manager by weekend (target: deploy and test by March 15, 2026). This will demonstrate auto-scaling Lambdas triggered by DynamoDB Streams for task creation/updates, processing notifications via SNS. Focus on infrastructure patterns for high-scale reliability in Bengaluru's cloud-heavy ecosystem (e.g., AWS Mumbai region for low latency).
-This draft document serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
+- **Author:** Rakshyak (@rakshak_sat) **Date:** March 10, 2026 **Goal:** Build …
+- This will demonstrate auto-scaling Lambdas triggered by DynamoDB Streams for …
+- Focus on infrastructure patterns for high-scale reliability in Bengaluru's cl…
+- This draft document serves as your blueprint: tech stack, phased plan, code p…
+- Implement iteratively—commit to GitHub daily for version control.
+- Total effort: 10-15 hours, assuming basic AWS CLI setup.
 
 ### Interview map (words you can say)
 
@@ -38,9 +45,6 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 | **check** | How I verify | “I name the command or signal I look at.” |
 | **fail** | How it breaks | “I name the top production failure.” |
 
----
-
-
 ### Configuration and commands
 
 ```bash
@@ -48,10 +52,19 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 # keep env-specific values out of git
 ```
 
+## Mistakes to Avoid
+> [!WARNING]
+> Prefer words you can say aloud in an interview.
+
 ---
 
-## Real-World Applications
-AWS Lambda + API Gateway + DynamoDB prototypes and bursty workloads.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Hotspot | metrics by key | Shard or cache |
+| Cascade fail | timeouts | Bulkheads and backoff |
+| Unclear ownership | diagram actors | Name the single writer |
+
+---
 
 ## Pros/Cons or Trade-offs
 - Skip when a simpler existing approach already fits.
@@ -67,16 +80,6 @@ AWS Lambda + API Gateway + DynamoDB prototypes and bursty workloads.
 - vs [[server]]: managed invoke vs process you patch/scale.
 - vs [[event-driven]]: serverless is a common host for event handlers.
 
-## Mistakes to Avoid
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
 
----
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hotspot | metrics by key | Shard or cache |
-| Cascade fail | timeouts | Bulkheads and backoff |
-| Unclear ownership | diagram actors | Name the single writer |
-
----
+### Use cases
+- AWS Lambda + API Gateway + DynamoDB prototypes and bursty workloads.

@@ -4,12 +4,18 @@
 
 > Fonts, colors, shell startup, and multiplexer settings — the knobs that make daily CLI work comfortable.
 
-
-
-
+```txt
+        terminal config ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops comfort signal: login vs interactive startup files, `$TERM`, and a portable tmux/shell profile for jump boxes.
+- **Interview probes:** Ops comfort signal: login vs interactive startup files, `$TERM`, and a portab…
 
 ## Sources
 - `man 1 bash` (INVOCATION) — deep-dive
@@ -50,8 +56,10 @@ setw -g mode-keys vi
 | GNOME Terminal | `dconf` / profile GUI |
 | Kitty | `~/.config/kitty/kitty.conf` |
 
-## Real-World Applications
-Golden laptop image: shared `.bashrc` + `.tmux.conf` so every engineer gets the same history and mouse-enabled tmux on day one.
+## Mistakes to Avoid
+- **Mistake:** Putting PATH only in interactive bashrc and missing cron/SSH non…
+- **Mistake:** Setting `default-terminal` to values the remote host terminfo la…
+- **Mistake:** Typos in Alacritty path (`alicritty.toml`) that silently do noth…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Huge daily productivity leverage for little cost.
@@ -61,7 +69,6 @@ Golden laptop image: shared `.bashrc` + `.tmux.conf` so every engineer gets the 
 - vs [[terminal emulator]]: the app that draws glyphs; this note is settings for shell + emulator.
 - vs [[editor config]]: buffers/keybindings vs terminal chrome and shell environment.
 
-## Mistakes to Avoid
-- Putting PATH only in interactive bashrc and missing cron/SSH non-interactive jobs.
-- Setting `default-terminal` to values the remote host terminfo lacks.
-- Typos in Alacritty path (`alicritty.toml`) that silently do nothing.
+
+### Use cases
+- Golden laptop image: shared `.bashrc` + `.tmux.conf` so every engineer gets t…

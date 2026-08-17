@@ -4,27 +4,22 @@
 
 > LDAP queries and updates a hierarchical directory (users, groups, devices) over the network — usually the source of truth for “who is this user?”
 
-
-
-
+```txt
+        LDAP (Lightweight  ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want DN/bind/filter fluency, LDAPS versus StartTLS, and why greenfield SaaS hides LDAP behind OIDC rather than exposing it to apps.
+- **Interview probes:** Interviewers want DN/bind/filter fluency, LDAPS versus StartTLS, and why gree…
 
 ## Sources
 - [RFC 4511 — LDAP](https://datatracker.ietf.org/doc/html/rfc4511) — deep-dive
 - [OpenLDAP Administrator's Guide](https://www.openldap.org/doc/admin26/) — overview
 - [Wikipedia — LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) — overview
-
-## Recall Cues
-- Why do interviewers care about DN/bind/filter fluency, LDAPS versus StartTLS, and why greenfield SaaS hides LDAP behind OIDC rather than exposing it to apps?
-- What is step 1: Client connects (389 + StartTLS, or 636 LDAPS)?
-- What is step 2: Bind as service account or end user?
-- What is step 3: Search with base, scope, filter; read attributes?
-- What is step 4: Apps map groups → roles; IdPs sync or proxy LDAP?
-- What mistake is **Cleartext simple bind — password on the wire without StartTLS/LDAPS**?
-- What mistake is **Treating DN string equality casually — escaping, case, and attribute order confuse apps**?
-- What mistake is **Using LDAP as a general application database**?
 
 ## Technical Details
 ```txt
@@ -76,21 +71,22 @@ tls_reqcert demand
 | Intermittent AD auth | DC failover / site awareness | Point to VIP or correct site DCs |
 
 ## Mistakes to Avoid
-- Cleartext simple bind — password on the wire without StartTLS/LDAPS.
-- Treating DN string equality casually — escaping, case, and attribute order confuse apps.
-- Using LDAP as a general application database.
-- `TLS_REQCERT never` in production.
-
-## Comparison
-- vs OIDC/SAML IdP: hide LDAP behind the IdP for consumer SaaS and modern apps.
-- vs SQL user tables: directory wins for org hierarchy and centralized OS login; SQL wins for product data.
-
-## Real-World Applications
-Active Directory / OpenLDAP for enterprise login, SSH key distribution via attributes, and IdP backends that sync directory groups into roles.
-
-**Example:** A Linux fleet uses SSSD against LDAP so `uid=alice` resolves to the same POSIX attributes on every host.
+- **Mistake:** Cleartext simple bind
+- **Mistake:** Treating DN string equality casually
+- **Mistake:** Using LDAP as a general application database
+- **Mistake:** `TLS_REQCERT never` in production
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Hierarchical identity and group data with mature tooling (AD, OpenLDAP).
 - **Con:** Wrong model for session stores, catalogs, or high-churn documents — use Redis/SQL.
 - **Con:** Direct app-to-LDAP couples every service to directory quirks; prefer OIDC/SAML in front.
+
+## Comparison
+- vs OIDC/SAML IdP: hide LDAP behind the IdP for consumer SaaS and modern apps.
+- vs SQL user tables: directory wins for org hierarchy and centralized OS login
+
+
+### Use cases
+- Active Directory / OpenLDAP for enterprise login, SSH key distribution via at…
+
+- **Example:** A Linux fleet uses SSSD against LDAP so `uid=alice` resolves to …

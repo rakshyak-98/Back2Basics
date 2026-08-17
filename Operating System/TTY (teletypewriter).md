@@ -4,12 +4,18 @@
 
 > A TTY is the kernel’s terminal abstraction — line discipline, session, and job control — backing consoles, SSH sessions, and pseudo-terminals (pts).
 
-
-
-
+```txt
+        TTY (teletypewrite ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops/systems questions: PTY master/slave, why `docker run -t` matters, and how job control (Ctrl-Z) depends on a controlling terminal.
+- **Interview probes:** Ops/systems questions: PTY master/slave, why `docker run -t` matters, and how…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — terminals and sessions — deep-dive
@@ -29,12 +35,14 @@ ps -o pid,tty,cmd
 stty -a
 ```
 
-Containers without a TTY (`docker run -t`) behave differently for interactive apps.
+- Containers without a TTY (`docker run -t`) behave differently for interactive…
 
-Related: [[Linux terminal]], [[login shell]].
+- Related: [[Linux terminal]], [[login shell]].
 
-## Real-World Applications
-SSH sessions, `screen`/`tmux`, CI that allocates a pseudo-TTY for progress bars, and serial consoles on servers.
+## Mistakes to Avoid
+- **Mistake:** Detecting interactivity only via `isatty(1)` and then breaking l…
+- **Mistake:** Forgetting `-t`/`-i` in containers and blaming the app for missi…
+- **Mistake:** Sending binary protocols through a cooked TTY without raw mode
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Job control and line editing “just work” for humans.
@@ -45,7 +53,6 @@ SSH sessions, `screen`/`tmux`, CI that allocates a pseudo-TTY for progress bars,
 - vs plain pipes: pipes have no line discipline or job control.
 - vs [[file descriptors]]: TTY is a special character device behind those fds.
 
-## Mistakes to Avoid
-- Detecting interactivity only via `isatty(1)` and then breaking log redirection.
-- Forgetting `-t`/`-i` in containers and blaming the app for missing prompts.
-- Sending binary protocols through a cooked TTY without raw mode.
+
+### Use cases
+- SSH sessions, `screen`/`tmux`, CI that allocates a pseudo-TTY for progress ba…

@@ -4,19 +4,22 @@
 
 > Digest auth — browser proves it knows the password by sending a hash (with nonce), not the raw password — still prefer TLS + modern auth.
 
-
-
-
+```txt
+        digest access auth ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Legacy auth: Digest avoids sending the raw password but is obsolete for new apps versus TLS + modern session/token auth.
+- **Interview probes:** Legacy auth: Digest avoids sending the raw password but is obsolete for new a…
 
 ## Sources
 - [RFC 7616 — HTTP Digest Access Authentication](https://www.rfc-editor.org/rfc/rfc7616) — deep-dive
 - [MDN — HTTP authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) — overview
-
-## Core Definition
-HTTP Digest authentication proves password knowledge with a hash involving a nonce, without sending the password in the clear — still weaker than modern schemes over TLS.
 
 ## Key Concepts
 ```txt
@@ -31,6 +34,9 @@ Client                     Server
 | **Basic** | Base64(user:pass) — trivial to decode |
 | **Digest** | Hash involving password + nonce |
 | **Bearer** | Opaque/JWT token (modern APIs) |
+
+
+- **Core:** HTTP Digest authentication proves password knowledge with a hash involving a …
 
 ## Technical Details
 ```nginx
@@ -62,8 +68,10 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 | User can’t log in after migrate | Passwd file format / realm change | Regenerate digest hashes for realm |
 | Intermittent replay rejects | Nonce count (`nc`) | Sticky sessions or disable strict nc if legacy client |
 
-## Real-World Applications
-Legacy device UIs and old proxies may still speak Digest — new apps should use TLS plus session or token auth instead.
+## Mistakes to Avoid
+- **Mistake:** Digest is not modern best practice
+- **Mistake:** Basic + TLS ≠ Digest
+- **Mistake:** Password file is hashed for a realm
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Better than cleartext Basic on ancient clients when TLS is missing (legacy only).
@@ -73,9 +81,8 @@ Legacy device UIs and old proxies may still speak Digest — new apps should use
 
 ## Comparison
 - vs Basic auth: Digest avoids cleartext password but is still legacy.
-- vs [[JWT]] / session cookies over [[TLS (Transport Layer Security)]]: prefer modern schemes for new apps.
+- vs [[JWT]] / session cookies over [[TLS (Transport Layer Security)]]: prefer modern schemes for n…
 
-## Mistakes to Avoid
-- Digest is not modern best practice — phishing, downgrade, and algorithm limits remain; use OAuth/OIDC or session cookies over TLS.
-- Basic + TLS ≠ Digest — Basic is fine *with* TLS for simple cases; Digest’s advantage was mainly cleartext HTTP (don’t do that).
-- Password file is hashed for a realm — changing realm invalidates entries.
+
+### Use cases
+- Legacy device UIs and old proxies may still speak Digest

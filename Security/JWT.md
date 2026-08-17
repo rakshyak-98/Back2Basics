@@ -4,20 +4,23 @@
 
 > Signed blob of claims the client carries — the server verifies the signature instead of looking up a session (until you add revocation).
 
-
-
-
+```txt
+        JWT ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and access vs refresh token roles.
+- **Interview probes:** Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and …
 
 ## Sources
 - [RFC 7519 — JSON Web Token](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive
 - [RFC 7515 — JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515) — deep-dive
 - [jwt.io introduction](https://jwt.io/introduction) — overview
-
-## Core Definition
-A JWT is three Base64url parts (header, payload, signature) carrying claims the client presents and the server verifies without a session lookup (until revocation is added).
 
 ## Key Concepts
 ```txt
@@ -36,7 +39,10 @@ Client                         Server
 | **Payload** | Claims (`sub`, `exp`, roles) | “Assertions — trusted only after verify.” |
 | **Signature** | HMAC or RSA/ECDSA over header+payload | “Tamper seal.” |
 
-**Access versus refresh:** short-lived access JWT in memory/`Authorization`; longer refresh in HttpOnly cookie → `POST /refresh` mints a new pair. Stateless until you add a denylist or rotate keys.
+- **Note:** **Access versus refresh:** short-lived access JWT in memory/`Authorization`
+
+
+- **Core:** A JWT is three Base64url parts (header, payload, signature) carrying claims t…
 
 ## Technical Details
 ```js
@@ -63,7 +69,7 @@ const claims = jwt.verify(token, process.env.JWT_PUBLIC_KEY, {
 | `iss` / `aud` | Stops tokens from other apps being accepted |
 | Key rotation | Dual-verify old+new kid; see [[Token rotation]] |
 
-Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone.
+- Decode only for debug: `jwt.decode(t)`
 
 ### Failure signals
 
@@ -77,8 +83,11 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 | `alg: none` accepted | Library default too loose | Explicit `algorithms` allowlist |
 | Role claim ignored / wrong | Custom claim name collision | Namespace claims; verify before use |
 
-## Real-World Applications
-OIDC ID tokens and API access tokens are JWTs — parse claims only after signature and `alg` verification.
+## Mistakes to Avoid
+- **Mistake:** Payload is not secret
+- **Mistake:** Verify before trust
+- **Mistake:** One leaked HS256 secret = forge any user
+- **Mistake:** Cannot push-revoke easily
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Portable, inspectable claims format widely supported across languages.
@@ -90,8 +99,6 @@ OIDC ID tokens and API access tokens are JWTs — parse claims only after signat
 - vs opaque session ids: JWT is self-contained claims; opaque ids need a lookup.
 - vs [[Token rotation]]: rotation policy sits on top of JWT access/refresh pairs.
 
-## Mistakes to Avoid
-- Payload is not secret — Base64 ≠ encryption. Put secrets in the server, not in JWT claims.
-- Verify before trust — never branch on `decode()` claims; always `verify()` first.
-- One leaked HS256 secret = forge any user — prefer asymmetric keys across services.
-- Cannot push-revoke easily — until expiry, stolen tokens work unless you track `jti` or rotate keys.
+
+### Use cases
+- OIDC ID tokens and API access tokens are JWTs

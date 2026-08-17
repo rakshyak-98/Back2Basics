@@ -4,30 +4,36 @@
 
 > Managed cryptographic keys (often HSM-backed) so apps encrypt data without holding long-term master key material.
 
-
-
-
+```txt
+        KMS (Key Managemen ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Cloud security: envelope encryption, CMK vs data keys, and why apps call KMS instead of storing raw master keys.
+- **Interview probes:** Cloud security: envelope encryption, CMK vs data keys, and why apps call KMS …
 
 ## Sources
 - [AWS KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/) — deep-dive
 - [NIST SP 800-57 — Key Management](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final) — overview
 
-## Core Definition
-A Key Management Service stores and uses cryptographic keys (often in HSM-backed hardware) so applications encrypt data without holding long-term master key material.
-
 ## Key Concepts
-KMS stores **Customer Master Keys (CMKs)** — symmetric (default) or asymmetric (sign/verify). Data is encrypted with **data keys**; data keys are wrapped by CMK (**envelope encryption**). Every use calls `kms:Decrypt/GenerateDataKey` — logged in CloudTrail.
+- **Note:** KMS stores **Customer Master Keys (CMKs)**
 
 ```
-App ──► GenerateDataKey ──► plaintext data key + encrypted blob
+- **Note:** App ──► GenerateDataKey ──► plaintext data key + encrypted blob
          │                         │
-         └── encrypt local data      └── store encrypted key with ciphertext
+- **Note:** └── encrypt local data └── store encrypted key with ciphertext
 ```
 
-**Key policy** (resource-based, mandatory on CMK) + **IAM** (identity-based) **both** must allow — unlike most AWS resources where IAM alone suffices.
+- **Note:** **Key policy** (resource-based, mandatory on CMK) + **IAM** (identity-based) …
+
+
+- **Core:** A Key Management Service stores and uses cryptographic keys (often in HSM-bac…
 
 ## Technical Details
 ### CMK key policy (minimum + admin)
@@ -63,12 +69,12 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 
 ### Aliases vs key ids
 
-- **`alias/prod-app`** — human-friendly; rotate underlying CMK with alias re-point (manual or automation).
-- **Automatic key rotation** (annual) — AWS rotates backing material; **same key id**, decrypt old ciphertext still works.
+- **`alias/prod-app`:** — human-friendly
+- **Automatic key rotation:** (annual) — AWS rotates backing material
 
 ### Grants (cross-account / ephemeral)
 
-- `CreateGrant` for scoped delegate access (e.g. AWS service on your behalf) — audit in CloudTrail.
+- `CreateGrant` for scoped delegate access (e.g. AWS service on your behalf)
 
 ### Failure signals
 
@@ -81,8 +87,11 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 | `DisabledException` | Key disabled or pending deletion | Re-enable; cancel deletion window (7–30 days) |
 | Higher latency | KMS API per-object encrypt | Data key caching (within compliance bounds); batch |
 
-## Real-World Applications
-Envelope-encrypt database fields or S3 objects with a data key, wrapping that key with a KMS customer master key.
+## Mistakes to Avoid
+- **Mistake:** IAM Allow alone is insufficient
+- **Mistake:** Scheduled deletion is irreversible after waiting period
+- **Mistake:** CloudWatch Logs SSE-KMS
+- **Mistake:** Multi-Region keys (MRK)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Master keys stay in HSM-backed service with IAM audit trails.
@@ -92,10 +101,8 @@ Envelope-encrypt database fields or S3 objects with a data key, wrapping that ke
 
 ## Comparison
 - vs app-local key files: KMS keeps master keys in HSM-backed service with IAM audit.
-- vs [[TLS (Transport Layer Security)]]: TLS protects data in transit; KMS protects keys for data at rest/app crypto.
+- vs [[TLS (Transport Layer Security)]]: TLS protects data in transit
 
-## Mistakes to Avoid
-- IAM Allow alone is insufficient — CMK key policy must trust the caller (unless account root delegation pattern used correctly).
-- Scheduled deletion is irreversible after waiting period — all ciphertext using that CMK becomes undecryptable.
-- CloudWatch Logs SSE-KMS — needs key policy for `logs.region.amazonaws.com`.
-- Multi-Region keys (MRK) — replicate for DR; same key material; not the same as automatic rotation.
+
+### Use cases
+- Envelope-encrypt database fields or S3 objects with a data key, wrapping that…

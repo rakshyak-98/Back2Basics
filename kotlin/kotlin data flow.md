@@ -4,12 +4,18 @@
 
 > `by` hands a property’s getter/setter logic to another object — reuse lazy load, observables, and map-backed fields without boilerplate.
 
-
-
-
+```txt
+        Kotlin property de ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want `by lazy`, custom `ReadOnlyProperty`, and how delegation differs from inheritance for cross-cutting property behavior.
+- **Interview probes:** Interviewers want `by lazy`, custom `ReadOnlyProperty`, and how delegation di…
 
 ## Sources
 - [Kotlin — Delegated properties](https://kotlinlang.org/docs/delegated-properties.html) — deep-dive
@@ -22,7 +28,7 @@ Interviewers want `by lazy`, custom `ReadOnlyProperty`, and how delegation diffe
 - **Map delegation:** properties backed by a `Map` for dynamic payloads.
 
 ## Technical Details
-Without delegation (manual lazy):
+- Without delegation (manual lazy):
 
 ```kotlin
 class User {
@@ -35,7 +41,7 @@ class User {
 }
 ```
 
-With delegation:
+- With delegation:
 
 ```kotlin
 class User {
@@ -43,12 +49,12 @@ class User {
 }
 ```
 
-Custom getters can move into a reusable delegate class and be attached with `by`.
+- Custom getters can move into a reusable delegate class and be attached with `…
 
-## Real-World Applications
-Android ViewModels use `lazy` for expensive repositories; feature flags bind from maps via delegates.
-
-**Example:** Repeated `loadConfig()` guards across classes → one `by lazy` pattern.
+## Mistakes to Avoid
+- **Mistake:** Using `lazy` for something that must refresh on every access
+- **Mistake:** Assuming `lazy` is always unsynchronized — check the mode
+- **Mistake:** Nesting heavy work in delegates without measuring startup jank
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Removes repetitive property plumbing; standard library delegates are well-known.
@@ -58,7 +64,8 @@ Android ViewModels use `lazy` for expensive repositories; feature flags bind fro
 - vs inheritance: delegation composes behavior for a property, not the whole type.
 - vs Java manual getters: same idea with less boilerplate.
 
-## Mistakes to Avoid
-- Using `lazy` for something that must refresh on every access.
-- Assuming `lazy` is always unsynchronized — check the mode.
-- Nesting heavy work in delegates without measuring startup jank.
+
+### Use cases
+- Android ViewModels use `lazy` for expensive repositories
+
+- **Example:** Repeated `loadConfig()` guards across classes → one `by lazy` pa…

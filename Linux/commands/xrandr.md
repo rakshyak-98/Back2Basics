@@ -4,12 +4,18 @@
 
 > Configures X11 outputs — resolution, rotation, and multi-monitor layout via RandR.
 
-
-
-
+```txt
+        xrandr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Desktop/Linux graphics trivia: output names, modes, and that xrandr does not drive pure Wayland compositors.
+- **Interview probes:** Desktop/Linux graphics trivia: output names, modes, and that xrandr does not …
 
 ## Sources
 - [man xrandr](https://www.x.org/releases/current/doc/man/man1/xrandr.1.xhtml) — deep-dive
@@ -52,8 +58,10 @@ xrandr --addmode HDMI-1 "1920x1080_60.00"
 | Can’t open display | `$DISPLAY` | Export `:0` / use local session |
 | No effect on Wayland | Compositor owns layout | `wlr-randr` / desktop settings |
 
-## Real-World Applications
-Docking station layouts, projector mirrors, and fixing EDID lies with `cvt` + `--newmode`.
+## Mistakes to Avoid
+- **Mistake:** Expecting xrandr to rearrange native Wayland outputs
+- **Mistake:** Using `--scale` as a HiDPI fix instead of native modes + composi…
+- **Mistake:** Installing X on headless servers just to run xrandr
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Scriptable X11 multi-head without a GUI.
@@ -63,7 +71,6 @@ Docking station layouts, projector mirrors, and fixing EDID lies with `cvt` + `-
 - vs [[wayland]] tools: compositor-native randr replacements.
 - vs GUI display settings: same job, less automation-friendly.
 
-## Mistakes to Avoid
-- Expecting xrandr to rearrange native Wayland outputs.
-- Using `--scale` as a HiDPI fix instead of native modes + compositor fractional scaling.
-- Installing X on headless servers just to run xrandr.
+
+### Use cases
+- Docking station layouts, projector mirrors, and fixing EDID lies with `cvt` +…

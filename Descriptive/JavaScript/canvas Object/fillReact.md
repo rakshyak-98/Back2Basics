@@ -4,12 +4,17 @@
 
 > `fillRect` paints a filled axis-aligned rectangle on a canvas 2D context (note: often mistyped as fillReact).
 
-
-
-
+```txt
+        fillReact ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers may probe fillReact as tooling or web platform literacy — expect a crisp definition, how it works, and when it is the wrong tool.
+- **Interview probes:** Interviewers may probe fillReact as tooling or web platform literacy
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -41,10 +46,6 @@ ctx.fillRect(10, 20, 100, 50)
 | Canvas width attrs | CSS size ≠ bitmap size |
 | clearRect | Erase before redraw |
 
-## Pros/Cons or Trade-offs
-- **Simple UI boxes** — HTML/CSS.
-- **Huge scene graphs** — WebGL / retained mode libs.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **CSS scales the bitmap** — setting only CSS width blurs; set attributes too.
@@ -58,3 +59,7 @@ ctx.fillRect(10, 20, 100, 50)
 | Blurry | DPR mismatch | Scale canvas by `devicePixelRatio` |
 | Wrong color | style after draw | Set style first |
 | fillReact undefined | typo | Use `fillRect` |
+
+## Pros/Cons or Trade-offs
+- **Simple UI boxes** — HTML/CSS.
+- **Huge scene graphs** — WebGL / retained mode libs.

@@ -4,35 +4,41 @@
 
 > single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
-
-
-
+```txt
+        Node.js Security — ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Node.js Security — Architectural Flaws** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Node.js Security
 
 ## Sources
 - [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive
 - [OWASP — Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html) — overview
 - [Wikipedia — Node.js security flaws in architecture](https://en.wikipedia.org/wiki/Node.js_security_flaws_in_architecture) — overview
 
-## Core Definition
-Node services typically sit **directly on the internet** with:
-
 ## Key Concepts
-- Node services typically sit **directly on the internet** with:
-- One language/runtime handling authentication, business logic, and serialization - **npm dependency graph** — transitive packages run with full process privileges - **Dynamic `…
-- Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/session**, **file uploads**, **SSRF outbound calls**, **deserialization**, **ReDoS in regex**.
+- **Node services:** Node services typically sit **directly on the internet** with:
+- **One language/runtime:** One language/runtime handling authentication, business logic, and serializati…
+- **Attack surface:** Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/se…
+
+
+- **Core:** Node services typically sit **directly on the internet** with:
 
 ## Technical Details
-Node services typically sit **directly on the internet** with:
+- Node services typically sit **directly on the internet** with:
 
-- One language/runtime handling authentication, business logic, and serialization
-- **npm dependency graph** — transitive packages run with full process privileges
-- **Dynamic `require()`** and eval-adjacent patterns (`vm`, template engines)
+- One language/runtime handling authentication, business logic, and serializati…
+- **npm dependency graph:** — transitive packages run with full process privileges
+- **Dynamic `require()`:** and eval-adjacent patterns (`vm`, template engines)
 - No memory-safe guarantee — native addons and V8 alike
 
-Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/session**, **file uploads**, **SSRF outbound calls**, **deserialization**, **ReDoS in regex**.
+- Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/se…
 
 ```
 Internet → reverse proxy (TLS terminate) → Express (trusts X-Forwarded-*) → DB/Redis/internal APIs
@@ -83,7 +89,7 @@ if (!JWT_SECRET) throw new Error('JWT_SECRET required');
 import { timingSafeEqual } from 'crypto';
 ```
 
-Never log `req.headers.authorization` or full `req.body` in production.
+- Never log `req.headers.authorization` or full `req.body` in production.
 
 ### Layer 3 — SSRF & outbound fetch
 
@@ -106,7 +112,7 @@ npx lockfile-lint --path package-lock.json
 # Enable GitHub Dependabot / Snyk; pin major versions for critical deps
 ```
 
-Use `.npmrc`:
+- Use `.npmrc`:
 
 ```ini
 ignore-scripts=true                 # block postinstall scripts (test impact first)
@@ -122,17 +128,17 @@ import structuredClone from 'node:structuredClone';
 Object.freeze(Object.prototype);    // last-resort mitigation — can break libs
 ```
 
-Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
+- Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 
 ### Decision
 
-We will … because …
+- We will … because …
 
 ### Consequences
 
-**Positive:** …
+- **Positive:** …
 
-**Negative / trade-offs:** …
+- **Negative / trade-offs:** …
 
 ### Alternatives considered
 
@@ -140,26 +146,27 @@ We will … because …
 |-------------|--------------|
 | … | … |
 
-## Real-World Applications
-In production APIs and tooling, **Node.js security flaws in architecture** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains; **Dynamic `require(userInput)`** — arbitrary code load.
+## Mistakes to Avoid
+- **Mistake:** **`eval`, `new Function`, `vm.runInNewContext`**
+- **Mistake:** **Dynamic `require(userInput)`** — arbitrary code load
+- **Mistake:** **Error handler leaking stack**
+- **Mistake:** **Cluster doesn't isolate security**
+- **Mistake:** **CORS `*` with credentials**
+- **Mistake:** **Auth bypass via header spoof:** check `trust proxy` too permis…
+- **Mistake:** **CPU peg, slow regex:** check ReDoS in user input regex
+- **Mistake:** **RCE after deploy:** check `npm audit`, new dependency
+- **Mistake:** **JWT accepted after "logout":** check Stateless JWT until expiry
+- **Mistake:** **Path traversal on upload:** check `path.join` with user segment
+- **Mistake:** **Memory spike on POST:** check Missing body limit
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (single-process trust boundary, huge dependency trees, and prototype pollution ma…).
-- **Con / when not:** **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
-- **Con / when not:** **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
+- **Con / when not:** **Rolling custom crypto**
+- **Con / when not:** **Disabling helmet/CORS "temporarily" in production**
 
 ## Comparison
-vs [[Express middleware]]: know when each applies — do not treat them as interchangeable. vs [[TLS (Transport Layer Security)]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
+- vs [[Express middleware]]: know when each applies
 
-## Mistakes to Avoid
-- **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains.
-- **Dynamic `require(userInput)`** — arbitrary code load.
-- **Error handler leaking stack** — see [[express error handler]]; hide stack in prod.
-- **Cluster doesn't isolate security** — compromised worker = same UID, same env secrets.
-- **CORS `*` with credentials** — invalid and often misconfigured; explicit origins only.
-- **Auth bypass via header spoof:** check `trust proxy` too permissive; fix: Set exact hop count; validate at proxy
-- **CPU peg, slow regex:** check ReDoS in user input regex; fix: Timeout; use `safe-regex`; RE2 via `re2`
-- **RCE after deploy:** check `npm audit`, new dependency; fix: Remove package; pin; incident response
-- **JWT accepted after "logout":** check Stateless JWT until expiry; fix: Short TTL + refresh rotation; denylist jti in Redis
-- **Path traversal on upload:** check `path.join` with user segment; fix: Sanitize filename; store outside web root
-- **Memory spike on POST:** check Missing body limit; fix: `limit` on json/urlencoded
+
+### Use cases
+- In production APIs and tooling, **Node.js security flaws in architecture** sh…

@@ -2,14 +2,20 @@
 
 # Stateless offset handling
 
-> Consumer offset handling tracks how far a consumer has read in a partitioned log — "stateless" means progress lives in the broker or coordinator, not in the consumer's local disk, so any group member can resume after restart or rebalance.
+> Consumer offset handling tracks how far a consumer has read in a partitioned log — "stateless" means progress lives in the broker or coordinator, not in the consumer's local disk, so any group member can resume after re…
 
-
-
-
+```txt
+        Stateless offset h ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Consumer offsets externalized; commit semantics; exactly-once composition.
+- **Interview probes:** Consumer offsets externalized; commit semantics; exactly-once composition.
 
 ## Sources
 - Apache Kafka documentation — consumer groups, offset commit, transactions — overview
@@ -17,7 +23,7 @@ Consumer offsets externalized; commit semantics; exactly-once composition.
 - Chris Richardson — transactional outbox pattern — overview
 
 ## Key Concepts
-- **Offsets live outside the consumer process** (store/broker).
+- **Offsets live outside the consumer process:** (store/broker).
 - **Commit semantics:** at-most-once vs at-least-once vs transactional.
 - **Resume after crash:** read committed offset; expect redelivery.
 - **Exactly-once composition:** idempotent sink + careful commit ordering.
@@ -32,7 +38,8 @@ Consumer reads 3,4,5 → process → commit 6
 Crash before commit → replay from 3 (at-least-once duplicates)
 ```
 
-Apache Kafka stores committed offsets in the internal `__consumer_offsets` topic. On restart or consumer group rebalance, processing resumes from the last commit.
+- Apache Kafka stores committed offsets in the internal `__consumer_offsets` to…
+- On restart or consumer group rebalance, processing resumes from the last comm…
 
 | Delivery semantics | Order | Risk |
 |--------------------|-------|------|
@@ -40,7 +47,7 @@ Apache Kafka stores committed offsets in the internal `__consumer_offsets` topic
 | At-least-once | Process then commit | Duplicates on crash |
 | Exactly-once (broker transactional) | Transactional read-process-write within Kafka | Complexity; side effects outside Kafka still need idempotency |
 
-**Exactly-once is not magic** — HTTP calls and external databases need [[Idempotent-key]] or outbox patterns even when Kafka claims exactly-once.
+- **Exactly-once is not magic:** 
 
 ### Production consumer sketch
 
@@ -86,10 +93,12 @@ COMMIT
 | Lost messages | Commit-before-process misconfiguration |
 | Lag grows | Scale consumers within partition count limit |
 
-Partition count caps parallel consumers — adding instances beyond partition count does not increase throughput.
+- Partition count caps parallel consumers
 
-## Real-World Applications
-Kafka/Pulsar consumers, SSE Last-Event-ID, and reconnecting realtime clients.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Any replica can continue; horizontal consumer scale.
@@ -100,7 +109,6 @@ Kafka/Pulsar consumers, SSE Last-Event-ID, and reconnecting realtime clients.
 - vs [[stateless]]: general externalized state; this is the cursor/offset case.
 - vs [[Real-time Subscription]]: subscriptions often resume via offsets.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- Kafka/Pulsar consumers, SSE Last-Event-ID, and reconnecting realtime clients.

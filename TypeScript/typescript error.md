@@ -4,20 +4,23 @@
 
 > `TSxxxx` diagnostics from the type checker — read the first error, fix the root type, and avoid `as any` or blanket `@ts-ignore` band-aids.
 
-
-
-
+```txt
+        typescript error ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch how you debug TypeScript errors: narrow unions, install missing types, align TypeScript versions, and keep `tsc --noEmit` in CI so the bundler cannot hide type failures.
+- **Interview probes:** Interviewers watch how you debug TypeScript errors: narrow unions, install mi…
 
 ## Sources
 - [TypeScript Handbook — Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html) — deep-dive
 - [TypeScript — Error codes (playground / messages)](https://www.typescriptlang.org/docs/handbook/2/basic-types.html) — overview
 - [TypeScript Compiler Options](https://www.typescriptlang.org/tsconfig) — overview
-
-## Core Definition
-A TypeScript error is a static diagnostic (`TSxxxx`) produced when values, arguments, or imports do not match declared types. Fixing the earliest error often collapses cascades from one bad generic or missing module.
 
 ## Key Concepts
 - **Assignability (`TS2322`):** value not assignable to target type.
@@ -26,6 +29,9 @@ A TypeScript error is a static diagnostic (`TSxxxx`) produced when values, argum
 - **Cannot find module (`TS2307`):** resolution or missing `@types` / declarations.
 - **Implicit `any` (`TS7006`):** under `noImplicitAny` / `strict`.
 - **Narrowing over asserting:** guards and control flow beat `as` casts.
+
+
+- **Core:** A TypeScript error is a static diagnostic (`TSxxxx`) produced when values, ar…
 
 ## Technical Details
 ```txt
@@ -67,10 +73,11 @@ function len(x: string | null) {
 | IDE-only errors | Different TypeScript version | Align workspace TypeScript |
 | Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade package |
 
-## Real-World Applications
-CI runs `tsc --noEmit` so Vite/webpack green builds cannot ship broken types; developers fix the first `TS2322` instead of silencing hundreds of follow-ons.
-
-**Example:** `TS2307` after adding a package — install matching `@types/*` or add an [[ambient modules]] shim, do not cast the import to `any`.
+## Mistakes to Avoid
+- **Mistake:** Using `// @ts-ignore` without a plan
+- **Mistake:** Disabling `strict` to green CI permanently
+- **Mistake:** Treating type errors like stack traces
+- **Mistake:** Letting the bundler be the only “build”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Failures at compile time beat production type confusion.
@@ -80,10 +87,10 @@ CI runs `tsc --noEmit` so Vite/webpack green builds cannot ship broken types; de
 ## Comparison
 - vs runtime exceptions: type errors are static; they do not replace input validation at boundaries.
 - vs ESLint: lint catches style/patterns; `tsc` enforces the type system.
-- vs `@ts-ignore` / `any`: both silence the checker — prefer `@ts-expect-error` with a reason or proper narrowing.
+- vs `@ts-ignore` / `any`: both silence the checker
 
-## Mistakes to Avoid
-- Using `// @ts-ignore` without a plan — prefer `@ts-expect-error` and fix soon.
-- Disabling `strict` to green CI permanently.
-- Treating type errors like stack traces — different layer; start from the first diagnostic.
-- Letting the bundler be the only “build” — always keep `tsc --noEmit` in CI.
+
+### Use cases
+- CI runs `tsc --noEmit` so Vite/webpack green builds cannot ship broken types
+
+- **Example:** `TS2307` after adding a package

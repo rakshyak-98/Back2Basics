@@ -4,25 +4,31 @@
 
 > Changes or locks the password hash in `/etc/shadow` — PAM decides when that hash is actually checked.
 
-
-
-
+```txt
+        passwd ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want lock vs disable, shadow vs keys, and that `passwd -l` does not stop SSH public-key login.
+- **Interview probes:** Interviewers want lock vs disable, shadow vs keys, and that `passwd -l` does …
 
 ## Sources
 - [man passwd](https://man7.org/linux/man-pages/man1/passwd.1.html) — deep-dive
 - [Wikipedia — passwd](https://en.wikipedia.org/wiki/passwd) — overview
-
-## Core Definition
-`passwd` updates the encrypted password field in `/etc/shadow`. PAM stacks under `/etc/pam.d/` decide when password checks apply — SSH with `PasswordAuthentication no` never uses this path for remote login.
 
 ## Key Concepts
 - **User vs root:** user needs the current password; root can set without knowing the old one.
 - **Lock (`-l`):** prepends `!` to the hash — password auth fails; keys may still work.
 - **Expire (`-e` / `chage`):** force change at next password login — keys can bypass.
 - **NSS/LDAP:** local `passwd` may not apply when identity lives in a directory.
+
+
+- **Core:** `passwd` updates the encrypted password field in `/etc/shadow`. PAM stacks un…
 
 ## Technical Details
 ```
@@ -55,7 +61,7 @@ sudo passwd -S username
 getent shadow username | cut -d: -f1-2
 ```
 
-`passwd -S`: `P` usable, `L` locked, `NP` no password.
+- `passwd -S`: `P` usable, `L` locked, `NP` no password.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,10 +70,11 @@ getent shadow username | cut -d: -f1-2
 | `-e` did not force change | User uses SSH keys only | Key rotation policy; `chage` alone is not enough |
 | Works locally, not SSH | `PasswordAuthentication` / PAM | `sshd -T`; `/etc/pam.d/sshd` |
 
-## Real-World Applications
-Break-glass password reset, locking a compromised interactive account, and password aging with `chage` for contractors.
-
-**Example:** Offboard with more than `passwd -l` — combine lock, nologin shell, and key removal ([[userdel]] / disable playbook).
+## Mistakes to Avoid
+- **Mistake:** Treating `passwd -l` as full disable
+- **Mistake:** Putting passwords on the shell history line with `echo | chpassw…
+- **Mistake:** Using `passwd -d` (empty password) on production systems
+- **Mistake:** Running local `passwd` against directory-backed users without ch…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple local credential control for break-glass and small fleets.
@@ -77,8 +84,8 @@ Break-glass password reset, locking a compromised interactive account, and passw
 - vs [[usermod]] `-L` / nologin: fuller account disable than password lock alone.
 - vs [[getent]]: query resolved account data across NSS sources before changing local shadow.
 
-## Mistakes to Avoid
-- Treating `passwd -l` as full disable — SSH keys, cron, and ownership remain.
-- Putting passwords on the shell history line with `echo | chpasswd` on shared hosts.
-- Using `passwd -d` (empty password) on production systems.
-- Running local `passwd` against directory-backed users without checking `getent`.
+
+### Use cases
+- Break-glass password reset, locking a compromised interactive account, and pa…
+
+- **Example:** Offboard with more than `passwd -l`

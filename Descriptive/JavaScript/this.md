@@ -4,12 +4,17 @@
 
 > `this` is the call-site receiver in JS — how you invoke the function decides what `this` is (unless bound/arrow).
 
-
-
-
+```txt
+        this ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-this-binding interviews check call-site rules, arrow functions, and bind/call/apply.
+- **Interview probes:** this-binding interviews check call-site rules, arrow functions, and bind/call…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -50,10 +55,6 @@ obj.f.bind({ n: 2 })() // 2
 | bind in React | Legacy class handlers |
 | strict | Default in modules |
 
-## Pros/Cons or Trade-offs
-- **Pure functions** — pass arguments; avoid `this`.
-- **Most modern React** — function components + hooks.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Arrows on prototypes** — share one lexical `this` (usually wrong).
@@ -67,3 +68,7 @@ obj.f.bind({ n: 2 })() // 2
 | Wrong object | nested callback | arrow or bind |
 | Arrow on prototype | expected dynamic this | use method syntax |
 | DOM handler loses this | class method pass | bind or arrow field |
+
+## Pros/Cons or Trade-offs
+- **Pure functions** — pass arguments; avoid `this`.
+- **Most modern React** — function components + hooks.

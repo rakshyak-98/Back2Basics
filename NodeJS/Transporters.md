@@ -4,12 +4,18 @@
 
 > Pluggable send/receive layer — business code calls `send`/`emit`; the transporter owns HTTP, gRPC, MQTT, broker details.
 
-
-
-
+```txt
+        Transporters ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Transporters** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Transporter**, **Broker vs RPC**, **Email transporter**.
+- **Interview probes:** Interviewers use **Transporters** to check whether you can explain the mechan…
 
 ## Sources
 - [Wikipedia — Transporters](https://en.wikipedia.org/wiki/Transporters) — overview
@@ -41,21 +47,22 @@ await transporter.send({ type: 'order.created', payload })
 | Serialization | JSON vs protobuf |
 | Idempotency keys | At-least-once buses |
 
-## Real-World Applications
-In production APIs and tooling, **Transporters** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Protocol leak** — if domain imports MQTT types, you didn’t abstract; **At-least-once delivery** — duplicates happen; design for them.
+## Mistakes to Avoid
+- **Mistake:** **Protocol leak**
+- **Mistake:** **At-least-once delivery** — duplicates happen; design for them
+- **Mistake:** **Works on HTTP, fails on bus:** check Ack/retry semantics
+- **Mistake:** **Backpressure:** check Unbounded queue
+- **Mistake:** **Dual writes:** check Two transporters
+- **Mistake:** **Auth mismatch:** check Per-protocol creds
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Pluggable send/receive layer — business code calls `send`/`emit`; the transporte…).
 - **Con / when not:** **One protocol forever** — direct client may be simpler.
-- **Con / when not:** **Ultra-low latency peer path** — specialized stacks (e.g. raw sockets) without a bus.
+- **Con / when not:** **Ultra-low latency peer path**
 
 ## Comparison
-vs [[Transporter in Email sending]]: know when each applies — do not treat them as interchangeable. vs [[Protocol/gRPC]]: know when each applies — do not treat them as interchangeable. vs [[Protocol/MQTT]]: know when each applies — do not treat them as interchangeable.
+- vs [[Transporter in Email sending]]: know when each applies
 
-## Mistakes to Avoid
-- **Protocol leak** — if domain imports MQTT types, you didn’t abstract.
-- **At-least-once delivery** — duplicates happen; design for them.
-- **Works on HTTP, fails on bus:** check Ack/retry semantics; fix: Make handlers idempotent
-- **Backpressure:** check Unbounded queue; fix: Limit in-flight; drop/slow
-- **Dual writes:** check Two transporters; fix: Outbox / single writer
-- **Auth mismatch:** check Per-protocol creds; fix: Centralize secrets in config
+
+### Use cases
+- In production APIs and tooling, **Transporters** shows up whenever teams ship…

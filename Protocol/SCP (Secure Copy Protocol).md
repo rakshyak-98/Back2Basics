@@ -4,12 +4,18 @@
 
 > SCP copies files over SSH using the same authentication and encryption as an interactive shell — prefer `sftp` or `rsync` for new automation, but SCP remains common for one-off secure copies.
 
-
-
-
+```txt
+        SCP (Secure Copy P ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check that SCP is SSH (not a separate daemon), host-key verification inheritance, and when `rsync -e ssh` beats SCP.
+- **Interview probes:** Interviewers check that SCP is SSH (not a separate daemon), host-key verifica…
 
 ## Sources
 - [OpenSSH scp man page](https://man.openbsd.org/scp) — deep-dive
@@ -18,8 +24,8 @@ Interviewers check that SCP is SSH (not a separate daemon), host-key verificatio
 
 ## Key Concepts
 - **Runs over SSH:** default port 22 — same keys, agent, and ProxyJump as shell access.
-- **Legacy remote `scp`:** classic mode invokes remote `scp`; OpenSSH 9+ steers new scripts toward **sftp**.
-- **Auth:** [[SSH authentication]] via keys ([[ssh agent]]) or passwords (disable password auth in production).
+- **Legacy remote `scp`:** classic mode invokes remote `scp`
+- **Auth:** [[SSH authentication]] via keys ([[ssh agent]]) or passwords (disable passwor…
 
 ## Technical Details
 ```bash
@@ -45,10 +51,11 @@ scp -i ~/.ssh/deploy_key artifact.zip deploy@prod:/releases/
 | **rsync** | Delta sync, `--delete`, bandwidth limits |
 | **[[ftp]]** | Cleartext — avoid |
 
-## Real-World Applications
-Shipping a build artifact to a bastion-reachable host, pulling a log for incident review, one-off directory drops.
-
-**Example:** `scp -o ProxyJump=bastion.example.com artifact.tgz deploy@internal:/releases/` reuses the same jump path as interactive SSH.
+## Mistakes to Avoid
+- **Mistake:** Quoting mistakes that expand globs locally instead of remotely
+- **Mistake:** Ignoring trailing-slash meaning on directories
+- **Mistake:** Using SCP for repeated full-tree syncs instead of rsync
+- **Mistake:** Disabling host-key checks “to make CI pass.”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Zero extra infrastructure if SSH already works.
@@ -60,8 +67,8 @@ Shipping a build artifact to a bastion-reachable host, pulling a log for inciden
 - vs `rsync -e ssh`: delta sync and `--delete` for mirrors.
 - vs [[ftp]]: SCP is encrypted; FTP is cleartext unless FTPS.
 
-## Mistakes to Avoid
-- Quoting mistakes that expand globs locally instead of remotely.
-- Ignoring trailing-slash meaning on directories.
-- Using SCP for repeated full-tree syncs instead of rsync.
-- Disabling host-key checks “to make CI pass.”
+
+### Use cases
+- Shipping a build artifact to a bastion-reachable host, pulling a log for inci…
+
+- **Example:** `scp -o ProxyJump=bastion.example.com artifact.tgz deploy@intern…

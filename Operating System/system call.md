@@ -4,12 +4,18 @@
 
 > A system call is the controlled gateway from user mode into the kernel — open files, map memory, spawn processes, send packets — with privilege checks on every entry.
 
-
-
-
+```txt
+        System call ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Walk user→kernel transition (`syscall`/`svc`), errno returns, blocking vs `EAGAIN`, and tracing with `strace`/eBPF.
+- **Interview probes:** Walk user→kernel transition (`syscall`/`svc`), errno returns, blocking vs `EA…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive
@@ -27,10 +33,14 @@ Walk user→kernel transition (`syscall`/`svc`), errno returns, blocking vs `EAG
 write(fd, buf, n) → libc stub → syscall → sys_write → VFS/block/net
 ```
 
-Tracing: `strace -p PID`; production: eBPF ([[Linux/eBPF]]). Durability example: [[fsync]] after [[Buffer cache]] writes. Objects named via [[file descriptors]] / [[handle]]s; targets include [[process]] control and [[Epoll]].
+- Tracing: `strace -p PID`; production: eBPF ([[Linux/eBPF]]).
+- Durability example: [[fsync]] after [[Buffer cache]] writes.
+- Objects named via [[file descriptors]] / [[handle]]s
 
-## Real-World Applications
-Every userspace program; seccomp filters; performance work minimizing syscall counts.
+## Mistakes to Avoid
+- **Mistake:** Ignoring `EINTR` and short reads/writes
+- **Mistake:** Assuming every libc function is a syscall
+- **Mistake:** Using `strace` on huge fleets without sampling (overhead)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Security and mediation in one place.
@@ -41,7 +51,6 @@ Every userspace program; seccomp filters; performance work minimizing syscall co
 - vs library call: libc may not enter the kernel (vDSO/pure user).
 - vs ioctl: still a syscall, but device-specific multiplex.
 
-## Mistakes to Avoid
-- Ignoring `EINTR` and short reads/writes.
-- Assuming every libc function is a syscall.
-- Using `strace` on huge fleets without sampling (overhead).
+
+### Use cases
+- Every userspace program

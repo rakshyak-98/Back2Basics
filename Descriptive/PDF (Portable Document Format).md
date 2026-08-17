@@ -4,12 +4,17 @@
 
 > PDF is a fixed-layout document format — pages, fonts, and vectors aimed at print-faithful rendering.
 
-
-
-
+```txt
+        PDF (Portable Docu ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-PDF questions may touch generation/rendering pipelines — fixed layout versus HTML.
+- **Interview probes:** PDF questions may touch generation/rendering pipelines
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -42,10 +47,6 @@ qpdf --check file.pdf    # structural check
 | Compression | Size vs CPU |
 | Encryption | Permissions / open password |
 
-## Pros/Cons or Trade-offs
-- **Editable web content** — HTML.
-- **Data interchange** — JSON/CSV.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **“Text” may be curves** — extractors return nothing useful.
@@ -59,3 +60,7 @@ qpdf --check file.pdf    # structural check
 | Missing glyphs | fonts not embedded | Embed fonts |
 | Huge file | images uncompressed | Recompress; downsample |
 | Corrupt xref | bad merge | qpdf repair / regenerate |
+
+## Pros/Cons or Trade-offs
+- **Editable web content** — HTML.
+- **Data interchange** — JSON/CSV.

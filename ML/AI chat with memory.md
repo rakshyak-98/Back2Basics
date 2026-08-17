@@ -4,25 +4,30 @@
 
 > AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
-
-
-
+```txt
+        AI chat with memor ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about AI chat with memory to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about AI chat with memory to check whether you can choose mo…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-The model does not persist anything between HTTP calls. Every turn you send:
+- **Note:** The model does not persist anything between HTTP calls. Every turn you send:
 
 ```txt
-system prompt + retrieved docs + summarized history + latest user message → model → reply
+- **Note:** system prompt + retrieved docs + summarized history + latest user message → m…
 ```
 
-Token budget is finite (`context window`). Long chats hit **context rot** (early facts dropped) and **cost/latency** scale with history length.
+- **Note:** Token budget is finite (`context window`)
 
 | Layer | What it stores | Tradeoff |
 |-------|----------------|----------|
@@ -70,12 +75,7 @@ context = "\n".join(c.page_content for c in chunks)
 messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {user_text}"})
 ```
 
-Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming protects latency and cost.
-
-## Pros/Cons or Trade-offs
-- **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
-- **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
-- **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
+- Annotate **why**: system prompt sets behavior
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -91,3 +91,8 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 | Cost spike | Messages array growth | Hard cap turns; summarize; cache embeddings |
 | Duplicate / contradictory replies | Multiple memory sources unsynced | Single source of truth; version user profile row |
 | PII in logs | What you persist | Redact before store; TTL on conversation tables |
+
+## Pros/Cons or Trade-offs
+- **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
+- **Strict audit trail required**
+- **Real-time collaborative editing** — use CRDT/OT, not chat history as state.

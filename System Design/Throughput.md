@@ -4,12 +4,18 @@
 
 > Throughput is the rate of successful work completed per unit time — requests per second, transactions per second, megabits per second — while error rate and latency remain within service level objectives.
 
-
-
-
+```txt
+        Throughput ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Distinguish throughput vs latency; Little’s law intuition; find the bottleneck stage.
+- **Interview probes:** Distinguish throughput vs latency
 
 ## Sources
 - Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application — overview
@@ -30,9 +36,9 @@ Network / load balancer → application workers → database / disk / GPU
      packets per second        requests per second         input/output operations per second
 ```
 
-Peak requests per second with fifty percent errors is not useful throughput — measure **successful** completions.
+- Peak requests per second with fifty percent errors is not useful throughput
 
-**Little's Law:** `concurrency ≈ throughput × latency` — raising latency at fixed concurrency lowers effective throughput.
+- **Little's Law:** `concurrency ≈ throughput × latency`
 
 | Layer | Common choke |
 |-------|--------------|
@@ -49,7 +55,7 @@ hey -z 30s -c 50 https://api.example.com/health
 # vegeta, k6 — define success criteria (status, latency p99)
 ```
 
-Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces — optimize the **slowest** stage first (Amdahl).
+- Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces
 
 ### Knobs that move throughput
 
@@ -61,8 +67,15 @@ Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces �
 | Async offload | Return `202 Accepted`; workers absorb ([[event-driven]]) |
 | [[backpressure]] | Prevents overload collapse |
 
-## Real-World Applications
-Capacity planning, load tests, and SLO conversations about RPS vs latency.
+## Mistakes to Avoid
+| Symptom | Likely cause |
+|---------|--------------|
+| Requests per second flat, low CPU | Pool or lock wait |
+| Requests per second flat, high CPU | Hot code path or garbage collection |
+| Good average, awful p99 | Tail saturation — shed load, quality of service tiers |
+| Errors climb with load | Downstream timeout — circuit break |
+
+*What breaks first when load doubles?* Usually the first shared resource without headroom — often the database connection pool.
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear capacity language for sizing.
@@ -73,12 +86,6 @@ Capacity planning, load tests, and SLO conversations about RPS vs latency.
 - vs latency SLOs: complementary metrics.
 - vs [[Scaling Throughput in High-load system]]: how to raise the number.
 
-## Mistakes to Avoid
-| Symptom | Likely cause |
-|---------|--------------|
-| Requests per second flat, low CPU | Pool or lock wait |
-| Requests per second flat, high CPU | Hot code path or garbage collection |
-| Good average, awful p99 | Tail saturation — shed load, quality of service tiers |
-| Errors climb with load | Downstream timeout — circuit break |
 
-*What breaks first when load doubles?* Usually the first shared resource without headroom — often the database connection pool.
+### Use cases
+- Capacity planning, load tests, and SLO conversations about RPS vs latency.

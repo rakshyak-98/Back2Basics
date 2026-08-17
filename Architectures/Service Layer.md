@@ -4,12 +4,17 @@
 
 > Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
 
-
-
-
+```txt
+        Service Layer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Service Layer interviews check where business rules live — thin controllers, transactional use-cases, and avoiding anemic “pass-through” services.
+- **Interview probes:** Service Layer interviews check where business rules live
 
 ## Sources
 - [Martin Fowler — Service Layer](https://martinfowler.com/eaaCatalog/serviceLayer.html) — deep-dive
@@ -17,7 +22,7 @@ Service Layer interviews check where business rules live — thin controllers, t
 
 ## Key Concepts
 ```txt
-HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
+- **Note:** HTTP / UI → Controller → Service (rules + txn) → Repository → DB
 ```
 
 ### Interview map (words you can say)
@@ -33,7 +38,7 @@ HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
 
 1. **Accept** — controller parses input.
 2. **Decide** — service validates and applies rules.
-3. **Persist** — repos write inside one transaction when needed.
+- **Note:** 3. **Persist** — repos write inside one transaction when needed.
 4. **Return** — map domain result to HTTP/status.
 
 ## Technical Details
@@ -64,10 +69,10 @@ class OrderService {
 | Circular deps | Service A↔B | Extract domain or events |
 | Hard to test | Needs full HTTP | Unit-test service with fakes |
 
+## Mistakes to Avoid
+- **Mistake:** Anemic services
+- **Mistake:** Txn leakage
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Tiny CRUD — one handler + one query is fine until rules grow.
 - **Trade-off:** Pure BFF glue — mapping APIs with no rules doesn’t need a service layer.
-
-## Mistakes to Avoid
-- Anemic services — if the service only forwards to the repo, you added a layer for nothing.
-- Txn leakage — opening transactions in controllers usually races and nests badly.

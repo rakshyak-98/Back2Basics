@@ -4,12 +4,18 @@
 
 > Triage blank pages, 502s, and bind failures — separate “web server cannot listen,” “FPM socket mismatch,” and “PHP threw inside the worker.”
 
-
-
-
+```txt
+        PHP errors ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch your first commands: `ss`, service status, socket path alignment, then logs — not random restarts.
+- **Interview probes:** Interviewers watch your first commands: `ss`, service status, socket path ali…
 
 ## Sources
 - [PHP — Error Handling](https://www.php.net/manual/en/book.errorfunc.php) — overview
@@ -29,7 +35,7 @@ sudo php-fpm8.2 -t
 sudo tail -f /var/log/php8.2-fpm.log /var/log/nginx/error.log
 ```
 
-Nginx and pool must agree:
+- Nginx and pool must agree:
 
 ```nginx
 fastcgi_pass unix:/run/php/php8.2-fpm.sock;
@@ -46,10 +52,10 @@ listen = /run/php/php8.2-fpm.sock
 | Blank page | App/FPM log | Log errors; fix exception |
 | Socket permission denied | owner/group/mode | Match `www-data` and Nginx user |
 
-## Real-World Applications
-After PHP upgrades, sockets rename (`php8.2` → `php8.3`) — update Nginx and reload both sides.
-
-**Example:** Apache left enabled beside Nginx — bind failure on reboot; disable the unused service.
+## Mistakes to Avoid
+- **Mistake:** Restarting Nginx only when FPM is dead
+- **Mistake:** Enabling `display_errors` on production to “debug.”
+- **Mistake:** Editing CLI `php.ini` and expecting the site to change
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Logs + socket model make failures localizable.
@@ -59,7 +65,8 @@ After PHP upgrades, sockets rename (`php8.2` → `php8.3`) — update Nginx and 
 - vs [[PHP-FPM]] tuning: errors note is triage; FPM note is pool design.
 - vs Apache `mod_php`: fewer socket issues, worse isolation for modern apps.
 
-## Mistakes to Avoid
-- Restarting Nginx only when FPM is dead.
-- Enabling `display_errors` on production to “debug.”
-- Editing CLI `php.ini` and expecting the site to change.
+
+### Use cases
+- After PHP upgrades, sockets rename (`php8.2` → `php8.3`)
+
+- **Example:** Apache left enabled beside Nginx

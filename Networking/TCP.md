@@ -4,26 +4,32 @@
 
 > Transmission Control Protocol delivers a reliable, ordered byte stream between two endpoints — under load, flow control, congestion, or middlebox idle timeouts usually break first.
 
-
-
-
+```txt
+        TCP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use TCP to check whether you understand reliability mechanisms (seq/ack, windows, congestion) versus “TCP just works,” and when you would pick [[UDP]] or QUIC instead.
+- **Interview probes:** Interviewers use TCP to check whether you understand reliability mechanisms (…
 
 ## Sources
 - [RFC 9293 — Transmission Control Protocol (TCP)](https://www.rfc-editor.org/rfc/rfc9293) — deep-dive
 - [Wikipedia — Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) — overview
 
-## Core Definition
-TCP sits above IP and turns an unreliable packet path into a connection-oriented, ordered byte stream identified by a four-tuple (source IP, source port, destination IP, destination port).
-
 ## Key Concepts
-- **Reliability:** sequence numbers, acknowledgements, retransmission → lost segments recover without the app reinventing them.
-- **Ordered delivery:** receiver buffers out-of-order segments → apps see a contiguous stream (and pay head-of-line blocking).
+- **Reliability:** sequence numbers, acknowledgements, retransmission → lost segments recover wi…
+- **Ordered delivery:** receiver buffers out-of-order segments → apps see a contiguous stream (and pa…
 - **Flow control (`rwnd`):** receiver window limits in-flight data → protects a slow reader.
 - **Congestion control (`cwnd`):** adapts to loss → protects the shared network.
-- **No message boundaries:** one `write()` may become many segments → apps must frame (length prefix, delimiters, HTTP `Content-Length`).
+- **No message boundaries:** one `write()` may become many segments → apps must frame (length prefix, deli…
+
+
+- **Core:** TCP sits above IP and turns an unreliable packet path into a connection-orien…
 
 ## Technical Details
 ```
@@ -36,9 +42,11 @@ Client                          Server
   │◄─── FIN ──────────────────────│
 ```
 
-After close, the side that sent the first FIN enters **TIME-WAIT** (typically 2× MSL) to catch late duplicates — this can block port reuse on busy servers.
+- After close, the side that sent the first FIN enters **TIME-WAIT** (typically…
 
-Modern Linux defaults include CUBIC or BBR. Loss triggers retransmission (RTO or fast retransmit after three duplicate ACKs). **Nagle's algorithm** batches small writes; with delayed ACK it can add latency — `TCP_NODELAY` disables Nagle when needed.
+- Modern Linux defaults include CUBIC or BBR.
+- Loss triggers retransmission (RTO or fast retransmit after three duplicate AC…
+- **Nagle's algorithm:** batches small writes; with delayed ACK it can add laten…
 
 ```bash
 ss -tan state established
@@ -55,10 +63,10 @@ sysctl net.core.somaxconn
 | RST after idle | Load balancer or NAT timeout |
 | Garbled messages | Missing application-level framing |
 
-## Real-World Applications
-HTTPS, databases, SSH, and most request/response APIs run over TCP.
-
-**Example:** An API behind a load balancer sees random RST after idle — the LB or [[NAT (Network Address Translation)]] UDP/TCP idle timer expired; enable keepalives or shorten idle.
+## Mistakes to Avoid
+- **Mistake:** Treating TCP as message-oriented
+- **Mistake:** Ignoring middlebox idle timeouts
+- **Mistake:** Enabling Nagle on latency-sensitive chatty protocols without mea…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Built-in reliability and ordering — correct for most request/response and file transfer.
@@ -69,7 +77,8 @@ HTTPS, databases, SSH, and most request/response APIs run over TCP.
 - vs [[UDP]]: UDP is datagram, unordered, no congestion by default — apps own reliability.
 - vs QUIC/HTTP/3: multiplexed streams over UDP with independent loss recovery.
 
-## Mistakes to Avoid
-- Treating TCP as message-oriented — without framing, `read()` boundaries are not application messages.
-- Ignoring middlebox idle timeouts — long-lived quiet connections die without keepalives.
-- Enabling Nagle on latency-sensitive chatty protocols without measuring.
+
+### Use cases
+- HTTPS, databases, SSH, and most request/response APIs run over TCP.
+
+- **Example:** An API behind a load balancer sees random RST after idle

@@ -4,12 +4,18 @@
 
 > `vite.config.*` controls dev server and build — plugins, aliases, env prefix, and mode-specific options via `defineConfig`.
 
-
-
-
+```txt
+        Vite config ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want `import.meta.env` + `VITE_` prefix, `command === 'serve'|'build'` branching, and why Vite is esbuild/Rollup-shaped rather than Webpack-shaped.
+- **Interview probes:** Interviewers want `import.meta.env` + `VITE_` prefix, `command === 'serve'|'b…
 
 ## Sources
 - [Vite — Configuring Vite](https://vitejs.dev/config/) — deep-dive
@@ -35,12 +41,12 @@ export default defineConfig(({ command, mode }) => {
 });
 ```
 
-Environment files load automatically; application code reads `import.meta.env.VITE_*`, not raw `process.env`, in the browser bundle.
+- Environment files load automatically
 
-## Real-World Applications
-Monorepo packages share a base config; apps override aliases and proxy rules for local APIs.
-
-**Example:** API URL differs per mode — `VITE_API_URL` in `.env.development` / `.env.production`.
+## Mistakes to Avoid
+- **Mistake:** Putting secrets in `VITE_` vars (they ship to the browser)
+- **Mistake:** Expecting server-only `process.env` in client code
+- **Mistake:** One giant config without `mode`/`command` splits when needs dive…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast cold start; simple config surface for modern ESM apps.
@@ -50,7 +56,8 @@ Monorepo packages share a base config; apps override aliases and proxy rules for
 - vs Webpack: different env and loader models; Vite optimizes ESM DX.
 - vs [[vite internal]]: config is the knobs; internals explain env/runtime wiring.
 
-## Mistakes to Avoid
-- Putting secrets in `VITE_` vars (they ship to the browser).
-- Expecting server-only `process.env` in client code.
-- One giant config without `mode`/`command` splits when needs diverge.
+
+### Use cases
+- Monorepo packages share a base config
+
+- **Example:** API URL differs per mode

@@ -4,12 +4,18 @@
 
 > Application-side pool of reusable MySQL sessions — HikariCP, mysql2 pool, SQLAlchemy `QueuePool` — to cap server connections and amortize handshake cost.
 
-
-
-
+```txt
+        mysql pool connect ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Capacity planning: `pool_max × app_instances` versus `max_connections`. Stale connections and pool wait timeouts are common production war stories.
+- **Interview probes:** Capacity planning: `pool_max × app_instances` versus `max_connections`
 
 ## Sources
 - [Connector/J connection notes](https://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-connect-drivermanager.html) — overview
@@ -36,8 +42,10 @@ maxLifetime=1800000
 | Stale connection errors | Test query on checkout; reduce `maxLifetime` |
 | Pool wait timeouts | Slow queries holding connections |
 
-## Real-World Applications
-Each Kubernetes pod runs HikariCP at 10–20; horizontal scale requires lowering per-pod size or raising server limits with memory math.
+## Mistakes to Avoid
+- **Mistake:** Multiplying default pool sizes across 100 pods
+- **Mistake:** Holding a borrowed connection during downstream HTTP
+- **Mistake:** Disabling lifetime rotation and accumulating half-dead connectio…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Stable latency, controlled concurrency into MySQL.
@@ -45,9 +53,8 @@ Each Kubernetes pod runs HikariCP at 10–20; horizontal scale requires lowering
 - **Trade-off:** App pools vs external proxies (ProxySQL, RDS Proxy) for many languages/services.
 
 ## Comparison
-vs raw [[mysql connection]] per request: pooling wins at scale. vs [[connection pooling]] general note: this is MySQL client-pool practice.
+- vs raw [[mysql connection]] per request: pooling wins at scale
 
-## Mistakes to Avoid
-- Multiplying default pool sizes across 100 pods.
-- Holding a borrowed connection during downstream HTTP.
-- Disabling lifetime rotation and accumulating half-dead connections after failover.
+
+### Use cases
+- Each Kubernetes pod runs HikariCP at 10–20

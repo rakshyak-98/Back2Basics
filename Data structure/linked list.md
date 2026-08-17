@@ -4,19 +4,24 @@
 
 > Linked list — don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 
-
-
-
+```txt
+        Linked list ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Linked lists test pointer/reference reasoning — reverse, cycle detect, and when arrays beat lists on modern CPUs.
+- **Interview probes:** Linked lists test pointer/reference reasoning
 
 ## Sources
 - [Wikipedia — Linked list](https://en.wikipedia.org/wiki/Linked_list) — overview
 - [CLRS — Linked lists](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) — deep-dive
 
 ## Key Concepts
-Each node holds **value** + **next** pointer. Head is entry; tail optional for O(1) append with doubly-linked + tail reference. Singly-linked: one direction. Doubly-linked: `prev` enables backward walk and O(1) delete given node reference. No random access — index i requires i steps from head.
+- **Note:** Each node holds **value** + **next** pointer. Head is entry; tail optional fo…
 
 ```
 head → [1|•]→[2|•]→[3|null]
@@ -75,9 +80,9 @@ while (fast?.next) {
 | Memory leak (C/C++) | Free on delete | `free(node)` when removing |
 | Reverse bugs | 3-pointer walk | `prev, cur, next` pattern |
 
+## Mistakes to Avoid
+- **Mistake:** Mutating while iterating
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 - **Trade-off:** Don't choose LL for frequent binary search — array + BS instead.
-
-## Mistakes to Avoid
-- Mutating while iterating — save `next` before deleting current. Shared node in two lists — aliasing unless deep copy. Interview "reverse in k-group" — pointer discipline; draw diagram.

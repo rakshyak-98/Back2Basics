@@ -4,12 +4,18 @@
 
 > Inspect live and historical MySQL queries — `SHOW PROCESSLIST`, Performance Schema, and the slow query log — to find what blocks production.
 
-
-
-
+```txt
+        show query ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-On-call / debugging signal: how do you find the culprit query, kill it safely, and prevent repeats with the slow log.
+- **Interview probes:** On-call / debugging signal: how do you find the culprit query, kill it safely…
 
 ## Sources
 - [SHOW PROCESSLIST](https://dev.mysql.com/doc/refman/en/show-processlist.html) — overview
@@ -34,10 +40,12 @@ FROM performance_schema.events_statements_history_long
 ORDER BY timer_wait DESC LIMIT 10;
 ```
 
-Pair findings with `EXPLAIN` on [[mysql query]].
+- Pair findings with `EXPLAIN` on [[mysql query]].
 
-## Real-World Applications
-Incident response when API latency spikes: find long `Locked`/`Sending data` threads, kill runaways, then add indexes or limit fan-out.
+## Mistakes to Avoid
+- **Mistake:** `KILL` on the wrong thread ID
+- **Mistake:** Enabling slow log with `long_query_time=0` on a hot primary with…
+- **Mistake:** Fixating on CPU while the processlist shows lock waits ([[mysql …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Immediate visibility without deploying new agents.
@@ -45,9 +53,8 @@ Incident response when API latency spikes: find long `Locked`/`Sending data` thr
 - **Trade-off:** Always-on Performance Schema overhead vs blind spots.
 
 ## Comparison
-vs external APM: DB-native tools are authoritative for SQL text/locks; APM shows user-facing impact.
+- vs external APM: DB-native tools are authoritative for SQL text/locks
 
-## Mistakes to Avoid
-- `KILL` on the wrong thread ID.
-- Enabling slow log with `long_query_time=0` on a hot primary without disk plan.
-- Fixating on CPU while the processlist shows lock waits ([[mysql lock]]).
+
+### Use cases
+- Incident response when API latency spikes: find long `Locked`/`Sending data` …

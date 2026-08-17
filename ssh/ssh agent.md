@@ -4,12 +4,18 @@
 
 > `ssh-agent` holds decrypted private keys in memory so you type the key passphrase once per session instead of on every SSH connection.
 
-
-
-
+```txt
+        ssh agent ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how the agent relates to encrypted-at-rest keys, `IdentityFile` selection, and why agent forwarding to untrusted hosts is dangerous.
+- **Interview probes:** Interviewers ask how the agent relates to encrypted-at-rest keys, `IdentityFi…
 
 ## Sources
 - [OpenSSH — ssh-agent](https://man.openbsd.org/ssh-agent) — deep-dive
@@ -30,7 +36,7 @@ ssh-add -d ~/.ssh/id_ed25519    # remove one key
 kill $SSH_AGENT_PID             # stop agent
 ```
 
-Define which key to use per host in `~/.ssh/config` (for example `IdentityFile ~/.ssh/id_ed25519_github` under `Host github.com`).
+- Define which key to use per host in `~/.ssh/config` (for example `IdentityFil…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -39,10 +45,10 @@ Define which key to use per host in `~/.ssh/config` (for example `IdentityFile ~
 | Passphrase asked every time | Agent not started in login shell | Add agent start to shell profile or desktop keyring |
 | Agent forwards in untrusted host | `ForwardAgent yes` | Disable except jump hosts you trust |
 
-## Real-World Applications
-Daily developer SSH to many hosts, GitHub/GitLab key unlock once per day, and controlled forwarding only through a trusted bastion.
-
-**Example:** Unlock `id_ed25519` once with `ssh-add`; subsequent `git push` and `ssh` calls reuse the agent without re-prompting.
+## Mistakes to Avoid
+- **Mistake:** Enabling agent forwarding into untrusted servers
+- **Mistake:** Assuming the agent replaces correct `authorized_keys` setup on t…
+- **Mistake:** Leaving unnecessary keys loaded in shared/CI environments
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Usable strong passphrases without constant prompts.
@@ -53,7 +59,8 @@ Daily developer SSH to many hosts, GitHub/GitLab key unlock once per day, and co
 - vs typing passphrase each time: agent is better UX; hardware keys (FIDO/sk) raise the bar further.
 - vs pageant/keychain: same job on other platforms — still do not forward blindly.
 
-## Mistakes to Avoid
-- Enabling agent forwarding into untrusted servers.
-- Assuming the agent replaces correct `authorized_keys` setup on the server.
-- Leaving unnecessary keys loaded in shared/CI environments.
+
+### Use cases
+- Daily developer SSH to many hosts, GitHub/GitLab key unlock once per day, and…
+
+- **Example:** Unlock `id_ed25519` once with `ssh-add`

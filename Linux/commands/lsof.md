@@ -4,19 +4,22 @@
 
 > lsof lists open files — and on Linux that includes sockets, pipes, and devices — showing which process holds them.
 
-
-
-
+```txt
+        lsof ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic: who holds this port/file, deleted-but-open disk leaks, and when to prefer `ss` + `/proc/<pid>/fd` on busy hosts.
+- **Interview probes:** Classic: who holds this port/file, deleted-but-open disk leaks, and when to p…
 
 ## Sources
 - [lsof(8)](https://man7.org/linux/man-pages/man8/lsof.8.html) — deep-dive
 - [proc(5) — fd](https://man7.org/linux/man-pages/man5/proc.5.html) — overview
-
-## Core Definition
-Everything is a file descriptor. `lsof` maps PID ↔ path/socket. Use it to find listeners, who has a mount busy, and processes holding deleted files that still consume disk blocks.
 
 ## Key Concepts
 - **Port → process:** `-iTCP:port -sTCP:LISTEN`.
@@ -24,6 +27,9 @@ Everything is a file descriptor. `lsof` maps PID ↔ path/socket. Use it to find
 - **`(deleted)`:** Unlinked but still open — space freed only after close.
 - **`-p` scope:** Cheaper than full-system scans.
 - **Namespaces:** Host lsof may miss container netns.
+
+
+- **Core:** Everything is a file descriptor
 
 ## Technical Details
 ```bash
@@ -51,8 +57,10 @@ lsof -c nginx
 | Port busy, no process in ss? | netns / race | Check container ns; retry |
 | Slow lsof | Full scan | Narrow `-p` / `-i` |
 
-## Real-World Applications
-Finding which process blocks a volume umount, reclaiming disk after logrotate left deleted handles open, and mapping :5432 to a postgres PID.
+## Mistakes to Avoid
+- **Mistake:** Running unscoped `lsof` on huge multi-tenant hosts as first step
+- **Mistake:** Ignoring `(deleted)` after log rotation
+- **Mistake:** Assuming host lsof sees every container socket
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Unified view of files and sockets.
@@ -60,9 +68,8 @@ Finding which process blocks a volume umount, reclaiming disk after logrotate le
 - **Trade-off:** `ss -lntp` for ports vs lsof when you need file paths too.
 
 ## Comparison
-vs [[ss]]: faster socket focus. vs `/proc/<pid>/fd`: lighter per-PID. vs [[ps]]: process table without FD detail.
+- vs [[ss]]: faster socket focus
 
-## Mistakes to Avoid
-- Running unscoped `lsof` on huge multi-tenant hosts as first step.
-- Ignoring `(deleted)` after log rotation.
-- Assuming host lsof sees every container socket.
+
+### Use cases
+- Finding which process blocks a volume umount, reclaiming disk after logrotate…

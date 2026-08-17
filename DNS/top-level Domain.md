@@ -4,12 +4,18 @@
 
 > A top-level domain (TLD) is the rightmost public label in a DNS name (`example.com` → TLD is `com`) — IANA delegates each TLD to a registry that sets registration policy and operates its nameservers.
 
-
-
-
+```txt
+        top-level Domain ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers distinguish registry vs registrar, gTLD vs ccTLD policy, and why NS changes at the TLD are slow and high-impact.
+- **Interview probes:** Interviewers distinguish registry vs registrar, gTLD vs ccTLD policy, and why…
 
 ## Sources
 - [IANA — Top-Level Domains](https://www.iana.org/domains) — overview
@@ -36,20 +42,20 @@ Interviewers distinguish registry vs registrar, gTLD vs ccTLD policy, and why NS
       └── example.com  NS → your DNS host ([[Route53]], [[cloudflare]], [[BIND]])
 ```
 
-Registrars (GoDaddy, Route 53 Registrar, etc.) sell **second-level** names under a TLD; they update registry data and provide glue for your [[name server]] choice.
+- Registrars (GoDaddy, Route 53 Registrar, etc.) sell **second-level** names un…
 
-**Operational implications**
+- **Operational implications:** 
 
-- **Propagation** — NS changes at TLD can take hours; plan TTL reduction before migration.
-- **ccTLD rules** — some require local presence or specific [[name server]] counts.
-- **Private TLD confusion** — do not invent `corp.local` as if it were a public TLD; use proper internal zones ([[DNS zone]]).
+- **Propagation:** — NS changes at TLD can take hours; plan TTL reduction before migration.
+- **ccTLD rules:** — some require local presence or specific [[name server]] counts.
+- **Private TLD confusion:** — do not invent `corp.local` as if it were a public TLD
 
-**Security:** DNSSEC at root and many TLDs validates chain of trust downward; Certificate Transparency and **CAA** records reduce mis-issuance risk for your domain under any TLD.
+- **Security:** DNSSEC at root and many TLDs validates chain of trust downward
 
-## Real-World Applications
-Choosing `.com` vs `.io` vs ccTLD for product branding; migrating NS from registrar DNS to Cloudflare/Route 53.
-
-**Example:** Lower apex TTL, dual-publish records at old and new DNS hosts, then flip TLD NS — reverse only if monitoring shows breakage within the overlap window.
+## Mistakes to Avoid
+- **Mistake:** Confusing registry (runs `.com`) with registrar (sells `example.…
+- **Mistake:** Inventing `corp.local` as a faux public TLD instead of a private…
+- **Mistake:** Changing TLD nameservers without overlapping TTLs and dual hosti…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared global namespace under ICANN/IANA governance.
@@ -57,10 +63,11 @@ Choosing `.com` vs `.io` vs ccTLD for product branding; migrating NS from regist
 - **Con:** TLD NS changes are slow and affect the entire domain subtree.
 
 ## Comparison
-- vs [[Sub Domain]]: TLD is the public suffix layer; subdomains hang under your registered second-level name.
+- vs [[Sub Domain]]: TLD is the public suffix layer
 - vs root zone: root delegates TLDs; TLDs delegate registrant zones.
 
-## Mistakes to Avoid
-- Confusing registry (runs `.com`) with registrar (sells `example.com`).
-- Inventing `corp.local` as a faux public TLD instead of a private [[DNS zone]].
-- Changing TLD nameservers without overlapping TTLs and dual hosting.
+
+### Use cases
+- Choosing `.com` vs `.io` vs ccTLD for product branding
+
+- **Example:** Lower apex TTL, dual-publish records at old and new DNS hosts, t…

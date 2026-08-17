@@ -4,12 +4,18 @@
 
 > `psql` — the interactive PostgreSQL terminal for connecting, meta-commands, schema inspection, and scripting [[SQL]].
 
-
-
-
+```txt
+        psql essential ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Comfort with `\d`, `\dt`, `\timing`, and connection URIs signals you can debug without a GUI.
+- **Interview probes:** Comfort with `\d`, `\dt`, `\timing`, and connection URIs signals you can debu…
 
 ## Sources
 - [psql](https://www.postgresql.org/docs/current/app-psql.html) — deep-dive
@@ -41,8 +47,10 @@ SET search_path TO app, public;
 SET statement_timeout = '30s';
 ```
 
-## Real-World Applications
-Incident debugging, one-off DDL, and scripted migrations wrapped in `psql -v ON_ERROR_STOP=1 -f`.
+## Mistakes to Avoid
+- **Mistake:** Forgetting `search_path` and altering the wrong schema’s tables
+- **Mistake:** Running unrestricted scripts without `ON_ERROR_STOP`
+- **Mistake:** Pasting passwords into shell history
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Always available, scriptable, closest to server truth.
@@ -50,9 +58,8 @@ Incident debugging, one-off DDL, and scripted migrations wrapped in `psql -v ON_
 - **Trade-off:** GUI tools for exploration vs `psql` for precision and automation.
 
 ## Comparison
-vs MySQL `mysql` CLI: similar role; meta-commands differ (`\d` vs `DESCRIBE` / `SHOW`).
+- vs MySQL `mysql` CLI: similar role
 
-## Mistakes to Avoid
-- Forgetting `search_path` and altering the wrong schema’s tables.
-- Running unrestricted scripts without `ON_ERROR_STOP`.
-- Pasting passwords into shell history — prefer `.pgpass` or env-based auth.
+
+### Use cases
+- Incident debugging, one-off DDL, and scripted migrations wrapped in `psql -v …

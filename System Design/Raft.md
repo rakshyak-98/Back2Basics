@@ -4,27 +4,22 @@
 
 > Raft is a consensus algorithm that elects a leader, replicates an append-only log to a majority of nodes, and commits only after durable replication — strong coordination without Paxos opacity.
 
-
-
-
+```txt
+        Raft ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Walk leader election, log replication, commit = majority, odd voter counts, and when Raft is the wrong tool (cross-region user data).
+- **Interview probes:** Walk leader election, log replication, commit = majority, odd voter counts, a…
 
 ## Sources
 - Diego Ongaro & John Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf) (USENIX ATC 2014) — deep-dive
 - [Raft website](https://raft.github.io/) — overview
 - etcd documentation — production Raft tuning — deep-dive
-
-## Recall Cues
-- Walk leader election, log replication, commit = majority, odd voter counts, and when Raft is the wrong tool (cross-region user data)?
-- What is step 1: Client → leader (or forward)?
-- What is step 2: Leader appends + replicates in parallel?
-- What is step 3: Majority store → **committed**?
-- What is step 4: Apply to state machine; respond?
-- What is step 5: Followers apply in log order when they learn commit index?
-- What mistake is **Running two voters and calling it HA**?
-- What mistake is **Counting learners toward failover**?
 
 ## Technical Details
 ```txt
@@ -64,21 +59,22 @@ etcdctl endpoint status -w table
 | Disk full | Unbounded log | Snapshot/compact |
 | Slow commits | Follower lag | Replace sick node; faster disk |
 
-**Two-node clusters are a trap.** Wrong tool: planet-scale [[Eventual consistency]] data; single-process apps; sync cross-region Raft on every user write.
+- **Two-node clusters are a trap.:** Wrong tool: planet-scale [[Eventual consist…
 
 ## Mistakes to Avoid
-- Running two voters and calling it HA.
-- Counting learners toward failover.
-- Using global Raft for every product write across continents.
-
-## Comparison
-- vs [[Quorum]] counting: Raft is full consensus (ordered log); Dynamo quorum is a response-count rule.
-- vs Paxos: same problem class; Raft prioritizes teachability/ops clarity.
-
-## Real-World Applications
-etcd, Consul, TiKV, and many Kubernetes control-plane stores.
+- **Mistake:** Running two voters and calling it HA
+- **Mistake:** Counting learners toward failover
+- **Mistake:** Using global Raft for every product write across continents
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Understandable strong consistency; clear leader.
 - **Con:** Write latency tied to majority RTT; availability needs majority.
 - **Trade-off:** more voters (resilience) vs slower commits.
+
+## Comparison
+- vs [[Quorum]] counting: Raft is full consensus (ordered log)
+- vs Paxos: same problem class; Raft prioritizes teachability/ops clarity.
+
+
+### Use cases
+- etcd, Consul, TiKV, and many Kubernetes control-plane stores.

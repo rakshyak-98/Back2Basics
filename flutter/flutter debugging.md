@@ -4,26 +4,32 @@
 
 > Watch the Dart VM, Flutter tool, and platform bridges (`adb`, iOS tools) while an app runs — find jank, crashes, and layout bugs.
 
-
-
-
+```txt
+        Flutter debugging ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers care that you can name the processes in a debug session, when hot reload fails, and how you profile frame jank vs logic bugs.
+- **Interview probes:** Interviewers care that you can name the processes in a debug session, when ho…
 
 ## Sources
 - [Flutter — Debugging Flutter apps](https://docs.flutter.dev/testing/debugging) — deep-dive
 - [Flutter — DevTools](https://docs.flutter.dev/tools/devtools) — overview
 
 ## Key Concepts
-- **Hot reload:** inject updated Dart into the running isolate → keeps state; fails on enum/native/const shape changes.
+- **Hot reload:** inject updated Dart into the running isolate → keeps state
 - **Hot restart / full restart:** reset isolate or rebuild native shell → needed when reload cannot apply.
-- **VM service:** debug protocol endpoint for breakpoints, inspect, DevTools → what IDEs attach to.
+- **VM service:** debug protocol endpoint for breakpoints, inspect, DevTools → what IDEs attach…
 - **Frontend server:** incremental Dart compiler during `flutter run` → feeds hot reload.
 - **Platform bridge:** `adb` / Xcode tools talk to the device → install, logcat, port forward.
 
 ## Technical Details
-Typical process map during `flutter run` on Android:
+- Typical process map during `flutter run` on Android:
 
 | Process | Role |
 |---------|------|
@@ -48,20 +54,21 @@ dart devtools
 | Blank after attach | App not paused at VM service | Relaunch with `flutter run` |
 | Android logs missing | Wrong device / USB auth | `adb devices`; accept RSA prompt |
 
-## Real-World Applications
-Use DevTools timeline for jank, widget inspector for layout, and `flutter logs` when the IDE console truncates.
-
-**Example:** List scrolls at 40 fps in debug — confirm with `--profile` before rewriting widgets.
+## Mistakes to Avoid
+- **Mistake:** Trusting debug-only timings for production SLAs
+- **Mistake:** Fighting hot reload after a native plugin change
+- **Mistake:** Debugging without `flutter doctor` when the toolchain is half-br…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Hot reload keeps UI state while iterating.
 - **Con:** Debug JIT hides release jank — always verify with profile/release.
 
 ## Comparison
-- vs [[flutter error]]: debugging is live inspection; error notes are build/runtime failure catalogs.
-- vs native Android Studio debugger: Flutter path goes through Dart VM service first, then platform tools.
+- vs [[flutter error]]: debugging is live inspection
+- vs native Android Studio debugger: Flutter path goes through Dart VM service first, then platform…
 
-## Mistakes to Avoid
-- Trusting debug-only timings for production SLAs.
-- Fighting hot reload after a native plugin change — full restart instead.
-- Debugging without `flutter doctor` when the toolchain is half-broken.
+
+### Use cases
+- Use DevTools timeline for jank, widget inspector for layout, and `flutter log…
+
+- **Example:** List scrolls at 40 fps in debug

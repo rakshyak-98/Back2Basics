@@ -4,22 +4,28 @@
 
 > tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
-
-
-
+```txt
+        tiled, multi-resol ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about tiled, multi-resolution, and predictive loading system to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about tiled, multi-resolution, and predictive loading system…
 
 ## Sources
 - [Wikipedia — tiled, multi-resolution, and predictive loading system](https://en.wikipedia.org/wiki/tiled%2C_multi-resolution%2C_and_predictive_loading_system) — overview
 
 ## Key Concepts
-**Multi-resolution pyramid:** each zoom level is downsampled by 2×; tiles are fixed size (256 common in Deep Zoom, TMS, Slippy map conventions).
+- **Note:** **Multi-resolution pyramid:** each zoom level is downsampled by 2×
 
-**Predictive loading:** prefetch ring around viewport in pan direction; cancel in-flight fetches on rapid zoom change.
+- **Note:** **Predictive loading:** prefetch ring around viewport in pan direction
 
-**Formats:** DZI (Deep Zoom), IIIF (`/info.json` + `{region}/{size}/{rotation}/{quality}.jpg`), map `{z}/{x}/{y}.png`, MBTiles offline bundle.
+- **Note:** **Formats:** DZI (Deep Zoom), IIIF (`/info.json` + `{region}/{size}/{rotation…
 
 ## Technical Details
 ```txt
@@ -105,15 +111,6 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 # Output: output.dzi + output_files/
 ```
 
-## Real-World Applications
-Used wherever tiled, multi-resolution, and predictive loading system sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Images < 2000px** — single responsive `srcset` sufficient.
-- **Con / skip when:** **Video** — HLS/DASH segment streaming, not static tile pyramid.
-- **Con / skip when:** **Vector maps at scale** — MVT (Mapbox Vector Tiles) not raster pyramid.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,7 +122,16 @@ Used wherever tiled, multi-resolution, and predictive loading system sits in an 
 | Stale tiles after update | CDN immutable | Version path `/dataset-v4/tiles/...` |
 | CORS on tile CDN | Image canvas tainted | `crossOrigin="anonymous"` + ACAO header |
 
-- **HTTP/1.1 connection limit** — hundreds of tile requests parallelize poorly; HTTP/2, domain sharding (legacy), or sprite sheets for small sets.
-- **Retina displays** — may need `@2x` tile size or higher z; clarify in API contract.
-- **Predictive fetch on metered data** — respect `navigator.connection.saveData`.
-- **Security on dynamic tiles** — signed URLs or auth cookie; tiles leak data if guessable x/y/z.
+- **Mistake:** **HTTP/1.1 connection limit**
+- **Mistake:** **Retina displays**
+- **Mistake:** **Predictive fetch on metered data**
+- **Mistake:** **Security on dynamic tiles**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Images < 2000px**
+- **Con / skip when:** **Video**
+- **Con / skip when:** **Vector maps at scale**
+
+## Real-World Applications
+- **Scenario:** Used wherever tiled, multi-resolution, and predictive loading system sits in …

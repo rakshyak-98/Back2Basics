@@ -4,12 +4,18 @@
 
 > Outbound packets leaving your network boundary toward the internet or another VPC — billed, filtered, and NAT'd differently from ingress.
 
-
-
-
+```txt
+        Egress traffic ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use egress to test whether you separate outbound paths (NAT, filtering, cost) from inbound (load balancer, security groups) and can debug “private subnet has no internet” without opening inbound.
+- **Interview probes:** Interviewers use egress to test whether you separate outbound paths (NAT, fil…
 
 ## Sources
 - [AWS — NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) — deep-dive
@@ -17,10 +23,10 @@ Interviewers use egress to test whether you separate outbound paths (NAT, filter
 - [Wikipedia — Egress filtering](https://en.wikipedia.org/wiki/Egress_filtering) — overview
 
 ## Key Concepts
-- **Egress vs ingress:** source inside, destination outside (relative to the trust boundary) → opposite of inbound client traffic.
-- **NAT egress:** private hosts reach the internet without public IPs → return traffic only for established flows.
-- **Egress filtering:** security groups, NACLs, firewall policies on outbound → reduce data exfiltration and unwanted callbacks.
-- **Cost asymmetry:** cloud often bills NAT processing and data transfer out → egress volume shows up on the invoice.
+- **Egress vs ingress:** source inside, destination outside (relative to the trust boundary) → opposit…
+- **NAT egress:** private hosts reach the internet without public IPs → return traffic only for…
+- **Egress filtering:** security groups, NACLs, firewall policies on outbound → reduce data exfiltrat…
+- **Cost asymmetry:** cloud often bills NAT processing and data transfer out → egress volume shows …
 
 ## Technical Details
 ```txt
@@ -28,10 +34,10 @@ Private subnet VM ──► NAT GW ──► IGW ──► Internet   (egress)
 Internet ──► IGW ──► ALB ──► app                    (ingress)
 ```
 
-Cloud patterns:
+- Cloud patterns:
 
-- **Private instances** use a NAT Gateway or NAT instance for egress — no unsolicited inbound.
-- **Return traffic** must match stateful firewall/NAT bindings; you control both directions via route tables.
+- **Private instances:** use a NAT Gateway or NAT instance for egress — no unsolicited inbound.
+- **Return traffic:** must match stateful firewall/NAT bindings
 - **Why NAT GW:** gives private RFC1918 hosts outbound internet without a public IP on each VM.
 
 ### AWS VPC (standard NAT egress)
@@ -72,10 +78,11 @@ kubectl top pod -A --sort-by=network
 | Surprise cloud bill | NAT GW + cross-AZ | VPC endpoints for S3; same-AZ NAT; flow logs |
 | Geo-blocked egress | Egress IP is NAT pool | Proxy in allowed region; VPN |
 
-## Real-World Applications
-Private application tiers that pull packages, call external APIs, or push metrics while remaining unreachable from the public internet.
-
-**Example:** API pods in a private subnet route `0.0.0.0/0` to a NAT Gateway; partners allowlist the NAT’s Elastic IP(s), not each pod IP.
+## Mistakes to Avoid
+- **Mistake:** Routing a private subnet’s default route to a NAT that lives onl…
+- **Mistake:** NAT’ing everything when the tier needs direct inbound
+- **Mistake:** Ignoring DNS and API egress as a data-leak path
+- **Mistake:** Assuming inbound load-balancer IPs are your egress allowlist tar…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Outbound-only internet for private workloads without exposing each host.
@@ -88,8 +95,8 @@ Private application tiers that pull packages, call external APIs, or push metric
 - vs [[outbound ip]]: egress is the flow; outbound IP is the source address peers see after SNAT.
 - vs public subnet + IGW: direct egress with public IPs — simpler routing, weaker isolation.
 
-## Mistakes to Avoid
-- Routing a private subnet’s default route to a NAT that lives only in another AZ — AZ-local black hole when that NAT fails or is missing.
-- NAT’ing everything when the tier needs direct inbound — split tiers: public LB for ingress, private app egress via NAT.
-- Ignoring DNS and API egress as a data-leak path — prefer VPC endpoints for cloud APIs where available.
-- Assuming inbound load-balancer IPs are your egress allowlist targets.
+
+### Use cases
+- Private application tiers that pull packages, call external APIs, or push met…
+
+- **Example:** API pods in a private subnet route `0.0.0.0/0` to a NAT Gateway

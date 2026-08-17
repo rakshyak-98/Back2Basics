@@ -4,12 +4,16 @@
 
 > Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
-
-
-
+```txt
+        Mean Average Preci ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Mean Average Precision (MAP) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Mean Average Precision (MAP) to check whether you can …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -39,11 +43,6 @@ map_score = np.mean([
 2. Score all candidates; sort descending.
 3. Report MAP @ full list and **Precision@5 / Recall@20** for product SLAs.
 
-## Pros/Cons or Trade-offs
-- **Single-label classification** — use precision/recall/F1 ([[binary classification]]).
-- **Regression** — use MAE/RMSE ([[regression]]).
-- **Clustering** — no query-level ranking.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **MAP with binary relevance** ignores **how** relevant (marginally vs perfect match) — use [[Normalized Discounted Cumulative Gain (NDCG)]] for graded labels.
@@ -58,3 +57,8 @@ map_score = np.mean([
 | Offline MAP ↑, revenue flat | Position bias in logs | Inverse propensity scoring; interleaving |
 | AP undefined | No relevant items in query | Skip query or define fallback metric |
 | Compares unfairly across systems | Different candidate pools | Same corpus per query |
+
+## Pros/Cons or Trade-offs
+- **Single-label classification**
+- **Regression** — use MAE/RMSE ([[regression]]).
+- **Clustering** — no query-level ranking.

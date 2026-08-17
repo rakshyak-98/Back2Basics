@@ -4,12 +4,18 @@
 
 > A critical section is a stretch of code that must not run concurrently with other threads touching the same data — mutual exclusion makes those regions safe.
 
-
-
-
+```txt
+        Critical sections ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Sync basics: what races look like, keep sections short, lock ordering, and priority inversion.
+- **Interview probes:** Sync basics: what races look like, keep sections short, lock ordering, and pr…
 
 ## Sources
 - Herlihy & Shavit, *The Art of Multiprocessor Programming* — deep-dive
@@ -28,12 +34,14 @@ Thread A: lock → read/modify/write shared → unlock
 Thread B:        lock (waits) ───────────────► enters critical section
 ```
 
-[[semaphores]] allow counting resources; mutexes are typically binary ownership.
+- [[semaphores]] allow counting resources
 
-Priority inversion: low-priority holder blocks high-priority waiter — real-time kernels add priority inheritance.
+- Priority inversion: low-priority holder blocks high-priority waiter
 
-## Real-World Applications
-Protecting shared counters, connection tables, and in-memory indexes in [[multi-threaded]] servers.
+## Mistakes to Avoid
+- **Mistake:** Holding locks across disk/network I/O
+- **Mistake:** Inconsistent lock ordering across modules
+- **Mistake:** “Fixing” races with `sleep` instead of real synchronization
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Correct shared-memory concurrency.
@@ -44,7 +52,6 @@ Protecting shared counters, connection tables, and in-memory indexes in [[multi-
 - vs [[mutexes]]: mutex is the lock object; critical section is the protected code region.
 - vs message passing: avoid shared mutable state instead of guarding it.
 
-## Mistakes to Avoid
-- Holding locks across disk/network I/O.
-- Inconsistent lock ordering across modules.
-- “Fixing” races with `sleep` instead of real synchronization.
+
+### Use cases
+- Protecting shared counters, connection tables, and in-memory indexes in [[mul…

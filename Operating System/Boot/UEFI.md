@@ -4,12 +4,18 @@
 
 > UEFI is modern PC firmware that initializes hardware, reads boot entries from NVRAM, and loads signed EFI apps from the ESP — replacing the 446-byte MBR boot-sector chain.
 
-
-
-
+```txt
+        UEFI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explain UEFI boot flow vs BIOS+MBR, GPT/ESP, Secure Boot, and why dual-boot is NVRAM entries not just an active flag.
+- **Interview probes:** Explain UEFI boot flow vs BIOS+MBR, GPT/ESP, Secure Boot, and why dual-boot i…
 
 ## Sources
 - [UEFI Spec 2.10 — Boot Manager](https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html) — deep-dive
@@ -38,10 +44,13 @@ Power-on → SEC/PEI/DXE (platform init) → BDS boot manager
 | Security | No standard Secure Boot | Secure Boot, measured boot (TPM) |
 | Handoff mode | 16-bit real mode chain | Protected/long mode with tables |
 
-Ops: remount ESP to reinstall loaders; cloud images are often UEFI-GPT. Related: [[Boot/Extensible Firmware interface (efi)]], [[Linux/management/grub]].
+- Ops: remount ESP to reinstall loaders; cloud images are often UEFI-GPT.
+- Related: [[Boot/Extensible Firmware interface (efi)]], [[Linux/management/gru…
 
-## Real-World Applications
-Bare-metal provisioning, dual-boot laptops, and cloud VM images that must match firmware mode.
+## Mistakes to Avoid
+- **Mistake:** Installing GRUB to the wrong place (MBR vs ESP) for the firmware…
+- **Mistake:** Assuming “active partition” still controls UEFI boot selection
+- **Mistake:** Ignoring Secure Boot when a custom kernel/loader suddenly “vanis…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Large disks, Secure Boot, structured boot entries.
@@ -52,7 +61,6 @@ Bare-metal provisioning, dual-boot laptops, and cloud VM images that must match 
 - vs [[MBR]]: sector stub vs file-based loaders on ESP.
 - vs [[Boot/UEFI (2)]]: architecture vs recovery checklist.
 
-## Mistakes to Avoid
-- Installing GRUB to the wrong place (MBR vs ESP) for the firmware mode.
-- Assuming “active partition” still controls UEFI boot selection.
-- Ignoring Secure Boot when a custom kernel/loader suddenly “vanishes.”
+
+### Use cases
+- Bare-metal provisioning, dual-boot laptops, and cloud VM images that must mat…

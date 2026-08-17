@@ -4,12 +4,18 @@
 
 > Field shortlist of common Node libs — what each is for and the footguns that show up in prod.
 
-
-
-
+```txt
+        npm packages ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **npm packages** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **extraneous**, **helmet / hpp**, **multer**.
+- **Interview probes:** Interviewers use **npm packages** to check whether you can explain the mechan…
 
 ## Sources
 - [npm — Packages and modules](https://docs.npmjs.com/about-packages-and-modules) — overview
@@ -49,21 +55,22 @@ origin: (origin, cb) => {
 | `array('files', 5)` | multiple `append('files', …)` |
 | `fields([{ name: 'avatar' }])` | matching keys |
 
-## Real-World Applications
-In production APIs and tooling, **npm packages** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Don’t set `Content-Type` on FormData fetch** — boundary breaks; browser sets it; **node-cron in many replicas** — jobs fire N times; see [[Packages/node-cron]].
+## Mistakes to Avoid
+- **Mistake:** **Don’t set `Content-Type` on FormData fetch**
+- **Mistake:** **node-cron in many replicas**
+- **Mistake:** **CORS fail:** check Origin + credentials
+- **Mistake:** **multer empty:** check Field name / Content-Type
+- **Mistake:** **extraneous noise:** check `npm ls`
+- **Mistake:** **Rate limit false positives:** check Shared IP behind LB
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Field shortlist of common Node libs — what each is for and the footguns that sho…).
-- **Con / when not:** **Replacing platform features** — prefer CDN/WAF rate limits when you have them.
-- **Con / when not:** **Unmaintained utils** — check last publish before adding lodash-sized deps for one helper.
+- **Con / when not:** **Replacing platform features**
+- **Con / when not:** **Unmaintained utils**
 
 ## Comparison
-vs [[npm command]]: know when each applies — do not treat them as interchangeable. vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[Packages/Ajv (Another JSON validator)]]: know when each applies — do not treat them as interchangeable.
+- vs [[npm command]]: know when each applies
 
-## Mistakes to Avoid
-- **Don’t set `Content-Type` on FormData fetch** — boundary breaks; browser sets it.
-- **node-cron in many replicas** — jobs fire N times; see [[Packages/node-cron]].
-- **CORS fail:** check Origin + credentials; fix: Exact origin list; no `*` with cookies
-- **multer empty:** check Field name / Content-Type; fix: Match names; don’t set CT manually with FormData
-- **extraneous noise:** check `npm ls`; fix: Add dep or remove install
-- **Rate limit false positives:** check Shared IP behind LB; fix: Trust proxy; key by user
+
+### Use cases
+- In production APIs and tooling, **npm packages** shows up whenever teams ship…

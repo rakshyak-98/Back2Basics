@@ -4,12 +4,18 @@
 
 > Pick the channel that matches the job — request/response, push, queue, or peer media — not one protocol for everything.
 
-
-
-
+```txt
+        Data transfer comm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask which channel you would pick (HTTP, WebSocket, queue, WebRTC, Unix socket) to see if you match protocol to job — latency, fan-out, browser constraints, and failure modes — instead of one golden hammer.
+- **Interview probes:** Interviewers ask which channel you would pick (HTTP, WebSocket, queue, WebRTC…
 
 ## Sources
 - [RFC 6455 — The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455) — overview
@@ -73,10 +79,11 @@ ss -xlnp | grep my.sock
 | Fast locally, dead remote | Bound to localhost / wrong channel | Expose HTTPS or Unix→TCP carefully |
 | Huge payloads over WS | Wrong tool | Object store + URL; keep WS for control |
 
-## Real-World Applications
-APIs, live dashboards, async workers, and media calls each need a different channel.
-
-**Example:** A dashboard polls every second over HTTPS and feels laggy — move live updates to WebSocket or SSE, and keep CRUD on HTTP.
+## Mistakes to Avoid
+- **Mistake:** One golden hammer
+- **Mistake:** Treating HTTP as a durable work queue
+- **Mistake:** Confusing WebSocket with WebRTC
+- **Mistake:** Using email or Bluetooth as a datacenter data bus
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Matching channel to job cuts latency, cost, and operational complexity.
@@ -88,8 +95,8 @@ APIs, live dashboards, async workers, and media calls each need a different chan
 - vs [[webSocket]] vs WebRTC: WS is client↔server TCP; WebRTC is peer media over ICE/UDP.
 - vs shared memory: shm does not cross machines — scale-out forces a network channel.
 
-## Mistakes to Avoid
-- One golden hammer — don’t put file sync, RPC, and chat all on raw WebSockets.
-- Treating HTTP as a durable work queue — crash mid-retry loses work without a broker.
-- Confusing WebSocket with WebRTC.
-- Using email or Bluetooth as a datacenter data bus.
+
+### Use cases
+- APIs, live dashboards, async workers, and media calls each need a different c…
+
+- **Example:** A dashboard polls every second over HTTPS and feels laggy

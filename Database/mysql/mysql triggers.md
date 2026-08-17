@@ -4,12 +4,18 @@
 
 > Row-level actions fired automatically on INSERT/UPDATE/DELETE — set audit columns, cascade logic, or guard invalid transitions inside the same statement transaction.
 
-
-
-
+```txt
+        mysql triggers ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want awareness of hidden side effects: triggers complicate migrations, fail the whole statement on error, and are easy to miss in code review.
+- **Interview probes:** Interviewers want awareness of hidden side effects: triggers complicate migra…
 
 ## Sources
 - [CREATE TRIGGER](https://dev.mysql.com/doc/refman/en/create-trigger.html) — deep-dive
@@ -27,10 +33,13 @@ CREATE TRIGGER orders_set_updated BEFORE UPDATE ON orders
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 ```
 
-Also see [[MySQL Triggers]] for audit patterns and dump flags. Bulk loads and [[mysql data migrations]] must account for trigger cost.
+- Also see [[MySQL Triggers]] for audit patterns and dump flags.
+- Bulk loads and [[mysql data migrations]] must account for trigger cost.
 
-## Real-World Applications
-Maintain `updated_at`, write audit rows, or reject illegal status transitions before the row lands.
+## Mistakes to Avoid
+- **Mistake:** Business workflows that only exist in triggers
+- **Mistake:** Recursive trigger chains without a clear termination story
+- **Mistake:** Ignoring triggers when estimating migration runtime
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Enforced for every client, including ad-hoc SQL.
@@ -38,9 +47,8 @@ Maintain `updated_at`, write audit rows, or reject illegal status transitions be
 - **Trade-off:** Trigger invariants vs application service layer + DB constraints.
 
 ## Comparison
-vs [[mysql function]] / procedures: triggers are implicit; functions/procedures are explicit call sites — prefer explicit for complex workflows.
+- vs [[mysql function]] / procedures: triggers are implicit; functions/procedur…
 
-## Mistakes to Avoid
-- Business workflows that only exist in triggers.
-- Recursive trigger chains without a clear termination story.
-- Ignoring triggers when estimating migration runtime.
+
+### Use cases
+- Maintain `updated_at`, write audit rows, or reject illegal status transitions…

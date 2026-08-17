@@ -4,19 +4,22 @@
 
 > Origin Policy) — the browser wall: page JS on one origin cannot read another origin’s responses or DOM.
 
-
-
-
+```txt
+        SOP (Same-Origin P ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Browser security foundation: what counts as an origin, what SOP blocks, and how CORS/CSP/CSRF relate.
+- **Interview probes:** Browser security foundation: what counts as an origin, what SOP blocks, and h…
 
 ## Sources
 - [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) — overview
 - [HTML Living Standard — Origin](https://html.spec.whatwg.org/multipage/origin.html) — deep-dive
-
-## Core Definition
-The Same-Origin Policy is the browser rule that script on one origin cannot read another origin's responses or DOM by default.
 
 ## Key Concepts
 ```txt
@@ -33,7 +36,10 @@ https://app.example.com:8443  (port differs)
 | Navigation, form POST | Reading cross-origin iframe DOM |
 | `<script src>`, `<img>` load | Reading pixels/bytes of those loads |
 
-SOP is **browser-enforced**. curl, Postman, and server-to-server ignore it.
+- **Note:** SOP is **browser-enforced**. curl, Postman, and server-to-server ignore it.
+
+
+- **Core:** The Same-Origin Policy is the browser rule that script on one origin cannot r…
 
 ## Technical Details
 ```js
@@ -70,8 +76,10 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 | Cookie missing cross-site | `SameSite` + credentials | Cookie flags + CORS credentials (not SOP alone) |
 | Subdomain can't share storage | Different origins | Explicit shared auth via tokens / SSO |
 
-## Real-World Applications
-Browser isolation that makes XSS and CSRF design constraints — CORS is the deliberate SOP escape hatch.
+## Mistakes to Avoid
+- **Mistake:** SOP ≠ CSRF protection
+- **Mistake:** `<script>` and `<img>` still load cross-origin
+- **Mistake:** Port and scheme count
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Foundational browser isolation that makes the web's multi-tenant model viable.
@@ -81,9 +89,8 @@ Browser isolation that makes XSS and CSRF design constraints — CORS is the del
 
 ## Comparison
 - vs [[CORS (Cross Origin Request Sharing)]]: CORS relaxes SOP for chosen origins.
-- vs [[XSRF (cross-site request forgery)]]: SOP does not stop cookie-bearing cross-site *writes*; CSRF defenses do.
+- vs [[XSRF (cross-site request forgery)]]: SOP does not stop cookie-bearing cross-site *writes*
 
-## Mistakes to Avoid
-- SOP ≠ CSRF protection — browsers still *send* cookies on cross-site form POSTs; use CSRF tokens / SameSite ([[XSRF (cross-site request forgery)]]).
-- `<script>` and `<img>` still load cross-origin — SOP blocks *reading* them; XSS via injected script is a different bug ([[cross-site scripting]]).
-- Port and scheme count — `http://localhost:3000` ≠ `https://localhost:3000`.
+
+### Use cases
+- Browser isolation that makes XSS and CSRF design constraints

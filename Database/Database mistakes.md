@@ -4,12 +4,18 @@
 
 > Recurring production failures from treating the database as a dumb file store—autocommit races, missing indexes, untested backups, and schema drift.
 
-
-
-
+```txt
+        Database mistakes ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-“What goes wrong in production?” questions map directly here. Naming the mistake, the symptom, and the fix direction shows operational judgment beyond textbook [[ACID]] definitions.
+- **Interview probes:** “What goes wrong in production?” questions map directly here
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 7–9 — overview
@@ -18,7 +24,7 @@
 ## Key Concepts
 - **Autocommit races:** read-modify-write without a transaction → oversell and double spend.
 - **Missing indexes:** especially on foreign keys → slow joins and cascading deletes.
-- **Ops hygiene:** pooling, tested restores, migration-only DDL, UTC time — skip any and incidents follow.
+- **Ops hygiene:** pooling, tested restores, migration-only DDL, UTC time
 - **Wrong abstraction:** using the database as a message queue → bloat and lock storms.
 
 ## Technical Details
@@ -32,24 +38,25 @@
 | Storing local time without time zone | DST bugs, wrong expiry | UTC + `timestamptz` |
 | Using database as message queue | Table bloat, lock storms | Proper queue (SQS, Kafka) |
 
-ORM-specific traps:
+- ORM-specific traps:
 
 - Lazy loading in loops (N+1)
 - `@Transactional` on private methods (no-op in Spring without aspect weaving)
 - Assuming `save()` is upsert — may INSERT duplicate
 
-## Real-World Applications
-Postmortems after inventory oversell, connection storms, or failed restores. Example: incident review finds three autocommit UPDATEs for stock decrement; fix wraps them in one transaction with `FOR UPDATE` ([[mysql lock]] patterns).
+## Mistakes to Avoid
+- **Mistake:** Discovering backups do not restore during the outage itself
+- **Mistake:** Fixing pool exhaustion by raising `max_connections` without fixi…
+- **Mistake:** Shipping ORM code that silently N+1 under production data volume
+- **Mistake:** Hotfixing production schema outside the migration tool
 
 ## Pros/Cons or Trade-offs
 - **Pro:** A checklist prevents repeating industry-standard foot-guns.
 - **Con:** Treating the list as complete — new product patterns invent new mistakes; keep measuring.
 
 ## Comparison
-vs [[Database design]]: design aims to prevent many of these; this note catalogs failure modes when design or ops slip. vs [[ACID]]: knowing ACID is necessary but not sufficient if boundaries and indexes are wrong.
+- vs [[Database design]]: design aims to prevent many of these
 
-## Mistakes to Avoid
-- Discovering backups do not restore during the outage itself.
-- Fixing pool exhaustion by raising `max_connections` without fixing query hold time.
-- Shipping ORM code that silently N+1 under production data volume.
-- Hotfixing production schema outside the migration tool.
+
+### Use cases
+- Postmortems after inventory oversell, connection storms, or failed restores. …

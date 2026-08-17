@@ -4,12 +4,18 @@
 
 > A Service is a stable virtual IP and DNS name in front of a changing set of Pods — kube-proxy or the CNI dataplane load-balances to ready endpoints.
 
-
-
-
+```txt
+        Kubernetes service ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers test Service types, selector/endpoint mismatch, and when to use ClusterIP versus NodePort versus LoadBalancer versus Ingress.
+- **Interview probes:** Interviewers test Service types, selector/endpoint mismatch, and when to use …
 
 ## Sources
 - [Kubernetes — Service](https://kubernetes.io/docs/concepts/services-networking/service/) — deep-dive
@@ -18,7 +24,7 @@ Interviewers test Service types, selector/endpoint mismatch, and when to use Clu
 ## Key Concepts
 - **Stable front door:** Pods come and go; Service IP/DNS stays.
 - **Selector → Endpoints/EndpointSlices:** only Ready pods matching labels receive traffic.
-- **Types:** ClusterIP (in-cluster), NodePort (node ports), LoadBalancer (cloud LB), ExternalName (DNS CNAME).
+- **Types:** ClusterIP (in-cluster), NodePort (node ports), LoadBalancer (cloud LB), Exter…
 - **DNS:** `http://<svc>.<ns>.svc.cluster.local:<port>` — not `localhost` across pods.
 
 ## Technical Details
@@ -50,10 +56,11 @@ kubectl get endpointslices -l kubernetes.io/service-name=my-service
 | DNS name does not resolve | CoreDNS down; wrong namespace | `kubectl -n kube-system get pods -l k8s-app=kube-dns` |
 | External traffic not reaching pods | `externalTrafficPolicy: Local` | Check endpoints on node receiving traffic |
 
-## Real-World Applications
-East-west microservice calls via ClusterIP DNS, cloud LoadBalancer for a single TCP service, and backends for [[ingress]] HTTP routing.
-
-**Example:** Frontend pods call `http://api.prod.svc.cluster.local:80`; when API pods roll, the Service keeps the same DNS while Endpoints update.
+## Mistakes to Avoid
+- **Mistake:** Mismatched labels between Deployment template and Service select…
+- **Mistake:** Using NodePort as the primary production internet exposure
+- **Mistake:** Expecting `localhost` in pod A to reach service B
+- **Mistake:** Ignoring readiness
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Decouples clients from Pod IPs and enables rolling updates.
@@ -65,8 +72,8 @@ East-west microservice calls via ClusterIP DNS, cloud LoadBalancer for a single 
 - vs direct Pod IP: Pod IPs are ephemeral — never hard-code them in clients.
 - Dataplane policy → [[Cilium]].
 
-## Mistakes to Avoid
-- Mismatched labels between Deployment template and Service selector.
-- Using NodePort as the primary production internet exposure.
-- Expecting `localhost` in pod A to reach service B.
-- Ignoring readiness — not-Ready pods correctly leave Endpoints empty.
+
+### Use cases
+- East-west microservice calls via ClusterIP DNS, cloud LoadBalancer for a sing…
+
+- **Example:** Frontend pods call `http://api.prod.svc.cluster.local:80`

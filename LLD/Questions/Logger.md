@@ -4,12 +4,18 @@
 
 > Shared logging module that writes structured records to sinks (file, stdout) with levels, correlation ids, and safe concurrency.
 
-
-
-
+```txt
+        Logger (LLD) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect levels, single-writer vs locked multi-writer, rotation, async vs sync I/O, and why a naive singleton file handle races.
+- **Interview probes:** Interviewers expect levels, single-writer vs locked multi-writer, rotation, a…
 
 ## Sources
 - [Unicode TR35 / structured logging practice](https://www.rfc-editor.org/rfc/rfc5424) — overview (syslog model)
@@ -28,7 +34,7 @@ app → logger.api → format (JSON) → sink(s)
                      ↘ async queue (optional)
 ```
 
-API sketch: `info(msg, fields)`, `error(err, fields)`, `withContext(fields)`.
+- API sketch: `info(msg, fields)`, `error(err, fields)`, `withContext(fields)`.
 
 | Failure | Design response |
 |---------|-----------------|
@@ -36,10 +42,10 @@ API sketch: `info(msg, fields)`, `error(err, fields)`, `withContext(fields)`.
 | Lock contention | Async logger with bounded queue |
 | Sensitive data | Redaction filters |
 
-## Real-World Applications
-Microservice logs JSON to stdout; cluster agent ships to ELK/Loki; file logger used only in desktop/CLI tools.
-
-**Example:** Two threads `print` partial lines — use a synchronized formatter or one writer thread.
+## Mistakes to Avoid
+- **Mistake:** Logging secrets (tokens, passwords, card data)
+- **Mistake:** Synchronous disk write on the request path without bounds
+- **Mistake:** Unlimited in-memory queue “for performance.”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Central policy for level and redaction.
@@ -49,7 +55,8 @@ Microservice logs JSON to stdout; cluster agent ships to ELK/Loki; file logger u
 - vs `print` scattered everywhere: no level control or structure.
 - vs full observability stacks: logger is the producer; collectors are the pipeline.
 
-## Mistakes to Avoid
-- Logging secrets (tokens, passwords, card data).
-- Synchronous disk write on the request path without bounds.
-- Unlimited in-memory queue “for performance.”
+
+### Use cases
+- Microservice logs JSON to stdout
+
+- **Example:** Two threads `print` partial lines

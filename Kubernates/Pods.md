@@ -4,12 +4,18 @@
 
 > A Pod is the smallest schedulable unit in Kubernetes — one or more containers that share network namespace and volumes on one node.
 
-
-
-
+```txt
+        Pods ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check that you know Pods are ephemeral (new IP on restart), why production uses Deployments, and how probes gate Service endpoints.
+- **Interview probes:** Interviewers check that you know Pods are ephemeral (new IP on restart), why …
 
 ## Sources
 - [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive
@@ -17,7 +23,7 @@ Interviewers check that you know Pods are ephemeral (new IP on restart), why pro
 
 ## Key Concepts
 - **Shared fate:** containers in a Pod share IP, localhost, and optional volumes.
-- **Ephemeral identity:** restart/reschedule creates a new Pod object/IP unless a controller recreates it.
+- **Ephemeral identity:** restart/reschedule creates a new Pod object/IP unless a controller recreates …
 - **Controllers own resilience:** Deployment/StatefulSet/Job recreate Pods; bare Pods do not survive node loss.
 - **Probes:** readiness controls Service membership; liveness restarts stuck containers.
 
@@ -36,12 +42,14 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 | Pending | CPU/memory; PVC bind | `kubectl describe node`; check requests and storage class |
 | Running but not Ready | readiness probe failing | Hit probe path from inside cluster |
 
-One main process per container; use sidecars for helpers (log shippers, proxies). Creation paths → [[kubectl pod creation]].
+- One main process per container
+- Creation paths → [[kubectl pod creation]].
 
-## Real-World Applications
-Application replicas behind a Service, debug shells (`netshoot`), and init containers waiting on dependencies.
-
-**Example:** An API Pod fails readiness → removed from Endpoints → [[ingress]] returns 503 until `/ready` passes.
+## Mistakes to Avoid
+- **Mistake:** Running production apps as bare Pods
+- **Mistake:** Putting multiple unrelated main processes in one container
+- **Mistake:** Assuming Pod IP stays stable across restarts
+- **Mistake:** Force-deleting without understanding controller recreation
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Dense packing and co-located sidecars with shared localhost.
@@ -53,8 +61,8 @@ Application replicas behind a Service, debug shells (`netshoot`), and init conta
 - vs Deployment: Deployment owns replica count and rolling updates of Pod templates.
 - Networking exposure → [[Kubernetes services]] · [[ingress]].
 
-## Mistakes to Avoid
-- Running production apps as bare Pods.
-- Putting multiple unrelated main processes in one container.
-- Assuming Pod IP stays stable across restarts.
-- Force-deleting without understanding controller recreation.
+
+### Use cases
+- Application replicas behind a Service, debug shells (`netshoot`), and init co…
+
+- **Example:** An API Pod fails readiness → removed from Endpoints → [[ingress]…

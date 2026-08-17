@@ -4,12 +4,17 @@
 
 > shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
-
-
-
+```txt
+        Git aliases ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git aliases` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git aliases` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -21,7 +26,7 @@ git st  →  alias.st = status -sb
 git ignoredtop → !git ignored | cut ...
 ```
 
-Aliases don't pass arguments the same way unless you use `$1` in shell aliases — for parameterized workflows use scripts in `PATH` or functions.
+- **Note:** Aliases don't pass arguments the same way unless you use `$1` in shell aliases
 
 ## Technical Details
 ### Simple aliases
@@ -41,7 +46,6 @@ git config --global alias.ignored 'ls-files --ignored --exclude-standard --other
 git config --global alias.ignoredtop '!git ignored | cut -d "/" -f1 | sort -u'
 ```
 
-Usage:
 
 ```bash
 git ignoredtop
@@ -70,10 +74,6 @@ git config --global alias.difft 'difftool -d vimdiff'
 git config --global alias.cleanup '!git branch --merged main | grep -v "main" | xargs -r git branch -d'
 ```
 
-## Pros/Cons or Trade-offs
-- **Complex multi-step automation** — shell script in repository `scripts/` with tests.
-- **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Typos in alias names** — `git ignoreedtop` vs `ignoredtop`; document team aliases in README.
@@ -91,3 +91,7 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 | Shell alias no args | Missing `$@` | Use `!f() { ...; }; f'` pattern for args |
 | Destructive alias | `!` with rm/reset | Code review aliases before sharing dotfiles |
 | Works in bash not fish | Shell-specific | Use POSIX sh in `!` or external script |
+
+## Pros/Cons or Trade-offs
+- **Complex multi-step automation**
+- **Override built-in commands**

@@ -4,12 +4,18 @@
 
 > MySQL server configuration via `my.cnf` / `my.cnf.d`, `SET PERSIST`, and cloud parameter groups—tune memory, logging, replication, and InnoDB for your hardware.
 
-
-
-
+```txt
+        Configuration ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Config questions test whether you size `innodb_buffer_pool_size`, enable slow query logging, and change one knob at a time with metrics. Signal: production baseline literacy, not memorizing every variable.
+- **Interview probes:** Config questions test whether you size `innodb_buffer_pool_size`, enable slow…
 
 ## Sources
 - [MySQL Reference Manual — Server Configuration](https://dev.mysql.com/doc/refman/en/server-configuration.html) — overview
@@ -27,7 +33,7 @@ Config questions test whether you size `innodb_buffer_pool_size`, enable slow qu
 | Linux | `/etc/my.cnf`, `/etc/mysql/my.cnf` |
 | Docker | `/etc/mysql/conf.d/*.cnf` |
 
-Minimal production baseline:
+- Minimal production baseline:
 
 ```ini
 [mysqld]
@@ -40,25 +46,26 @@ slow_query_log = 1
 long_query_time = 1
 ```
 
-Change safely:
+- Change safely:
 
 - One knob at a time with metrics
 - Document non-defaults in runbooks
 - Test on staging with realistic load
 
-Pair `max_connections` with application [[connection pooling]] — raising the server limit alone rarely fixes exhaustion.
+- Pair `max_connections` with application [[connection pooling]]
 
-## Real-World Applications
-Hardening a new MySQL primary before launch and tuning after a slow-query incident. Example: set buffer pool to ~70% RAM on a dedicated host, enable `slow_query_log`, then fix the top offender instead of blindly raising connections.
+## Mistakes to Avoid
+- **Mistake:** Leaving `latin1` defaults on modern Unicode apps — use `utf8mb4`
+- **Mistake:** Setting buffer pool larger than available RAM
+- **Mistake:** Changing many parameters at once so you cannot attribute regress…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Right-sized InnoDB and logging dramatically improve stability and debuggability.
 - **Con:** Cargo-cult settings from blogs break workloads; oversized `max_connections` increases memory and contention.
 
 ## Comparison
-vs [[variables]]: runtime `SHOW VARIABLES` / session settings inspect live state; Configuration is how you persist and govern those knobs. vs [[SQL Configurations]]: vault-level SQL config themes; this note is MySQL-server specific.
+- vs [[variables]]: runtime `SHOW VARIABLES` / session settings inspect live st…
 
-## Mistakes to Avoid
-- Leaving `latin1` defaults on modern Unicode apps — use `utf8mb4`.
-- Setting buffer pool larger than available RAM — swapping kills latency.
-- Changing many parameters at once so you cannot attribute regressions.
+
+### Use cases
+- Hardening a new MySQL primary before launch and tuning after a slow-query inc…

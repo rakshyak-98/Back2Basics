@@ -4,12 +4,17 @@
 
 > HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
 
-
-
-
+```txt
+        html ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-HTML interviews check semantics, accessibility, and what belongs in markup versus CSS/JS.
+- **Interview probes:** HTML interviews check semantics, accessibility, and what belongs in markup ve…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -48,10 +53,6 @@ HTML → DOM → CSSOM → render
 | `alt` on images | Screen readers |
 | `type` on button | Avoid accidental submit |
 
-## Pros/Cons or Trade-offs
-- **Non-document UIs** — canvas/WebGL still need a host page.
-- **Data interchange** — JSON, not HTML scraping.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Clickable divs without keyboard** — not accessible.
@@ -65,3 +66,7 @@ HTML → DOM → CSSOM → render
 | Broken layout | invalid nesting | Validate HTML |
 | Form weird POST | button type | `type="button"` |
 | A11y fails | div soup | Semantic elements + labels |
+
+## Pros/Cons or Trade-offs
+- **Non-document UIs** — canvas/WebGL still need a host page.
+- **Data interchange** — JSON, not HTML scraping.

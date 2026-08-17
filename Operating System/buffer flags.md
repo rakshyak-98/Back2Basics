@@ -4,12 +4,18 @@
 
 > Buffer flags are kernel bitfields on a buffer head that record whether a block is dirty, locked, mapped, or mid-writeback — the block layer’s state machine in compact form.
 
-
-
-
+```txt
+        Buffer flags ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Kernel/filesystem depth: dirty vs uptodate vs locked, and how that relates to what user space observes via `fsync` and writeback latency.
+- **Interview probes:** Kernel/filesystem depth: dirty vs uptodate vs locked, and how that relates to…
 
 ## Sources
 - Linux kernel: `include/linux/buffer_head.h` — deep-dive
@@ -23,14 +29,19 @@ Kernel/filesystem depth: dirty vs uptodate vs locked, and how that relates to wh
 - **Mapped:** block number bound to this buffer.
 
 ## Technical Details
-Each [[buffer head]] carries flags such as **`BH_Dirty`**, **`BH_Uptodate`**, **`BH_Lock`**, and **`BH_Mapped`**. Together they prevent double writes, torn reads, and use-after-free during writeback.
+- Each [[buffer head]] carries flags such as **`BH_Dirty`**, **`BH_Uptodate`**,…
+- Together they prevent double writes, torn reads, and use-after-free during wr…
 
-Flags interact with page dirty bits in the [[Buffer cache]]: filesystem code sets dirty on change; **`sync`** and [[fsync]] walk dirty structures and schedule I/O. See [[buffer lifecycle]].
+- Flags interact with page dirty bits in the [[Buffer cache]]: filesystem code …
+- See [[buffer lifecycle]].
 
-Operators rarely dump flags; they observe effects via `iostat`, slow commits, and durability bugs. Debugging uses block tracepoints or `crash` on vmcores.
+- Operators rarely dump flags
+- Debugging uses block tracepoints or `crash` on vmcores.
 
-## Real-World Applications
-Filesystem and block-layer development; diagnosing writeback stalls; understanding why journals order metadata before data.
+## Mistakes to Avoid
+- **Mistake:** Clearing dirty before I/O completion is acknowledged
+- **Mistake:** Reading a buffer that is not uptodate
+- **Mistake:** Assuming user space can or should manipulate these flags directly
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Compact, precise state for concurrent block I/O.
@@ -41,7 +52,6 @@ Filesystem and block-layer development; diagnosing writeback stalls; understandi
 - vs page dirty bits: page-level vs per-block buffer-head flags.
 - vs user-visible `O_SYNC`/`fsync`: user APIs trigger paths that clear dirty under the hood.
 
-## Mistakes to Avoid
-- Clearing dirty before I/O completion is acknowledged.
-- Reading a buffer that is not uptodate.
-- Assuming user space can or should manipulate these flags directly.
+
+### Use cases
+- Filesystem and block-layer development

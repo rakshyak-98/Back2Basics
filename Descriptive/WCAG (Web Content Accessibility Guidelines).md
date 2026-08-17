@@ -4,19 +4,24 @@
 
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
-
-
-
+```txt
+        WCAG (Web Content  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-WCAG interviews probe accessibility levels (A/AA), semantic HTML, and keyboard/screen-reader paths.
+- **Interview probes:** WCAG interviews probe accessibility levels (A/AA), semantic HTML, and keyboar…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [WCAG — Wikipedia](https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines) — overview
 
 ## Key Concepts
-WCAG defines **success criteria** grouped under four principles (**POUR**):
+- **Note:** WCAG defines **success criteria** grouped under four principles (**POUR**):
 
 ```
 Perceivable   → alt text, contrast, captions
@@ -25,9 +30,9 @@ Understandable→ readable, predictable, input help
 Robust        → valid markup, assistive tech compatible
 ```
 
-Conformance **levels**: **A** (minimum), **AA** (industry standard / many laws), **AAA** (aspirational, not always feasible site-wide).
+- **Note:** Conformance **levels**: **A** (minimum), **AA** (industry standard / many law…
 
-Developed by W3C **WAI** (Web Accessibility Initiative) — referenced by ADA, EN 301 549, Section 508.
+- **Note:** Developed by W3C **WAI** (Web Accessibility Initiative)
 
 ## Technical Details
 ### Level summary (what teams actually ship)
@@ -77,18 +82,14 @@ npx axe https://localhost:3000 --exit
 - Foreground `#595959` on white → verify with WebAIM contrast checker
 - Don't rely on color alone for errors — add icon + text
 
-## Pros/Cons or Trade-offs
-- WCAG is not a substitute for **user testing** with assistive technology users.
-- Don't block ship on AAA contrast for decorative hero imagery — mark decorative `alt=""`.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Accessibility overlays** (widget that "fixes" your site) do not transfer liability and often break AT — fix source HTML/CSS/JS.
 
-- **`aria-label` on wrong element** hides visible text from AT if misapplied.
-- **Auto-playing video** fails 2.2.x criteria unless user control within seconds.
-- **PDF-only** content fails unless tagged accessible PDF — HTML preferred.
-- **AA is the contract** — claiming AAA on one page ≠ whole product AAA.
+- **Mistake:** **`aria-label` on wrong element** hides visible text from AT if …
+- **Mistake:** **Auto-playing video** fails 2.2.x criteria unless user control …
+- **Mistake:** **PDF-only** content fails unless tagged accessible PDF
+- **Mistake:** **AA is the contract**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,3 +98,7 @@ npx axe https://localhost:3000 --exit
 | Screen reader silent on update | No live region | `aria-live="polite"` on status toast |
 | Form errors not announced | Error only red border | Link `aria-describedby` to error text |
 | Custom widget wrong role | Div soup | Use semantic HTML first; ARIA only when needed |
+
+## Pros/Cons or Trade-offs
+- WCAG is not a substitute for **user testing** with assistive technology users.
+- Don't block ship on AAA contrast for decorative hero imagery

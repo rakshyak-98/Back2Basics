@@ -4,12 +4,17 @@
 
 > combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
-
-
-
+```txt
+        Git Merge ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git Merge` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git Merge` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -25,8 +30,8 @@ o---o---o---o  main
     merge commit (2 parents) if non-FF
 ```
 
-**Fast-forward:** main simply moves to feature tip — no merge commit (linear history).
-**Merge commit:** `--no-ff` preserves branch topology — preferred for release merges.
+- **Note:** **Fast-forward:** main simply moves to feature tip
+- **Note:** **Merge commit:** `--no-ff` preserves branch topology
 
 ## Technical Details
 ### Basic merge
@@ -91,10 +96,6 @@ git diff target-branch...source-branch
 git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch
 ```
 
-## Pros/Cons or Trade-offs
-- **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
-- **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Merge vs rebase on shared branches:** Rebase rewrites history; merge preserves it. Don't rebase commits others have pulled.
@@ -121,3 +122,7 @@ git merge-tree $(git merge-base target-branch source-branch) target-branch sourc
 ```bash
 git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 ```
+
+## Pros/Cons or Trade-offs
+- **Always linear history requirement**
+- **Integrating long-lived divergent forks**

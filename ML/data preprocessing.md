@@ -4,25 +4,30 @@
 
 > Turn raw tables into **leak-safe, scaled, encoded** matrices estimators can fit — garbage in → un-debuggable models — **scikit-learn Pipeline docs**.
 
-
-
-
+```txt
+        Data preprocessing ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Data preprocessing to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Data preprocessing to check whether you can choose mod…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-Preprocessing runs **before** the learner sees data. Order matters:
+- **Note:** Preprocessing runs **before** the learner sees data. Order matters:
 
 ```txt
-load → clean types → handle missing → encode categoricals → scale (if needed) → split → fit
+- **Note:** load → clean types → handle missing → encode categoricals → scale (if needed)…
 ```
 
-Fit transformers on **training data only**; apply same parameters to value/test. Putting `fit` on full dataset before split = **leakage** (value scores lie).
+- **Note:** Fit transformers on **training data only**
 
 | Step | Tree models | Linear / SVM / NN |
 |------|-------------|-------------------|
@@ -82,10 +87,6 @@ for c in num_cols:
     df[f"{c}_was_missing"] = df[c].isna().astype(int)
 ```
 
-## Pros/Cons or Trade-offs
-- **Raw deep learning on images/text** — use domain-specific augmentations, not tabular imputers.
-- **Streaming features with strict SLA** — precompute offline features in a feature store; don't refit heavy pipelines per request.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Target encoding on full dataset** leaks label statistics — encode inside CV folds only (`CategoryEncoders` + pipeline).
@@ -100,3 +101,7 @@ for c in num_cols:
 | Exploding coefficients | Unscaled features | StandardScaler in Pipeline |
 | All NaN after join | Merge keys, dtypes | Assert row counts; `df.info()` |
 | Model worse after "cleaning" | Removed signal (outliers = fraud) | Domain review; RobustScaler vs drop |
+
+## Pros/Cons or Trade-offs
+- **Raw deep learning on images/text**
+- **Streaming features with strict SLA**

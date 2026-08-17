@@ -4,12 +4,17 @@
 
 > Engines skim source before full parse — find functions/boundaries early for faster startup and lazy compile.
 
-
-
-
+```txt
+        pre-parser ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Pre-parser questions check lazy parsing optimizations in engines — not something most apps configure.
+- **Interview probes:** Pre-parser questions check lazy parsing optimizations in engines
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -40,10 +45,6 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 | Top-level work | Runs (and parses) eagerly |
 | Eval/new Function | Often forces eager paths |
 
-## Pros/Cons or Trade-offs
-- **Correctness reasoning** — assume full parse in CI.
-- **Micro-optimizing parse** — measure; bundling usually dominates.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Engine heuristics change** — don’t depend on lazy parse for correctness.
@@ -56,3 +57,7 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 | Slow startup | huge top-level | Code-split; defer |
 | Surprise syntax error late | lazy path | CI parse (`tsc`/lint) |
 | Eval cost | dynamic code | Avoid eval |
+
+## Pros/Cons or Trade-offs
+- **Correctness reasoning** — assume full parse in CI.
+- **Micro-optimizing parse** — measure; bundling usually dominates.

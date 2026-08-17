@@ -4,20 +4,23 @@
 
 > Razorpay capture confirms an authorized payment and moves money toward settlement — without capture (when required), an authorization can expire and never pay you.
 
-
-
-
+```txt
+        payment integratio ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers separate authorization (hold) from capture (take funds), ask when auto-capture is enough, and how partial capture / failure webhooks should update order state.
+- **Interview probes:** Interviewers separate authorization (hold) from capture (take funds), ask whe…
 
 ## Sources
 - [Razorpay — Capture payments](https://razorpay.com/docs/payments/payments/capture-settings/) — deep-dive
 - [Razorpay — Payments API](https://razorpay.com/docs/api/payments/) — deep-dive
 - [Razorpay — Webhooks (payments)](https://razorpay.com/docs/webhooks/payments/) — overview
-
-## Core Definition
-After the customer authenticates, a payment may be authorized but not yet captured. Capture is the merchant/PSP step that finalizes the charge against that authorization. Razorpay can auto-capture on success or leave capture to your API for delayed fulfillment (for example, ship-then-capture).
 
 ## Key Concepts
 - **Authorize:** issuer approves a hold — funds may be reserved.
@@ -25,6 +28,9 @@ After the customer authenticates, a payment may be authorized but not yet captur
 - **Auto-capture:** Checkout settings capture immediately — simpler shops.
 - **Manual / delayed capture:** call capture API after inventory check or shipment.
 - **Partial capture / void:** capture less than authorized, or release the hold if you cannot fulfill.
+
+
+- **Core:** After the customer authenticates, a payment may be authorized but not yet cap…
 
 ## Technical Details
 ```
@@ -56,10 +62,11 @@ await razorpay.payments.capture(paymentId, amountPaise, 'INR');
 | Order Paid too early | Listening only to authorize | Wait for `payment.captured` when manual |
 | Customer charged, no stock | Captured before inventory lock | Capture after reservation |
 
-## Real-World Applications
-Marketplaces that verify inventory after payment UI success, hotels holding deposits, and merchants that auto-capture digital downloads.
-
-**Example:** Order stays `Authorized` overnight because manual capture was enabled and the worker crashed — monitor aging authorizations and capture or release before expiry.
+## Mistakes to Avoid
+- **Mistake:** Marking orders paid on authorization when your settings require …
+- **Mistake:** Capturing a different amount/currency than the Order without a d…
+- **Mistake:** Ignoring `payment.failed` after a capture attempt
+- **Mistake:** Mixing auto-capture Dashboard settings with code that also calls…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Delayed capture reduces charging for unfulfillable orders.
@@ -71,8 +78,8 @@ Marketplaces that verify inventory after payment UI success, hotels holding depo
 - vs [[Strip]] authorize/capture: same commerce idea; Stripe uses PaymentIntent `capture_method`.
 - vs void/refund: void/release before capture; refund after capture.
 
-## Mistakes to Avoid
-- Marking orders paid on authorization when your settings require capture.
-- Capturing a different amount/currency than the Order without a deliberate partial-capture design.
-- Ignoring `payment.failed` after a capture attempt.
-- Mixing auto-capture Dashboard settings with code that also calls capture.
+
+### Use cases
+- Marketplaces that verify inventory after payment UI success, hotels holding d…
+
+- **Example:** Order stays `Authorized` overnight because manual capture was en…

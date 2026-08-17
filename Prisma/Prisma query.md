@@ -4,12 +4,18 @@
 
 > Type-safe database access via the generated client — `findMany`, filters, pagination, and nested `include`/`select` for relations.
 
-
-
-
+```txt
+        Prisma query ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers look for N+1 awareness (`include` vs separate queries), `select` for payload shape, and transactions for multi-step writes.
+- **Interview probes:** Interviewers look for N+1 awareness (`include` vs separate queries), `select`…
 
 ## Sources
 - [Prisma — CRUD](https://www.prisma.io/docs/orm/prisma-client/queries/crud) — deep-dive
@@ -41,10 +47,10 @@ await prisma.$transaction([
 | N+1 in loops | `include` or batched queries |
 | Partial failure | interactive/sequential `$transaction` |
 
-## Real-World Applications
-Admin list pages with filters + related counts; checkout flows wrapped in transactions.
-
-**Example:** Loop `findUnique` per id from a list — replace with `findMany({ where: { id: { in: ids } } })`.
+## Mistakes to Avoid
+- **Mistake:** Blind `include` trees on hot paths
+- **Mistake:** Catching and ignoring failed transactions
+- **Mistake:** Assuming client-side filtering is as cheap as `where`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Readable queries with compile-time field checks.
@@ -54,7 +60,8 @@ Admin list pages with filters + related counts; checkout flows wrapped in transa
 - vs raw SQL: Prisma wins CRUD speed; raw wins bespoke reports.
 - vs [[Prisma]]: client generation enables these typed calls.
 
-## Mistakes to Avoid
-- Blind `include` trees on hot paths.
-- Catching and ignoring failed transactions.
-- Assuming client-side filtering is as cheap as `where`.
+
+### Use cases
+- Admin list pages with filters + related counts
+
+- **Example:** Loop `findUnique` per id from a list

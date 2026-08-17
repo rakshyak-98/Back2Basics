@@ -4,12 +4,18 @@
 
 > A one-level storage system presents one uniform address space for programs and persistent data — the classic vision where memory and disk look the same to the programmer.
 
-
-
-
+```txt
+        One-level storage  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Virtual memory history: Multics/single-level store ideas, and why mmap + page cache only *approximate* full transparency.
+- **Interview probes:** Virtual memory history: Multics/single-level store ideas, and why mmap + page…
 
 ## Sources
 - Corbato et al., Multics papers — one-level store — deep-dive
@@ -23,16 +29,18 @@ Virtual memory history: Multics/single-level store ideas, and why mmap + page ca
 - **Flush still required:** RAM is volatile without [[fsync]].
 
 ## Technical Details
-Historically Multics and early MIT/Flex research. Today:
+- Historically Multics and early MIT/Flex research.
 
 - Memory-mapped files — file bytes as virtual addresses.
 - Unified page cache — same pages back file I/O and mmap.
-- Fast storage blurs latency but does not erase persistence rules on [[Persistent Block Storage]].
+- Fast storage blurs latency but does not erase persistence rules on [[Persiste…
 
-Related naming idea: [[abstract storage location]].
+- Related naming idea: [[abstract storage location]].
 
-## Real-World Applications
-Databases using mmap, OS teaching of single-level store, and IBM i style single-level store systems (as a living extreme).
+## Mistakes to Avoid
+- **Mistake:** Assuming mmap writes are durable without flush/msync semantics
+- **Mistake:** Treating swap as a durability feature
+- **Mistake:** Ignoring that “one address space” still has NUMA and device tier…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simpler programming model; fewer explicit I/O calls.
@@ -43,7 +51,6 @@ Databases using mmap, OS teaching of single-level store, and IBM i style single-
 - vs explicit file I/O: programmer-managed reads/writes vs address-space illusion.
 - vs [[Buffer cache]]: cache is a mechanism; one-level store is the model.
 
-## Mistakes to Avoid
-- Assuming mmap writes are durable without flush/msync semantics.
-- Treating swap as a durability feature.
-- Ignoring that “one address space” still has NUMA and device tiers underneath.
+
+### Use cases
+- Databases using mmap, OS teaching of single-level store, and IBM i style sing…

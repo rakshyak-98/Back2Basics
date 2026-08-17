@@ -4,12 +4,18 @@
 
 > Unpack values from arrays/objects into bindings — shorter than manual indexing; defaults and rest supported.
 
-
-
-
+```txt
+        Destructuring ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Destructuring** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **rename**, **default**, **rest**.
+- **Interview probes:** Interviewers use **Destructuring** to check whether you can explain the mecha…
 
 ## Sources
 - [MDN — Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring) — deep-dive
@@ -38,21 +44,22 @@ const [head, ...tail] = list
 | Computed keys | `[key]: value` |
 | Array holes | Skip with commas |
 
-## Real-World Applications
-In production APIs and tooling, **Destructuring** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Defaults don’t run for `null`** — only `undefined`; **Parameter destructuring + no default** — `f(undefined)` throws.
+## Mistakes to Avoid
+- **Mistake:** **Defaults don’t run for `null`** — only `undefined`
+- **Mistake:** **Parameter destructuring + no default** — `f(undefined)` throws
+- **Mistake:** **Cannot destructure undefined:** check Null source
+- **Mistake:** **Got `undefined` not default:** check `null` prop
+- **Mistake:** **Rest dropped keys:** check Needed them
+- **Mistake:** **Confusion with TS types:** check `: Type` vs rename
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Unpack values from arrays/objects into bindings — shorter than manual indexing; …).
-- **Con / when not:** **Deep optional trees** — readability dies; intermediate variables help.
-- **Con / when not:** **Huge objects once** — sometimes explicit access is clearer.
+- **Con / when not:** **Deep optional trees**
+- **Con / when not:** **Huge objects once**
 
 ## Comparison
-vs [[prototype]]: know when each applies — do not treat them as interchangeable. vs [[promise]]: know when each applies — do not treat them as interchangeable. vs [[prototype]]: know when each applies — do not treat them as interchangeable.
+- vs [[prototype]]: know when each applies
 
-## Mistakes to Avoid
-- **Defaults don’t run for `null`** — only `undefined`.
-- **Parameter destructuring + no default** — `f(undefined)` throws.
-- **Cannot destructure undefined:** check Null source; fix: Default `= {}` / optional chain
-- **Got `undefined` not default:** check `null` prop; fix: Defaults only for `undefined`
-- **Rest dropped keys:** check Needed them; fix: Don’t omit in rest pattern
-- **Confusion with TS types:** check `: Type` vs rename; fix: Careful colon meaning
+
+### Use cases
+- In production APIs and tooling, **Destructuring** shows up whenever teams shi…

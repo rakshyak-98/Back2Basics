@@ -4,20 +4,23 @@
 
 > NestJS-era library that maps plain JSON to class instances (`plainToInstance`) and back — often paired with `class-validator` for DTO pipelines.
 
-
-
-
+```txt
+        class-transformer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about `class-transformer` to see if you know TypeScript types erase at runtime — decorators and `reflect-metadata` rehydrate instances, and `excludeExtraneousValues` silently drops fields without `@Expose`.
+- **Interview probes:** Interviewers ask about `class-transformer` to see if you know TypeScript type…
 
 ## Sources
 - [class-transformer README](https://github.com/typestack/class-transformer) — deep-dive
 - [NestJS — Validation](https://docs.nestjs.com/techniques/validation) — overview
 - [TypeScript Handbook — Decorators](https://www.typescriptlang.org/docs/handbook/decorators.html) — overview
-
-## Core Definition
-`class-transformer` converts plain objects (typical HTTP JSON) into class instances and serializes instances back to plain objects, driven by decorators (`@Expose`, `@Type`, `@Exclude`) and options such as `excludeExtraneousValues`.
 
 ## Key Concepts
 - **`plainToInstance`:** hydrate a DTO class from JSON.
@@ -25,7 +28,10 @@ Interviewers ask about `class-transformer` to see if you know TypeScript types e
 - **`@Expose` / `@Exclude`:** field allow/deny policy.
 - **`@Type`:** nested class transformation (otherwise nested stays plain).
 - **`reflect-metadata` + `emitDecoratorMetadata`:** required for decorator-driven metadata.
-- **Pair with validation:** transform does not assert business rules — use `class-validator` or a schema library.
+- **Pair with validation:** transform does not assert business rules
+
+
+- **Core:** `class-transformer` converts plain objects (typical HTTP JSON) into class ins…
 
 ## Technical Details
 ```txt
@@ -67,10 +73,11 @@ const user = plainToInstance(UserDto, body, { excludeExtraneousValues: true })
 | Decorators noop | No emit metadata / reflect | Enable `tsconfig` + import reflect |
 | Validation skipped | Only transformed | Run `class-validator` |
 
-## Real-World Applications
-NestJS controllers enable `ValidationPipe` with `transform: true` so request bodies become DTO class instances before handlers run.
-
-**Example:** All DTO fields are `undefined` after transform because `excludeExtraneousValues: true` was set without `@Expose` on each property.
+## Mistakes to Avoid
+- **Mistake:** Assuming a typed `body: UserDto` parameter is already a class in…
+- **Mistake:** Enabling `excludeExtraneousValues` without `@Expose` on every al…
+- **Mistake:** Forgetting `emitDecoratorMetadata` / `reflect-metadata` so decor…
+- **Mistake:** Skipping validation after transform and trusting the shape
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Familiar class/DTO style in NestJS ecosystems; nested object mapping with `@Type`.
@@ -82,8 +89,8 @@ NestJS controllers enable `ValidationPipe` with `transform: true` so request bod
 - vs TypeScript types alone: types erase; class-transformer operates at runtime.
 - vs plain interfaces: interfaces never exist at runtime — no instance methods or decorators.
 
-## Mistakes to Avoid
-- Assuming a typed `body: UserDto` parameter is already a class instance without transform.
-- Enabling `excludeExtraneousValues` without `@Expose` on every allowed field.
-- Forgetting `emitDecoratorMetadata` / `reflect-metadata` so decorators do nothing.
-- Skipping validation after transform and trusting the shape.
+
+### Use cases
+- NestJS controllers enable `ValidationPipe` with `transform: true` so request …
+
+- **Example:** All DTO fields are `undefined` after transform because `excludeE…

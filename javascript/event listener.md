@@ -4,12 +4,18 @@
 
 > Register a function for a DOM (or EventTarget) event — `addEventListener` / `removeEventListener` with the same function reference.
 
-
-
-
+```txt
+        event listener ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **event listener** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **capture**, **bubble**, **once**, **passive**.
+- **Interview probes:** Interviewers use **event listener** to check whether you can explain the mech…
 
 ## Sources
 - [MDN — addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) — deep-dive
@@ -40,21 +46,22 @@ el.addEventListener('touchstart', onTouch, { passive: true })
 | `AbortSignal` | `addEventListener(..., { signal })` batch cancel |
 | Delegation | Listen on parent for dynamic kids |
 
-## Real-World Applications
-In production APIs and tooling, **event listener** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Anonymous functions** — `removeEventListener` won’t match a new arrow; **Passive scroll listeners** — browsers may force passive; design accordingly.
+## Mistakes to Avoid
+- **Mistake:** **Anonymous functions**
+- **Mistake:** **Passive scroll listeners**
+- **Mistake:** **Can’t remove listener:** check New function each time
+- **Mistake:** **preventDefault ignored:** check Passive listener
+- **Mistake:** **Handler fires twice:** check React + DOM / double bind
+- **Mistake:** **Memory leak:** check Never removed; fix: Cleanup on unmount
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Register a function for a DOM (or EventTarget) event — `addEventListener` / `rem…).
-- **Con / when not:** **React synthetic events** — prefer JSX `onClick` unless integrating non-React libs.
+- **Con / when not:** **React synthetic events**
 - **Con / when not:** **High-frequency raw handlers** — throttle/raf.
 
 ## Comparison
-vs [[throttle]]: know when each applies — do not treat them as interchangeable. vs [[Callback]]: know when each applies — do not treat them as interchangeable. vs [[dataTransfer]]: know when each applies — do not treat them as interchangeable.
+- vs [[throttle]]: know when each applies
 
-## Mistakes to Avoid
-- **Anonymous functions** — `removeEventListener` won’t match a new arrow.
-- **Passive scroll listeners** — browsers may force passive; design accordingly.
-- **Can’t remove listener:** check New function each time; fix: Store named fn / AbortSignal
-- **preventDefault ignored:** check Passive listener; fix: Drop `passive`
-- **Handler fires twice:** check React + DOM / double bind; fix: Bind once; check Strict Mode
-- **Memory leak:** check Never removed; fix: Cleanup on unmount
+
+### Use cases
+- In production APIs and tooling, **event listener** shows up whenever teams sh…

@@ -4,27 +4,33 @@
 
 > Node’s observer bus — `emit` named events; listeners run synchronously in registration order.
 
-
-
-
+```txt
+        EventEmitter ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **EventEmitter** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **EventEmitter** to see if you understand what it does ope…
 
 ## Sources
 - [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — deep-dive
 - [Wikipedia — EventEmitter](https://en.wikipedia.org/wiki/EventEmitter) — overview
 
-## Core Definition
-`EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside handler).
-
 ## Key Concepts
-- `EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside hand…
-- Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`, `process`. Listener leaks (`on` without `removeListener`) are a top cause of memory growth in long…
-- **Sync by default:** a slow listener blocks other listeners and the emitter's caller until it returns.
+- **`EventEmitter` is:** `EventEmitter` is Node's observer pattern: objects **emit** named events
+- **Core APIs:** Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`…
+- **Sync by default:** a slow listener blocks other listeners and the emitter's caller until it retu…
+
+
+- **Core:** `EventEmitter` is Node's observer pattern: objects **emit** named events
 
 ## Technical Details
-`EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside handler).
+- `EventEmitter` is Node's observer pattern: objects **emit** named events
 
 ```
 Producer                    EventEmitter                    Listeners
@@ -34,9 +40,10 @@ Producer                    EventEmitter                    Listeners
                                   └──► once('end') handler       │
 ```
 
-Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`, `process`. Listener leaks (`on` without `removeListener`) are a top cause of memory growth in long-lived servers.
+- Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`…
+- Listener leaks (`on` without `removeListener`) are a top cause of memory grow…
 
-**Sync by default:** a slow listener blocks other listeners and the emitter's caller until it returns.
+- **Sync by default:** a slow listener blocks other listeners and the emitter's…
 
 ### Basic usage
 
@@ -99,26 +106,27 @@ emitter.on('data', async () => {
 emitter.on('error', (err) => console.error(err));
 ```
 
-## Real-World Applications
-In production APIs and tooling, **EventEmitter** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Listeners are synchronous** — CPU-heavy handler blocks I/O for all connections on that thread; **`emit('error')` without listener throws** — attach `error` handler or use `{ captureRejections: true }` patterns for async.
+## Mistakes to Avoid
+- **Mistake:** **Listeners are synchronous**
+- **Mistake:** **`emit('error')` without listener throws**
+- **Mistake:** **Arrow functions as listeners**
+- **Mistake:** **Don't emit during `removeListener`**
+- **Mistake:** **`MaxListenersExceededWarning`:** check `emitter.listenerCount(…
+- **Mistake:** **Memory grows over days:** check Heap snapshot
+- **Mistake:** **Handler never runs:** check Wrong event name typo
+- **Mistake:** **Uncaught exception crashes process:** check Missing `error` li…
+- **Mistake:** **Event order surprises:** check Sync handlers + microtasks
+- **Mistake:** **Duplicate handlers after HMR:** check Hot reload re-registers …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (EventEmitter — └── emit('data', chunk) ──────►│──► on('data') handler 1 │).
-- **Con / when not:** **Cross-process messaging** — use [[child process]] IPC, Redis pub/sub, or a message broker.
-- **Con / when not:** **Request/response with one caller** — Promises/async functions are clearer than emit/wait hacks.
-- **Con / when not:** **Global event bus for all application state** — becomes undebuggable; prefer explicit DI or state store.
+- **Con / when not:** **Cross-process messaging**
+- **Con / when not:** **Request/response with one caller**
+- **Con / when not:** **Global event bus for all application state**
 
 ## Comparison
-vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[Node events driven]]: know when each applies — do not treat them as interchangeable.
+- vs [[Event Loop]]: know when each applies
 
-## Mistakes to Avoid
-- **Listeners are synchronous** — CPU-heavy handler blocks I/O for all connections on that thread.
-- **`emit('error')` without listener throws** — attach `error` handler or use `{ captureRejections: true }` patterns for async.
-- **Arrow functions as listeners** — can't `removeListener` unless same reference stored.
-- **Don't emit during `removeListener`** — mutating listener list while iterating causes skipped/duplicate calls.
-- **`MaxListenersExceededWarning`:** check `emitter.listenerCount('event')`; fix: Fix leak; `removeListener`; or raise `setMaxListeners` after root-cause fix
-- **Memory grows over days:** check Heap snapshot; count listeners on long-lived sockets; fix: Remove listeners on `close`; use `once`; destroy streams
-- **Handler never runs:** check Wrong event name typo; fix: Log `emitter.eventNames()`
-- **Uncaught exception crashes process:** check Missing `error` listener on emitter; fix: Always `on('error', …)` for streams/sockets
-- **Event order surprises:** check Sync handlers + microtasks; fix: Document order; defer heavy work with `setImmediate`
-- **Duplicate handlers after HMR:** check Hot reload re-registers `on`; fix: `off` before `on`; use `once` for setup
+
+### Use cases
+- In production APIs and tooling, **EventEmitter** shows up whenever teams ship…

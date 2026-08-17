@@ -4,26 +4,33 @@
 
 > API contract as machine-readable truth — design, codegen, validation, and breaking-change discipline for service engineers — **OpenAPI 3.x**.
 
-
-
-
+```txt
+        OpenAPI specificat ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **OpenAPI specification** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Spec**, **Runtime validation**.
+- **Interview probes:** Interviewers use **OpenAPI specification** to check whether you can explain t…
 
 ## Sources
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) — deep-dive
 - [Wikipedia — open api specification](https://en.wikipedia.org/wiki/open_api_specification) — overview
 
-## Core Definition
-OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
-
 ## Key Concepts
 - **Spec:** Source of truth for routes + models — | **Codegen**
-- **Runtime validation:** Reject bad requests at boundary (ajv, express-openapi-validator) — | **Diff (oasdiff, openapi-diff)**
+- **Runtime validation:** Reject bad requests at boundary (ajv, express-openapi-validator)
+
+
+- **Core:** OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in…
 
 ## Technical Details
-OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
+- OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in…
+- It is the handshake between teams: frontend, backend, QA, and gateway policie…
 
 ```txt
 ┌─────────────┐     openapi.yaml      ┌─────────────┐
@@ -42,7 +49,8 @@ OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YA
 | **Codegen** | Types/clients/servers — never hand-write DTOs twice |
 | **Runtime validation** | Reject bad requests at boundary (ajv, express-openapi-validator) |
 
-**Contract-first:** write specification → review → generate stubs → implement. **Code-first:** annotate controllers → export specification — faster to start, drifts unless CI enforces sync.
+- **Contract-first:** write specification → review → generate stubs → implement.
+- **Code-first:** annotate controllers → export specification
 
 ### Minimal spec fragment
 
@@ -132,28 +140,30 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 | Rename field | **Yes** (clients) | Keep old + new during migration |
 | Change error shape | Often yes | Version media type or path |
 
-**Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.orders.v2+json`. Don't rely on `info.version` alone — consumers ignore it.
+- **Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.o…
+- Don't rely on `info.version` alone — consumers ignore it.
 
-## Real-World Applications
-In production APIs and tooling, **open api specification** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Spec drift** — code-first without CI diff → docs lie. Treat spec mismatch as build failure; **`additionalProperties: false`** — strict mode breaks forward-compatible clients adding fields. Use intentionally at trust boundaries only.
+## Mistakes to Avoid
+- **Spec drift**::** → docs lie. Treat spec mismatch as build failure
+- **Mistake:** **`additionalProperties: false`**
+- **Mistake:** **Codegen merge pain**
+- **Mistake:** **oneOf/anyOf validation**
+- **Mistake:** **OpenAPI ≠ gRPC**
+- **Mistake:** **400 "request did not match schema":** check Validator logs
+- **Mistake:** **Generated types out of date:** check CI codegen diff
+- **Mistake:** **Prod 500, dev fine:** check `validateResponses: true` in prod
+- **Mistake:** **Gateway rejects valid JWT:** check `securitySchemes` mismatch
+- **Mistake:** **False breaking CI:** check Intentional major bump
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (API contract as machine-readable truth — design, codegen, validation, and breaki…).
-- **Con / when not:** **Internal-only service** with one caller and shared monorepo — protobuf/ts types may suffice.
-- **Con / when not:** **Streaming / WebSocket-primary APIs** — OpenAPI support is awkward; document separately.
-- **Con / when not:** **Early prototype** — don't codegen before shape stabilizes; sketch specification yes, gate no.
+- **Con / when not:** **Internal-only service** with one caller and shared mono…
+- **Con / when not:** **Streaming / WebSocket-primary APIs**
+- **Con / when not:** **Early prototype**
 
 ## Comparison
-vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[gRPC]]: know when each applies — do not treat them as interchangeable. vs [[JWT authentication]]: know when each applies — do not treat them as interchangeable.
+- vs [[expressjs]]: know when each applies
 
-## Mistakes to Avoid
-- **Spec drift** — code-first without CI diff → docs lie. Treat spec mismatch as build failure.
-- **`additionalProperties: false`** — strict mode breaks forward-compatible clients adding fields. Use intentionally at trust boundaries only.
-- **Codegen merge pain** — commit generated code or generate in CI; don't hand-edit generated files.
-- **oneOf/anyOf validation** — ajv errors are cryptic. Prefer flat schemas for public APIs.
-- **OpenAPI ≠ gRPC** — for high-performance internal RPC, [[gRPC]] + protobuf; expose REST/OpenAPI at edge only.
-- **400 "request did not match schema":** check Validator logs; compare body vs spec; fix: Spec too strict or client drift — fix spec or client
-- **Generated types out of date:** check CI codegen diff; fix: Regenerate on spec merge; commit generated output
-- **Prod 500, dev fine:** check `validateResponses: true` in prod; fix: Disable response validation in prod
-- **Gateway rejects valid JWT:** check `securitySchemes` mismatch; fix: Align bearer format with [[JWT authentication]]
-- **False breaking CI:** check Intentional major bump; fix: Bump `/v2`, baseline new spec file
+
+### Use cases
+- In production APIs and tooling, **open api specification** shows up whenever …

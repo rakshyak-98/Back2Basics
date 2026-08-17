@@ -4,12 +4,16 @@
 
 > Decorator wraps an object to add responsibilities dynamically while keeping the same interface — stacking layers instead of subclassing every combination.
 
-
-
-
+```txt
+        Decorator ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-Decorator checks open/closed extension by wrapping the same interface — stacked behavior versus subclass explosion.
+- **Interview probes:** Decorator checks open/closed extension by wrapping the same interface
 
 ## Sources
 - Gamma et al., *Design Patterns* (Decorator) — deep-dive
@@ -23,31 +27,32 @@ Component interface
     ConcreteDecoratorB (+ scroll)
 ```
 
-Client calls `decorated.operation()`; each decorator may pre/post-process and delegate inward.
+- **Note:** Client calls `decorated.operation()`
 
-## Real-World Applications
-- Optional features on streams (`io` wrappers in Go/Java).
-- UI styling layers, middleware stacks.
+## Mistakes to Avoid
+- **Mistake:** Order of decorators matters
+- **Mistake:** Hard to reason about deep stacks — document composition order
+- **Mistake:** Small objects — function composition may be simpler
 
 ## Comparison
-**vs inheritance**
+- **vs inheritance**
 
-Subclass explosion: `BorderedScrollableTextView` vs `ScrollableBorderedTextView`. Decorators compose:
+- Subclass explosion: `BorderedScrollableTextView` vs `ScrollableBorderedTextVi…
 
-```text
-new ScrollDecorator(new BorderDecorator(new TextView()))
-```
+- ```text
+- new ScrollDecorator(new BorderDecorator(new TextView()))
+- ```
 
-**vs Proxy**
+- **vs Proxy**
 
 | | Decorator | Proxy |
 |---|-----------|-------|
 | Focus | Add behavior | Control access / lazy load |
 | Transparency | Often multiple wrappers | Usually one proxy |
 
-Both wrap and delegate; intent differs.
+- Both wrap and delegate; intent differs.
 
-## Mistakes to Avoid
-- Order of decorators matters.
-- Hard to reason about deep stacks — document composition order.
-- Small objects — function composition may be simpler.
+
+### Use cases
+- Optional features on streams (`io` wrappers in Go/Java).
+- UI styling layers, middleware stacks.

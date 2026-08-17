@@ -4,19 +4,22 @@
 
 > ICE finds a working path between two peers behind NATs — try direct, then relay.
 
-
-
-
+```txt
+        ICE (Interactive C ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk ICE end-to-end — not just name it. Signal fluency with **Candidate**, **host**, **srflx (server-reflexive)**, **relay** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk ICE end-to-end
 
 ## Sources
 - [Wikipedia — ICE](https://en.wikipedia.org/wiki/ICE) — overview
 - [RFC 8445 — ICE](https://datatracker.ietf.org/doc/html/rfc8445) — deep-dive
-
-## Core Definition
-STUN helps you **find** your public face. TURN **carries** the media when direct fails. ICE **chooses** which path to use.
 
 ## Key Concepts
 - **Candidate:** One address:port you might use — “A candidate is a possible path to reach me.”
@@ -28,10 +31,10 @@ STUN helps you **find** your public face. TURN **carries** the media when direct
 
 **Flow:**
 
-1. **Gather** — each peer collects host, STUN (srflx), and optionally TURN (relay) candidates.
-2. **Share** — send candidates (+ SDP) over [[WebRTC Signaling channels]] (HTTP/WebSocket — not the media UDP).
-3. **Try** — both sides run connectivity checks on candidate pairs.
-4. **Pick** — prefer host → srflx → relay (cheaper / lower latency first). Fall back to TURN when firewalls block UDP peer-to-peer.
+- **Note:** 1. **Gather**
+- **Note:** 2. **Share**
+- **Note:** 3. **Try** — both sides run connectivity checks on candidate pairs.
+- **Note:** 4. **Pick** — prefer host → srflx → relay (cheaper / lower latency first). Fa…
 
 ### STUN vs TURN (keep them short)
 
@@ -42,12 +45,15 @@ STUN helps you **find** your public face. TURN **carries** the media when direct
 
 ### Signaling (one sentence)
 
-Signaling is how peers **swap** “here are my addresses” before media starts — usually your application’s Web API or WebSocket.
+- **Note:** Signaling is how peers **swap** “here are my addresses” before media starts
 
 ```js
 // Signaling is your channel; ICE is the path finder
 const signalingChannel = new SignalingChannel()
 ```
+
+
+- **Core:** STUN helps you **find** your public face
 
 ## Technical Details
 ```txt
@@ -87,22 +93,7 @@ pc.onicecandidate = (e) => {
 | `iceTransportPolicy: 'relay'` | Forces TURN — prove media works when ICE looks “stuck” |
 | Trickle ICE | Send candidates as they appear — don’t wait for full gather |
 
-Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
-
-## Real-World Applications
-STUN helps you **find** your public face. TURN **carries** the media when direct fails. ICE **chooses** which path to use.
-
-Used wherever ICE sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **One-to-many OTT** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers, not millions of viewers.
-- **Con / skip when:** **You only need server push** — WebSockets/SSE; no NAT punch required.
-- **Con / skip when:** **Ingest from OBS to origin** — usually [[RTMP]] / SRT, not ICE between browsers.
-
-## Comparison
-- vs [[HLS]]: **One-to-many OTT** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers, not millions of viewers.
-- vs [[RTMP]]: **Ingest from OBS to origin** — usually [[RTMP]] / SRT, not ICE between browsers.
+- Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -114,7 +105,23 @@ Used wherever ICE sits in an ingest → package → CDN → player path. Concret
 | All traffic on TURN | Policy or checks failing | Cost/latency spike — fix firewall or return to `all` |
 | ICE failed after Wi‑Fi→LTE | Network change | Call `restartIce()` / renegotiate |
 
-- **STUN ≠ TURN** — STUN only discovers addresses; it never relays media. No TURN ⇒ ~5–15% of users never connect.
-- **Signaling is not ICE** — your WebSocket carries SDP/candidates; STUN/TURN URLs go in `RTCPeerConnection` config.
-- **Symmetric NATs** — STUN srflx often fails pairwise checks; you need TURN.
-- **Long-lived TURN passwords in the client** — prefer short-lived credentials from your API.
+- **Mistake:** **STUN ≠ TURN**
+- **Mistake:** **Signaling is not ICE**
+- **Mistake:** **Symmetric NATs**
+- **Mistake:** **Long-lived TURN passwords in the client**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **One-to-many OTT**
+- **Con / skip when:** **You only need server push**
+- **Con / skip when:** **Ingest from OBS to origin**
+
+## Comparison
+- vs [[HLS]]: **One-to-many OTT**
+- vs [[RTMP]]: **Ingest from OBS to origin** — usually [[RTMP]] / SRT, not ICE between browsers.
+
+
+### Use cases
+- STUN helps you **find** your public face
+
+- Used wherever ICE sits in an ingest → package → CDN → player path

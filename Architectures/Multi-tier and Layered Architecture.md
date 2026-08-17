@@ -4,12 +4,16 @@
 
 > Tiers are where code runs; layers are how code is organized — keep them separate.
 
-
-
-
+```txt
+        Multi-tier and Lay ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Tier vs layer confusion is a classic trap — deployment boundaries versus code organization, plus when microservices change the story.
+- **Interview probes:** Tier vs layer confusion is a classic trap
 
 ## Sources
 - [Microsoft — Multitier architecture](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier) — overview
@@ -122,7 +126,7 @@ adapters/
 
 ### 1. Single-tier (1-tier)
 
-All concerns — UI, business logic, data — run in **one process on one machine**.
+- All concerns
 
 | Example | Notes |
 |---------|-------|
@@ -130,11 +134,11 @@ All concerns — UI, business logic, data — run in **one process on one machin
 | Mobile app with on-device Room/Core Data | Logical layers possible; still 1 physical tier |
 | Single Docker container running UI+API+Postgres | 1-tier *deployment* even if code has 4 layers |
 
-**When it fits:** Offline-first, edge devices, prototypes, low-latency local tools.
+- **When it fits:** Offline-first, edge devices, prototypes, low-latency local …
 
 ### 2. Two-tier (client–server)
 
-Client owns **presentation + application logic**; server owns **data** (database or file server).
+- Client owns **presentation + application logic**
 
 ```txt
 [ Thick client: UI + business rules ] ──SQL/ODBC──► [ Database server ]
@@ -147,7 +151,7 @@ Client owns **presentation + application logic**; server owns **data** (database
 | | Hard to enforce invariants — client can bypass rules |
 | | Connection credentials often on every laptop |
 
-**Modern echo:** SPA + direct Supabase/Firebase from browser is a **2-tier anti-pattern** unless Row Level Security and server-side rules fully enforce policy.
+- **Modern echo:** SPA + direct Supabase/Firebase from browser is a **2-tier an…
 
 ### 3. Three-tier (most common web pattern)
 
@@ -162,13 +166,14 @@ Browser ──HTTPS──► App server(s) ──TCP──► Database
    (tier 1)           (tier 2)            (tier 3)
 ```
 
-**Why it won:** Each tier scales and patches independently; DB never exposed to the internet; business rules live in one place.
+- **Why it won:** Each tier scales and patches independently
 
-**Typical production layout:** Web tier in DMZ → application tier on private subnet → DB tier with no outbound internet. Firewall between each hop ([[Security group]] patterns).
+- **Typical production layout:** Web tier in DMZ → application tier on private …
+- Firewall between each hop ([[Security group]] patterns).
 
 ### 4. N-tier (extended physical separation)
 
-Splits the 3-tier model for **scale, security, or team boundaries**:
+- Splits the 3-tier model for **scale, security, or team boundaries**:
 
 ```txt
 Client → CDN/Edge → API Gateway → BFF → Microservices → DAL → DB/Cache/Queue
@@ -182,11 +187,13 @@ Client → CDN/Edge → API Gateway → BFF → Microservices → DAL → DB/Cac
 | **Data access tier** | Shared read/write path, connection pooling service (rare as separate tier today) |
 | **Async / worker tier** | [[kafka]] consumers, batch jobs — off hot request path |
 
-**Cost:** Every new tier adds network hops, failure modes, distributed tracing needs, and deployment coordination. N-tier is a **scaling and org tool**, not a maturity badge.
+- **Cost:** Every new tier adds network hops, failure modes, distributed tracin…
+- N-tier is a **scaling and org tool**, not a maturity badge.
 
 ### Logical layers (inside one deployable)
 
-Layers exist **inside** a monolith, microservice, or mobile application. Two common models — do not conflate them.
+- Layers exist **inside** a monolith, microservice, or mobile application.
+- Two common models — do not conflate them.
 
 ### Traditional layered (top-down call stack)
 
@@ -203,7 +210,8 @@ Layers exist **inside** a monolith, microservice, or mobile application. Two com
          │ call direction (runtime) ──► DB
 ```
 
-**Canonical flow:** [[presentation layer]] → [[Service Layer]] → Repository → DB. See [[Database application]] for transaction boundaries.
+- **Canonical flow:** [[presentation layer]] → [[Service Layer]] → Repository →…
+- See [[Database application]] for transaction boundaries.
 
 | Layer | Owns | Must NOT |
 |-------|------|----------|
@@ -214,9 +222,10 @@ Layers exist **inside** a monolith, microservice, or mobile application. Two com
 
 ### Clean Architecture (Martin — dependency direction inward)
 
-→ Full reference: [[Clean Architecture]] (layers, Dependency Rule, DIP, lineage, code sketches, design-review triage).
+- → Full reference: [[Clean Architecture]] (layers, Dependency Rule, DIP, linea…
 
-Martin organizes by **policy stability**, not call order. Inner = most abstract; outer = mechanisms/details.
+- Martin organizes by **policy stability**, not call order.
+- Inner = most abstract; outer = mechanisms/details.
 
 ```txt
         ┌──────────────────────────────────────────┐
@@ -239,7 +248,7 @@ Martin organizes by **policy stability**, not call order. Inner = most abstract;
 | **Interface adapters** | Convert data between use-case format and external format (HTTP, SQL rows, message payloads) | Changes when delivery mechanism changes |
 | **Frameworks & drivers** | Glue to Spring, Express, Postgres, Kafka — minimal code here | Most volatile — "the web is a detail; the database is a detail" |
 
-**Key Martin corrections versus traditional layered:**
+- **Key Martin corrections versus traditional layered:** 
 
 | Traditional habit | Martin's rule |
 |-------------------|---------------|
@@ -249,7 +258,7 @@ Martin organizes by **policy stability**, not call order. Inner = most abstract;
 | MVC `Model` holds business logic | MVC models are often **dumb data passed to use cases**; critical rules live in **entities** |
 | Folder named `controllers/`, `models/`, `views/` | **Screaming architecture** — folders named for **use cases** (`CreateOrder/`, `EnrollStudent/`) |
 
-**Frontend analogue:** [[frontend layered architecture]] — presentation / application / domain / infrastructure folders.
+- **Frontend analogue:** [[frontend layered architecture]]
 
 ### Strict call rules (design review checklist)
 
@@ -268,11 +277,13 @@ Martin Clean Architecture (compile-time deps):
 
 ### Hexagonal / Clean Architecture (ports and adapters)
 
-Martin unified Hexagonal (Cockburn), Onion (Palermo), and related patterns under one idea: **separation of concerns via layers + the Dependency Rule**. Same goal as traditional layering, but organized as **concentric rings** with explicit **ports** (interfaces) and **adapters** (implementations).
+- Martin unified Hexagonal (Cockburn), Onion (Palermo), and related patterns un…
+- Same goal as traditional layering, but organized as **concentric rings** with…
 
 ### Martin's five properties of a good architecture
 
-A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)):
+- A system built this way should be ([Clean Architecture, Ch.
+- 22](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.h…
 
 1. **Independent of frameworks** — use frameworks as tools; don't let them dictate structure
 2. **Testable** — business rules testable without UI, DB, or web server
@@ -306,7 +317,8 @@ A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cle
 | **Dependency rule** | Adapters depend on ports; entities and use cases never depend on adapters |
 | **DIP at boundaries** | When use case must call presenter/repo, it calls an **interface in its own layer**; outer class implements it — deps oppose flow of control |
 
-**What crosses boundaries:** Only **simple data structures** — structs, DTOs, function arguments, plain maps. Never pass entities tied to outer frameworks, and never pass **database row structures** inward (Martin's explicit anti-pattern).
+- **What crosses boundaries:** Only **simple data structures**
+- Never pass entities tied to outer frameworks, and never pass **database row s…
 
 ### Screaming Architecture (Martin)
 
@@ -318,15 +330,17 @@ A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cle
 | "It's a Rails app" | "It's a health-care / accounting / streaming system" |
 | New hire asks "where are the use cases?" | New hire finds use cases in top-level package names |
 
-Good architecture **defers** framework, DB, and web-server decisions. You should be able to deliver as console application, web application, or thick client without rewriting core policy.
+- Good architecture **defers** framework, DB, and web-server decisions.
+- You should be able to deliver as console application, web application, or thi…
 
-**Payoff:** Domain tests without containers; swap Postgres for in-memory; change REST to gRPC by new adapter only; frameworks become replaceable details.
+- **Payoff:** Domain tests without containers
 
-**Cost:** ~2–3× more types/files; overkill for CRUD with 5 tables and one developer. Martin's bar: earn the structure when **testability and longevity** justify it.
+- **Cost:** ~2–3× more types/files
+- Martin's bar: earn the structure when **testability and longevity** justify i…
 
 ### Microservices (distribution-level multi-tier)
 
-Microservices are **not** a replacement for layers — each service is usually a **small layered or hexagonal application** deployed independently.
+- Microservices are **not** a replacement for layers
 
 ```txt
                     DISTRIBUTION (between services)
@@ -349,11 +363,12 @@ Microservices are **not** a replacement for layers — each service is usually a
 | **Async (events)** | [[kafka]] / queue | Decouple, absorb spikes |
 | **Saga orchestration** | [[Orchestration layer]] (Temporal, etc.) | Multi-step with compensation |
 
-See [[Microservice]] (streaming boundaries) and [[KISS]] — don't split before failure domains justify it.
+- See [[Microservice]] (streaming boundaries) and [[KISS]]
 
 ### Validation: Robert C. Martin alignment
 
-Cross-check any design against Martin's *Clean Architecture* ([blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), book Ch. 20–22). This note's tier/layer content is **compatible** when applied as below.
+- Cross-check any design against Martin's *Clean Architecture* ([blog](https://…
+- This note's tier/layer content is **compatible** when applied as below.
 
 ### Alignment matrix
 
@@ -402,18 +417,20 @@ FAIL when:
 | Repository as a sub-layer under domain in UML | Port with inner interface, outer implementation |
 | DDD aggregate = JPA `@Entity` | Persistence model is an adapter concern; map to/from entity |
 
-**Bottom line:** Multi-tier answers *where* components run. Martin's Clean Architecture answers *which direction code is allowed to depend*. A correct system needs both diagrams — and they are independent.
+- **Bottom line:** Multi-tier answers *where* components run.
+- Martin's Clean Architecture answers *which direction code is allowed to depen…
+- A correct system needs both diagrams — and they are independent.
+
+## Mistakes to Avoid
+- **Mistake:** **Tiers ≠ layers.** A team that "went to microservices" but kept…
+- **Mistake:** Skipping the service layer
+- **Mistake:** Framework dictates folder structure
+- **Mistake:** Database row crosses boundary
+- **Mistake:** Anemic domain model
+- **Mistake:** Hexagonal on a todo app
+- **Mistake:** 2-tier security illusion
+- **Mistake:** Relaxed layering without documentation
+- **Mistake:** N-tier for resume-driven design
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** **Rule of thumb:** Default to **3-tier deployment + layered (or hexagonal) monolith**. Split tiers and services when you have **measured** pain: deploy frequency, scale shape, blast radius, or compliance boundary — not because the diagram looks enterprise.
-
-## Mistakes to Avoid
-- **Tiers ≠ layers.** A team that "went to microservices" but kept one shared database and synchronous chains still has a distributed monolith — worst of both worlds.
-- Skipping the service layer — controllers that call repositories directly bypass validation, authz, and transactions. First shortcut becomes permanent.
-- Framework dictates folder structure — Martin: frameworks are tools, not architecture. `controllers/models/views` layout defers use-case discovery; structure should scream domain operations.
-- Database row crosses boundary — passing ORM/query result objects into use cases violates the Dependency Rule; map to plain DTOs in the adapter.
-- Anemic domain model — entities are structs with getters; all logic in services. Martin puts **critical rules in entities**; use cases orchestrate, not replace, entity behavior.
-- Hexagonal on a todo app — ports/adapters for `TodoRepository`, `ClockPort`, `UuidPort` adds ceremony without boundary value. Use [[KISS]] until complexity earns structure.
-- 2-tier security illusion — "only our app talks to the DB" — if the app ships DB credentials or RLS is weak, users own your data plane.
-- Relaxed layering without documentation — repository calls another service's HTTP API from the data layer. Debugging requires full stack traces across "layers."
-- N-tier for resume-driven design — API gateway + BFF + mesh + 6 services for 100 RPS. Operate what you draw; every box needs on-call.

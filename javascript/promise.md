@@ -4,12 +4,18 @@
 
 > Object for a future value — pending then fulfilled or rejected; `async/await` is syntax over the same machinery.
 
-
-
-
+```txt
+        promise ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **promise** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **thenable**, **microtask**, **all / allSettled / race**.
+- **Interview probes:** Interviewers use **promise** to check whether you can explain the mechanism i…
 
 ## Sources
 - [MDN — Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) — deep-dive
@@ -40,21 +46,22 @@ await Promise.allSettled([a(), b()])
 | `Promise.resolve/reject` | Wrap values |
 | Avoid `new Promise` for already-async | Don’t wrap `fetch` needlessly |
 
-## Real-World Applications
-In production APIs and tooling, **promise** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Executor runs sync** — `new Promise((res) => { throw })` rejects; sync throw inside async fn rejects the returned promise; **`.then` without return** — next then gets `undefined`.
+## Mistakes to Avoid
+- **Mistake:** **Executor runs sync**
+- **Mistake:** **`.then` without return** — next then gets `undefined`
+- **Mistake:** **Unhandled rejection:** check Missing catch/await
+- **Mistake:** **Swallow then continue wrong:** check Empty catch
+- **Mistake:** **Race wrong winner:** check Used `race` for timeout poorly
+- **Mistake:** **Floating promise:** check fire-and-forget
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Object for a future value — pending then fulfilled or rejected; `async/await` is…).
 - **Con / when not:** **Sync pure computation** — just return the value.
-- **Con / when not:** **Event streams** — Observables/EventTarget may fit better.
+- **Con / when not:** **Event streams**
 
 ## Comparison
-vs [[Callback]]: Promises chain and surface rejection; raw callbacks need explicit error-first discipline. vs [[async utils]]: know when each applies — do not treat them as interchangeable. vs [[Coroutine]]: know when each applies — do not treat them as interchangeable.
+- vs [[Callback]]: Promises chain and surface rejection; raw callbacks need exp…
 
-## Mistakes to Avoid
-- **Executor runs sync** — `new Promise((res) => { throw })` rejects; sync throw inside async fn rejects the returned promise.
-- **`.then` without return** — next then gets `undefined`.
-- **Unhandled rejection:** check Missing catch/await; fix: Always handle
-- **Swallow then continue wrong:** check Empty catch; fix: Rethrow or return Result
-- **Race wrong winner:** check Used `race` for timeout poorly; fix: AbortSignal pattern
-- **Floating promise:** check fire-and-forget; fix: void + catch or await
+
+### Use cases
+- In production APIs and tooling, **promise** shows up whenever teams ship Node…

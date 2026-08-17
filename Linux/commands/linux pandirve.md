@@ -4,19 +4,22 @@
 
 > Removable USB storage shows up as a block device — identify with lsblk, filesystem it, mount it, sync, then unmount before you pull it.
 
-
-
-
+```txt
+        USB pendrive (remo ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limits, and `umount` before yanking the stick.
+- **Interview probes:** Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limit…
 
 ## Sources
 - [lsblk(8)](https://man7.org/linux/man-pages/man8/lsblk.8.html) — overview
 - [mount(8)](https://man7.org/linux/man-pages/man8/mount.8.html) — deep-dive
-
-## Core Definition
-A USB block device appears as `/dev/sdX` (disk) and `/dev/sdX1` (partition). Kernel/udev may auto-mount under `/media/$USER/`. Manual workflow: identify → unmount if busy → partition/mkfs if needed → mount → sync → umount/eject.
 
 ## Key Concepts
 - **Whole disk vs partition:** `mkfs` on `sdb` vs `sdb1` wipes different scopes.
@@ -24,6 +27,9 @@ A USB block device appears as `/dev/sdX` (disk) and `/dev/sdX1` (partition). Ker
 - **Busy mounts:** open cwd/files block `umount` — use `fuser`.
 - **Stable names:** `/dev/disk/by-id/usb-…` survives sdX reshuffles.
 - **Persistence:** UUID in fstab with `noauto` for occasional mounts.
+
+
+- **Core:** A USB block device appears as `/dev/sdX` (disk) and `/dev/sdX1` (partition)
 
 ## Technical Details
 ```txt
@@ -61,8 +67,10 @@ blkid /dev/sdb1
 | Wrong sdX after replug | Name shuffle | Use `/dev/disk/by-id/…` |
 | FAT32 copy fails on big file | 4GB limit | Use exfat/ext4 |
 
-## Real-World Applications
-Building a FAT32 installer stick, moving large ISOs via exFAT, and safely removing media on a headless server after `sync && umount`.
+## Mistakes to Avoid
+- **Mistake:** Running `mkfs` without confirming SIZE/MODEL in `lsblk` (system …
+- **Mistake:** Pulling the stick without `umount`
+- **Mistake:** Hard-coding `/dev/sdb1` in scripts
 
 ## Pros/Cons or Trade-offs
 - **Pro vfat:** Universal across OSes and firmware.
@@ -70,9 +78,8 @@ Building a FAT32 installer stick, moving large ISOs via exFAT, and safely removi
 - **Trade-off:** Consumer flash for sneaker-net vs encrypted/object storage for production data.
 
 ## Comparison
-vs [[file mount]] / fstab volumes: pendrives are transient; server disks are persistent. vs pandoc: unrelated — the filename typo “pandirve” is USB, not document conversion.
+- vs [[file mount]] / fstab volumes: pendrives are transient; server disks are …
 
-## Mistakes to Avoid
-- Running `mkfs` without confirming SIZE/MODEL in `lsblk` (system disk footgun).
-- Pulling the stick without `umount`.
-- Hard-coding `/dev/sdb1` in scripts.
+
+### Use cases
+- Building a FAT32 installer stick, moving large ISOs via exFAT, and safely rem…

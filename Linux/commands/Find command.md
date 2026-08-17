@@ -4,19 +4,22 @@
 
 > find walks a directory tree and selects files by name, time, size, or owner — then prints or runs a command on them.
 
-
-
-
+```txt
+        Find command ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +` batching, and never `find / -exec rm` without extreme filters.
+- **Interview probes:** Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +…
 
 ## Sources
 - [find(1)](https://man7.org/linux/man-pages/man1/find.1.html) — deep-dive
 - [GNU Findutils manual](https://www.gnu.org/software/findutils/manual/html_node/find_html/index.html) — overview
-
-## Core Definition
-`find` descends from a path, applies boolean predicates, then an action (`-print`, `-delete`, `-exec`). `-maxdepth` limits walk depth. Prefer `-print` rehearsal before destructive actions.
 
 ## Key Concepts
 - **Predicates:** `-name`, `-type`, `-mtime`, `-size`, `-user`, `-perm`.
@@ -24,6 +27,9 @@ Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +`
 - **`-mtime +N`:** Modified more than N*24h ago (sign matters).
 - **`-delete`:** Implies depth-first — still preview first.
 - **Safety:** Scope path; constrain `-type f`; avoid `/` roots.
+
+
+- **Core:** `find` descends from a path, applies boolean predicates, then an action (`-pr…
 
 ## Technical Details
 ```bash
@@ -53,8 +59,10 @@ find /path -maxdepth 2 -mindepth 1 -type d
 | Slow on huge trees | Unscoped find | Add depth; use `fd`/`locate` when appropriate |
 | Permission errors | Unreadable dirs | `sudo` or narrow path; `-readable` |
 
-## Real-World Applications
-Purging logs older than 14 days, finding large files on a full disk, and batch chmod on a deploy tree.
+## Mistakes to Avoid
+- **Mistake:** `-delete` without a prior `-print` dry run
+- **Mistake:** Misreading `-mtime +0` as “today.”
+- **Mistake:** Unscoped `find / … -exec rm`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise, portable, scriptable tree queries.
@@ -62,9 +70,8 @@ Purging logs older than 14 days, finding large files on a full disk, and batch c
 - **Trade-off:** `find` for criteria vs `du`/`ncdu` for “what’s big” UX.
 
 ## Comparison
-vs [[grep]] `-r`: content search vs metadata selection. vs [[rsync]]: sync/copy with filters. vs `fd`: friendlier defaults, less universal.
+- vs [[grep]] `-r`: content search vs metadata selection
 
-## Mistakes to Avoid
-- `-delete` without a prior `-print` dry run.
-- Misreading `-mtime +0` as “today.”
-- Unscoped `find / … -exec rm`.
+
+### Use cases
+- Purging logs older than 14 days, finding large files on a full disk, and batc…

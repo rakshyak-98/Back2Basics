@@ -4,12 +4,18 @@
 
 > Blocking waits inside the kernel until I/O is ready; non-blocking returns immediately and pushes the wait into your event loop — choose by concurrency shape, not ideology.
 
-
-
-
+```txt
+        Blocking Vs Non-Bl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-A classic systems interview fork: walk both models, name `EAGAIN` / `epoll`, and pick a hybrid (non-blocking accept + blocking worker pool) for a concrete service.
+- **Interview probes:** A classic systems interview fork: walk both models, name `EAGAIN` / `epoll`, …
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — non-blocking I/O, `select`, `poll`, `epoll` — deep-dive
@@ -17,8 +23,8 @@ A classic systems interview fork: walk both models, name `EAGAIN` / `epoll`, and
 - [Wikipedia — C10k problem](https://en.wikipedia.org/wiki/C10k_problem) — overview
 
 ## Key Concepts
-- **Mode is an fd property:** blocking vs non-blocking is how the descriptor is configured, plus how threads use it — not a different network stack.
-- **Scalability lever:** blocking ≈ one thread per wait; non-blocking ≈ few threads + readiness ([[Epoll]] / kqueue).
+- **Mode is an fd property:** blocking vs non-blocking is how the descriptor is configured, plus how thread…
+- **Scalability lever:** blocking ≈ one thread per wait
 - **Hybrid is normal:** event loop for sockets; [[thread pool]] for blocking disk/DB.
 
 ## Technical Details
@@ -46,21 +52,22 @@ int flags = fcntl(fd, F_GETFL, 0);
 fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 ```
 
-## Real-World Applications
-Node.js and Go multiplex many logical tasks onto fewer OS threads — know which layer still blocks ([[CPU IO Bound Task]]). Nginx / Envoy style reactors keep the hot path non-blocking.
+## Mistakes to Avoid
+- **Mistake:** Treating “non-blocking” as “faster for one request”
+- **Mistake:** Setting `O_NONBLOCK` then spinning without `epoll_wait` / `poll`
+- **Mistake:** Mixing blocking disk calls on the same thread that must serve ma…
 
 ## Pros/Cons or Trade-offs
 - **Blocking pro:** easiest correctness for sequential protocols.
 - **Blocking con:** poor fit for tens of thousands of idle connections.
 - **Non-blocking pro:** high connection density on few cores.
-- **Non-blocking con:** state machines, partial reads, and careful `EAGAIN` handling.
+- **Non-blocking con:** state machines, partial reads, and careful `EAGAIN` han…
 
 ## Comparison
 - Detail on sleep-until-ready: [[Blocking]].
 - Detail on immediate return + reactor: [[non-blocking]].
 - Bound-type sizing: [[CPU IO Bound Task]].
 
-## Mistakes to Avoid
-- Treating “non-blocking” as “faster for one request” — it mainly helps concurrency, not single-op latency.
-- Setting `O_NONBLOCK` then spinning without `epoll_wait` / `poll`.
-- Mixing blocking disk calls on the same thread that must serve many sockets.
+
+### Use cases
+- Node.js and Go multiplex many logical tasks onto fewer OS threads

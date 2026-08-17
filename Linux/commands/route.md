@@ -4,25 +4,31 @@
 
 > Legacy net-tools view of the kernel [[routing table]] — prefer `ip route` on modern systems.
 
-
-
-
+```txt
+        route ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows you know longest-prefix match, default routes, and that `route` is deprecated in favor of [[ip]] / netlink.
+- **Interview probes:** Shows you know longest-prefix match, default routes, and that `route` is depr…
 
 ## Sources
 - [man ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive
 - [Wikipedia — route (command)](https://en.wikipedia.org/wiki/Route_(command)) — overview
-
-## Core Definition
-The kernel holds routing tables (main by default). Each route maps a destination prefix to a next hop, outgoing interface, or local delivery. `route` uses the old ioctl API; `ip route` uses netlink — the same path NetworkManager, systemd-networkd, and many CNIs use.
 
 ## Key Concepts
 - **Default route:** `0.0.0.0/0` — no default usually means no internet.
 - **Metric:** lower metric wins among equal prefixes.
 - **Ephemeral CLI changes:** lost on reboot unless Netplan/NM/systemd-networkd persists them.
 - **Policy routing:** `ip rule` + extra tables — invisible to plain `route -n`.
+
+
+- **Core:** The kernel holds routing tables (main by default). Each route maps a destinat…
 
 ## Technical Details
 ```
@@ -62,10 +68,10 @@ ip rule list
 | `route: command not found` | net-tools missing | Use `ip route` |
 | Two default routes | `ip route \| grep default` | Remove duplicate; lower metric wins |
 
-## Real-World Applications
-Debugging “can ping gateway but not internet,” VPN leftover defaults, and translating old runbooks to `ip route`.
-
-**Example:** After Docker or VPN churn, `ip route get 1.1.1.1` shows traffic leaving the wrong interface — fix metric or delete the stale default.
+## Mistakes to Avoid
+- **Mistake:** Changing routes only on the CLI and expecting them to survive re…
+- **Mistake:** Omitting `-n` so a broken resolver hangs `route`
+- **Mistake:** Believing `route -n` shows all tables when policy routing is in …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Short mental model (`route -n`) on ancient hosts.
@@ -75,7 +81,8 @@ Debugging “can ping gateway but not internet,” VPN leftover defaults, and tr
 - vs [[ip]]: full feature set and persistence story — use for all new work.
 - vs [[routing table]]: the kernel data structure; `route`/`ip route` are the CLI.
 
-## Mistakes to Avoid
-- Changing routes only on the CLI and expecting them to survive reboot.
-- Omitting `-n` so a broken resolver hangs `route`.
-- Believing `route -n` shows all tables when policy routing is in play.
+
+### Use cases
+- Debugging “can ping gateway but not internet,” VPN leftover defaults, and tra…
+
+- **Example:** After Docker or VPN churn, `ip route get 1.1.1.1` shows traffic …

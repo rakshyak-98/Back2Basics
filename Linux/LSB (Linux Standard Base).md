@@ -4,25 +4,31 @@
 
 > The Linux Standard Base defined cross-distribution conventions — init script headers, FHS paths, and core library ABIs — so third-party packages could target “Linux” instead of each distro.
 
-
-
-
+```txt
+        LSB (Linux Standar ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Rare as a deep dive, but useful to map legacy `### BEGIN INIT INFO` headers and `lsb_release` to today’s systemd targets and FHS layout.
+- **Interview probes:** Rare as a deep dive, but useful to map legacy `### BEGIN INIT INFO` headers a…
 
 ## Sources
 - [Linux Foundation LSB](https://refspecs.linuxfoundation.org/lsb.shtml) — overview
 - [lsb_release(1)](https://manpages.debian.org/lsb_release) — overview
 
-## Core Definition
-LSB (Linux Foundation) specified behaviors Debian, RHEL, and others could implement. Init script **LSB headers** fed dependency ordering on SysV systems. systemd units replaced most init integration; FHS paths and packaging ideas remain.
-
 ## Key Concepts
-- **FHS:** Filesystem Hierarchy Standard — `/etc`, `/var`, `/usr` conventions LSB leaned on.
+- **FHS:** Filesystem Hierarchy Standard
 - **LSB init headers:** Metadata block telling Required-Start/Stop and runlevels.
 - **ABI / libraries:** Attempted portable binary baseline (largely historical for ISVs).
 - **lsb_release:** Reports distributor ID and release for scripts.
+
+
+- **Core:** LSB (Linux Foundation) specified behaviors Debian, RHEL, and others could imp…
 
 ## Technical Details
 ```bash
@@ -46,8 +52,10 @@ lsb_release -a    # distribution ID and version (lsb-release package)
 | `/etc/init.d` | `.service` units |
 | Static library ABI | Container images per distro |
 
-## Real-World Applications
-Reading vendor SysV scripts still shipped for compatibility, and using `lsb_release -si/-sr` in install scripts that branch on Ubuntu vs RHEL.
+## Mistakes to Avoid
+- **Mistake:** Writing new production services as LSB init scripts instead of s…
+- **Mistake:** Treating `lsb_release` as proof of full LSB certification (it is…
+- **Mistake:** Assuming runlevels still control modern boot on systemd hosts
 
 ## Pros/Cons or Trade-offs
 - **Pro (historical):** One packaging story for ISVs across distros.
@@ -55,9 +63,8 @@ Reading vendor SysV scripts still shipped for compatibility, and using `lsb_rele
 - **Trade-off:** Keep LSB headers only for SysV compatibility generators — prefer native units.
 
 ## Comparison
-vs [[SYSV (System V)]]: SysV is the init model; LSB standardized script metadata and broader ABI/FHS. vs systemd: event-driven dependencies replace runlevel scripts.
+- vs [[SYSV (System V)]]: SysV is the init model
 
-## Mistakes to Avoid
-- Writing new production services as LSB init scripts instead of systemd units.
-- Treating `lsb_release` as proof of full LSB certification (it is not).
-- Assuming runlevels still control modern boot on systemd hosts.
+
+### Use cases
+- Reading vendor SysV scripts still shipped for compatibility, and using `lsb_r…

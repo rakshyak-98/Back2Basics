@@ -4,12 +4,17 @@
 
 > `dataTransfer` — drag-and-drop / clipboard payload bag: set data on dragstart, read on drop (types + files).
 
-
-
-
+```txt
+        dataTransfer ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **dataTransfer** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **dataTransfer** to see if you understand what it does ope…
 
 ## Sources
 - [Wikipedia — dataTransfer](https://en.wikipedia.org/wiki/dataTransfer) — overview
@@ -50,24 +55,25 @@ zone.addEventListener('drop', (e) => {
 | Custom MIME | `application/x-myapp` for internal |
 | `readAsDataURL` separately | Files need FileReader/fetch |
 
-## Real-World Applications
-In production APIs and tooling, **dataTransfer** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Don’t put secrets in drag data** — any drop target can read on drop; **`text/uri-list` vs `text/plain`** — browsers differ; set both if needed.
+## Mistakes to Avoid
+- **Mistake:** **Don’t put secrets in drag data**
+- **Mistake:** **`text/uri-list` vs `text/plain`**
+- **Mistake:** **React synthetic DnD** — still need `preventDefault` on dragover
+- **Mistake:** **Drop never fires:** check Missing dragover preventDefault
+- **Mistake:** **`getData` empty mid-drag:** check Read too early
+- **Mistake:** **Files empty:** check Not a file drag / browser
+- **Mistake:** **Cross-origin iframe:** check Restricted
+- **Mistake:** **Safari quirks:** check Custom types; fix: Also set `text/plain`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (`dataTransfer` — drag-and-drop / clipboard payload bag: set data on dragstart, r…).
-- **Con / when not:** **Complex application DnD** — pointer events + state may be simpler than HTML5 DnD.
-- **Con / when not:** **Large binary pipelines** — upload APIs, not drag strings.
+- **Con / when not:** **Complex application DnD**
+- **Con / when not:** **Large binary pipelines**
 - **Con / when not:** **Mobile** — HTML5 DnD support is weak; use touch UX.
 
 ## Comparison
-vs [[event listener]]: know when each applies — do not treat them as interchangeable. vs [[Callback]]: know when each applies — do not treat them as interchangeable. vs [[mime type]]: know when each applies — do not treat them as interchangeable.
+- vs [[event listener]]: know when each applies
 
-## Mistakes to Avoid
-- **Don’t put secrets in drag data** — any drop target can read on drop.
-- **`text/uri-list` vs `text/plain`** — browsers differ; set both if needed.
-- **React synthetic DnD** — still need `preventDefault` on dragover.
-- **Drop never fires:** check Missing dragover preventDefault; fix: Add it
-- **`getData` empty mid-drag:** check Read too early; fix: Only on `drop`/`paste`
-- **Files empty:** check Not a file drag / browser; fix: Check `items`; permissions
-- **Cross-origin iframe:** check Restricted; fix: Same-origin or postMessage
-- **Safari quirks:** check Custom types; fix: Also set `text/plain`
+
+### Use cases
+- In production APIs and tooling, **dataTransfer** shows up whenever teams ship…

@@ -4,24 +4,29 @@
 
 > Text-to-diagram DSL for design docs and runbooks — great for **version-controlled architecture**; know rendering and maintenance limits.
 
-
-
-
+```txt
+        Mermaid (DSL) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Mermaid questions check whether you can diagram flows in docs — sequence/flowchart for design reviews.
+- **Interview probes:** Mermaid questions check whether you can diagram flows in docs
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
 ```txt
-Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
+- **Note:** Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 ```
 
-**Strength:** diffs are readable; authors stay in IDE; diagrams update with code reviews.
+- **Note:** **Strength:** diffs are readable
 
-**Weakness:** layout is automatic — complex graphs become spaghetti; no precise pixel control; renderer/version drift.
+- **Note:** **Weakness:** layout is automatic
 
 **Common diagram types:**
 
@@ -62,18 +67,16 @@ sequenceDiagram
 
 ```markdown
 ```mermaid
-graph TD
-  A[Symptom: 502] --> B{Upstream up?}
-  B -->|no| C[Fix application pool]
-  B -->|yes| D[Check Nginx timeout]
+- graph TD A[Symptom: 502] --> B{Upstream up?} B -->|no| C[Fix application pool…
+
 ```
 ```
 
-Enable **Mermaid** in Settings → Core plugins (or Community).
+- Enable **Mermaid** in Settings → Core plugins (or Community).
 
 ### GitHub / GitLab
 
-Fenced block with language `mermaid` renders natively in MD files and PR descriptions.
+- Fenced block with language `mermaid` renders natively in MD files and PR desc…
 
 ### CI validation (optional)
 
@@ -90,11 +93,6 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 - Label edges with failure paths, not just happy path
 - Use subgraph for bounded contexts
 ```
-
-## Pros/Cons or Trade-offs
-- **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
-- **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
-- **UML for codegen** — use OpenAPI/Protobuf/PlantUML with tooling if binding to code.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -117,3 +115,8 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 | Different look in PR vs Obsidian | Version skew | Pin mermaid version in docs; avoid exotic syntax |
 | Security concern in public repo | Diagram content | No secrets/hostnames with creds in labels |
 | PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
+
+## Pros/Cons or Trade-offs
+- **Precise network topology with IP/rack**
+- **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
+- **UML for codegen**

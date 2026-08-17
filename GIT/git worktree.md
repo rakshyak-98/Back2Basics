@@ -4,12 +4,17 @@
 
 > multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
-
-
-
+```txt
+        Git Worktree ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git Worktree` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git Worktree` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -23,7 +28,7 @@ repo/               ← worktree 1 (main)
 ../repo-hotfix/     ← worktree 3 (detached at tag)
 ```
 
-Switching branches in a worktree only updates that directory's files — no full checkout dance, no stashing WIP on the other branch.
+- **Note:** Switching branches in a worktree only updates that directory's files
 
 ## Technical Details
 ```bash
@@ -47,7 +52,7 @@ git worktree remove --force ../project-dirty
 git worktree prune
 ```
 
-Each linked worktree stores a `.git` **file** (not dir) pointing at main repository: `gitdir: /path/to/main/.git/worktrees/feature`.
+- Each linked worktree stores a `.git` **file** (not dir) pointing at main repo…
 
 ### Typical workflow
 
@@ -61,10 +66,6 @@ cd ../project-hotfix
 # fix, commit, push
 git worktree remove ../project-hotfix
 ```
-
-## Pros/Cons or Trade-offs
-- **Long-term second clone needs** — separate clone is simpler if you want different remotes or hooks.
-- **Replacing `git stash`** for tiny context switches — stash is lighter for 5-minute detours.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -86,3 +87,7 @@ git worktree remove ../project-hotfix
 | Can't remove — dirty tree | `git status` in worktree | Commit, stash, or `--force` remove |
 | Submodule confusion | Each worktree needs `submodule update` | Run in each checkout separately |
 | Disk looks duplicated | Shared objects | Normal — only working files duplicate |
+
+## Pros/Cons or Trade-offs
+- **Long-term second clone needs**
+- **Replacing `git stash`** for tiny context switches

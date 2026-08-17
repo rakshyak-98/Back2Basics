@@ -4,12 +4,18 @@
 
 > Machine that executes workflow jobs — ephemeral GitHub-hosted VMs or your own self-hosted agent.
 
-
-
-
+```txt
+        GitHub Actions run ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast hosted vs self-hosted (security, VPC access, ops burden) and want concurrency controls to prevent double deploys.
+- **Interview probes:** Interviewers contrast hosted vs self-hosted (security, VPC access, ops burden…
 
 ## Sources
 - [GitHub Docs — About runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) — overview
@@ -39,20 +45,21 @@ concurrency:
 | Hosted | Clean slate | No VPC; shared limits |
 | Self-hosted | Private network | Patching + isolation duty |
 
-## Real-World Applications
-Build on hosted runners; deploy from a self-hosted runner inside the VPC that can reach internal APIs.
-
-**Example:** Jobs queue forever — runner service stopped or `runs-on` labels do not match registration.
+## Mistakes to Avoid
+- **Mistake:** Shared sticky self-hosted runners across untrusted repos
+- **Mistake:** Running self-hosted on a laptop (sleep, IP churn, theft risk)
+- **Mistake:** Ignoring disk growth from caches/artifacts on persistent runners
 
 ## Pros/Cons or Trade-offs
 - **Pro (hosted):** no capacity planning for CI VMs.
-- **Con (self-hosted):** fork PRs can be dangerous if workflows are too privileged.
+- **Con (self-hosted):** fork PRs can be dangerous if workflows are too privile…
 
 ## Comparison
 - vs [[Github action]]: runner is the executor; Actions is the workflow definition.
 - vs Jenkins agents: same idea (build agents), different control plane.
 
-## Mistakes to Avoid
-- Shared sticky self-hosted runners across untrusted repos — isolate or use ephemeral VMs.
-- Running self-hosted on a laptop (sleep, IP churn, theft risk).
-- Ignoring disk growth from caches/artifacts on persistent runners.
+
+### Use cases
+- Build on hosted runners
+
+- **Example:** Jobs queue forever

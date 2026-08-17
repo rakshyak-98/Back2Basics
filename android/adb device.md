@@ -4,12 +4,18 @@
 
 > Android Debug Bridge talks to phones/emulators — list devices, install APKs, forward ports, and stream logs for development.
 
-
-
-
+```txt
+        adb device ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Mobile interviews expect `adb devices`, authorization prompts, and logcat/`install` as first triage tools.
+- **Interview probes:** Mobile interviews expect `adb devices`, authorization prompts, and logcat/`in…
 
 ## Sources
 - [Android — adb](https://developer.android.com/tools/adb) — deep-dive
@@ -39,10 +45,10 @@ adb shell
 adb kill-server && adb start-server
 ```
 
-## Real-World Applications
-Flutter/React Native debugging on a physical Pixel: `adb devices` must show `device` before `flutter run`.
-
-**Example:** Emulator listed but app installs to the wrong target — pass `-s <serial>`.
+## Mistakes to Avoid
+- **Mistake:** Ignoring `unauthorized` and blaming Flutter
+- **Mistake:** Multiple adb versions on PATH fighting each other
+- **Mistake:** Leaving `adb tcpip` debugging open on untrusted networks
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal Android tooling entry point.
@@ -52,7 +58,8 @@ Flutter/React Native debugging on a physical Pixel: `adb devices` must show `dev
 - vs Xcode devices window: same role on iOS with different tools.
 - vs [[sdkmanager]]: sdkmanager installs platform tools; adb uses them.
 
-## Mistakes to Avoid
-- Ignoring `unauthorized` and blaming Flutter.
-- Multiple adb versions on PATH fighting each other.
-- Leaving `adb tcpip` debugging open on untrusted networks.
+
+### Use cases
+- Flutter/React Native debugging on a physical Pixel: `adb devices` must show `…
+
+- **Example:** Emulator listed but app installs to the wrong target

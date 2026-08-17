@@ -4,12 +4,18 @@
 
 > MySQL constraints—PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK (8.0.16+)—that enforce row validity at insert/update time.
 
-
-
-
+```txt
+        key Constraint ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Constraint questions check PRIMARY/UNIQUE/FK/CHECK literacy, InnoDB-only FKs, and why named constraints make [[MySQL Error]] messages actionable. Ties to [[ACID]] consistency as declared rules.
+- **Interview probes:** Constraint questions check PRIMARY/UNIQUE/FK/CHECK literacy, InnoDB-only FKs,…
 
 ## Sources
 - [MySQL Reference Manual — CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html) — deep-dive
@@ -29,25 +35,26 @@ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
 CHECK (balance >= 0)
 ```
 
-Foreign keys:
+- Foreign keys:
 
-- Require indexed parent/child columns (index created automatically on child if missing)
+- Require indexed parent/child columns (index created automatically on child if…
 - `ON DELETE CASCADE` propagates deletes—use deliberately
 - InnoDB only ([[mysql engine]])
 
-Naming: explicit constraint names (`CONSTRAINT fk_orders_user`) make [[MySQL Error]] messages actionable.
+- Naming: explicit constraint names (`CONSTRAINT fk_orders_user`) make [[MySQL …
 
-## Real-World Applications
-Orders referencing users with `ON DELETE RESTRICT` so you cannot wipe customers who still have orders. Example: `CHECK (balance >= 0)` rejects bad ledger writes even if the application bug slips through.
+## Mistakes to Avoid
+- **Mistake:** Relying on FKs with non-InnoDB engines
+- **Mistake:** Blind `ON DELETE CASCADE` on large graphs
+- **Mistake:** Unnamed constraints that produce opaque error text during incide…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Database rejects invalid states; FKs document relationships.
 - **Con:** Cascades can surprise; FK checks add write overhead; some legacy engines/settings disable FKs.
 
 ## Comparison
-vs application-only validation: app checks are necessary for UX but race-prone without DB constraints. vs [[mysql normalization]]: normalization designs tables; constraints enforce the relationships that normalization implies.
+- vs application-only validation: app checks are necessary for UX but race-pron…
 
-## Mistakes to Avoid
-- Relying on FKs with non-InnoDB engines — they are ignored or unavailable.
-- Blind `ON DELETE CASCADE` on large graphs — accidental mass deletes.
-- Unnamed constraints that produce opaque error text during incidents.
+
+### Use cases
+- Orders referencing users with `ON DELETE RESTRICT` so you cannot wipe custome…

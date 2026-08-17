@@ -4,12 +4,18 @@
 
 > Installs, upgrades, and removes software with dependency solving — APT/dpkg on Debian/Ubuntu; dnf/zypper/pacman elsewhere.
 
-
-
-
+```txt
+        Package Manager ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-APT vs dpkg, policy/pins, holds, and never killing mid-dpkg unpack.
+- **Interview probes:** APT vs dpkg, policy/pins, holds, and never killing mid-dpkg unpack.
 
 ## Sources
 - [Debian APT guide](https://www.debian.org/doc/manuals/apt-guide/) — deep-dive
@@ -51,8 +57,10 @@ sudo apt-get autoremove
 | Wrong version | Policy | Pin; disable bad repo |
 | dpkg lock | Parallel apt | Wait; clear stale lock carefully |
 
-## Real-World Applications
-Lean server bootstrap with `--no-install-recommends`, verify candidates with `apt-cache policy` before enabling a third-party repo.
+## Mistakes to Avoid
+- **Mistake:** Killing dpkg mid-unpack — repair with `dpkg --configure -a`
+- **Mistake:** Mixing distro releases in sources.list
+- **Mistake:** Trusting third-party repos without pins/keyrings
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Dependency solving and rollback-friendly package state.
@@ -62,7 +70,6 @@ Lean server bootstrap with `--no-install-recommends`, verify candidates with `ap
 - vs language lockfiles (npm/pip): app deps belong in the image; OS packages for the platform.
 - vs [[Package deferred]]: holds/pins are the deferral mechanism.
 
-## Mistakes to Avoid
-- Killing dpkg mid-unpack — repair with `dpkg --configure -a`.
-- Mixing distro releases in sources.list.
-- Trusting third-party repos without pins/keyrings.
+
+### Use cases
+- Lean server bootstrap with `--no-install-recommends`, verify candidates with …

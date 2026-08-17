@@ -4,12 +4,18 @@
 
 > Logical backups with `pg_dump` / `pg_dumpall` — schema, data, and globals for restore, cloning, and version upgrades.
 
-
-
-
+```txt
+        psql database dump ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops staple: custom format (`-Fc`) for parallel restore, globals dump for roles, and the difference between `pg_dump` and `pg_dumpall`.
+- **Interview probes:** Ops staple: custom format (`-Fc`) for parallel restore, globals dump for role…
 
 ## Sources
 - [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) — deep-dive
@@ -30,8 +36,10 @@ psql mydb < schema.sql
 pg_dumpall --globals-only > globals.sql
 ```
 
-## Real-World Applications
-Nightly logical backups, cloning QA databases, capturing roles before major upgrades (alongside physical/PITR strategies).
+## Mistakes to Avoid
+- **Mistake:** Dumping data but forgetting globals (roles missing on restore)
+- **Mistake:** Never testing `pg_restore` into a scratch instance
+- **Mistake:** Using plain SQL dumps for multi-hundred-GB databases without a t…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Portable, inspectable, selective restore.
@@ -39,9 +47,8 @@ Nightly logical backups, cloning QA databases, capturing roles before major upgr
 - **Trade-off:** Plain SQL vs custom format — readability versus restore features.
 
 ## Comparison
-vs [[mysql dump]]: same logical-backup niche; PostgreSQL’s `-Fc` + `pg_restore` is the distinctive ergonomic win.
+- vs [[mysql dump]]: same logical-backup niche
 
-## Mistakes to Avoid
-- Dumping data but forgetting globals (roles missing on restore).
-- Never testing `pg_restore` into a scratch instance.
-- Using plain SQL dumps for multi-hundred-GB databases without a time budget.
+
+### Use cases
+- Nightly logical backups, cloning QA databases, capturing roles before major u…

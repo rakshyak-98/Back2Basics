@@ -4,19 +4,24 @@
 
 > URI + driver options that keep your app talking to the right cluster under load and failover — **MongoDB Manual** + production incident patterns.
 
-
-
-
+```txt
+        MongoDB connection ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use MongoDB connection to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+- **Interview probes:** Interviewers use MongoDB connection to test MongoDB data modeling and ops jud…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes authentication, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
+- **Note:** The driver maintains a **connection pool** to mongod/mongos processes. Each U…
 
 ```
 App → Driver pool → Primary (writes)
@@ -56,10 +61,6 @@ await mongoose.connect(process.env.MONGODB_URI, {
 mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCommand({ ping: 1 })'
 ```
 
-## Pros/Cons or Trade-offs
-- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
-- Don't create one connection per request — always pool via driver/mongoose.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Atlas IP allowlist** — app on dynamic IP or new k8s node → connection works locally, fails in prod until IP added.
@@ -76,3 +77,7 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 | `not primary` on write | `rs.status()` | Wait for election; fix primary; don't write to secondary |
 | Pool exhausted / slow | `db.serverStatus().connections` | Lower per-app `maxPoolSize`; scale app or DB |
 | TLS handshake fail | cert SAN, CA bundle | Add CA to trust store; use `tlsCAFile` |
+
+## Pros/Cons or Trade-offs
+- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authenti…
+- Don't create one connection per request — always pool via driver/mongoose.

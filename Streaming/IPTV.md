@@ -4,18 +4,21 @@
 
 > IPTV delivers live TV and VOD over an IP network — set-top box or app, not satellite or cable RF.
 
-
-
-
+```txt
+        IPTV ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk IPTV end-to-end — not just name it. Signal fluency with **IPTV**, **Live**, **VOD**, **Time-shift** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk IPTV end-to-end
 
 ## Sources
 - [Wikipedia — IPTV](https://en.wikipedia.org/wiki/IPTV) — overview
-
-## Core Definition
-Same product word, different pipes. If you hear “multicast group / IGMP join,” think operator IPTV. If you hear “m3u8 / Widevine,” think OTT packaging.
 
 ## Key Concepts
 - **IPTV:** TV over IP on operator or private net — “Channels ride IP, not RF broadcast.”
@@ -27,10 +30,10 @@ Same product word, different pipes. If you hear “multicast group / IGMP join,�
 
 **Flow:**
 
-1. **Encode** — headend makes H.264/HEVC + audio into [[MPEG-TS]] (or files for VOD).
-2. **Protect** — scramble with [[CAS (Conditional Access System)]] (STB) or encrypt with [[DRM]] (OTT).
-3. **Deliver** — live often [[Multicast]] on LAN/ISP; VOD/ABR over HTTPS CDN.
-4. **Play** — STB or application reads EPG, joins/pulls stream, decrypts, renders.
+- **Note:** 1. **Encode**
+- **Note:** 2. **Protect**
+- **Note:** 3. **Deliver** — live often [[Multicast]] on LAN/ISP; VOD/ABR over HTTPS CDN.
+- **Note:** 4. **Play** — STB or application reads EPG, joins/pulls stream, decrypts, ren…
 
 ### Operator vs OTT (keep them short)
 
@@ -38,6 +41,9 @@ Same product word, different pipes. If you hear “multicast group / IGMP join,�
 |-------|-----------------|
 | **Managed IPTV** | Private/ISP network, often UDP [[Multicast]] + [[CAS (Conditional Access System)]] on STB |
 | **OTT “IPTV-like”** | Public internet, [[HLS]] / [[DASH]] + [[DRM]] in the app |
+
+
+- **Core:** Same product word, different pipes
 
 ## Technical Details
 ```txt
@@ -80,24 +86,7 @@ UDP/SRT MPEG-TS ingest  ──►  [[flussonic]] / packager
 | ABR ladder for OTT | Public internet can’t rely on a single CBR TS bitrate |
 | EPG / channel map | Middleware ID must match service_id / stream name |
 
-Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same group from a laptop on that VLAN.
-
-## Real-World Applications
-Same product word, different pipes. If you hear “multicast group / IGMP join,” think operator IPTV. If you hear “m3u8 / Widevine,” think OTT packaging.
-
-Used wherever IPTV sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Millions of anonymous viewers on the public internet** — use [[HLS]] / [[DASH]] + CDN, not campus multicast.
-- **Con / skip when:** **Browser P2P calls** — that is [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not IPTV headend.
-- **Con / skip when:** **Simple file download / progressive MP4 only** — no channel guide, no live mux; keep HTTP progressive or [[Byte stream]] ranges.
-- **Con / skip when:** **You need interactive ultra-low latency between two peers** — WebRTC, not multicast TV.
-
-## Comparison
-- vs [[HLS]]: **Millions of anonymous viewers on the public internet** — use [[HLS]] / [[DASH]] + CDN, not campus multicast.
-- vs [[WebRTC]]: **Browser P2P calls** — that is [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not IPTV headend.
-- vs [[Byte stream]]: **Simple file download / progressive MP4 only** — no channel guide, no live mux; keep HTTP progressive or [[Byte stream]] ranges.
+- Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same grou…
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -109,7 +98,25 @@ Used wherever IPTV sits in an ingest → package → CDN → player path. Concre
 | VOD buffers, live OK | Origin/CDN cache, bitrate | ABR ladder; cache segments; check last-mile |
 | EPG wrong, video fine | Middleware channel map | Align EPG id ↔ service_id / stream key |
 
-- **IPTV ≠ “any video on the internet”** — classic IPTV assumes a controlled IP fabric. Public OTT is a different delivery and security stack.
-- **Multicast does not cross the open internet** — no IGMP/PIM path ⇒ you need unicast ABR ([[HLS]] / [[DASH]]).
-- **CAS is not DRM** — STB Conditional Access decrypts scrambled TS; browser apps use [[DRM]] / [[EME]]. Mixing the words in a design review loses trust.
-- **One bad CBR bitrate** — managed nets hide it; same feed on Wi‑Fi phones without ABR will buffer forever.
+- **Mistake:** **IPTV ≠ “any video on the internet”**
+- **Mistake:** **Multicast does not cross the open internet**
+- **Mistake:** **CAS is not DRM**
+- **Mistake:** **One bad CBR bitrate**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Millions of anonymous viewers on the public internet**
+- **Con / skip when:** **Browser P2P calls**
+- **Con / skip when:** **Simple file download / progressive MP4 only**
+- **Con / skip when:** **You need interactive ultra-low latency between two pee…
+
+## Comparison
+- vs [[HLS]]: **Millions of anonymous viewers on the public internet**
+- vs [[WebRTC]]: **Browser P2P calls**
+- vs [[Byte stream]]: **Simple file download / progressive MP4 only**
+
+
+### Use cases
+- Same product word, different pipes
+
+- Used wherever IPTV sits in an ingest → package → CDN → player path

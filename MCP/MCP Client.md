@@ -4,19 +4,25 @@
 
 > Host-side MCP operations — discover servers, authenticate, list tools/resources/prompts, invoke calls with timeouts, and debug failures.
 
-
-
-
+```txt
+        MCP Client ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Platform interviews: client mediates the LLM (model never speaks raw to your DB), schema caching, and auth token storage.
+- **Interview probes:** Platform interviews: client mediates the LLM (model never speaks raw to your …
 
 ## Sources
 - [MCP — Clients](https://modelcontextprotocol.io/docs/concepts/architecture) — deep-dive
 - [Cursor — MCP docs](https://docs.cursor.com/) — overview
 
 ## Key Concepts
-- **Mediation:** LLM selects a tool → client validates/calls server → result returns to context.
+- **Mediation:** LLM selects a tool → client validates/calls server → result returns to contex…
 - **tools/list & tools/call:** schema discovery + invocation.
 - **resources/read & prompts/get:** context and templates.
 - **Auth:** OAuth/API keys stored by the client, not the model.
@@ -27,7 +33,7 @@ MCP Client ←JSON-RPC→ MCP Server → Backend API/DB
 LLM picks tool → client executes → result to model
 ```
 
-Cursor-style config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`):
+- Cursor-style config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`):
 
 ```json
 {
@@ -48,10 +54,10 @@ Cursor-style config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`):
 | Auth errors | Token/OAuth | Re-auth; rotate secrets |
 | Garbled stdio | Debug prints on stdout | Log to stderr only |
 
-## Real-World Applications
-Cursor connects to postgres/github servers so agents can query schema and open issues under your token policies.
-
-**Example:** Tool schema mismatch after server upgrade — restart client and refresh tools/list cache.
+## Mistakes to Avoid
+- **Mistake:** Passing unsanitized tool output straight into shell commands
+- **Mistake:** Putting long-lived tokens in world-readable config without env i…
+- **Mistake:** Using stdio servers that spam stdout with logs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One host can juggle many specialized servers.
@@ -61,7 +67,8 @@ Cursor connects to postgres/github servers so agents can query schema and open i
 - vs [[MCP]]: protocol vs operator checklist on the client.
 - vs IDE extensions: MCP is model-facing capabilities, not only UI plugins.
 
-## Mistakes to Avoid
-- Passing unsanitized tool output straight into shell commands.
-- Putting long-lived tokens in world-readable config without env indirection.
-- Using stdio servers that spam stdout with logs.
+
+### Use cases
+- Cursor connects to postgres/github servers so agents can query schema and ope…
+
+- **Example:** Tool schema mismatch after server upgrade

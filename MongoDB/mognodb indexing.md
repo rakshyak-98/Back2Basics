@@ -4,12 +4,17 @@
 
 > Indexes make MongoDB finds fast — without them, every query is a collection scan.
 
-
-
-
+```txt
+        mognodb indexing ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Index interviews check compound key order, ESR rule, covered queries, and when indexes hurt writes.
+- **Interview probes:** Index interviews check compound key order, ESR rule, covered queries, and whe…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -46,10 +51,6 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Partial filter | Smaller index |
 | Background (legacy) | Prefer rolling builds on replica set |
 
-## Pros/Cons or Trade-offs
-- **Tiny collections** — scan is fine.
-- **Fields never queried** — don’t index “just in case.”
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Left-prefix rule** — `{a:1,b:1}` helps `{a}` and `{a,b}`, not `{b}` alone.
@@ -63,3 +64,7 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Write latency up | Too many indexes | Drop unused (`$indexStats`) |
 | Unique violation | Dup keys | Clean data; fix app |
 | Sort in memory | No index for sort | Extend compound index |
+
+## Pros/Cons or Trade-offs
+- **Tiny collections** — scan is fine.
+- **Fields never queried** — don’t index “just in case.”

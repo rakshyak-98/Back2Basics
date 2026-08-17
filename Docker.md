@@ -4,27 +4,33 @@
 
 > Docker packages apps into containers — same image on laptop and server; outages usually come from networking, mounts, or resource limits, not “the daemon is magic.”
 
-
-
-
+```txt
+        Docker ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect image vs container, layers, volumes vs bind mounts, networking, and why PID 1 / signals / resource limits matter. Security follow-ups: root in containers, supply chain, rootless.
+- **Interview probes:** Expect image vs container, layers, volumes vs bind mounts, networking, and wh…
 
 ## Sources
 - [Docker — Overview](https://docs.docker.com/get-started/docker-overview/) — overview
 - [OCI Runtime Spec](https://github.com/opencontainers/runtime-spec) — deep-dive
 - [Wikipedia — Docker (software)](https://en.wikipedia.org/wiki/Docker_(software)) — overview
 
-## Core Definition
-Docker is a platform to build, ship, and run applications in isolated containers that share the host kernel. Images are layered filesystems plus config; containers are running instances.
-
 ## Key Concepts
 - **Engine stack:** CLI → `dockerd` → containerd → runc ([[docker OCI]]).
-- **Image / container:** Immutable build artifact vs runtime instance ([[docker container]], [[docker file]]).
+- **Image / container:** Immutable build artifact vs runtime instance ([[docker container]], [[docker …
 - **Compose:** Multi-container apps from YAML ([[Docker compose]]).
 - **Isolation limits:** Namespaces + cgroups — not a VM; kernel is shared.
-- **Day-2 pain:** Networks, volume permissions, disk fill, CPU/memory limits ([[Docker Runtime Security]]).
+- **Day-2 pain:** Networks, volume permissions, disk fill, CPU/memory limits ([[Docker Runtime …
+
+
+- **Core:** Docker is a platform to build, ship, and run applications in isolated contain…
 
 ## Technical Details
 ```txt
@@ -50,18 +56,19 @@ docker CLI ──► dockerd ──► containerd ──► runc ──► conta
 | Port allocated | `ss -lntp` | Change mapping; stop conflict |
 | Disk full | `docker system df` | prune; cap logs; move data-root |
 
-## Real-World Applications
-Local parity: Compose brings API + DB + redis with one file. CI builds a pinned image digest; prod runs the same digest behind resource limits and read-only rootfs where possible.
+## Mistakes to Avoid
+- **Mistake:** Running containers as root with broad host mounts
+- **Mistake:** Using `latest` tags in production
+- **Mistake:** Ignoring healthchecks and restart policy until on-call pages
+- **Mistake:** Treating containers as VMs (mutable SSH pets)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Reproducible runtime; fast spin-up; huge ecosystem.
 - **Con:** Shared kernel risk; easy to ship fat images; networking and volume semantics confuse newcomers.
 
 ## Comparison
-vs VM: stronger isolation, heavier. vs bare process: weaker isolation, simpler. vs Kubernetes: Docker builds/runs units; K8s schedules many of them. Related hub: [[Linux]] (kernel skills transfer).
+- vs VM: stronger isolation, heavier. vs bare process: weaker isolation, simple…
 
-## Mistakes to Avoid
-- Running containers as root with broad host mounts.
-- Using `latest` tags in production.
-- Ignoring healthchecks and restart policy until on-call pages.
-- Treating containers as VMs (mutable SSH pets).
+
+### Use cases
+- Local parity: Compose brings API + DB + redis with one file. CI builds a pinn…

@@ -4,24 +4,29 @@
 
 > ARM (Advanced RISC Machine) — RISC load/store CPUs; AArch64 is the modern 64-bit server and mobile baseline.
 
-
-
-
+```txt
+        Advanced RISC Mach ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-ARM/AArch64 questions check RISC load/store thinking, calling conventions, and why cloud graviton/apple silicon matter for builds.
+- **Interview probes:** ARM/AArch64 questions check RISC load/store thinking, calling conventions, an…
 
 ## Sources
 - [Arm Architecture Reference Manual](https://developer.arm.com/documentation) — deep-dive
 - [Wikipedia — ARM architecture family](https://en.wikipedia.org/wiki/ARM_architecture_family) — overview
 
 ## Key Concepts
-**ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: simple instructions, register-register operations, explicit load/store to memory. **AArch64** (64-bit) is the modern server and mobile baseline.
+- **Note:** **ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: s…
 
 ```
-Program Counter (PC) → fetch instruction → decode → execute → writeback
+- **Note:** Program Counter (PC) → fetch instruction → decode → execute → writeback
                               │
-ARM pipeline: PC may read as current + offset (+8 bytes in AArch64 EL0 debug)
+- **Note:** ARM pipeline: PC may read as current + offset (+8 bytes in AArch64 EL0 debug)
 ```
 
 | vs x86 | ARM tendency |
@@ -30,7 +35,7 @@ ARM pipeline: PC may read as current + offset (+8 bytes in AArch64 EL0 debug)
 | Power | Better perf/W — Apple Silicon, Graviton |
 | Ecosystem | Mobile first; Linux server growth (AWS Graviton) |
 
-**PC quirk:** When reading PC in debug/asm, value often **points ahead** of current instruction due to pipeline prefetch (commonly **PC + 8** in ARM state) — branch/link math must account for this.
+- **Note:** **PC quirk:** When reading PC in debug/asm, value often **points ahead** of c…
 
 ## Technical Details
 ### Check architecture (Linux)
@@ -56,7 +61,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t myapp:latest .
 ### AWS Graviton (cost/perf)
 
 - Choose `m7g` / `c7g` instance families — verify binary has **arm64** build
-- Same application, ~20–40% better price-performance for many workloads versus x86
+- Same application, ~20–40% better price-performance for many workloads versus …
 
 ### Debug register / PC (gdb)
 
@@ -78,12 +83,12 @@ gdb ./binary
 | Docker pull wrong arch | Single-platform image | Manifest list with buildx |
 | Native module fail (node-gyp) | Prebuilt binary x86 only | Compile on arm64 CI |
 
+## Mistakes to Avoid
+- **Mistake:** Assuming SIMD parity with x86
+- **Mistake:** **Apple Rosetta**
+- **Mistake:** **Memory model**
+- **Mistake:** **32-bit ARM (armv7)** legacy — new server work is AArch64
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't pick ARM for workload depending on proprietary x86-only libs without port plan.
 - **Trade-off:** Desktop gaming GPU stack — still x86-heavy; ARM choice is workload-specific.
-
-## Mistakes to Avoid
-- Assuming SIMD parity with x86 — NEON ≠ AVX512; vectorize carefully in crypto/video code.
-- **Apple Rosetta** — x86 binary translated; perf testing needs native arm64 build.
-- **Memory model** — weaker ordering than x86; lock-free code needs barriers.
-- **32-bit ARM (armv7)** legacy — new server work is AArch64.

@@ -4,12 +4,17 @@
 
 > The call stack tracks nested function frames — push on call, pop on return; overflow when recursion is too deep.
 
-
-
-
+```txt
+        Call stack ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Call stack questions check frames, stack overflow, and relation to the event loop/queue.
+- **Interview probes:** Call stack questions check frames, stack overflow, and relation to the event …
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -43,10 +48,6 @@ try { a() } catch (e) { console.log(e.stack) }
 | `Error.stack` | Debugging |
 | Tail calls | Not reliably optimized in JS |
 
-## Pros/Cons or Trade-offs
-- **CPU-bound parallelism** — workers.
-- **Deep recursion algorithms** — prefer explicit stacks/loops in JS.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **“Async = other thread”** — still one JS stack at a time on the main thread.
@@ -59,3 +60,7 @@ try { a() } catch (e) { console.log(e.stack) }
 | Maximum call stack | unbounded recursion | Iterate; increase? no — redesign |
 | Useless async stack | lost context | async hooks / better logs |
 | Silent hang | busy sync loop | Yield to event loop |
+
+## Pros/Cons or Trade-offs
+- **CPU-bound parallelism** — workers.
+- **Deep recursion algorithms** — prefer explicit stacks/loops in JS.

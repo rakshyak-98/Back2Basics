@@ -4,12 +4,17 @@
 
 > `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
-
-
-
+```txt
+        Git log formatting ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git log formatting` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git log formatting` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -21,7 +26,7 @@ git log --pretty=format:"%h %ad | %an | %s" --date=short
          └─ hash  date      author  subject
 ```
 
-**Author** (`%an`) wrote the patch; **committer** (`%cn`) applied it — differ after rebase/cherry-pick.
+- **Note:** **Author** (`%an`) wrote the patch; **committer** (`%cn`) applied it
 
 ## Technical Details
 ### Common one-liners
@@ -74,10 +79,6 @@ git log --pretty=format:'{%n  "hash": "%H",%n  "author": "%an",%n  "subject": "%
 git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%ad%Creset %s %Cgreen(%an)%Creset' --date=short -20"
 ```
 
-## Pros/Cons or Trade-offs
-- **Structured JSON export at scale** — `git cat-file`, libgit2, or platform API.
-- **File content history** — add `-p` or use [[git diff]].
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Rebase changes committer date** — `%cr` may say "2 minutes ago" for old work.
@@ -95,3 +96,7 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 | Empty `%d` | Detached or no refs | Normal for old commits |
 | Garbled colors in CI | `%Cred` color codes | Drop `%C…` for plain logs |
 | `%s` multiline breaks parser | Subject has newline | Use `%s` with `--no-merges` filter |
+
+## Pros/Cons or Trade-offs
+- **Structured JSON export at scale**
+- **File content history** — add `-p` or use [[git diff]].

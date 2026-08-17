@@ -4,12 +4,17 @@
 
 > Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
-
-
-
+```txt
+        MongoDB data popul ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Populate questions cover reference hydration costs versus embedding — N+1 risk in application joins.
+- **Interview probes:** Populate questions cover reference hydration costs versus embedding
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -17,7 +22,7 @@ Populate questions cover reference hydration costs versus embedding — N+1 risk
 
 ## Key Concepts
 ```txt
-Post { author: ObjectId } ──populate──► Post { author: UserDoc }
+- **Note:** Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 ```
 
 ### Interview map (words you can say)
@@ -41,10 +46,6 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | Lean | Faster plain objects |
 | Match/options | Filter populated set |
 
-## Pros/Cons or Trade-offs
-- **Analytics joins** — aggregation `$lookup`.
-- **Data always read together** — embed instead of reference.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Populate is not free** — lists with nested populate can explode query count.
@@ -58,3 +59,7 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | N+1 slowness | Many populates | `$lookup` or batch |
 | Huge payloads | No select | Project fields |
 | Circular populate | A↔B depth | Cap depth; redesign |
+
+## Pros/Cons or Trade-offs
+- **Analytics joins** — aggregation `$lookup`.
+- **Data always read together** — embed instead of reference.

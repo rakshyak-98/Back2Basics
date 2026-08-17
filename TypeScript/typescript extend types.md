@@ -4,20 +4,23 @@
 
 > Grow existing shapes with `extends`, intersections (`&`), interface merging, and module augmentation — types compose; they do not replace runtime inheritance.
 
-
-
-
+```txt
+        typescript extend  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how you extend types to see if you know interfaces merge but type aliases do not, how module augmentation patches library types, and when an intersection collapses to `never`.
+- **Interview probes:** Interviewers ask how you extend types to see if you know interfaces merge but…
 
 ## Sources
 - [TypeScript Handbook — Object Types (extending)](https://www.typescriptlang.org/docs/handbook/2/objects.html) — overview
 - [TypeScript Handbook — Declaration Merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) — deep-dive
 - [TypeScript Handbook — Modules — augmentation](https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-augmentation-d-ts.html) — deep-dive
-
-## Core Definition
-Extending types means building larger contracts from smaller ones: interface inheritance (`extends`), intersection types (`A & B`), declaration merging of same-named interfaces, and module augmentation that adds fields to third-party modules.
 
 ## Key Concepts
 - **`interface extends`:** inheritance-like composition with clear hierarchies.
@@ -25,6 +28,9 @@ Extending types means building larger contracts from smaller ones: interface inh
 - **Declaration merging:** identical interface names stack members.
 - **Module augmentation:** patch Express `Request`, etc., inside a module file (`export {}`).
 - **Generic constraints:** `T extends SomeShape` bounds type parameters.
+
+
+- **Core:** Extending types means building larger contracts from smaller ones: interface …
 
 ## Technical Details
 ```txt
@@ -67,10 +73,11 @@ declare module 'express-serve-static-core' {
 | Excess fields lost | Widened too early | Keep generics with `extends` |
 | Circular extends | A↔B | Break with indirection |
 
-## Real-World Applications
-Express apps augment `Request` with `userId` after authentication middleware; domain models use `interface Dog extends Animal`; helpers use `T & { id: string }`.
-
-**Example:** Module augmentation silently ignored because the file was a script — add `export {}` so TypeScript treats it as a module.
+## Mistakes to Avoid
+- **Mistake:** Expecting `type` aliases to declaration-merge
+- **Mistake:** Open-ended monkey-patching of every library type
+- **Mistake:** Intersecting incompatible property types and wondering why you g…
+- **Mistake:** Replacing runtime class design with type-only hierarchies and as…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Compose and patch types without forking libraries.
@@ -79,11 +86,11 @@ Express apps augment `Request` with `userId` after authentication middleware; do
 
 ## Comparison
 - vs [[typescript types]]: core unions/generics live there; extension/merging patterns live here.
-- vs [[ambient modules]]: ambient introduces types for untyped modules; augmentation extends modules that already have types.
+- vs [[ambient modules]]: ambient introduces types for untyped modules
 - vs runtime class inheritance: type `extends` does not create prototype chains at runtime.
 
-## Mistakes to Avoid
-- Expecting `type` aliases to declaration-merge — only interfaces merge.
-- Open-ended monkey-patching of every library type — wrap instead when possible.
-- Intersecting incompatible property types and wondering why you get `never`.
-- Replacing runtime class design with type-only hierarchies and assuming behavior follows.
+
+### Use cases
+- Express apps augment `Request` with `userId` after authentication middleware
+
+- **Example:** Module augmentation silently ignored because the file was a scri…

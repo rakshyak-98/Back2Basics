@@ -4,27 +4,33 @@
 
 > Five parallel environments, promotion gates, and per-stage deploy strategy for an e-commerce microservice platform on EKS — the operations contract, not tool marketing.
 
-
-
-
+```txt
+        ecommerce cicd env ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe environment topology to see if you separate accounts and secrets, promote immutable digests (not `latest`), and treat `live` as a traffic slice rather than a fifth full production clone.
+- **Interview probes:** Interviewers probe environment topology to see if you separate accounts and s…
 
 ## Sources
 - [Argo Rollouts — Canary](https://argo-rollouts.readthedocs.io/en/stable/features/canary/) — deep-dive
 - [Kubernetes — Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) — overview
 - [Google SRE — Release Engineering](https://sre.google/sre-book/release-engineering/) — overview
 
-## Core Definition
-An e-commerce CI/CD environment model keeps development, test, staging, production, and live-canary paths running in parallel; the same image digest advances through gates while configuration and secrets differ per stage.
-
 ## Key Concepts
-- **Parallel environments:** separate clusters/namespaces/accounts → isolation, not shared “one cluster many modes.”
-- **Artifact promotion:** same immutable digest advances → configuration differs; never rebuild for “the next environment.”
-- **`live` as traffic slice:** production cluster namespaces (`prod` + `live-canary`) or Argo Rollouts weights — not a duplicate RDS.
+- **Parallel environments:** separate clusters/namespaces/accounts → isolation, not shared “one cluster ma…
+- **Artifact promotion:** same immutable digest advances → configuration differs
+- **`live` as traffic slice:** production cluster namespaces (`prod` + `live-canary`) or Argo Rollouts weigh…
 - **Promotion gates:** automated tests/scans plus human change advisory before production traffic.
-- **Rollback layers:** canary abort, rollout undo, Helm revision, feature flag — forward-only migrations cannot be rolled back blindly.
+- **Rollback layers:** canary abort, rollout undo, Helm revision, feature flag
+
+
+- **Core:** An e-commerce CI/CD environment model keeps development, test, staging, produ…
 
 ## Technical Details
 ```txt
@@ -43,7 +49,7 @@ dev ──► test ──► staging ──► production ──► live (traffi
 | **production** | `commerce-prod` | EKS `prod` / ns `prod` | Stable serving (100% stable ReplicaSet) | Multi-AZ, HA Kafka, RDS Multi-AZ |
 | **live** | `commerce-prod` (same) | ns `live-canary` or Rollout | Canary 5→25→100% or blue-green | Same nodes; extra canary pods only |
 
-**Isolation:** separate AWS accounts for production versus non-production ([[AWS STS (Security Token Service)]] boundaries).
+- **Isolation:** separate AWS accounts for production versus non-production ([[…
 
 ### Configuration and secrets per environment
 
@@ -90,7 +96,7 @@ flowchart LR
   end
 ```
 
-**Artifact:** `commerce/<service>:<git-sha>` in [[AWS ECR]]; deploy by digest, not floating tag.
+- **Artifact:** `commerce/<service>:<git-sha>` in [[AWS ECR]]
 
 | Approach | Pros | Cons | Recommendation |
 |----------|------|------|----------------|
@@ -148,10 +154,13 @@ helm rollback payment 42 -n prod
 | Wrong environment webhook | PSP dashboard URL | Separate ingress per environment subdomain |
 | Deploy stuck | PDB, insufficient nodes | Cluster autoscaler max; temporary raise max surge |
 
-## Real-World Applications
-Payment and order services promote the same ECR digest from staging soak into production stable, then shift 5% live traffic via Argo Rollouts while watching payment success SLO.
-
-**Example:** Staging passes but production fails because IRSA role ARNs and Helm values diverged — compare `values-prod.yaml` and never copy production secrets into development.
+## Mistakes to Avoid
+- **Mistake:** Promoting the `latest` tag
+- **Mistake:** Staging without production-sized data
+- **Mistake:** Canary only on one service in a tightly coupled payment/order pa…
+- **Mistake:** Building five full production clones for `live`
+- **Mistake:** Rolling back after a forward-only migration already applied
+- **Mistake:** Copying production secrets into development or sharing Kafka top…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Parallel environments plus digest promotion catch configuration and scale mismatches before customers see them.
@@ -159,14 +168,12 @@ Payment and order services promote the same ECR digest from staging soak into pr
 - **Con:** Canary on one service while peers stay old creates subtle cross-service bugs — coordinate release bundles or flags.
 
 ## Comparison
-- vs single-namespace MVP: one workflow and one namespace until a second production deploy justifies Rollouts.
-- vs [[spinnaker]] multi-cloud pipelines: Argo CD + Rollouts preferred for Kubernetes-only; Spinnaker when multi-cloud already exists.
-- vs [[Jenkins]] / [[Github action]]: either can run CI; the environment contract (gates, digests, accounts) is the durable design.
+- vs single-namespace MVP: one workflow and one namespace until a second production deploy justifie…
+- vs [[spinnaker]] multi-cloud pipelines: Argo CD + Rollouts preferred for Kubernetes-only
+- vs [[Jenkins]] / [[Github action]]: either can run CI
 
-## Mistakes to Avoid
-- Promoting the `latest` tag — digest drift across nodes; always pin image digest in manifests.
-- Staging without production-sized data — migration time estimates lie; restore a production snapshot to staging regularly.
-- Canary only on one service in a tightly coupled payment/order path without feature flags.
-- Building five full production clones for `live` — wasteful; share the production cluster and shift traffic.
-- Rolling back after a forward-only migration already applied — forward-fix and turn the flag off instead.
-- Copying production secrets into development or sharing Kafka topics across environments.
+
+### Use cases
+- Payment and order services promote the same ECR digest from staging soak into…
+
+- **Example:** Staging passes but production fails because IRSA role ARNs and H…

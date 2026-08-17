@@ -4,24 +4,30 @@
 
 > Cut wasted React work — fewer re-renders, smaller bundles, lighter lists — measure before memoizing everything.
 
-
-
-
+```txt
+        Optimizing perform ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want profiling evidence, then targeted fixes (`React.memo`, virtualization, code split) — not blanket memo.
+- **Interview probes:** Interviewers want profiling evidence, then targeted fixes (`React.memo`, virt…
 
 ## Sources
 - [Render and Commit](https://react.dev/learn/render-and-commit) — overview
 - [React.memo](https://react.dev/reference/react/memo) — deep-dive
 
-## Core Definition
-Performance work targets unnecessary renders, expensive calculations, and oversized JS payloads — guided by the Profiler.
-
 ## Key Concepts
 - **Render cost:** parent state updates re-render children unless memoized/isolated.
 - **Lists:** virtualize long lists; stable keys.
 - **Code split:** `lazy` + Suspense for rare routes.
+
+
+- **Core:** Performance work targets unnecessary renders, expensive calculations, and ove…
 
 ## Technical Details
 | Tool | Use |
@@ -30,8 +36,9 @@ Performance work targets unnecessary renders, expensive calculations, and oversi
 | `memo` / `useMemo` | After proving re-render cost |
 | Windowing (e.g. react-window) | Thousands of rows |
 
-## Real-World Applications
-Settings page re-rendered a 5k-row table on every keystroke — isolate input state and virtualize the table.
+## Mistakes to Avoid
+- **Mistake:** Wrapping every component in `memo`
+- **Mistake:** Unstable inline objects as props defeating memo
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Measured fixes improve INP/TBT.
@@ -40,6 +47,6 @@ Settings page re-rendered a 5k-row table on every keystroke — isolate input st
 ## Comparison
 - vs [[react cache]]: cache is server/dedupe; this note is client render cost.
 
-## Mistakes to Avoid
-- Wrapping every component in `memo`.
-- Unstable inline objects as props defeating memo.
+
+### Use cases
+- Settings page re-rendered a 5k-row table on every keystroke

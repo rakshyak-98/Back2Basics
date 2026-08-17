@@ -4,12 +4,17 @@
 
 > Go builtins — arrays (fixed), slices (view+len+cap), maps (hash), structs (records); pick by growth and ownership.
 
-
-
-
+```txt
+        go data structure ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Slices vs arrays vs maps are classic Go interview landmines — backing arrays, `len`/`cap`, map iteration randomness, and accidental aliasing.
+- **Interview probes:** Slices vs arrays vs maps are classic Go interview landmines
 
 ## Sources
 - [Go blog — Go Slices: usage and internals](https://go.dev/blog/slices-intro) — deep-dive
@@ -60,12 +65,12 @@ type User struct {
 | Slow append in loop | Cap 0 growth | Preallocate |
 | JSON empty vs null | Pointer fields | Use pointers / omitempty care |
 
+## Mistakes to Avoid
+- **Mistake:** Subslice shares backing array — mutating one can change another
+- **Mistake:** Nil vs empty slice
+- **Mistake:** Map not concurrency-safe — mutex or `sync.Map` with eyes open
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Map as ordered list — keep a slice of keys.
 - **Trade-off:** Giant arrays on stack — heap/`make`.
 - **Trade-off:** Linked lists by default — slices usually win in Go.
-
-## Mistakes to Avoid
-- Subslice shares backing array — mutating one can change another.
-- Nil vs empty slice — both `len 0`; JSON encodes differently sometimes.
-- Map not concurrency-safe — mutex or `sync.Map` with eyes open.

@@ -4,19 +4,22 @@
 
 > PKI (Public Key Infrastructure) — the factory and phone book for certificates: who issues them, who trusts them, how you revoke them.
 
-
-
-
+```txt
+        PKI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Trust model interviews: roots, intermediates, leaf certs, revocation, and how browsers decide a site is trusted.
+- **Interview probes:** Trust model interviews: roots, intermediates, leaf certs, revocation, and how…
 
 ## Sources
 - [RFC 5280 — Internet X.509 PKI](https://www.rfc-editor.org/rfc/rfc5280) — deep-dive
 - [Wikipedia — Public key infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) — overview
-
-## Core Definition
-PKI is the system of CAs, certificates, and trust stores that bind public keys to identities and enable verification and revocation.
 
 ## Key Concepts
 ```txt
@@ -35,7 +38,10 @@ Leaf cert (example.com) + private key on server
 | **CRL / OCSP** | “Is this cert revoked?” |
 | **Trust store** | Roots your OS/browser believes |
 
-TLS uses PKI for **server identity**; mTLS extends it to clients.
+- **Note:** TLS uses PKI for **server identity**; mTLS extends it to clients.
+
+
+- **Core:** PKI is the system of CAs, certificates, and trust stores that bind public key…
 
 ## Technical Details
 ```bash
@@ -65,8 +71,10 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 | Internal mTLS fail | Wrong CA / expired client cert | Rotate; align trust anchors on both sides |
 | Corporate MITM “cert errors” | Proxy TLS inspection | Install corp root or exclude break-glass hosts |
 
-## Real-World Applications
-Public web trust (browser roots) and private corporate CAs for mTLS both are PKI deployments with different trust stores.
+## Mistakes to Avoid
+- **Mistake:** Root ≠ what you deploy
+- **Mistake:** CN-only certs
+- **Mistake:** Private CA in public internet
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Scalable trust for millions of sites via public CA hierarchies.
@@ -78,7 +86,6 @@ Public web trust (browser roots) and private corporate CAs for mTLS both are PKI
 - vs raw [[Asymmetrical Encryption]]: PKI adds names, issuance, and revocation around keys.
 - vs [[ACME server]]: ACME is one automated issuance method inside a PKI.
 
-## Mistakes to Avoid
-- Root ≠ what you deploy — servers send leaf + intermediates; clients already have roots.
-- CN-only certs — many clients ignore CN if SAN is present/absent; always set SANs.
-- Private CA in public internet — browsers will reject; use only inside your fleet with your root distributed.
+
+### Use cases
+- Public web trust (browser roots) and private corporate CAs for mTLS both are …

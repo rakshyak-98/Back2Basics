@@ -4,20 +4,23 @@
 
 > Payment Card Industry Guest Service System (PSI GSS) means the shopper types the card on a PCI-validated provider’s hosted page or iframe — your servers never see PAN, track, or CVV.
 
-
-
-
+```txt
+        PSI GSS (PCI Guest ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers test PCI scoping: when hosted checkout keeps you on a short SAQ, and which one misconfiguration (logging PAN, custom card inputs) expands you to SAQ D.
+- **Interview probes:** Interviewers test PCI scoping: when hosted checkout keeps you on a short SAQ,…
 
 ## Sources
 - [PCI SSC — Document library (SAQ instructions)](https://www.pcisecuritystandards.org/document_library/) — deep-dive
 - [PCI SSC — SAQ A eligibility (outsourced e-commerce)](https://www.pcisecuritystandards.org/) — overview
 - [Wikipedia — PCI DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard) — overview
-
-## Core Definition
-GSS-style architecture (hospitality and retail jargon for outsourced card entry) keeps cardholder data (CHD) inside the provider’s environment. The merchant receives tokens, redirects, or postMessage results only. Questionnaire pairing is [[SAQ GSS]] / SAQ A–class attestations when eligibility still holds.
 
 ## Key Concepts
 - **No CHD on merchant systems:** no PAN, CVV, or track data in apps, logs, or tickets.
@@ -25,6 +28,9 @@ GSS-style architecture (hospitality and retail jargon for outsourced card entry)
 - **AOC on file:** provider Attestation of Compliance and a responsibility matrix.
 - **Token / webhook results:** your API stores payment tokens and order ids — not cards.
 - **Scope creep:** one route that accepts raw card JSON ends GSS eligibility.
+
+
+- **Core:** GSS-style architecture (hospitality and retail jargon for outsourced card ent…
 
 ## Technical Details
 ```
@@ -55,7 +61,9 @@ res.redirect(session.url);
 // Card entry happens entirely on PSP domain
 ```
 
-**Embedded fields:** use the official SDK fields — not custom `<input>` for PAN. Set CSP `frame-src` to the PSP origin. Validate `postMessage` origins.
+- **Embedded fields:** use the official SDK fields
+- Set CSP `frame-src` to the PSP origin.
+- Validate `postMessage` origins.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,10 +73,12 @@ res.redirect(session.url);
 | Custom CSS overlay on card field | Breaks isolation | Provider-approved styling only |
 | Mobile WebView checkout | In-app browser rules | Provider mobile SDK |
 
-## Real-World Applications
-Hotel booking engines, restaurant online ordering, and any guest-facing checkout that must stay out of full PCI programs.
-
-**Example:** Front desk never keys cards into the admin panel — guests pay via PSP-hosted link; merchant systems only store `payment_token` and confirmation numbers.
+## Mistakes to Avoid
+- **Mistake:** Accepting raw card JSON “only in staging” on merchant APIs
+- **Mistake:** Letting support tools paste PANs into tickets
+- **Mistake:** Overlaying custom inputs on provider iframes
+- **Mistake:** Assuming analytics scripts on the checkout page are out of scope
+- **Mistake:** Skipping annual AOC collection when switching PSPs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Dramatically smaller compliance questionnaire when eligibility is real.
@@ -80,9 +90,8 @@ Hotel booking engines, restaurant online ordering, and any guest-facing checkout
 - vs direct PAN API: full cardholder-data environment — typically SAQ D.
 - vs MOTO / staff key-entry: not GSS — CHD lands on merchant systems.
 
-## Mistakes to Avoid
-- Accepting raw card JSON “only in staging” on merchant APIs.
-- Letting support tools paste PANs into tickets.
-- Overlaying custom inputs on provider iframes.
-- Assuming analytics scripts on the checkout page are out of scope.
-- Skipping annual AOC collection when switching PSPs.
+
+### Use cases
+- Hotel booking engines, restaurant online ordering, and any guest-facing check…
+
+- **Example:** Front desk never keys cards into the admin panel

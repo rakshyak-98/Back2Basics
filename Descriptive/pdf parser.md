@@ -4,19 +4,24 @@
 
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
-
-
-
+```txt
+        PDF parser ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-PDF parsing interviews cover structured extraction limits and why PDFs are hostile to perfect text extract.
+- **Interview probes:** PDF parsing interviews cover structured extraction limits and why PDFs are ho…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [PDF — Wikipedia](https://en.wikipedia.org/wiki/PDF) — overview
 
 ## Key Concepts
-A PDF is not plain text. It's a **byte-oriented format**: header, body of **indirect objects** (dictionaries, streams, arrays), cross-reference table, trailer. Pages reference **content streams** — lists of graphics/text **operators** (`Tj`, `Td`, `re`, …).
+- **Note:** A PDF is not plain text. It's a **byte-oriented format**: header, body of **i…
 
 ```
 PDF file
@@ -30,10 +35,10 @@ PDF file
 
 Parsing stages:
 
-1. **Lexical** — find objects by `obj` / `endobj`, streams by `stream`/`endstream`.
+- **Note:** 1. **Lexical**
 2. **Structure** — resolve references, build page tree.
-3. **Content** — decode streams (FlateDecode, etc.), interpret operators.
-4. **Text extraction** — map glyph IDs through font encoding to Unicode (hardest step).
+- **Note:** 3. **Content** — decode streams (FlateDecode, etc.), interpret operators.
+- **Note:** 4. **Text extraction**
 
 ## Technical Details
 ### Node — pdf-parse (text-only, quick)
@@ -73,18 +78,14 @@ mutool draw -F txt input.pdf   # mupdf
 qpdf --show-object=trailer input.pdf
 ```
 
-## Pros/Cons or Trade-offs
-- Filling PDF forms at scale — use dedicated form libraries or vendor APIs (Adobe PDF Services).
-- Pixel-perfect rendering — use PDFium/mupdf canvas render, not text parser.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Text extraction ≠ visual reproduction** — PDF stores drawing instructions, not paragraphs. Tables and multi-column layouts need heuristics or ML.
 
-- **Scanned PDFs** are images — parser sees no text until OCR.
-- **JavaScript in PDF** (Acrobat scripts) — most open-source parsers ignore; security risk if executing.
-- **Incremental updates** append new xref — parser must read latest trailer chain.
-- **Subset fonts** map limited glyph set — copy-paste can differ from display.
+- **Mistake:** **Scanned PDFs** are images — parser sees no text until OCR
+- **Mistake:** **JavaScript in PDF** (Acrobat scripts)
+- **Mistake:** **Incremental updates** append new xref
+- **Mistake:** **Subset fonts** map limited glyph set
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,3 +94,7 @@ qpdf --show-object=trailer input.pdf
 | Encrypted PDF | `/Encrypt` in trailer | Provide password to library |
 | Parse throws on valid Adobe file | Linearized / xref stream | Upgrade parser; try qpdf `--decrypt` normalize |
 | Huge memory on scan PDF | Whole file loaded as string | Stream pages one-by-one |
+
+## Pros/Cons or Trade-offs
+- Filling PDF forms at scale
+- Pixel-perfect rendering — use PDFium/mupdf canvas render, not text parser.

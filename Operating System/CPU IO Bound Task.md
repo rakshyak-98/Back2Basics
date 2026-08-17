@@ -4,12 +4,18 @@
 
 > A task is I/O-bound when it spends most of its time waiting on disk, network, or locks — not executing instructions; thread and hardware sizing differ completely from CPU-bound work.
 
-
-
-
+```txt
+        CPU IO Bound Task ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how you size a thread pool and whether adding cores helps — the answer hinges on correctly classifying CPU-bound vs I/O-bound (or mixed) work.
+- **Interview probes:** Interviewers ask how you size a thread pool and whether adding cores helps
 
 ## Sources
 - Google SRE Book — capacity planning — overview
@@ -20,7 +26,7 @@ Interviewers ask how you size a thread pool and whether adding cores helps — t
 - **CPU-bound:** limited by instruction throughput / cores / SIMD.
 - **I/O-bound:** limited by device latency, queue depth, bandwidth, or peer.
 - **Mixed:** measure both; avoid buying CPU turbo for a disk-bound service.
-- **Concurrency lever:** more waiters than cores can help I/O-bound work until [[context switching]] dominates.
+- **Concurrency lever:** more waiters than cores can help I/O-bound work until [[context switching]] d…
 
 ## Technical Details
 | Profile | Dominant wait | Thread count | Hardware emphasis |
@@ -29,7 +35,7 @@ Interviewers ask how you size a thread pool and whether adding cores helps — t
 | I/O-bound | Disk / NIC / peer | Can exceed cores | Queue depth, [[disk IOPS]], bandwidth |
 | Mixed | Both | Measure | Avoid blind turbo spend |
 
-I/O-bound services benefit from [[non-blocking]] loops or larger [[thread pool]]s so one blocked [[Thread]] does not stall all work.
+- I/O-bound services benefit from [[non-blocking]] loops or larger [[thread poo…
 
 ```bash
 pidstat -d 1 -p PID    # disk read/write
@@ -37,21 +43,22 @@ pidstat -w 1           # context switches while "idle"
 iostat -xz 1           # device utilization
 ```
 
-If CPU is low but latency high, look downstream: storage, DNS, database, or [[Blocking]] on a shared mutex.
+- If CPU is low but latency high, look downstream: storage, DNS, database, or […
 
-## Real-World Applications
-API gateways are often network I/O-bound (event loop). Image-encode workers are CPU-bound (core count). Database-heavy request handlers are mixed — pool size tuned from `pidstat` / DB wait metrics.
+## Mistakes to Avoid
+- **Mistake:** Setting `workers = 2 × cores` for every service without measurin…
+- **Mistake:** Calling a service “CPU-bound” because CPU% is low
+- **Mistake:** Ignoring lock contention as a fake I/O wait (threads blocked on …
 
 ## Pros/Cons or Trade-offs
-- **More threads (I/O-bound):** hide latency — until stacks and switches cost more than they gain.
-- **More cores (CPU-bound):** linear help until memory bandwidth or lock contention caps it.
-- **Wrong classification:** spending on CPUs when the bottleneck is [[disk IOPS]].
+- **More threads (I/O-bound):** hide latency
+- **More cores (CPU-bound):** linear help until memory bandwidth or lock conten…
+- **Wrong classification:** spending on CPUs when the bottleneck is [[disk IOPS…
 
 ## Comparison
 - vs [[Blocking]]: blocking is *how* you wait; bound type is *what* you wait on.
-- vs [[multi-threaded]]: threads help I/O concurrency; they do not multiply single-core CPU throughput.
+- vs [[multi-threaded]]: threads help I/O concurrency
 
-## Mistakes to Avoid
-- Setting `workers = 2 × cores` for every service without measuring wait vs run time.
-- Calling a service “CPU-bound” because CPU% is low — that usually means it is waiting.
-- Ignoring lock contention as a fake I/O wait (threads blocked on mutex, not disk).
+
+### Use cases
+- API gateways are often network I/O-bound (event loop). Image-encode workers a…

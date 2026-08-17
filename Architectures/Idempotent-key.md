@@ -4,12 +4,17 @@
 
 > Idempotency key lets a client safely retry a write — same key returns the first result, not a duplicate.
 
-
-
-
+```txt
+        Idempotent-key ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Idempotency keys are a must for payment/retry design interviews — safe retries without duplicate side effects.
+- **Interview probes:** Idempotency keys are a must for payment/retry design interviews
 
 ## Sources
 - [Stripe — Idempotent requests](https://docs.stripe.com/api/idempotent_requests) — deep-dive
@@ -65,10 +70,10 @@ CREATE TABLE idempotency_keys (
 | Wrong replay | Key reused for new body | Compare hash; 422 |
 | Key missing on mobile retry | Client regenerated UUID | Persist key until success |
 
+## Mistakes to Avoid
+- **Mistake:** Server-generated keys don’t help
+- **Mistake:** Only POST/PATCH that create side effects
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Pure reads — no need.
 - **Trade-off:** operations that must intentionally create many — bulk create without keys is fine if duplicates are wanted.
-
-## Mistakes to Avoid
-- Server-generated keys don’t help — the client must resend the *same* key after timeout.
-- Only POST/PATCH that create side effects — GET is already idempotent.

@@ -4,12 +4,18 @@
 
 > Run a function at most once per time window — drop or coalesce extra calls (scroll, resize, mousemove).
 
-
-
-
+```txt
+        throttle ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **throttle** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **throttle**, **debounce**, **leading/trailing**.
+- **Interview probes:** Interviewers use **throttle** to check whether you can explain the mechanism …
 
 ## Sources
 - [CSS-Tricks — Debouncing and Throttling](https://css-tricks.com/debouncing-throttling-explained-examples/) — overview
@@ -46,8 +52,13 @@ window.addEventListener('scroll', throttle(onScroll, 100))
 | Libraries (lodash) | Leading/trailing options |
 | Cancel on unmount | Clear timers in React |
 
-## Real-World Applications
-In production APIs and tooling, **throttle** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Throttle ≠ debounce** — interviewers love this distinction; **React** — memoize throttled fn; don’t recreate each render.
+## Mistakes to Avoid
+- **Mistake:** **Throttle ≠ debounce** — interviewers love this distinction
+- **Mistake:** **React** — memoize throttled fn; don’t recreate each render
+- **Mistake:** **UI jank still:** check Window too small / heavy fn
+- **Mistake:** **Missed last event:** check Leading-only throttle
+- **Mistake:** **Used debounce for scroll:** check Wrong tool
+- **Mistake:** **Stale `this`:** check Lost context; fix: Arrow or bind
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Run a function at most once per time window — drop or coalesce extra calls (scro…).
@@ -55,12 +66,8 @@ In production APIs and tooling, **throttle** shows up whenever teams ship Node/J
 - **Con / when not:** **Must process every event** — queue instead of drop.
 
 ## Comparison
-vs [[event listener]]: know when each applies — do not treat them as interchangeable. vs [[promise]]: know when each applies — do not treat them as interchangeable. vs [[web worker]]: know when each applies — do not treat them as interchangeable.
+- vs [[event listener]]: know when each applies
 
-## Mistakes to Avoid
-- **Throttle ≠ debounce** — interviewers love this distinction.
-- **React** — memoize throttled fn; don’t recreate each render.
-- **UI jank still:** check Window too small / heavy fn; fix: Raise ms; lighten handler
-- **Missed last event:** check Leading-only throttle; fix: Add trailing call
-- **Used debounce for scroll:** check Wrong tool; fix: Throttle scroll; debounce input
-- **Stale `this`:** check Lost context; fix: Arrow or bind
+
+### Use cases
+- In production APIs and tooling, **throttle** shows up whenever teams ship Nod…

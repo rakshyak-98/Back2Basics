@@ -4,12 +4,18 @@
 
 > APT keyrings hold the OpenPGP keys that verify repository metadata — modern path is `/usr/share/keyrings` + `signed-by=`.
 
-
-
-
+```txt
+        keyrings ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect deprecation of `apt-key`, per-repo `signed-by`, and how to fix `NO_PUBKEY` / `EXPKEYSIG`.
+- **Interview probes:** Expect deprecation of `apt-key`, per-repo `signed-by`, and how to fix `NO_PUB…
 
 ## Sources
 - [Debian wiki — SecureApt](https://wiki.debian.org/SecureApt) — deep-dive
@@ -44,8 +50,10 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 | apt-key warnings | Legacy | Migrate to signed-by |
 | Wrong key trusted globally | apt-key ring | Remove global trust; scoped signed-by |
 
-## Real-World Applications
-Add a vendor APT repo for a database or Kubernetes package with a dedicated keyring file instead of the old trusted.gpg grab-bag.
+## Mistakes to Avoid
+- **Mistake:** Using deprecated `apt-key add`
+- **Mistake:** Fetching keys over plain HTTP without fingerprint checks
+- **Mistake:** World-writable keyring paths
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Per-repo trust reduces cross-repo forgery blast radius.
@@ -55,7 +63,6 @@ Add a vendor APT repo for a database or Kubernetes package with a dedicated keyr
 - vs [[Linux Key management]]: APT trust anchors vs broader secret/key tooling.
 - vs language package trust (npm/pip): separate from APT keyrings.
 
-## Mistakes to Avoid
-- Using deprecated `apt-key add`.
-- Fetching keys over plain HTTP without fingerprint checks.
-- World-writable keyring paths.
+
+### Use cases
+- Add a vendor APT repo for a database or Kubernetes package with a dedicated k…

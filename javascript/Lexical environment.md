@@ -4,26 +4,32 @@
 
 > Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
-
-
-
+```txt
+        Lexical environmen ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Lexical environment** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Lexical scope**, **`var`**.
+- **Interview probes:** Interviewers use **Lexical environment** to check whether you can explain the…
 
 ## Sources
 - [ECMA-262 — Lexical Environments](https://tc39.es/ecma262/#sec-lexical-environments) — deep-dive
 - [Wikipedia — Lexical environment](https://en.wikipedia.org/wiki/Lexical_environment) — overview
 
-## Core Definition
-Each scope (function, block, module) has a **Lexical Environment**:
-
 ## Key Concepts
 - **Lexical scope:** Defined by source text nesting — | **Closure**
 - **`var`:** Function-scoped; hoisted ([[hoisting]]) — | **`let`/`const`**
 
+
+- **Core:** Each scope (function, block, module) has a **Lexical Environment**:
+
 ## Technical Details
-Each scope (function, block, module) has a **Lexical Environment**:
+- Each scope (function, block, module) has a **Lexical Environment**:
 
 ```txt
 ┌─────────────────────────────┐
@@ -32,7 +38,8 @@ Each scope (function, block, module) has a **Lexical Environment**:
 └─────────────────────────────┘
 ```
 
-**Variable** access = walk the chain until name found ([[variable]]). You cannot inspect LexicalEnvironment objects from user code — engines implement them internally.
+- **Variable:** access = walk the chain until name found ([[variable]]).
+- You cannot inspect LexicalEnvironment objects from user code
 
 | Concept | Behavior |
 |---------|----------|
@@ -79,24 +86,25 @@ export const secret = 42;
 // no window.secret in browser
 ```
 
-Debug scope in DevTools **Scope** panel during breakpoint — practical view of environment records.
+- Debug scope in DevTools **Scope** panel during breakpoint
 
-## Real-World Applications
-In production APIs and tooling, **Lexical environment** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`var` in blocks** — leaks to function scope; legacy footgun in loops + timeouts; **Dynamic `eval`** — can mutate lexical bindings in non-strict legacy modes; avoid.
+## Mistakes to Avoid
+- **Mistake:** **`var` in blocks**
+- **Mistake:** **Dynamic `eval`**
+- **Mistake:** **`undefined` before assignment:** check `var` hoisting
+- **Mistake:** **Loop closure same index:** check Shared `var` binding
+- **Mistake:** **Cannot access before init:** check TDZ with `const`
+- **Mistake:** **Unexpected global leak:** check Bare assignment
+- **Mistake:** **Stale closure in React:** check Captured old state
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Lexical environment — each scope (function, block, module) has a Lexical Environ…).
-- **Con / when not:** **Explaining to juniors** — start with "scope chain" intuition; specification terms second.
-- **Con / when not:** **Performance micro-hacks** — engines optimize closures; don't flatten scopes manually without profiling.
+- **Con / when not:** **Explaining to juniors**
+- **Con / when not:** **Performance micro-hacks**
 
 ## Comparison
-vs [[variable]]: know when each applies — do not treat them as interchangeable. vs [[hoisting]]: know when each applies — do not treat them as interchangeable. vs [[Descriptive/JavaScript/execution context]]: know when each applies — do not treat them as interchangeable.
+- vs [[variable]]: know when each applies
 
-## Mistakes to Avoid
-- **`var` in blocks** — leaks to function scope; legacy footgun in loops + timeouts.
-- **Dynamic `eval`** — can mutate lexical bindings in non-strict legacy modes; avoid.
-- **`undefined` before assignment:** check `var` hoisting; fix: Use `let`; declare before use
-- **Loop closure same index:** check Shared `var` binding; fix: `let i` in for-loop or IIFE
-- **Cannot access before init:** check TDZ with `const`; fix: Reorder declarations
-- **Unexpected global leak:** check Bare assignment; fix: `"use strict"`; declare with `let`
-- **Stale closure in React:** check Captured old state; fix: Functional updates; refs ([[referential equality]])
+
+### Use cases
+- In production APIs and tooling, **Lexical environment** shows up whenever tea…

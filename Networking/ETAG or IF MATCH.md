@@ -4,12 +4,18 @@
 
 > ETag + If-Match stop lost updates — write only if the resource is still the version you read.
 
-
-
-
+```txt
+        ETAG or IF MATCH ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: version tokens, `412 Precondition Failed`, and strong vs weak validators — not just “caching headers.”
+- **Interview probes:** Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: vers…
 
 ## Sources
 - [RFC 9110 — HTTP Semantics (Conditional Requests / ETag)](https://www.rfc-editor.org/rfc/rfc9110#name-conditional-requests) — deep-dive
@@ -17,17 +23,8 @@ Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: version
 - [MDN — If-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match) — overview
 - [MDN — Conditional requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Conditional_requests) — overview
 
-## Core Definition
-An ETag is an opaque version of a representation; `If-Match` makes a write conditional so the server applies the change only when the current ETag still matches (optimistic lock on the HTTP wire).
-
-## Recall Cues
-- Why do interviewers care about Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: version tokens, `412 Precondition Failed`, and strong vs weak validators — not just “caching headers.”?
-- What is step 2: On GET/PUT response, emit `ETag`?
-- What is step 4: Bump version atomically on success?
-- What mistake is **Missing `If-Match` = last-write-wins — if you require optimistic concurrency, reject unconditional PUT with `428`/`400`**?
-- What mistake is **Stuck ETag when the body changes — hides conflicts; ETag must change when content changes**?
-- What mistake is **Using only weak ETags (`W/"…"`) as the write guard — fine for caches; dangerous for OCC**?
-- What mistake is **Comparing outside the write transaction — TOCTOU races reintroduce lost updates**?
+## Key Concepts
+- **Core:** An ETag is an opaque version of a representation
 
 ## Technical Details
 ```txt
@@ -38,7 +35,7 @@ PUT + If-Match: "v3"
         └─ now "v4"   → 412 Precondition Failed
 ```
 
-Server checklist:
+- Server checklist:
 
 1. Store a version (integer, hash, or row version) with the resource.
 2. On GET/PUT response, emit `ETag`.
@@ -90,22 +87,23 @@ await fetch(`/channels/${id}`, {
 | Quotes stripped | Middleware mangles header | Keep quoted form `"…"` end-to-end |
 
 ## Mistakes to Avoid
-- Missing `If-Match` = last-write-wins — if you require optimistic concurrency, reject unconditional PUT with `428`/`400`.
-- Stuck ETag when the body changes — hides conflicts; ETag must change when content changes.
-- Using only weak ETags (`W/"…"`) as the write guard — fine for caches; dangerous for OCC.
-- Comparing outside the write transaction — TOCTOU races reintroduce lost updates.
-
-## Comparison
-- vs last-write-wins: unconditional PUT overwrites silently; `If-Match` rejects stale writers.
-- vs [[Concurrent modification]] / pessimistic locks: locks block during edit; ETag detects conflict at commit.
-- vs `If-None-Match`: used for cache revalidation and create-only, not “update if still this version.”
-
-## Real-World Applications
-Shared document APIs, inventory updates, and config resources use ETag/`If-Match` so concurrent editors don’t silently overwrite each other.
-
-**Example:** Two admins edit the same channel bitrate; the second PUT without a matching ETag gets `412`, refetches, merges, and retries.
+- **Mistake:** Missing `If-Match` = last-write-wins
+- **Mistake:** Stuck ETag when the body changes
+- **Mistake:** Using only weak ETags (`W/"…"`) as the write guard
+- **Mistake:** Comparing outside the write transaction
 
 ## Pros/Cons or Trade-offs
 - **Pro:** No long-held row lock while the user edits — conflict detected at write time.
 - **Con:** Clients must handle `412` (refetch/merge) — not last-write-wins by default.
 - **Con:** Weak ETags simplify caching but are the wrong sole guard for byte-exact updates.
+
+## Comparison
+- vs last-write-wins: unconditional PUT overwrites silently; `If-Match` rejects stale writers.
+- vs [[Concurrent modification]] / pessimistic locks: locks block during edit
+- vs `If-None-Match`: used for cache revalidation and create-only, not “update if still this versio…
+
+
+### Use cases
+- Shared document APIs, inventory updates, and config resources use ETag/`If-Ma…
+
+- **Example:** Two admins edit the same channel bitrate

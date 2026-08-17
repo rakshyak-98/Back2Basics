@@ -4,26 +4,21 @@
 
 > PID 1 on modern Linux — starts units in parallel, tracks dependencies, and restarts services declared in unit files.
 
-
-
-
+```txt
+        systemd ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-reload, and journal-centric logs.
+- **Interview probes:** Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-r…
 
 ## Sources
 - [systemd documentation index](https://www.freedesktop.org/software/systemd/man/latest/) — deep-dive
 - [Wikipedia — systemd](https://en.wikipedia.org/wiki/Systemd) — overview
-
-## Recall Cues
-- Why do interviewers care about Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-reload, and journal-centric logs?
-- What happens in the **Boot** step?
-- What happens in the **Supervise** step?
-- What happens in the **Operate** step?
-- What happens in the **Change** step?
-- What mistake is **Confusing enable with start**?
-- What mistake is **Editing package units under `/usr/lib` instead of `/etc` drop-ins**?
-- What mistake is **Copying Upstart recipes without checking PID 1 is systemd**?
 
 ## Technical Details
 ```txt
@@ -35,8 +30,6 @@ kernel
         ├─ .mount / .path / …
         └─ .target    milestones (multi-user.target ≈ “runlevel 3”)
 ```
-
-Story:
 
 1. **Boot** — reach default target; start wanted units (often parallel).
 2. **Supervise** — track main PID; optional restart on crash.
@@ -83,7 +76,8 @@ WantedBy=multi-user.target
 | `After=` / `Wants=` | Ordering vs dependency |
 | drop-ins | Override without editing package files |
 
-Legacy map: runlevels ≈ targets (`rescue`, `multi-user`, `graphical`, `reboot`). Prefer targets; don’t edit `/etc/inittab` on systemd hosts.
+- Legacy map: runlevels ≈ targets (`rescue`, `multi-user`, `graphical`, `reboot…
+- Prefer targets; don’t edit `/etc/inittab` on systemd hosts.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,17 +87,18 @@ Legacy map: runlevels ≈ targets (`rescue`, `multi-user`, `graphical`, `reboot`
 | Exit 203/EXEC | Bad `ExecStart` path | `systemctl cat`; permissions |
 
 ## Mistakes to Avoid
-- Confusing enable with start.
-- Editing package units under `/usr/lib` instead of `/etc` drop-ins.
-- Copying Upstart recipes without checking PID 1 is systemd.
+- **Mistake:** Confusing enable with start
+- **Mistake:** Editing package units under `/usr/lib` instead of `/etc` drop-ins
+- **Mistake:** Copying Upstart recipes without checking PID 1 is systemd
+
+## Pros/Cons or Trade-offs
+- **Pro:** Parallel boot, dependency graph, consistent control/logging.
+- **Con:** Complexity and surprises (`Type=`, activation, mask) for SysV veterans.
 
 ## Comparison
 - vs [[SYSV (System V)]]: sequential scripts vs declarative units/targets.
 - vs Kubernetes: systemd is node-local; orchestrators own multi-host scheduling.
 
-## Real-World Applications
-Ship a vendor app as a unit with `Restart=on-failure`, override environment via drop-in, and triage with `journalctl -u` after failed deploys.
 
-## Pros/Cons or Trade-offs
-- **Pro:** Parallel boot, dependency graph, consistent control/logging.
-- **Con:** Complexity and surprises (`Type=`, activation, mask) for SysV veterans.
+### Use cases
+- Ship a vendor app as a unit with `Restart=on-failure`, override environment v…

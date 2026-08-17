@@ -4,12 +4,18 @@
 
 > How you install, run, upgrade, and supervise a service on a host — packages or images, plus systemd (or another process manager).
 
-
-
-
+```txt
+        Linux application  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Lifecycle story: artifact → non-root user → unit with Restart → health check → journal — and avoid dual supervisors.
+- **Interview probes:** Lifecycle story: artifact → non-root user → unit with Restart → health check …
 
 ## Sources
 - [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive
@@ -48,8 +54,10 @@ curl -fsS localhost:8080/healthz
 | Works manually not as service | cwd/env/user | Match unit environment |
 | Upgrade broke config | Diff `/etc` | Restore; migrate schema |
 
-## Real-World Applications
-Deploy an API deb: package installs binary + unit, runs as `User=app`, logs to journal, `/healthz` gates the load balancer.
+## Mistakes to Avoid
+- **Mistake:** Running as root “just to work” instead of fixing permissions
+- **Mistake:** Running systemd and supervisord for the same process
+- **Mistake:** Marking healthy on port open alone
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear host-local lifecycle with audit-friendly units.
@@ -59,7 +67,6 @@ Deploy an API deb: package installs binary + unit, runs as `User=app`, logs to j
 - vs [[supervisorctl]]: legacy Python supervisor vs native systemd.
 - vs Kubernetes: node-local app management vs cluster scheduling.
 
-## Mistakes to Avoid
-- Running as root “just to work” instead of fixing permissions.
-- Running systemd and supervisord for the same process.
-- Marking healthy on port open alone.
+
+### Use cases
+- Deploy an API deb: package installs binary + unit, runs as `User=app`, logs t…

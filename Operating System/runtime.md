@@ -4,12 +4,18 @@
 
 > Runtime is the active phase when a program executes — and colloquially the libraries/services that phase depends on, distinct from compile/link time.
 
-
-
-
+```txt
+        Runtime ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Compile-time vs runtime errors; what “runtime” means for managed languages (GC/JIT) vs native binaries.
+- **Interview probes:** Compile-time vs runtime errors
 
 ## Sources
 - [Wikipedia — Runtime system](https://en.wikipedia.org/wiki/Runtime_system) — overview
@@ -22,10 +28,13 @@ Compile-time vs runtime errors; what “runtime” means for managed languages (
 - **Managed languages:** [[interpreter]]/JIT inside the runtime.
 
 ## Technical Details
-“Runtime error” vs “compile error” separates logic after launch from syntax/type failures before launch. The loaded [[OS program]] plus its [[Runtime Environment]] define behavior.
+- “Runtime error” vs “compile error” separates logic after launch from syntax/t…
+- The loaded [[OS program]] plus its [[Runtime Environment]] define behavior.
 
-## Real-World Applications
-Language version managers, container images shipping a runtime, and diagnosing GC pauses as runtime costs.
+## Mistakes to Avoid
+- **Mistake:** Ambiguous docs that mix “runtime” (phase) with “runtime” (produc…
+- **Mistake:** Blaming the OS for missing language runtime packages in an image
+- **Mistake:** Ignoring runtime initialization cost in cold-start platforms
 
 ## Pros/Cons or Trade-offs
 - **Rich runtimes:** productivity and safety nets; memory/complexity cost.
@@ -33,10 +42,9 @@ Language version managers, container images shipping a runtime, and diagnosing G
 - **Trade-off:** interpret/JIT flexibility vs AOT predictability.
 
 ## Comparison
-- vs [[Runtime Environment]]: environment is the supporting machinery; “runtime” also means the time phase.
+- vs [[Runtime Environment]]: environment is the supporting machinery
 - vs compile time: before vs during execution.
 
-## Mistakes to Avoid
-- Ambiguous docs that mix “runtime” (phase) with “runtime” (product/library).
-- Blaming the OS for missing language runtime packages in an image.
-- Ignoring runtime initialization cost in cold-start platforms.
+
+### Use cases
+- Language version managers, container images shipping a runtime, and diagnosin…

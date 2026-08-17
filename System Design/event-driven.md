@@ -2,14 +2,20 @@
 
 # event-driven
 
-> Event-driven architecture publishes facts ("OrderPlaced", "UserRegistered") to a durable log or bus so downstream services react asynchronously — decoupling deploy and scale at the cost of eventual consistency and operational complexity.
+> Event-driven architecture publishes facts ("OrderPlaced", "UserRegistered") to a durable log or bus so downstream services react asynchronously — decoupling deploy and scale at the cost of eventual consistency and opera…
 
-
-
-
+```txt
+        event-driven ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Events as facts; at-least-once + idempotent consumers; when not to event-everything.
+- **Interview probes:** Events as facts
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — logs, streams, and processing — deep-dive
@@ -37,7 +43,7 @@ Service A ──event──► Bus / log ──► Consumers B, C
 | **Orchestration** | Workflow engine commands steps ([[orchestration]]) |
 | **Command Query Responsibility Segregation** | Writes emit events; reads use projections |
 
-Choose choreography when steps are loosely coupled; orchestration when you need visible workflow state and compensations (sagas).
+- Choose choreography when steps are loosely coupled
 
 ### Event envelope
 
@@ -59,16 +65,23 @@ Choose choreography when steps are loosely coupled; orchestration when you need 
 
 ### Trade-offs
 
-**Pros:** independent scaling, temporal decoupling, audit trail, replay for new projections.
+- **Pros:** independent scaling, temporal decoupling, audit trail, replay for n…
 
-**Cons:** debugging across async boundaries, schema governance, consumer lag monitoring, [[Eventual consistency]] in read models.
+- **Cons:** debugging across async boundaries, schema governance, consumer lag …
 
-Simple create-read-update-delete with three services may stay synchronous ([[KISS]]). Event buses are not free — budget operators and schema registry.
+- Simple create-read-update-delete with three services may stay synchronous ([[…
+- Event buses are not free — budget operators and schema registry.
 
-*When would you still use remote procedure call?* Request-response with immediate answer and strong consistency on one aggregate.
+- *When would you still use remote procedure call?* Request-response with immed…
 
-## Real-World Applications
-Order pipelines, notification fanout, and CQRS read-model projections.
+## Mistakes to Avoid
+| Symptom | Direction |
+|---------|-----------|
+| Missing side effect | Consumer lag or error — fix and replay from offset ([[stateless offset handling]]) |
+| Duplicates | Idempotency store keyed by event identifier |
+| Database updated, no event | Outbox pattern — never dual-write without coordination |
+| Poison message | Dead-letter queue and alert |
+| Ordering surprises | Wrong partition key — co-locate related events |
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Independent scale and evolution of consumers.
@@ -79,11 +92,6 @@ Order pipelines, notification fanout, and CQRS read-model projections.
 - vs [[Real-time Subscription]]: UI push vs backend event architecture.
 - vs request/response APIs: temporal decoupling vs immediate reply.
 
-## Mistakes to Avoid
-| Symptom | Direction |
-|---------|-----------|
-| Missing side effect | Consumer lag or error — fix and replay from offset ([[stateless offset handling]]) |
-| Duplicates | Idempotency store keyed by event identifier |
-| Database updated, no event | Outbox pattern — never dual-write without coordination |
-| Poison message | Dead-letter queue and alert |
-| Ordering surprises | Wrong partition key — co-locate related events |
+
+### Use cases
+- Order pipelines, notification fanout, and CQRS read-model projections.

@@ -4,26 +4,32 @@
 
 > Shared durable storage with a query language and transaction rules — the engine's job is to turn concurrent clients and bytes on disk into atomic commits that survive crashes.
 
-
-
-
+```txt
+        Database ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-This is the domain hub: interviewers expect you to map symptoms (crash loss, pool exhaustion, slow queries, schema change) to the right leaf topics and to contrast [[OLTP]] vs [[OLAP]] workload shapes.
+- **Interview probes:** This is the domain hub: interviewers expect you to map symptoms (crash loss, …
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), Ch. 3, 7 — deep-dive
 - [PostgreSQL Documentation — Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html) — deep-dive
 - [MySQL Reference Manual — InnoDB Storage Engine](https://dev.mysql.com/doc/refman/en/innodb-storage-engine.html) — overview
 
-## Core Definition
-A relational database engine provides persistent structured state that many clients can read and write safely: storage layout, SQL execution, concurrency control, and crash recovery.
-
 ## Key Concepts
 - **Storage layout:** tables, indexes, logs on disk or memory-mapped files ([[MMAP]]).
 - **Query execution:** parse [[SQL]], plan access paths, return rows.
 - **Concurrency control:** [[ACID]] isolation ([[MVCC]] in PostgreSQL; InnoDB row locks + MVCC in MySQL).
 - **Crash recovery:** [[WAL (Write-Ahead Log)]] replay after power loss ([[ARIES]] mental model).
+
+
+- **Core:** A relational database engine provides persistent structured state that many c…
 
 ## Technical Details
 ```txt
@@ -40,9 +46,9 @@ Clients ──► [[connection pooling]] ──► SQL planner ──► buffer 
 | [[OLAP]] | Large scans, aggregates, reporting | Column store, warehouse, or replica |
 | Cache | Ephemeral, loss tolerable | Redis, memcached ([[BASE]] tradeoffs) |
 
-*When would you route analytics to the primary versus a replica?* When stale reads are acceptable and you need to protect [[OLTP]] latency.
+- *When would you route analytics to the primary versus a replica?* When stale …
 
-Symptom routing:
+- Symptom routing:
 
 | Symptom or need | Start here |
 |-----------------|------------|
@@ -54,30 +60,31 @@ Symptom routing:
 | PostgreSQL type errors | [[postgres parameter type error]] · [[psql essential]] |
 | Scaling beyond one node | [[mysql partitioning]] · [[Horizontal vs Vertical Scaling]] |
 
-Engines and ecosystems:
+- Engines and ecosystems:
 
-- **MySQL** — [[mysql]] hub; default [[mysql engine]] is InnoDB ([[MySQL storage]])
-- **PostgreSQL** — [[SQL/postgres]]; extensible types, [[GIN]] indexes, strong [[ACID]] defaults
-- **Document / blob** — [[GridFS]] (MongoDB), not a substitute for relational invariants
-- **Vectors** — [[Vector database]] for similarity search alongside an OLTP store
+- **MySQL:** — [[mysql]] hub; default [[mysql engine]] is InnoDB ([[MySQL storage]])
+- **PostgreSQL:** — [[SQL/postgres]]
+- **Document / blob:** — [[GridFS]] (MongoDB), not a substitute for relational invariants
+- **Vectors:** — [[Vector database]] for similarity search alongside an OLTP store
 
-Design and operations:
+- Design and operations:
 
 - **Modeling:** [[Database design]] · [[SQL normalization]] · [[relocatable schema]]
 - **Migrations:** [[database migration]] · [[database seeding]] · [[mysql data migrations]]
 - **Foot-guns:** [[Database mistakes]] · [[SQL error]] · [[MySQL Error]]
 
-## Real-World Applications
-Primary store for SaaS [[OLTP]], reporting replicas for [[OLAP]], and specialized engines for search/vectors beside the system of record. Example: payments commit on PostgreSQL; analytics run on a replica so checkout p99 stays flat.
+## Mistakes to Avoid
+- **Mistake:** Treating the database as a dumb key-value file without transacti…
+- **Mistake:** Running heavy analytics on the [[OLTP]] primary until checkout t…
+- **Mistake:** Skipping leaf notes—hand-waving “just use a database” without is…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong invariants, rich query languages, mature operational tooling.
 - **Con:** Scaling writes beyond one primary is hard; wrong workload on the primary (heavy analytics) destroys latency.
 
 ## Comparison
-vs [[BASE]] caches: databases prioritize durable correct commits; caches prioritize availability and speed with weaker guarantees. vs file/object storage: databases add transactions, indexes, and a query planner—not just bytes.
+- vs [[BASE]] caches: databases prioritize durable correct commits
 
-## Mistakes to Avoid
-- Treating the database as a dumb key-value file without transactions or constraints.
-- Running heavy analytics on the [[OLTP]] primary until checkout times out.
-- Skipping leaf notes—hand-waving “just use a database” without isolation, WAL, or pooling details.
+
+### Use cases
+- Primary store for SaaS [[OLTP]], reporting replicas for [[OLAP]], and special…

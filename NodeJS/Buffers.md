@@ -4,12 +4,18 @@
 
 > Fixed-size bytes in memory outside the V8 string heap — binary I/O, crypto, and stream chunks.
 
-
-
-
+```txt
+        Buffers ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Buffers** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Buffer**, **alloc vs allocUnsafe**, **highWaterMark**.
+- **Interview probes:** Interviewers use **Buffers** to check whether you can explain the mechanism i…
 
 ## Sources
 - [Node.js — Buffer](https://nodejs.org/api/buffer.html) — deep-dive
@@ -42,20 +48,21 @@ fs.createReadStream('in.bin', { highWaterMark: 16 * 1024 })
 | `Buffer.concat` | Join chunks — watch total size |
 | `subarray` | View, not copy — mutations alias |
 
-## Real-World Applications
-In production APIs and tooling, **Buffers** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`allocUnsafe`** — faster but may contain old heap data; never return to clients without overwriting; **Garbled text:** check Wrong encoding; fix: Match producer encoding.
+## Mistakes to Avoid
+- **Mistake:** **`allocUnsafe`**
+- **Mistake:** **Garbled text:** check Wrong encoding
+- **Mistake:** **OOM:** check Concatenating all chunks; fix: Stream / limit size
+- **Mistake:** **Security scare:** check `allocUnsafe` without fill
+- **Mistake:** **Partial JSON parse:** check Split across chunks
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Fixed-size bytes in memory outside the V8 string heap — binary I/O, crypto, and …).
-- **Con / when not:** **Pure text APIs** — strings are fine until you hit binary.
+- **Con / when not:** **Pure text APIs**
 - **Con / when not:** **Huge files in one Buffer** — use [[Stream]].
 
 ## Comparison
-vs [[Stream]]: Streams process data over time with backpressure; Buffers are fixed byte slices in memory. vs [[primitive non-primitive values]]: know when each applies — do not treat them as interchangeable. vs [[Stream/pipe]]: Streams process data over time with backpressure; Buffers are fixed byte slices in memory.
+- vs [[Stream]]: Streams process data over time with backpressure; Buffers are …
 
-## Mistakes to Avoid
-- **`allocUnsafe`** — faster but may contain old heap data; never return to clients without overwriting.
-- **Garbled text:** check Wrong encoding; fix: Match producer encoding
-- **OOM:** check Concatenating all chunks; fix: Stream / limit size
-- **Security scare:** check `allocUnsafe` without fill; fix: Use `alloc` or fill
-- **Partial JSON parse:** check Split across chunks; fix: Accumulate until complete frame
+
+### Use cases
+- In production APIs and tooling, **Buffers** shows up whenever teams ship Node…

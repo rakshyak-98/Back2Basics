@@ -4,12 +4,18 @@
 
 > Everyday operator vocabulary — modes, motions, and ex commands that make Neovim faster than arrow-key editing.
 
-
-
-
+```txt
+        Neovim commands ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Rarely a deep interview topic, but pairing/onsite screens reward fluent navigation (`hjkl`, jumps, search, quickfix).
+- **Interview probes:** Rarely a deep interview topic, but pairing/onsite screens reward fluent navig…
 
 ## Sources
 - [Neovim help — quickref](https://neovim.io/doc/user/quickref.html) — deep-dive
@@ -37,12 +43,12 @@ Ctrl-o / Ctrl-i  jump list
 | Yank word | `yiw` |
 | Go to definition | LSP mapping (config-dependent) |
 
-`prepend` in path settings adds directories to the front of `runtimepath`/`packpath` when configuring plugins — order matters for overrides.
+- `prepend` in path settings adds directories to the front of `runtimepath`/`pa…
 
-## Real-World Applications
-Edit remote configs over SSH with muscle memory that works on any host with nvim/vim.
-
-**Example:** Fix a typo across a file with `:%s/foo/bar/g` instead of manual hunt.
+## Mistakes to Avoid
+- **Mistake:** Staying in insert mode for navigation
+- **Mistake:** Blindly pasting from web without checking registers
+- **Mistake:** Heavy mouse reliance that fights the modal model
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast once internalized; available almost everywhere.
@@ -52,7 +58,8 @@ Edit remote configs over SSH with muscle memory that works on any host with nvim
 - vs VS Code/Zed: modal editing vs modeless; LSP exists in both worlds.
 - vs [[nvim setup]]: commands are usage; setup is configuration.
 
-## Mistakes to Avoid
-- Staying in insert mode for navigation.
-- Blindly pasting from web without checking registers.
-- Heavy mouse reliance that fights the modal model.
+
+### Use cases
+- Edit remote configs over SSH with muscle memory that works on any host with n…
+
+- **Example:** Fix a typo across a file with `:%s/foo/bar/g` instead of manual …

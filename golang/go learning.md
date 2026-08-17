@@ -4,12 +4,17 @@
 
 > Go learning path — foundations → concurrency/HTTP → interview drills; use AI as a coach with tight feedback loops, not as a code vending machine.
 
-
-
-
+```txt
+        go learning ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Learning-path notes signal how you ramp on Go for interviews — foundations, concurrency, then drills — without treating AI as a code vending machine.
+- **Interview probes:** Learning-path notes signal how you ramp on Go for interviews
 
 ## Sources
 - [A Tour of Go](https://go.dev/tour/) — overview
@@ -39,9 +44,9 @@ go test ./... -race
 go test -bench=. ./...
 ```
 
-**Coach prompt skeleton:** teach `TOPIC` for Go backend interviews — differences from JS, 3 code samples, 5 questions one-by-one, wait for answers, score, then next exercise.
+- **Coach prompt skeleton:** teach `TOPIC` for Go backend interviews
 
-**Project prompt skeleton:** scaffold REST API (Gin/Echo + Postgres) with graceful shutdown, migrations, JWT — you implement handlers; AI reviews.
+- **Project prompt skeleton:** scaffold REST API (Gin/Echo + Postgres) with gra…
 
 | Knob | Why it matters |
 |------|----------------|
@@ -59,12 +64,12 @@ go test -bench=. ./...
 | AI dependency | Pasting without review | Force line-by-line critique |
 | JS habits in Go | Ignoring errors / classes | Re-read Effective Go |
 
+## Mistakes to Avoid
+- **Mistake:** AI greenfield dumps — demand small diffs and tests you can run
+- **Mistake:** Skipping `-race` — false confidence on concurrent code
+- **Mistake:** Frameworks first — learn `net/http` before Gin magic
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Only watching videos — type code.
 - **Trade-off:** LeetCode-only for Go jobs — add HTTP + SQL projects.
 - **Trade-off:** Copying production secrets into prompts — never.
-
-## Mistakes to Avoid
-- AI greenfield dumps — demand small diffs and tests you can run.
-- Skipping `-race` — false confidence on concurrent code.
-- Frameworks first — learn `net/http` before Gin magic.

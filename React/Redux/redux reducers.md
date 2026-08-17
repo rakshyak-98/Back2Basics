@@ -4,12 +4,18 @@
 
 > Pure functions (state, action) => nextState — Redux Toolkit uses Immer so you can write drafts.
 
-
-
-
+```txt
+        redux reducers ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want action → reducer → store → subscribe data flow, immutability, and why Redux Toolkit is the default path.
+- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux reducers](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers) — deep-dive
@@ -20,10 +26,13 @@ Interviewers want action → reducer → store → subscribe data flow, immutabi
 - **Modern path:** Redux Toolkit; avoid hand-written switch statements for new code.
 
 ## Technical Details
-Prefer official RTK APIs documented at the Sources link. Cross-link [[Redux/Redux concept and data flow]] and [[Redux toolkit]].
+- Prefer official RTK APIs documented at the Sources link.
+- Cross-link [[Redux/Redux concept and data flow]] and [[Redux toolkit]].
 
-## Real-World Applications
-Use redux reducers when your app’s Redux layer needs that capability; keep server lists in RTK Query or TanStack Query.
+## Mistakes to Avoid
+- **Mistake:** Mutating state outside Immer drafts
+- **Mistake:** Caching server entities only in slices without a query layer
+- **Mistake:** Persisting secrets to localStorage
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Centralized, debuggable updates with DevTools.
@@ -32,7 +41,6 @@ Use redux reducers when your app’s Redux layer needs that capability; keep ser
 ## Comparison
 - vs [[zustand]]: Redux for large shared client graphs + middleware; Zustand for minimal stores.
 
-## Mistakes to Avoid
-- Mutating state outside Immer drafts.
-- Caching server entities only in slices without a query layer.
-- Persisting secrets to localStorage.
+
+### Use cases
+- Use redux reducers when your app’s Redux layer needs that capability

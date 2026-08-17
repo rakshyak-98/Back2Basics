@@ -4,24 +4,30 @@
 
 > CLI for Supervisor — start/stop/tail programs from `supervisord.conf` when systemd is not the process manager.
 
-
-
-
+```txt
+        supervisorctl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Legacy Python/deploy literacy: know Supervisor exists, how `reread`/`update` work, and that modern hosts prefer systemd units.
+- **Interview probes:** Legacy Python/deploy literacy: know Supervisor exists, how `reread`/`update` …
 
 ## Sources
 - [Supervisor documentation](http://supervisord.org/) — deep-dive
-
-## Core Definition
-Supervisor is a Python process control system. `supervisorctl` talks to `supervisord` to manage program stanzas — common in older Python deployments; modern Linux services prefer systemd.
 
 ## Key Concepts
 - **Program stanzas:** command, directory, autostart, autorestart, log files.
 - **reread + update:** pick up config changes without full restart of everything.
 - **File logs vs journal:** Supervisor typically writes files; systemd uses [[journalctl]].
 - **Not socket activation:** limited compared to systemd sockets/timers.
+
+
+- **Core:** Supervisor is a Python process control system. `supervisorctl` talks to `supe…
 
 ## Technical Details
 ```ini
@@ -46,8 +52,10 @@ sudo supervisorctl reread && sudo supervisorctl update
 | Journal integration | file logs | journalctl |
 | Dependency graph | limited | native |
 
-## Real-World Applications
-Restart a gunicorn worker pool on a legacy VM still running supervisord during a gradual systemd migration.
+## Mistakes to Avoid
+- **Mistake:** Editing conf and forgetting `reread` + `update`
+- **Mistake:** Running both systemd and Supervisor for the same app and fightin…
+- **Mistake:** Assuming Supervisor logs appear in the journal by default
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple per-app process control without writing full unit files.
@@ -57,7 +65,6 @@ Restart a gunicorn worker pool on a legacy VM still running supervisord during a
 - vs [[services/systemd]]: prefer systemd on modern distros.
 - vs [[tsp cli]]: tsp is ad-hoc batch; Supervisor is long-running program supervision.
 
-## Mistakes to Avoid
-- Editing conf and forgetting `reread` + `update`.
-- Running both systemd and Supervisor for the same app and fighting restarts.
-- Assuming Supervisor logs appear in the journal by default.
+
+### Use cases
+- Restart a gunicorn worker pool on a legacy VM still running supervisord durin…

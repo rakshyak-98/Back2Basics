@@ -4,12 +4,17 @@
 
 > MVCC (Multi-Version Concurrency Control) keeps old row versions so readers see a snapshot — reads don’t block writers.
 
-
-
-
+```txt
+        MVCC ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-MVCC is the Postgres/InnoDB concurrency story — snapshot reads without blocking writers, and the vacuum/version-chain cost.
+- **Interview probes:** MVCC is the Postgres/InnoDB concurrency story
 
 ## Sources
 - [PostgreSQL — Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html) — deep-dive
@@ -32,7 +37,7 @@ VACUUM / purge  →  removes versions no one can see
 | **VACUUM** | Reclaim dead versions | “Without vacuum, tables bloat.” |
 | **Writers vs readers** | Don’t block each other (usually) | “Readers don’t block writers under MVCC.” |
 
-versus locking: fewer read/write stalls; cost is version storage + cleanup (VACUUM / undo purge).
+- **Note:** versus locking: fewer read/write stalls
 
 ## Technical Details
 ```sql
@@ -43,7 +48,7 @@ FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIMIT 20;
 VACUUM (VERBOSE) my_table;
 ```
 
-MySQL/InnoDB: undo logs + purge thread play the cleanup role.
+- MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 
 ### Failure signals
 
@@ -55,10 +60,10 @@ MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 | Serialization failure | isolation level | Retry txn; or lower isolation if safe |
 | Wraparound risk (PG) | txid age alerts | Aggressive vacuum freeze |
 
+## Mistakes to Avoid
+- **Mistake:** Idle in transaction
+- **Mistake:** MVCC ≠ no locks
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Engine without versions — some embedded DBs use locks only.
 - **Trade-off:** You need strict serial locking semantics — understand isolation first; don’t “turn off” MVCC casually.
-
-## Mistakes to Avoid
-- Idle in transaction — holds a snapshot; blocks vacuum; causes bloat.
-- MVCC ≠ no locks — writers still conflict on the same row; DDL and some ops take locks.

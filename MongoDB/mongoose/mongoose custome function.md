@@ -4,12 +4,17 @@
 
 > Custom validators, getters/setters, and schema helpers — teach Mongoose your domain checks.
 
-
-
-
+```txt
+        mongoose custome f ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Custom functions on schemas check reuse versus keeping domain logic testable outside the ODM.
+- **Interview probes:** Custom functions on schemas check reuse versus keeping domain logic testable …
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -47,10 +52,6 @@ email: {
 | `message` | Clear API errors |
 | runValidators on update | Off by default for updates |
 
-## Pros/Cons or Trade-offs
-- **Cross-document rules** — transactions/services.
-- **One-time data cleanup** — migration scripts.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Updates ≠ save path** — many validators/setters don’t run unless configured.
@@ -64,3 +65,7 @@ email: {
 | Async validator ignored | not returning promise | return Promise / async fn |
 | Setter not applied | update operators | setters need `update` pipelines / save path |
 | Vague ValidationError | no message | Add message strings |
+
+## Pros/Cons or Trade-offs
+- **Cross-document rules** — transactions/services.
+- **One-time data cleanup** — migration scripts.

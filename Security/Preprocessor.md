@@ -4,23 +4,26 @@
 
 > Text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
 
-
-
-
+```txt
+        Preprocessor ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Systems/C interviews: what happens before compilation — macros, includes, conditional compilation — and macro footguns.
+- **Interview probes:** Systems/C interviews: what happens before compilation
 
 ## Sources
 - [GCC — The C Preprocessor](https://gcc.gnu.org/onlinedocs/cpp/) — deep-dive
 - [Wikipedia — Preprocessor](https://en.wikipedia.org/wiki/Preprocessor) — overview
 
-## Core Definition
-A preprocessor rewrites source text before the compiler proper — in C/C++: `#include`, `#define` macros, and `#ifdef` conditionals.
-
 ## Key Concepts
 ```txt
-source.c ──#include / #define / #if──► preprocessed.c ──► compile
+- **Note:** source.c ──#include / #define / #if──► preprocessed.c ──► compile
 ```
 
 | Tool | Job |
@@ -28,6 +31,9 @@ source.c ──#include / #define / #if──► preprocessed.c ──► compil
 | **Lexical preprocessor** | Token paste/substitution (C preprocessor) |
 | **Lexer / tokenizer** | Split text into identifiers, operators, literals |
 | **Parser** | Build AST from tokens |
+
+
+- **Core:** A preprocessor rewrites source text before the compiler proper
 
 ## Technical Details
 ```bash
@@ -54,11 +60,13 @@ cpp -I./include main.c
 
 ### Lexical preprocessors
 
-Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
+- Lowest level: operate on tokens before parsing
 
 ### Lexical tokenization
 
-Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
+- Split text into lexemes (identifiers, operators, punctuation, literals).
+- Stages: **scan** (segment) → **evaluate** (turn lexemes into values).
+- Used by compilers, linters, pretty-printers.
 
 ### Failure signals
 
@@ -70,8 +78,10 @@ Split text into lexemes (identifiers, operators, punctuation, literals). Stages:
 | `#ifdef` branch wrong | `-D` flags in build | Print `clang -E -dM`; align CMake/Make |
 | Pasting errors `##` | Invalid token paste | Fix macro; avoid complex `##` |
 
-## Real-World Applications
-Debug macro expansion with `gcc -E` when a `#define` changes types or includes the wrong header.
+## Mistakes to Avoid
+- **Mistake:** Macros don’t respect types or scopes
+- **Mistake:** Multi-eval arguments
+- **Mistake:** Huge `-E` output
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cheap compile-time configuration and header composition in C/C++.
@@ -83,7 +93,6 @@ Debug macro expansion with `gcc -E` when a `#define` changes types or includes t
 - vs compiler proper: preprocessor is text rewrite before parsing/typing.
 - vs lexer: lexical analysis tokenizes; C preprocessor runs earlier on source text.
 
-## Mistakes to Avoid
-- Macros don’t respect types or scopes — prefer `static inline` / `constexpr` in C++.
-- Multi-eval arguments — `MAX(++i, a)` can increment twice; use functions.
-- Huge `-E` output — includes expand everything; don’t commit preprocessed files.
+
+### Use cases
+- Debug macro expansion with `gcc -E` when a `#define` changes types or include…

@@ -4,12 +4,18 @@
 
 > Split e-commerce infra so Terraform owns cloud (VPC, EKS, RDS, MSK, ECR, IAM) per environment state, while Helm/GitOps owns workloads — one state per env, reusable modules.
 
-
-
-
+```txt
+        ecommerce eks layo ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers look for blast-radius-aware state splits, Terraform↔Helm handoff (IRSA, secrets), and why app manifests are not one mega Terraform root.
+- **Interview probes:** Interviewers look for blast-radius-aware state splits, Terraform↔Helm handoff…
 
 ## Sources
 - [AWS — EKS best practices](https://aws.github.io/aws-eks-best-practices/) — overview
@@ -17,10 +23,10 @@ Interviewers look for blast-radius-aware state splits, Terraform↔Helm handoff 
 - Yevgeniy Brikman, *Terraform: Up & Running* (env/module layout) — deep-dive
 
 ## Key Concepts
-- **Terraform owns** network, cluster, databases, broker, IAM.
-- **Helm owns** Deployments/Rollouts, HPA, ConfigMaps; **Argo CD** syncs releases.
-- **One state per env** (`dev`/`test`/`staging`/`prod`); split modules (`network`, `eks`, `data`) to limit blast radius.
-- **Handoff:** Terraform outputs (IRSA ARNs, endpoints) become Helm values / External Secrets keys.
+- **Terraform owns:** network, cluster, databases, broker, IAM.
+- **Helm owns:** Deployments/Rollouts, HPA, ConfigMaps; **Argo CD** syncs releases.
+- **One state per env:** (`dev`/`test`/`staging`/`prod`)
+- **Handoff:** Terraform outputs (IRSA ARNs, endpoints) become Helm values / External Secret…
 
 ## Technical Details
 ```txt
@@ -43,7 +49,7 @@ helm/
 | production | `commerce-prod` | `prod` | `prod/infra/terraform.tfstate` |
 | live (slice) | `commerce-prod` (same) | `live-canary` | no extra state — Helm only |
 
-**Node pools (production):** `system` (tainted — ingress/CoreDNS/Argo), `general` (apps), optional `promotions-burst` (Karpenter/CA).
+- **Node pools (production):** `system` (tainted
 
 ```txt
 infra/
@@ -92,7 +98,7 @@ module "irsa_payment" {
 }
 ```
 
-Helm: library chart `_common` + per-service charts; production payment/order/catalog use Argo Rollouts; External Secrets references Secrets Manager keys Terraform created.
+- Helm: library chart `_common` + per-service charts
 
 | Concern | Terraform → Helm |
 |---------|------------------|
@@ -117,10 +123,12 @@ helm template payment deploy/helm/charts/services/payment \
 | Wrong cluster deploy | Argo CD destination | `destination.server` + namespace guardrails |
 | State lock | [[Terraform workflow]] | `force-unlock` after confirming no run |
 
-## Real-World Applications
-Multi-env commerce platforms on EKS with GitOps deploys and flash-sale node pools.
-
-**Example:** `prod` Terraform creates `prod-payment-irsa`; Helm values annotate the payment ServiceAccount; ESO injects `DATABASE_URL` without baking secrets into git.
+## Mistakes to Avoid
+- **Mistake:** One mega Terraform root for everything
+- **Mistake:** Copy-pasting Deployment YAML eight times — use a library chart
+- **Mistake:** `live-canary` without NetworkPolicy / MSK ACL prefixes
+- **Mistake:** Sharing production secrets across env tfvars
+- **Mistake:** Pinning images with `:latest` in prod values
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear ownership boundaries and per-env blast radius.
@@ -130,11 +138,10 @@ Multi-env commerce platforms on EKS with GitOps deploys and flash-sale node pool
 ## Comparison
 - Local-only → [[Terraform docker]] + Compose until integration env needed.
 - ECS instead of EKS → swap `modules/eks` for ECS/Fargate; Helm becomes task definitions.
-- Platform architecture context → [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]].
+- Platform architecture context → [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environmen…
 
-## Mistakes to Avoid
-- One mega Terraform root for everything.
-- Copy-pasting Deployment YAML eight times — use a library chart.
-- `live-canary` without NetworkPolicy / MSK ACL prefixes — canary talks to prod topics.
-- Sharing production secrets across env tfvars.
-- Pinning images with `:latest` in prod values.
+
+### Use cases
+- Multi-env commerce platforms on EKS with GitOps deploys and flash-sale node p…
+
+- **Example:** `prod` Terraform creates `prod-payment-irsa`

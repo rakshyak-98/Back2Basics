@@ -4,28 +4,33 @@
 
 > Feature importance — "Importance" is not one number — definition depends on method:
 
-
-
-
+```txt
+        Feature importance ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Feature importance to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Feature importance to check whether you can choose mod…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-"Importance" is **not one number** — definition depends on method:
+- **Note:** "Importance" is **not one number** — definition depends on method:
 
 ```txt
-Tree impurity decrease  → fast, biased toward high-cardinality features
-Permutation importance  → shuffle column, measure metric drop (model-agnostic)
+- **Note:** Tree impurity decrease → fast, biased toward high-cardinality features
+- **Note:** Permutation importance → shuffle column, measure metric drop (model-agnostic)
 SHAP values             → additive fair attribution (costly)
 Linear |β|              → only if features scaled comparably
 ```
 
-Use importance for **debugging and prioritization**, not legal causality without domain review.
+- **Note:** Use importance for **debugging and prioritization**, not legal causality with…
 
 | Method | Pros | Cons |
 |--------|------|------|
@@ -69,12 +74,7 @@ shap_values = explainer.shap_values(X_sample)
 shap.summary_plot(shap_values, X_sample, feature_names=feature_names)
 ```
 
-Fit importance on **validation** data the model didn't train on.
-
-## Pros/Cons or Trade-offs
-- **Regulatory causal claims** — importance ≠ causal effect; run proper experiments.
-- **Production monitoring** — track **feature distribution drift**, not static importance charts.
-- **Deep vision/NLP** — use saliency/attention/LLM explainers, not tabular impurity.
+- Fit importance on **validation** data the model didn't train on.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -90,3 +90,8 @@ Fit importance on **validation** data the model didn't train on.
 | SHAP slow | Full dataset | Sample 1k–5k rows |
 | All near zero | Wrong scoring metric | Match business metric in permutation |
 | Train vs val importance differs | Overfit | Compare on held-out only |
+
+## Pros/Cons or Trade-offs
+- **Regulatory causal claims**
+- **Production monitoring**
+- **Deep vision/NLP**

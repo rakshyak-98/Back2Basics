@@ -4,12 +4,18 @@
 
 > Universal Module Definition — one file that works as AMD, CommonJS, or a browser global.
 
-
-
-
+```txt
+        UMD global ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **UMD global** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **UMD**, **global**, **factory**.
+- **Interview probes:** Interviewers use **UMD global** to check whether you can explain the mechanis…
 
 ## Sources
 - [umdjs/umd](https://github.com/umdjs/umd) — overview
@@ -43,21 +49,22 @@ Interviewers use **UMD global** to check whether you can explain the mechanism i
 | Global name | Avoid collisions |
 | ESM dual publish | Modern packages prefer `exports` map |
 
-## Real-World Applications
-In production APIs and tooling, **UMD global** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **UMD isn’t ESM** — named exports / tree-shaking suffer; publish ESM when you can; **Global pollution** — choose unique names.
+## Mistakes to Avoid
+- **Mistake:** **UMD isn’t ESM**
+- **Mistake:** **Global pollution** — choose unique names
+- **Mistake:** **`MyLib is not defined`:** check Wrong global name / defer
+- **Mistake:** **Broken in bundler:** check Treated as ESM wrongly
+- **Mistake:** **Duplicate globals:** check Two UMD copies
+- **Mistake:** **SSR `window` missing:** check Used window directly
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Universal Module Definition — one file that works as AMD, CommonJS, or a browser…).
 - **Con / when not:** **application code** — use ESM modules.
-- **Con / when not:** **New libraries** — dual ESM/CJS via `package.json` `exports` beats hand UMD.
+- **Con / when not:** **New libraries**
 
 ## Comparison
-vs [[AMD module]]: know when each applies — do not treat them as interchangeable. vs [[IIFC]]: know when each applies — do not treat them as interchangeable. vs [[node modules]]: know when each applies — do not treat them as interchangeable.
+- vs [[AMD module]]: know when each applies
 
-## Mistakes to Avoid
-- **UMD isn’t ESM** — named exports / tree-shaking suffer; publish ESM when you can.
-- **Global pollution** — choose unique names.
-- **`MyLib is not defined`:** check Wrong global name / defer; fix: Match script order; check name
-- **Broken in bundler:** check Treated as ESM wrongly; fix: Set correct module type
-- **Duplicate globals:** check Two UMD copies; fix: Dedupe; peer deps
-- **SSR `window` missing:** check Used window directly; fix: Use `self`/root param
+
+### Use cases
+- In production APIs and tooling, **UMD global** shows up whenever teams ship N…

@@ -4,12 +4,17 @@
 
 > Denormalization copies data into documents you’ll read together — fewer joins, more update fan-out.
 
-
-
-
+```txt
+        mongodb denormaliz ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Denormalization questions probe embed vs reference trade-offs for read patterns and update fan-out.
+- **Interview probes:** Denormalization questions probe embed vs reference trade-offs for read patter…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -45,10 +50,6 @@ User.name ──duplicate──► Order.customerName (fast read)
 | Source of truth id | Keep `sellerId` even if name copied |
 | Migration plan | How renames propagate |
 
-## Pros/Cons or Trade-offs
-- **Highly shared mutable data** — normalize + join/lookup.
-- **Strong relational constraints** — SQL may fit better.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Unbounded arrays** — “embed all events” will hit 16MB and rewrite cost.
@@ -62,3 +63,7 @@ User.name ──duplicate──► Order.customerName (fast read)
 | Doc too large | unbounded embed | Cap, bucket, or ref |
 | Painful updates | Over-duplicated | Normalize hot fields |
 | Slow populate chains | Too normalized | Embed read-together data |
+
+## Pros/Cons or Trade-offs
+- **Highly shared mutable data** — normalize + join/lookup.
+- **Strong relational constraints** — SQL may fit better.

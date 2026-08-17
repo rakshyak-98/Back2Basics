@@ -4,12 +4,18 @@
 
 > BSD-origin API (`socket`, `bind`, `listen`, `connect`, `send`, `recv`) — the POSIX façade for Internet and Unix domain communication.
 
-
-
-
+```txt
+        Berkeley sockets ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect you to walk a TCP server path (`socket` → `bind` → `listen` → `accept`) and know that languages wrap this C ABI — not invent a different kernel model.
+- **Interview probes:** Interviewers expect you to walk a TCP server path (`socket` → `bind` → `liste…
 
 ## Sources
 - [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview
@@ -17,10 +23,10 @@ Interviewers expect you to walk a TCP server path (`socket` → `bind` → `list
 - [man 7 socket (Linux)](https://man7.org/linux/man-pages/man7/socket.7.html) — deep-dive
 
 ## Key Concepts
-- **C ABI most languages wrap:** domain + type + protocol → kernel holds connection state; userspace sees an fd + syscalls.
+- **C ABI most languages wrap:** domain + type + protocol → kernel holds connection state
 - **Fd-shaped I/O:** fits `select` / `poll` / `epoll` — see [[file descriptors]].
 - **Stream vs datagram:** `SOCK_STREAM` → [[TCP]]; `SOCK_DGRAM` → [[UDP]]; `AF_UNIX` → local IPC.
-- **Socket options:** `SO_REUSEADDR`, `TCP_NODELAY`, timeouts → production tunables via `setsockopt`.
+- **Socket options:** `SO_REUSEADDR`, `TCP_NODELAY`, timeouts → production tunables via `setsockopt…
 
 ## Technical Details
 ```txt
@@ -62,7 +68,8 @@ setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof yes);
 ss -tin 'sport = :8080'
 ```
 
-**Why `SO_REUSEADDR`:** faster restart after crash/TIME-WAIT. **`TCP_NODELAY`:** disable Nagle for latency-sensitive RPC.
+- **Why `SO_REUSEADDR`:** faster restart after crash/TIME-WAIT.
+- **`TCP_NODELAY`:** disable Nagle for latency-sensitive RPC.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,10 +78,10 @@ ss -tin 'sport = :8080'
 | `ECONNRESET` | Peer closed; TLS mismatch | App logs; tcpdump |
 | Accept queue overflow | `ss -lnt` Send-Q vs `somaxconn` | Raise `net.core.somaxconn`; tune backlog |
 
-## Real-World Applications
-Go `net`, Python `socket`, Node `net`, and JVM NIO all sit on Berkeley sockets underneath.
-
-**Example:** After a crash-restart, bind fails with `EADDRINUSE` during TIME-WAIT — enable `SO_REUSEADDR` (and understand what it does *not* do for multi-process bind).
+## Mistakes to Avoid
+- **Mistake:** Assuming `read`/`write` return the full buffer
+- **Mistake:** Leaking fds — every `accept` needs `close` on all paths
+- **Mistake:** Hand-rolling HTTP/gRPC on bare sockets when a library already ow…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal, fd-compatible, maps cleanly to event loops.
@@ -83,11 +90,12 @@ Go `net`, Python `socket`, Node `net`, and JVM NIO all sit on Berkeley sockets u
 
 ## Comparison
 - vs [[POSIX Socket]]: portable behavior and knobs; Berkeley naming emphasizes the historical C API.
-- vs [[BSD Socket]]: sibling naming of the same lineage — use [[BSD Socket]] when distinguishing API vs BSD-the-OS.
-- vs [[webSocket]]: WebSocket is an application protocol over TCP (HTTP Upgrade), not a replacement for the socket API.
-- Same-host only: prefer `AF_UNIX` over IP to skip stack/NAT/firewall noise — see [[Inter Process Communication]].
+- vs [[BSD Socket]]: sibling naming of the same lineage
+- vs [[webSocket]]: WebSocket is an application protocol over TCP (HTTP Upgrade), not a replacement…
+- Same-host only: prefer `AF_UNIX` over IP to skip stack/NAT/firewall noise
 
-## Mistakes to Avoid
-- Assuming `read`/`write` return the full buffer — loop or use `sendmsg`; see [[non-blocking]] for `EAGAIN`.
-- Leaking fds — every `accept` needs `close` on all paths.
-- Hand-rolling HTTP/gRPC on bare sockets when a library already owns framing and TLS.
+
+### Use cases
+- Go `net`, Python `socket`, Node `net`, and JVM NIO all sit on Berkeley socket…
+
+- **Example:** After a crash-restart, bind fails with `EADDRINUSE` during TIME-…

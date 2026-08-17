@@ -4,12 +4,14 @@
 
 > Amazon Route 53 is AWS's authoritative DNS service and domain registrar — you create hosted zones, publish records, and optionally run health-checked routing policies that send traffic only to healthy endpoints.
 
-
-
-
+```txt
+        Route53 ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Route 53 interviews check hosted zones, routing policies, health checks, and DNS failover patterns.
+- **Interview probes:** Route 53 interviews check hosted zones, routing policies, health checks, and …
 
 ## Sources
 - [Amazon Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) — deep-dive
@@ -31,7 +33,7 @@ aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch fil
 | **Private hosted zone** | Resolvable only inside associated VPCs |
 | **Health check** | HTTP/HTTPS/TCP probe for routing decisions |
 
-Route 53 implements standard DNS ([RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035)) with AWS-specific routing policies.
+- Route 53 implements standard DNS ([RFC 1035](https://datatracker.ietf.org/doc…
 
 ### Routing policies
 
@@ -52,8 +54,8 @@ www.example.com.  A     300  203.0.113.10        # Elastic IP or ALB alias targe
 api.example.com.  ALIAS     dualstack.my-alb-....  # Alias to ALB (no charge for queries to AWS targets)
 ```
 
-**Alias records** map to AWS resources (ALB, CloudFront, S3 website) without CNAME restrictions at zone apex.
+- **Alias records:** map to AWS resources (ALB, CloudFront, S3 website) without …
 
 ### Private zone pattern
 
-Associate VPCs with a private zone `internal.example.com` for service discovery without exposing names publicly.
+- Associate VPCs with a private zone `internal.example.com` for service discove…

@@ -4,12 +4,18 @@
 
 > Simultaneous multithreading (Intel Hyper-Threading, AMD SMT) exposes two logical CPUs per physical core — sharing execution units while each keeps its own architectural state.
 
-
-
-
+```txt
+        SMT threads ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Capacity and latency interviews: logical CPUs ≠ 2× throughput; know when to disable SMT or pin exclusive cores for tail latency.
+- **Interview probes:** Capacity and latency interviews: logical CPUs ≠ 2× throughput
 
 ## Sources
 - Intel 64 Architecture optimization manual — Hyper-Threading — deep-dive
@@ -19,20 +25,23 @@ Capacity and latency interviews: logical CPUs ≠ 2× throughput; know when to d
 - **Logical processors:** OS sees more CPUs than physical cores.
 - **Shared resources:** ALUs, caches, and pipelines contended by sibling threads.
 - **Typical gain:** CPU-bound pairs often ~1.2–1.3×, not 2×.
-- **Isolation:** pin latency-sensitive work away from noisy siblings when [[TDP]]/licensing allow.
+- **Isolation:** pin latency-sensitive work away from noisy siblings when [[TDP]]/licensing al…
 
 ## Technical Details
-The OS schedules [[Thread]]s on logical processors; two runnable threads on sibling hyperthreads compete for the same core.
+- The OS schedules [[Thread]]s on logical processors
 
 ```bash
 lscpu | grep -E 'Thread|Core|Socket'
 cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list
 ```
 
-[[context switching]] between siblings is cheaper than cross-core but still contends for execution resources. Frequency interacts with [[base clock speed]] and thermal limits.
+- [[context switching]] between siblings is cheaper than cross-core but still c…
+- Frequency interacts with [[base clock speed]] and thermal limits.
 
-## Real-World Applications
-HPC and trading systems sometimes disable SMT for jitter. Throughput-oriented web workers often leave SMT on and size pools from measured gain.
+## Mistakes to Avoid
+- **Mistake:** Doubling thread-pool size because `nproc` doubled under SMT and …
+- **Mistake:** Ignoring sibling topology when pinning threads for latency SLOs
+- **Mistake:** Comparing benchmarks with turbo/SMT mixed across runs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Extra logical CPUs cheaply hide some stalls.
@@ -43,7 +52,6 @@ HPC and trading systems sometimes disable SMT for jitter. Throughput-oriented we
 - vs physical cores: true parallel execution units vs time-sharing one core’s pipes.
 - vs [[multi-threaded]] software: SMT is hardware; software threads exist with or without SMT.
 
-## Mistakes to Avoid
-- Doubling thread-pool size because `nproc` doubled under SMT and expecting 2× QPS.
-- Ignoring sibling topology when pinning threads for latency SLOs.
-- Comparing benchmarks with turbo/SMT mixed across runs.
+
+### Use cases
+- HPC and trading systems sometimes disable SMT for jitter

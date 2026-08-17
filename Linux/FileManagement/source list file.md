@@ -4,26 +4,32 @@
 
 > An APT sources line tells apt where packages come from — URI, suite, components, and which key verifies them.
 
-
-
-
+```txt
+        source list file ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Debian/Ubuntu ops staple: parse a `deb` line, explain `signed-by`, and debug `apt update` failures (404, NO_PUBKEY) without guessing.
+- **Interview probes:** Debian/Ubuntu ops staple: parse a `deb` line, explain `signed-by`, and debug …
 
 ## Sources
 - [sources.list(5)](https://manpages.debian.org/sources.list.5) — deep-dive
 - [Debian — Setting up apt repositories](https://wiki.debian.org/DebianRepository/UseThirdParty) — overview
 
-## Core Definition
-Each `deb`/`deb-src` line names a repository type, optional options (`arch=`, `signed-by=`), a URI, a **suite** (codename or `stable`), and **components** (`main`, `universe`, …). `apt update` fetches `Release`/`Packages` indexes from those lines.
-
 ## Key Concepts
 - **deb vs deb-src:** Binaries vs source packages — servers rarely need `deb-src`.
-- **suite:** Codename (`jammy`, `bookworm`) or suite name; must exist under `/dists/<suite>/`.
+- **suite:** Codename (`jammy`, `bookworm`) or suite name
 - **component:** Selects which package indexes to fetch.
 - **signed-by:** Path to keyring; replaces deprecated `apt-key add`.
 - **.list vs .sources:** Classic one-line format vs deb822 stanzas (newer style).
+
+
+- **Core:** Each `deb`/`deb-src` line names a repository type, optional options (`arch=`,…
 
 ## Technical Details
 ```txt
@@ -55,8 +61,10 @@ sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
 | Wrong version | Multiple repos | `apt-cache policy`; pin preferences |
 | apt-key warnings | Legacy trust | Migrate to keyrings + signed-by |
 
-## Real-World Applications
-Adding a vendor Nginx/Docker apt repo with a pinned keyring, and quickly disabling a bad `.list` that blocks all updates.
+## Mistakes to Avoid
+- **Mistake:** Using `trusted=yes` to “make the error go away.”
+- **Mistake:** Leaving `apt-key add` workflows on modern Debian/Ubuntu
+- **Mistake:** Editing suite names after a distro upgrade without updating thir…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple, auditable package provenance.
@@ -64,9 +72,8 @@ Adding a vendor Nginx/Docker apt repo with a pinned keyring, and quickly disabli
 - **Trade-off:** Third-party repos vs distro packages — freshness vs trust surface.
 
 ## Comparison
-vs [[APT policy]]: sources define *where*; policy/preferences decide *which version wins*. vs containers: image layers instead of host apt lines. See [[apt package manager]], [[keyrings]].
+- vs [[APT policy]]: sources define *where*
 
-## Mistakes to Avoid
-- Using `trusted=yes` to “make the error go away.”
-- Leaving `apt-key add` workflows on modern Debian/Ubuntu.
-- Editing suite names after a distro upgrade without updating third-party lists.
+
+### Use cases
+- Adding a vendor Nginx/Docker apt repo with a pinned keyring, and quickly disa…

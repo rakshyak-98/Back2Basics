@@ -4,19 +4,22 @@
 
 > date prints or sets the system clock — for scripts you care about format strings, UTC (`-u`), and GNU `-d` relative parsing.
 
-
-
-
+```txt
+        date ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not portable to BusyBox/macOS without `gdate`.
+- **Interview probes:** Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not…
 
 ## Sources
 - [date(1) — GNU coreutils](https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html) — deep-dive
 - [timedatectl(1)](https://www.freedesktop.org/software/systemd/man/latest/timedatectl.html) — overview
-
-## Core Definition
-`date` reads (and with root can set) the **system clock**. Prefer `timedatectl` / NTP for sync ([[NTP sync]]). Scripting uses `+FORMAT` and, on GNU, `-d` for parse/relative times.
 
 ## Key Concepts
 - **`+%s` / `@epoch`:** Unix seconds ↔ human.
@@ -24,6 +27,9 @@ Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not po
 - **`-d STR`:** GNU parse (“+7 days”, ISO strings).
 - **TZ env:** Overrides local timezone for one command.
 - **Wall clock vs monotonic:** Don’t use date for timeout intervals in apps.
+
+
+- **Core:** `date` reads (and with root can set) the **system clock**
 
 ## Technical Details
 ```bash
@@ -53,8 +59,10 @@ timedatectl set-timezone UTC
 | Cron wrong hour | DST / localtime | UTC crontabs for global fleets |
 | `@0` wrong century | ms vs s epoch | Divide ms by 1000 |
 
-## Real-World Applications
-Backup filename stamps, cert expiry checks, and converting log epochs to human UTC during incidents.
+## Mistakes to Avoid
+- **Mistake:** Assuming BusyBox/Alpine `date` supports GNU `-d`
+- **Mistake:** Mixing local and UTC in distributed log correlation
+- **Mistake:** Using millisecond timestamps with `+%s` without converting
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ubiquitous formatting for shells and tickets.
@@ -62,9 +70,8 @@ Backup filename stamps, cert expiry checks, and converting log epochs to human U
 - **Trade-off:** Set clock with `date -s` vs letting chrony/timesyncd own it.
 
 ## Comparison
-vs [[NTP sync]]/timedatectl: those discipline the clock; date mostly displays/formats. vs language stdlib: prefer monotonic clocks for timeouts.
+- vs [[NTP sync]]/timedatectl: those discipline the clock
 
-## Mistakes to Avoid
-- Assuming BusyBox/Alpine `date` supports GNU `-d`.
-- Mixing local and UTC in distributed log correlation.
-- Using millisecond timestamps with `+%s` without converting.
+
+### Use cases
+- Backup filename stamps, cert expiry checks, and converting log epochs to huma…

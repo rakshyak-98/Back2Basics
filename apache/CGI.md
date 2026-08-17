@@ -4,12 +4,18 @@
 
 > Common Gateway Interface — the web server forks a process per request and talks via environment variables and stdio to generate dynamic responses.
 
-
-
-
+```txt
+        CGI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use CGI to test whether you understand process-per-request cost and why FastCGI/app servers replaced classic CGI for busy sites.
+- **Interview probes:** Interviewers use CGI to test whether you understand process-per-request cost …
 
 ## Sources
 - [RFC 3875 — CGI](https://datatracker.ietf.org/doc/html/rfc3875) — deep-dive
@@ -26,12 +32,13 @@ Interviewers use CGI to test whether you understand process-per-request cost and
 Client → httpd → fork CGI script → stdout response → client
 ```
 
-Classic path: `ScriptAlias` / `cgi-bin`. Failure modes: slow forks, permission errors, and scripts that do not emit correct headers.
+- Classic path: `ScriptAlias` / `cgi-bin`.
+- Failure modes: slow forks, permission errors, and scripts that do not emit co…
 
-## Real-World Applications
-Legacy admin tools and embedded devices still expose CGI; modern stacks prefer FastCGI, WSGI/ASGI, or reverse-proxied app servers.
-
-**Example:** A traffic spike melts a CGI guestbook — each hit is a new process; move to a persistent worker model.
+## Mistakes to Avoid
+- **Mistake:** Designing new high-traffic apps on classic CGI
+- **Mistake:** Trusting user input in CGI scripts without the same hardening as…
+- **Mistake:** Leaving `cgi-bin` writable by the deploy user
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple mental model; easy to drop in a script.
@@ -41,7 +48,8 @@ Legacy admin tools and embedded devices still expose CGI; modern stacks prefer F
 - vs [[fastCGI servers]]: FastCGI keeps workers warm and uses a binary multiplexed protocol.
 - vs [[PHP-FPM]]: FPM is a FastCGI process manager specialized for PHP.
 
-## Mistakes to Avoid
-- Designing new high-traffic apps on classic CGI.
-- Trusting user input in CGI scripts without the same hardening as any web app.
-- Leaving `cgi-bin` writable by the deploy user.
+
+### Use cases
+- Legacy admin tools and embedded devices still expose CGI
+
+- **Example:** A traffic spike melts a CGI guestbook

@@ -4,18 +4,24 @@
 
 > One publisher → one ingest destination → one encoded bitrate path — **simplest live topology** before ABR and multi-CDN.
 
-
-
-
+```txt
+        Single Stream ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Single Stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Single Stream to see if you understand the pipeline ro…
 
 ## Sources
 - [Wikipedia — Single Stream](https://en.wikipedia.org/wiki/Single_Stream) — overview
 
 ## Key Concepts
-**Single stream** means **one active encode pipeline** from source to **one ingest endpoint** — not multiple ladder rungs ([[Multi Stream]] ABR) and not fan-out to YouTube + origin simultaneously. OBS defaults here: **one RTMP push** at **one resolution/bitrate**. Origin may still **transcode to ABR** downstream — that's server-side, not publisher multi-stream.
+- **Note:** **Single stream** means **one active encode pipeline** from source to **one i…
 
 | Aspect | Single stream | When to expand |
 |--------|---------------|----------------|
@@ -42,7 +48,7 @@ Settings → Output → one streaming encoder profile
 No secondary URL unless deliberate [[Multi Stream]]
 ```
 
-See [[OBS]] for bitrate/GOP defaults.
+- See [[OBS]] for bitrate/GOP defaults.
 
 ### ffmpeg single publish
 
@@ -61,7 +67,7 @@ live on;
 drop_idle_publisher 10s;
 ```
 
-Document behavior for operations — "single stream per key" policy.
+- Document behavior for operations — "single stream per key" policy.
 
 ### Downstream ABR from single ingest (server-side)
 
@@ -78,19 +84,6 @@ Primary encoder active; secondary encoder configured but offline
 Manual switch on primary failure — not simultaneous push
 ```
 
-## Real-World Applications
-Used wherever Single Stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
-- **Con / skip when:** **Direct ABR from publisher** — multiple encodes or hardware ladder (rare); usually server-side.
-- **Con / skip when:** **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
-
-## Comparison
-- vs [[Multi Stream]]: **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
-- vs [[WebRTC]]: **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,20 @@ Used wherever Single Stream sits in an ingest → package → CDN → player pat
 | Bitrate wrong for network | Single rung too high | Lower OBS bitrate or 720p output |
 | Duplicate events on key reuse | Stale CDN cache | New key per event; purge manifest |
 
-- **Single stream ≠ single bitrate to viewers** — origin may still produce ABR; clarify in runbooks.
-- **One RTMP to CDN "live" product** — some CDNs accept RTMP publish then package; still one publisher path.
-- **No redundancy** — single laptop OBS is SPOF; plan backup encoder for tier-1 events.
+- **Mistake:** **Single stream ≠ single bitrate to viewers**
+- **Mistake:** **One RTMP to CDN "live" product**
+- **Mistake:** **No redundancy**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Need simultaneous YouTube + private origin**
+- **Con / skip when:** **Direct ABR from publisher**
+- **Con / skip when:** **WebRTC fanout**
+
+## Comparison
+- vs [[Multi Stream]]: **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
+- vs [[WebRTC]]: **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
+
+
+### Use cases
+- Used wherever Single Stream sits in an ingest → package → CDN → player path

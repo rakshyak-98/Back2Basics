@@ -4,19 +4,25 @@
 
 > One IdP login unlocks many apps — the Service Provider redirects to the Identity Provider, then back with an assertion or code.
 
-
-
-
+```txt
+        Single-sign-on (SS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Identity interviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and when SSO is overkill.
+- **Interview probes:** Identity interviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and …
 
 ## Sources
 - [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive
 - [Wikipedia — Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on) — overview
 
-## Core Definition
-SSO lets a user authenticate once at an Identity Provider and access multiple Service Providers without separate passwords per app.
+## Key Concepts
+- **Core:** SSO lets a user authenticate once at an Identity Provider and access multiple…
 
 ## Technical Details
 ### OIDC integration checklist (SE integrating SSO)
@@ -68,8 +74,13 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 | Works in dev, fails prod | Different client IDs; HTTP vs HTTPS | Separate IdP apps per env; never HTTP callbacks in prod |
 | Infinite redirect loop | Session not persisted; cookie domain | Fix cookie domain; check middleware order |
 
-## Real-World Applications
-Employees open many internal apps after one IdP login via OIDC or SAML.
+## Mistakes to Avoid
+- **Mistake:** Never trust the id_token from the front channel without signatur…
+- **Mistake:** SAML XML is easy to misconfigure
+- **Mistake:** **Just-in-time (JIT) provisioning** creates users on first login
+- **Mistake:** **SLO / global logout** rarely works across all SPs
+- **Multiple IdPs** (M&A)::** → account linking by email is fragile; prefer immutable `sub`
+- **Mistake:** **Mobile / SPA** must use **Authorization Code + PKCE**, not imp…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One strong login UX across many apps; central MFA and offboarding.
@@ -81,10 +92,6 @@ Employees open many internal apps after one IdP login via OIDC or SAML.
 - vs local username/password per app: SSO centralizes AuthN at an IdP.
 - vs [[JWT authentication]]: SSO protocols (OIDC/SAML) often deliver JWTs or assertions afterward.
 
-## Mistakes to Avoid
-- Never trust the id_token from the front channel without signature verification — against JWKS. Always validate server-side.
-- SAML XML is easy to misconfigure — one wrong ACS URL or cert = opaque 500s. Keep metadata under version control.
-- **Just-in-time (JIT) provisioning** creates users on first login — plan default role; disable open signup.
-- **SLO / global logout** rarely works across all SPs — document "logout clears this application only".
-- **Multiple IdPs** (M&A) → account linking by email is fragile; prefer immutable `sub`.
-- **Mobile / SPA** must use **Authorization Code + PKCE**, not implicit flow (deprecated).
+
+### Use cases
+- Employees open many internal apps after one IdP login via OIDC or SAML.

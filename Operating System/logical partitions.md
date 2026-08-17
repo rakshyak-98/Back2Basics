@@ -4,12 +4,18 @@
 
 > Logical partitions extend MBR’s four primary slot limit by nesting partitions inside an extended container — legacy layout largely replaced by GPT on UEFI systems.
 
-
-
-
+```txt
+        Logical partitions ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Disk layout history: primary vs extended vs logical, MBR 2 TiB limit, and why GPT removed the need.
+- **Interview probes:** Disk layout history: primary vs extended vs logical, MBR 2 TiB limit, and why…
 
 ## Sources
 - [Wikipedia — Extended boot record](https://en.wikipedia.org/wiki/Extended_boot_record) — overview
@@ -17,18 +23,21 @@ Disk layout history: primary vs extended vs logical, MBR 2 TiB limit, and why GP
 - Microsoft documentation — disk partitioning — overview
 
 ## Key Concepts
-- **Four primary slots** on [[MBR]].
-- **Extended container** holds chained logical partitions (EBRs).
+- **Four primary slots:** on [[MBR]].
+- **Extended container:** holds chained logical partitions (EBRs).
 - **Device names:** often `/dev/sda5+` for logicals.
 - **Modern path:** GPT on [[Boot/UEFI]] — many primaries, no extended gymnastics.
 
 ## Technical Details
-Tools (`fdisk`, `parted`) expose logicals as higher minor numbers. Fragility of EBR chains and the ~2 TiB MBR cap pushed GPT adoption on [[Persistent Block Storage]].
+- Tools (`fdisk`, `parted`) expose logicals as higher minor numbers.
+- Fragility of EBR chains and the ~2 TiB MBR cap pushed GPT adoption on [[Persi…
 
-Conceptual analogy only: dividing machine resources with [[cgroup (Control Group)]] — different domain, similar “partition the namespace” idea.
+- Conceptual analogy only: dividing machine resources with [[cgroup (Control Gr…
 
-## Real-World Applications
-Old BIOS disks, rescue of legacy dual-boot layouts, and imaging tools that still emit MBR+logical schemes.
+## Mistakes to Avoid
+- **Mistake:** Deleting an extended partition and wiping all logicals inside
+- **Mistake:** Assuming `/dev/sda5` is “fifth primary.”
+- **Mistake:** Using logical-partition schemes on new UEFI-only GPT systems
 
 ## Pros/Cons or Trade-offs
 - **Pro:** More than four partitions on classic MBR.
@@ -39,7 +48,6 @@ Old BIOS disks, rescue of legacy dual-boot layouts, and imaging tools that still
 - vs GPT partitions: flat table vs extended/logical nesting.
 - vs [[MBR]] primary-only: logicals are the overflow mechanism.
 
-## Mistakes to Avoid
-- Deleting an extended partition and wiping all logicals inside.
-- Assuming `/dev/sda5` is “fifth primary.”
-- Using logical-partition schemes on new UEFI-only GPT systems.
+
+### Use cases
+- Old BIOS disks, rescue of legacy dual-boot layouts, and imaging tools that st…

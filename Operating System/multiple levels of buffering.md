@@ -4,12 +4,18 @@
 
 > Real systems stack buffers at every speed boundary — app, libc, socket, page cache, controller — and flushing one layer does not flush the layers below.
 
-
-
-
+```txt
+        Multiple levels of ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Durability and latency: name the stack, and what `fflush` / `write` / `close` do *not* guarantee.
+- **Interview probes:** Durability and latency: name the stack, and what `fflush` / `write` / `close`…
 
 ## Sources
 - Stevens, *UNIX Network Programming* — deep-dive
@@ -32,10 +38,12 @@ App buffer → stdio → socket SNDBUF → TCP → NIC ring → switch → disk 
 | `socket write()` return | Peer application read |
 | `close()` | Guarantee persistence |
 
-Tuning only the largest [[buffer]] hides problems until something smaller fills.
+- Tuning only the largest [[buffer]] hides problems until something smaller fil…
 
-## Real-World Applications
-Tuning TCP buffers, stdio in CLIs, and database flush policies that must pierce the whole stack.
+## Mistakes to Avoid
+- **Mistake:** Equating user flush with disk durability
+- **Mistake:** Unlimited buffering without a full-queue policy
+- **Mistake:** Tuning only one layer in production incidents
 
 ## Pros/Cons or Trade-offs
 - **Pro:** High throughput across mismatched speeds.
@@ -46,7 +54,6 @@ Tuning TCP buffers, stdio in CLIs, and database flush policies that must pierce 
 - vs single [[buffer]]: one layer vs the full path.
 - vs [[Buffer cache]]: one important kernel layer in the stack.
 
-## Mistakes to Avoid
-- Equating user flush with disk durability.
-- Unlimited buffering without a full-queue policy.
-- Tuning only one layer in production incidents.
+
+### Use cases
+- Tuning TCP buffers, stdio in CLIs, and database flush policies that must pier…

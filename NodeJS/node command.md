@@ -4,25 +4,33 @@
 
 > node command — node is the V8 runtime entrypoint. It loads your script (CJS or ESM per node package json "type"), applies V8 flags after --
 
-
-
-
+```txt
+        node command ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **node command** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **node command** to see if you understand what it does ope…
 
 ## Sources
 - [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive
 - [Wikipedia — node command](https://en.wikipedia.org/wiki/node_command) — overview
 
-## Core Definition
-`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
-
 ## Key Concepts
-- `node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and p…
+- **`node` is:** `node` is the V8 runtime entrypoint
+
+
+- **Core:** `node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[n…
 
 ## Technical Details
-`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+- `node` is the V8 runtime entrypoint.
+- It loads your script (CJS or ESM per [[node package json]] `"type"`), applies…
+- CI and production should call a **pinned absolute path** to Node
 
 ```
 node [options] [ -e script | script.js ] [arguments]
@@ -103,23 +111,24 @@ node cli.js --port 4000
 ```bash
 ```
 
-## Real-World Applications
-In production APIs and tooling, **node command** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`node -e` and top-level await** — need `--input-type=module` or wrap in async IIFE on older Node; **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
+## Mistakes to Avoid
+- **Mistake:** **`node -e` and top-level await**
+- **Mistake:** **Different node in cron vs shell**
+- **Mistake:** **`Cannot find module`:** check cwd
+- **Mistake:** **ESM/CJS mismatch:** check `"type":"module"`
+- **Mistake:** **`ERR_REQUIRE_ESM`:** check require() on ESM package
+- **Mistake:** **Old Node in CI:** check `node -v` in pipeline
+- **Mistake:** **dotenv not applied:** check Import order
+- **Mistake:** **OOM heap:** check `--max-old-space-size`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (node command — node is the V8 runtime entrypoint. It loads your script (CJS or E…).
-- **Con / when not:** **Package binary** — prefer `npm run` / `npx` for local CLI tools.
-- **Con / when not:** **Production multi-process** — systemd/K8s with explicit ExecStart, not shell aliases.
+- **Con / when not:** **Package binary**
+- **Con / when not:** **Production multi-process**
 
 ## Comparison
-vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[node package json]]: know when each applies — do not treat them as interchangeable.
+- vs [[CLI]]: know when each applies
 
-## Mistakes to Avoid
-- **`node -e` and top-level await** — need `--input-type=module` or wrap in async IIFE on older Node.
-- **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
-- **`Cannot find module`:** check cwd; NODE_PATH; fix: Run from project root; install deps
-- **ESM/CJS mismatch:** check `"type":"module"`; fix: Rename to `.cjs`/`.mjs` or adjust imports
-- **`ERR_REQUIRE_ESM`:** check require() on ESM package; fix: Use dynamic `import()`
-- **Old Node in CI:** check `node -v` in pipeline; fix: Pin setup-node / Docker base
-- **dotenv not applied:** check Import order; fix: `--import dotenv/config` before app
-- **OOM heap:** check `--max-old-space-size`; fix: Fix leak; scale memory
+
+### Use cases
+- In production APIs and tooling, **node command** shows up whenever teams ship…

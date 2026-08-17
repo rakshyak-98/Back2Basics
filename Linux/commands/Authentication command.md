@@ -4,19 +4,22 @@
 
 > Host and user crypto helpers — ssh-keygen/keyscan/ssh-add for SSH trust; gpg for signing and encrypting.
 
-
-
-
+```txt
+        Authentication com ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Separates host-key trust from user auth, and shows safe CI known_hosts practices plus Git commit signing basics.
+- **Interview probes:** Separates host-key trust from user auth, and shows safe CI known_hosts practi…
 
 ## Sources
 - [ssh-keygen(1)](https://man.openbsd.org/ssh-keygen) — deep-dive
 - [GnuPG manual](https://www.gnupg.org/documentation/) — overview
-
-## Core Definition
-SSH trust has two layers: verify the **server** (`known_hosts`) then prove the **user** (private key/agent). GPG signs/encrypts with your keyring; Git `-S` uses a signing key for commits.
 
 ## Key Concepts
 - **known_hosts:** Cached server public keys — mismatch warning.
@@ -24,6 +27,9 @@ SSH trust has two layers: verify the **server** (`known_hosts`) then prove the *
 - **ssh-copy-id / ssh-add:** Install pubkey; load key into agent.
 - **GPG signing:** Detached/clear signatures; Git `user.signingkey`.
 - **Layering:** SSH/GPG ≠ OAuth/OIDC or TLS/ACME.
+
+
+- **Core:** SSH trust has two layers: verify the **server** (`known_hosts`) then prove th…
 
 ## Technical Details
 ```bash
@@ -55,8 +61,10 @@ git log --show-signature
 | Git no secret key | Wrong signingkey | `gpg --list-secret-keys`; fix git config |
 | Agent empty after reboot | No auto-start | `ssh-add` / keychain / user unit |
 
-## Real-World Applications
-Pre-seeding bastion host keys in automation (with pinned fingerprints), rotating user ed25519 keys, and enabling signed commits on a team repo.
+## Mistakes to Avoid
+- **Mistake:** Blind `ssh-keyscan >> known_hosts` in CI without verification
+- **Mistake:** Exporting secret GPG keys into chat/tickets
+- **Mistake:** Treating a host key change as “always safe to accept.”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Standard ops crypto tooling; works offline for GPG sign/verify.
@@ -64,9 +72,8 @@ Pre-seeding bastion host keys in automation (with pinned fingerprints), rotating
 - **Trade-off:** Agent convenience vs exposure on shared bastions (`-A`).
 
 ## Comparison
-vs [[SSH]] client sessions: this note is key/trust helpers. vs [[gpg]] deep ops: encrypt/sign workflows live there. vs certbot/TLS: different PKI plane.
+- vs [[SSH]] client sessions: this note is key/trust helpers
 
-## Mistakes to Avoid
-- Blind `ssh-keyscan >> known_hosts` in CI without verification.
-- Exporting secret GPG keys into chat/tickets.
-- Treating a host key change as “always safe to accept.”
+
+### Use cases
+- Pre-seeding bastion host keys in automation (with pinned fingerprints), rotat…

@@ -4,26 +4,32 @@
 
 > `express-useragent` parses the `User-Agent` header into fields on `req.useragent` — useful for analytics and client quirks, never for security decisions.
 
-
-
-
+```txt
+        Express-useragent ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check whether you treat `User-Agent` as a spoofable hint: fine for metrics and progressive enhancement, useless as authentication or authorization evidence.
+- **Interview probes:** Interviewers check whether you treat `User-Agent` as a spoofable hint: fine f…
 
 ## Sources
 - [MDN — User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) — overview
 - [express-useragent on npm](https://www.npmjs.com/package/express-useragent) — overview
 - [RFC 9110 — HTTP Semantics (User-Agent)](https://www.rfc-editor.org/rfc/rfc9110#name-user-agent) — deep-dive
 
-## Core Definition
-The middleware runs regular expressions over the `User-Agent` string and attaches structured fields (browser, OS, `isMobile`, and similar). Clients can send any string, so results are advisory.
-
 ## Key Concepts
 - **Hint, not identity:** spoofing is trivial — never gate privileges on UA.
 - **Mount once:** parse in global middleware; avoid re-parsing in every handler.
 - **Drift:** new browsers and bots misclassify until the library updates.
 - **Privacy:** UA strings are identifying — minimize production logging.
+
+
+- **Core:** The middleware runs regular expressions over the `User-Agent` string and atta…
 
 ## Technical Details
 ```txt
@@ -54,10 +60,11 @@ app.get('/', (req, res) => {
 | Wrong mobile flag | New UA string | Update library; feature-detect on client |
 | Missing fields | Bot or `curl` with no UA | Provide defaults |
 
-## Real-World Applications
-Analytics dashboards, choosing a lighter payload for known mobile clients, and logging approximate client mix.
-
-**Example:** An A/B report groups sessions by `req.useragent.os` — fine for trends; do not block access when `isMobile` is false.
+## Mistakes to Avoid
+- **Mistake:** Using User-Agent for authentication or authorization
+- **Mistake:** Building responsive layout decisions only on the server from UA
+- **Mistake:** Logging full UA strings indefinitely without a retention policy
+- **Mistake:** Mounting the middleware after routes so `req.useragent` is alway…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cheap structured fields without writing your own regex soup.
@@ -69,8 +76,8 @@ Analytics dashboards, choosing a lighter payload for known mobile clients, and l
 - vs authentication middleware: credentials and sessions prove identity; UA does not.
 - vs [[Express middleware]] generally: same mount-order rules apply.
 
-## Mistakes to Avoid
-- Using User-Agent for authentication or authorization.
-- Building responsive layout decisions only on the server from UA.
-- Logging full UA strings indefinitely without a retention policy.
-- Mounting the middleware after routes so `req.useragent` is always undefined.
+
+### Use cases
+- Analytics dashboards, choosing a lighter payload for known mobile clients, an…
+
+- **Example:** An A/B report groups sessions by `req.useragent.os`

@@ -4,12 +4,18 @@
 
 > Data-fetching layer on Redux Toolkit — define API endpoints once, get generated hooks, caching, and invalidation instead of hand-rolled thunks.
 
-
-
-
+```txt
+        RTQ concepts (Redu ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want cache tags/invalidation, generated hooks vs slices, and when RTK Query beats ad-hoc `useEffect` + axios.
+- **Interview probes:** Interviewers want cache tags/invalidation, generated hooks vs slices, and whe…
 
 ## Sources
 - [Redux Toolkit — RTK Query](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive
@@ -35,12 +41,12 @@ export const api = createApi({
 });
 ```
 
-`configureStore` must add the API reducer and middleware — RTK Query wraps store setup with good defaults when following docs patterns.
+- `configureStore` must add the API reducer and middleware
 
-## Real-World Applications
-Booking UIs: list/detail queries share tags so a mutation refreshes the right screens.
-
-**Example:** After update hotel mutation, `invalidatesTags: [{ type: 'Hotel', id }]` refetches detail automatically.
+## Mistakes to Avoid
+- **Mistake:** Forgetting to add API middleware (queries hang/no-op)
+- **Mistake:** Over-fetching without tags — stale screens after writes
+- **Mistake:** Duplicating the same remote state in hand-written slices
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Less boilerplate than custom thunks + normalization for REST.
@@ -50,7 +56,8 @@ Booking UIs: list/detail queries share tags so a mutation refreshes the right sc
 - vs React Query: similar caching ideas; RTK Query lives inside Redux.
 - vs [[matcher]]: matchers customize slice reactions to RTKQ actions.
 
-## Mistakes to Avoid
-- Forgetting to add API middleware (queries hang/no-op).
-- Over-fetching without tags — stale screens after writes.
-- Duplicating the same remote state in hand-written slices.
+
+### Use cases
+- Booking UIs: list/detail queries share tags so a mutation refreshes the right…
+
+- **Example:** After update hotel mutation, `invalidatesTags: [{ type: 'Hotel',…

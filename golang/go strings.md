@@ -4,12 +4,17 @@
 
 > Go strings — bytes, UTF-8, and runes — a Go string is not a sequence of characters. It is an immutable, read-only view over a byte
 
-
-
-
+```txt
+        Go strings — bytes ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Strings/runes/bytes trips up candidates who assume “character index” — UTF-8, `range` over runes, and immutability are the interview traps.
+- **Interview probes:** Strings/runes/bytes trips up candidates who assume “character index”
 
 ## Sources
 - [Go blog — Strings, bytes, runes and characters in Go](https://go.dev/blog/strings) — deep-dive
@@ -27,9 +32,9 @@ string "aé"
               of 'é'
 ```
 
-- `s[i]` returns a `byte` (`uint8`) at index `i` — **not** a character.
-- `len(s)` returns the **byte length**, not the number of Unicode code points.
-- Multi-byte characters (`é`, `Ω`, emojis) occupy 2–4 bytes in UTF-8. Indexing into the middle of one yields a single byte, not a valid character.
+- **`s[i]` returns:** `s[i]` returns a `byte` (`uint8`) at index `i` — **not** a character.
+- **`len(s)` returns:** `len(s)` returns the **byte length**, not the number of Unicode code points.
+- **Multi-byte characters:** Multi-byte characters (`é`, `Ω`, emojis) occupy 2–4 bytes in UTF-8
 
 **Character-safe alternatives:**
 
@@ -96,7 +101,7 @@ import "strings"
 strings.Contains(s, "é") // works — compares UTF-8 text, not raw byte halves
 ```
 
-Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling user-facing text.
+- Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handlin…
 
 ### Failure signals
 
@@ -108,13 +113,13 @@ Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling u
 | Truncation breaks last character (e.g. API max length) | Last byte is continuation byte `0x80–0xBF` | Truncate by runes: `string([]rune(s)[:n])` or walk with `utf8.DecodeRuneInString` |
 | Emoji / combining marks counted wrong | `len([]rune(s))` vs grapheme clusters | For user-perceived length, use a locale/grapheme library; runes ≠ user-visible glyphs |
 
+## Mistakes to Avoid
+- **Mistake:** **`s[i]` is a byte, not a character.** On `"aé"`, `s[1]` and `s[…
+- **Mistake:** **`len(s)` is byte length.** A 140-character tweet limit impleme…
+- **Mistake:** **`[]rune(s)` allocates and copies.** Fine for small strings and…
+- **Mistake:** **Runes are Unicode code points, not grapheme clusters.** `"e\u0…
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Do not convert every string to `[]rune` by default — binary protocols, file paths, and wire formats are byte-oriented; `string`/`[]byte` is correct there.
 - **Trade-off:** Do not use `s[i]` for parsing human text — use `range`, `strings`, or `unicode/utf8`.
 - **Trade-off:** Do not assume one rune = one screen column — width, emoji sequences, and combining marks need domain-specific handling.
-
-## Mistakes to Avoid
-- **`s[i]` is a byte, not a character.** On `"aé"`, `s[1]` and `s[2]` are the two bytes of `é`. Using either alone in comparisons, hashing, or encryption corrupts the character.
-- **`len(s)` is byte length.** A 140-character tweet limit implemented as `len(s) <= 140` will reject or accept the wrong strings once non-ASCII appears.
-- **`[]rune(s)` allocates and copies.** Fine for small strings and correctness-critical paths; avoid in hot loops over large text — use `range` or `utf8` iterators instead.
-- **Runes are Unicode code points, not grapheme clusters.** `"e\u0301"` (e + combining acute) is two runes but often displays as one glyph `é`.

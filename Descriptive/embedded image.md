@@ -4,12 +4,17 @@
 
 > Embedded images ship inside the document (often base64 data URLs) — no extra HTTP fetch, bigger payload.
 
-
-
-
+```txt
+        embedded image ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Embedded image questions cover base64 vs URL assets — size and cache trade-offs.
+- **Interview probes:** Embedded image questions cover base64 vs URL assets
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -39,10 +44,6 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 | Caching | Can’t cache image alone |
 | CSP | may block data: URLs |
 
-## Pros/Cons or Trade-offs
-- **Large photos / video posters** — normal URLs + CDN.
-- **Frequently changing assets** — lose cache granularity.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Base64 isn’t compression** — it makes files larger.
@@ -56,3 +57,7 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 | CSP blocks image | policy | Allow data: or use https src |
 | Email image missing | client blocks | CID attach + good MIME |
 | Broken base64 | truncated | Re-encode; check padding |
+
+## Pros/Cons or Trade-offs
+- **Large photos / video posters** — normal URLs + CDN.
+- **Frequently changing assets** — lose cache granularity.

@@ -4,26 +4,20 @@
 
 > System architecture is the map of boxes and arrows — services, data stores, and failure domains you run in prod.
 
-
-
-
+```txt
+        System Architectur ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-System architecture interviews map boxes, arrows, and failure domains — consistency, scale, and operability trade-offs.
+- **Interview probes:** System architecture interviews map boxes, arrows, and failure domains
 
 ## Sources
 - [Google — SRE book](https://sre.google/sre-book/table-of-contents/) — deep-dive
 - [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/) — overview
-
-## Recall Cues
-- Why do interviewers care about System architecture interviews map boxes, arrows, and failure domains — consistency, scale, and operability trade-offs?
-- What is step 1: Actors & trust boundaries?
-- What is step 2: Sync paths + timeouts?
-- What is step 3: Async paths + DLQ?
-- What is step 4: Data ownership per service?
-- What is step 5: Blast radius on dependency loss?
-- What mistake is **Pretty boxes ≠ operable system — without SLOs, runbooks, and ownership, architecture is a slide**?
-- What mistake is **Shared database as “integration” — couples deploy cycles and schemas forever**?
 
 ## Technical Details
 ```txt
@@ -51,8 +45,8 @@ System architecture interviews map boxes, arrows, and failure domains — consis
 | “Works in diagram” | No SLO / capacity | Load test critical path |
 
 ## Mistakes to Avoid
-- Pretty boxes ≠ operable system — without SLOs, runbooks, and ownership, architecture is a slide.
-- Shared database as “integration” — couples deploy cycles and schemas forever.
+- **Mistake:** Pretty boxes ≠ operable system
+- **Mistake:** Shared database as “integration”
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Prototype / spike — skip multi-service until the product question is answered.

@@ -4,29 +4,28 @@
 
 > Git or CLI builds land on a global CDN for static assets plus serverless functions for APIs/SSR — no long-lived Node server by default.
 
-
-
-
+```txt
+        Vercel deployment ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask SPA refresh 404s (rewrites), preview vs production env vars, cold starts/timeouts, and what must never be `NEXT_PUBLIC_`.
+- **Interview probes:** Interviewers ask SPA refresh 404s (rewrites), preview vs production env vars,…
 
 ## Sources
 - [Vercel — Project configuration](https://vercel.com/docs/project-configuration) — deep-dive
 - [Vercel — Environment variables](https://vercel.com/docs/projects/environment-variables) — overview
-
-## Recall Cues
-- Why do interviewers care about SPA refresh 404s (rewrites), preview vs production env vars, cold starts/timeouts, and what must never be `NEXT_PUBLIC_`?
-- What mistake is **Catch-all rewrites on Next.js app router “just in case.”**?
-- What mistake is **Secrets in `NEXT_PUBLIC_*`**?
-- What mistake is **Assuming function timeouts match a home-server Node process**?
 
 ## Technical Details
 ```
 Git push ──► build ──► static (CDN) + lambdas (region)
 ```
 
-SPA `vercel.json`:
+- SPA `vercel.json`:
 
 ```json
 {
@@ -40,22 +39,23 @@ SPA `vercel.json`:
 | Server-only | DB URLs, private API keys |
 | Preview vs Production | Different backends/secrets per stage |
 
-Custom domains: dashboard DNS instructions; TLS via platform certificates.
+- Custom domains: dashboard DNS instructions; TLS via platform certificates.
 
 ## Mistakes to Avoid
-- Catch-all rewrites on Next.js app router “just in case.”
-- Secrets in `NEXT_PUBLIC_*`.
-- Assuming function timeouts match a home-server Node process.
+- **Mistake:** Catch-all rewrites on Next.js app router “just in case.”
+- **Mistake:** Secrets in `NEXT_PUBLIC_*`
+- **Mistake:** Assuming function timeouts match a home-server Node process
+
+## Pros/Cons or Trade-offs
+- **Pro:** Excellent DX for frontends and preview URLs.
+- **Con:** Long-running/websocket workloads need a different host model.
 
 ## Comparison
 - vs [[Netlify/Netlify deployment]]: similar Jamstack shape; different function/CDN knobs.
 - vs always-on VM/K8s: Vercel is request-scoped compute for the dynamic parts.
 
-## Real-World Applications
-Next.js app: framework preset auto-detected; protect server routes; watch plan timeouts (often tens of seconds) for slow backends.
 
-**Example:** Vite app refresh on `/settings` 404s — add SPA rewrite, or switch to Next-style routing.
+### Use cases
+- Next.js app: framework preset auto-detected
 
-## Pros/Cons or Trade-offs
-- **Pro:** Excellent DX for frontends and preview URLs.
-- **Con:** Long-running/websocket workloads need a different host model.
+- **Example:** Vite app refresh on `/settings` 404s

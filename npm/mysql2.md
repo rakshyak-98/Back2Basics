@@ -4,26 +4,32 @@
 
 > Popular Node.js MySQL / MariaDB client — talks to the server over the wire with prepared statements, pooling, and optional Promise APIs.
 
-
-
-
+```txt
+        mysql2 ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about `mysql2` to see if you use connection pools, prepared statements (SQL injection), and Promise/`async` correctly versus leaving connections open under load.
+- **Interview probes:** Interviewers ask about `mysql2` to see if you use connection pools, prepared …
 
 ## Sources
 - [mysql2 GitHub documentation](https://github.com/sidorares/node-mysql2) — deep-dive
 - [MySQL protocol overview (Oracle)](https://dev.mysql.com/doc/dev/mysql-server/latest/PAGE_PROTOCOL.html) — overview
 
-## Core Definition
-`mysql2` is an npm package that implements the MySQL client protocol in Node.js. Prefer it over the older `mysql` package for faster parsers, Promise wrappers, and better prepared-statement support.
-
 ## Key Concepts
-- **Connection vs pool:** a single connection serializes queries; a pool borrows connections for concurrent requests → default choice for HTTP servers.
-- **Prepared statements / placeholders:** `execute('SELECT … WHERE id = ?', [id])` → binds values safely; never concatenate user input into SQL.
+- **Connection vs pool:** a single connection serializes queries
+- **Prepared statements / placeholders:** `execute('SELECT … WHERE id = ?', [id])` → binds values safely
 - **Promise API:** `require('mysql2/promise')` → `async/await` without callback pyramids.
 - **Charset / timezone:** mismatch with the server causes mojibake and off-by-hours timestamps.
-- **Release discipline:** always release pooled connections (or use helpers that do) → pool exhaustion looks like “hangs.”
+- **Release discipline:** always release pooled connections (or use helpers that do) → pool exhaustion …
+
+
+- **Core:** `mysql2` is an npm package that implements the MySQL client protocol in Node.…
 
 ## Technical Details
 ```js
@@ -56,10 +62,10 @@ npm install mysql2
 | SQL injection incident | String concatenation instead of `?` placeholders |
 | Wrong characters in strings | Charset not `utf8mb4` end-to-end |
 
-## Real-World Applications
-Express/Fastify APIs, workers, and migration scripts that talk to MySQL or MariaDB from Node.js.
-
-**Example:** An API handler borrows from a pool, `execute`s a parameterized query, returns JSON, and lets the pool reclaim the connection automatically.
+## Mistakes to Avoid
+- **Mistake:** Creating a new connection per request instead of a pool
+- **Mistake:** Interpolating request parameters into SQL strings
+- **Mistake:** Ignoring timezone/charset settings until production data looks w…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Mature, fast, Promise-friendly; close to the MySQL protocol without an ORM.
@@ -68,9 +74,10 @@ Express/Fastify APIs, workers, and migration scripts that talk to MySQL or Maria
 
 ## Comparison
 - vs `mysql` (older): use `mysql2` for active maintenance and performance.
-- vs ORMs (Sequelize/Prisma): ORMs add modeling and migrations; `mysql2` is thinner and more explicit SQL.
+- vs ORMs (Sequelize/Prisma): ORMs add modeling and migrations
 
-## Mistakes to Avoid
-- Creating a new connection per request instead of a pool.
-- Interpolating request parameters into SQL strings.
-- Ignoring timezone/charset settings until production data looks wrong.
+
+### Use cases
+- Express/Fastify APIs, workers, and migration scripts that talk to MySQL or Ma…
+
+- **Example:** An API handler borrows from a pool, `execute`s a parameterized q…

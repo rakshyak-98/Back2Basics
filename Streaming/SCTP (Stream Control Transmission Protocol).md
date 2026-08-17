@@ -4,19 +4,25 @@
 
 > SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
-
-
-
+```txt
+        SCTP (Stream Contr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about SCTP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about SCTP to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP) — overview
 - [RFC 9260 — SCTP](https://datatracker.ietf.org/doc/html/rfc9260) — deep-dive
 
 ## Key Concepts
-**SCTP** sits **above IP**, offering **multiple streams** with optional **reliable ordered** delivery — unlike TCP's single byte stream. In **[[WebRTC]]**, SCTP runs **inside DTLS** (UDP) as **SCTP-over-DTLS**, carrying **DataChannel** messages (chat, game state, file transfer) **separate from** SRTP audio/video.
+- **Note:** **SCTP** sits **above IP**, offering **multiple streams** with optional **rel…
 
 | Feature | SCTP | TCP | UDP |
 |---------|------|-----|-----|
@@ -25,7 +31,7 @@ Interviewers ask about SCTP to see if you understand the pipeline role, failure 
 | **Head-of-line blocking** | Avoidable (multi-stream) | Yes | N/A |
 | **WebRTC DataChannel** | Native | No | Raw only |
 
-Telecom origin (SS7 transport) — streaming engineers meet SCTP via **browser RTC**, not CDN packaging.
+- **Note:** Telecom origin (SS7 transport)
 
 ## Technical Details
 ```txt
@@ -49,7 +55,7 @@ dc.onopen = () => dc.send(JSON.stringify({ type: 'hello' }));
 dc.onmessage = (e) => console.log('recv', e.data);
 ```
 
-Signaling uses separate channel — see [[WebRTC Signaling channels]].
+- Signaling uses separate channel — see [[WebRTC Signaling channels]].
 
 ### SCTP vs media path (architecture)
 
@@ -76,7 +82,7 @@ Media: UDP SRTP
 Data: SCTP association per PeerConnection
 ```
 
-No ffmpeg flag for SCTP — it's browser/stack internal.
+- No ffmpeg flag for SCTP — it's browser/stack internal.
 
 ### When SCTP association fails
 
@@ -85,18 +91,6 @@ No ffmpeg flag for SCTP — it's browser/stack internal.
 # Corporate firewall often blocks UDP — need TURN relay
 mtr -u turn.example.com
 ```
-
-## Real-World Applications
-Used wherever SCTP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
-- **Con / skip when:** **Replacing TCP API** — use HTTP/gRPC for server-client CRUD.
-- **Con / skip when:** **Broadcast MPEG-TS** — UDP multicast / SRT, not WebRTC DataChannel.
-
-## Comparison
-- vs [[HLS]]: **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -108,7 +102,20 @@ Used wherever SCTP sits in an ingest → package → CDN → player path. Concre
 | Duplicate messages | App layer no dedupe | Idempotent handlers |
 | SCTP abort on reconnect | New PeerConnection | Re-establish DataChannel on ICE restart |
 
-- **Confusing SCTP with [[RTMP]]/[[SRT]]** — entirely different layer; ingest encoders don't "enable SCTP".
-- **Large messages** — SCTP has message size limits; chunk at app layer (~16 KB safe practice).
-- **Reliable ordered on lossy Wi-Fi** — head-of-line blocking delays all messages; use unordered for input events.
-- **No SCTP to CDN** — HTTP remains segment delivery; WebRTC is peer or selective forwarding unit (SFU).
+- **Mistake:** **Confusing SCTP with [[RTMP]]/[[SRT]]**
+- **Mistake:** **Large messages**
+- **Mistake:** **Reliable ordered on lossy Wi-Fi**
+- **Mistake:** **No SCTP to CDN**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **VoD / live OTT at scale**
+- **Con / skip when:** **Replacing TCP API**
+- **Con / skip when:** **Broadcast MPEG-TS**
+
+## Comparison
+- vs [[HLS]]: **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
+
+
+### Use cases
+- Used wherever SCTP sits in an ingest → package → CDN → player path

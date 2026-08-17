@@ -4,12 +4,16 @@
 
 > Identity and Access Management decides which AWS principals can perform which API actions on which resources — an explicit `Deny` always wins over `Allow`.
 
-
-
-
+```txt
+        IAM ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               └── Use cases
+```
 
 ## Interview Relevance
-IAM interviews probe least privilege, identity vs resource policies, role assumption, and why an explicit Deny wins — expect AccessDenied debugging.
+- **Interview probes:** IAM interviews probe least privilege, identity vs resource policies, role ass…
 
 ## Sources
 - [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) — deep-dive
@@ -25,7 +29,7 @@ IAM interviews probe least privilege, identity vs resource policies, role assump
 | **Role** | Assumable identity with temporary credentials via [[aws STS (Security Token Service)]] |
 | **Policy attachment** | Identity-based (on user/role/group) or resource-based (on S3 bucket, KMS key, etc.) |
 
-Authorization is evaluated at request time. AWS combines all applicable policies; if any matching statement is `Deny`, the call fails even when another policy allows it.
+- **Note:** Authorization is evaluated at request time. AWS combines all applicable polic…
 
 ## Technical Details
 ### Evaluation flow
@@ -49,7 +53,8 @@ Permission boundary (if set) — caps effective permissions
 Allow / implicit deny
 ```
 
-**Service control policies (SCPs)** apply to member accounts in an organization. **Permission boundaries** cap what an administrator can grant to a user or role, even with `AdministratorAccess`.
+- **Service control policies (SCPs):** apply to member accounts in an organizati…
+- **Permission boundaries:** cap what an administrator can grant to a user or ro…
 
 ### Common failures
 
@@ -71,11 +76,11 @@ aws iam simulate-principal-policy \
 ```
 
 ## Real-World Applications
-**Prefer roles over users.** EC2 instance profiles, Lambda execution roles, and CI/CD OIDC federation all assume roles and receive short-lived credentials. Long-lived access keys on IAM users are a common breach path.
+- **Note:** **Prefer roles over users.** EC2 instance profiles, Lambda execution roles, a…
 
-**Least privilege.** Start with AWS managed job-function policies only as a scaffold; tighten `Action` and `Resource` to specific [[ARN (Amazon Resource Name)]] patterns.
+- **Note:** **Least privilege.** Start with AWS managed job-function policies only as a s…
 
-**Break-glass users** should be MFA-protected, rarely used, and monitored with CloudTrail.
+- **Note:** **Break-glass users** should be MFA-protected, rarely used, and monitored wit…
 
 ### Trust policy (who can assume a role)
 

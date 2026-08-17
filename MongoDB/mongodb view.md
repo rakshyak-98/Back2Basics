@@ -4,12 +4,17 @@
 
 > A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
-
-
-
+```txt
+        mongodb view ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Views questions check read-only aggregation shortcuts versus materialized collections.
+- **Interview probes:** Views questions check read-only aggregation shortcuts versus materialized col…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -44,10 +49,6 @@ db.orderSummaryView.find().limit(20)
 | Source indexes | Only lever for speed |
 | Permissions | Grant read on view, not raw |
 
-## Pros/Cons or Trade-offs
-- **Write path** — views are read-only.
-- **Hot, simple filters** — a normal collection + index is clearer.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Views are not caches** — heavy `$lookup` views will hurt under load.
@@ -61,3 +62,7 @@ db.orderSummaryView.find().limit(20)
 | Can’t update via view | By design | Write to source collection |
 | Wrong totals | Pipeline bug / nulls | Fix `$group`; handle missing fields |
 | View missing | Wrong DB | `db.getCollectionNames()` |
+
+## Pros/Cons or Trade-offs
+- **Write path** — views are read-only.
+- **Hot, simple filters** — a normal collection + index is clearer.

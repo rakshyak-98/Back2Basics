@@ -4,12 +4,18 @@
 
 > PostgreSQL built-in and user-defined functions — scalar, aggregate, window, and procedural languages (PL/pgSQL) callable from [[SQL]].
 
-
-
-
+```txt
+        psql functions ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used in an index expression are classic Postgres deep cuts.
+- **Interview probes:** Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used …
 
 ## Sources
 - [Functions](https://www.postgresql.org/docs/current/functions.html) — overview
@@ -37,8 +43,10 @@ CREATE OR REPLACE FUNCTION add_tax(numeric) RETURNS numeric
 | STABLE | Same within one statement |
 | VOLATILE | Can change (default) |
 
-## Real-World Applications
-Immutable helpers for generated/stored expressions; PL/pgSQL for constrained procedural ops; window functions for “top-N per group.”
+## Mistakes to Avoid
+- **Mistake:** Marking volatile logic `IMMUTABLE`
+- **Mistake:** Heavy PL/pgSQL in hot OLTP paths without measurement
+- **Mistake:** Forgetting `SECURITY DEFINER` risks on privileged functions
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Push compute to the server next to the data; expressive SQL.
@@ -46,9 +54,8 @@ Immutable helpers for generated/stored expressions; PL/pgSQL for constrained pro
 - **Trade-off:** DB functions vs application libraries for shared business rules.
 
 ## Comparison
-vs [[mysql function]]: Postgres volatility categories and extension languages are richer; MySQL window functions arrived later (8.0).
+- vs [[mysql function]]: Postgres volatility categories and extension languages…
 
-## Mistakes to Avoid
-- Marking volatile logic `IMMUTABLE`.
-- Heavy PL/pgSQL in hot OLTP paths without measurement.
-- Forgetting `SECURITY DEFINER` risks on privileged functions.
+
+### Use cases
+- Immutable helpers for generated/stored expressions

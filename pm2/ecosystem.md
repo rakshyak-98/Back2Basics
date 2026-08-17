@@ -4,12 +4,18 @@
 
 > Declarative process config (`ecosystem.config.js`) — apps, instances, environment variables, log paths, and restart policies in one reviewable file.
 
-
-
-
+```txt
+        PM2 ecosystem file ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers prefer ecosystem files over tribal `pm2 start` commands — env separation, cluster instances, and deploy hooks.
+- **Interview probes:** Interviewers prefer ecosystem files over tribal `pm2 start` commands
 
 ## Sources
 - [PM2 — Ecosystem file](https://pm2.keymetrics.io/docs/usage/application-declaration/) — deep-dive
@@ -41,10 +47,10 @@ pm2 start ecosystem.config.js --env production
 pm2 reload ecosystem.config.js --env production
 ```
 
-## Real-World Applications
-Same file for API + worker with different scripts and instance counts.
-
-**Example:** Enable `watch: true` in production by mistake — constant restarts on log writes; keep watch for local only.
+## Mistakes to Avoid
+- **Mistake:** Committing production secrets in `env`
+- **Mistake:** `instances: max` on a tiny VM sharing the box with DB
+- **Mistake:** Forgetting `--env production` and booting with dev defaults
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Git-reviewed process shape; repeatable deploys.
@@ -54,7 +60,8 @@ Same file for API + worker with different scripts and instance counts.
 - vs ad-hoc [[pm2]] CLI: file is source of truth.
 - vs Docker Compose: similar declarative idea at process vs container layer.
 
-## Mistakes to Avoid
-- Committing production secrets in `env`.
-- `instances: max` on a tiny VM sharing the box with DB.
-- Forgetting `--env production` and booting with dev defaults.
+
+### Use cases
+- Same file for API + worker with different scripts and instance counts.
+
+- **Example:** Enable `watch: true` in production by mistake

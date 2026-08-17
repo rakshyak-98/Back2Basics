@@ -4,12 +4,18 @@
 
 > Encrypt the MySQL wire protocol with TLS — protect credentials and data in transit; required on most cloud-managed instances.
 
-
-
-
+```txt
+        mysql ssl connecti ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Security-minded interviews ask `ssl-mode` levels and why `REQUIRED` without identity checks is weaker than `VERIFY_IDENTITY`.
+- **Interview probes:** Security-minded interviews ask `ssl-mode` levels and why `REQUIRED` without i…
 
 ## Sources
 - [Encrypted Connections](https://dev.mysql.com/doc/refman/en/using-encrypted-connections.html) — deep-dive
@@ -38,8 +44,10 @@ mysql -h rds.example.com -u app -p --ssl-mode=VERIFY_IDENTITY \
 ALTER USER 'app'@'%' REQUIRE SSL;
 ```
 
-## Real-World Applications
-All app pools to RDS/Cloud SQL use TLS with CA verification; break-glass admin sessions too.
+## Mistakes to Avoid
+- **Mistake:** `PREFERRED` in production and silently falling back to plaintext
+- **Mistake:** Skipping hostname verification against public CAs
+- **Mistake:** Embedding expired CA files in container images
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Confidentiality on untrusted networks; compliance checkbox that actually matters.
@@ -47,9 +55,8 @@ All app pools to RDS/Cloud SQL use TLS with CA verification; break-glass admin s
 - **Trade-off:** `REQUIRED` alone vs full identity verification.
 
 ## Comparison
-vs application-level encryption: TLS protects the pipe; column encryption protects data at rest from the DB operator — different threats.
+- vs application-level encryption: TLS protects the pipe; column encryption pro…
 
-## Mistakes to Avoid
-- `PREFERRED` in production and silently falling back to plaintext.
-- Skipping hostname verification against public CAs.
-- Embedding expired CA files in container images.
+
+### Use cases
+- All app pools to RDS/Cloud SQL use TLS with CA verification

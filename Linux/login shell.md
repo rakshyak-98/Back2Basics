@@ -4,25 +4,31 @@
 
 > First shell after authentication — loads profile scripts, sets environment, and may start SSH commands or a desktop session.
 
-
-
-
+```txt
+        login shell ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic Bash trap: login vs interactive non-login startup files — why SSH gets `.profile` but a new terminal tab often only gets `.bashrc`.
+- **Interview probes:** Classic Bash trap: login vs interactive non-login startup files
 
 ## Sources
 - [GNU Bash manual — Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) — deep-dive
 - `man 1 bash` (INVOCATION) — deep-dive
-
-## Core Definition
-A login shell (`bash -l`, SSH default, tty login) differs from an interactive non-login shell (many terminal tabs run `~/.bashrc` only). Service accounts often use `/usr/sbin/nologin` or `/bin/false`.
 
 ## Key Concepts
 - **Login vs interactive:** different startup file chains.
 - **`$0` / `shopt login_shell`:** how to tell what you are.
 - **`/etc/shells`:** valid shells for `chsh`.
 - **Forced SSH command:** `authorized_keys` `command=` overrides the login shell for that key.
+
+
+- **Core:** A login shell (`bash -l`, SSH default, tty login) differs from an interactive…
 
 ## Technical Details
 | File | Login | Interactive |
@@ -43,8 +49,10 @@ grep alice /etc/passwd
 command="/usr/bin/backup-sync" ssh-ed25519 AAAA...
 ```
 
-## Real-World Applications
-Fixing “PATH works over SSH but not in a new terminal tab” by sourcing `.bashrc` from `.profile`, and locking service accounts to nologin.
+## Mistakes to Avoid
+- **Mistake:** Putting PATH only in `.bashrc` and wondering why cron/non-intera…
+- **Mistake:** Using `/bin/false` without understanding login failure messages …
+- **Mistake:** Assuming every new terminal is a login shell
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Predictable environment bootstrap for interactive humans.
@@ -52,9 +60,8 @@ Fixing “PATH works over SSH but not in a new terminal tab” by sourcing `.bas
 
 ## Comparison
 - vs non-login interactive: tabs/GUI terminals often skip profile.
-- vs forced-command keys: automation without a full shell ([[Setup Non-Login user from Running process]]).
+- vs forced-command keys: automation without a full shell ([[Setup Non-Login user from Running proc…
 
-## Mistakes to Avoid
-- Putting PATH only in `.bashrc` and wondering why cron/non-interactive jobs miss it.
-- Using `/bin/false` without understanding login failure messages vs nologin.
-- Assuming every new terminal is a login shell.
+
+### Use cases
+- Fixing “PATH works over SSH but not in a new terminal tab” by sourcing `.bash…

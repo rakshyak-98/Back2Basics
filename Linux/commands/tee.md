@@ -4,12 +4,18 @@
 
 > Splits a pipe — writes the same bytes to a file and still passes them downstream (and to the screen).
 
-
-
-
+```txt
+        tee ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic shell footgun: `sudo cmd > /etc/file` fails because the shell opens the file before sudo — `cmd | sudo tee file` is the fix interviewers expect.
+- **Interview probes:** Classic shell footgun: `sudo cmd > /etc/file` fails because the shell opens t…
 
 ## Sources
 - [man tee](https://man7.org/linux/man-pages/man1/tee.1.html) — deep-dive
@@ -48,8 +54,9 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 | Log truncated | Missing `-a` | `tee -a` |
 | Pipeline exits early | SIGPIPE | Ensure consumers read; or put `tee` last |
 
-## Real-World Applications
-Incident capture (`journalctl -f | tee -a`), writing resolv.conf/sysctl without a root shell, and peeking JSON with `tee /dev/stderr | jq`.
+## Mistakes to Avoid
+- **Mistake:** `sudo cmd > /root/file` — the redirect is not root
+- **Mistake:** Truncating incident logs by forgetting `-a`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Keeps interactive visibility while logging.
@@ -59,6 +66,6 @@ Incident capture (`journalctl -f | tee -a`), writing resolv.conf/sysctl without 
 - vs `>` / `>>`: those only write; tee also passes data along.
 - vs application loggers: prefer real logging in long-running services.
 
-## Mistakes to Avoid
-- `sudo cmd > /root/file` — the redirect is not root.
-- Truncating incident logs by forgetting `-a`.
+
+### Use cases
+- Incident capture (`journalctl -f | tee -a`), writing resolv.conf/sysctl witho…

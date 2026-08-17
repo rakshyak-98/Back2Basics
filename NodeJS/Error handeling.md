@@ -4,22 +4,28 @@
 
 > How Node and Express turn thrown/rejected failures into logged, typed responses — custom `Error` subclasses, `next(err)`, and process-level guards.
 
-
-
-
+```txt
+        Error handling ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about error handling to see if you separate operational errors from programmer bugs, propagate async failures correctly, and avoid crashing the whole process on expected request failures.
+- **Interview probes:** Interviewers ask about error handling to see if you separate operational erro…
 
 ## Sources
 - [Node.js — Errors](https://nodejs.org/api/errors.html) — deep-dive
 - [Express — Error handling](https://expressjs.com/en/guide/error-handling.html) — overview
 
 ## Key Concepts
-- **Operational vs programmer errors:** bad input / network = handle and continue; invariant bugs = fail fast and restart.
+- **Operational vs programmer errors:** bad input / network = handle and continue
 - **Custom Error subclass:** `name`, `code`, and optional `statusCode` for HTTP mapping.
-- **Async propagation:** rejected promises in Express 4 need `next(err)` or an async wrapper; Express 5 catches async route errors.
-- **Process guards:** `uncaughtException` / `unhandledRejection` are last-resort — log and exit for unknown state.
+- **Async propagation:** rejected promises in Express 4 need `next(err)` or an async wrapper
+- **Process guards:** `uncaughtException` / `unhandledRejection` are last-resort
 
 ## Technical Details
 ```js
@@ -42,20 +48,21 @@ app.use((err, req, res, next) => {
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 ```
 
-Centralize mapping: validation → 400, auth → 401/403, not found → 404, unexpected → 500 without leaking stacks to clients.
+- Centralize mapping: validation → 400, auth → 401/403, not found → 404, unexpe…
 
-## Real-World Applications
-API services map domain failures to stable error codes for clients while paging on unexpected 500s. Example: a payments service throws `AppError('card declined', { code: 'CARD_DECLINED', statusCode: 402 })` and lets error middleware format the JSON body.
+## Mistakes to Avoid
+- **Mistake:** **Swallowing rejections** with empty `catch`
+- **Mistake:** **Trusting `uncaughtException` to continue**
+- **Mistake:** **Leaking stack traces** to public API clients
+- **Mistake:** **Forgetting 4-arg error middleware** in Express
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Typed errors + one middleware keep routes thin and responses consistent.
 - **Con:** Over-catching at the process level hides bugs and leaves the process in an unknown state.
 
 ## Comparison
-vs [[node error]]: Node’s built-in error shapes and codes. vs [[async utils]]: wrappers that forward promise rejections to `next`. vs [[Runtime Errors]]: symptoms and crash classes at runtime.
+- vs [[node error]]: Node’s built-in error shapes and codes
 
-## Mistakes to Avoid
-- **Swallowing rejections** with empty `catch` — request hangs or returns success incorrectly.
-- **Trusting `uncaughtException` to continue** — memory/locks may already be corrupt; exit and let the supervisor restart.
-- **Leaking stack traces** to public API clients.
-- **Forgetting 4-arg error middleware** in Express — errors never become responses.
+
+### Use cases
+- API services map domain failures to stable error codes for clients while pagi…

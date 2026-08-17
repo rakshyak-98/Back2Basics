@@ -4,12 +4,18 @@
 
 > Sequelize — Node.js ORM for MySQL, PostgreSQL, and others — maps models to tables with migrations, associations, and driver-level connection pools.
 
-
-
-
+```txt
+        sequalizer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-ORM interviews test N+1 awareness, transaction boundaries, and when to drop to raw SQL. Filename in this vault is the historical typo `sequalizer` for Sequelize.
+- **Interview probes:** ORM interviews test N+1 awareness, transaction boundaries, and when to drop t…
 
 ## Sources
 - [Sequelize docs v6](https://sequelize.org/docs/v6/) — overview
@@ -36,8 +42,10 @@ const sequelize = new Sequelize('mydb', 'user', 'pass', {
 });
 ```
 
-## Real-World Applications
-Node services talking to MySQL with model CRUD for simple domains and `sequelize.query` for reporting SQL.
+## Mistakes to Avoid
+- **Mistake:** Loading nested `include` trees that explode into N+1
+- **Mistake:** Letting migration history diverge from production schema
+- **Mistake:** Ignoring pool sizing when horizontally scaling Node processes
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast CRUD, portable dialects, built-in pool and migrations.
@@ -45,9 +53,8 @@ Node services talking to MySQL with model CRUD for simple domains and `sequelize
 - **Trade-off:** ORM productivity vs explicit SQL clarity for hot paths.
 
 ## Comparison
-vs query builders (Knex) / raw drivers: Sequelize adds models and lifecycle hooks at the cost of magic. vs other ORMs (Prisma, TypeORM): similar pitfalls, different APIs.
+- vs query builders (Knex) / raw drivers: Sequelize adds models and lifecycle h…
 
-## Mistakes to Avoid
-- Loading nested `include` trees that explode into N+1.
-- Letting migration history diverge from production schema.
-- Ignoring pool sizing when horizontally scaling Node processes.
+
+### Use cases
+- Node services talking to MySQL with model CRUD for simple domains and `sequel…

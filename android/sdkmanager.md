@@ -4,12 +4,18 @@
 
 > Android SDK command-line package manager — install platforms, build-tools, NDK, and other packages without the full Android Studio UI.
 
-
-
-
+```txt
+        sdkmanager ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-CI interviews: headless SDK install, accepting licenses, and pinning `build-tools`/`platforms` versions for reproducible builds.
+- **Interview probes:** CI interviews: headless SDK install, accepting licenses, and pinning `build-t…
 
 ## Sources
 - [Android — sdkmanager](https://developer.android.com/tools/sdkmanager) — deep-dive
@@ -34,10 +40,10 @@ yes | sdkmanager --licenses
 | build-tools;X.Y.Z | aapt/dx/d8 tooling |
 | ndk;XX | Native builds |
 
-## Real-World Applications
-GitHub Actions runner installs only needed packages instead of full Android Studio.
-
-**Example:** Flutter build fails missing `build-tools` — install the version Gradle requests, not a random older one.
+## Mistakes to Avoid
+- **Mistake:** Skipping license acceptance in CI
+- **Mistake:** Installing every package “just in case” (huge images)
+- **Mistake:** Mixing multiple SDK roots without fixing environment variables
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Scriptable, minimal images for CI.
@@ -47,7 +53,8 @@ GitHub Actions runner installs only needed packages instead of full Android Stud
 - vs Android Studio SDK UI: same packages; CLI is automatable.
 - vs [[adb device]]: sdkmanager installs; adb operates devices.
 
-## Mistakes to Avoid
-- Skipping license acceptance in CI.
-- Installing every package “just in case” (huge images).
-- Mixing multiple SDK roots without fixing environment variables.
+
+### Use cases
+- GitHub Actions runner installs only needed packages instead of full Android S…
+
+- **Example:** Flutter build fails missing `build-tools`

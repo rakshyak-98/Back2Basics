@@ -4,12 +4,18 @@
 
 > Uncomplicated Firewall — thin front-end for iptables/nft to allow/deny ports without hand-writing raw rules.
 
-
-
-
+```txt
+        ufw ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Lockout question: always allow SSH before `ufw enable` on a remote box; know UFW is host-local and does not replace cloud security groups.
+- **Interview probes:** Lockout question: always allow SSH before `ufw enable` on a remote box
 
 ## Sources
 - [Ubuntu UFW documentation](https://documentation.ubuntu.com/server/how-to/security/firewalls/) — deep-dive
@@ -44,7 +50,7 @@ sudo ufw app info OpenSSH
 sudo ufw allow "Nginx Full"
 ```
 
-Profiles live in `/etc/ufw/application.d/` and `/usr/share/ufw/application.d/`.
+- Profiles live in `/etc/ufw/application.d/` and `/usr/share/ufw/application.d/…
 
 | Knob | Why it matters |
 |------|----------------|
@@ -60,8 +66,10 @@ Profiles live in `/etc/ufw/application.d/` and `/usr/share/ufw/application.d/`.
 | Cloud unreachable | Security group | Open cloud firewall too |
 | `reset` regret | All rules gone | Recreate from runbook |
 
-## Real-World Applications
-Bootstrap a new VPS: allow OpenSSH + HTTP/HTTPS, enable, then tighten with LAN-only admin ports.
+## Mistakes to Avoid
+- **Mistake:** `ufw enable` without SSH allow on a remote VM
+- **Mistake:** Assuming Docker published ports honor UFW the way you expect
+- **Mistake:** Blind `ufw reset` on production
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast human-readable host firewall for Ubuntu/Debian fleets.
@@ -71,7 +79,6 @@ Bootstrap a new VPS: allow OpenSSH + HTTP/HTTPS, enable, then tighten with LAN-o
 - vs raw nftables/iptables: more power, more footguns — use when UFW is too blunt.
 - vs Kubernetes NetworkPolicy / cloud SG: those are the real perimeter for pods/VMs.
 
-## Mistakes to Avoid
-- `ufw enable` without SSH allow on a remote VM.
-- Assuming Docker published ports honor UFW the way you expect — verify externally.
-- Blind `ufw reset` on production.
+
+### Use cases
+- Bootstrap a new VPS: allow OpenSSH + HTTP/HTTPS, enable, then tighten with LA…

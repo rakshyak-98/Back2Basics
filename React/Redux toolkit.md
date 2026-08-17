@@ -4,12 +4,18 @@
 
 > Official Redux batteries — `configureStore`, `createSlice`, Immer, and thunks without hand-written boilerplate.
 
-
-
-
+```txt
+        Redux Toolkit ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers treat RTK as the default Redux answer — expect `createSlice`, Immer drafts, and when to add RTK Query.
+- **Interview probes:** Interviewers treat RTK as the default Redux answer
 
 ## Sources
 - [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started) — deep-dive
@@ -29,10 +35,12 @@ const store = configureStore({
 });
 ```
 
-Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
+- Prefer selectors (`createSelector`) for derived data instead of storing dupli…
 
-## Real-World Applications
-Greenfield React app adopting Redux: start with RTK slices for client intent and RTK Query endpoints for server lists.
+## Mistakes to Avoid
+- **Mistake:** Disabling serializable checks to hide non-serializable secrets i…
+- **Mistake:** Mixing raw `createStore` patterns with RTK without reason
+- **Mistake:** Putting form keystroke state into the global store
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Deletes classic boilerplate and footguns.
@@ -42,7 +50,6 @@ Greenfield React app adopting Redux: start with RTK slices for client intent and
 - vs hand-written Redux: RTK is the supported path; avoid new switch-based reducers.
 - vs [[Redux/Redux createApi]]: RTK Query is the server-cache half of Toolkit.
 
-## Mistakes to Avoid
-- Disabling serializable checks to hide non-serializable secrets in state.
-- Mixing raw `createStore` patterns with RTK without reason.
-- Putting form keystroke state into the global store.
+
+### Use cases
+- Greenfield React app adopting Redux: start with RTK slices for client intent …

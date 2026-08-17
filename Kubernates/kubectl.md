@@ -4,12 +4,18 @@
 
 > `kubectl` is the CLI to the Kubernetes API — read cluster state, apply manifests, and debug failing pods through the apiserver (not by SSHing to nodes first).
 
-
-
-
+```txt
+        kubectl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch context/namespace discipline, CrashLoop/ImagePull triage, and whether you debug HPA→scheduler→nodes→probes as a chain under load.
+- **Interview probes:** Interviewers watch context/namespace discipline, CrashLoop/ImagePull triage, …
 
 ## Sources
 - [Kubernetes — kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) — overview
@@ -61,7 +67,7 @@ kubectl port-forward -n prod svc/api 8080:80
 kubectl get pods -n prod -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.phase}{"\n"}{end}'
 ```
 
-Bare Pod creation → [[kubectl pod creation]].
+- Bare Pod creation → [[kubectl pod creation]].
 
 ### CrashLoopBackOff triage
 
@@ -73,7 +79,7 @@ Bare Pod creation → [[kubectl pod creation]].
 | 4 | Limits vs RSS | Memory too low |
 | 5 | ConfigMap/Secret mounts | Missing keys |
 
-Use `startupProbe` for slow boots; readiness removes from Endpoints; liveness restarts.
+- Use `startupProbe` for slow boots
 
 ### Scaling chain
 
@@ -100,10 +106,13 @@ kubectl top nodes
 | Scale-up, no Ready | FailedScheduling / CA | Node pool max; taints; image pull |
 | Cross-service timeout | netpol; DNS FQDN | [[Cilium]] Hubble; `svc.ns.svc.cluster.local` |
 
-## Real-World Applications
-On-call pod triage, rollout undo after bad image, and live HPA/endpoint watches during traffic spikes.
-
-**Example:** Ingress 503 → empty Endpoints → readiness failing on `/ready` because DB init lag — add `startupProbe` and init container.
+## Mistakes to Avoid
+- **Mistake:** Deleting Pods under a Deployment as a “fix” without changing the…
+- **Mistake:** `logs` without `--previous` on CrashLoop
+- **Mistake:** HPA without `resources.requests.cpu`
+- **Mistake:** Using `localhost` for cross-service calls
+- **Mistake:** Leaving ephemeral `kubectl debug` copies around
+- **Mistake:** Scaling during a rollout without PDB/`maxSurge` headroom
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fastest path to API truth (Events, describe, previous logs).
@@ -114,10 +123,8 @@ On-call pod triage, rollout undo after bad image, and live HPA/endpoint watches 
 - vs SSH to nodes: prefer `kubectl debug` / exec; node debug is last resort.
 - vs cloud console: kubectl is scriptable and closer to the API object model.
 
-## Mistakes to Avoid
-- Deleting Pods under a Deployment as a “fix” without changing the template.
-- `logs` without `--previous` on CrashLoop.
-- HPA without `resources.requests.cpu`.
-- Using `localhost` for cross-service calls.
-- Leaving ephemeral `kubectl debug` copies around.
-- Scaling during a rollout without PDB/`maxSurge` headroom.
+
+### Use cases
+- On-call pod triage, rollout undo after bad image, and live HPA/endpoint watch…
+
+- **Example:** Ingress 503 → empty Endpoints → readiness failing on `/ready` be…

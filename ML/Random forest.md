@@ -4,12 +4,17 @@
 
 > Bagged ensemble of decorrelated [[Decision tree]]s — vote (classify) or average (regress) — **Breiman (2001)**; strong default before boosting tuning.
 
-
-
-
+```txt
+        Random forest ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Random forest interviews check bagging, feature randomness, and bias-variance versus a single deep tree.
+- **Interview probes:** Random forest interviews check bagging, feature randomness, and bias-variance…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -20,14 +25,14 @@ Random forest interviews check bagging, feature randomness, and bias-variance ve
 ```txt
 For b = 1..B:
   1. Bootstrap sample of rows (with replacement)
-  2. At each split, consider random subset of features (m ≈ √p classify, p/3 regress)
-  3. Grow tree to full depth (or limited) — no pruning per tree
+- **Note:** 2. At each split, consider random subset of features (m ≈ √p classify, p/3 re…
+- **Note:** 3. Grow tree to full depth (or limited) — no pruning per tree
 Predict: majority vote / mean of tree outputs
 ```
 
-**Why it works:** individual trees overfit; averaging **uncorrelated** errors reduces variance without heavy bias increase. Random feature subsampling at splits decorrelates trees beyond bagging alone.
+- **Note:** **Why it works:** individual trees overfit
 
-**OOB (out-of-bag):** ~37% of rows left out per tree → free validation estimate without holdout set.
+- **Note:** **OOB (out-of-bag):** ~37% of rows left out per tree → free validation estima…
 
 ```txt
 Variance ↓  (ensemble)
@@ -80,12 +85,6 @@ from sklearn.inspection import permutation_importance
 pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 ```
 
-## Pros/Cons or Trade-offs
-- **Need peak tabular accuracy** after tuning budget — [[Gradient boosting]] / [[xg boost]] usually wins Kaggle-style tabular.
-- **Linear separable with sparse high-dim text** — linear models + hashing faster and simpler.
-- **Strict latency (< few ms) on edge** — model size of hundreds of trees may exceed budget; linear or tiny NN.
-- **Online learning** — full retrain required; not incremental.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Extrapolation (regression):** same as trees — predictions plateau outside training range.
@@ -107,3 +106,9 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 | Slow inference | Hundreds of deep trees | Reduce trees; [[Gradient boosting]] with fewer deeper stages; treelite |
 | Importance ranks nonsense | Correlated features | Permutation importance; SHAP |
 | Class imbalance ignored | Default majority vote | `class_weight`; stratified bootstrap |
+
+## Pros/Cons or Trade-offs
+- **Need peak tabular accuracy** after tuning budget
+- **Linear separable with sparse high-dim text**
+- **Strict latency (< few ms) on edge**
+- **Online learning** — full retrain required; not incremental.

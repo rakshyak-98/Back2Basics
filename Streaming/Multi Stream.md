@@ -4,21 +4,27 @@
 
 > Multiple renditions or simultaneous publish destinations from one source — **ABR ladders + multi-CDN push**, not "many viewers".
 
-
-
-
+```txt
+        Multi Stream ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about Multi Stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Multi Stream to see if you understand the pipeline rol…
 
 ## Sources
 - [Wikipedia — Multi Stream](https://en.wikipedia.org/wiki/Multi_Stream) — overview
 
 ## Key Concepts
-**Multi-stream** covers two distinct patterns engineers conflate:
+- **Note:** **Multi-stream** covers two distinct patterns engineers conflate:
 
-1. **ABR multi-rendition** — one live event encoded to **multiple bitrates/resolutions** (ladder); player picks one via [[Manifest (streaming)]].
-2. **Multi-destination ingest** — one encoder **replicates** the same feed to **multiple RTMP/SRT endpoints** (YouTube + origin + backup).
+- **Note:** 1. **ABR multi-rendition**
+- **Note:** 2. **Multi-destination ingest**
 
 | Pattern | Scale driver | Failure mode |
 |---------|--------------|--------------|
@@ -48,7 +54,7 @@ Plus: Settings → Advanced → Enable secondary output (or plugin)
   rtmp://backup.example.com/live / channel_a
 ```
 
-Prefer **hardware encoder** ([[NVENC]]) when pushing 2+ destinations — CPU encodes multiply load.
+- Prefer **hardware encoder** ([[NVENC]]) when pushing 2+ destinations
 
 ### ffmpeg replicate (remux copy — no re-encode)
 
@@ -58,7 +64,7 @@ ffmpeg -i rtmp://source/live/key \
   -c copy -f flv rtmp://dest2/live/key
 ```
 
-Uplink must sustain **bitrate × 1** (copy) not × encodes.
+- Uplink must sustain **bitrate × 1** (copy) not × encodes.
 
 ### ABR ladder from single ingest (transcode fan-out)
 
@@ -70,7 +76,7 @@ ffmpeg -i rtmp://localhost/live/in \
   -map "[out2]" -c:v libx264 -b:v 1200k -g 60 -f flv rtmp://localhost/live/480
 ```
 
-Better at scale: dedicated transcoder service per [[Microservice]].
+- Better at scale: dedicated transcoder service per [[Microservice]].
 
 ### Manifest advertises all renditions
 
@@ -90,15 +96,6 @@ Encode (ABR 4 rungs SW):     4× realtime CPU or 1× NVENC with parallel session
 Origin storage:              sum(all rung bitrates) × duration
 ```
 
-## Real-World Applications
-Used wherever Multi Stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Single destination VoD** — one mezzanine + ladder at origin; no multi-push.
-- **Con / skip when:** **Player-side multi-stream** — viewers need **one** manifest; don't expose raw parallel URLs.
-- **Con / skip when:** **Ten destinations from one laptop** — use origin + CDN fanout instead of publisher-side replication.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,7 +106,16 @@ Used wherever Multi Stream sits in an ingest → package → CDN → player path
 | Duplicate segments on CDN | Two packagers same key | Unique stream keys per environment |
 | Audio only on one rung | Map error in ffmpeg | `-map 0:a` on every output branch |
 
-- **Multi-push ≠ ABR** — copying one 1080p to three CDNs is not three bitrates; player still gets one quality.
-- **Single uplink saturation** — 6 Mbps stream × 3 copy pushes needs ~18 Mbps + overhead.
-- **OBS single encode multi-stream plugins** — verify they don't re-encode silently (quality loss × N).
-- **Different keyframe intervals per destination** — breaks if one path re-encodes; align GOP.
+- **Mistake:** **Multi-push ≠ ABR**
+- **Mistake:** **Single uplink saturation**
+- **Mistake:** **OBS single encode multi-stream plugins**
+- **Mistake:** **Different keyframe intervals per destination**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Single destination VoD**
+- **Con / skip when:** **Player-side multi-stream**
+- **Con / skip when:** **Ten destinations from one laptop**
+
+## Real-World Applications
+- **Scenario:** Used wherever Multi Stream sits in an ingest → package → CDN → player path

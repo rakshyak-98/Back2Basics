@@ -4,12 +4,18 @@
 
 > Task Spooler (`tsp`) queues shell jobs on one machine — simple FIFO/batch without a full scheduler.
 
-
-
-
+```txt
+        tsp cli ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows you can pick a local batch queue for ad-hoc heavy jobs without pretending it is Slurm or Kubernetes.
+- **Interview probes:** Shows you can pick a local batch queue for ad-hoc heavy jobs without pretendi…
 
 ## Sources
 - [Task Spooler home](https://viric.name/soft/ts/) — overview
@@ -51,8 +57,9 @@ tsp -D 3 ./step2.sh
 | Wrong queue | Shared socket | Set `TS_SOCKET` per project |
 | Command not found | PATH in tsp environment | Use absolute paths |
 
-## Real-World Applications
-Queue overnight encodes, dataset transforms, or one-box CI-ish batches when you do not want five `nohup` shells.
+## Mistakes to Avoid
+- **Mistake:** Treating tsp as a durable or multi-host scheduler
+- **Mistake:** Relying on relative PATH inside queued jobs — use absolute paths
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Tiny, interactive, dependency-aware on one machine.
@@ -62,6 +69,6 @@ Queue overnight encodes, dataset transforms, or one-box CI-ish batches when you 
 - vs [[crontab]] / systemd timers: calendar vs ad-hoc queue.
 - vs Slurm/K8s Jobs: those are for clusters and fair share.
 
-## Mistakes to Avoid
-- Treating tsp as a durable or multi-host scheduler.
-- Relying on relative PATH inside queued jobs — use absolute paths.
+
+### Use cases
+- Queue overnight encodes, dataset transforms, or one-box CI-ish batches when y…

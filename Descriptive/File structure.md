@@ -4,33 +4,38 @@
 
 > File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
-
-
-
+```txt
+        File structure (NG ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Project structure questions check modularity and discoverability — not a single correct tree.
+- **Interview probes:** Project structure questions check modularity and discoverability
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-NGINX is modular C. The **core** owns memory pools, strings, and configuration parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
+- **Note:** NGINX is modular C. The **core** owns memory pools, strings, and configuratio…
 
 ```
 nginx/
-├── src/core/       ← ngx_pool, ngx_string, ngx_conf — shared primitives
-├── src/event/      ← epoll/kqueue, timers, accept — non-blocking I/O hub
-├── src/http/       ← HTTP parser, upstream, proxy, gzip modules
+- **Note:** ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
+- **Note:** ├── src/event/ ← epoll/kqueue, timers, accept — non-blocking I/O hub
+- **Note:** ├── src/http/ ← HTTP parser, upstream, proxy, gzip modules
 ├── src/stream/     ← TCP/UDP proxy (stream {} block)
 ├── src/os/unix/    ← platform syscalls, sendfile, aio
-└── objs/           ← build artifacts after ./configure && make
+- **Note:** └── objs/ ← build artifacts after ./configure && make
 ```
 
 Request path (simplified):
 
 ```
-accept (event/) → parse HTTP (http/) → upstream (http/) → write (event/)
+- **Note:** accept (event/) → parse HTTP (http/) → upstream (http/) → write (event/)
          ↑________________ core/ alloc + logging ________________|
 ```
 
@@ -60,19 +65,15 @@ rg "ngx_http_upstream" src/http/
 
 ### Custom module placement
 
-Third-party modules typically live under `modules/` or are compiled via `--add-module=` pointing at your module's `config` script — same hook points as built-ins under `src/http/modules/`.
-
-## Pros/Cons or Trade-offs
-- You only need runtime behavior — read [[Nginx/Configuration]] and `nginx -T`, not the full source tree.
-- Application-level folder layout (React `src/components`) — different topic; this note is NGINX C source structure.
+- Third-party modules typically live under `modules/` or are compiled via `--ad…
 
 ## Mistakes to Avoid
 > [!WARNING]
 > NGINX **never** blocks the worker on disk I/O in the hot path — if your custom module calls synchronous `read()` on large files inside the event callback, you stall every connection on that worker.
 
-- **Master versus worker:** only workers run the event loop; master handles signals and re-execute — don't debug worker bugs in master code paths.
-- **Memory:** almost everything uses `ngx_pool_t` from `core/` — freeing individual allocations is rare; pool destroy at request end.
-- **Version skew:** distro packages (`nginx-extras`) may patch paths — always match headers to the binary you run.
+- **Mistake:** **Master versus worker:** only workers run the event loop
+- **Mistake:** **Memory:** almost everything uses `ngx_pool_t` from `core/`
+- **Mistake:** **Version skew:** distro packages (`nginx-extras`) may patch pat…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,3 +81,7 @@ Third-party modules typically live under `modules/` or are compiled via `--add-m
 | Worker spins at 100% CPU | `event/` loop stuck in tight read | Enable `--with-debug`; trace `ngx_event_process_events` |
 | Reload drops connections | `core/` cycle vs old workers | Expected brief overlap; check `worker_shutdown_timeout` |
 | Can't find symbol at link time | Wrong `objs/ngx_modules.c` | Clean `make clean` + reconfigure |
+
+## Pros/Cons or Trade-offs
+- You only need runtime behavior
+- Application-level folder layout (React `src/components`)

@@ -4,19 +4,22 @@
 
 > A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
 
-
-
-
+```txt
+        bash script ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit codes, and knowing when to stop writing Bash.
+- **Interview probes:** Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit c…
 
 ## Sources
 - [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) — deep-dive
 - [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html) — overview
-
-## Core Definition
-A script is a file executed by bash via shebang (`#!/usr/bin/env bash`) or `bash script.sh`. It parses args, branches, loops, and exits non-zero on failure so cron/CI can detect problems.
 
 ## Key Concepts
 - **Shebang + chmod +x:** Make it directly runnable.
@@ -24,6 +27,9 @@ A script is a file executed by bash via shebang (`#!/usr/bin/env bash`) or `bash
 - **Args:** `$1`, `$#`, `"$@"`.
 - **`[[ ]]` tests / loops:** Control flow.
 - **Functions:** Structure; see [[Bash functions]].
+
+
+- **Core:** A script is a file executed by bash via shebang (`#!/usr/bin/env bash`) or `b…
 
 ## Technical Details
 ```bash
@@ -81,8 +87,10 @@ bash -x myscript.sh
 | Silent failure | no `set -e` | Add strict mode; check statuses |
 | Word split bugs | unquoted `$1` | Quote always |
 
-## Real-World Applications
-Deploy wrappers, backup hooks, and incident runbook automation with explicit logging and exit codes.
+## Mistakes to Avoid
+- **Mistake:** `#!/bin/sh` with bash-only syntax
+- **Mistake:** Relying on interactive aliases/history
+- **Mistake:** Ignoring exit codes in cron jobs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Zero deps on Linux; perfect for glue.
@@ -90,9 +98,8 @@ Deploy wrappers, backup hooks, and incident runbook automation with explicit log
 - **Trade-off:** Short Bash + [[jq]]/Python vs large Bash “apps.”
 
 ## Comparison
-vs interactive shell: scripts need strictness and absolute paths. vs [[Scripting]] hub: this note is the file shape. vs systemd units: long-running services aren’t while-true scripts.
+- vs interactive shell: scripts need strictness and absolute paths
 
-## Mistakes to Avoid
-- `#!/bin/sh` with bash-only syntax.
-- Relying on interactive aliases/history.
-- Ignoring exit codes in cron jobs.
+
+### Use cases
+- Deploy wrappers, backup hooks, and incident runbook automation with explicit …

@@ -4,12 +4,18 @@
 
 > Cooperative multi-step function — pause with `yield`/`await` and resume later (generators + async).
 
-
-
-
+```txt
+        Coroutine ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Coroutine** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **generator**, **async fn**, **cooperative**.
+- **Interview probes:** Interviewers use **Coroutine** to check whether you can explain the mechanism…
 
 ## Sources
 - [Wikipedia — Coroutine](https://en.wikipedia.org/wiki/Coroutine) — overview
@@ -43,8 +49,13 @@ async function load() {
 | `for await` | Async iterables |
 | Redux-saga style | Generators for side-effect DSLs |
 
-## Real-World Applications
-In production APIs and tooling, **Coroutine** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Generators aren’t threads** — one JS call stack still; yield just pauses the function; **Saga/middleware DSLs** — powerful but opaque; document effects.
+## Mistakes to Avoid
+- **Mistake:** **Generators aren’t threads**
+- **Mistake:** **Saga/middleware DSLs** — powerful but opaque; document effects
+- **Mistake:** **Generator stuck:** check Nobody calling `.next`
+- **Mistake:** **Mixing async+gen wrongly:** check Complexity
+- **Mistake:** **Infinite yield loop:** check No break; fix: Bound loops
+- **Mistake:** **Memory hold:** check Long-lived generator
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Cooperative multi-step function — pause with `yield`/`await` and resume later (g…).
@@ -52,12 +63,8 @@ In production APIs and tooling, **Coroutine** shows up whenever teams ship Node/
 - **Con / when not:** **Parallel CPU** — workers/processes, not coroutines.
 
 ## Comparison
-vs [[promise]]: know when each applies — do not treat them as interchangeable. vs [[Callback]]: know when each applies — do not treat them as interchangeable. vs [[async utils]]: know when each applies — do not treat them as interchangeable.
+- vs [[promise]]: know when each applies
 
-## Mistakes to Avoid
-- **Generators aren’t threads** — one JS call stack still; yield just pauses the function.
-- **Saga/middleware DSLs** — powerful but opaque; document effects.
-- **Generator stuck:** check Nobody calling `.next`; fix: Drive the iterator
-- **Mixing async+gen wrongly:** check Complexity; fix: Prefer async functions
-- **Infinite yield loop:** check No break; fix: Bound loops
-- **Memory hold:** check Long-lived generator; fix: Close iterators (`return`)
+
+### Use cases
+- In production APIs and tooling, **Coroutine** shows up whenever teams ship No…

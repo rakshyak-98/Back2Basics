@@ -4,18 +4,23 @@
 
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
-
-
-
+```txt
+        JavaScript Web API ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Web API interviews cover browser capabilities beyond ECMAScript — fetch, DOM, workers.
+- **Interview probes:** Web API interviews cover browser capabilities beyond ECMAScript
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-**ECMAScript** defines the language (syntax, Promise, Map). **Web APIs** (browser) and **Node APIs** (`fs`, `http`) are host-provided, often asynchronous, and bound to the event loop.
+- **Note:** **ECMAScript** defines the language (syntax, Promise, Map)
 
 ```
 Your JS
@@ -27,7 +32,7 @@ Your JS
          Node:    fs, http, setImmediate, process
 ```
 
-Same name, different host: `fetch` exists in modern Node and all browsers; `setImmediate` is Node-only; `requestAnimationFrame` is browser-only.
+- **Note:** Same name, different host: `fetch` exists in modern Node and all browsers
 
 ## Technical Details
 ### Fetch (browser + Node 18+)
@@ -77,17 +82,13 @@ ws.onmessage = (e) => console.log(JSON.parse(e.data));
 ws.send(JSON.stringify({ type: 'ping' }));
 ```
 
-## Pros/Cons or Trade-offs
-- Heavy file I/O in browser — use streams + download, not read entire blob into memory.
-- Replacing REST with WebSocket for simple CRUD — HTTP caching wins.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > Many Web APIs return **Promises** but DOM legacy APIs use callbacks — mixing styles without `await` causes race bugs.
 
-- **`fetch` does not reject on 404** — check `res.ok`.
-- **Third-party cookie phase-out** affects storage partitioning — test Safari/Firefox.
-- **Node `fetch` undici** — connection pooling differs from `axios`; tune `agent` for high throughput.
+- **Mistake:** **`fetch` does not reject on 404** — check `res.ok`
+- **Mistake:** **Third-party cookie phase-out** affects storage partitioning
+- **Mistake:** **Node `fetch` undici**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,3 +97,7 @@ ws.send(JSON.stringify({ type: 'ping' }));
 | Timer never fires | Tab throttled (background) | `visibilitychange`; Web Worker for critical timers |
 | `localStorage` null | Private mode / SSR | Feature detect; server-side session |
 | WebSocket closes 1006 | Proxy idle timeout | Heartbeat ping; reverse proxy read timeout |
+
+## Pros/Cons or Trade-offs
+- Heavy file I/O in browser
+- Replacing REST with WebSocket for simple CRUD — HTTP caching wins.

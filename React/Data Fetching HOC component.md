@@ -4,24 +4,30 @@
 
 > Higher-order component that loads data and injects props — legacy pattern largely replaced by hooks and query libraries.
 
-
-
-
+```txt
+        Data Fetching HOC  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers may show `withUser(Component)` and ask how you’d redo it with hooks or React Query.
+- **Interview probes:** Interviewers may show `withUser(Component)` and ask how you’d redo it with ho…
 
 ## Sources
 - [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
 - [Legacy HOCs](https://legacy.reactjs.org/docs/higher-order-components.html) — overview
 
-## Core Definition
-A data-fetching HOC wraps a view, loads remote data, and passes results as props — composition via wrapping.
-
 ## Key Concepts
 - **withX(Component):** returns enhanced component.
 - **Prop collision:** injected names can clash.
 - **Hooks era:** `useUser()` + [[react-query]] preferred.
+
+
+- **Core:** A data-fetching HOC wraps a view, loads remote data, and passes results as pr…
 
 ## Technical Details
 ```tsx
@@ -34,8 +40,9 @@ function withUser(Wrapped: React.ComponentType<{ user: User }>) {
 }
 ```
 
-## Real-World Applications
-Older codebases still wrap route pages in `withAuth` / `withData` HOCs; migrate edge-in with hooks.
+## Mistakes to Avoid
+- **Mistake:** Stacking HOCs until display names and props are untraceable
+- **Mistake:** Fetching in HOC and again inside the wrapped component
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Reuse fetch+gate logic across class components.
@@ -44,6 +51,6 @@ Older codebases still wrap route pages in `withAuth` / `withData` HOCs; migrate 
 ## Comparison
 - vs [[React Pattern/Higher order Component (HOCs)]]: this is the data-loading specialty of HOCs.
 
-## Mistakes to Avoid
-- Stacking HOCs until display names and props are untraceable.
-- Fetching in HOC and again inside the wrapped component.
+
+### Use cases
+- Older codebases still wrap route pages in `withAuth` / `withData` HOCs

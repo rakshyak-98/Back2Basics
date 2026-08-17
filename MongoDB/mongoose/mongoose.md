@@ -4,12 +4,17 @@
 
 > Mongoose is the Node ODM for MongoDB — schemas, models, and connection pooling on top of the driver.
 
-
-
-
+```txt
+        mongoose ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Mongoose interviews cover schemas vs MongoDB documents, middleware hooks, and validation boundaries.
+- **Interview probes:** Mongoose interviews cover schemas vs MongoDB documents, middleware hooks, and…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -47,10 +52,6 @@ const User = mongoose.model('User', userSchema)
 | `strict` | Drop unknown paths vs keep |
 | `bufferCommands` | Behavior before connected |
 
-## Pros/Cons or Trade-offs
-- **Simple scripts** — native driver is enough.
-- **Heavy aggregations only** — driver + aggregate may be clearer.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Virtuals aren’t in Mongo** — can’t query/filter them server-side.
@@ -64,3 +65,7 @@ const User = mongoose.model('User', userSchema)
 | ValidationError | schema vs payload | Align types/required |
 | Duplicate key | unique index | Catch 11000; clean data |
 | Virtual missing in JSON | not in `toJSON` | `schema.set('toJSON', { virtuals: true })` |
+
+## Pros/Cons or Trade-offs
+- **Simple scripts** — native driver is enough.
+- **Heavy aggregations only** — driver + aggregate may be clearer.

@@ -4,12 +4,18 @@
 
 > PostgreSQL error reporting — `SQLSTATE`, `DETAIL`, `HINT`, and `CONTEXT` fields that turn failed queries into actionable fixes.
 
-
-
-
+```txt
+        postgres Error ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Reliability interviews care which errors are retryable (`40001`, `40P01`) versus permanent constraint failures.
+- **Interview probes:** Reliability interviews care which errors are retryable (`40001`, `40P01`) ver…
 
 ## Sources
 - [Protocol error fields](https://www.postgresql.org/docs/current/protocol-error-fields.html) — deep-dive
@@ -31,14 +37,17 @@ DETAIL:  Failing row contains (1, null, ...).
 PQresultErrorField(res, PG_DIAG_SQLSTATE);
 ```
 
-Retry-worthy examples:
+- Retry-worthy examples:
+
 - `40001` serialization_failure
 - `40P01` deadlock_detected
 
-Related: [[postgres parameter type error]] for `42P18` / bind issues; [[SQL error]] for cross-engine mapping.
+- Related: [[postgres parameter type error]] for `42P18` / bind issues
 
-## Real-World Applications
-API maps unique violations to HTTP 409; workers retry serialization failures with backoff; on-call reads HINT/CONTEXT before guessing.
+## Mistakes to Avoid
+- **Mistake:** Retrying constraint violations forever
+- **Mistake:** Logging secrets embedded in failed SQL text
+- **Mistake:** Ignoring CONTEXT on PL/pgSQL failures
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Rich, structured errors beat opaque “query failed.”
@@ -46,9 +55,8 @@ API maps unique violations to HTTP 409; workers retry serialization failures wit
 - **Trade-off:** Logging full DETAIL (may contain PII) vs redaction.
 
 ## Comparison
-vs MySQL: MySQL leans on numeric vendor codes (e.g. 1062); PostgreSQL centers SQLSTATE + DETAIL. See [[SQL error]].
+- vs MySQL: MySQL leans on numeric vendor codes (e.g. 1062)
 
-## Mistakes to Avoid
-- Retrying constraint violations forever.
-- Logging secrets embedded in failed SQL text.
-- Ignoring CONTEXT on PL/pgSQL failures.
+
+### Use cases
+- API maps unique violations to HTTP 409

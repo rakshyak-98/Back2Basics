@@ -4,19 +4,25 @@
 
 > CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
-
-
-
+```txt
+        CMAF (Common Media ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about CMAF to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about CMAF to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF) — overview
 - [CTA CMAF](https://cta.tech/) — overview
 
 ## Key Concepts
-**CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[[DASH]]** can share the **same `.m4s` media segments** — only the **manifests differ** (`.m3u8` versus `.mpd`). Each **CMAF chunk** is a `moof`+`mdat` pair; a **CMAF segment** is typically 2–6 seconds of chunks aligned on keyframes.
+- **Note:** **CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[…
 
 | Concept | Meaning |
 |---------|---------|
@@ -25,7 +31,7 @@ Interviewers ask about CMAF to see if you understand the pipeline role, failure 
 | **Segment** | Manifest-addressable unit (multiple chunks or one) |
 | **Presentation** | All renditions + manifests for one title |
 
-Without CMAF, operators stored **duplicate TS for HLS + separate DASH segments** — double egress, double cache footprint.
+- **Note:** Without CMAF, operators stored **duplicate TS for HLS + separate DASH segment…
 
 ## Technical Details
 ```txt
@@ -72,7 +78,7 @@ ffmpeg -i input.mp4 -c:v libx264 -preset fast -crf 22 -g 60 -sc_threshold 0 \
   startNumber="1" duration="3840" timescale="960"/>
 ```
 
-Duration in timescale units — must match ffmpeg segment length × timescale.
+- Duration in timescale units — must match ffmpeg segment length × timescale.
 
 ### Verify fMP4 structure
 
@@ -80,18 +86,6 @@ Duration in timescale units — must match ffmpeg segment length × timescale.
 ffprobe -show_frames -select_streams v:0 -read_intervals 0%+5 -show_entries frame=pict_type,pts_time init.mp4
 mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 ```
-
-## Real-World Applications
-Used wherever CMAF sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
-- **Con / skip when:** **Single-ecosystem (Apple-only)** — TS HLS still works but loses DASH unification benefit.
-- **Con / skip when:** **Sub-second WebRTC** — CMAF segment model adds seconds of latency; use WebRTC for that path.
-
-## Comparison
-- vs [[MPEG-TS]]: **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -103,7 +97,20 @@ Used wherever CMAF sits in an ingest → package → CDN → player path. Concre
 | 404 on init.mp4 | CDN caches media but not init | Long-cache init; version in path on codec change |
 | Audio missing in DASH | Separate AdaptationSet | Mirror HLS `#EXT-X-MEDIA` audio group |
 
-- **Legacy HLS TS-only devices** — old STBs need parallel TS ladder or device blocklist; fMP4 is modern default.
-- **Init segment change** — codec/resolution change needs new init; stale CDN init → decode failure.
-- **Independent segments flag** — DASH `@sap` / HLS discontinuity mishandled → A/V glitch at boundaries.
-- **Encrypting init** — usually cleartext init + encrypted media; check [[EME]]/[[DRM]] vendor spec.
+- **Mistake:** **Legacy HLS TS-only devices**
+- **Init segment change**::** → decode failure
+- **Independent segments flag**::** → A/V glitch at boundaries
+- **Mistake:** **Encrypting init**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Legacy IPTV broadcast chain**
+- **Con / skip when:** **Single-ecosystem (Apple-only)**
+- **Con / skip when:** **Sub-second WebRTC**
+
+## Comparison
+- vs [[MPEG-TS]]: **Legacy IPTV broadcast chain**
+
+
+### Use cases
+- Used wherever CMAF sits in an ingest → package → CDN → player path

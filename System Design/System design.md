@@ -4,12 +4,17 @@
 
 > System design is the practice of shaping software so requirements (scale, reliability, cost) are met while keeping boundaries clear enough that implementation can change without rewriting the product.
 
-
-
-
+```txt
+        System design ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Clarify requirements, data path, coordination, failure, and operability — not boxes for their own sake.
+- **Interview probes:** Clarify requirements, data path, coordination, failure, and operability
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017) — replication, partitioning, consistency — deep-dive
@@ -19,7 +24,7 @@ Clarify requirements, data path, coordination, failure, and operability — not 
 ## Technical Details
 ### What system design is asking
 
-Whether in an interview or a production review, the same questions recur:
+- Whether in an interview or a production review, the same questions recur:
 
 | Question | What a good answer names |
 |----------|--------------------------|
@@ -29,7 +34,8 @@ Whether in an interview or a production review, the same questions recur:
 | What fails first? | Single host, zone, region, dependency |
 | How do you know it is healthy? | Metrics, traces, synthetic checks |
 
-System design is not drawing boxes for its own sake. Every component should map to a requirement or a failure mode you are mitigating.
+- System design is not drawing boxes for its own sake.
+- Every component should map to a requirement or a failure mode you are mitigat…
 
 ### A practical design loop
 
@@ -41,7 +47,7 @@ System design is not drawing boxes for its own sake. Every component should map 
 
 ### Scaling path (typical order)
 
-Most products grow through a predictable sequence; skipping steps often creates rework:
+- Most products grow through a predictable sequence
 
 ```txt
 Single service + single database
@@ -52,10 +58,13 @@ Single service + single database
   → async pipelines ([[event-driven]])
 ```
 
-[[Horizontal vs Vertical Scaling]] is a cost and complexity decision, not a moral one. Vertical scaling is simpler until hardware limits or blast radius force distribution.
+- [[Horizontal vs Vertical Scaling]] is a cost and complexity decision, not a m…
+- Vertical scaling is simpler until hardware limits or blast radius force distr…
 
-## Real-World Applications
-Interview design problems and production architecture reviews for multi-service products.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Explicit requirements prevent cargo-cult microservices.
@@ -66,7 +75,6 @@ Interview design problems and production architecture reviews for multi-service 
 - vs [[Distributed computing]]: workload split vs end-to-end product design.
 - vs [[KISS]]/[[SOLID]]/[[DRY]]: principles constrain how you shape the design.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- Interview design problems and production architecture reviews for multi-servi…

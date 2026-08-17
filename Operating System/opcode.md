@@ -4,12 +4,18 @@
 
 > An opcode is the numeric operation code in a machine or bytecode instruction — the CPU or VM decoder reads it and dispatches the right micro-operation.
 
-
-
-
+```txt
+        Opcode ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-ISA vs bytecode; recognizing that `syscall` is just another opcode; security angle of executing data as opcodes.
+- **Interview probes:** ISA vs bytecode
 
 ## Sources
 - Intel/AMD ISA manuals — instruction encodings — deep-dive
@@ -22,12 +28,14 @@ ISA vs bytecode; recognizing that `syscall` is just another opcode; security ang
 - **Stack machines:** opcodes push/pop ([[Stack based programming language]]).
 
 ## Technical Details
-Security: unexpected opcodes in data → crash or exploit if control jumps into data (NX/W^X mitigate).
+- Security: unexpected opcodes in data → crash or exploit if control jumps into…
 
-Disassemblers map bytes → mnemonics; assemblers do the reverse.
+- Disassemblers map bytes → mnemonics; assemblers do the reverse.
 
-## Real-World Applications
-Debuggers, JITs, emulators, and shellcode analysis.
+## Mistakes to Avoid
+- **Mistake:** Executing or mapping writable+executable pages casually
+- **Mistake:** Assuming all “instructions” are one byte — x86 is variable-length
+- **Mistake:** Confusing bytecode opcodes with host CPU opcodes when debugging …
 
 ## Pros/Cons or Trade-offs
 - **Dense encodings:** compact programs; harder for humans.
@@ -38,7 +46,6 @@ Debuggers, JITs, emulators, and shellcode analysis.
 - vs mnemonic ([[assembly language]]): human form vs numeric encoding.
 - vs high-level operators: language ops lower to one or many opcodes.
 
-## Mistakes to Avoid
-- Executing or mapping writable+executable pages casually.
-- Assuming all “instructions” are one byte — x86 is variable-length.
-- Confusing bytecode opcodes with host CPU opcodes when debugging JITs.
+
+### Use cases
+- Debuggers, JITs, emulators, and shellcode analysis.

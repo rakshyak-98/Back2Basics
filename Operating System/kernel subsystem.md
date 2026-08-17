@@ -4,12 +4,18 @@
 
 > A kernel subsystem is a major functional area inside monolithic kernels like Linux — scheduler, MM, VFS, net, block — shared address space with modular boundaries.
 
-
-
-
+```txt
+        Kernel subsystem ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Map a syscall to the subsystem it hits (VFS vs net vs block) and name how modules/eBPF extend those areas.
+- **Interview probes:** Map a syscall to the subsystem it hits (VFS vs net vs block) and name how mod…
 
 ## Sources
 - Robert Love, *Linux Kernel Development* — deep-dive
@@ -31,10 +37,13 @@ Map a syscall to the subsystem it hits (VFS vs net vs block) and name how module
 | Block layer | Queues to [[Persistent Block Storage]] |
 | Net stack | Sockets, protocols |
 
-Diagnostics: `procfs`, `sysfs`, tracepoints, [[kernel ring buffer]]. eBPF attaches to networking/tracing hooks.
+- Diagnostics: `procfs`, `sysfs`, tracepoints, [[kernel ring buffer]].
+- eBPF attaches to networking/tracing hooks.
 
-## Real-World Applications
-Driver modules, tracing production kernels, and explaining where a slow `read()` spends time.
+## Mistakes to Avoid
+- **Mistake:** Blaming “the kernel” without naming the subsystem
+- **Mistake:** Loading unsigned/out-of-tree modules without crash risk awareness
+- **Mistake:** Ignoring module/taint state when debugging oopses
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast in-kernel calls between subsystems.
@@ -45,7 +54,6 @@ Driver modules, tracing production kernels, and explaining where a slow `read()`
 - vs userspace daemons: policy often in userspace; mechanism in subsystems.
 - vs [[system call]]: syscall is the gate; subsystem is the implementation area.
 
-## Mistakes to Avoid
-- Blaming “the kernel” without naming the subsystem.
-- Loading unsigned/out-of-tree modules without crash risk awareness.
-- Ignoring module/taint state when debugging oopses.
+
+### Use cases
+- Driver modules, tracing production kernels, and explaining where a slow `read…

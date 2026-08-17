@@ -4,25 +4,32 @@
 
 > Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call transporter.sendMail(mailOptions) per message.
 
-
-
-
+```txt
+        Nodemailer Transpo ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Nodemailer Transporter** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Nodemailer Transporter** to see if you understand what i…
 
 ## Sources
 - [Wikipedia — Transporter in Email sending](https://en.wikipedia.org/wiki/Transporter_in_Email_sending) — overview
 
-## Core Definition
-In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.
-
 ## Key Concepts
-- In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per m…
-- Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
+- **In:** Nodemailer**:** In **Nodemailer**, a **Transporter** is the long-lived object…
+- **Separate:** envelope**:** Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **heade…
+
+
+- **Core:** In **Nodemailer**, a **Transporter** is the long-lived object that knows *how…
 
 ## Technical Details
-In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.
+- In **Nodemailer**, a **Transporter** is the long-lived object that knows *how…
+- You call `transporter.sendMail(mailOptions)` per message.
 
 ```
 App boot → createTransport(config) → verify (optional)
@@ -32,7 +39,8 @@ Each email ─────┴──► sendMail({ from, to, subject, html })
                          └── SMTP session (587 STARTTLS or 465 SMTPS)
 ```
 
-Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
+- Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` …
+- Production apps pool one transporter; don't create per request.
 
 ### SMTP transporter (submission port 587)
 
@@ -94,25 +102,26 @@ nodemailer.createTransport({
 createTransport({ ..., logger: true, debug: true });
 ```
 
-## Real-World Applications
-In production APIs and tooling, **Transporter in Email sending** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`rejectUnauthorized: false`** — disables TLS verification; use only in dev with known MITM; **New transporter per request** — TCP+TLS handshake every email; rate limits and latency spike.
+## Mistakes to Avoid
+- **Mistake:** **`rejectUnauthorized: false`**
+- **Mistake:** **New transporter per request**
+- **Mistake:** **Display From ≠ authenticated domain**
+- **Mistake:** **Sync send in request path**
+- **Mistake:** **`ECONNECTION` / timeout:** check Firewall, wrong port
+- **Mistake:** **Auth failed:** check Credentials, IP allowlist
+- **Mistake:** **Mail in spam:** check SPF/DKIM/DMARC
+- **Mistake:** **`self signed certificate`:** check Corporate MITM TLS
+- **Mistake:** **Intermittent slow sends:** check No pooling
+- **Mistake:** **Message accepted but not delivered:** check Provider dashboard
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object t…).
-- **Con / when not:** **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
-- **Con / when not:** **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
+- **Con / when not:** **High volume marketing mail**
+- **Con / when not:** **Receiving mail**
 
 ## Comparison
-vs [[SMTP]]: know when each applies — do not treat them as interchangeable. vs [[E mail server]]: know when each applies — do not treat them as interchangeable. vs [[webhook]]: know when each applies — do not treat them as interchangeable.
+- vs [[SMTP]]: know when each applies
 
-## Mistakes to Avoid
-- **`rejectUnauthorized: false`** — disables TLS verification; use only in dev with known MITM.
-- **New transporter per request** — TCP+TLS handshake every email; rate limits and latency spike.
-- **Display From ≠ authenticated domain** — Gmail/Outlook reject or spam-folder misaligned From.
-- **Sync send in request path** — queue outbound mail (Bull, SQS) for user-facing latency.
-- **`ECONNECTION` / timeout:** check Firewall, wrong port; fix: 587 vs 465; `secure` flag; security group
-- **Auth failed:** check Credentials, IP allowlist; fix: Rotate app password; enable SMTP auth on provider
-- **Mail in spam:** check SPF/DKIM/DMARC; fix: DNS records; align `From` domain with SMTP auth domain
-- **`self signed certificate`:** check Corporate MITM TLS; fix: Provide `tls.ca` or fix proxy; never `rejectUnauthorized: false` in prod
-- **Intermittent slow sends:** check No pooling; fix: `pool: true`; reuse transporter singleton
-- **Message accepted but not delivered:** check Provider dashboard; fix: Check bounce/webhook; verify `MAIL FROM` domain
+
+### Use cases
+- In production APIs and tooling, **Transporter in Email sending** shows up whe…

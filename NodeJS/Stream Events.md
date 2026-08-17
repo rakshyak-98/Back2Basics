@@ -4,12 +4,18 @@
 
 > Stream lifecycle signals — `data`/`end`/`drain`/`error`; flowing vs paused modes decide how you pull chunks.
 
-
-
-
+```txt
+        Stream Events ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Stream Events** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Flowing / paused**, **Backpressure**, **`error`**.
+- **Interview probes:** Interviewers use **Stream Events** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Stream events](https://nodejs.org/api/stream.html#event-data) — deep-dive
@@ -43,21 +49,22 @@ writable.on('error', handler)
 | `highWaterMark` | Buffer before pause |
 | `for await` | Modern consume without `data` |
 
-## Real-World Applications
-In production APIs and tooling, **Stream Events** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`pipe` error handling is weak** — use [[Stream/pipe]] → `pipeline`; **Switching modes accidentally** — adding `data` moves to flowing.
+## Mistakes to Avoid
+- **`pipe` error handling is weak**::** → `pipeline`
+- **Mistake:** **Switching modes accidentally** — adding `data` moves to flowing
+- **Mistake:** **Lost chunks:** check Flowing, no `data` handler
+- **Mistake:** **OOM:** check Ignoring `write` false; fix: Pause + `drain`
+- **Mistake:** **Crash:** check No `error` handler
+- **Mistake:** **Hang:** check Never `end`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Stream lifecycle signals — `data`/`end`/`drain`/`error`; flowing vs paused modes…).
-- **Con / when not:** **Manual event wiring for simple copies** — `pipeline` is enough.
+- **Con / when not:** **Manual event wiring for simple copies**
 - **Con / when not:** **Tiny in-memory data** — Buffer/string, not streams.
 
 ## Comparison
-vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[Stream/pipe]]: know when each applies — do not treat them as interchangeable. vs [[Stream/stream error]]: know when each applies — do not treat them as interchangeable.
+- vs [[Stream]]: know when each applies
 
-## Mistakes to Avoid
-- **`pipe` error handling is weak** — use [[Stream/pipe]] → `pipeline`.
-- **Switching modes accidentally** — adding `data` moves to flowing.
-- **Lost chunks:** check Flowing, no `data` handler; fix: Attach listener or stay paused
-- **OOM:** check Ignoring `write` false; fix: Pause + `drain`
-- **Crash:** check No `error` handler; fix: Listen both sides; prefer `pipeline`
-- **Hang:** check Never `end`; fix: Forward `end` / destroy on error
+
+### Use cases
+- In production APIs and tooling, **Stream Events** shows up whenever teams shi…

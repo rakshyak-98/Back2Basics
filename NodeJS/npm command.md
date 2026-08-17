@@ -4,12 +4,18 @@
 
 > CLI for install, scripts, and registry — `--` separates npm’s flags from your script’s flags.
 
-
-
-
+```txt
+        npm command ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **npm command** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **`--`**, **npm ci**, **dedupe / outdated**.
+- **Interview probes:** Interviewers use **npm command** to check whether you can explain the mechani…
 
 ## Sources
 - [npm — CLI commands](https://docs.npmjs.com/cli/v10/commands) — deep-dive
@@ -63,20 +69,21 @@ npm cache clean --force
 ```bash
 ```
 
-## Real-World Applications
-In production APIs and tooling, **npm command** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`npm upgrade` vs lockfile** — know whether you intend to bump ranges; **Global `-g` installs** — avoid for app deps; pin in the project.
+## Mistakes to Avoid
+- **Mistake:** **`npm upgrade` vs lockfile**
+- **Mistake:** **Global `-g` installs** — avoid for app deps; pin in the project
+- **Mistake:** **Script ignores flags:** check Missing `--`
+- **Mistake:** **CI drift:** check Used `npm i`; fix: Use `npm ci`
+- **Mistake:** **Phantom deps:** check Import without declare
+- **Mistake:** **Corrupt cache:** check Weird ENOENT
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (CLI for install, scripts, and registry — `--` separates npm’s flags from your sc…).
-- **Con / when not:** **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
+- **Con / when not:** **Other package managers**
 
 ## Comparison
-vs [[node package json]]: know when each applies — do not treat them as interchangeable. vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable.
+- vs [[node package json]]: know when each applies
 
-## Mistakes to Avoid
-- **`npm upgrade` vs lockfile** — know whether you intend to bump ranges.
-- **Global `-g` installs** — avoid for app deps; pin in the project.
-- **Script ignores flags:** check Missing `--`; fix: `npm run x -- --flag`
-- **CI drift:** check Used `npm i`; fix: Use `npm ci`
-- **Phantom deps:** check Import without declare; fix: Add to package.json
-- **Corrupt cache:** check Weird ENOENT; fix: `npm cache clean --force`
+
+### Use cases
+- In production APIs and tooling, **npm command** shows up whenever teams ship …

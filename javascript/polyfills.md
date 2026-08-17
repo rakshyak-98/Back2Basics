@@ -4,38 +4,44 @@
 
 > **Runtime implementation** of missing APIs on old engines — no syntax transform — fills the gap so **calling** `Array.prototype.at` works — **MDN + core-js**.
 
-
-
-
+```txt
+        Polyfills ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Polyfills** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Polyfills** to see if you understand what it does operat…
 
 ## Sources
 - [MDN — Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill) — overview
 - [Wikipedia — polyfills](https://en.wikipedia.org/wiki/polyfills) — overview
 
 ## Key Concepts
-- Two compatibility layers:
-- Polyfill = shim that mimics specification behavior if `if (!Feature) { implement }`.
-- Ship polyfills only for **browsers you support** — unnecessary bytes on modern-only stacks.
+- **Two compatibility:** Two compatibility layers:
+- **Polyfill =:** Polyfill = shim that mimics specification behavior if `if (!Feature) { implem…
+- **Ship polyfills:** Ship polyfills only for **browsers you support**
 
 ## Technical Details
-Two compatibility layers:
+- Two compatibility layers:
 
 ```txt
 Syntax (optional chaining, class fields)  → transpiler ([[SWC]], Babel)
 APIs (Promise.finally, structuredClone)   → polyfill script
 ```
 
-Polyfill = shim that mimics specification behavior if `if (!Feature) { implement }`.
+- Polyfill = shim that mimics specification behavior if `if (!Feature) { implem…
 
 ```txt
 Transpile:  ?.  →  long helper code (syntax)
 Polyfill:   Promise.allSettled  →  function added to prototype (API)
 ```
 
-Ship polyfills only for **browsers you support** — unnecessary bytes on modern-only stacks.
+- Ship polyfills only for **browsers you support**
 
 ### Manual minimal polyfill
 
@@ -69,7 +75,7 @@ export default defineConfig({
 });
 ```
 
-Generates modern + legacy chunks with polyfills auto-detected.
+- Generates modern + legacy chunks with polyfills auto-detected.
 
 ### Feature detect (preferred over UA sniff)
 
@@ -79,23 +85,24 @@ if (!globalThis.structuredClone) {
 }
 ```
 
-## Real-World Applications
-In production APIs and tooling, **polyfills** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Polyfill ≠ transpile** — `?.` cannot be polyfilled; must compile away; **Mutating prototypes** — can break if non-writable; order matters (load polyfills first).
+## Mistakes to Avoid
+- **Mistake:** **Polyfill ≠ transpile**
+- **Mistake:** **Mutating prototypes**
+- **Mistake:** **`X is not a function` on old Safari:** check Missing polyfill
+- **Mistake:** **Polyfill but still syntax error:** check Need transpile not po…
+- **Mistake:** **Double polyfill conflict:** check Two libs patch same API
+- **Mistake:** **Bundle huge:** check Import entire stable
+- **Mistake:** **Subtle spec mismatch:** check Hand-rolled shim incomplete
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (**Runtime implementation** of missing APIs on old engines — no syntax transform …).
-- **Con / when not:** **Internal apps on latest Chrome only** — drop polyfills; set browserslist accordingly.
-- **Con / when not:** **Node LTS with native API** — use `engines` in package.json instead.
-- **Con / when not:** **Syntax features** — always transpile; don't "polyfill" classes with Function constructor hacks.
+- **Con / when not:** **Internal apps on latest Chrome only**
+- **Con / when not:** **Node LTS with native API**
+- **Con / when not:** **Syntax features**
 
 ## Comparison
-vs [[Descriptive/JavaScript/Polyfilling]]: know when each applies — do not treat them as interchangeable. vs [[javascript engine]]: know when each applies — do not treat them as interchangeable. vs [[SWC]]: know when each applies — do not treat them as interchangeable.
+- vs [[Descriptive/JavaScript/Polyfilling]]: know when each applies
 
-## Mistakes to Avoid
-- **Polyfill ≠ transpile** — `?.` cannot be polyfilled; must compile away.
-- **Mutating prototypes** — can break if non-writable; order matters (load polyfills first).
-- **`X is not a function` on old Safari:** check Missing polyfill; fix: Add core-js module or manual shim
-- **Polyfill but still syntax error:** check Need transpile not polyfill; fix: [[SWC]]/`target` in tsconfig
-- **Double polyfill conflict:** check Two libs patch same API; fix: One provider (core-js)
-- **Bundle huge:** check Import entire stable; fix: Use `core-js/features/promise` only
-- **Subtle spec mismatch:** check Hand-rolled shim incomplete; fix: Use tested polyfill lib
+
+### Use cases
+- In production APIs and tooling, **polyfills** shows up whenever teams ship No…

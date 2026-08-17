@@ -4,12 +4,18 @@
 
 > Spans file-based secrets (PEM, gpg) and in-kernel keyrings (`keyctl`) — know which layer holds the credential.
 
-
-
-
+```txt
+        Linux Key manageme ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Security ops: 600 permissions, agents vs files, APT keyrings vs `keyctl`, and why agent forwarding extends trust.
+- **Interview probes:** Security ops: 600 permissions, agents vs files, APT keyrings vs `keyctl`, and…
 
 ## Sources
 - `man 1 keyctl` — deep-dive
@@ -48,8 +54,10 @@ ssh-add -l
 | ssh asks passphrase always | Agent empty | `ssh-add`; check `SSH_AUTH_SOCK` |
 | keyctl gone after logout | Session keyring | Link to user keyring / redesign persist |
 
-## Real-World Applications
-Install a TLS private key with `install -m 600`, keep SSH keys in an agent for deploys, and scope APT vendor keys under `/usr/share/keyrings`.
+## Mistakes to Avoid
+- **Mistake:** Committing secrets then “fixing” with chmod — rotate
+- **Mistake:** SSH agent forwarding to untrusted hosts
+- **Mistake:** World-readable PEM under `/etc`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Layered options from files to kernel to agents.
@@ -59,7 +67,6 @@ Install a TLS private key with `install -m 600`, keep SSH keys in an agent for d
 - vs Vault/KMS/SOPS: those scale fleet secrets; this note is host-local primitives.
 - vs embedding keys in images: inject at runtime instead.
 
-## Mistakes to Avoid
-- Committing secrets then “fixing” with chmod — rotate.
-- SSH agent forwarding to untrusted hosts.
-- World-readable PEM under `/etc`.
+
+### Use cases
+- Install a TLS private key with `install -m 600`, keep SSH keys in an agent fo…

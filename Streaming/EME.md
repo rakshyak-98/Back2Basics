@@ -4,19 +4,25 @@
 
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
-
-
-
+```txt
+        EME (Encrypted Med ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about EME to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about EME to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — EME](https://en.wikipedia.org/wiki/EME) — overview
 - [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/) — deep-dive
 
 ## Key Concepts
-**EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
+- **Note:** **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAcce…
 
 | Piece              | Role                                       |
 | ------------------ | ------------------------------------------ |
@@ -26,7 +32,7 @@ Interviewers ask about EME to see if you understand the pipeline role, failure m
 | **License server** | Validates entitlement; returns keys        |
 | **MSE**            | Feeds encrypted segments to CDM            |
 
-EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-AES / fMP4 `sinf`/`schi` boxes wrap the same keys for Apple.
+- **Note:** EME does **not** define encryption
 
 ## Technical Details
 ```txt
@@ -65,7 +71,7 @@ Same encrypted segments (.m4s) on origin
   └── License URLs per CDM in player config
 ```
 
-See [[DRM]] for KMS vendors and [[CMAF]] for shared segments.
+- See [[DRM]] for KMS vendors and [[CMAF]] for shared segments.
 
 ### Capability probe (debug in browser console)
 
@@ -87,7 +93,7 @@ shaka-packager \
   --mpd_output manifest.mpd
 ```
 
-Production: use KMS ([[Pallycon(DoveRunner)]]) — don't hardcode keys.
+- Production: use KMS ([[Pallycon(DoveRunner)]]) — don't hardcode keys.
 
 ### HTTPS requirement
 
@@ -96,15 +102,6 @@ EME on secure contexts only (HTTPS localhost exception)
 License server CORS must allow player origin
 Mixed content blocked — manifest + segments + license all TLS
 ```
-
-## Real-World Applications
-Used wherever EME sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
-- **Con / skip when:** **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
-- **Con / skip when:** **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -117,8 +114,17 @@ Used wherever EME sits in an ingest → package → CDN → player path. Concret
 | `DOMException` key session | Init data / PSSH mismatch | Regenerate PSSH at packager; verify [[MPD]] |
 | CORS on license | Preflight blocked | `Access-Control-Allow-Origin` on license endpoint |
 
-- **Clear + encrypted mix in one MSE buffer** — append only encrypted init matching CDM session.
-- **Hardcoded license URLs in player** — use auth-wrapped URLs; short TTL tokens.
-- **EME on HTTP** — blocked except localhost; prod must be HTTPS.
-- **L3 screen capture** — studios may reject L3-only for UHD; contract check.
-- **HLS FairPlay ≠ Widevine MPD** — multi-DRM still needs **two manifest paths**, one segment set ([[CMAF]]).
+- **Mistake:** **Clear + encrypted mix in one MSE buffer**
+- **Mistake:** **Hardcoded license URLs in player**
+- **Mistake:** **EME on HTTP** — blocked except localhost; prod must be HTTPS
+- **Mistake:** **L3 screen capture**
+- **Mistake:** **HLS FairPlay ≠ Widevine MPD**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **AES-128 HLS only (no studio mandate)**
+- **Con / skip when:** **Native apps**
+- **Con / skip when:** **Internal corp streams**
+
+## Real-World Applications
+- **Scenario:** Used wherever EME sits in an ingest → package → CDN → player path

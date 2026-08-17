@@ -4,12 +4,18 @@
 
 > Inter-process communication (IPC) lets separate address spaces exchange data and synchronize — pipes, sockets, shared memory, and message queues are the usual Unix toolkit.
 
-
-
-
+```txt
+        Inter Process Comm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect a menu of IPC options with trade-offs (copy vs map, local vs network) and when threads + mutexes beat IPC inside one process.
+- **Interview probes:** Expect a menu of IPC options with trade-offs (copy vs map, local vs network) …
 
 ## Sources
 - Stevens, *Advanced Programming in the UNIX Environment* — IPC chapters — deep-dive
@@ -30,10 +36,12 @@ Expect a menu of IPC options with trade-offs (copy vs map, local vs network) and
 | Unix domain socket | Local, fd-based | DB clients on same host |
 | Signals | Minimal metadata | Events, job control |
 
-Threads in one process ([[Thread]]) share memory by default — use [[mutexes]] instead of IPC.
+- Threads in one process ([[Thread]]) share memory by default
 
-## Real-World Applications
-Shell pipelines (`|`), PostgreSQL over Unix sockets, Redis/shm rings, and microservice sidecars on localhost TCP or UDS.
+## Mistakes to Avoid
+- **Mistake:** Using SysV shared memory without cleanup — leaked `ipcs` segments
+- **Mistake:** Passing complex pointers through shared memory without a defined…
+- **Mistake:** Choosing signals to carry payloads beyond a small event code
 
 ## Pros/Cons or Trade-offs
 - **Pipes/sockets:** simple and safe; copy cost and kernel crossings.
@@ -44,7 +52,6 @@ Shell pipelines (`|`), PostgreSQL over Unix sockets, Redis/shm rings, and micros
 - vs [[Thread]] sharing: same address space — sync with locks, not IPC.
 - vs network RPC: IPC on one host; RPC crosses machines (often still sockets underneath).
 
-## Mistakes to Avoid
-- Using SysV shared memory without cleanup — leaked `ipcs` segments.
-- Passing complex pointers through shared memory without a defined layout and sync protocol.
-- Choosing signals to carry payloads beyond a small event code.
+
+### Use cases
+- Shell pipelines (`|`), PostgreSQL over Unix sockets, Redis/shm rings, and mic…

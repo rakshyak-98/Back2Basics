@@ -4,32 +4,38 @@
 
 > Typical Flutter/Android build and runtime failures — wrong JDK path, stale Gradle, and dependency drift — and how to clear them.
 
-
-
-
+```txt
+        Flutter errors ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want a calm triage path: read the first actionable line, check JDK/SDK/Gradle alignment, then clean caches — not random `flutter clean` loops.
+- **Interview probes:** Interviewers want a calm triage path: read the first actionable line, check J…
 
 ## Sources
 - [Flutter — Android setup](https://docs.flutter.dev/get-started/install/linux#android-setup) — overview
 - [Gradle — Build Environment](https://docs.gradle.org/current/userguide/build_environment.html) — deep-dive
 
 ## Key Concepts
-- **First failure line:** Gradle/Flutter often print a long stack — the “What went wrong” block is the signal.
+- **First failure line:** Gradle/Flutter often print a long stack
 - **`org.gradle.java.home`:** pinned JDK path in Gradle properties → breaks when you change OS or machine.
 - **`flutter pub outdated`:** shows dependency drift → useful after upgrade failures.
 - **Host vs project JDK:** Android Studio JDK ≠ command-line JDK → CI and laptop can disagree.
 
 ## Technical Details
-Common failure: Linux laptop with a macOS JDK path left in Gradle properties:
+- Common failure: Linux laptop with a macOS JDK path left in Gradle properties:
 
 ```text
 Value '/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home'
 given for org.gradle.java.home Gradle property is invalid
 ```
 
-Why it appears: multiple JDKs, Android Studio defaults, or a copied `gradle.properties` from another OS.
+- Why it appears: multiple JDKs, Android Studio defaults, or a copied `gradle.p…
 
 ```bash
 flutter doctor -v
@@ -49,10 +55,10 @@ cd android && ./gradlew --stop && ./gradlew clean && cd ..
 | Plugin native link errors | After `flutter upgrade` | Clean; refresh pods / Gradle sync |
 | Pub resolution fail | Constraints in `pubspec.yaml` | `flutter pub outdated`; relax pins carefully |
 
-## Real-World Applications
-Onboard a new engineer: `flutter doctor -v` must be green before touching product code; document required JDK major version in the README.
-
-**Example:** CI fails after a macOS-only `gradle.properties` commit — remove machine-local paths from git; inject JDK in CI only.
+## Mistakes to Avoid
+- **Mistake:** Committing machine-specific `org.gradle.java.home` paths
+- **Mistake:** Running endless `flutter clean` without reading the first Gradle…
+- **Mistake:** Mixing JDK 8 with modern Android Gradle Plugin requirements
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Pinning JDK major version keeps builds reproducible.
@@ -60,9 +66,10 @@ Onboard a new engineer: `flutter doctor -v` must be green before touching produc
 
 ## Comparison
 - vs [[flutter debugging]]: errors here are usually build/config; debugging is runtime/VM.
-- vs pure Android Gradle errors: Flutter adds another layer (`flutter` tool + plugins) on top of Gradle.
+- vs pure Android Gradle errors: Flutter adds another layer (`flutter` tool + plugins) on top of Gr…
 
-## Mistakes to Avoid
-- Committing machine-specific `org.gradle.java.home` paths.
-- Running endless `flutter clean` without reading the first Gradle “What went wrong” line.
-- Mixing JDK 8 with modern Android Gradle Plugin requirements.
+
+### Use cases
+- Onboard a new engineer: `flutter doctor -v` must be green before touching pro…
+
+- **Example:** CI fails after a macOS-only `gradle.properties` commit

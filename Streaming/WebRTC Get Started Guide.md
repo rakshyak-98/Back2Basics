@@ -4,12 +4,18 @@
 
 > Capture devices → local preview → peer connection — fix constraints before you debug ICE.
 
-
-
-
+```txt
+        WebRTC Get Started ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end — not just name it. Signal fluency with **enumerateDevices**, **devicechange**, **constraints**, **MediaStream** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end
 
 ## Sources
 - [Wikipedia — WebRTC Get Started Guide](https://en.wikipedia.org/wiki/WebRTC_Get_Started_Guide) — overview
@@ -17,18 +23,18 @@ Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end — 
 ## Key Concepts
 - **enumerateDevices:** List cameras/mics/speakers — “I pick deviceId after listing inputs.”
 - **devicechange:** Hot-plug event — “USB cam plugged in — refresh the dropdown.”
-- **constraints:** What you ask the device for — “Exact deviceId + min width/height + echoCancellation.”
+- **constraints:** What you ask the device for
 - **MediaStream:** Bundle of tracks — “Tracks go to preview and to the PeerConnection.”
 - **srcObject:** Attach stream to `<video>` — “Local preview is not the remote peer yet.”
 - **addTrack:** Publish to the PC — “Tracks must exist before createOffer.”
 
 ### Order that saves hours
 
-1. **Secure context** — HTTPS or `localhost` (getUserMedia blocked otherwise).
-2. **List devices** — after a permission grant, labels appear.
-3. **Open with constraints** — match a real `deviceId`; avoid impossible min size.
+- **Note:** 1. **Secure context** — HTTPS or `localhost` (getUserMedia blocked otherwise).
+- **Note:** 2. **List devices** — after a permission grant, labels appear.
+- **Note:** 3. **Open with constraints**
 4. **Preview locally** — prove capture before blaming ICE.
-5. **PeerConnection** — STUN/TURN + signaling; see [[WebRTC]] and [[ICE (Interactive Connectivity Establishment)]].
+- **Note:** 5. **PeerConnection**
 
 ## Technical Details
 ```txt
@@ -130,19 +136,7 @@ signaling.send({ type: 'offer', sdp: pc.localDescription })
 | `echoCancellation` | Stops laptop mic hearing speaker output |
 | STUN + TURN in `iceServers` | Capture OK ≠ connect OK across NATs |
 
-Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` only after PC exists.
-
-## Real-World Applications
-Used wherever WebRTC Get Started Guide sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
-- **Con / skip when:** **VOD progressive download** — plain HTTP file/Byte stream; not a PeerConnection.
-- **Con / skip when:** **Debugging ICE first** — if local preview fails, fix devices/constraints before touching candidates.
-
-## Comparison
-- vs [[RTMP]]: **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
+- Debug: browser console for `OverconstrainedError`
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -155,8 +149,21 @@ Used wherever WebRTC Get Started Guide sits in an ingest → package → CDN →
 | Stuck connecting | ICE only | See [[ICE (Interactive Connectivity Establishment)]]; add TURN |
 | Camera list stale after USB plug | No `devicechange` listener | Refresh enumerateDevices on event |
 
-- **Typos in constraints kill capture** — `video` not `vide`; `echoCancellation` not `echoCancallation`. Failures look like “WebRTC broken” but never reach ICE.
-- **Labels are blank until permission** — privacy rule; design UX around a first grant.
-- **Stopping tracks** — `track.stop()` releases the hardware LED; forgetting leaves the camera “on” after hangup.
-- **Replace track mid-call** — use `sender.replaceTrack()` (or renegotiate); don’t assume a new getUserMedia alone updates the remote.
-- **Signaling ≠ media** — local preview success does not prove STUN/TURN; configure [[TURN server (Traversal Using Relays around NAT)]] for production.
+- **Mistake:** **Typos in constraints kill capture**
+- **Mistake:** **Labels are blank until permission**
+- **Mistake:** **Stopping tracks**
+- **Mistake:** **Replace track mid-call**
+- **Mistake:** **Signaling ≠ media**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Server-side only ingest**
+- **Con / skip when:** **VOD progressive download**
+- **Con / skip when:** **Debugging ICE first**
+
+## Comparison
+- vs [[RTMP]]: **Server-side only ingest**
+
+
+### Use cases
+- Used wherever WebRTC Get Started Guide sits in an ingest → package → CDN → pl…

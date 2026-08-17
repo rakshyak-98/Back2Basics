@@ -4,12 +4,17 @@
 
 > DSA question bank mindset — classify the prompt, pick a pattern, then solve with the scaffold.
 
-
-
-
+```txt
+        Questions ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Question-bank discipline — tagging, constraints, follow-ups — is how strong candidates stay structured under pressure.
+- **Interview probes:** Question-bank discipline
 
 ## Sources
 - [NeetCode roadmap](https://neetcode.io/roadmap) — overview
@@ -55,10 +60,10 @@ Checklist per question:
 | Pattern mismatch | wrong family | Re-tag problem |
 | Repeat misses | no journal | Log pattern → question |
 
+## Mistakes to Avoid
+- **Mistake:** Collecting solutions without tags — unsearchable later
+- **Mistake:** Only LeetCode Easy — medium graph/DP is where interviews live
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** On-call incident — use runbooks, not puzzle mode.
 - **Trade-off:** production feature with clear CRUD — don’t force interview patterns.
-
-## Mistakes to Avoid
-- Collecting solutions without tags — unsearchable later.
-- Only LeetCode Easy — medium graph/DP is where interviews live.

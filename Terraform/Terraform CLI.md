@@ -4,12 +4,18 @@
 
 > Terraform CLI is the day-to-day command surface — init, plan, apply, fmt/validate, logging, provider schema, and careful state surgery.
 
-
-
-
+```txt
+        Terraform CLI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treating `terraform state` as last-resort ops with backups.
+- **Interview probes:** Interviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treatin…
 
 ## Sources
 - [HashiCorp — Terraform CLI](https://developer.hashicorp.com/terraform/cli) — deep-dive
@@ -91,12 +97,13 @@ terraform state pull
 | `TF_DATA_DIR` | Override `.terraform` dir |
 | `TF_CLI_ARGS_plan` | Extra default args for a subcommand |
 
-First-time checklist: no `.tf` → create config; provider download fail → `TF_LOG=DEBUG init`; auth errors → cloud credentials; wrong region → provider + [[variable file]].
+- First-time checklist: no `.tf` → create config
 
-## Real-World Applications
-CI pipelines that fmt/validate/plan on PR, and on-call debugging of provider auth with `TF_LOG=DEBUG`.
-
-**Example:** `terraform plan -out=tfplan` in CI; apply job consumes only that artifact so reviewed and executed plans match.
+## Mistakes to Avoid
+- **Mistake:** Hand-editing `terraform.tfstate`
+- **Mistake:** Leaving TRACE logs with secrets in CI
+- **Mistake:** Habitual `-target` instead of fixing the graph
+- **Mistake:** Applying without a saved plan that was reviewed
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One CLI covers format, validate, graph execution, and inspection.
@@ -107,8 +114,8 @@ CI pipelines that fmt/validate/plan on PR, and on-call debugging of provider aut
 - vs console ClickOps: CLI shines when configuration is code.
 - Backend living in [[Terraform setup]]; provider RPC detail in [[terraform provider]].
 
-## Mistakes to Avoid
-- Hand-editing `terraform.tfstate`.
-- Leaving TRACE logs with secrets in CI.
-- Habitual `-target` instead of fixing the graph.
-- Applying without a saved plan that was reviewed.
+
+### Use cases
+- CI pipelines that fmt/validate/plan on PR, and on-call debugging of provider …
+
+- **Example:** `terraform plan -out=tfplan` in CI

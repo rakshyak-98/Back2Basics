@@ -4,12 +4,14 @@
 
 > An AMI is the template for an EC2 instance — it captures the root volume snapshot, launch permissions, and block device mapping so you can launch identical machines repeatedly.
 
-
-
-
+```txt
+        AMI (Amazon Machin ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-AMI questions check golden-image pipelines, region copy, and baking vs bootstrapping trade-offs.
+- **Interview probes:** AMI questions check golden-image pipelines, region copy, and baking vs bootst…
 
 ## Sources
 - [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) — overview
@@ -18,13 +20,14 @@ AMI questions check golden-image pipelines, region copy, and baking vs bootstrap
 ## Technical Details
 ### What an AMI contains
 
-- **Root volume snapshot** (usually EBS-backed) or instance-store template
-- **Virtualization type** — HVM (standard today) or paravirtual (legacy)
-- **Architecture** — x86_64 or arm64 (Graviton)
-- **Launch permissions** — public, explicit accounts, or private
-- **Block device mapping** — which volumes attach at boot and their sizes
+- **Root volume snapshot:** (usually EBS-backed) or instance-store template
+- **Virtualization type:** — HVM (standard today) or paravirtual (legacy)
+- **Architecture:** — x86_64 or arm64 (Graviton)
+- **Launch permissions:** — public, explicit accounts, or private
+- **Block device mapping:** — which volumes attach at boot and their sizes
 
-AMIs are regional. Copy an AMI to another region before launching there.
+- AMIs are regional.
+- Copy an AMI to another region before launching there.
 
 ### AMI sources
 
@@ -44,11 +47,11 @@ aws ec2 create-image \
   --no-reboot
 ```
 
-`--no-reboot` avoids restart but risks filesystem inconsistency; maintenance window snapshots are safer.
+- `--no-reboot` avoids restart but risks filesystem inconsistency
 
 ### Launch from AMI
 
-Console or:
+- Console or:
 
 ```bash
 aws ec2 run-instances \
@@ -61,6 +64,6 @@ aws ec2 run-instances \
 
 ### Lifecycle hygiene
 
-- **Version** AMIs with dates or build numbers; deregister old ones.
-- **Scan** for CVEs before promotion; do not bake secrets into images — inject at boot via user data or secrets manager.
-- **Encrypt** EBS snapshots backing the AMI with KMS keys you control.
+- **Version:** AMIs with dates or build numbers; deregister old ones.
+- **Scan:** for CVEs before promotion; do not bake secrets into images
+- **Encrypt:** EBS snapshots backing the AMI with KMS keys you control.

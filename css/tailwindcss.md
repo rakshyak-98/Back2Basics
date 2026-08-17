@@ -4,27 +4,33 @@
 
 > Tailwind CSS is a utility-first framework — you compose designs from constrained class names, and the build step emits only the utilities your source files use.
 
-
-
-
+```txt
+        Tailwind CSS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Tailwind to probe purge/content scanning, why dynamic class strings fail, v3 versus v4 configuration, and when utilities beat (or lose to) CSS modules / [[scss]].
+- **Interview probes:** Interviewers ask about Tailwind to probe purge/content scanning, why dynamic …
 
 ## Sources
 - [Tailwind CSS Docs](https://tailwindcss.com/docs) — overview
 - [Tailwind CSS Docs — Functions and directives](https://tailwindcss.com/docs/functions-and-directives) — deep-dive
 - [Wikipedia — Tailwind CSS](https://en.wikipedia.org/wiki/Tailwind_CSS) — overview
 
-## Core Definition
-Tailwind generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) from a theme; a scanner (content globs or v4 automatic detection) keeps production CSS small by omitting unused rules.
-
 ## Key Concepts
-- **Not a component library:** you build UI from utilities (or thin `@layer` components) — no opinionated Button package required.
-- **Content scanning:** only class names found in scanned files are emitted → dynamic string concatenation breaks generation.
-- **v4 CSS-first:** `@import "tailwindcss"` and `@theme` in CSS (versus v3 `tailwind.config.js` + `@tailwind` layers).
-- **`@apply`:** pulls utilities into custom classes — useful sparingly; needs `@reference` in isolated sheets (see [[tailwindcss Error]]).
+- **Not a component library:** you build UI from utilities (or thin `@layer` components)
+- **Content scanning:** only class names found in scanned files are emitted → dynamic string concaten…
+- **v4 CSS-first:** `@import "tailwindcss"` and `@theme` in CSS (versus v3 `tailwind.config.js` +…
+- **`@apply`:** pulls utilities into custom classes
 - **Plugins:** forms, typography, etc. extend the theme via `@plugin` (v4) or `plugins` (v3).
+
+
+- **Core:** Tailwind generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) …
 
 ## Technical Details
 ```txt
@@ -96,10 +102,10 @@ npm run build   # verify output CSS size — often ~5–15 KB gzipped when scann
 | Dev ≠ production styles | Dynamic class strings | Use complete class names or safelist |
 | Prefix ignored | Prefixed install | Use `tw:flex` (etc.) consistently |
 
-## Real-World Applications
-Product UIs and design systems use Tailwind for speed and consistency; hashed CSS assets get long-cache headers on [[Nginx]] or a CDN.
-
-**Example:** A [[React]] dashboard maps status to full class names (`bg-green-500`) instead of `` `bg-${color}-500` `` so the scanner emits the rules.
+## Mistakes to Avoid
+- **Mistake:** Shipping the Tailwind CDN / browser build to production
+- **Mistake:** Building class names with string concatenation
+- **Mistake:** Overusing `@apply` until you reinvent a bespoke CSS framework on…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast UI iteration and small production CSS when scanning works.
@@ -107,10 +113,11 @@ Product UIs and design systems use Tailwind for speed and consistency; hashed CS
 - **Con:** Poor fit for email HTML or environments with no build step.
 
 ## Comparison
-- vs [[scss]]: SCSS is a preprocessor with variables/mixins; Tailwind is a constrained utility system with a scanner.
+- vs [[scss]]: SCSS is a preprocessor with variables/mixins
 - vs CSS modules: modules scope local class names; Tailwind shares a global utility vocabulary.
 
-## Mistakes to Avoid
-- Shipping the Tailwind CDN / browser build to production — defeats tree-shaking and invites [[Flash of Unstyled Content]].
-- Building class names with string concatenation — the scanner will miss them.
-- Overusing `@apply` until you reinvent a bespoke CSS framework on top of Tailwind.
+
+### Use cases
+- Product UIs and design systems use Tailwind for speed and consistency
+
+- **Example:** A [[React]] dashboard maps status to full class names (`bg-green…

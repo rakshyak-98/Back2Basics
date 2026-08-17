@@ -4,12 +4,18 @@
 
 > A stack frame is the memory a function call pushes — return address, saved registers, locals — nested LIFO on the thread stack.
 
-
-
-
+```txt
+        Stack Frame ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Debugging and ABI interviews: explain call/return, frame pointers vs unwind tables, and why stack overflow differs from heap OOM.
+- **Interview probes:** Debugging and ABI interviews: explain call/return, frame pointers vs unwind t…
 
 ## Sources
 - Bryant & O’Hallaron, *Computer Systems* — procedure call convention — deep-dive
@@ -27,10 +33,13 @@ main frame → foo frame → bar frame
               ↑ stack pointer moves down on call, up on return
 ```
 
-Overflow causes segmentation fault / stack overflow — not the same as [[Heap memory]] exhaustion. The [[stack pointer]] register tracks the current top.
+- Overflow causes segmentation fault / stack overflow
+- The [[stack pointer]] register tracks the current top.
 
-## Real-World Applications
-Crash dumps, profilers (`perf`), and language runtimes that allocate large locals or deep recursion budgets.
+## Mistakes to Avoid
+- **Mistake:** Huge VLAs / large arrays on the stack in hot server threads
+- **Mistake:** Confusing stack overflow with heap OOM in postmortems
+- **Mistake:** Stripping frame pointers and unwind info then expecting perfect …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Extremely cheap allocation/deallocation of locals.
@@ -41,7 +50,6 @@ Crash dumps, profilers (`perf`), and language runtimes that allocate large local
 - vs [[Heap memory]]: heap is explicit lifetime; stack is automatic with call lifetime.
 - vs [[Stack trace]]: the trace is the *list* of frames at a moment.
 
-## Mistakes to Avoid
-- Huge VLAs / large arrays on the stack in hot server threads.
-- Confusing stack overflow with heap OOM in postmortems.
-- Stripping frame pointers and unwind info then expecting perfect traces.
+
+### Use cases
+- Crash dumps, profilers (`perf`), and language runtimes that allocate large lo…

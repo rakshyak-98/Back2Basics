@@ -4,19 +4,22 @@
 
 > apt policy shows which versions exist, where they come from, and which pin priority wins — so you know what apt will install next.
 
-
-
-
+```txt
+        APT policy ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how preferences.d pins steer upgrades.
+- **Interview probes:** Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how…
 
 ## Sources
 - [apt_preferences(5)](https://manpages.debian.org/apt_preferences.5) — deep-dive
 - [apt(8)](https://manpages.debian.org/apt.8) — overview
-
-## Core Definition
-`apt policy pkg` prints Installed, **Candidate** (what the next install/upgrade would pick), and a version table with **pin priorities** and origins. Trust **Candidate** for install decisions — not a random `apt-cache show` line.
 
 ## Key Concepts
 - **Candidate:** Resolver’s chosen version.
@@ -24,6 +27,9 @@ Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how pr
 - **500:** Default archive/PPA priority.
 - **≥1000:** Can force downgrades — dangerous.
 - **Pinning:** `/etc/apt/preferences.d/` rules to prefer an origin.
+
+
+- **Core:** `apt policy pkg` prints Installed, **Candidate** (what the next install/upgra…
 
 ## Technical Details
 ```txt
@@ -50,7 +56,7 @@ apt-cache policy nginx
 apt list -a nginx
 ```
 
-Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt config]].
+- Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/`
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,8 +65,10 @@ Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt confi
 | Hold ignored? | `apt-mark showhold` | Hold ≠ pin; use both deliberately |
 | Mystery 990 | Default-Release | Check apt.conf.d |
 
-## Real-World Applications
-Explaining why a PPA nginx upgrades over Ubuntu’s, pinning a vendor package, and debugging “apt wants to downgrade.”
+## Mistakes to Avoid
+- **Mistake:** Assuming Installed (100) always beats repo (500)
+- **Mistake:** Using priority >1000 without a downgrade plan
+- **Mistake:** Trusting `apt-cache show` over policy Candidate for “what will i…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Transparent resolver view across multiple origins.
@@ -68,9 +76,8 @@ Explaining why a PPA nginx upgrades over Ubuntu’s, pinning a vendor package, a
 - **Trade-off:** Stay on distro packages vs third-party freshness.
 
 ## Comparison
-vs [[source list file]]: sources define *where*; policy decides *which version*. vs `apt-mark hold`: hold blocks upgrades; pins steer choice. vs dnf/yum: different stack.
+- vs [[source list file]]: sources define *where*
 
-## Mistakes to Avoid
-- Assuming Installed (100) always beats repo (500).
-- Using priority >1000 without a downgrade plan.
-- Trusting `apt-cache show` over policy Candidate for “what will install.”
+
+### Use cases
+- Explaining why a PPA nginx upgrades over Ubuntu’s, pinning a vendor package, …

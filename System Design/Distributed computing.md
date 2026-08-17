@@ -4,12 +4,18 @@
 
 > Distributed computing splits one workload across networked machines that exchange messages — aggregate capacity paid for with coordination, partial failure, and serialization.
 
-
-
-
+```txt
+        Distributed comput ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Partition + idempotent tasks + checkpoints; stragglers; Amdahl’s law; distinguish workload pattern from [[distributed system]] ops reality.
+- **Interview probes:** Partition + idempotent tasks + checkpoints
 
 ## Sources
 - Dean & Ghemawat, MapReduce (OSDI 2004) — deep-dive
@@ -17,8 +23,8 @@ Partition + idempotent tasks + checkpoints; stragglers; Amdahl’s law; distingu
 - Kleppmann, *Designing Data-Intensive Applications* — deep-dive
 
 ## Key Concepts
-- **Partition → workers → aggregate**; retry failed tasks.
-- **Idempotent tasks** under at-least-once retry.
+- **Partition → workers → aggregate:** ; retry failed tasks.
+- **Idempotent tasks:** under at-least-once retry.
 - **Data locality:** move compute to data when possible.
 - **Shared mutable state:** [[Raft]], queues, or CRDTs — not hope.
 
@@ -35,7 +41,7 @@ Coordinator → partition input → workers → aggregate
 | Schema drift | Versioned [[marshalling]] / [[Serialization]] |
 | Shared mutable state | Consensus / queues / CRDT |
 
-Checklist: independent chunks; idempotent tasks; deterministic combine; checkpoints; measure speedup (Amdahl).
+- Checklist: independent chunks
 
 | Symptom | Direction |
 |---------|-----------|
@@ -45,8 +51,10 @@ Checklist: independent chunks; idempotent tasks; deterministic combine; checkpoi
 | Wrong rare results | Non-determinism / [[race condition]] in combine |
 | Coordinator SPOF | HA queue or elected leader |
 
-## Real-World Applications
-MapReduce/Spark jobs, render farms, and microservice pipelines that fan out work.
+## Mistakes to Avoid
+- **Mistake:** Distributing jobs smaller than RTT overhead
+- **Mistake:** Non-idempotent tasks under retry
+- **Mistake:** Ignoring skew until one worker OOMs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Aggregate CPU/IO beyond one box.
@@ -57,7 +65,6 @@ MapReduce/Spark jobs, render farms, and microservice pipelines that fan out work
 - vs [[distributed system]]: computing = workload split; system = failure/consistency reality.
 - vs single-node: wins only when parallel fraction beats network cost.
 
-## Mistakes to Avoid
-- Distributing jobs smaller than RTT overhead.
-- Non-idempotent tasks under retry.
-- Ignoring skew until one worker OOMs.
+
+### Use cases
+- MapReduce/Spark jobs, render farms, and microservice pipelines that fan out w…

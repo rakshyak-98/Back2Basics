@@ -4,12 +4,17 @@
 
 > scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
-
-
-
+```txt
+        scikitlearn ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-sklearn literacy covers estimators, pipelines, cross-validation, and avoiding leakage in preprocessing.
+- **Interview probes:** sklearn literacy covers estimators, pipelines, cross-validation, and avoiding…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -17,7 +22,7 @@ sklearn literacy covers estimators, pipelines, cross-validation, and avoiding le
 
 ## Key Concepts
 ```txt
-Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
+- **Note:** Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 ```
 
 ### Interview map (words you can say)
@@ -48,10 +53,6 @@ pipe.score(X_test, y_test)
 | `n_jobs` | Parallel CV |
 | `class_weight` | Imbalance |
 
-## Pros/Cons or Trade-offs
-- **Deep learning on GPU** — PyTorch/TF.
-- **Huge distributed training** — Spark/XGBoost distributed stacks.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **fit on full dataset then split** — leaks; always split first.
@@ -65,3 +66,7 @@ pipe.score(X_test, y_test)
 | ConvergenceWarning | max_iter / scale | Scale features; raise iters |
 | Leakage | preprocess outside pipeline | Put all steps inside |
 | Slow GridSearch | huge grid | RandomSearch; fewer params |
+
+## Pros/Cons or Trade-offs
+- **Deep learning on GPU** — PyTorch/TF.
+- **Huge distributed training** — Spark/XGBoost distributed stacks.

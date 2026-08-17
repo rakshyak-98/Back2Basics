@@ -4,18 +4,23 @@
 
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
-
-
-
+```txt
+        Execution context ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Execution context interviews cover lexical environments, this binding, and hoisting misconceptions.
+- **Interview probes:** Execution context interviews cover lexical environments, this binding, and ho…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-Every time JS runs code, the engine creates an **execution context** on the **call stack**. Contexts nest: global first, then each function call, then blocks (let/const) in modern engines.
+- **Note:** Every time JS runs code, the engine creates an **execution context** on the *…
 
 ```
 Call stack (top = running now):
@@ -35,7 +40,7 @@ Call stack (top = running now):
 | **Creation** | Allocate env record, bind `this`, setup outer reference, hoist `var`/functions |
 | **Execution** | Run statements line by line |
 
-**Global context:** one per script/module — top-level `let`/`const` live in script scope, not `window` (in modules).
+- **Note:** **Global context:** one per script/module
 
 ## Technical Details
 ### Observe scope chain in debugger
@@ -80,17 +85,14 @@ console.log(a); // ReferenceError (let hoisted but uninitialized)
 let a = 1;
 ```
 
-## Pros/Cons or Trade-offs
-- Don't manually simulate contexts — use modules, closures, and classes instead of `with` or dynamic scoping hacks.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > Closures keep the **entire lexical environment** alive — capturing large objects in nested callbacks causes memory leaks in long-lived servers.
 
-- **`var` hoists to function context; `let`/`const` hoist to block** — different TDZ behavior.
-- **Eval** can mutate outer lexical environment in non-strict legacy code — avoid.
-- **Async functions** suspend, pop stack, resume later — context restored via continuation, not same stack frame.
-- **Multiple globals:** iframes, workers, Node vm — separate contexts, separate globals.
+- **Mistake:** **`var` hoists to function context
+- **Mistake:** **Eval** can mutate outer lexical environment in non-strict lega…
+- **Mistake:** **Async functions** suspend, pop stack, resume later
+- **Mistake:** **Multiple globals:** iframes, workers, Node vm
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,3 +101,6 @@ let a = 1;
 | Stale closure in loop | `var` + async callback | Use `let` or IIFE |
 | `Maximum call stack exceeded` | Infinite recursion | Base case; tail-call not guaranteed in JS |
 | TDZ errors at module top | Access before `let` init | Reorder declarations |
+
+## Pros/Cons or Trade-offs
+- Don't manually simulate contexts

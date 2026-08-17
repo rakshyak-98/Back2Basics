@@ -4,18 +4,23 @@
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
-
-
-
+```txt
+        Lexical Grammer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Lexical grammar questions check how JS source is tokenized — ASI and grammar edge cases.
+- **Interview probes:** Lexical grammar questions check how JS source is tokenized
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-**Lexical grammar** defines valid **tokens**. **Syntactic grammar** defines how tokens form statements and expressions. Two phases, one pipeline:
+- **Note:** **Lexical grammar** defines valid **tokens**
 
 ```
 Source text
@@ -34,7 +39,7 @@ Key lexical rules engineers hit daily:
 | **NumericLiteral** | Decimal, hex `0x`, binary `0b`, BigInt `n` |
 | **RegularExpressionLiteral** | Context-sensitive — parser disambiguates `/` |
 
-Grammar is **not** context-free for regex versus divide — parser uses lookahead.
+- **Note:** Grammar is **not** context-free for regex versus divide
 
 ## Technical Details
 ### ASI (automatic semicolon insertion) — grammar + line terminators
@@ -59,7 +64,7 @@ tag`line1\n`; // raw newline in raw property
 obj?.prop ?? defaultValue;
 ```
 
-Parser must accept `?.`, `??`, `??=` as distinct tokens (ES2020+).
+- Parser must accept `?.`, `??`, `??=` as distinct tokens (ES2020+).
 
 ### Validate grammar in CI (esbuild fast check)
 
@@ -68,16 +73,13 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 # Syntax errors fail at parse — same grammar family as TS/JS
 ```
 
-## Pros/Cons or Trade-offs
-- Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Annex B (legacy web grammar)** allows some browser-only sloppy patterns (`<!--` as comment) — don't rely on them in modules or Node.
 
-- **Grammar ≠ semantics:** `{}` is valid in object or block — parser role decides.
-- **Shebang** is not in ECMA grammar text but universally stripped — see [[Descriptive/JavaScript/HashBang Comment]].
-- **TypeScript** adds types erased before runtime — TS parser is superset grammar.
+- **Mistake:** **Grammar ≠ semantics:** `{}` is valid in object or block
+- **Mistake:** **Shebang** is not in ECMA grammar text but universally stripped
+- **Mistake:** **TypeScript** adds types erased before runtime
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,3 +88,6 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 | Illegal return outside function | Script vs module top-level | Wrap in function or use module |
 | `\u` in identifier wrong | Invalid escape in identifier | Use valid Unicode or ASCII |
 | JSON.parse vs JS literal | JSON stricter grammar | Don't paste JS into JSON.parse |
+
+## Pros/Cons or Trade-offs
+- Memorizing full ECMA BNF

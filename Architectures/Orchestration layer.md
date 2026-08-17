@@ -4,19 +4,24 @@
 
 > Orchestration — a central coordinator drives the workflow; choreography — services react to events with no single brain.
 
-
-
-
+```txt
+        Orchestration laye ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Orchestration vs choreography is a system-design staple — central coordinator vs event-driven reactions, with failure/compensation implications.
+- **Interview probes:** Orchestration vs choreography is a system-design staple
 
 ## Sources
 - [Microsoft — Choreography vs orchestration](https://learn.microsoft.com/en-us/azure/architecture/patterns/choreography) — overview
 - [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) — deep-dive
 
 ## Key Concepts
-**Orchestration:** a central **coordinator** drives steps, knows global state, retries, timeouts, compensations. **Choreography:** each service reacts to **events** with no central brain — flow emerges from message contracts.
+- **Note:** **Orchestration:** a central **coordinator** drives steps, knows global state…
 
 ```txt
 Orchestration (Temporal/Airflow):
@@ -25,7 +30,7 @@ Orchestration (Temporal/Airflow):
        └──── state machine ──┘
 
 Choreography (Kafka/events):
-  A publishes OrderCreated ──► B ships ──► B publishes Shipped ──► C bills
+- **Note:** A publishes OrderCreated ──► B ships ──► B publishes Shipped ──► C bills
        (no single place shows full saga state)
 ```
 
@@ -34,7 +39,7 @@ Choreography (Kafka/events):
 | **Orchestration** | Visible workflow, retries, timeouts, debug | Coordinator availability; coupling to coordinator API |
 | **Choreography** | Loose coupling, scale | Hard to trace; distributed debugging; implicit contract drift |
 
-**Streaming note:** HLS/DASH manifests act as client-side [[Orchestration layer]] for rendition selection — different domain, same word.
+- **Note:** **Streaming note:** HLS/DASH manifests act as client-side [[Orchestration lay…
 
 ## Technical Details
 ### Tool placement
@@ -102,14 +107,14 @@ Choreograph when:
 | Version skew | Worker deploy mid-workflow | Temporal workflow versioning; compatible activity changes |
 | "Works in dev" timeout | Step Functions 25s lambda limit | Break steps; use activity workers |
 
+## Mistakes to Avoid
+- **Mistake:** Orchestrator as SPOF
+- **Mistake:** Choreography saga without compensating events
+- **Mistake:** Airflow for online traffic
+- **Mistake:** BPMN for engineers who hate XML
+- **Mistake:** Nested orchestrators
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Single CRUD service — domain logic in application code suffices.
 - **Trade-off:** Sync request/response chain < 3 hops — direct calls + [[Idempotent-key]].
 - **Trade-off:** **Replace [[kafka]]** with Airflow — different problems; often complement (Airflow consumes Kafka).
-
-## Mistakes to Avoid
-- Orchestrator as SPOF — HA cluster + persistence (Temporal/Camunda DB) required for prod.
-- Choreography saga without compensating events — partial failure leaves inconsistent state.
-- Airflow for online traffic — wrong latency model; batch scheduler not RPC bus.
-- BPMN for engineers who hate XML — adoption dies; pick code-first (Temporal) if team is dev-heavy.
-- Nested orchestrators — Airflow triggers Step Functions triggers Lambda — observability nightmare; one primary layer.

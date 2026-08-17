@@ -4,19 +4,22 @@
 
 > Reusable composition strategies — compound components, providers, hooks, controlled inputs — chosen for the API you want.
 
-
-
-
+```txt
+        React design patte ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask which pattern fits a use case and what you’d avoid in modern React.
+- **Interview probes:** Interviewers ask which pattern fits a use case and what you’d avoid in modern…
 
 ## Sources
 - [Context](https://react.dev/learn/passing-data-deeply-with-context) — overview
 - [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
-
-## Core Definition
-Design patterns in React are composition recipes for sharing behavior and structuring component APIs.
 
 ## Key Concepts
 - **Hooks:** default for shared logic.
@@ -24,19 +27,23 @@ Design patterns in React are composition recipes for sharing behavior and struct
 - **Provider:** dependency injection via Context ([[React Pattern/Provider pattern]]).
 - **Controlled/uncontrolled:** form input ownership.
 
-## Technical Details
-See leaf notes under `React Pattern/` for worked examples; prefer hooks over new HOCs/render props.
 
-## Real-World Applications
-Design-system Tabs implemented as compound components with shared context for active index.
+- **Core:** Design patterns in React are composition recipes for sharing behavior and str…
+
+## Technical Details
+- See leaf notes under `React Pattern/` for worked examples
+
+## Mistakes to Avoid
+- **Mistake:** Using HOCs for new code when a hook suffices
+- **Mistake:** Context for high-frequency values without splitting
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Predictable APIs across the codebase.
 - **Con:** Pattern zoo without guidance wastes time.
 
 ## Comparison
-- vs [[React Pattern/React pattern categorisation]]: categorisation is the map; this is the rationale.
+- vs [[React Pattern/React pattern categorisation]]: categorisation is the map
 
-## Mistakes to Avoid
-- Using HOCs for new code when a hook suffices.
-- Context for high-frequency values without splitting.
+
+### Use cases
+- Design-system Tabs implemented as compound components with shared context for…

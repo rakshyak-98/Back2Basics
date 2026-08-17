@@ -4,22 +4,27 @@
 
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
-
-
-
+```txt
+        MongoDB model (Mon ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use MongoDB model (Mongoose schema) to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+- **Interview probes:** Interviewers use MongoDB model (Mongoose schema) to test MongoDB data modelin…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
 - [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
 
 ## Key Concepts
-A **model** is a compiled schema bound to a collection. The schema declares fields, types, defaults, validators, indexes, and middleware. MongoDB is schemaless at storage time; Mongoose enforces structure at the application layer unless you bypass it with `strict: false` or raw collection calls.
+- **Note:** A **model** is a compiled schema bound to a collection. The schema declares f…
 
 ```
-Schema (shape + rules) → Model (collection API) → MongoDB collection
+- **Note:** Schema (shape + rules) → Model (collection API) → MongoDB collection
          ↓
     indexes, hooks, virtuals
 ```
@@ -52,10 +57,6 @@ await User.createIndexes(); // idempotent; run after schema change
 const users = await User.find({ tenantId }).lean(); // plain objects, faster
 ```
 
-## Pros/Cons or Trade-offs
-- Don't mirror SQL normalized schemas 1:1 — embed when read together, reference when independent lifecycle.
-- Don't skip indexes because "Mongo is fast" — unindexed collection scans hurt at scale.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Unique index created after dupes exist** — build fails or index stays partial; clean data first.
@@ -71,3 +72,7 @@ const users = await User.find({ tenantId }).lean(); // plain objects, faster
 | Field missing after update | `strict` mode | Add field to schema or use `$set` with defined paths |
 | Slow list queries | `explain()` | Add index on filter + sort fields |
 | Stale subdocs | `.markModified('path')` | Required when Mixed/Array mutated in place |
+
+## Pros/Cons or Trade-offs
+- Don't mirror SQL normalized schemas 1:1
+- Don't skip indexes because "Mongo is fast"

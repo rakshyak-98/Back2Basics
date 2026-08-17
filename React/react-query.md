@@ -4,12 +4,18 @@
 
 > Client library for server state — cache, dedupe, refetch, and mutate with one `QueryClient`.
 
-
-
-
+```txt
+        react-query (TanSt ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers separate server state vs client UI state and ask when Context, Redux, or a small store is the right tool.
+- **Interview probes:** Interviewers separate server state vs client UI state and ask when Context, R…
 
 ## Sources
 - [Wikipedia — react-query](https://en.wikipedia.org/wiki/react-query) — overview
@@ -46,14 +52,6 @@ function Todos() {
 | `staleTime` | Stops refetch storms on focus/mount |
 | Persist plugin | Survive soft reload (still client-side) |
 
-## Real-World Applications
-Apply react-query (TanStack Query) in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **No shared server data** — plain `useEffect` + fetch may suffice for one-off.
-- **Con / skip when:** **Offline-first local DB** — IndexedDB/SQLite sync layer, not Query alone.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,5 +61,13 @@ Apply react-query (TanStack Query) in feature code where the Key Concepts match;
 | Duplicate network calls | Different keys / no shared client | One `QueryClientProvider`; normalize keys |
 | Mutation UI stale | No invalidate | `invalidateQueries` / `setQueryData` |
 
-- **Not a backend cache** — RAM only unless persisted; hard refresh destroys it.
-- **Don’t put client UI flags in Query** — modals/toggles belong in React state.
+- **Mistake:** **Not a backend cache**
+- **Mistake:** **Don’t put client UI flags in Query**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **No shared server data**
+- **Con / skip when:** **Offline-first local DB**
+
+## Real-World Applications
+- **Scenario:** Apply react-query (TanStack Query) in feature code where the Key Concepts mat…

@@ -4,12 +4,18 @@
 
 > Outbound IP is the address the internet sees when you call out — often a NAT or load-balancer IP, not your private NIC.
 
-
-
-
+```txt
+        outbound ip ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask this to see if you know inbound and outbound addresses can differ, and that partner firewalls allowlist the SNAT/egress IP — not the private instance address or the public ALB hostname’s A record alone.
+- **Interview probes:** Interviewers ask this to see if you know inbound and outbound addresses can d…
 
 ## Sources
 - [AWS — NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) — deep-dive
@@ -62,10 +68,11 @@ curl -4 https://ifconfig.me
 | Intermittent allowlist fails | Multi-AZ NAT pool | Whitelist entire egress set |
 | Inbound DNS OK, outbound blocked | Confused inbound vs outbound IP | Separate LB address from NAT address in docs |
 
-## Real-World Applications
-SaaS webhooks, bank APIs, and partner firewalls that only accept traffic from known source IPs.
-
-**Example:** Production workers sit behind a NAT Gateway with reserved Elastic IPs; the partner’s ACL lists those EIPs, not the Autoscale group’s changing private addresses.
+## Mistakes to Avoid
+- **Mistake:** Treating inbound ≠ outbound as the same address
+- **Mistake:** Assuming instance metadata’s public IP is egress
+- **Mistake:** Hard-coding egress in clients
+- **Mistake:** Using IP allowlist as the only authentication
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One (or few) stable IPs for allowlists and audit logs.
@@ -74,12 +81,12 @@ SaaS webhooks, bank APIs, and partner firewalls that only accept traffic from kn
 - **Con:** IP allowlist alone is weak authentication — stealable and shared.
 
 ## Comparison
-- vs inbound / LB address: clients hit the ALB/NLB; your SNAT address for outbound can be a different EIP.
+- vs inbound / LB address: clients hit the ALB/NLB
 - vs [[Egress traffic]]: egress is the flow and path; outbound IP is the rewritten source identity.
-- vs [[network gateway]]: gateway is the next hop; outbound IP is what appears after that hop NATs you.
+- vs [[network gateway]]: gateway is the next hop
 
-## Mistakes to Avoid
-- Treating inbound ≠ outbound as the same address — public ALB/NLB is not automatically your SNAT address.
-- Assuming instance metadata’s public IP is egress — routing may force a NAT.
-- Hard-coding egress in clients — discover via configuration/operations, not compile-time constants.
-- Using IP allowlist as the only authentication — prefer tokens and mutual TLS alongside it.
+
+### Use cases
+- SaaS webhooks, bank APIs, and partner firewalls that only accept traffic from…
+
+- **Example:** Production workers sit behind a NAT Gateway with reserved Elasti…

@@ -4,12 +4,18 @@
 
 > Parent and children components share implicit state (often Context) for a flexible API.
 
-
-
-
+```txt
+        Compound Component ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
+- **Interview probes:** Interviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Compound Components docs](https://react.dev/learn/passing-data-deeply-with-context) — deep-dive
@@ -20,10 +26,11 @@ Interviewers ask which composition pattern fits the API you want — and what br
 - **Keep for APIs:** compound components / providers when the JSX API matters.
 
 ## Technical Details
-See also sibling notes under `React Pattern/` and [[React design patterns]].
+- See also sibling notes under `React Pattern/` and [[React design patterns]].
 
-## Real-World Applications
-Reach for Compound Components when the component API needs that composition style; otherwise prefer hooks.
+## Mistakes to Avoid
+- **Mistake:** Introducing HOCs in greenfield 2026 code without a library const…
+- **Mistake:** Provider for high-frequency changing values
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared vocabulary in code reviews.
@@ -32,6 +39,6 @@ Reach for Compound Components when the component API needs that composition styl
 ## Comparison
 - vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
 
-## Mistakes to Avoid
-- Introducing HOCs in greenfield 2026 code without a library constraint.
-- Provider for high-frequency changing values.
+
+### Use cases
+- Reach for Compound Components when the component API needs that composition s…

@@ -4,27 +4,34 @@
 
 > true OS threads inside one Node process for CPU-heavy work — share memory optionally via `SharedArrayBuffer`; don't replace cluster for HTTP scaling.
 
-
-
-
+```txt
+        Node.js Worker Thr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Node.js Worker Threads** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Node.js Worker Threads** to see if you understand what i…
 
 ## Sources
 - [Node.js — Worker threads](https://nodejs.org/api/worker_threads.html) — deep-dive
 - [Wikipedia — worker threads](https://en.wikipedia.org/wiki/worker_threads) — overview
 
-## Core Definition
-Worker threads run JavaScript (or wasm) **in parallel** with the main thread's event loop. Message passing is default; shared memory is opt-in.
-
 ## Key Concepts
-- Worker threads run JavaScript (or wasm) **in parallel** with the main thread's event loop. Message passing is default; shared memory is opt-in.
-- Unlike [[clustering]] (multi-process), workers share the same process address space (with isolated JS heaps unless shared buffers).
-- Browser analogue: Web Workers — but Node workers are heavier and can access some Node APIs (`fs`, `crypto` in worker).
+- **Worker threads:** Worker threads run JavaScript (or wasm) **in parallel** with the main thread'…
+- **Unlike [[clustering]]:** Unlike [[clustering]] (multi-process), workers share the same process address…
+- **Browser analogue:** Browser analogue: Web Workers
+
+
+- **Core:** Worker threads run JavaScript (or wasm) **in parallel** with the main thread'…
 
 ## Technical Details
-Worker threads run JavaScript (or wasm) **in parallel** with the main thread's event loop. Message passing is default; shared memory is opt-in.
+- Worker threads run JavaScript (or wasm) **in parallel** with the main thread'…
+- Message passing is default; shared memory is opt-in.
 
 ```
 Main thread (event loop)  ←postMessage→  Worker thread(s)
@@ -32,9 +39,9 @@ Main thread (event loop)  ←postMessage→  Worker thread(s)
         └── SharedArrayBuffer + Atomics (optional)
 ```
 
-Unlike [[clustering]] (multi-process), workers share the same process address space (with isolated JS heaps unless shared buffers).
+- Unlike [[clustering]] (multi-process), workers share the same process address…
 
-Browser analogue: Web Workers — but Node workers are heavier and can access some Node APIs (`fs`, `crypto` in worker).
+- Browser analogue: Web Workers
 
 ### Basic worker
 
@@ -111,29 +118,31 @@ const arr = new Int32Array(sab);
 // pass sab to worker; synchronize with Atomics.wait / Atomics.notify
 ```
 
-Requires `--experimental-worker` flags only on very old Node; modern Node is stable. HTTP headers may need `Cross-Origin-Opener-Policy` if serving SAB to browsers — N/A for pure backend.
+- Requires `--experimental-worker` flags only on very old Node
+- HTTP headers may need `Cross-Origin-Opener-Policy` if serving SAB to browsers
 
-## Real-World Applications
-In production APIs and tooling, **worker threads** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`postMessage` clones most objects** — expensive for MB payloads. Use transferable `ArrayBuffer` list; **Not for every `async` function** — thread overhead ~ms; tiny tasks lose.
+## Mistakes to Avoid
+- **Mistake:** **`postMessage` clones most objects**
+- **Mistake:** **Not for every `async` function**
+- **Mistake:** **One crashed worker doesn't kill process**
+- **Mistake:** **Prisma/native DB drivers**
+- **Mistake:** **vs child_process**
+- **Mistake:** **Worker exits immediately:** check Uncaught exception in worker
+- **Mistake:** **Main thread still blocks:** check Heavy work still on main
+- **Mistake:** **Memory doubles:** check Large messages copied
+- **Mistake:** **`ERR_WORKER_OUT_OF_MEMORY`:** check Worker heap limit
+- **Mistake:** **Slower than expected:** check Worker startup cost
+- **Mistake:** **Can't access DOM/db conn:** check By design
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (true OS threads inside one Node process for CPU-heavy work — share memory option…).
-- **Con / when not:** **HTTP request scaling** — use [[clustering]] or horizontal pods.
-- **Con / when not:** **I/O-bound work** — event loop + async I/O is simpler and faster.
-- **Con / when not:** **Untrusted user code** — use separate process/container sandbox, not worker alone.
+- **Con / when not:** **HTTP request scaling**
+- **Con / when not:** **I/O-bound work**
+- **Con / when not:** **Untrusted user code**
 
 ## Comparison
-vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[clustering]]: Workers share process/memory options inside one OS process; cluster forks processes for multi-core HTTP. vs [[child process]]: Child process = separate memory/OS process; worker_threads share some memory via SharedArrayBuffer/MessageChannel.
+- vs [[Event Loop]]: know when each applies
 
-## Mistakes to Avoid
-- **`postMessage` clones most objects** — expensive for MB payloads. Use transferable `ArrayBuffer` list.
-- **Not for every `async` function** — thread overhead ~ms; tiny tasks lose.
-- **One crashed worker doesn't kill process** — handle `error`/`exit`; refork in pool.
-- **Prisma/native DB drivers** — often main-thread only; don't share connections across threads.
-- **vs child_process** — workers lighter than fork; child_process better for isolation (untrusted code).
-- **Worker exits immediately:** check Uncaught exception in worker; fix: `worker.on('error')`; wrap worker bootstrap in try/catch
-- **Main thread still blocks:** check Heavy work still on main; fix: Move computation into worker file entirely
-- **Memory doubles:** check Large messages copied; fix: Transfer ArrayBuffers; use SharedArrayBuffer
-- **`ERR_WORKER_OUT_OF_MEMORY`:** check Worker heap limit; fix: Split work; increase `--max-old-space-size` sparingly
-- **Slower than expected:** check Worker startup cost; fix: Pool workers; amortize over batch
-- **Can't access DOM/db conn:** check By design; fix: Pass serializable data; use connection pool on main
+
+### Use cases
+- In production APIs and tooling, **worker threads** shows up whenever teams sh…

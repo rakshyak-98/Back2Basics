@@ -4,19 +4,22 @@
 
 > Groups bundle users for shared file access and sudo — one primary GID plus optional supplementary memberships.
 
-
-
-
+```txt
+        linux groups ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect primary vs supplementary, `usermod -aG`, session refresh, and why `getent group` can omit users who only have that GID as primary.
+- **Interview probes:** Expect primary vs supplementary, `usermod -aG`, session refresh, and why `get…
 
 ## Sources
 - [group(5)](https://man7.org/linux/man-pages/man5/group.5.html) — deep-dive
 - [credentials(7)](https://man7.org/linux/man-pages/man7/credentials.7.html) — overview
-
-## Core Definition
-`/etc/passwd` stores each user’s **primary GID**. `/etc/group` lists supplementary members. Effective DAC access is owner | group | other (plus ACLs). New files inherit the creating process’s primary group unless setgid/ACL says otherwise.
 
 ## Key Concepts
 - **Primary GID:** Default group for new files.
@@ -24,6 +27,9 @@ Expect primary vs supplementary, `usermod -aG`, session refresh, and why `getent
 - **`usermod -aG`:** Append — `-G` alone replaces the whole set.
 - **Session credentials:** Group changes apply after re-login / `newgrp` / service restart.
 - **No nested groups:** Linux groups don’t contain groups.
+
+
+- **Core:** `/etc/passwd` stores each user’s **primary GID**
 
 ## Technical Details
 ```txt
@@ -56,8 +62,10 @@ newgrp developers
 | `getent group` missing user | Primary-only membership | Check `id -gn` / `getent passwd` |
 | File group wrong | Primary vs setgid dir | `chgrp`; `chmod g+s` on shared dirs |
 
-## Real-World Applications
-Granting `docker` socket access, shared project dirs with setgid, and sudo via `wheel`/`sudo` group membership.
+## Mistakes to Avoid
+- **Mistake:** `usermod -G` without `-a`
+- **Mistake:** Expecting running daemons to pick up new groups without restart
+- **Mistake:** Assuming `getent group` lists every user with that primary GID
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple shared access model on one host.
@@ -65,9 +73,8 @@ Granting `docker` socket access, shared project dirs with setgid, and sudo via `
 - **Trade-off:** Groups vs ACLs for fine-grained exceptions.
 
 ## Comparison
-vs [[groupadd]]: creates the group object. vs LDAP/SSSD groups: directory-backed membership via NSS. vs Kubernetes RBAC: different identity plane.
+- vs [[groupadd]]: creates the group object
 
-## Mistakes to Avoid
-- `usermod -G` without `-a`.
-- Expecting running daemons to pick up new groups without restart.
-- Assuming `getent group` lists every user with that primary GID.
+
+### Use cases
+- Granting `docker` socket access, shared project dirs with setgid, and sudo vi…

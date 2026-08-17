@@ -4,12 +4,18 @@
 
 > Common Node runtime failures — await/module-mode mistakes, ESM path helpers, and `super()` order in custom errors.
 
-
-
-
+```txt
+        Runtime Errors ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Runtime Errors** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Top-level await**, **`import.meta.url`**, **`super()` first**.
+- **Interview probes:** Interviewers use **Runtime Errors** to check whether you can explain the mech…
 
 ## Sources
 - [Wikipedia — Runtime Errors](https://en.wikipedia.org/wiki/Runtime_Errors) — overview
@@ -48,20 +54,21 @@ class AppError extends Error {
 | `__dirname is not defined` | ESM without polyfill |
 | `Must call super constructor…` | `this` before `super()` |
 
-## Real-World Applications
-In production APIs and tooling, **Runtime Errors** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Mixing CJS require of ESM** — `ERR_REQUIRE_ESM`; use dynamic `import()`; **Deploy sudo prompts** — non-interactive shells can’t type passwords.
+## Mistakes to Avoid
+- **Mistake:** **Mixing CJS require of ESM**
+- **Mistake:** **Deploy sudo prompts**
+- **Mistake:** **await at top fails:** check `"type"` / extension
+- **Mistake:** **`__dirname` crash:** check ESM file
+- **Mistake:** **Error subclass throws:** check ctor order
+- **Mistake:** **sudo needs TTY:** check CI `sudo nginx -t`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Common Node runtime failures — await/module-mode mistakes, ESM path helpers, and…).
-- **Con / when not:** This is a **symptom catalog** — for intentional error design see [[Error handeling]].
+- **Con / when not:** This is a **symptom catalog**
 
 ## Comparison
-vs [[Error handeling]]: know when each applies — do not treat them as interchangeable. vs [[node modules]]: know when each applies — do not treat them as interchangeable. vs [[node error]]: know when each applies — do not treat them as interchangeable.
+- vs [[Error handeling]]: know when each applies
 
-## Mistakes to Avoid
-- **Mixing CJS require of ESM** — `ERR_REQUIRE_ESM`; use dynamic `import()`.
-- **Deploy sudo prompts** — non-interactive shells can’t type passwords.
-- **await at top fails:** check `"type"` / extension; fix: Use ESM or wrap async main
-- **`__dirname` crash:** check ESM file; fix: `fileURLToPath(import.meta.url)`
-- **Error subclass throws:** check ctor order; fix: `super` then `this`
-- **sudo needs TTY:** check CI `sudo nginx -t`; fix: NOPASSWD or non-interactive `-S`
+
+### Use cases
+- In production APIs and tooling, **Runtime Errors** shows up whenever teams sh…

@@ -4,12 +4,18 @@
 
 > MySQL pluggable storage engine layer—**InnoDB** is the default and production choice for transactional [[ACID]] workloads; others serve niche roles.
 
-
-
-
+```txt
+        mysql engine ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Engine choice questions expect InnoDB as default, awareness of MEMORY/MyISAM niches, and what InnoDB provides (row locks, MVCC, redo). “Which ENGINE=?” is a classic junior→mid filter.
+- **Interview probes:** Engine choice questions expect InnoDB as default, awareness of MEMORY/MyISAM …
 
 ## Sources
 - [MySQL Reference Manual — InnoDB Introduction](https://dev.mysql.com/doc/refman/en/innodb-introduction.html) — deep-dive
@@ -18,10 +24,10 @@ Engine choice questions expect InnoDB as default, awareness of MEMORY/MyISAM nic
 ## Key Concepts
 - **Pluggable engines:** per-table `ENGINE=` selects implementation.
 - **InnoDB default:** row-level locking, [[MVCC]], foreign keys, clustered PK, redo/undo.
-- **Niche engines:** [[memory engine]], MyISAM (legacy), ARCHIVE — know they exist; avoid for new durable OLTP.
+- **Niche engines:** [[memory engine]], MyISAM (legacy), ARCHIVE
 
 ## Technical Details
-InnoDB (default):
+- InnoDB (default):
 
 - Row-level locking, [[MVCC]], foreign keys
 - Clustered primary key, redo/undo logs
@@ -38,17 +44,18 @@ SHOW ENGINES;
 CREATE TABLE t (...) ENGINE=InnoDB;
 ```
 
-## Real-World Applications
-Creating all new application tables as InnoDB and migrating leftover MyISAM. Example: an old reporting table still on MyISAM causes repair/lock pain—`ALTER TABLE … ENGINE=InnoDB` after backup.
+## Mistakes to Avoid
+- **Mistake:** Creating new MyISAM tables “for speed”
+- **Mistake:** Assuming all engines support foreign keys
+- **Mistake:** Forgetting to specify/verify ENGINE after restores from mixed du…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** InnoDB delivers transactional semantics and crash recovery expected by modern apps.
 - **Con:** Non-InnoDB engines surprise with missing transactions/FKs; mixing engines in one logical design complicates backups and consistency.
 
 ## Comparison
-vs [[MySQL Engines]]: that note is the comparison table hub; this note centers InnoDB as the production default. vs [[memory engine]]: MEMORY is the explicit non-durable alternative.
+- vs [[MySQL Engines]]: that note is the comparison table hub
 
-## Mistakes to Avoid
-- Creating new MyISAM tables “for speed” — lose transactions and crash safety.
-- Assuming all engines support foreign keys.
-- Forgetting to specify/verify ENGINE after restores from mixed dumps.
+
+### Use cases
+- Creating all new application tables as InnoDB and migrating leftover MyISAM

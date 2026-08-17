@@ -4,12 +4,18 @@
 
 > A CMS lets editors create, review, and publish structured content — headless systems expose JSON APIs while frontends own presentation.
 
-
-
-
+```txt
+        CMS (Content Manag ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/preview auth separation from production keys.
+- **Interview probes:** Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/pr…
 
 ## Sources
 - Strapi / Directus documentation — headless content modeling — overview
@@ -46,7 +52,8 @@ CMS publish → POST /internal/revalidate { slug }
 → delete Redis keys + CDN purge
 ```
 
-RBAC: author/editor/publisher. Separate preview credentials ([[Authentication web application]]).
+- RBAC: author/editor/publisher.
+- Separate preview credentials ([[Authentication web application]]).
 
 | Symptom | Direction |
 |---------|-----------|
@@ -54,8 +61,10 @@ RBAC: author/editor/publisher. Separate preview credentials ([[Authentication we
 | Draft public | Filter misconfiguration |
 | Slow editor | Direct upload to object storage |
 
-## Real-World Applications
-Streaming title metadata, marketing sites, and multi-channel product catalogs.
+## Mistakes to Avoid
+- **Mistake:** Hot-path clients hitting raw CMS instead of BFF/edge cache
+- **Mistake:** Same API keys for preview and production
+- **No purge webhook::** → editors “publish” into stale CDN
 
 ## Pros/Cons or Trade-offs
 - **Headless pro:** channel flexibility; **con:** more moving parts.
@@ -63,10 +72,9 @@ Streaming title metadata, marketing sites, and multi-channel product catalogs.
 - **Trade-off:** CMS vs Markdown-in-git ([[KISS]] for tiny blogs).
 
 ## Comparison
-- vs [[IM (Information Management) production systems]]: broadcast MAM is specialized CMS for media ops.
+- vs [[IM (Information Management) production systems]]: broadcast MAM is specialized CMS for media…
 - vs static generators: git content vs editorial workflows.
 
-## Mistakes to Avoid
-- Hot-path clients hitting raw CMS instead of BFF/edge cache.
-- Same API keys for preview and production.
-- No purge webhook → editors “publish” into stale CDN.
+
+### Use cases
+- Streaming title metadata, marketing sites, and multi-channel product catalogs.

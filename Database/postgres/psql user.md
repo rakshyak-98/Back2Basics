@@ -4,12 +4,18 @@
 
 > PostgreSQL roles (`CREATE ROLE`) — login users and groups with passwords, connection limits, and membership hierarchies.
 
-
-
-
+```txt
+        psql user ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Postgres treats users and groups as roles. Expect `LOGIN`/`NOLOGIN`, `GRANT role TO role`, and least-privilege bootstrap for apps.
+- **Interview probes:** Postgres treats users and groups as roles
 
 ## Sources
 - [Database Roles](https://www.postgresql.org/docs/current/user-manag.html) — overview
@@ -35,8 +41,10 @@ GRANT app_read TO human_user;
 SELECT rolname, rolcanlogin FROM pg_roles;
 ```
 
-## Real-World Applications
-`app_write` / `app_read` group roles; CI owns DDL; humans inherit read roles via IdP-provisioned roles where integrated.
+## Mistakes to Avoid
+- **Mistake:** Application login as a superuser role
+- **Mistake:** Forgetting `CONNECT` / schema `USAGE` after creating a login role
+- **Mistake:** Sharing one powerful role across many services
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One abstraction for users and groups; clean role graphs.
@@ -44,9 +52,8 @@ SELECT rolname, rolcanlogin FROM pg_roles;
 - **Trade-off:** Password roles vs peer/cert/IAM auth in managed Postgres.
 
 ## Comparison
-vs [[mysql user]]: MySQL `user`@`host` vs Postgres roles; both support role bundles, but catalogs and host matching differ.
+- vs [[mysql user]]: MySQL `user`@`host` vs Postgres roles
 
-## Mistakes to Avoid
-- Application login as a superuser role.
-- Forgetting `CONNECT` / schema `USAGE` after creating a login role.
-- Sharing one powerful role across many services.
+
+### Use cases
+- `app_write` / `app_read` group roles
