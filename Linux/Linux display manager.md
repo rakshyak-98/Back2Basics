@@ -4,19 +4,22 @@
 
 > A display manager (DM) shows the graphical login greeter and starts the user’s X11 or Wayland session after authentication.
 
-
-
-
+```txt
+        Linux display mana ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Graphical login troubleshooting: GDM/SDDM/LightDM, PAM auth, session `.desktop` files, and escaping a login loop via TTY when the greeter starts but the session dies.
+- **Interview probes:** Graphical login troubleshooting: GDM/SDDM/LightDM, PAM auth, session `.deskto…
 
 ## Sources
 - [Arch Wiki — Display manager](https://wiki.archlinux.org/title/Display_manager) — overview
 - `man 8 gdm` (and distro DM docs) — deep-dive
-
-## Core Definition
-Examples: **GDM** (GNOME), **SDDM** (KDE), **LightDM** (generic). The DM runs privileged, authenticates via PAM, then execs the session from `/usr/share/xsessions/*.desktop` or `/usr/share/wayland-sessions/`.
 
 ## Key Concepts
 - **Greeter → session:** UI for user/password (or other PAM) then session start.
@@ -24,6 +27,9 @@ Examples: **GDM** (GNOME), **SDDM** (KDE), **LightDM** (generic). The DM runs pr
 - **X11 vs Wayland choice:** Often a menu on the greeter.
 - **TTY fallback:** `Ctrl+Alt+F3` bypasses a broken graphics stack.
 - **Logs:** `journalctl -u gdm` (or sddm/lightdm) plus `~/.xsession-errors`.
+
+
+- **Core:** Examples: **GDM** (GNOME), **SDDM** (KDE), **LightDM** (generic)
 
 ## Technical Details
 ```bash
@@ -46,19 +52,20 @@ Exec=gnome-session
 | Wrong WM starts | Default session in DM config or `~/.dmrc` |
 | Autostart crash | Rename `~/.config/autostart` temporarily |
 
-Text login alternative: TTY (`Ctrl+Alt+F3`), then `startx` or `dbus-run-session gnome-session`.
+- Text login alternative: TTY (`Ctrl+Alt+F3`), then `startx` or `dbus-run-sessi…
 
-## Real-World Applications
-After a GPU driver update, GDM loops back to the greeter: switch to TTY, inspect `journalctl -u gdm`, force an X11 session once, then fix the Wayland/DRM issue.
+## Mistakes to Avoid
+- **Mistake:** Debugging only the WM when the session never starts (DM/PAM fail…
+- **Mistake:** Deleting session `.desktop` files instead of fixing `Exec=` paths
+- **Mistake:** Forgetting autostart apps as a cause of instant logout loops
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Consistent graphical login, session selection, and PAM integration.
 - **Con:** Extra moving part — a broken greeter can hide a healthy multi-user.target; TTY knowledge still required.
 
 ## Comparison
-vs [[login shell]]: DM starts a graphical session; getty + shell is text login. vs [[Linux window manager]]: DM selects and launches the session that contains the WM/compositor. vs [[display server]]: DM starts it; the display server then serves clients.
+- vs [[login shell]]: DM starts a graphical session
 
-## Mistakes to Avoid
-- Debugging only the WM when the session never starts (DM/PAM failure).
-- Deleting session `.desktop` files instead of fixing `Exec=` paths.
-- Forgetting autostart apps as a cause of instant logout loops.
+
+### Use cases
+- After a GPU driver update, GDM loops back to the greeter: switch to TTY, insp…

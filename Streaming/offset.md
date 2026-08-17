@@ -4,20 +4,26 @@
 
 > An offset is how far you move from a known start — bytes in a file, or time from a timeline base in live DASH/HLS.
 
-
-
-
+```txt
+        offset ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk offset end-to-end — not just name it. Signal fluency with **Byte offset**, **presentationTimeOffset**, **suggestedPresentationDelay**, **Range request** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk offset end-to-end
 
 ## Sources
 - [Wikipedia — offset](https://en.wikipedia.org/wiki/offset) — overview
 
 ## Key Concepts
-- **Byte offset:** Bytes from start of file/object — “We seek to offset 1024 in the segment file.”
-- **presentationTimeOffset:** DASH time shift on a Representation — “PTO aligns segment timeline to the Period.”
-- **suggestedPresentationDelay:** How far behind live edge to play — “We sit a few seconds off the edge for stability.”
+- **Byte offset:** Bytes from start of file/object
+- **presentationTimeOffset:** DASH time shift on a Representation
+- **suggestedPresentationDelay:** How far behind live edge to play
 - **Range request:** HTTP partial GET by bytes — “CDN serves bytes=start-end from the object.”
 - **Index / element offset:** Position in an array (not bytes) — “Don’t confuse index 3 with byte 3.”
 - **Base + offset addressing:** Classic pointer math — “Effective address = base register + offset.”
@@ -86,15 +92,6 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 | Timescale units | Off-by-factor bugs look like random drift |
 | 0-based vs 1-based indexes | API docs lie; verify with a hex dump |
 
-## Real-World Applications
-Used wherever offset sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **“Offset” as a substitute for a real timestamp API** — prefer PTS/DTS or media time in player code.
-- **Con / skip when:** **Hand-computing PTO in production** — let the packager own timeline math.
-- **Con / skip when:** **Byte offsets into encrypted samples without cleartext maps** — use container indexes the DRM stack expects.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,7 +103,16 @@ Used wherever offset sits in an ingest → package → CDN → player path. Conc
 | Parser reads garbage | Used element index as byte offset | Multiply by element size / use bytes |
 | Multi-period splice glitch | Offset between Periods | Set explicit Period `@start` |
 
-- **Index ≠ byte offset** — `arr[3]` is the fourth element; file offset 3 is the fourth **byte**.
-- **Timescale math** — `presentationTimeOffset` is in timescale ticks, not wall-clock seconds unless timescale is 1.
-- **Gzip on media + Range** — many stacks break partial content; keep segments identity-encoded.
-- **Signed URLs and Range** — some CDNs require the signature to cover range behavior; test 206 paths.
+- **Mistake:** **Index ≠ byte offset**
+- **Mistake:** **Timescale math**
+- **Mistake:** **Gzip on media + Range**
+- **Mistake:** **Signed URLs and Range**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **“Offset” as a substitute for a real timestamp API**
+- **Con / skip when:** **Hand-computing PTO in production**
+- **Con / skip when:** **Byte offsets into encrypted samples without cleartext …
+
+## Real-World Applications
+- **Scenario:** Used wherever offset sits in an ingest → package → CDN → player path

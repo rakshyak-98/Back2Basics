@@ -4,12 +4,16 @@
 
 > Historical browser plug-in model (1990s–2010s) — **removed from all major browsers** because the security boundary was unsalvageable.
 
-
-
-
+```txt
+        Java applets ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Applets are historical — interviewers may ask why the web moved to JS and WASM instead.
+- **Interview probes:** Applets are historical
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -38,9 +42,6 @@ Applets are historical — interviewers may ask why the web moved to JS and WASM
 4. Audit PCI/SOC controls that assumed applet isolation
 ```
 
-## Pros/Cons or Trade-offs
-- **Always** — for any new feature. Full stop.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Do not recommend applet revival** for any new system — compliance and browser support are zero.
@@ -57,3 +58,6 @@ Applets are historical — interviewers may ask why the web moved to JS and WASM
 | Enterprise site requires Java 6 | Legacy vendor | Escalate vendor rewrite; isolate in Citrix/VDI temp |
 | Security scan flags applet | Compliance | Document decommission; remove HTML embed |
 | Signed jar trust prompts | Old cert chain | Not fixable in browser — replace integration |
+
+## Pros/Cons or Trade-offs
+- **Always** — for any new feature. Full stop.

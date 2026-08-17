@@ -4,19 +4,22 @@
 
 > The stack that turns application draw requests into pixels — display server, compositor, window manager, and toolkit glue.
 
-
-
-
+```txt
+        windowing system ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Layer cake question: DRM/KMS → display server → WM/shell → toolkit — and whether Wayland merges server+compositor.
+- **Interview probes:** Layer cake question: DRM/KMS → display server → WM/shell → toolkit
 
 ## Sources
 - [Freedesktop.org — Desktop](https://www.freedesktop.org/wiki/) — overview
 - [Wayland architecture overview](https://wayland.freedesktop.org/architecture.html) — deep-dive
-
-## Core Definition
-On Linux this usually means a Wayland compositor *or* an X11 server plus window manager, sitting above DRM/KMS and GPU drivers.
 
 ## Key Concepts
 - **Display server:** protocol endpoint ([[display server]]).
@@ -24,6 +27,9 @@ On Linux this usually means a Wayland compositor *or* an X11 server plus window 
 - **Window manager:** focus, tiling, decorations ([[Linux window manager]]).
 - **Display manager:** login greeter ([[Linux display manager]]).
 - **Stacking vs tiling:** floating DE shells vs i3/Sway layouts.
+
+
+- **Core:** On Linux this usually means a Wayland compositor *or* an X11 server plus wind…
 
 ## Technical Details
 ```
@@ -43,11 +49,12 @@ GPU driver + DRM
 | Window manager | Focus, tiling, decorations | [[Linux window manager]] |
 | Display manager | Login greeter | [[Linux display manager]] |
 
-- **Stacking** (GNOME, KDE): floating windows, task switcher.
-- **Tiling** (i3, Sway): automatic layout — [[i3 Window Manager Starter Guide]].
+- **Stacking:** (GNOME, KDE): floating windows, task switcher.
+- **Tiling:** (i3, Sway): automatic layout — [[i3 Window Manager Starter Guide]].
 
-## Real-World Applications
-Pick Sway/i3 for keyboard-driven tiling on laptops, or GNOME/KDE when you need a full desktop shell and portal ecosystem.
+## Mistakes to Avoid
+- **Mistake:** Treating “windowing system,” “display server,” and “WM” as synon…
+- **Mistake:** Debugging the wrong layer (toolkit bug blamed on the compositor)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear separation of concerns (especially on X11) aids debugging.
@@ -57,6 +64,6 @@ Pick Sway/i3 for keyboard-driven tiling on laptops, or GNOME/KDE when you need a
 - vs [[display server]]: one layer of this stack.
 - vs [[windowing system]] siblings [[x11]]/[[wayland]]: concrete protocols under this umbrella.
 
-## Mistakes to Avoid
-- Treating “windowing system,” “display server,” and “WM” as synonyms in interviews.
-- Debugging the wrong layer (toolkit bug blamed on the compositor).
+
+### Use cases
+- Pick Sway/i3 for keyboard-driven tiling on laptops, or GNOME/KDE when you nee…

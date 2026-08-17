@@ -4,12 +4,18 @@
 
 > A stateless service treats each request as independent — context travels with the call (tokens, cursors, headers) so any replica can handle it and restarts do not strand in-memory session maps.
 
-
-
-
+```txt
+        stateless ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Externalize state for horizontal scale; contrast WebSocket connection affinity with stateless handlers; limits of “stateless JWT auth.”
+- **Interview probes:** Externalize state for horizontal scale
 
 ## Sources
 - Twelve-Factor App — “VI. Processes” — overview
@@ -39,7 +45,10 @@ Last-Event-ID: 42
 Authorization: Bearer <token>
 ```
 
-Sign opaque cursors (HMAC). External session store when needed — Redis, not local `Map`. WebSockets: shared pub/sub ([[Real-time Subscription]]) or resume tokens ([[stateless offset handling]]). JWT revocation still needs short TTL or denylist ([[Authentication web application]]).
+- Sign opaque cursors (HMAC).
+- External session store when needed — Redis, not local `Map`.
+- WebSockets: shared pub/sub ([[Real-time Subscription]]) or resume tokens ([[s…
+- JWT revocation still needs short TTL or denylist ([[Authentication web applic…
 
 | Symptom | Direction |
 |---------|-----------|
@@ -48,8 +57,10 @@ Sign opaque cursors (HMAC). External session store when needed — Redis, not lo
 | Dup/skipped pages | Fix cursor semantics |
 | Tampered page token | HMAC validate |
 
-## Real-World Applications
-Stateless API fleets behind LBs, mobile feeds with cursors, and twelve-factor web services.
+## Mistakes to Avoid
+- **Mistake:** Calling JWT auth fully stateless while ignoring revocation
+- **Mistake:** Keeping the only subscriber registry in one pod’s memory
+- **Mistake:** Unsigned cursors clients can forge
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Easy horizontal scale and rolling deploys.
@@ -60,7 +71,6 @@ Stateless API fleets behind LBs, mobile feeds with cursors, and twelve-factor we
 - vs sticky sessions: affinity hides local state; brittle under failover.
 - vs [[Horizontal vs Vertical Scaling]]: stateless unlocks horizontal app tier scale.
 
-## Mistakes to Avoid
-- Calling JWT auth fully stateless while ignoring revocation.
-- Keeping the only subscriber registry in one pod’s memory.
-- Unsigned cursors clients can forge.
+
+### Use cases
+- Stateless API fleets behind LBs, mobile feeds with cursors, and twelve-factor…

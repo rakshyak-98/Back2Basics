@@ -4,12 +4,18 @@
 
 > Two-sided marketplace: buyers and sellers share catalog and checkout — hard parts are inventory races, payments, payouts, and trust — not CRUD screens.
 
-
-
-
+```txt
+        Marketplace app ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Staff interviews probe double-sale prevention, webhook idempotency, payout vs chargeback windows, and explicit order state machines.
+- **Interview probes:** Staff interviews probe double-sale prevention, webhook idempotency, payout vs…
 
 ## Sources
 - [Stripe — Webhooks best practices](https://stripe.com/docs/webhooks/best-practices) — deep-dive
@@ -29,7 +35,7 @@ Seller ──► Listing/Inventory ───────────────
 Trust: identity, reviews, escrow · Money: splits, fees, refunds
 ```
 
-Order states (minimum):
+- Order states (minimum):
 
 ```txt
 created → payment_pending → paid → fulfilled → completed
@@ -43,10 +49,10 @@ SET reserved = reserved + :qty
 WHERE sku = :sku AND on_hand - reserved >= :qty;
 ```
 
-## Real-World Applications
-Checkout reserves stock, creates payment intent, webhook marks paid and emits `OrderPaid` via outbox; payout job settles sellers after the chargeback window.
-
-**Example:** Two buyers hit the last unit — reservation `WHERE` clause ensures only one hold succeeds.
+## Mistakes to Avoid
+- **Mistake:** Decrementing stock only in the UI without a transactional reserv…
+- **Mistake:** Trusting webhooks without signature checks and idempotency keys
+- **Mistake:** Paying sellers before chargeback/dispute windows close without a…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Explicit states make support and disputes workable.
@@ -54,9 +60,10 @@ Checkout reserves stock, creates payment intent, webhook marks paid and emits `O
 
 ## Comparison
 - vs single-vendor ecommerce: marketplace adds seller payouts, KYC, and abuse surfaces.
-- vs [[ecommerce-platform-architecture]]: marketplace is the product shape on top of platform patterns.
+- vs [[ecommerce-platform-architecture]]: marketplace is the product shape on top of platform patte…
 
-## Mistakes to Avoid
-- Decrementing stock only in the UI without a transactional reservation.
-- Trusting webhooks without signature checks and idempotency keys.
-- Paying sellers before chargeback/dispute windows close without a ledger plan.
+
+### Use cases
+- Checkout reserves stock, creates payment intent, webhook marks paid and emits…
+
+- **Example:** Two buyers hit the last unit

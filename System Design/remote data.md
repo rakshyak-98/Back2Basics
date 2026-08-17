@@ -4,12 +4,18 @@
 
 > Remote data — state that lives on another machine; every read/write is a network call with failure, lag, and versioning.
 
-
-
-
+```txt
+        remote data ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Every remote read is a distributed call: timeouts, caching, partial failure.
+- **Interview probes:** Every remote read is a distributed call: timeouts, caching, partial failure.
 
 ## Sources
 - [Wikipedia — remote data](https://en.wikipedia.org/wiki/remote_data) — overview
@@ -35,8 +41,6 @@ UI local cache  ←get/put→  API  ←→  DB
 | Freshness | TTL, ETag, subscriptions |
 | Auth | Tokens per request |
 
----
-
 
 ### Configuration and commands
 
@@ -52,27 +56,6 @@ type Remote<T> =
   | { status: 'error'; error: Error }
   | { status: 'success'; data: T; fetchedAt: number }
 ```
-
----
-
-## Real-World Applications
-Mobile/web clients, microservices fetching dependencies, and multi-region reads.
-
-## Pros/Cons or Trade-offs
-- **Fully local apps** — embedded DB.
-- **Secrets in client-visible remote configs** — server-only.
-- **Huge binary blobs in JSON APIs** — object storage URLs.
-
----
-
-
-- **Pro:** Specialization and independent scale of data owners.
-- **Con:** Latency and consistency complexity.
-- **Trade-off:** chatty remote reads vs BFF aggregation.
-
-## Comparison
-- vs local memory: no shared heap; need protocols.
-- vs [[Data fetching Frontend]]: UI-specific fetch/cache patterns for remote APIs.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -95,3 +78,23 @@ Mobile/web clients, microservices fetching dependencies, and multi-region reads.
 | Wrong tenant data | Cache key | Include tenant in key |
 
 ---
+
+## Pros/Cons or Trade-offs
+- **Fully local apps** — embedded DB.
+- **Secrets in client-visible remote configs** — server-only.
+- **Huge binary blobs in JSON APIs** — object storage URLs.
+
+---
+
+
+- **Pro:** Specialization and independent scale of data owners.
+- **Con:** Latency and consistency complexity.
+- **Trade-off:** chatty remote reads vs BFF aggregation.
+
+## Comparison
+- vs local memory: no shared heap; need protocols.
+- vs [[Data fetching Frontend]]: UI-specific fetch/cache patterns for remote APIs.
+
+
+### Use cases
+- Mobile/web clients, microservices fetching dependencies, and multi-region rea…

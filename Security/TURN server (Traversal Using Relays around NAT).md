@@ -4,25 +4,25 @@
 
 > TURN relays media through a server when two peers cannot punch through NATs — last resort path, not the first try.
 
-
-
-
+```txt
+        TURN server (Trave ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-WebRTC interviews: TURN is the relay fallback when ICE cannot find a direct path — cost, auth, and bandwidth matter.
+- **Interview probes:** WebRTC interviews: TURN is the relay fallback when ICE cannot find a direct p…
 
 ## Sources
 - [RFC 8656 — TURN](https://www.rfc-editor.org/rfc/rfc8656) — deep-dive
 - [RFC 8489 — STUN](https://www.rfc-editor.org/rfc/rfc8489) — overview
 
-## Core Definition
-TURN relays media through a server when peers cannot punch through NATs; ICE tries direct/STUN paths first and TURN last.
-
-## Recall Cues
-- Why do interviewers care about WebRTC interviews: TURN is the relay fallback when ICE cannot find a direct path — cost, auth, and bandwidth matter?
-- What mistake is **TURN is not signaling — signaling swaps SDP; TURN only relays media/data after ICE picks it**?
-- What mistake is **Long-lived passwords in JS — anyone can drain your bandwidth. Issue short-lived credentials from your API**?
-- What mistake is **Capacity — plan for worst-case simultaneous relay bitrate × users who need it**?
+## Key Concepts
+- **Core:** TURN relays media through a server when peers cannot punch through NATs
 
 ## Technical Details
 ```js
@@ -40,7 +40,7 @@ const pc = new RTCPeerConnection({
 })
 ```
 
-operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limited credentials, monitor relay bandwidth.
+- operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-l…
 
 ### Failure signals
 
@@ -53,18 +53,19 @@ operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limi
 | One-way audio on TURN | Permissions / channel bind | Check peer reflexive addresses allowed |
 
 ## Mistakes to Avoid
-- TURN is not signaling — signaling swaps SDP; TURN only relays media/data after ICE picks it.
-- Long-lived passwords in JS — anyone can drain your bandwidth. Issue short-lived credentials from your API.
-- Capacity — plan for worst-case simultaneous relay bitrate × users who need it.
-
-## Comparison
-- vs [[STUN (Session Traversal Utilities for NAT)]]: relay vs address discovery.
-- vs hosting media SFU: TURN is a packet relay for ICE; SFUs are application media servers.
-
-## Real-World Applications
-Corporate firewalls that block UDP P2P force WebRTC calls through a TURN relay with time-limited credentials.
+- **Mistake:** TURN is not signaling
+- **Mistake:** Long-lived passwords in JS
+- **Mistake:** Capacity
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Calls still connect when symmetric NATs/firewalls block direct paths.
 - **Con:** Same LAN / open UDP — host or STUN paths are enough; skip TURN cost.
 - **Con:** Server-centric apps — client↔your HTTPS API needs no TURN.
+
+## Comparison
+- vs [[STUN (Session Traversal Utilities for NAT)]]: relay vs address discovery.
+- vs hosting media SFU: TURN is a packet relay for ICE; SFUs are application media servers.
+
+
+### Use cases
+- Corporate firewalls that block UDP P2P force WebRTC calls through a TURN rela…

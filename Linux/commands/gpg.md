@@ -2,21 +2,24 @@
 
 # gpg
 
-> 	gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
+> gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
 
-
-
-
+```txt
+        gpg ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Know encrypt vs sign, armor, fingerprint verification for apt keyrings, and never emailing private keys.
+- **Interview probes:** Know encrypt vs sign, armor, fingerprint verification for apt keyrings, and n…
 
 ## Sources
 - [GnuPG Handbook](https://www.gnupg.org/gph/en/manual.html) — deep-dive
 - [gpg(1)](https://man.archlinux.org/man/gpg.1) — overview
-
-## Core Definition
-OpenPGP operations on a keyring: encrypt to a recipient’s public key, decrypt with your private key, detach-sign/verify. For apt, vendor keys live under `/etc/apt/keyrings` with `signed-by=` — not the old global `trusted.gpg` kitchen sink.
 
 ## Key Concepts
 - **Public vs private:** Publish/export public; guard private.
@@ -24,6 +27,9 @@ OpenPGP operations on a keyring: encrypt to a recipient’s public key, decrypt 
 - **Fingerprint:** Out-of-band identity check before trust.
 - **Detach sign:** Signature file beside the artifact.
 - **Revocation:** Publish revoke if private key is lost/compromised.
+
+
+- **Core:** OpenPGP operations on a keyring: encrypt to a recipient’s public key, decrypt…
 
 ## Technical Details
 ```bash
@@ -56,8 +62,10 @@ curl -fsSL https://example.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/exa
 | Git signing fails | `user.signingkey` | List secret keys; fix git config |
 | Trust warning | Ultimate/unknown trust | `gpg --edit-key` trust; or explicit verify |
 
-## Real-World Applications
-Signing Git commits, verifying vendor release signatures, and installing a third-party apt keyring with fingerprint check.
+## Mistakes to Avoid
+- **Mistake:** Emailing or committing private key armor
+- **Mistake:** Skipping fingerprint checks when adding apt keys
+- **Mistake:** Deleting `~/.gnupg` without revocation if the key was published
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Standard OpenPGP tool; works offline; apt integration pattern is clear.
@@ -65,9 +73,8 @@ Signing Git commits, verifying vendor release signatures, and installing a third
 - **Trade-off:** Long-lived personal keys vs short-lived signing certs where available.
 
 ## Comparison
-vs [[Authentication command]] SSH keys: different protocols. vs apt [[keyrings]]: GPG is the tool that produces those keyring files. vs TLS/ACME: transport PKI, not OpenPGP.
+- vs [[Authentication command]] SSH keys: different protocols
 
-## Mistakes to Avoid
-- Emailing or committing private key armor.
-- Skipping fingerprint checks when adding apt keys.
-- Deleting `~/.gnupg` without revocation if the key was published.
+
+### Use cases
+- Signing Git commits, verifying vendor release signatures, and installing a th…

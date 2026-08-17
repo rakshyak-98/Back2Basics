@@ -4,12 +4,18 @@
 
 > Registered media types are the IANA catalog of `type/subtype` labels — so HTTP, mail, and APIs agree what `application/json` means.
 
-
-
-
+```txt
+        Registered Media T ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe media types to check registry awareness (`vnd.`, `+json` suffixes, charset) and security instincts (sniffing, trusting client-supplied types on uploads).
+- **Interview probes:** Interviewers probe media types to check registry awareness (`vnd.`, `+json` s…
 
 ## Sources
 - [IANA Media Types Registry](https://www.iana.org/assignments/media-types/media-types.xhtml) — deep-dive
@@ -17,15 +23,15 @@ Interviewers probe media types to check registry awareness (`vnd.`, `+json` suff
 - [RFC 9239 — JavaScript Media Types Updates](https://www.rfc-editor.org/rfc/rfc9239) — overview
 - [MDN — MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types) — overview
 
-## Core Definition
-A registered media type is an IANA-listed `type/subtype` (plus optional parameters) used in `Content-Type` / `Accept` so independent systems interoperate on format meaning. Canonical day-to-day behavior: [[mime type]].
-
 ## Key Concepts
-- **Type:** top-level class — `application`, `text`, `image`, `audio`, `video`, `multipart`.
+- **Type:** top-level class
 - **Subtype:** specific format — `json`, `html`, `octet-stream`, `svg+xml`.
 - **Parameters:** modifiers — `charset`, `boundary` (multipart).
-- **Registration trees:** standards vs vendor (`vnd.`) vs personal — inventing unregistered types hurts interoperability.
-- **Structured suffix:** `+json`, `+xml` — subtype still carries base semantics (e.g. `application/vnd.api+json`).
+- **Registration trees:** standards vs vendor (`vnd.`) vs personal
+- **Structured suffix:** `+json`, `+xml`
+
+
+- **Core:** A registered media type is an IANA-listed `type/subtype` (plus optional param…
 
 ## Technical Details
 ```txt
@@ -33,7 +39,7 @@ Content-Type: application/json; charset=utf-8
 Accept: text/html, application/json;q=0.9
 ```
 
-Wrong type → download instead of render, JSON parse errors, XSS via `text/html` mislabel.
+- Wrong type → download instead of render, JSON parse errors, XSS via `text/htm…
 
 ### Send correct type (Nginx)
 
@@ -61,7 +67,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 ```
 
-**Why `charset=utf-8`:** avoids mojibake on non-ASCII JSON/text; required for proper caching in some CDNs.
+- **Why `charset=utf-8`:** avoids mojibake on non-ASCII JSON/text
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,10 +76,11 @@ X-Content-Type-Options: nosniff
 | CORS preflight oddities | Custom media types trigger preflight | Use standard types; document custom |
 | Android WebView blank | Missing charset | Add `; charset=utf-8` |
 
-## Real-World Applications
-Browsers, APIs, and CDNs branch on registered types for rendering, negotiation, and caching.
-
-**Example:** Nginx serves `.js` as `application/octet-stream` because `mime.types` is incomplete — browsers download instead of executing; add the mapping or set an explicit header.
+## Mistakes to Avoid
+- **Mistake:** Using `text/javascript` when modern guidance prefers `applicatio…
+- **Mistake:** Ignoring `+json` structured suffixes
+- **Mistake:** Trusting client `Content-Type` alone on uploads
+- **Mistake:** Inventing unregistered types without a vendor tree when others m…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared IANA vocabulary — clients and servers agree without bilateral docs for common types.
@@ -81,11 +88,11 @@ Browsers, APIs, and CDNs branch on registered types for rendering, negotiation, 
 - **Con:** Legacy aliases (`text/javascript` vs `application/javascript`) still appear in the wild.
 
 ## Comparison
-- vs [[mime type]]: this note is registry + registration; [[mime type]] covers handlers, sniffing, and ops symptoms.
-- vs inventing `application/x-myformat`: prefer standard types or a documented `vnd.` name if you need interoperability.
+- vs [[mime type]]: this note is registry + registration
+- vs inventing `application/x-myformat`: prefer standard types or a documented `vnd.` name if you n…
 
-## Mistakes to Avoid
-- Using `text/javascript` when modern guidance prefers `application/javascript` (RFC 9239).
-- Ignoring `+json` structured suffixes — `application/vnd.api+json` still has JSON semantics.
-- Trusting client `Content-Type` alone on uploads — validate magic bytes; don’t execute as script.
-- Inventing unregistered types without a vendor tree when others must interoperate.
+
+### Use cases
+- Browsers, APIs, and CDNs branch on registered types for rendering, negotiatio…
+
+- **Example:** Nginx serves `.js` as `application/octet-stream` because `mime.t…

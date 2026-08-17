@@ -4,12 +4,18 @@
 
 > Unbound is a validating recursive DNS resolver designed for security and performance — run it on servers or laptops to cache queries locally, enforce DNSSEC, and forward or recurse without trusting ISP DNS.
 
-
-
-
+```txt
+        Unbound ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect Unbound as the validating recursive choice — access-control hardening, forward vs recurse, and DNSSEC `SERVFAIL` debugging.
+- **Interview probes:** Interviewers expect Unbound as the validating recursive choice
 
 ## Sources
 - [Unbound documentation](https://unbound.docs.nlnetlabs.nl/) — deep-dive
@@ -47,7 +53,7 @@ forward-zone:
   forward-addr: 8.8.8.8@53
 ```
 
-Restrict `access-control` — never open recursion to `0.0.0.0/0` without rate limits.
+- Restrict `access-control`
 
 ```bash
 sudo systemctl enable --now unbound
@@ -56,7 +62,8 @@ dig @127.0.0.1 example.com A +dnssec
 unbound-control status
 ```
 
-When validation fails, Unbound returns `SERVFAIL`. Broken parental DS records or clock skew cause false negatives.
+- When validation fails, Unbound returns `SERVFAIL`.
+- Broken parental DS records or clock skew cause false negatives.
 
 | Unbound | BIND |
 |---------|------|
@@ -64,12 +71,12 @@ When validation fails, Unbound returns `SERVFAIL`. Broken parental DS records or
 | Lightweight | Full zone master features |
 | Default on many Linux stubs | Enterprise authoritative standard |
 
-Pair **BIND authoritative** internally with **Unbound** on clients or DMZ resolvers.
+- Pair **BIND authoritative** internally with **Unbound** on clients or DMZ res…
 
-## Real-World Applications
-Laptop local resolver, office recursive tier, and DMZ validating resolvers in front of [[public resolver]] upstreams.
-
-**Example:** Bind Unbound to `127.0.0.1` on a laptop — apps use local cache/DNSSEC; outbound queries go to 1.1.1.1 only from Unbound.
+## Mistakes to Avoid
+- **Mistake:** Opening `access-control` to `0.0.0.0/0` on a public IP
+- **Mistake:** Misreading DNSSEC `SERVFAIL` as “network down” without `dig +dns…
+- **Mistake:** Running Unbound and systemd-resolved both on `:53` without coord…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong default security posture and DNSSEC validation.
@@ -81,7 +88,8 @@ Laptop local resolver, office recursive tier, and DMZ validating resolvers in fr
 - vs [[dnsmasq]]: Unbound is the validating resolver; dnsmasq adds DHCP/LAN convenience.
 - vs [[unbound variable]]: completely different topic (Bash `set -u`).
 
-## Mistakes to Avoid
-- Opening `access-control` to `0.0.0.0/0` on a public IP.
-- Misreading DNSSEC `SERVFAIL` as “network down” without `dig +dnssec` / `unbound-control`.
-- Running Unbound and systemd-resolved both on `:53` without coordination.
+
+### Use cases
+- Laptop local resolver, office recursive tier, and DMZ validating resolvers in…
+
+- **Example:** Bind Unbound to `127.0.0.1` on a laptop

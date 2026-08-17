@@ -4,22 +4,28 @@
 
 > Day-one Docker CLI for build, run, debug, and cleanup — the on-call toolkit when containers misbehave.
 
-
-
-
+```txt
+        docker cli ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch how you build with context/`.dockerignore`, debug with logs/inspect, and avoid destructive `prune` mistakes in production.
+- **Interview probes:** Interviewers watch how you build with context/`.dockerignore`, debug with log…
 
 ## Sources
 - [Docker CLI reference](https://docs.docker.com/reference/cli/docker/) — deep-dive
 - [Docker Engine overview](https://docs.docker.com/engine/) — overview
 
 ## Key Concepts
-- **Image vs container:** image = template; container = running or stopped instance with a writable layer.
-- **Build context:** everything sent to the daemon during `docker build` — `.dockerignore` matters for size and secrets.
-- **Networks & volumes:** user-defined networks give DNS between containers; volumes persist past container delete; bind mounts tie to a host path.
-- **Compose plugin:** `docker compose` orchestrates multi-service stacks on one host ([[Docker compose]]).
+- **Image vs container:** image = template
+- **Build context:** everything sent to the daemon during `docker build`
+- **Networks & volumes:** user-defined networks give DNS between containers
+- **Compose plugin:** `docker compose` orchestrates multi-service stacks on one host ([[Docker comp…
 
 ## Technical Details
 ```txt
@@ -38,7 +44,7 @@ docker buildx build --check .             # dry parse without full build
 docker run --rm -i hadolint/hadolint < Dockerfile   # lint
 ```
 
-Common lint failures: missing `.dockerignore`, `latest` tag in production, root user, unpinned base image.
+- Common lint failures: missing `.dockerignore`, `latest` tag in production, ro…
 
 ### Build
 
@@ -91,7 +97,7 @@ docker volume ls
 docker volume inspect mydata
 ```
 
-Ephemeral versus persistent: container writable layer dies with `docker rm`; volumes and bind mounts survive.
+- Ephemeral versus persistent: container writable layer dies with `docker rm`
 
 ### Image transfer
 
@@ -133,10 +139,13 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 | `no space left on device` during build | Layer cache | Prune; multi-stage build; smaller base |
 | Network alias not resolving | Same user-defined network? | `docker network connect`; use service name in compose |
 
-## Real-World Applications
-Local development loops, CI image builds, and first-response triage when a service container will not stay up.
-
-**Example:** `docker logs -f --tail 200 myapp` plus `docker inspect` network JSON pinpoints a mis-attached network after a bad recreate.
+## Mistakes to Avoid
+- **Mistake:** `docker system prune -a --volumes` in production
+- **Mistake:** Relying on `:latest` in production — pin digest or semver tag
+- **Mistake:** Sending secrets in build context because `.env` is missing from …
+- **Mistake:** Using `docker commit` for production images
+- **Mistake:** Bind-mounting an empty host directory over image content at the …
+- **Mistake:** Treating `docker logs` as long-term log storage
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One CLI covers build, run, network, volume, and transfer — fast feedback.
@@ -148,10 +157,8 @@ Local development loops, CI image builds, and first-response triage when a servi
 - vs [[kubectl]]: Engine-local versus cluster API.
 - vs Podman CLI: similar UX; different daemon/rootless defaults, same OCI images.
 
-## Mistakes to Avoid
-- `docker system prune -a --volumes` in production — deletes unused volumes including orphaned database data.
-- Relying on `:latest` in production — pin digest or semver tag.
-- Sending secrets in build context because `.env` is missing from `.dockerignore`.
-- Using `docker commit` for production images.
-- Bind-mounting an empty host directory over image content at the mount point.
-- Treating `docker logs` as long-term log storage — ship to journal/Loki.
+
+### Use cases
+- Local development loops, CI image builds, and first-response triage when a se…
+
+- **Example:** `docker logs -f --tail 200 myapp` plus `docker inspect` network …

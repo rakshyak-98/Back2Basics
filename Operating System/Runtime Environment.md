@@ -4,12 +4,18 @@
 
 > The runtime environment is everything that executes your program after the kernel starts it — dynamic linker, libc, thread library, GC, and language builtins.
 
-
-
-
+```txt
+        Runtime Environmen ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Distinguishes kernel `execve` from user-space runtime (ld.so, JVM, Go runtime) — and explains “works on my machine” ABI / glibc vs musl failures.
+- **Interview probes:** Distinguishes kernel `execve` from user-space runtime (ld.so, JVM, Go runtime)
 
 ## Sources
 - Levine, *Linkers and Loaders* — deep-dive
@@ -29,23 +35,25 @@ Distinguishes kernel `execve` from user-space runtime (ld.so, JVM, Go runtime) �
 | Language runtime | Exceptions, GC, goroutine scheduler |
 | [[interpreter]] | Executes non-native code paths |
 
-For a C binary: kernel `execve` → **ld.so** maps libc → `_start` → `main`. For JVM: native `java` stub loads bytecode, JIT, and standard library.
+- For a C binary: kernel `execve` → **ld.so** maps libc → `_start` → `main`.
+- For JVM: native `java` stub loads bytecode, JIT, and standard library.
 
-See [[runtime]] for a shorter cross-reference; [[OS program]] for the image the kernel loads.
+- See [[runtime]] for a shorter cross-reference
 
-## Real-World Applications
-Distroless/minimal images must still ship a compatible runtime. Language version managers switch runtimes without changing the kernel.
+## Mistakes to Avoid
+- **Mistake:** Shipping a glibc-linked binary into a musl-only image
+- **Mistake:** Blaming the kernel for missing `.so`
+- **Mistake:** Confusing “runtime” (execution env) with “run time” (wall-clock …
 
 ## Pros/Cons or Trade-offs
-- **Rich runtime:** faster development, GC, batteries included — larger attack surface and memory.
+- **Rich runtime:** faster development, GC, batteries included
 - **Minimal runtime:** smaller images; more work falls on the application.
 - **Trade-off:** static binary vs shared libc updates.
 
 ## Comparison
-- vs [[OS program]]: program is the on-disk/in-memory image; runtime is the supporting execution machinery.
+- vs [[OS program]]: program is the on-disk/in-memory image
 - vs [[interpreter]]: interpreter is one runtime style for non-native code.
 
-## Mistakes to Avoid
-- Shipping a glibc-linked binary into a musl-only image.
-- Blaming the kernel for missing `.so` — that is the dynamic linker/runtime.
-- Confusing “runtime” (execution env) with “run time” (wall-clock duration) in design docs.
+
+### Use cases
+- Distroless/minimal images must still ship a compatible runtime

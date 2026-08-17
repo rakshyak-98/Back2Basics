@@ -4,12 +4,18 @@
 
 > The UTS namespace isolates hostname and NIS domain name — each container can `sethostname` without renaming the host.
 
-
-
-
+```txt
+        UTS namespace ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Container isolation checklist: UTS for hostname, IPC for SysV IDs, cgroups for resources — interviewers watch for mixing those up.
+- **Interview probes:** Container isolation checklist: UTS for hostname, IPC for SysV IDs, cgroups fo…
 
 ## Sources
 - Linux `uts_namespaces(7)` manual page — deep-dive
@@ -28,10 +34,13 @@ unshare -u hostname my-container-name
 hostname   # my-container-name (inside only)
 ```
 
-Pair with [[IPC namespace]], PID, and mount namespaces for container identity. Requires `CONFIG_UTS_NS`; creation historically needed `CAP_SYS_ADMIN`.
+- Pair with [[IPC namespace]], PID, and mount namespaces for container identity.
+- Requires `CONFIG_UTS_NS`; creation historically needed `CAP_SYS_ADMIN`.
 
-## Real-World Applications
-Kubernetes pods and Docker containers each get a hostname for DNS/service identity without changing the node’s name.
+## Mistakes to Avoid
+- **Mistake:** Debugging with the node hostname while logs show the pod hostnam…
+- **Mistake:** Assuming changing hostname in a container affects the physical h…
+- **Mistake:** Confusing UTS with user namespace (UIDs) or time namespace
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Safe multi-tenant hostnames.
@@ -42,7 +51,6 @@ Kubernetes pods and Docker containers each get a hostname for DNS/service identi
 - vs [[IPC namespace]]: IPC isolates SysV/mqueue IDs; UTS isolates hostname.
 - vs [[cgroup (Control Group)]]: cgroups limit CPU/RAM; UTS changes naming view only.
 
-## Mistakes to Avoid
-- Debugging with the node hostname while logs show the pod hostname (or vice versa).
-- Assuming changing hostname in a container affects the physical host.
-- Confusing UTS with user namespace (UIDs) or time namespace.
+
+### Use cases
+- Kubernetes pods and Docker containers each get a hostname for DNS/service ide…

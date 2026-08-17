@@ -4,12 +4,17 @@
 
 > Debugger — runs (or attaches to) a process, stops at breakpoints, lets you inspect memory/stack and step.
 
-
-
-
+```txt
+        How does debugger  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Debugger questions check breakpoints, stepping, and how debug adapters talk to runtimes.
+- **Interview probes:** Debugger questions check breakpoints, stepping, and how debug adapters talk t…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -38,10 +43,6 @@ gdb ./app
 | Sourcemaps | TS/JS mapping |
 | Optimized code | Vars may vanish |
 
-## Pros/Cons or Trade-offs
-- **Trivial print bugs** — log first.
-- **Race without repro** — `-race`/stress first.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Prod attach** — security + perf; prefer careful sampling.
@@ -55,3 +56,7 @@ gdb ./app
 | “Optimized out” | `-O2` | Debug build |
 | Heisenbug | Timing | Log + reproduce less invasive |
 | Attach refused | Permissions/port | Correct pid/port |
+
+## Pros/Cons or Trade-offs
+- **Trivial print bugs** — log first.
+- **Race without repro** — `-race`/stress first.

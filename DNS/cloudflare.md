@@ -4,12 +4,18 @@
 
 > Cloudflare operates a global anycast DNS network as registrar, authoritative DNS host, and public resolver (1.1.1.1) — the orange-cloud proxy adds CDN, DDoS protection, and WAF in front of your origin.
 
-
-
-
+```txt
+        cloudflare ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use Cloudflare to test proxied vs DNS-only records, apex CNAME flattening, and how CDN SSL modes interact with origin certificates.
+- **Interview probes:** Interviewers use Cloudflare to test proxied vs DNS-only records, apex CNAME f…
 
 ## Sources
 - [Cloudflare DNS documentation](https://developers.cloudflare.com/dns/) — deep-dive
@@ -35,13 +41,13 @@ A  www  203.0.113.10  Proxied (orange)  → clients see Cloudflare anycast IPs
 A  api  10.0.0.5      DNS only (grey)    → direct to origin IP exposed
 ```
 
-Proxied mode enables caching, bot management, and SSL modes (flexible/full/strict) — misconfigured SSL mode causes redirect loops or certificate errors.
+- Proxied mode enables caching, bot management, and SSL modes (flexible/full/st…
 
-**Common record tasks**
+- **Common record tasks:** 
 
-- **APEX** — CNAME flattening at `@` to external targets
-- **Workers routes** — `workers.dev` or custom host patterns
-- **Email** — keep MX/TXT grey-cloud or use Email Routing product
+- **APEX:** — CNAME flattening at `@` to external targets
+- **Workers routes:** — `workers.dev` or custom host patterns
+- **Email:** — keep MX/TXT grey-cloud or use Email Routing product
 
 ```bash
 curl -X GET "https://api.cloudflare.com/client/v4/zones" \
@@ -54,12 +60,12 @@ curl -X GET "https://api.cloudflare.com/client/v4/zones" \
 | **Pricing** | Free tier generous for DNS | Per-zone + query pricing |
 | **Private zones** | Limited patterns | VPC private hosted zones |
 
-Many teams use Cloudflare at the edge and AWS behind it.
+- Many teams use Cloudflare at the edge and AWS behind it.
 
-## Real-World Applications
-Marketing sites and APIs sit behind orange-cloud; SSH, SMTP, and game servers stay grey-cloud to the real IP.
-
-**Example:** Toggle `www` from grey to orange — dig now returns Cloudflare anycast addresses; origin IP disappears from public DNS (still reachable if previously leaked).
+## Mistakes to Avoid
+- **Mistake:** Orange-clouding MX/TXT or SSH endpoints — mail and non-HTTP break
+- **Mistake:** Using Flexible SSL to an origin that redirects HTTP→HTTPS
+- **Mistake:** Assuming hiding origin IP in DNS means the old IP is secret fore…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Bundled CDN/WAF/DNSSEC with simple UI and API.
@@ -70,7 +76,8 @@ Marketing sites and APIs sit behind orange-cloud; SSH, SMTP, and game servers st
 - vs [[Route53]]: Cloudflare leans edge/CDN; Route 53 leans AWS aliases and VPC private zones.
 - vs self-hosted [[BIND]]: less zone-file ops, more vendor control of the edge.
 
-## Mistakes to Avoid
-- Orange-clouding MX/TXT or SSH endpoints — mail and non-HTTP break.
-- Using Flexible SSL to an origin that redirects HTTP→HTTPS — infinite redirects.
-- Assuming hiding origin IP in DNS means the old IP is secret forever.
+
+### Use cases
+- Marketing sites and APIs sit behind orange-cloud
+
+- **Example:** Toggle `www` from grey to orange

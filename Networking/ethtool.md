@@ -4,20 +4,23 @@
 
 > ethtool talks to the NIC driver — link speed, offloads, rings, and drop counters live here, not in the routing table.
 
-
-
-
+```txt
+        ethtool ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect you to use `ethtool` when `ip link` is UP but throughput or errors look wrong — prove you can read Speed/Duplex, driver stats, and offloads before blaming the application.
+- **Interview probes:** Interviewers expect you to use `ethtool` when `ip link` is UP but throughput …
 
 ## Sources
 - [ethtool(8) — Linux man page](https://man7.org/linux/man-pages/man8/ethtool.8.html) — deep-dive
 - [Linux — Scaling in the Linux Networking Stack](https://docs.kernel.org/networking/scaling.html) — overview
 - [Wikipedia — ethtool](https://en.wikipedia.org/wiki/Ethtool) — overview
-
-## Core Definition
-`ethtool` is the userspace tool that queries and configures NIC driver settings (PHY link, rings, coalesce, checksum/TSO/GSO offloads, and hardware counters).
 
 ## Key Concepts
 - **Driver path:** ethtool → driver → NIC firmware/PHY → not the routing stack.
@@ -25,6 +28,9 @@ Interviewers expect you to use `ethtool` when `ip link` is UP but throughput or 
 - **Rings / coalesce:** buffer and interrupt batching → PPS vs latency trade-off.
 - **Offloads:** TSO/GSO/checksum → CPU savings; buggy offloads cause “checksum errors.”
 - **`-S` stats:** `rx_missed_errors`, `rx_dropped` → NIC overflow vs kernel backlog ([[ss]]).
+
+
+- **Core:** `ethtool` is the userspace tool that queries and configures NIC driver settin…
 
 ## Technical Details
 ```txt
@@ -62,10 +68,11 @@ sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 | TCP checksum errors | `rx_errors`; `-k` offloads | Disable bad offload; update driver |
 | Changes vanish on reboot | No persist rule | NM dispatcher script or systemd unit |
 
-## Real-World Applications
-Debugging 1G fallback on “10G” servers, virtio offload bugs in VMs, and RX drops under high PPS.
-
-**Example:** Throughput plateaus at ~110 MB/s — `ethtool eth0` shows `Speed: 1000Mb/s` after a bad SFP; replacing optics restores 10G.
+## Mistakes to Avoid
+- **Mistake:** Tuning rings before confirming application and kernel aren’t the…
+- **Mistake:** Leaving autoneg off at the wrong speed
+- **Mistake:** Expecting identical `-S` counters on virtio/vmxnet
+- **Mistake:** Treating ethtool as a routing tool
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Direct visibility into L1/L2 and driver counters that `ip` does not show.
@@ -73,12 +80,12 @@ Debugging 1G fallback on “10G” servers, virtio offload bugs in VMs, and RX d
 - **Con:** Disabling TSO/GSO for debugging burns CPU if left off in production.
 
 ## Comparison
-- vs `ip link` / routing: `ip` shows admin state and addresses; ethtool shows PHY/driver performance knobs.
+- vs `ip link` / routing: `ip` shows admin state and addresses
 - vs [[10 NIC]]: NIC is the hardware; ethtool is how you inspect and tune it.
 - vs application/`ss` tuning: confirm L1/L2 first, then move up the stack.
 
-## Mistakes to Avoid
-- Tuning rings before confirming application and kernel aren’t the bottleneck (`ss -ti`, softirq).
-- Leaving autoneg off at the wrong speed — silent errors or half-duplex disasters.
-- Expecting identical `-S` counters on virtio/vmxnet — VM NICs differ.
-- Treating ethtool as a routing tool — it does not fix default-gateway mistakes.
+
+### Use cases
+- Debugging 1G fallback on “10G” servers, virtio offload bugs in VMs, and RX dr…
+
+- **Example:** Throughput plateaus at ~110 MB/s

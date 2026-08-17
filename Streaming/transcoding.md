@@ -4,18 +4,21 @@
 
 > Transcoding decodes media then re-encodes it — new codec, size, or bitrate for devices and ABR ladders.
 
-
-
-
+```txt
+        transcoding ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk transcoding end-to-end — not just name it. Signal fluency with **Transcode**, **Remux**, **Mezzanine**, **Ladder** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk transcoding end-to-end
 
 ## Sources
 - [Wikipedia — transcoding](https://en.wikipedia.org/wiki/transcoding) — overview
-
-## Core Definition
-Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and codecs already match, copy streams.
 
 ## Key Concepts
 - **Transcode:** Decode then encode again — “We change format or quality by full re-encode.”
@@ -27,10 +30,13 @@ Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and co
 
 ### Why teams do it (4 jobs)
 
-1. **Compatibility** — camera/vendor formats → browser/STB codecs.
-2. **ABR** — build the [[rendition]] ladder ([[bitrate streaming]]).
-3. **Size** — shrink archive or contribution bitrates for delivery.
-4. **Edit workflows** — highly compressed camera → mezzanine for NLEs.
+- **Note:** 1. **Compatibility** — camera/vendor formats → browser/STB codecs.
+- **Note:** 2. **ABR** — build the [[rendition]] ladder ([[bitrate streaming]]).
+- **Note:** 3. **Size** — shrink archive or contribution bitrates for delivery.
+- **Note:** 4. **Edit workflows** — highly compressed camera → mezzanine for NLEs.
+
+
+- **Core:** Remux (`-c copy`) is not a transcode
 
 ## Technical Details
 ```txt
@@ -71,19 +77,7 @@ ffmpeg -hwaccel cuda -i in.mp4 \
 | HW encoder gen | [[NVENC]] feature set differs (AV1 needs Ada+) |
 | Audio codec | AAC is the usual web/OTT default |
 
-Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -benchmark` CPU versus NVENC → spot A/V drift with `-async` / properly synced encodes.
-
-## Real-World Applications
-Remux (`-c copy`) is not a transcode. If you only need MP4 instead of MKV and codecs already match, copy streams.
-
-Used wherever transcoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Only the container is wrong** — remux with stream copy.
-- **Con / skip when:** **Already have a correct ladder** — re-packaging/packaging only; don’t burn encode farm.
-- **Con / skip when:** **Passthrough contribution that players accept** — ingest and package; skip a second encode.
-- **Con / skip when:** **Lossless archive requirement** — store mezzanine / original; transcode is for delivery copies.
+- Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -benc…
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -95,7 +89,19 @@ Used wherever transcoding sits in an ingest → package → CDN → player path.
 | Audio drifts after hours | Timestamps / variable frame rate | CFR encode; check input PTS; resetts carefully |
 | “Transcode” still huge | Actually remuxed or wrong ladder | Confirm re-encode in logs; set target bitrates |
 
-- **Transcode ≠ remux** — `-c copy` never changes pixels. Saying “we transcoded” when you only remuxed misleads capacity planning.
-- **Generation loss stacks** — H.264 → H.264 → H.264 looks worse each hop. Keep a mezzanine; derive delivery from it.
-- **Live ABR without aligned GOPs** — players switch mid-GOP and show artifacts. Fix the ladder, not the CDN.
-- **HW encode defaults** — NVENC “quality” presets ≠ x264 CRF; validate VMAF/PSNR on a sample before fleet rollout.
+- **Mistake:** **Transcode ≠ remux**
+- **Generation loss stacks** — H.264::** → H.264 → H.264 looks worse each hop. Keep a mezzanine; derive delivery from it
+- **Mistake:** **Live ABR without aligned GOPs**
+- **Mistake:** **HW encode defaults**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Only the container is wrong** — remux with stream copy.
+- **Con / skip when:** **Already have a correct ladder**
+- **Con / skip when:** **Passthrough contribution that players accept**
+- **Con / skip when:** **Lossless archive requirement**
+
+## Real-World Applications
+- **Note:** Remux (`-c copy`) is not a transcode
+
+- **Note:** Used wherever transcoding sits in an ingest → package → CDN → player path

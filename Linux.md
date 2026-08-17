@@ -4,27 +4,33 @@
 
 > Linux — the kernel plus userland that runs most servers; you control processes, files, networking, and services from the shell.
 
-
-
-
+```txt
+        Linux ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Linux questions probe processes, permissions, networking basics, and how you debug with `ps`, `ss`, logs, and systemd. Staff signal: reason about OOM, file descriptors, and cgroups — not only memorize commands.
+- **Interview probes:** Linux questions probe processes, permissions, networking basics, and how you …
 
 ## Sources
 - [Linux man-pages project](https://www.kernel.org/doc/man-pages/) — deep-dive
 - [Wikipedia — Linux](https://en.wikipedia.org/wiki/Linux) — overview
 - [systemd documentation](https://systemd.io/) — overview
 
-## Core Definition
-Linux is a Unix-like operating system kernel (plus distributions’ userland). Applications run as processes with virtual memory, interact via system calls, and are isolated by UIDs, namespaces, and optional containers.
-
 ## Key Concepts
-- **Process model:** PID, parent/child, signals, nice/priority ([[Linux Process Theory]], [[process]]).
-- **Filesystem:** Everything-as-file tradition; mounts, permissions, inodes ([[file mount]], [[etc files]]).
+- **Process model:** PID, parent/child, signals, nice/priority ([[Linux Process Theory]], [[proces…
+- **Filesystem:** Everything-as-file tradition
 - **Init / services:** [[systemd]] units replace classic SysV for most distros.
 - **Networking:** interfaces, routing, `ss`/`ip`, firewall ([[Commands]], [[ip]]).
-- **Memory & I/O:** page cache, OOM killer, epoll for scalable I/O ([[Memory management]], [[Epoll]], [[OOM (Linux Out Of Memory)]]).
+- **Memory & I/O:** page cache, OOM killer, epoll for scalable I/O ([[Memory management]], [[Epol…
+
+
+- **Core:** Linux is a Unix-like operating system kernel (plus distributions’ userland)
 
 ## Technical Details
 ```txt
@@ -37,7 +43,7 @@ Kernel (sched, VFS, net, mm)
 Hardware / hypervisors / containers
 ```
 
-Routing by job:
+- Routing by job:
 
 | Need | Start here |
 |------|------------|
@@ -48,17 +54,18 @@ Routing by job:
 | Memory pressure | [[OOM (Linux Out Of Memory)]] · [[Memory management]] |
 | Desktop / display | [[display server]] · [[wayland]] · [[x11]] |
 
-## Real-World Applications
-Production box: service won’t start → `systemctl status` → `journalctl -u` → check ports with `ss -lntp` → confirm disk and OOM. Same mental model inside containers (still Linux, smaller userland).
+## Mistakes to Avoid
+- **Mistake:** Debugging apps without checking disk, memory, and file descripto…
+- **Mistake:** Running everything as root “to make it work.”
+- **Mistake:** Confusing container PID 1 / signal behavior with bare-metal habi…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ubiquitous servers, rich tooling, scriptable ops.
 - **Con:** Distro drift; permission and SELinux surprises; footguns with `rm`, `chmod`, and firewall rules.
 
 ## Comparison
-vs Windows Server: different service model, permissions, and tooling. vs macOS: Darwin/BSD userland similarities, not identical. Containers ([[Docker]]) share the host kernel — Linux skills transfer directly.
+- vs Windows Server: different service model, permissions, and tooling. vs macO…
 
-## Mistakes to Avoid
-- Debugging apps without checking disk, memory, and file descriptor limits.
-- Running everything as root “to make it work.”
-- Confusing container PID 1 / signal behavior with bare-metal habits.
+
+### Use cases
+- Production box: service won’t start → `systemctl status` → `journalctl -u` → …

@@ -4,12 +4,17 @@
 
 > Rank prediction orders items by relevance — learning-to-rank, not just classify/regress one score in isolation.
 
-
-
-
+```txt
+        rank prediction ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about rank prediction to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about rank prediction to check whether you can choose models…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -43,10 +48,6 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 | Group by query | Metrics are per-list |
 | Candidate gen | Ranker can’t fix a bad funnel |
 
-## Pros/Cons or Trade-offs
-- **Binary gate only** — plain classifier may suffice.
-- **Tiny catalogs** — hand rules / editorial order.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Offline NDCG ≠ online engagement** — A/B test the ranking change.
@@ -60,3 +61,7 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 | Popularity bias | always head items | Diversify / debias features |
 | Leakage | future features | Time-based split |
 | Slow serving | huge candidate set | Two-stage retrieval + rank |
+
+## Pros/Cons or Trade-offs
+- **Binary gate only** — plain classifier may suffice.
+- **Tiny catalogs** — hand rules / editorial order.

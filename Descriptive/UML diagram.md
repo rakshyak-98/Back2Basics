@@ -4,18 +4,23 @@
 
 > Standardized boxes-and-lines notation for structure, behavior, and deployment — design reviews and onboarding — **UML 2.x subset for engineers**.
 
-
-
-
+```txt
+        UML diagram ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-UML interviews check whether you pick the right diagram for the question — class vs sequence vs component.
+- **Interview probes:** UML interviews check whether you pick the right diagram for the question
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-UML is a **visual DSL** for software design. Use a **small subset** in practice: class, sequence, component, deployment. Diagrams are contracts for conversation, not exhaustive code generators.
+- **Note:** UML is a **visual DSL** for software design
 
 ```
 ┌──────────────┐         ┌──────────────┐
@@ -87,17 +92,13 @@ sequenceDiagram
   API-->>Client: 201
 ```
 
-## Pros/Cons or Trade-offs
-- Solo script < 500 LOC — comment + function names beat ceremony.
-- Real-time pair programming — whiteboard sketch beats formal UML latency.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Auto-generated class diagrams from Java** expose every getter — useless noise. Curate public surface only.
 
-- **Sequence diagrams** must show **return messages** for async (dashed) or readers miss errors.
-- **Deployment diagram ≠ K8s YAML** — note replicas, LB, external SaaS.
-- **State machines** — don't mix with sequence unless showing transitions explicitly.
+- **Mistake:** **Sequence diagrams** must show **return messages** for async (d…
+- **Mistake:** **Deployment diagram ≠ K8s YAML**
+- **Mistake:** **State machines**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,3 +107,7 @@ sequenceDiagram
 | Wrong arrow type | Relationship semantics | Composition vs aggregation vs dependency |
 | Stakeholders confused | Too much UML | Switch to C4 or box diagram for execs |
 | Tool lock-in | Proprietary format | Store Mermaid/PlantUML in git |
+
+## Pros/Cons or Trade-offs
+- Solo script < 500 LOC — comment + function names beat ceremony.
+- Real-time pair programming — whiteboard sketch beats formal UML latency.

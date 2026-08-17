@@ -4,24 +4,30 @@
 
 > Tooling knobs — TypeScript, ESLint, path aliases, env files, test runner — that keep a React repo consistent.
 
-
-
-
+```txt
+        React project conf ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers may ask how you structure env, lint rules (especially hooks), and path aliases in a monorepo app.
+- **Interview probes:** Interviewers may ask how you structure env, lint rules (especially hooks), an…
 
 ## Sources
 - [Vite config](https://vitejs.dev/config/) — deep-dive
 - [typescript-eslint](https://typescript-eslint.io/) — overview
 
-## Core Definition
-Project config is the shared contract for compile, lint, test, and environment — so local and CI behave the same.
-
 ## Key Concepts
 - **TS + JSX:** `jsx: react-jsx`.
 - **ESLint:** `eslint-plugin-react-hooks` exhaustive-deps.
 - **Env:** `VITE_` / `NEXT_PUBLIC_` only for browser-safe values.
+
+
+- **Core:** Project config is the shared contract for compile, lint, test, and environment
 
 ## Technical Details
 ```bash
@@ -29,8 +35,9 @@ Project config is the shared contract for compile, lint, test, and environment �
 pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-## Real-World Applications
-Monorepo app package shares ESLint config; app-level env schema validated at boot.
+## Mistakes to Avoid
+- **Mistake:** Committing `.env` secrets
+- **Mistake:** Disabling react-hooks plugin globally
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One command CI gate.
@@ -39,6 +46,6 @@ Monorepo app package shares ESLint config; app-level env schema validated at boo
 ## Comparison
 - vs [[React build]]: config enables build; build emits assets.
 
-## Mistakes to Avoid
-- Committing `.env` secrets.
-- Disabling react-hooks plugin globally.
+
+### Use cases
+- Monorepo app package shares ESLint config

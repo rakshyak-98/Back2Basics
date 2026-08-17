@@ -4,23 +4,29 @@
 
 > Ship a vertical slice — UI, hooks, API, tests — as a feature module instead of scattering files by technical type only.
 
-
-
-
+```txt
+        React feature impl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers like feature-based folders and ask how you keep a feature releasable behind a flag.
+- **Interview probes:** Interviewers like feature-based folders and ask how you keep a feature releas…
 
 ## Sources
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — overview
-
-## Core Definition
-A feature implementation is a thin vertical: route entry, view, domain hooks, and API calls colocated for that product capability.
 
 ## Key Concepts
 - **Colocation:** keep code that changes together nearby.
 - **Public exports:** feature barrel for the route to import.
 - **Flag:** gate unfinished UI without merging half-wired routes.
+
+
+- **Core:** A feature implementation is a thin vertical: route entry, view, domain hooks,…
 
 ## Technical Details
 ```txt
@@ -32,8 +38,9 @@ features/billing/
   BillingPage.test.tsx
 ```
 
-## Real-World Applications
-Billing feature ships behind a flag; query hooks already hit staging API while nav link stays hidden.
+## Mistakes to Avoid
+- **Mistake:** Circular imports between features
+- **Mistake:** Copy-pasting API clients per feature
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Teams own features end-to-end.
@@ -42,6 +49,6 @@ Billing feature ships behind a flag; query hooks already hit staging API while n
 ## Comparison
 - vs type-based `components/ hooks/ utils/` only: features scale better for product teams.
 
-## Mistakes to Avoid
-- Circular imports between features.
-- Copy-pasting API clients per feature.
+
+### Use cases
+- Billing feature ships behind a flag

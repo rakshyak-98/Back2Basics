@@ -4,26 +4,33 @@
 
 > run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
 
-
-
-
+```txt
+        spawn ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **spawn** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **spawn** to see if you understand what it does operationa…
 
 ## Sources
 - [Node.js — child_process.spawn](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) — deep-dive
 - [Wikipedia — spawn](https://en.wikipedia.org/wiki/spawn) — overview
 
-## Core Definition
-`child_process.spawn(command, args[], options)` starts a **child process** and returns a `ChildProcess` with `.stdin`, `.stdout`, `.stderr` streams. Unlike `exec`, **no shell** is invoked unless `shell: true` — safer and faster for fixed binaries.
-
 ## Key Concepts
-- `child_process.spawn(command, args[], options)` starts a **child process** and returns a `ChildProcess` with `.stdin`, `.stdout`, `.stderr` streams. Unlike `exec`, **no shell** …
-- Use `spawn` for long-running or high-volume output. Use `exec`/`execFile` when you need buffered output in a callback (small output only).
+- **`child_process.spawn(command, args[]:** `child_process.spawn(command, args[], options)` starts a **child process** an…
+- **Use `spawn`:** Use `spawn` for long-running or high-volume output
+
+
+- **Core:** `child_process.spawn(command, args[], options)` starts a **child process** an…
 
 ## Technical Details
-`child_process.spawn(command, args[], options)` starts a **child process** and returns a `ChildProcess` with `.stdin`, `.stdout`, `.stderr` streams. Unlike `exec`, **no shell** is invoked unless `shell: true` — safer and faster for fixed binaries.
+- `child_process.spawn(command, args[], options)` starts a **child process** an…
+- Unlike `exec`, **no shell** is invoked unless `shell: true`
 
 ```
 Node parent                    Child process
@@ -34,7 +41,8 @@ Node parent                    Child process
     └── 'close' event (exit code) ◄│
 ```
 
-Use `spawn` for long-running or high-volume output. Use `exec`/`execFile` when you need buffered output in a callback (small output only).
+- Use `spawn` for long-running or high-volume output.
+- Use `exec`/`execFile` when you need buffered output in a callback (small outp…
 
 ### Basic spawn
 
@@ -101,25 +109,26 @@ const timer = setTimeout(() => {
 child.on('close', () => clearTimeout(timer));
 ```
 
-## Real-World Applications
-In production APIs and tooling, **spawn** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Unread pipes deadlock** — if stdout buffer fills (~64KB default), child blocks. Always consume or `'ignore'`; **`shell: true` + user input = injection** — same class of bug as SQL injection.
+## Mistakes to Avoid
+- **Mistake:** **Unread pipes deadlock**
+- **Mistake:** **`shell: true` + user input = injection**
+- **Mistake:** **Windows vs Unix**
+- **Mistake:** **`ENOENT`:** check Binary not in PATH
+- **Mistake:** **Hangs forever:** check Child waits for stdin
+- **Mistake:** **Buffer fills
+- **Mistake:** **Shell injection:** check User input in command string
+- **Mistake:** **Zombie children:** check No `close` handler
+- **Mistake:** **Exit code null + signal:** check Killed by SIGKILL/OOM
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (run an external binary with piped stdio — no shell by default; use for ffmpeg, g…).
-- **Con / when not:** **Run another Node script with IPC** — use [[fork]] for built-in message channel.
+- **Con / when not:** **Run another Node script with IPC**
 - **Con / when not:** **Tiny one-liner, small output** — `execFile` is simpler.
-- **Con / when not:** **CPU work in-process** — use [[worker threads]], not shelling out.
+- **Con / when not:** **CPU work in-process**
 
 ## Comparison
-vs [[child process]]: know when each applies — do not treat them as interchangeable. vs [[fork]]: `spawn` runs any executable; `fork` is Node-only with built-in IPC. vs [[CLI]]: know when each applies — do not treat them as interchangeable.
+- vs [[child process]]: know when each applies
 
-## Mistakes to Avoid
-- **Unread pipes deadlock** — if stdout buffer fills (~64KB default), child blocks. Always consume or `'ignore'`.
-- **`shell: true` + user input = injection** — same class of bug as SQL injection.
-- **Windows vs Unix** — `.cmd`/`.bat` need shell or `execFile` with `shell: true` on Windows.
-- **`ENOENT`:** check Binary not in PATH; fix: Absolute path; set `env.PATH` in spawn options
-- **Hangs forever:** check Child waits for stdin; fix: `stdio: 'ignore'` or close stdin
-- **Buffer fills; process stalls:** check stdout not consumed; fix: Pipe and drain stdout/stderr
-- **Shell injection:** check User input in command string; fix: Use arg array; never `shell: true` with user input
-- **Zombie children:** check No `close` handler; fix: Always listen `close`; `child.unref()` if intentional daemon
-- **Exit code null + signal:** check Killed by SIGKILL/OOM; fix: Check dmesg/cgroups
+
+### Use cases
+- In production APIs and tooling, **spawn** shows up whenever teams ship Node/J…

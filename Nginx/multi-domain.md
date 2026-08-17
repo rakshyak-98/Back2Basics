@@ -4,29 +4,35 @@
 
 > Several hostnames on one Nginx — separate `server` blocks (or SAN/wildcard certs) so `server_name` and TLS pick the right site.
 
-
-
-
+```txt
+        multi-domain ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how virtual hosts and SNI work: wrong `default_server`, certificate name mismatch, and ACME challenges across many names.
+- **Interview probes:** Interviewers ask how virtual hosts and SNI work: wrong `default_server`, cert…
 
 ## Sources
 - [nginx.org — Server names](https://nginx.org/en/docs/http/server_names.html) — deep-dive
 - [nginx.org — Configuring HTTPS servers](https://nginx.org/en/docs/http/configuring_https_servers.html) — deep-dive
 - [Let’s Encrypt — Challenge Types](https://letsencrypt.org/docs/challenge-types/) — overview
 
-## Core Definition
-Multi-domain hosting means multiple `server {}` blocks on the same `listen` port, distinguished by `server_name` (and SNI for TLS), each with its own `root`, proxy, or certificate.
-
 ## Key Concepts
 - **`server_name` selection:** Exact, wildcard, then regex names; unmatched Host hits `default_server`.
 - **Local `/etc/hosts`:** Map fake names (`api.localhost`) to `127.0.0.1` for local multi-vhost testing.
 - **TLS per name:** Each name needs a matching certificate unless you use a SAN or wildcard cert.
-- **HTTP→HTTPS:** Optional separate `listen 80` servers that `return 301 https://$host$request_uri`.
+- **HTTP→HTTPS:** Optional separate `listen 80` servers that `return 301 https://$host$request_…
+
+
+- **Core:** Multi-domain hosting means multiple `server {}` blocks on the same `listen` p…
 
 ## Technical Details
-Add fake domains to `/etc/hosts`:
+- Add fake domains to `/etc/hosts`:
 
 ```
 127.0.0.1   api.localhost
@@ -34,7 +40,8 @@ Add fake domains to `/etc/hosts`:
 127.0.0.1   blog.localhost
 ```
 
-Create roots and separate server blocks (e.g. under `sites-available`):
+- Create roots and separate server blocks (e.g.
+- under `sites-available`):
 
 ```bash
 sudo mkdir -p /var/www/api /var/www/shop /var/www/blog
@@ -67,7 +74,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-Shared cert for multiple names (SAN):
+- Shared cert for multiple names (SAN):
 
 ```nginx
 server {
@@ -78,7 +85,7 @@ server {
 }
 ```
 
-Self-signed for local TLS: see [[openssl]].
+- Self-signed for local TLS: see [[openssl]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,8 +93,10 @@ Self-signed for local TLS: see [[openssl]].
 | Wrong site content | `default_server` catches unknown Host | Set explicit `server_name` on each vhost |
 | ACME challenge fails | `.well-known` not reachable | Dedicated location for `/.well-known/acme-challenge/` |
 
-## Real-World Applications
-Local multi-tenant demos with `*.localhost` in `/etc/hosts`; production marketing + API + blog on one box with three `server` blocks and Let’s Encrypt.
+## Mistakes to Avoid
+- **Mistake:** Assuming one certificate covers all `server_name`s without SAN/w…
+- **Mistake:** Leaving the package `default` site as `default_server` so unknow…
+- **Mistake:** Typoing `sites-available` / `sites-enabled` paths so the symlink…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One Nginx instance, many hostnames — cheap and standard.
@@ -95,10 +104,9 @@ Local multi-tenant demos with `*.localhost` in `/etc/hosts`; production marketin
 - **Con:** Crowding unrelated tenants into one `server` without strict `server_name` lists is fragile.
 
 ## Comparison
-- vs one `server` with many `location`s: host-based split is clearer when roots, TLS, or apps differ.
-- vs [[Nginx ingress]]: Kubernetes Ingress uses Host/path rules in CRDs instead of host filesystem vhosts.
+- vs one `server` with many `location`s: host-based split is clearer when roots, TLS, or apps diffe…
+- vs [[Nginx ingress]]: Kubernetes Ingress uses Host/path rules in CRDs instead of host filesystem …
 
-## Mistakes to Avoid
-- Assuming one certificate covers all `server_name`s without SAN/wildcard.
-- Leaving the package `default` site as `default_server` so unknown Hosts get the wrong content.
-- Typoing `sites-available` / `sites-enabled` paths so the symlink never loads.
+
+### Use cases
+- Local multi-tenant demos with `*.localhost` in `/etc/hosts`

@@ -4,12 +4,17 @@
 
 > Two pointers walk a sequence from ends or in tandem — linear passes instead of nested loops when order helps.
 
-
-
-
+```txt
+        Two pointer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Two pointers compress O(n²) scans when order or a monotonic invariant allows — interviewers want the invariant stated aloud.
+- **Interview probes:** Two pointers compress O(n²) scans when order or a monotonic invariant allows
 
 ## Sources
 - [Wikipedia — Two-pointer technique (algorithmic pattern)](https://en.wikipedia.org/wiki/Two_pointers_technique) — overview
@@ -56,10 +61,10 @@ while (l < r) {
 | Wrong on unsorted | used opposite ends | Sort copy or other pattern |
 | Off-by-one | bounds | Draw array + indices |
 
+## Mistakes to Avoid
+- **Mistake:** Two pointers ≠ always O(n)
+- **Mistake:** Mutating while iterating — read/write pointers need clear roles
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Unordered hashable pair without sort need — hash set may be simpler.
 - **Trade-off:** Graph problems — BFS/DFS, not array pointers.
-
-## Mistakes to Avoid
-- Two pointers ≠ always O(n) — if you binary search inside, say the real cost.
-- Mutating while iterating — read/write pointers need clear roles.

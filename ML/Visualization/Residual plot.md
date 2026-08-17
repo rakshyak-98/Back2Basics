@@ -4,12 +4,17 @@
 
 > Residual plot — residuals should look like random noise around zero:
 
-
-
-
+```txt
+        Residual plot ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Residual plot to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Residual plot to check whether you can choose models/m…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -36,7 +41,7 @@ Structured patterns mean the model missed something:
 | Stripes / bands | Wrong family (classification labels as regression) |
 | Trend vs feature | Missing interaction or wrong transform |
 
-For **ordinal** models, off-by-k errors show as discrete bands — consider [[ordinal classification]] metrics too.
+- **Note:** For **ordinal** models, off-by-k errors show as discrete bands
 
 ## Technical Details
 ```python
@@ -78,11 +83,6 @@ outliers = np.abs(std_res) > 3
 print(f"Outlier count: {outliers.sum()}")
 ```
 
-## Pros/Cons or Trade-offs
-- **Classification** — use calibration curves / confusion matrix.
-- **Huge datasets** — subsample scatter; use binned residual plots.
-- **Ranking-only goals** — [[Normalized Discounted Cumulative Gain (NDCG)]] on ranked lists.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Heteroscedasticity** violates OLS confidence intervals — predictions may still be OK; inference is wrong.
@@ -99,3 +99,8 @@ print(f"Outlier count: {outliers.sum()}")
 | Mean residual ≠ 0 | Systematic bias | Intercept issue; recalibrate |
 
 Pair with [[Visualization/predicated versus actual plot]] for full picture.
+
+## Pros/Cons or Trade-offs
+- **Classification** — use calibration curves / confusion matrix.
+- **Huge datasets** — subsample scatter; use binned residual plots.
+- **Ranking-only goals**

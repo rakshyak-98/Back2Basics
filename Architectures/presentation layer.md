@@ -4,12 +4,17 @@
 
 > Presentation layer is the UI/API edge — it shows data and takes input; it should not own business rules.
 
-
-
-
+```txt
+        presentation layer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Presentation-layer questions check thin UI/API edges — validation and mapping yes, business rules no.
+- **Interview probes:** Presentation-layer questions check thin UI/API edges
 
 ## Sources
 - [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
@@ -55,10 +60,10 @@ app.post('/orders', async (req, res) => {
 | Fat pages | Data fetch + rules mixed | Split presentational vs container |
 | CORS / auth at wrong layer | Token checks only in UI | Enforce on API too |
 
+## Mistakes to Avoid
+- **Mistake:** UI-only authorization
+- **Mistake:** View knows the schema
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Batch jobs / workers — no presentation layer; call services directly.
 - **Trade-off:** Internal scripts — CLI that is the product may fold layers until it hurts.
-
-## Mistakes to Avoid
-- UI-only authorization — attackers skip the browser; server must enforce.
-- View knows the schema — renaming columns breaks every screen; use DTOs.

@@ -4,21 +4,25 @@
 
 > Private members hide implementation detail inside a class or module — so invariants stay enforceable and public APIs stay small.
 
-
-
-
+```txt
+        Private Properties ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask encapsulation mechanics — language privacy versus convention, and what invariants you protect.
+- **Interview probes:** Interviewers ask encapsulation mechanics
 
 ## Sources
 - Gamma et al., *Design Patterns* (encapsulation) — deep-dive
 - ECMAScript private fields specification — deep-dive
 
 ## Technical Details
-**Encapsulation**
+- **Encapsulation:** 
 
-Callers use public methods; internal representation can change without breaking clients.
+- Callers use public methods
 
 ```typescript
 class BankAccount {
@@ -30,7 +34,7 @@ class BankAccount {
 }
 ```
 
-**Language mechanisms**
+- **Language mechanisms:** 
 
 | Language | Private mechanism |
 |----------|-------------------|
@@ -40,20 +44,20 @@ class BankAccount {
 | Go | lowercase unexported identifiers in package |
 | Rust | `pub` vs private module visibility |
 
-True privacy vs convention — know what your language actually enforces.
+- True privacy vs convention — know what your language actually enforces.
 
-**Patterns that rely on privacy**
+- **Patterns that rely on privacy:** 
 
 - [[Design pattern/Memento]] — originator controls memento access.
 - [[Design pattern/Singleton]] — private constructor blocks extra instances.
 - [[Design pattern/Builder]] — hide partial construction state until `build()`.
 
-## Comparison
-**vs protected**
-
-`protected` exposes to subclasses — wider surface, harder to reason about than private + composition.
-
 ## Mistakes to Avoid
-- Reflection/serialization bypassing privacy.
-- Testing private logic directly — test through public behavior or use test-only package access.
-- Excessive `friend` or `@VisibleForTesting` — sign of misplaced responsibility.
+- **Mistake:** Reflection/serialization bypassing privacy
+- **Mistake:** Testing private logic directly
+- **Mistake:** Excessive `friend` or `@VisibleForTesting`
+
+## Comparison
+- **vs protected**
+
+- `protected` exposes to subclasses

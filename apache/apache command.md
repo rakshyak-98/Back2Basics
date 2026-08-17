@@ -4,12 +4,18 @@
 
 > Distro helpers and `apachectl`/`apache2ctl` — enable modules/sites, configtest, and graceful reload without guessing file paths.
 
-
-
-
+```txt
+        Apache commands ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect Debian `a2enmod`/`a2ensite` fluency and the habit of `configtest` before reload.
+- **Interview probes:** Interviewers expect Debian `a2enmod`/`a2ensite` fluency and the habit of `con…
 
 ## Sources
 - [Debian Wiki — Apache](https://wiki.debian.org/Apache) — overview
@@ -32,7 +38,7 @@ apache2ctl -M          # loaded modules
 apache2ctl -S          # vhost map
 ```
 
-`a2enmod rewrite` enables `mod_rewrite` for clean URLs (`/blog/title` → `index.php?…`).
+- `a2enmod rewrite` enables `mod_rewrite` for clean URLs (`/blog/title` → `inde…
 
 | Task | Command |
 |------|---------|
@@ -41,10 +47,10 @@ apache2ctl -S          # vhost map
 | Test config | `apache2ctl configtest` |
 | Reload | `systemctl reload apache2` |
 
-## Real-World Applications
-First steps on a fresh Ubuntu image: enable `rewrite` + `ssl`, point a vhost at `/var/www/…/public`, configtest, reload.
-
-**Example:** `Invalid command 'RewriteRule'` — module not enabled; `a2enmod rewrite` then reload.
+## Mistakes to Avoid
+- **Mistake:** Reloading without `configtest`
+- **Mistake:** Enabling modules you do not need (attack surface)
+- **Mistake:** Assuming `a2enmod` exists on every distro
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Distro tools beat hand-editing `mods-enabled` symlinks.
@@ -54,7 +60,8 @@ First steps on a fresh Ubuntu image: enable `rewrite` + `ssl`, point a vhost at 
 - vs editing `httpd.conf` only: helpers reduce path mistakes on Debian.
 - vs [[Nginx]] `-t` + reload: same safety pattern, different binary.
 
-## Mistakes to Avoid
-- Reloading without `configtest`.
-- Enabling modules you do not need (attack surface).
-- Assuming `a2enmod` exists on every distro.
+
+### Use cases
+- First steps on a fresh Ubuntu image: enable `rewrite` + `ssl`, point a vhost …
+
+- **Example:** `Invalid command 'RewriteRule'`

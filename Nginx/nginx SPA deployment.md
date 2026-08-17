@@ -4,26 +4,25 @@
 
 > Client-side routers own URLs that are not on disk — `try_files` falls back to `index.html` without breaking API routes or hashed assets.
 
-
-
-
+```txt
+        Nginx SPA Deployme ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Frontend/platform interviews ask why refresh on `/dashboard` 404s, how to split `/api` from SPA fallback, and why `index.html` must not be cached like hashed assets.
+- **Interview probes:** Frontend/platform interviews ask why refresh on `/dashboard` 404s, how to spl…
 
 ## Sources
 - [nginx.org — try_files](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files) — deep-dive
 - [MDN — SPA / client-side routing](https://developer.mozilla.org/en-US/docs/Glossary/SPA) — overview
 
-## Core Definition
-An SPA deploy serves one HTML shell plus JS/CSS bundles; deep links must return that shell so the client router can render, while real files and API paths must not fall through to HTML.
-
-## Recall Cues
-- Why do interviewers care about Frontend/platform interviews ask why refresh on `/dashboard` 404s, how to split `/api` from SPA fallback, and why `index.html` must not be cached like hashed assets?
-- What mistake is **Two-arg `try_files $uri /index.html` when real directories exist — use three-arg form**?
-- What mistake is **Mixing `try_files` with `alias` casually — prefer `root` for SPA deploys**?
-- What mistake is **Subpath deploy (`base: '/app/'`) without matching `location` / router `basename`**?
-- What mistake is **Using `error_page 404 /index.html` — returns 200 HTML and breaks missing-asset monitoring**?
+## Key Concepts
+- **Core:** An SPA deploy serves one HTML shell plus JS/CSS bundles
 
 ## Technical Details
 ```
@@ -76,7 +75,8 @@ server {
 }
 ```
 
-Typical Vite/React `dist/`: `index.html` + `assets/index-*.js|css`. Point `root` at `dist/`, not the repository root.
+- Typical Vite/React `dist/`: `index.html` + `assets/index-*.js|css`.
+- Point `root` at `dist/`, not the repository root.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,20 +93,21 @@ curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.
 ```
 
 ## Mistakes to Avoid
-- Two-arg `try_files $uri /index.html` when real directories exist — use three-arg form.
-- Mixing `try_files` with `alias` casually — prefer `root` for SPA deploys.
-- Subpath deploy (`base: '/app/'`) without matching `location` / router `basename`.
-- Using `error_page 404 /index.html` — returns 200 HTML and breaks missing-asset monitoring.
+- **Mistake:** Two-arg `try_files $uri /index.html` when real directories exist
+- **Mistake:** Mixing `try_files` with `alias` casually
+- **Mistake:** Subpath deploy (`base: '/app/'`) without matching `location` / r…
+- **Mistake:** Using `error_page 404 /index.html`
+
+## Pros/Cons or Trade-offs
+- **Pro:** Cheap, cacheable static hosting with simple Nginx config.
+- **Con:** Pure SPA fallback is wrong for SSR/SSG (Next.js/Nuxt SSR) — need server routing or hybrid proxy.
+- **Con:** Multiple SPAs on one host need careful prefixes, not one global catch-all.
 
 ## Comparison
 - vs [[static file]]: static serving without HTML fallback returns 404 for deep links.
 - vs [[URL Rewriting]]: SPA fallback is usually `try_files`, not a long `rewrite` chain.
 - vs SSR: server must understand routes; Nginx alone is not enough.
 
-## Real-World Applications
-React/Vue/Angular static hosting behind Nginx with a separate Node API on `/api/`.
 
-## Pros/Cons or Trade-offs
-- **Pro:** Cheap, cacheable static hosting with simple Nginx config.
-- **Con:** Pure SPA fallback is wrong for SSR/SSG (Next.js/Nuxt SSR) — need server routing or hybrid proxy.
-- **Con:** Multiple SPAs on one host need careful prefixes, not one global catch-all.
+### Use cases
+- React/Vue/Angular static hosting behind Nginx with a separate Node API on `/a…

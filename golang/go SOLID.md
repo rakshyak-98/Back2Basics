@@ -4,12 +4,17 @@
 
 > SOLID adapted to Go's interfaces, composition, and small-package culture — not Java inheritance.
 
-
-
-
+```txt
+        Go SOLID (idiomati ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-SOLID in Go interviews tests whether you map SRP/ISP/DIP onto small interfaces and composition — not Java-style class hierarchies.
+- **Interview probes:** SOLID in Go interviews tests whether you map SRP/ISP/DIP onto small interface…
 
 ## Sources
 - [Go blog — Go Proverbs](https://go-proverbs.github.io/) — overview
@@ -86,9 +91,9 @@ func (fakeLogger) Info(string, ...any) {}
 | Embedding leaks methods | Promoted methods | Embed unexported helper struct |
 | `interface{}` everywhere | Type assertions | Generics or specific interfaces |
 
+## Mistakes to Avoid
+- **Mistake:** Interfaces only declare methods
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't create `IService`, `IRepository` for every type — Go idiom is minimal interfaces at boundaries.
 - **Trade-off:** Don't force Java-style abstract factories when a function literal suffices.
-
-## Mistakes to Avoid
-- Interfaces only declare methods — no fields on interfaces in Go. Premature interfaces — define at consumer, not producer ("accept interfaces, return structs"). Embedding for "inheritance" — promoted methods can break LSP if base type isn't substitutable.

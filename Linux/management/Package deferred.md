@@ -4,12 +4,18 @@
 
 > Held or pinned packages skip unwanted upgrades — protect production pins, kernels, or a carefully tested version.
 
-
-
-
+```txt
+        Package deferred ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-`apt-mark hold` vs preferences pins, reading `apt-cache policy`, and auditing forgotten holds that skip security updates.
+- **Interview probes:** `apt-mark hold` vs preferences pins, reading `apt-cache policy`, and auditing…
 
 ## Sources
 - [apt_preferences(5)](https://manpages.debian.org/bookworm/apt/apt_preferences.5.en.html) — deep-dive
@@ -53,8 +59,10 @@ Pin-Priority: 1001
 | Manual dpkg overwrote | Direct install | Re-apply pin; document |
 | Unattended-upgrades ignores intent | Config | Align origins/holds |
 
-## Real-World Applications
-Hold `kubelet`/`kubectl` across a control-plane upgrade window, then unhold after the change succeeds.
+## Mistakes to Avoid
+- **Mistake:** Never auditing `apt-mark showhold`
+- **Mistake:** Pin-Priority mistakes that leave no valid candidate
+- **Mistake:** Assuming `dist-upgrade` always honors intent without reading the…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Stable production versions under active change control.
@@ -64,7 +72,6 @@ Hold `kubelet`/`kubectl` across a control-plane upgrade window, then unhold afte
 - vs tracking distro closely: prefer fewer holds and faster patching.
 - vs container rebuilds: rebuild images instead of holding host packages when possible.
 
-## Mistakes to Avoid
-- Never auditing `apt-mark showhold`.
-- Pin-Priority mistakes that leave no valid candidate.
-- Assuming `dist-upgrade` always honors intent without reading the plan.
+
+### Use cases
+- Hold `kubelet`/`kubectl` across a control-plane upgrade window, then unhold a…

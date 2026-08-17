@@ -4,12 +4,18 @@
 
 > InnoDB transactions group SQL statements under [[ACID]] rules — autocommit wraps each statement unless `START TRANSACTION` opens an explicit unit of work.
 
-
-
-
+```txt
+        mysql transaction ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect isolation default (REPEATABLE READ), durability knobs, and why distributed XA is rare versus outbox/saga patterns.
+- **Interview probes:** Expect isolation default (REPEATABLE READ), durability knobs, and why distrib…
 
 ## Sources
 - [START TRANSACTION / COMMIT](https://dev.mysql.com/doc/refman/en/commit.html) — overview
@@ -18,8 +24,8 @@ Expect isolation default (REPEATABLE READ), durability knobs, and why distribute
 ## Key Concepts
 - **Explicit vs autocommit:** Multi-statement atomicity needs `START TRANSACTION` … `COMMIT`.
 - **Isolation:** InnoDB default **REPEATABLE READ** with next-key locking ([[mysql lock]]).
-- **Durability:** `innodb_flush_log_at_trx_commit=1` waits for redo flush ([[write-ahead logging]]).
-- **Distributed:** XA exists; microservices usually prefer outbox/saga ([[database application]]).
+- **Durability:** `innodb_flush_log_at_trx_commit=1` waits for redo flush ([[write-ahead loggin…
+- **Distributed:** XA exists; microservices usually prefer outbox/saga ([[database application]]…
 
 ## Technical Details
 ```sql
@@ -30,10 +36,12 @@ COMMIT;
 -- ROLLBACK; on error
 ```
 
-Keep transactions short; do not hold locks across remote calls.
+- Keep transactions short; do not hold locks across remote calls.
 
-## Real-World Applications
-Money movement, inventory reservation, and any multi-row invariant that must not partially apply.
+## Mistakes to Avoid
+- **Mistake:** Relying on autocommit for multi-step business operations
+- **Mistake:** Catching errors without `ROLLBACK` and continuing on a doomed se…
+- **Mistake:** Using XA as the default microservice coordination tool
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Correctness under concurrency and crash recovery.
@@ -41,9 +49,8 @@ Money movement, inventory reservation, and any multi-row invariant that must not
 - **Trade-off:** Full durability (`=1`) vs batched fsync (`=2`) for non-critical data.
 
 ## Comparison
-vs PostgreSQL: default isolation is READ COMMITTED there; do not assume identical anomaly behavior.
+- vs PostgreSQL: default isolation is READ COMMITTED there
 
-## Mistakes to Avoid
-- Relying on autocommit for multi-step business operations.
-- Catching errors without `ROLLBACK` and continuing on a doomed session.
-- Using XA as the default microservice coordination tool.
+
+### Use cases
+- Money movement, inventory reservation, and any multi-row invariant that must …

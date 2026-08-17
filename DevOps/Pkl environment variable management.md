@@ -4,20 +4,23 @@
 
 > Apple’s Pkl (pronounced “pickle”) is a typed configuration language — evaluate overlays per environment and emit JSON/YAML instead of maintaining a pile of untyped `.env` files.
 
-
-
-
+```txt
+        Pkl environment va ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers care less about Pkl trivia and more about whether you keep configuration typed and composed, evaluate at deploy time, and never treat a configuration language as a secret store.
+- **Interview probes:** Interviewers care less about Pkl trivia and more about whether you keep confi…
 
 ## Sources
 - [Pkl documentation](https://pkl-lang.org/) — overview
 - [Pkl language tutorial — basic configuration](https://pkl-lang.org/main/current/language-tutorial/01_basic_config.html) — deep-dive
 - [Pkl CLI](https://pkl-lang.org/main/current/pkl-cli/index.html) — overview
-
-## Core Definition
-Pkl describes configuration with types, constraints, and composition (`amends` / imports). The evaluator takes parameters (for example `env=production`) and renders static formats consumed by apps or CI.
 
 ## Key Concepts
 - **Typed fields + validation:** catch bad values before deploy → fewer runtime surprises.
@@ -25,6 +28,9 @@ Pkl describes configuration with types, constraints, and composition (`amends` /
 - **Parameters at eval:** `-p env=…` selects overlays in CI.
 - **Output formats:** JSON, YAML, properties → match what the app already parses.
 - **Not a secret store:** reference secrets from Doppler/vault at eval or inject later.
+
+
+- **Core:** Pkl describes configuration with types, constraints, and composition (`amends…
 
 ## Technical Details
 ```
@@ -84,10 +90,11 @@ env = "production"
 | Drift across environments | Duplicate keys | Single base + amends files |
 | App can't read output | Format mismatch | Match `--format` to parser |
 
-## Real-World Applications
-CI evaluates `app.pkl` with `-p env=staging` or `production`, writes `config.json`, and deploys the artifact — same typed module, different overlays.
-
-**Example:** Production and staging diverge because engineers duplicated keys — switch to one base module plus `amends` files.
+## Mistakes to Avoid
+- **Mistake:** Storing passwords in `.pkl` committed to git
+- **Mistake:** Leaving the CLI unpinned in CI
+- **Mistake:** Using Pkl for a single static `config.json` with no environment …
+- **Mistake:** Silently coercing invalid values in the application after a fail…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Types and composition catch configuration errors before runtime.
@@ -95,12 +102,12 @@ CI evaluates `app.pkl` with `-p env=staging` or `production`, writes `config.jso
 - **Con:** Evaluating on every process start can be wasteful — bake or cache rendered output.
 
 ## Comparison
-- vs raw `.env` / environment variables: Pkl adds types and composition; still pair with [[Descriptive/doppler]] for secrets.
-- vs [[NodeJS/node-convict]]: convict validates in-process Node configuration; Pkl is language-agnostic eval/codegen.
-- vs [[Terraform/variable file]]: tfvars for infrastructure; Pkl for application configuration overlays.
+- vs raw `.env` / environment variables: Pkl adds types and composition
+- vs [[NodeJS/node-convict]]: convict validates in-process Node configuration
+- vs [[Terraform/variable file]]: tfvars for infrastructure
 
-## Mistakes to Avoid
-- Storing passwords in `.pkl` committed to git — Pkl is not a secret store.
-- Leaving the CLI unpinned in CI — pin versions for reproducible eval.
-- Using Pkl for a single static `config.json` with no environment variance — overhead without payoff.
-- Silently coercing invalid values in the application after a failed eval instead of fixing types.
+
+### Use cases
+- CI evaluates `app.pkl` with `-p env=staging` or `production`, writes `config.…
+
+- **Example:** Production and staging diverge because engineers duplicated keys

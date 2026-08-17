@@ -4,12 +4,18 @@
 
 > A container is a running (or created) instance of an image: isolated process, writable layer, and optional mounts and ports.
 
-
-
-
+```txt
+        docker container ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check image versus container, publish flags, volume persistence, and why `docker commit` is not a build system.
+- **Interview probes:** Interviewers check image versus container, publish flags, volume persistence,…
 
 ## Sources
 - [Docker — Run a container](https://docs.docker.com/engine/containers/run/) — overview
@@ -19,7 +25,7 @@ Interviewers check image versus container, publish flags, volume persistence, an
 - **Image → container:** immutable template plus a writable layer and namespaces.
 - **Lifecycle:** `create` / `start` / `run` / `stop` / `rm`; `--rm` deletes on exit.
 - **Publish vs expose:** `-p host:container` publishes; Dockerfile `EXPOSE` alone does not.
-- **Persistence:** named volumes and bind mounts survive `docker rm`; the writable layer does not.
+- **Persistence:** named volumes and bind mounts survive `docker rm`
 
 ## Technical Details
 ```txt
@@ -58,7 +64,8 @@ docker save -o backup.tar image:tag          # full image layers
 docker import container-export.tar new:flat  # flat filesystem import
 ```
 
-Prefer Dockerfile rebuilds over `commit` for production. `import` flattens; `load` restores layered `save`.
+- Prefer Dockerfile rebuilds over `commit` for production.
+- `import` flattens; `load` restores layered `save`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,10 +76,11 @@ Prefer Dockerfile rebuilds over `commit` for production. `import` flattens; `loa
 | Permission denied on bind | UID mismatch | Match user or chown |
 | `name already in use` | Stale container | `docker rm -f name` |
 
-## Real-World Applications
-One-off debug shells, long-running services on a single host, and the building block under [[Docker compose]] and Kubernetes pods.
-
-**Example:** `docker run -d --name my-nginx -p 8080:80 nginx:latest` publishes container port 80 on host 8080 for a quick reverse-proxy smoke test.
+## Mistakes to Avoid
+- **Mistake:** Using `commit` as a production build system
+- **Mistake:** Mapping `-p 80:80` in hardened setups without understanding root…
+- **Mistake:** Confusing `docker import` (flat) with `docker load` (layered)
+- **Mistake:** Expecting data in the writable layer to survive `docker rm`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast start, dense packing, easy cleanup with `--rm`.
@@ -84,8 +92,8 @@ One-off debug shells, long-running services on a single host, and the building b
 - vs VM: shared kernel, thinner isolation ([[Docker Runtime Security]]).
 - vs `docker commit` workflow: unreproducible — fix the [[docker file]] instead.
 
-## Mistakes to Avoid
-- Using `commit` as a production build system.
-- Mapping `-p 80:80` in hardened setups without understanding root/capability needs — prefer high host ports.
-- Confusing `docker import` (flat) with `docker load` (layered).
-- Expecting data in the writable layer to survive `docker rm`.
+
+### Use cases
+- One-off debug shells, long-running services on a single host, and the buildin…
+
+- **Example:** `docker run -d --name my-nginx -p 8080:80 nginx:latest` publishe…

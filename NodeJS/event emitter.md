@@ -4,12 +4,18 @@
 
 > Pub/sub inside one process — `emit` named events; listeners run synchronously in registration order.
 
-
-
-
+```txt
+        event emitter ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **event emitter** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **on / once**, **MaxListeners**, **error event**.
+- **Interview probes:** Interviewers use **event emitter** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — deep-dive
@@ -41,21 +47,22 @@ ee.setMaxListeners(20) // only if intentional fan-out
 | `rawListeners` | Debug who is subscribed |
 | `captureRejections` | Async listener promise rejections |
 
-## Real-World Applications
-In production APIs and tooling, **event emitter** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Listeners are sync** — a slow listener blocks the emit loop; don’t do heavy CPU in handlers; **`error` is special** — without a handler, Node throws.
+## Mistakes to Avoid
+- **Mistake:** **Listeners are sync**
+- **Mistake:** **`error` is special** — without a handler, Node throws
+- **Mistake:** **MaxListeners exceeded:** check Duplicate `on` in hot path
+- **Mistake:** **Process crash on error:** check No `error` listener
+- **Mistake:** **Listener never runs:** check Typo in event name
+- **Mistake:** **Memory leak:** check Long-lived emitter + add forever
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Pub/sub inside one process — `emit` named events; listeners run synchronously in…).
-- **Con / when not:** **Cross-process messaging** — use Redis/NATS/queues, not in-memory emitters.
-- **Con / when not:** **Request/response APIs** — return promises; don’t invent event protocols casually.
+- **Con / when not:** **Cross-process messaging**
+- **Con / when not:** **Request/response APIs**
 
 ## Comparison
-vs [[EventEmitter]]: Same Node `events` module — this note is the short map; EventEmitter is the deep API note. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[Node events driven]]: know when each applies — do not treat them as interchangeable.
+- vs [[EventEmitter]]: Same Node `events` module
 
-## Mistakes to Avoid
-- **Listeners are sync** — a slow listener blocks the emit loop; don’t do heavy CPU in handlers.
-- **`error` is special** — without a handler, Node throws.
-- **MaxListeners exceeded:** check Duplicate `on` in hot path; fix: `once` or remove on cleanup
-- **Process crash on error:** check No `error` listener; fix: Always `on('error')` for streams/sockets
-- **Listener never runs:** check Typo in event name; fix: Shared const for names
-- **Memory leak:** check Long-lived emitter + add forever; fix: Remove on shutdown / request end
+
+### Use cases
+- In production APIs and tooling, **event emitter** shows up whenever teams shi…

@@ -4,12 +4,17 @@
 
 > An array is a contiguous block of same-size slots — index `i` means `base + i * size` (that’s why zero-based is natural).
 
-
-
-
+```txt
+        array ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Arrays are the baseline structure — contiguous indexing, cache locality, and O(1) random access vs costly insert/delete in the middle.
+- **Interview probes:** Arrays are the baseline structure
 
 ## Sources
 - [Wikipedia — Array data structure](https://en.wikipedia.org/wiki/Array_(data_structure)) — overview
@@ -51,10 +56,10 @@ a.splice(1, 0, 15) // middle insert — shifts
 | Memory blow | huge sparse use | Map/dict instead |
 | Off-by-one | loop `<= n` | Prefer half-open `[lo, hi)` |
 
+## Mistakes to Avoid
+- **Mistake:** JS “arrays” are objects
+- **Mistake:** Assuming O(1) insert — only at the end for dynamic arrays
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Frequent middle insert/delete — list / gap buffer / rope.
 - **Trade-off:** Sparse keys — hash map.
-
-## Mistakes to Avoid
-- JS “arrays” are objects — holes and mixed types change performance.
-- Assuming O(1) insert — only at the end for dynamic arrays.

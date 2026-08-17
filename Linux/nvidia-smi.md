@@ -4,24 +4,30 @@
 
 > Queries NVIDIA GPU driver state — utilization, memory, temperature, and which processes hold the device.
 
-
-
-
+```txt
+        nvidia-smi ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-ML/infra interviews: prove you can read GPU memory pressure, find stuck CUDA processes, and diagnose “NVIDIA-SMI has failed” as a driver/module problem.
+- **Interview probes:** ML/infra interviews: prove you can read GPU memory pressure, find stuck CUDA …
 
 ## Sources
 - [NVIDIA SMI documentation](https://docs.nvidia.com/deploy/nvidia-smi/) — deep-dive
-
-## Core Definition
-`nvidia-smi` talks to the loaded NVIDIA kernel module. It is part of the NVIDIA driver install on Linux — no module means the CLI fails.
 
 ## Key Concepts
 - **Utilization vs memory:** a job can be memory-bound with low SM busy %.
 - **Process list:** who holds `/dev/nvidia*`.
 - **Persistence mode:** keeps driver initialized between jobs.
 - **Compute / MIG modes:** exclusivity and partitioning on multi-tenant GPUs.
+
+
+- **Core:** `nvidia-smi` talks to the loaded NVIDIA kernel module. It is part of the NVID…
 
 ## Technical Details
 ```bash
@@ -42,8 +48,10 @@ nvidia-smi mig -lgip
 | ECC errors | `nvidia-smi -q -d ECC` |
 | MIG partitions | `nvidia-smi mig -lgip` (A100/H100 class) |
 
-## Real-World Applications
-Find a leaked training process holding VRAM after a crashed notebook, or confirm a new driver loaded after reboot before launching jobs.
+## Mistakes to Avoid
+- **Mistake:** Setting exclusive compute mode on a shared interactive host with…
+- **Mistake:** Debugging CUDA OOMs with only CPU `top`
+- **Mistake:** Ignoring driver/DKMS failure when the CLI says it “has failed.”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Single pane for GPU health and process attribution.
@@ -53,7 +61,6 @@ Find a leaked training process holding VRAM after a crashed notebook, or confirm
 - vs [[commands/lspci]]: hardware presence vs driver runtime metrics.
 - vs [[process]]/`top`: CPU view misses GPU memory holders.
 
-## Mistakes to Avoid
-- Setting exclusive compute mode on a shared interactive host without warning.
-- Debugging CUDA OOMs with only CPU `top`.
-- Ignoring driver/DKMS failure when the CLI says it “has failed.”
+
+### Use cases
+- Find a leaked training process holding VRAM after a crashed notebook, or conf…

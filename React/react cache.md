@@ -4,12 +4,18 @@
 
 > Client in-memory cache of server responses — update it after mutations so UI stays in sync without a full refetch.
 
-
-
-
+```txt
+        react cache / TanS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers want concrete re-render causes and fixes (memoization, keys, list virtualization) — not vague “optimize React.”
+- **Interview probes:** Interviewers want concrete re-render causes and fixes (memoization, keys, lis…
 
 ## Sources
 - [Wikipedia — react cache](https://en.wikipedia.org/wiki/react_cache) — overview
@@ -46,14 +52,6 @@ useMutation({
 | `invalidateQueries` | Safe when many lists touch the resource |
 | Optimistic + rollback | Snappy UX; must restore on error |
 
-## Real-World Applications
-Apply react cache / TanStack Query cache in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Client-only UI state** — `useState` / Zustand, not Query cache.
-- **Con / skip when:** **authentication secrets** — don’t persist sensitive query data to `localStorage`.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,5 +60,13 @@ Apply react cache / TanStack Query cache in feature code where the Key Concepts 
 | Cache empty after F5 | In-memory only | Persist plugin or accept refetch |
 | Duplicate fetches | Different queryKeys | Normalize keys (stable serialization) |
 
-- **Hard refresh clears RAM cache** — not Redis, not backend. Soft reload often keeps it.
-- **Wrong key = silent miss** — `['todo', 1]` vs `['todos', 1]` never sync.
+- **Mistake:** **Hard refresh clears RAM cache**
+- **Mistake:** **Wrong key = silent miss**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Client-only UI state**
+- **Con / skip when:** **authentication secrets**
+
+## Real-World Applications
+- **Scenario:** Apply react cache / TanStack Query cache in feature code where the Key Concep…

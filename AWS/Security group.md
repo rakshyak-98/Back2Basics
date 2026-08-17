@@ -4,12 +4,14 @@
 
 > A security group is a stateful virtual firewall on an EC2 ENI (or other VPC resources) — if you allow inbound TCP 443, return traffic is permitted automatically without an explicit outbound rule.
 
-
-
-
+```txt
+        Security group ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Security group interviews check stateful allow-lists, distinction from NACLs, and least-privilege ingress/egress.
+- **Interview probes:** Security group interviews check stateful allow-lists, distinction from NACLs,…
 
 ## Sources
 - [Security groups for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html) — overview
@@ -26,14 +28,15 @@ aws ec2 authorize-security-group-ingress \
 
 ### Rules model
 
-Each rule specifies:
+- Each rule specifies:
 
-- **Direction** — inbound or outbound (default: allow all outbound)
-- **Protocol** — TCP, UDP, ICMP, or all
-- **Port range**
-- **Source/destination** — CIDR (`10.0.0.0/8`), another security group ID, or prefix list
+- **Direction:** — inbound or outbound (default: allow all outbound)
+- **Protocol:** — TCP, UDP, ICMP, or all
+- **Port range:** 
+- **Source/destination:** — CIDR (`10.0.0.0/8`), another security group ID, or prefix list
 
-**Stateful behavior:** response traffic for allowed connections is automatically permitted. Contrast with **network ACLs** (stateless, subnet-level).
+- **Stateful behavior:** response traffic for allowed connections is automatica…
+- Contrast with **network ACLs** (stateless, subnet-level).
 
 ```
 Client ──► SG inbound allow :443 ──► Instance
@@ -49,7 +52,7 @@ Client ──► SG inbound allow :443 ──► Instance
 | Bastion | TCP 22 from corporate CIDR |
 | Database | TCP 5432 from app tier SG only |
 
-Reference **security group IDs** instead of CIDR when possible — instances can change IP addresses; groups scale with autoscaling.
+- Reference **security group IDs** instead of CIDR when possible
 
 ### Debugging connectivity
 
@@ -61,5 +64,5 @@ Reference **security group IDs** instead of CIDR when possible — instances can
 ### Limits and gotchas
 
 - Default **deny all inbound** on new groups.
-- Cannot block specific IP within an allowed CIDR using SG alone — use NACL or AWS WAF on load balancer.
-- **Quotas** on rules per group; use prefix lists for large IP sets.
+- Cannot block specific IP within an allowed CIDR using SG alone
+- **Quotas:** on rules per group; use prefix lists for large IP sets.

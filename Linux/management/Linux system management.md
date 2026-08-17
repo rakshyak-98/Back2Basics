@@ -4,12 +4,18 @@
 
 > Day-2 host work — patch, observe, control services, and recover with packages, systemd, logs, and backups.
 
-
-
-
+```txt
+        Linux system manag ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Runbook discipline: enable vs start, unattended upgrades awareness, journal scoping, and blast radius before fleet changes.
+- **Interview probes:** Runbook discipline: enable vs start, unattended upgrades awareness, journal s…
 
 ## Sources
 - [Debian Reference — System maintenance](https://www.debian.org/doc/manuals/debian-reference/ch09.en.html) — overview
@@ -48,8 +54,10 @@ sudo needrestart
 | High load | top/iostat/psi | CPU vs IO vs mem |
 | Can’t SSH | console/cloud serial | Fix sshd/firewall out-of-band |
 
-## Real-World Applications
-Monthly patch window: snapshot, upgrade, `needrestart`, verify critical units, vacuum journals if disk pressure rises.
+## Mistakes to Avoid
+- **Mistake:** Upgrading snowflake hosts without rollback
+- **Mistake:** Manual `/etc` drift fighting config management
+- **Mistake:** Treating application deploys as OS package upgrades casually
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Repeatable day-2 operations on classic VMs/bare metal.
@@ -59,7 +67,6 @@ Monthly patch window: snapshot, upgrade, `needrestart`, verify critical units, v
 - vs [[Linux management]]: broader philosophy; this note is the day-2 checklist.
 - vs app deploy pipelines: keep OS management separate from application releases.
 
-## Mistakes to Avoid
-- Upgrading snowflake hosts without rollback.
-- Manual `/etc` drift fighting config management.
-- Treating application deploys as OS package upgrades casually.
+
+### Use cases
+- Monthly patch window: snapshot, upgrade, `needrestart`, verify critical units…

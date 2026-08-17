@@ -4,12 +4,18 @@
 
 > Reserved and unreserved SQL keywords in PostgreSQL — identifiers that need quoting when used as table or column names.
 
-
-
-
+```txt
+        psql keywords ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explains mysterious syntax errors around `"user"` tables and teaches identifier folding rules (unquoted → lowercase).
+- **Interview probes:** Explains mysterious syntax errors around `"user"` tables and teaches identifi…
 
 ## Sources
 - [SQL Key Words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html) — overview
@@ -29,10 +35,12 @@ SELECT * FROM my_table;        -- unquoted folds to lowercase
 SELECT word FROM pg_get_keywords() WHERE word = 'user';
 ```
 
-Style: prefer `app_user` over `user` so quoting is unnecessary.
+- Style: prefer `app_user` over `user` so quoting is unnecessary.
 
-## Real-World Applications
-Schema reviews rename reserved identifiers; ORMs that quote everything still bite when raw SQL does not.
+## Mistakes to Avoid
+- **Mistake:** Creating `"User"` then querying `user` without quotes
+- **Mistake:** Copying MySQL backtick SQL into Postgres unchanged
+- **Mistake:** Using reserved words in public APIs that generate SQL
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Quoting escapes reserved words when rename is impossible.
@@ -40,9 +48,8 @@ Schema reviews rename reserved identifiers; ORMs that quote everything still bit
 - **Trade-off:** Always-quote policy vs never-use-reserved-words policy — prefer the latter.
 
 ## Comparison
-vs MySQL: reserved lists differ; MySQL also has quoting with backticks. Do not assume portability of identifier names.
+- vs MySQL: reserved lists differ
 
-## Mistakes to Avoid
-- Creating `"User"` then querying `user` without quotes.
-- Copying MySQL backtick SQL into Postgres unchanged.
-- Using reserved words in public APIs that generate SQL.
+
+### Use cases
+- Schema reviews rename reserved identifiers

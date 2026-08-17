@@ -4,12 +4,18 @@
 
 > SRT carries MPEG-TS (or other payloads) over UDP with encryption, configurable latency buffer, and packet retransmission — built for contribution across lossy networks.
 
-
-
-
+```txt
+        SRT (Secure Reliab ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk SRT end-to-end — not just name it. Signal fluency with **SRT**, **Latency (rcvbuf)**, **ARQ**, **Caller / Listener** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk SRT end-to-end
 
 ## Sources
 - [Wikipedia — SRT](https://en.wikipedia.org/wiki/SRT) — overview
@@ -17,11 +23,11 @@ Interviewers probe whether you can walk SRT end-to-end — not just name it. Sig
 - [SRT protocol technical overview](https://github.com/Haivision/srt) — deep-dive
 
 ## Key Concepts
-- **SRT:** UDP + reliability + encryption — “Contribution protocol — not for browser playback.”
-- **Latency (rcvbuf):** Buffer time for retransmits — “Higher latency absorbs more loss; lower = snappier but fragile.”
+- **SRT:** UDP + reliability + encryption
+- **Latency (rcvbuf):** Buffer time for retransmits
 - **ARQ:** Automatic repeat request — “NACK lost packets inside the latency window.”
 - **Caller / Listener:** Who dials whom — “Ingest is usually Listener; field encoder is Caller.”
-- **Rendezvous:** Both sides connect to a broker IP — “NAT traversal when neither side has a public port.”
+- **Rendezvous:** Both sides connect to a broker IP
 - **Stream ID:** Logical channel on one socket — “Multiplex tenants on one listener port.”
 - **Passphrase:** PSK encryption — “Like a stream key — rotate and never log in cleartext.”
 - **Protocol:** Wire — Loss handling
@@ -105,23 +111,7 @@ Internet contribution: 500–2000 ms
 Satellite / bad LTE:   2000–8000 ms
 ```
 
-If `pkt loss` counters climb, **increase latency** before re-encoding.
-
-## Real-World Applications
-Used wherever SRT sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
-- **Con / skip when:** **Clean studio multicast LAN** — raw UDP [[MPEG-TS]] or [[Multicast]] is simpler when loss is near zero.
-- **Con / skip when:** **Browser publish without a gateway** — use WebRTC WHIP or [[RTMP]] from OBS; browsers don’t speak SRT natively.
-- **Con / skip when:** **Ultra-low-latency interactive** — sub-300 ms peer media is [[WebRTC]] territory, not ARQ-buffered contribution.
-
-## Comparison
-- vs [[HLS]]: **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
-- vs [[MPEG-TS]]: **Clean studio multicast LAN** — raw UDP [[MPEG-TS]] or [[Multicast]] is simpler when loss is near zero.
-- vs [[RTMP]]: **Browser publish without a gateway** — use WebRTC WHIP or [[RTMP]] from OBS; browsers don’t speak SRT natively.
-- vs [[WebRTC]]: **Ultra-low-latency interactive** — sub-300 ms peer media is [[WebRTC]] territory, not ARQ-buffered contribution.
+- If `pkt loss` counters climb, **increase latency** before re-encoding.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -135,9 +125,26 @@ Used wherever SRT sits in an ingest → package → CDN → player path. Concret
 | Works lab, fails prod | NAT / symmetric NAT | Rendezvous server or public Listener IP |
 | RTMP bridge rejects | Codec in TS | Transcode to H.264+AAC for [[RTMP]] |
 
-- **SRT is not a player protocol** — terminate at ingest and egress [[HLS]] / [[DASH]] / [[WebRTC]] to viewers.
-- **Latency is not “free quality”** — too low on a lossy link causes constant ARQ and visible freezes; tune from measured loss, not defaults.
-- **Caller/Listener reversed** — encoder must be Caller when origin is Listener; swapping is the #1 integration mistake.
-- **Passphrase = secret** — same abuse model as [[RTMP]] stream keys; rate-limit and audit publish endpoints.
-- **Don’t confuse with [[SCTP (Stream Control Transmission Protocol)]]** — SCTP is WebRTC DataChannel transport; SRT is broadcast contribution over UDP ([[SCTP (Stream Control Transmission Protocol)#Gotchas]]).
-- **Firewall “open port” ≠ working SRT** — UDP must flow **both directions** for ARQ; stateful rules sometimes block return NACK path.
+- **Mistake:** **SRT is not a player protocol**
+- **Mistake:** **Latency is not “free quality”**
+- **Mistake:** **Caller/Listener reversed**
+- **Mistake:** **Passphrase = secret**
+- **Mistake:** **Don’t confuse with [[SCTP (Stream Control Transmission Protoco…
+- **Mistake:** **Firewall “open port” ≠ working SRT**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Mass audience delivery**
+- **Con / skip when:** **Clean studio multicast LAN**
+- **Con / skip when:** **Browser publish without a gateway**
+- **Con / skip when:** **Ultra-low-latency interactive**
+
+## Comparison
+- vs [[HLS]]: **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
+- vs [[MPEG-TS]]: **Clean studio multicast LAN**
+- vs [[RTMP]]: **Browser publish without a gateway**
+- vs [[WebRTC]]: **Ultra-low-latency interactive**
+
+
+### Use cases
+- Used wherever SRT sits in an ingest → package → CDN → player path

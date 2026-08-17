@@ -4,12 +4,18 @@
 
 > IOPS counts how many read/write commands a storage device completes per second — bytes/sec and latency still matter for real workloads.
 
-
-
-
+```txt
+        disk IOPS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Storage sizing: random 4K vs sequential MB/s, queue depth, and how [[fsync]] / page cache change observed IOPS.
+- **Interview probes:** Storage sizing: random 4K vs sequential MB/s, queue depth, and how [[fsync]] …
 
 ## Sources
 - Brendan Gregg — storage performance methodology — deep-dive
@@ -34,10 +40,12 @@ iostat -xz 1
 fio --name=test --rw=randread --bs=4k --iodepth=32 --numjobs=1
 ```
 
-[[CPU IO Bound Task]] services waiting on disk show low CPU and high `await` in `iostat`.
+- [[CPU IO Bound Task]] services waiting on disk show low CPU and high `await` …
 
-## Real-World Applications
-Database volume selection, fio capacity tests, and explaining why “plenty of GB free” still feels slow.
+## Mistakes to Avoid
+- **Mistake:** Sizing from sequential MB/s for a random OLTP workload
+- **Mistake:** Ignoring `await`/`svctm` while celebrating raw IOPS
+- **Mistake:** Benchmarking with cache hits and calling it device IOPS
 
 ## Pros/Cons or Trade-offs
 - **Higher queue depth:** more IOPS until latency explodes.
@@ -48,7 +56,6 @@ Database volume selection, fio capacity tests, and explaining why “plenty of G
 - vs bandwidth: different bottleneck axes for the same [[Persistent Block Storage]] device.
 - vs app ops/sec: not 1:1 because of caching and batching.
 
-## Mistakes to Avoid
-- Sizing from sequential MB/s for a random OLTP workload.
-- Ignoring `await`/`svctm` while celebrating raw IOPS.
-- Benchmarking with cache hits and calling it device IOPS.
+
+### Use cases
+- Database volume selection, fio capacity tests, and explaining why “plenty of …

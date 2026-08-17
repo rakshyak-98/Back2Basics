@@ -4,12 +4,17 @@
 
 > Debugger configuration wires your editor to a debug adapter — breakpoints, launch vs attach, and environment.
 
-
-
-
+```txt
+        Debugger configura ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Launch/attach config interviews check env vars, source maps, and unbound breakpoints.
+- **Interview probes:** Launch/attach config interviews check env vars, source maps, and unbound brea…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -46,10 +51,6 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | `skipFiles` | Skip node internals |
 | `console` | Integrated vs external |
 
-## Pros/Cons or Trade-offs
-- **One-line print in a script** — logging may be faster.
-- **production live traffic** — prefer tracing; debugger pauses freeze work.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Debugging minified prod without maps** — useless; use source maps or attach to non-minified.
@@ -63,3 +64,7 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | Can’t attach | port/pid | Correct debug port |
 | Env missing | launch env | Copy required vars |
 | Breaks in wrong file | path mapping | Fix `sourceMapPathOverrides` |
+
+## Pros/Cons or Trade-offs
+- **One-line print in a script** — logging may be faster.
+- **production live traffic** — prefer tracing; debugger pauses freeze work.

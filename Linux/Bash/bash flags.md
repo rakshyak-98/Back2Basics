@@ -4,19 +4,22 @@
 
 > Bash flags (`set -o` / `bash -e`) change shell behavior — strict mode, debug traces, noclobber, and friends.
 
-
-
-
+```txt
+        bash flags ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-`set -euo pipefail` is the expected baseline; know what each letter does and that `-e` has subtle exceptions.
+- **Interview probes:** `set -euo pipefail` is the expected baseline
 
 ## Sources
 - [Bash Reference — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html) — deep-dive
 - [BashFAQ — set -e](https://mywiki.wooledge.org/BashFAQ/105) — deep-dive
-
-## Core Definition
-`set -o option` (or short `-e`, `-u`, …) toggles shell options for the current shell. Scripts typically start with `set -euo pipefail`. `bash -x` / `set -x` traces commands as they run.
 
 ## Key Concepts
 - **`-e` (errexit):** Exit when a command fails (with caveats in `if`/`&&` lists).
@@ -24,6 +27,9 @@
 - **`-o pipefail:** Pipeline fails if any stage fails, not only the last.
 - **`-x` (xtrace):** Print commands — debug gold.
 - **`bash -n`:** Syntax check without running.
+
+
+- **Core:** `set -o option` (or short `-e`, `-u`, …) toggles shell options for the curren…
 
 ## Technical Details
 ```bash
@@ -59,8 +65,10 @@ set -o nounset
 | Trace too noisy | whole script `-x` | Wrap critical section only |
 | `nounset` on optional arg | `${1}` | Use `${1:-}` |
 
-## Real-World Applications
-Making CI deploy scripts fail loudly, tracing a flaky install with `bash -x`, and preventing accidental overwrite with `noclobber`.
+## Mistakes to Avoid
+- **Mistake:** Believing `-e` covers every failure mode (read the FAQ exception…
+- **Mistake:** Leaving `set -x` on in production cron (secret leakage in logs)
+- **Mistake:** Using `cmd || true` everywhere “to satisfy -e.”
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Catches silent failures early.
@@ -68,9 +76,8 @@ Making CI deploy scripts fail loudly, tracing a flaky install with `bash -x`, an
 - **Trade-off:** Strict scripts vs temporary `set +e` around expected failures.
 
 ## Comparison
-vs language exceptions: shell uses exit statuses + options. vs `shellcheck`: static analysis complements runtime flags. Related: [[bash script]].
+- vs language exceptions: shell uses exit statuses + options
 
-## Mistakes to Avoid
-- Believing `-e` covers every failure mode (read the FAQ exceptions).
-- Leaving `set -x` on in production cron (secret leakage in logs).
-- Using `cmd || true` everywhere “to satisfy -e.”
+
+### Use cases
+- Making CI deploy scripts fail loudly, tracing a flaky install with `bash -x`,…

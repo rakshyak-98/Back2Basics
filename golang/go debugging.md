@@ -4,12 +4,17 @@
 
 > Debug Go — race detector, Delve, pprof, and logging beats printf-only when concurrency bites.
 
-
-
-
+```txt
+        go debugging ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Debugging questions check race detector, Delve, and pprof — can you find data races and CPU/memory hotspots under concurrency?
+- **Interview probes:** Debugging questions check race detector, Delve, and pprof
 
 ## Sources
 - [Go blog — Introducing the Go Race Detector](https://go.dev/blog/race-detector) — overview
@@ -59,12 +64,12 @@ dlv exec ./bin/app
 | Can’t hit breakpoint | Optimized build | `gcflags` all=-N -l |
 | Works in test not prod | Env / GOMAXPROCS | Match configs |
 
+## Mistakes to Avoid
+- **Mistake:** Race detector slows runs — CI sample + local on concurrent pkgs
+- **Mistake:** pprof without auth on public IP — don’t
+- **Mistake:** Optimizations hide vars in dlv — disable for debug builds
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Printf forever — fine for tiny scripts; not for races.
 - **Trade-off:** Production `dlv attach` casually — prefer metrics/pprof first.
 - **Trade-off:** Ignoring failures that “retry works” — usually a race.
-
-## Mistakes to Avoid
-- Race detector slows runs — CI sample + local on concurrent pkgs.
-- pprof without auth on public IP — don’t.
-- Optimizations hide vars in dlv — disable for debug builds.

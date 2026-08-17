@@ -4,15 +4,14 @@
 
 > AWS bills per service, per second or per request — surprises usually come from data transfer, idle Elastic IPs, unattached EBS volumes, and resources left running in forgotten regions.
 
-
-
-
+```txt
+        AWS Billing and co ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Interviewers ask about AWS Billing and cost management to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- Why does data transfer *out* to the internet often dominate unexpected bills?
-- What is the difference between blended cost and unblended cost in Cost Explorer?
+- **Interview probes:** Interviewers ask about AWS Billing and cost management to see whether you can…
 
 ## Sources
 - [AWS Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) — overview
@@ -29,7 +28,7 @@ Interviewers ask about AWS Billing and cost management to see whether you can de
 | **Requests** | S3 GET/PUT, API Gateway, Route 53 queries |
 | **Licensing** | Marketplace AMIs, Windows/RHEL surcharges |
 
-**Free Tier** applies to new accounts for 12 months on select services; always confirm current free tier scope on the pricing page.
+- **Free Tier:** applies to new accounts for 12 months on select services
 
 ### Cost control tools
 
@@ -43,7 +42,8 @@ Interviewers ask about AWS Billing and cost management to see whether you can de
 
 ### Tagging strategy
 
-Enforce tags (`Environment`, `Team`, `CostCenter`) via [[IAM]] or Service Control Policies. Untagged resources make chargeback impossible.
+- Enforce tags (`Environment`, `Team`, `CostCenter`) via [[IAM]] or Service Con…
+- Untagged resources make chargeback impossible.
 
 ```bash
 aws ce get-cost-and-usage \
@@ -63,6 +63,6 @@ aws ce get-cost-and-usage \
 
 ### Savings instruments
 
-- **Savings Plans / Reserved Instances** — commit to steady compute usage
-- **Spot Instances** — interruptible batch work on [[AWS EC2]]
-- **S3 Intelligent-Tiering / lifecycle rules** — move cold data to Glacier
+- **Savings Plans / Reserved Instances:** — commit to steady compute usage
+- **Spot Instances:** — interruptible batch work on [[AWS EC2]]
+- **S3 Intelligent-Tiering / lifecycle rules:** — move cold data to Glacier

@@ -4,12 +4,17 @@
 
 > Async JS schedules work for later — callbacks, promises, async/await on the event loop, not OS threads by default.
 
-
-
-
+```txt
+        Asynchronous ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Async interviews cover promises/async-await, microtasks, and error propagation.
+- **Interview probes:** Async interviews cover promises/async-await, microtasks, and error propagatio…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -43,10 +48,6 @@ load().catch(console.error)
 | Cancellation | AbortController |
 | Queue choice | micro vs macro ordering |
 
-## Pros/Cons or Trade-offs
-- **Pure CPU crunch on main thread** — worker.
-- **Truly parallel shared-memory needs** — careful Atomics / WASM / native.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **await in a loop** — serializes; use `Promise.all` when safe.
@@ -60,3 +61,7 @@ load().catch(console.error)
 | Race UI | unordered awaits | sequence or lock |
 | Starvation | long sync | chunk work |
 | Zalgo | sync sometimes callback | Always async or always sync |
+
+## Pros/Cons or Trade-offs
+- **Pure CPU crunch on main thread** — worker.
+- **Truly parallel shared-memory needs** — careful Atomics / WASM / native.

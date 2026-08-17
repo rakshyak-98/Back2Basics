@@ -4,18 +4,24 @@
 
 > Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
-
-
-
+```txt
+        Byte stream ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about Byte stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Byte stream to see if you understand the pipeline role…
 
 ## Sources
 - [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream) — overview
 
 ## Key Concepts
-A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in message boundaries. TCP, pipes, and file reads all expose byte streams; **containers** (MP4, MPEG-TS, CMAF) impose structure on top. Streaming engineers care because players, packagers, and CDNs must agree on **where segment boundaries fall** in that stream.
+- **Note:** A **byte stream** is an **ordered, undelimited flow of bytes** with no built-…
 
 | Layer | Example | Boundary model |
 |-------|---------|----------------|
@@ -24,7 +30,7 @@ A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in 
 | Packaging | HLS segment, DASH Segment | HTTP object = N seconds of container |
 | Application | Manifest (`.m3u8`, MPD) | Lists URL + byte-range or whole file |
 
-**Progressive download** (single MP4 over HTTP) is a byte stream with a `moov` atom at the front or end — player needs index before seek works. **ABR streaming** splits the byte stream into **addressable HTTP objects** listed in [[Manifest (streaming)]].
+- **Note:** **Progressive download** (single MP4 over HTTP) is a byte stream with a `moov…
 
 ## Technical Details
 ```txt
@@ -68,15 +74,6 @@ cat input.ts | ffmpeg -i pipe:0 -c copy -f mpegts pipe:1
 proxy_cache_key "$scheme$request_method$host$request_uri";
 ```
 
-## Real-World Applications
-Used wherever Byte stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
-- **Con / skip when:** **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
-- **Con / skip when:** **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,7 +84,16 @@ Used wherever Byte stream sits in an ingest → package → CDN → player path.
 | Pipe stall | Blocking read on empty stdin | Buffer in ingest; timeout watchdog ([[ingestion]]) |
 | moof sequence gap | Packager crash mid-segment | Drop bad segment; roll `#EXT-X-MEDIA-SEQUENCE` |
 
-- **Treating TCP stream as messages** — RTMP/SRT/WebRTC add framing; raw TCP needs application protocol.
-- **Byte-range without Content-Range** — DASH players fail range requests; origin must honor RFC 7233.
-- **Appending to open file** — live HLS writes growing playlist + closed segment files; don't serve incomplete `.m4s` without LL-HLS partials.
-- **Endianness in container boxes** — binary parse errors look like "random corruption"; use `ffprobe`, not hex guessing.
+- **Mistake:** **Treating TCP stream as messages**
+- **Mistake:** **Byte-range without Content-Range**
+- **Mistake:** **Appending to open file**
+- **Mistake:** **Endianness in container boxes**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Message-oriented control**
+- **Con / skip when:** **Exactly-once business events**
+- **Con / skip when:** **Small configuration blobs**
+
+## Real-World Applications
+- **Scenario:** Used wherever Byte stream sits in an ingest → package → CDN → player path

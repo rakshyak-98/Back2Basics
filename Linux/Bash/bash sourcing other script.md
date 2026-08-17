@@ -4,19 +4,22 @@
 
 > Sourcing runs another file in the current shell — functions, variables, and cd persist; executing `./script.sh` usually does not.
 
-
-
-
+```txt
+        Bash sourcing othe ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never `exit` from a sourced helper unless you mean to kill the caller.
+- **Interview probes:** Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never…
 
 ## Sources
 - [Bash Reference — Bourne Shell Builtins (`.` / `source`)](https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html) — deep-dive
 - [BashFAQ — sourcing](https://mywiki.wooledge.org/BashFAQ/028) — overview
-
-## Core Definition
-`. file` or `source file` reads and executes commands in the **current** shell environment. That is how Bash libraries export functions. A separate `./file` runs in a subshell (typically); definitions disappear when it ends.
 
 ## Key Concepts
 - **Same shell:** Exports, functions, `cd`, options affect the caller.
@@ -24,6 +27,9 @@ Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never `e
 - **`BASH_SOURCE`:** Reliable path to the current script file.
 - **`return` in sourced file:** Leaves the sourced file, not always the whole script.
 - **`exit` in sourced file:** Exits the caller shell/script.
+
+
+- **Core:** `. file` or `source file` reads and executes commands in the **current** shel…
 
 ## Technical Details
 ```txt
@@ -63,8 +69,10 @@ deploy_app() {
 | Wrong lib path | cwd-relative source | Resolve via `BASH_SOURCE` |
 | set -e quirks | options inherited | Document; isolate with subshell if needed |
 
-## Real-World Applications
-Shared deploy helpers (`log`, `die`, `require_env`) across multiple scripts, and loading environment-specific overrides without forking.
+## Mistakes to Avoid
+- **Mistake:** Sourcing with relative paths that break when cwd changes
+- **Mistake:** Putting `exit 1` in helpers meant to be sourced
+- **Mistake:** Assuming `./utils.sh` loads functions into the parent shell
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Zero-fork reuse; true shared state when wanted.
@@ -72,9 +80,8 @@ Shared deploy helpers (`log`, `die`, `require_env`) across multiple scripts, and
 - **Trade-off:** Source libraries vs `bash -c` / external scripts for isolation.
 
 ## Comparison
-vs executing a script: isolation vs shared env. vs [[Bash functions]]: functions are what you usually define inside sourced libs. vs Python imports: similar idea, different semantics.
+- vs executing a script: isolation vs shared env
 
-## Mistakes to Avoid
-- Sourcing with relative paths that break when cwd changes.
-- Putting `exit 1` in helpers meant to be sourced.
-- Assuming `./utils.sh` loads functions into the parent shell.
+
+### Use cases
+- Shared deploy helpers (`log`, `die`, `require_env`) across multiple scripts, …

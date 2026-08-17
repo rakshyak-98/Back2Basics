@@ -4,28 +4,25 @@
 
 > Pixel-filling stage after layout — text, colors, borders, shadows, images recorded into layers for compositing.
 
-
-
-
+```txt
+        paint ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Checks whether you can rank CSS property cost (layout vs paint vs composite) and debug repaints with paint flashing / Layers in DevTools.
+- **Interview probes:** Checks whether you can rank CSS property cost (layout vs paint vs composite) …
 
 ## Sources
 - [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive
 - [web.dev — Reduce the scope and complexity of style calculations](https://web.dev/articles/reduce-the-scope-and-complexity-of-style-calculations) — overview
 
-## Core Definition
-Once geometry is known, paint builds draw lists (and rasters) for visible content. Changing a paint-only property skips layout but still costs GPU/CPU work proportional to the invalidated area.
-
-## Recall Cues
-- Why do interviewers care about Checks whether you can rank CSS property cost (layout vs paint vs composite) and debug repaints with paint flashing / Layers in DevTools?
-- What is step 1: Rendering → Paint flashing?
-- What is step 2: Layers panel — promotion and memory?
-- What is step 3: Performance — Paint / Raster slices?
-- What mistake is **`will-change` on everything — layer memory blowups and sometimes slower scrolling**?
-- What mistake is **Profiling only desktop — mobile GPUs amplify paint cost**?
-- What mistake is **Ignoring print stylesheets — separate paint path when print bugs appear**?
+## Key Concepts
+- **Core:** Once geometry is known, paint builds draw lists (and rasters) for visible con…
 
 ## Technical Details
 ```
@@ -54,8 +51,6 @@ function updateVisual(state) {
 }
 ```
 
-DevTools:
-
 1. Rendering → Paint flashing
 2. Layers panel — promotion and memory
 3. Performance — Paint / Raster slices
@@ -68,17 +63,18 @@ DevTools:
 | Scroll jank + fixed background | `background-attachment: fixed` | Pseudo-element layer instead |
 
 ## Mistakes to Avoid
-- `will-change` on everything — layer memory blowups and sometimes slower scrolling.
-- Profiling only desktop — mobile GPUs amplify paint cost.
-- Ignoring print stylesheets — separate paint path when print bugs appear.
+- **Mistake:** `will-change` on everything
+- **Mistake:** Profiling only desktop — mobile GPUs amplify paint cost
+- **Mistake:** Ignoring print stylesheets
+
+## Pros/Cons or Trade-offs
+- **Pro:** Paint-only updates are cheaper than layout when geometry is stable.
+- **Con:** Pretty effects (huge blurs/shadows) are still expensive — especially on mobile GPUs.
 
 ## Comparison
 - vs [[Rendering performance/composite]]: paint draws into layers; composite merges layers.
 - vs [[Rendering performance/INP]]: paint time is part of presentation delay after an interaction.
 
-## Real-World Applications
-Hover states on a dense data grid: `box-shadow` on every cell repainted huge regions. Switching to a border/outline on a single highlight layer cut paint time.
 
-## Pros/Cons or Trade-offs
-- **Pro:** Paint-only updates are cheaper than layout when geometry is stable.
-- **Con:** Pretty effects (huge blurs/shadows) are still expensive — especially on mobile GPUs.
+### Use cases
+- Hover states on a dense data grid: `box-shadow` on every cell repainted huge …

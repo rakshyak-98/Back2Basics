@@ -4,12 +4,18 @@
 
 > Kubernetes package manager — charts template manifests; releases track what you installed and how to upgrade or roll back.
 
-
-
-
+```txt
+        Helm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers distinguish chart/release/repo, templating (`values` → manifests), and hooks/CRDs as common footguns.
+- **Interview probes:** Interviewers distinguish chart/release/repo, templating (`values` → manifests…
 
 ## Sources
 - [Helm — Docs](https://helm.sh/docs/) — deep-dive
@@ -30,16 +36,17 @@ helm upgrade my-release bitnami/nginx -f values.yaml
 helm rollback my-release 1
 ```
 
-Charts can include many resource kinds (Deployments, Services, CRDs). The resource `kind` field is standard Kubernetes; Helm applies whatever the templates render.
+- Charts can include many resource kinds (Deployments, Services, CRDs).
+- The resource `kind` field is standard Kubernetes
 
 ```
 Chart + values → rendered manifests → cluster objects (release)
 ```
 
-## Real-World Applications
-Standardize third-party stack installs (monitoring, ingress, databases operators) with pinned chart versions.
-
-**Example:** Prod and staging share a chart with different `values-prod.yaml` / `values-staging.yaml`.
+## Mistakes to Avoid
+- **Mistake:** Blind upgrades without rendering/diffing
+- **Mistake:** Letting chart defaults open LoadBalancers in the wrong environme…
+- **Mistake:** Ignoring CRD upgrade instructions in chart docs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ecosystem + revisioned releases.
@@ -49,7 +56,8 @@ Standardize third-party stack installs (monitoring, ingress, databases operators
 - vs [[cli]]: conceptual model vs command cheat sheet.
 - vs plain GitOps manifests: Helm adds packaging; GitOps still applies the output.
 
-## Mistakes to Avoid
-- Blind upgrades without rendering/diffing.
-- Letting chart defaults open LoadBalancers in the wrong environment.
-- Ignoring CRD upgrade instructions in chart docs.
+
+### Use cases
+- Standardize third-party stack installs (monitoring, ingress, databases operat…
+
+- **Example:** Prod and staging share a chart with different `values-prod.yaml`…

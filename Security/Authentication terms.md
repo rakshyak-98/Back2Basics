@@ -4,25 +4,28 @@
 
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
-
-
-
+```txt
+        Authentication ter ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Staff interviews expect precise AuthN vs AuthZ vocabulary — sessions, tokens, MFA, SSO — without conflating identity proof with permissions.
+- **Interview probes:** Staff interviews expect precise AuthN vs AuthZ vocabulary
 
 ## Sources
 - [NIST SP 800-63B — Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html) — deep-dive
 - [OWASP — Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
 
-## Core Definition
-A shared glossary of identity primitives so design reviews, incidents, and API specs use the same words for AuthN, AuthZ, sessions, and tokens.
-
 ## Key Concepts
 Authentication stack layers:
 
 ```txt
-Identity proof  →  Session/token  →  Authorization (what you may do)
+- **Note:** Identity proof → Session/token → Authorization (what you may do)
      │                    │
      └── factors          └── bearer vs proof-of-possession
 ```
@@ -47,6 +50,9 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 | **API key** | Long-lived identifier + secret — service accounts |
 | **mTLS** | Client cert as authentication factor |
 | **RBAC / ABAC** | Role vs attribute based authorization |
+
+
+- **Core:** A shared glossary of identity primitives so design reviews, incidents, and AP…
 
 ## Technical Details
 ### TOTP setup (concept)
@@ -76,7 +82,7 @@ authn_success user_id=... method=oidc
 authz_denied  user_id=... resource=... action=delete
 ```
 
-**Why separate AuthN/AuthZ:** passing login doesn't imply administrator — check permissions every request.
+- **Why separate AuthN/AuthZ:** passing login doesn't imply administrator
 
 ### Failure signals
 
@@ -88,18 +94,19 @@ authz_denied  user_id=... resource=... action=delete
 | OAuth confusion | Using access token as ID token | Use OIDC ID token for identity |
 | Session fixation | Cookie not rotated on login | Regenerate session ID |
 
-## Real-World Applications
-Use this vocabulary in design docs and incident write-ups so AuthN, AuthZ, MFA, and session vs token are not conflated.
+## Mistakes to Avoid
+- **Mistake:** OAuth ≠ authentication
+- **Mistake:** `top_secret` in TOTP
+- **Mistake:** Bearer token in URL
+- **Mistake:** API key in frontend — not secret; use backend proxy
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared vocabulary reduces design and incident ambiguity.
 - **Con:** Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
 
 ## Comparison
-- vs [[JWT authentication]] / [[single-sign-on (SSO)]]: glossary vs concrete mechanisms — use terms consistently when designing those systems.
+- vs [[JWT authentication]] / [[single-sign-on (SSO)]]: glossary vs concrete mechanisms
 
-## Mistakes to Avoid
-- OAuth ≠ authentication — unless using OIDC ID token validated properly.
-- `top_secret` in TOTP — compromise = forge all future codes; treat like password hash seed.
-- Bearer token in URL — logs, Referer leaks — use Authorization header.
-- API key in frontend — not secret; use backend proxy.
+
+### Use cases
+- Use this vocabulary in design docs and incident write-ups so AuthN, AuthZ, MF…

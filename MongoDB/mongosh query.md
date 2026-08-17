@@ -4,12 +4,17 @@
 
 > Everyday find/aggregate patterns in mongosh — filter, project, sort, explain.
 
-
-
-
+```txt
+        mongosh query ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Query interviews probe filters, projections, and explain plans — collection scans are a red flag.
+- **Interview probes:** Query interviews probe filters, projections, and explain plans
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -50,10 +55,6 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 | Covered query | Index has all fields |
 | Hint | Force index when planner errs |
 
-## Pros/Cons or Trade-offs
-- **application production path** — driver with timeouts/pools.
-- **Giant reporting** — warehouse / secondary + aggregate carefully.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **`find({a: {$gt: 1, $lt: 5}})`** — combine range ops on one field carefully; know index bounds.
@@ -67,3 +68,7 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 | Slow sort | sort stage in memory | Index sort keys |
 | Huge RAM in shell | `toArray` | iterate cursor |
 | Wrong results | operator typo | `$eq` vs assignment mistakes |
+
+## Pros/Cons or Trade-offs
+- **application production path** — driver with timeouts/pools.
+- **Giant reporting** — warehouse / secondary + aggregate carefully.

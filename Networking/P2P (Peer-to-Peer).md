@@ -4,25 +4,20 @@
 
 > P2P means peers talk to each other — share load and data without every byte going through your central server.
 
-
-
-
+```txt
+        P2P (Peer-to-Peer) ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use P2P to test whether you know signaling vs media path, mesh vs SFU scaling, and why internet P2P still needs [[NAT Traversal]] infrastructure. Say clearly what is peer traffic and what still runs on your servers.
+- **Interview probes:** Interviewers use P2P to test whether you know signaling vs media path, mesh v…
 
 ## Sources
 - [Wikipedia — P2P](https://en.wikipedia.org/wiki/P2P) — overview
-
-## Recall Cues
-- Why do interviewers care about Interviewers use P2P to test whether you know signaling vs media path, mesh vs SFU scaling, and why internet P2P still needs [[NAT Traversal]] infrastructure?
-- Why do interviewers care about Say clearly what is peer traffic and what still runs on your servers?
-- What happens in the **Meet** step?
-- What happens in the **Path** step?
-- What happens in the **Exchange** step?
-- What mistake is **Claiming P2P needs no servers — you still need signaling, STUN/TURN, and often an SFU**?
-- What mistake is **Using full mesh beyond a handful of peers — CPU and uplink die around 5+ interactive users**?
-- What mistake is **Trusting peers by default — authenticate signaling, encrypt media/data, validate payloads**?
 
 ## Technical Details
 ```txt
@@ -39,15 +34,15 @@ Interviewers use P2P to test whether you know signaling vs media path, mesh vs S
 | **Relay / SFU** | Server that forwards media | For calls we often use an SFU, not full mesh. |
 | **NAT** | Blocks unsolicited inbound | P2P needs [[NAT Traversal]] in the real world. |
 
-Call-style P2P flow:
+- Call-style P2P flow:
 
 1. **Meet** — peers find each other via signaling/tracker (not the media path).
 2. **Path** — [[ICE (Interactive Connectivity Establishment)]] finds direct or [[TURN server (Traversal Using Relays around NAT)]].
 3. **Exchange** — media/data flows peer↔peer (or via SFU for many-party).
 
-WebRTC mesh (2 peers): `RTCPeerConnection` + signaling — see [[WebRTC Signaling channels]].
+- WebRTC mesh (2 peers): `RTCPeerConnection` + signaling
 
-Many-party: prefer SFU (Selective Forwarding Unit) over full mesh — each client uploads once.
+- Many-party: prefer SFU (Selective Forwarding Unit) over full mesh
 
 ```js
 // Conceptual: one upload to SFU, not N-1 mesh links
@@ -64,17 +59,18 @@ pc.addTrack(localTrack)
 | Mobile battery drain | Always-on mesh | Limit links; duty-cycle; move heavy work to edge servers |
 
 ## Mistakes to Avoid
-- Claiming P2P needs no servers — you still need signaling, STUN/TURN, and often an SFU.
-- Using full mesh beyond a handful of peers — CPU and uplink die around 5+ interactive users.
-- Trusting peers by default — authenticate signaling, encrypt media/data, validate payloads.
-- Choosing P2P for strong audit/compliance or tiny control-plane APIs where plain HTTPS to a backend is simpler.
-
-## Comparison
-vs client–server: client–server puts all data through your backend; P2P moves the heavy path peer↔peer (or via SFU) while still needing a control-plane meeting point. For one-to-many OTT video, prefer [[HLS]] / [[DASH]] + CDN over mesh.
-
-## Real-World Applications
-Video calls ([[WebRTC]]), file sharing, game updates, and live contribution when you want edge capacity. Example: a 2-person WebRTC call uses host/srflx candidates; a 12-person meeting switches to an SFU so each client uploads one stream.
+- **Mistake:** Claiming P2P needs no servers
+- **Mistake:** Using full mesh beyond a handful of peers
+- **Mistake:** Trusting peers by default
+- **Mistake:** Choosing P2P for strong audit/compliance or tiny control-plane A…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Offloads bandwidth and compute to peers; can lower central server cost and latency for direct paths.
 - **Con:** NAT, trust, free-riders, and mesh scaling force signaling, TURN, and often an SFU — "no infrastructure" is a myth on the public internet.
+
+## Comparison
+- vs client–server: client–server puts all data through your backend
+
+
+### Use cases
+- Video calls ([[WebRTC]]), file sharing, game updates, and live contribution w…

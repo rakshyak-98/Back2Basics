@@ -2,14 +2,20 @@
 
 # HES Architecture
 
-> A Head-End System (HES) sits at the edge of trust between devices and the core platform — ingesting telemetry, validating identity, buffering bursts, and forwarding with at-least-once delivery that the core must deduplicate.
+> A Head-End System (HES) sits at the edge of trust between devices and the core platform — ingesting telemetry, validating identity, buffering bursts, and forwarding with at-least-once delivery that the core must dedupli…
 
-
-
-
+```txt
+        HES Architecture ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explain head-end as trust boundary between field devices and IT systems — ingestion, protocol translation, and command path controls.
+- **Interview probes:** Explain head-end as trust boundary between field devices and IT systems
 
 ## Sources
 - IEC 61968 / utility head-end integration guides (domain-specific) — overview
@@ -25,7 +31,7 @@ Explain head-end as trust boundary between field devices and IT systems — inge
 ## Technical Details
 ### What "HES" means in practice
 
-The acronym collides by industry:
+- The acronym collides by industry:
 
 | Domain | HES role |
 |--------|----------|
@@ -33,7 +39,7 @@ The acronym collides by industry:
 | **Healthcare** | Clinical edge gateway — protected health information boundary before cloud |
 | **Generic IoT** | Device ingest tier with store-and-forward |
 
-Confirm scope with stakeholders before designing — compliance and protocol adapters differ.
+- Confirm scope with stakeholders before designing
 
 ### Reference flow
 
@@ -49,7 +55,7 @@ Devices / clients
     analytics · billing · electronic health record · supervisory control
 ```
 
-**Non-functional targets** common to HES deployments:
+- **Non-functional targets:** common to HES deployments:
 
 - High availability at the edge cluster (often 99.9%+)
 - At-least-once ingest with **idempotent core** writes
@@ -84,7 +90,7 @@ Content-Type: application/json
 → 202 Accepted + correlationId
 ```
 
-Core database:
+- Core database:
 
 ```sql
 INSERT INTO readings (device_id, seq, ts, payload)
@@ -94,21 +100,9 @@ ON CONFLICT (device_id, seq) DO NOTHING;
 
 ### Edge proxy and health
 
-[[Configuration]] example (nginx): rate limit per device, body size cap, read timeout aligned with upstream.
+- [[Configuration]] example (nginx): rate limit per device, body size cap, read…
 
-Kubernetes **readiness** should fail when local queue depth exceeds threshold or certificate expires within seven days — distinguish "alive" from "can forward."
-
-## Real-World Applications
-Utilities AMI/AMR, industrial telemetry gateways, and smart-meter head-ends.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Centralizes device chaos behind one controlled edge.
-- **Con:** Head-end outage blinds or blocks a whole field fleet.
-- **Trade-off:** rich protocol support vs attack surface.
-
-## Comparison
-- vs generic [[API design]]: HES adds field protocols and physical-world actuators.
-- vs [[IM (Information Management) production systems]]: media IM vs utility/device head-end.
+- Kubernetes **readiness** should fail when local queue depth exceeds threshold…
 
 ## Mistakes to Avoid
 | Symptom | Direction |
@@ -120,3 +114,16 @@ Utilities AMI/AMR, industrial telemetry gateways, and smart-meter head-ends.
 | Latency service level objective miss | Hot device partition — shard by device identifier |
 
 *What breaks first during partition?* Spool disk without a defined overflow policy.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Centralizes device chaos behind one controlled edge.
+- **Con:** Head-end outage blinds or blocks a whole field fleet.
+- **Trade-off:** rich protocol support vs attack surface.
+
+## Comparison
+- vs generic [[API design]]: HES adds field protocols and physical-world actuators.
+- vs [[IM (Information Management) production systems]]: media IM vs utility/device head-end.
+
+
+### Use cases
+- Utilities AMI/AMR, industrial telemetry gateways, and smart-meter head-ends.

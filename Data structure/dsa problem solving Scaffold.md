@@ -4,12 +4,17 @@
 
 > A repeatable scaffold for interview DSA — clarify, pattern-match, complexity, then code + tests.
 
-
-
-
+```txt
+        dsa problem solvin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-A scaffold shows process maturity — clarify, pattern-match, complexity, then code — not jumping straight to syntax.
+- **Interview probes:** A scaffold shows process maturity
 
 ## Sources
 - [Cracking the Coding Interview — process](https://www.crackingthecodinginterview.com/) — overview
@@ -17,7 +22,7 @@ A scaffold shows process maturity — clarify, pattern-match, complexity, then c
 
 ## Key Concepts
 ```txt
-1 clarify I/O  2 examples  3 brute  4 pattern  5 code  6 test
+- **Note:** 1 clarify I/O 2 examples 3 brute 4 pattern 5 code 6 test
 ```
 
 ### Interview map (words you can say)
@@ -51,10 +56,10 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 | WA | edges | empty/dupes/off-by-one |
 | Can’t explain | no invariant | State loop promise |
 
+## Mistakes to Avoid
+- **Mistake:** Jumping to optimal
+- **Mistake:** Silent assumptions — sorted input, unique keys, fit in int
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** production bugfix with known root cause — scaffold is for unknown problems.
 - **Trade-off:** Pure systems design — different checklist.
-
-## Mistakes to Avoid
-- Jumping to optimal — if you can’t prove it, start brute and optimize.
-- Silent assumptions — sorted input, unique keys, fit in int.

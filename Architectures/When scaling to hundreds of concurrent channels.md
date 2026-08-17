@@ -4,12 +4,17 @@
 
 > Many live channels at once — isolate encode/ingest per channel so one bad feed doesn’t take the fleet.
 
-
-
-
+```txt
+        When scaling to hu ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Multi-channel live scale questions probe isolation — one bad ingest must not cascade across the encode fleet.
+- **Interview probes:** Multi-channel live scale questions probe isolation
 
 ## Sources
 - [AWS — Live streaming](https://aws.amazon.com/media/tech/live-streaming/) — overview
@@ -17,7 +22,7 @@ Multi-channel live scale questions probe isolation — one bad ingest must not c
 
 ## Key Concepts
 ```txt
-Channel N:  ingest ──► transcoder ──► packager ──► origin/CDN
+- **Note:** Channel N: ingest ──► transcoder ──► packager ──► origin/CDN
                  │           │
                  └─ isolate CPU/GPU / limits per channel
 ```
@@ -55,10 +60,10 @@ Per channel budget (example):
 | Origin 5xx storm | Packager backlog | Scale packagers; shed load |
 | Wrong channel content | Routing / keyer | Fix channel_id mapping |
 
+## Mistakes to Avoid
+- **Mistake:** Shared giant process
+- **Mistake:** No per-channel SLOs
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Single 24/7 linear channel — simpler dedicated box is enough.
 - **Trade-off:** VoD only — no live concurrency problem; use normal ABR+CDN.
-
-## Mistakes to Avoid
-- Shared giant process — one ffmpeg supervising “all channels” is an outage waiting to happen.
-- No per-channel SLOs — fleet averages hide the channel that is on fire.

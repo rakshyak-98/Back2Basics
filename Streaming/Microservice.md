@@ -4,12 +4,17 @@
 
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
-
-
-
+```txt
+        Microservice (stre ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Microservice to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Microservice to see if you understand the pipeline rol…
 
 ## Sources
 - [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice) — overview
@@ -66,19 +71,7 @@ license_requests_error_rate
 manifest_sign_failures
 ```
 
-Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
-
-## Real-World Applications
-Used wherever Microservice sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
-- **Con / skip when:** **Split analytics before playback SLO met** — observability yes, service boundary no.
-- **Con / skip when:** **Separate team microservice for configuration flags** — use platform feature flags.
-
-## Comparison
-- vs [[flussonic]]: **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
+- Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -91,8 +84,21 @@ Used wherever Microservice sits in an ingest → package → CDN → player path
 | Cost spike | Egress from origin not CDN | Cache miss — fix CDN key; origin should not serve 80% traffic |
 | One bad channel kills fleet | No bulkhead | Per-tenant quotas; isolate ingest process/containers |
 
-- **Distributed transcode saga** — job state in three services without idempotency → orphan segments on partial failure.
-- **License server calls catalog** — outage blocks playback; embed minimal entitlement in signed JWT.
-- **Packager + origin shared disk** — NFS on hot path — use object storage.
-- **Microservice chat for frame data** — never RPC per frame; shared memory or pipeline in one process.
-- **Over-split before [[When scaling to hundreds of concurrent channels]]** — operational tax without revenue-scale need.
+- **Distributed transcode saga**::** → orphan segments on partial failure
+- **Mistake:** **License server calls catalog**
+- **Mistake:** **Packager + origin shared disk**
+- **Mistake:** **Microservice chat for frame data**
+- **Mistake:** **Over-split before [[When scaling to hundreds of concurrent cha…
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **MVP single channel**
+- **Con / skip when:** **Split analytics before playback SLO met**
+- **Con / skip when:** **Separate team microservice for configuration flags**
+
+## Comparison
+- vs [[flussonic]]: **MVP single channel**
+
+
+### Use cases
+- Used wherever Microservice sits in an ingest → package → CDN → player path

@@ -4,12 +4,18 @@
 
 > Controls systemd units — start/stop/enable/status — the everyday service remote control.
 
-
-
-
+```txt
+        systemctl ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic trap: **enable ≠ start**. Interviewers also want mask vs disable and `daemon-reload` after unit edits.
+- **Interview probes:** Classic trap: **enable ≠ start**
 
 ## Sources
 - [systemd.systemctl(1)](https://www.freedesktop.org/software/systemd/man/systemctl.html) — deep-dive
@@ -54,10 +60,10 @@ journalctl -u nginx -b --no-pager | tail
 | Starts then dies | Restart loop | Fix crash; watch `Restart=` storms |
 | masked | `is-enabled` | `unmask` if undo is intentional |
 
-## Real-World Applications
-Deploying nginx/postgres as units, enabling on boot after install, and triaging `list-units --failed` after a reboot.
-
-**Example:** After editing a drop-in under `/etc/systemd/system/foo.service.d/`, always `daemon-reload` then `restart`.
+## Mistakes to Avoid
+- **Mistake:** Enabling without starting (or the reverse) and calling the servi…
+- **Mistake:** Restarting mid-`apt` unpack and racing dpkg
+- **Mistake:** Forgetting linger for `--user` units on headless hosts: `loginct…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One CLI for lifecycle, dependencies, and status across the fleet.
@@ -68,7 +74,8 @@ Deploying nginx/postgres as units, enabling on boot after install, and triaging 
 - vs [[Service masking]]: mask is the hard block; disable only skips boot start.
 - vs OpenRC/SysV: other init systems use different tools ([[SYSV (System V)]]).
 
-## Mistakes to Avoid
-- Enabling without starting (or the reverse) and calling the service “on.”
-- Restarting mid-`apt` unpack and racing dpkg.
-- Forgetting linger for `--user` units on headless hosts: `loginctl enable-linger`.
+
+### Use cases
+- Deploying nginx/postgres as units, enabling on boot after install, and triagi…
+
+- **Example:** After editing a drop-in under `/etc/systemd/system/foo.service.d…

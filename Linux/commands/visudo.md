@@ -4,12 +4,18 @@
 
 > Edits sudoers safely — file lock plus syntax check so a typo does not lock everyone out of root.
 
-
-
-
+```txt
+        visudo ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scoping, and `sudo -l` to verify effective rights.
+- **Interview probes:** Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scopin…
 
 ## Sources
 - [man visudo](https://man7.org/linux/man-pages/man8/visudo.8.html) — deep-dive
@@ -62,7 +68,7 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 | Runas | `(ALL:ALL)` | Target user/group |
 | What | `/usr/bin/apt` / `ALL` | Allowed commands |
 
-Suggested drop-in layout: `00-defaults`, `10-aliases`, `20-automation`, `50-teams`, `90-`/`zz-` overrides.
+- Suggested drop-in layout: `00-defaults`, `10-aliases`, `20-automation`, `50-t…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,8 +77,11 @@ Suggested drop-in layout: `00-defaults`, `10-aliases`, `20-automation`, `50-team
 | Wrong file wins | Lexical order | Rename with numeric/`zz-` prefixes |
 | NOPASSWD not applied | Alias mismatch | Full paths; unexpected args |
 
-## Real-World Applications
-Least-privilege ops: allow `journalctl` and a single `systemctl restart` without giving interactive root.
+## Mistakes to Avoid
+- **Mistake:** Editing sudoers without visudo
+- **Mistake:** `NOPASSWD: ALL` for convenience
+- **Mistake:** Pointing sudoers includes at files in a user’s home (self-grant …
+- **Mistake:** Keeping a root session open while testing
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Prevents the classic “edited sudoers, lost sudo” outage.
@@ -82,8 +91,6 @@ Least-privilege ops: allow `journalctl` and a single `systemctl restart` without
 - vs editing `/etc/sudoers` directly: never — always visudo.
 - vs application RBAC: sudo is host privilege, not app authorization.
 
-## Mistakes to Avoid
-- Editing sudoers without visudo.
-- `NOPASSWD: ALL` for convenience.
-- Pointing sudoers includes at files in a user’s home (self-grant risk).
-- Keeping a root session open while testing — good; closing it before verify — bad.
+
+### Use cases
+- Least-privilege ops: allow `journalctl` and a single `systemctl restart` with…

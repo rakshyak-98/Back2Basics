@@ -4,12 +4,18 @@
 
 > TDP (Thermal Design Power) is the heat a cooling solution must handle at sustained load — the thermal envelope that drives throttling and sustainable [[base clock speed]], not a peak-watt number.
 
-
-
-
+```txt
+        TDP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Hardware capacity planning: TDP vs turbo, why sustained load throttles, and how rack power budgets constrain density.
+- **Interview probes:** Hardware capacity planning: TDP vs turbo, why sustained load throttles, and h…
 
 ## Sources
 - Intel product specification — TDP definition — overview
@@ -27,10 +33,12 @@ turbostat --Summary --quiet
 cat /sys/class/thermal/thermal_zone*/temp
 ```
 
-Datacenter planning pairs TDP with rack power and [[cgroup (Control Group)]]-limited workloads on shared hosts.
+- Datacenter planning pairs TDP with rack power and [[cgroup (Control Group)]]-…
 
-## Real-World Applications
-Choosing SKUs for dense Kubernetes nodes, laptop battery/thermal design, and explaining why “same CPU” is slower in a hot rack.
+## Mistakes to Avoid
+- **Mistake:** Designing capacity from turbo frequency without sustained therma…
+- **Mistake:** Ignoring ambient and chassis airflow when comparing bench vs pro…
+- **Mistake:** Equating nameplate TDP across vendors without reading their defi…
 
 ## Pros/Cons or Trade-offs
 - **Higher TDP SKUs:** more sustained performance; more cooling and power cost.
@@ -41,7 +49,6 @@ Choosing SKUs for dense Kubernetes nodes, laptop battery/thermal design, and exp
 - vs [[base clock speed]]: base/turbo are frequency claims; TDP constrains how long you stay there.
 - vs software CPU limits (cgroups): cgroups cap share/quota; TDP is physical heat.
 
-## Mistakes to Avoid
-- Designing capacity from turbo frequency without sustained thermal tests.
-- Ignoring ambient and chassis airflow when comparing bench vs production.
-- Equating nameplate TDP across vendors without reading their definition footnotes.
+
+### Use cases
+- Choosing SKUs for dense Kubernetes nodes, laptop battery/thermal design, and …

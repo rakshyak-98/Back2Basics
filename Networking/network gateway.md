@@ -4,12 +4,18 @@
 
 > A gateway is the next hop for traffic that isn’t local — usually your router’s LAN IP, or `0.0.0.0/0` in the route table.
 
-
-
-
+```txt
+        network gateway ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe default routes, the dual meaning of `0.0.0.0`, and how you reach private hosts when NAT blocks inbound — port forward vs reverse tunnel vs VPN.
+- **Interview probes:** Interviewers probe default routes, the dual meaning of `0.0.0.0`, and how you…
 
 ## Sources
 - [Wikipedia — Gateway (telecommunications)](https://en.wikipedia.org/wiki/Gateway_(telecommunications)) — overview
@@ -66,10 +72,11 @@ ssh -R 8080:localhost:3000 user@public-server.example
 | Two defaults | `ip route` metrics | Remove stale route; fix NetworkManager |
 | Can egress, can’t ingress | CGNAT / ISP blocks inbound | Tunnel/VPN instead of port forward |
 
-## Real-World Applications
-Home routers, cloud VPC internet/NAT gateways, and edge appliances that own the default route for a LAN or subnet.
-
-**Example:** Laptop loses internet but still pings other LAN hosts — default gateway DHCP option was wrong; `ip route` showed no `default via`.
+## Mistakes to Avoid
+- **Mistake:** Conflating `0.0.0.0/0` (default path) with bind `0.0.0.0` (all l…
+- **Mistake:** Assuming `ifconfig.me` is your laptop
+- **Mistake:** Hairpin NAT surprises
+- **Mistake:** Hard-coding gateway IPs in apps
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One next hop for “everything not local” keeps host routing simple.
@@ -78,12 +85,12 @@ Home routers, cloud VPC internet/NAT gateways, and edge appliances that own the 
 - **Con:** Home gateways are weak policy engines — not a zero-trust boundary.
 
 ## Comparison
-- vs [[routing table]]: the table holds many routes; the gateway is usually the next hop for the default route.
-- vs [[outbound ip]]: gateway is where you send packets; outbound IP is what the internet sees after NAT at/beyond that hop.
+- vs [[routing table]]: the table holds many routes
+- vs [[outbound ip]]: gateway is where you send packets
 - vs [[Internal routing]]: same-LAN traffic often needs no gateway; only off-subnet destinations do.
 
-## Mistakes to Avoid
-- Conflating `0.0.0.0/0` (default path) with bind `0.0.0.0` (all local IPs).
-- Assuming `ifconfig.me` is your laptop — it shows the NAT’s [[outbound ip]]; port forwards must target the real LAN host.
-- Hairpin NAT surprises — accessing your public IP from inside the LAN often fails; use the private IP on LAN ([[Internal routing]]).
-- Hard-coding gateway IPs in apps — use the OS route table; apps should dial destinations, not next hops.
+
+### Use cases
+- Home routers, cloud VPC internet/NAT gateways, and edge appliances that own t…
+
+- **Example:** Laptop loses internet but still pings other LAN hosts

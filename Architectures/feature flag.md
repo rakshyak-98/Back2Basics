@@ -4,12 +4,17 @@
 
 > Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
-
-
-
+```txt
+        feature flag ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Feature flags show release-control maturity — dark launch, kill switches, and avoiding flag debt / inconsistent state.
+- **Interview probes:** Feature flags show release-control maturity
 
 ## Sources
 - [Martin Fowler — Feature Toggles](https://martinfowler.com/articles/feature-toggles.html) — deep-dive
@@ -55,10 +60,10 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 | Partial cohort weirdness | Sticky bucketing | Consistent hash on user id |
 | “Temporary” flag forever | Code archaeology | Remove flag + dead path |
 
+## Mistakes to Avoid
+- **Mistake:** Flags are not security — hide UI, still enforce authz server-side
+- **Mistake:** Combinatorial explosion
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** configuration that rarely changes — environment variables / configuration files may be enough.
 - **Trade-off:** Permanent product differences — that’s packaging/plans, not a forever flag.
-
-## Mistakes to Avoid
-- Flags are not security — hide UI, still enforce authz server-side.
-- Combinatorial explosion — too many overlapping flags = untestable matrix.

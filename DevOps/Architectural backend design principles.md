@@ -4,27 +4,33 @@
 
 > Stable interfaces, clear module boundaries, and short data paths so backend services stay changeable under load and failure.
 
-
-
-
+```txt
+        Architectural back ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use backend design principles to see if you can defend modularity, contracts, timeouts/idempotency, and observability — and when a modular monolith beats a distributed tangle.
+- **Interview probes:** Interviewers use backend design principles to see if you can defend modularit…
 
 ## Sources
 - [Google SRE — Addressing Cascading Failures](https://sre.google/sre-book/addressing-cascading-failures/) — deep-dive
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) — overview
 - [[SOLID]] · [[API design]] — overview
 
-## Core Definition
-Backend architecture principles are the recurring rules for how services expose contracts, move data, fail safely, and stay observable — so teams can change one part without breaking the rest.
-
 ## Key Concepts
-- **Modularity / bounded contexts:** deploy independently when it pays off → avoid a distributed monolith sharing one database.
+- **Modularity / bounded contexts:** deploy independently when it pays off → avoid a distributed monolith sharing …
 - **Interface contracts:** OpenAPI/proto + versioning → clients depend on stable shapes.
-- **Data flow:** fewer hops; choose sync vs async on purpose ([[event-driven]], [[backpressure]]).
+- **Data flow:** fewer hops; choose sync vs async on purpose ([[event-driven]], [[backpressure…
 - **Failure policy:** timeouts, retries with jitter, idempotency keys on writes.
 - **Observability:** trace id on every hop; shared SLIs (latency, errors, saturation).
+
+
+- **Core:** Backend architecture principles are the recurring rules for how services expo…
 
 ## Technical Details
 ```txt
@@ -74,10 +80,12 @@ Checklist per new service
 | Latency cliff | Extra hop / chatty RPC | Batch; cache; merge calls |
 | Deploy deadlock | Shared DB coupling | Split schemas; events |
 
-## Real-World Applications
-An orders API publishes events for fulfillment instead of chaining five synchronous RPCs; writes carry idempotency keys so payment retries do not double-charge.
-
-**Example:** Cascading timeouts during a partial outage — callers used timeouts longer than callees; budget timeouts so the outermost request fails first.
+## Mistakes to Avoid
+- **Mistake:** Many repositories sharing one database
+- **Mistake:** Retry storms without jitter and limits — you DDoS yourself
+- **Mistake:** Ignoring timeout budgets across the call chain
+- **Mistake:** Cargo-culting tools that fight your contracts instead of adaptin…
+- **Mistake:** Splitting into microservices when a modular monolith would be si…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear contracts and failure policy let teams ship independently with safer retries.
@@ -86,12 +94,11 @@ An orders API publishes events for fulfillment instead of chaining five synchron
 
 ## Comparison
 - vs [[SOLID]] at class level: these principles apply at service and platform boundaries.
-- vs [[orchestration]]: orchestration sequences workflows; these principles shape how each service behaves inside them.
+- vs [[orchestration]]: orchestration sequences workflows
 - vs throwaway prototype: ship first; retrofit when the code is retained.
 
-## Mistakes to Avoid
-- Many repositories sharing one database — worst of monolith and microservices.
-- Retry storms without jitter and limits — you DDoS yourself.
-- Ignoring timeout budgets across the call chain.
-- Cargo-culting tools that fight your contracts instead of adapting the principles.
-- Splitting into microservices when a modular monolith would be simpler for a small app.
+
+### Use cases
+- An orders API publishes events for fulfillment instead of chaining five synch…
+
+- **Example:** Cascading timeouts during a partial outage

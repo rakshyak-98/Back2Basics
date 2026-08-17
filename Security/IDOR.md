@@ -4,30 +4,36 @@
 
 > Broken access control — the client picks an object id and the server skips the ownership check after authentication.
 
-
-
-
+```txt
+        IDOR (Insecure Dir ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-AuthZ interviews: IDOR is missing object-level authorization — AuthN alone does not prove you may touch that id.
+- **Interview probes:** AuthZ interviews: IDOR is missing object-level authorization
 
 ## Sources
 - [OWASP — Insecure Direct Object Reference](https://owasp.org/www-community/vulnerabilities/Insecure_Direct_Object_Reference) — overview
 - [OWASP API Top 10 — BOLA](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/) — deep-dive
 
-## Core Definition
-IDOR (insecure direct object reference) is broken access control: the client supplies an object id and the server skips ownership/permission checks.
-
 ## Key Concepts
-IDOR is a **broken access control** pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any logged-in user access `GET /api/orders/12345` by iterating ids.
+- **Note:** IDOR is a **broken access control** pattern, not a separate protocol attack. …
 
 ```
-Attacker (user A) ──► GET /invoice/1001 ──► 200 + victim data
+- **Note:** Attacker (user A) ──► GET /invoice/1001 ──► 200 + victim data
                               │
                               └── server checked login, not invoice.owner == A
 ```
 
-**Auto-increment IDs** make enumeration trivial; **UUIDs alone don't fix IDOR** — they only reduce scanning convenience.
+- **Note:** **Auto-increment IDs** make enumeration trivial; **UUIDs alone don't fix IDOR…
+
+
+- **Core:** IDOR (insecure direct object reference) is broken access control: the client …
 
 ## Technical Details
 ### Secure pattern (server-side)
@@ -78,8 +84,11 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 | Signed URL shared too wide | Presigned URL long TTL, no object binding | Short TTL; least privilege key |
 | GraphQL `node(id:)` global ID | Decoded id bypasses parent scoping | Auth resolver per type |
 
-## Real-World Applications
-Object-level checks on `/orders/{id}` so user B cannot read user A's order by changing the id.
+## Mistakes to Avoid
+- **Mistake:** 404 vs 403
+- **Mistake:** UUID in JWT sub ≠ object authz
+- **Mistake:** Microservices
+- **Mistake:** Export/backup endpoints — bulk CSV without row filter = mass IDOR
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Naming the bug drives object-level AuthZ tests in QA and review.
@@ -87,11 +96,9 @@ Object-level checks on `/orders/{id}` so user B cannot read user A's order by ch
 - **Con:** Rate limiting as fix — slows enumeration, doesn't fix authorization.
 
 ## Comparison
-- vs broken authentication: IDOR is usually AuthZ — you are logged in but may access another's object.
+- vs broken authentication: IDOR is usually AuthZ
 - vs [[JWT authentication]]: a valid JWT does not replace per-object permission checks.
 
-## Mistakes to Avoid
-- 404 vs 403 — cross-tenant prefer **404** to avoid confirming object exists (policy-dependent).
-- UUID in JWT sub ≠ object authz — still verify resource belongs to subject.
-- Microservices — : gateway checked auth but internal service trusts `X-User-Id` header — forgeable without mTLS/signed internal token.
-- Export/backup endpoints — bulk CSV without row filter = mass IDOR.
+
+### Use cases
+- Object-level checks on `/orders/{id}` so user B cannot read user A's order by…

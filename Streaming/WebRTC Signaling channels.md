@@ -4,12 +4,17 @@
 
 > Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
-
-
-
+```txt
+        WebRTC Signaling c ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about WebRTC Signaling channels to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about WebRTC Signaling channels to see if you understand the…
 
 ## Sources
 - [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels) — overview
@@ -66,7 +71,7 @@ WHIP: POST SDP offer to https://origin/whip/session → answer SDP
 Reduces custom WebSocket for ** ingest to SFU ** (broadcast use case)
 ```
 
-Pair with [[ingestion]] for live; classic P2P still uses WebSocket/XMPP.
+- Pair with [[ingestion]] for live; classic P2P still uses WebSocket/XMPP.
 
 ### ICE + STUN/TURN config
 
@@ -80,7 +85,7 @@ const pc = new RTCPeerConnection({
 });
 ```
 
-See [[ICE (Interactive Connectivity Establishment)]].
+- See [[ICE (Interactive Connectivity Establishment)]].
 
 ### Debug
 
@@ -88,19 +93,6 @@ See [[ICE (Interactive Connectivity Establishment)]].
 chrome://webrtc-internals — signaling state machine timeline
 Server logs: join/leave, failed JSON parse, unauthorized room
 ```
-
-## Real-World Applications
-Used wherever WebRTC Signaling channels sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
-- **Con / skip when:** **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
-- **Con / skip when:** **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
-
-## Comparison
-- vs [[HLS]]: **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
-- vs [[RTMP]]: **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -113,8 +105,22 @@ Used wherever WebRTC Signaling channels sits in an ingest → package → CDN �
 | DataChannel dead, media OK | Separate negotiation | CreateDataChannel before offer or renegotiate |
 | High connect latency | Trickle ICE disabled | Enable trickle; don't wait full gather |
 
-- **Signaling != TURN** — STUN/TURN config goes in `RTCPeerConnection`, not signaling body alone.
-- **Broadcasting SDP in logs** — contains fingerprint + ICE pwd; scrub logs.
-- **No signaling redundancy** — WebSocket drop mid-negotiation needs reconnect + ICE restart.
-- **SFU vs P2P** — SFU clients signal with server; don't copy P2P tutorials for LiveKit/Janus.
-- **[[SCTP (Stream Control Transmission Protocol)]] setup** — DataChannel requires signaling-complete PeerConnection first.
+- **Mistake:** **Signaling != TURN**
+- **Mistake:** **Broadcasting SDP in logs**
+- **Mistake:** **No signaling redundancy**
+- **Mistake:** **SFU vs P2P**
+- **Mistake:** **[[SCTP (Stream Control Transmission Protocol)]] setup**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **One-to-many OTT viewers**
+- **Con / skip when:** **RTMP ingest from OBS**
+- **Con / skip when:** **Unauthenticated public rooms**
+
+## Comparison
+- vs [[HLS]]: **One-to-many OTT viewers**
+- vs [[RTMP]]: **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
+
+
+### Use cases
+- Used wherever WebRTC Signaling channels sits in an ingest → package → CDN → p…

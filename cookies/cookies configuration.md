@@ -4,12 +4,18 @@
 
 > `Set-Cookie` attributes control where a cookie lives, how long, and when the browser attaches it — `Domain`, `Path`, `Expires`/`Max-Age`, `Secure`, `HttpOnly`, `SameSite`.
 
-
-
-
+```txt
+        Cookies configurat ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Security interviews expect `HttpOnly` + `Secure` + appropriate `SameSite` for session cookies, and why `Max-Age=0` deletes.
+- **Interview probes:** Security interviews expect `HttpOnly` + `Secure` + appropriate `SameSite` for…
 
 ## Sources
 - [RFC 6265bis drafts / MDN Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) — deep-dive
@@ -35,10 +41,10 @@ Set-Cookie: sessionToken=abc123; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age
 | `SameSite=None` | Cross-site; requires `Secure` |
 | `Max-Age=0` | Delete |
 
-## Real-World Applications
-Session cookie for a first-party web app: `HttpOnly; Secure; SameSite=Lax; Path=/`.
-
-**Example:** Marketing site on another subdomain should not receive the session — omit broad `Domain` or tighten it.
+## Mistakes to Avoid
+- **Mistake:** Broad `Domain=.company.com` sharing sessions across all apps uni…
+- **Mistake:** Missing `Secure` in production
+- **Mistake:** Relying on `SameSite=Strict` then wondering OAuth return navigat…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Declarative browser-enforced policy.
@@ -48,7 +54,8 @@ Session cookie for a first-party web app: `HttpOnly; Secure; SameSite=Lax; Path=
 - vs localStorage tokens: cookies can be HttpOnly; storage cannot.
 - vs [[cookies lifecycle]]: configuration is attributes; lifecycle is create→send→expire.
 
-## Mistakes to Avoid
-- Broad `Domain=.company.com` sharing sessions across all apps unintentionally.
-- Missing `Secure` in production.
-- Relying on `SameSite=Strict` then wondering OAuth return navigations lose cookies (often want `Lax`).
+
+### Use cases
+- Session cookie for a first-party web app: `HttpOnly
+
+- **Example:** Marketing site on another subdomain should not receive the sessi…

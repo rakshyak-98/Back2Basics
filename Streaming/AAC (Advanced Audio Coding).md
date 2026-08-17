@@ -4,18 +4,24 @@
 
 > AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
-
-
-
+```txt
+        AAC (Advanced Audi ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about AAC to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about AAC to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — AAC](https://en.wikipedia.org/wiki/AAC) — overview
 
 ## Key Concepts
-**AAC** is a **lossy** perceptual audio codec: it throws away information humans rarely hear, yielding smaller files than MP3 at the same bitrate. In streaming stacks it sits inside **fMP4/CMAF segments** alongside H.264/HEVC/AV1 video; players decode AAC in software or hardware.
+- **Note:** **AAC** is a **lossy** perceptual audio codec: it throws away information hum…
 
 | Profile | Typical use | `CODECS` string (HLS) |
 |---------|-------------|------------------------|
@@ -24,7 +30,7 @@ Interviewers ask about AAC to see if you understand the pipeline role, failure m
 | **HE-AAC v2 (PS)** | Very low bitrate stereo | `mp4a.40.29` |
 | **AAC-LD / ELD** | WebRTC, low latency | rarely in HLS ladders |
 
-**AAC-LC @ 128 kbps stereo** is the industry default for VoD and live ABR. Surround broadcast may use AC-3/E-AC-3 (`ec-3`) or Dolby Digital Plus — separate audio renditions in the manifest.
+- **Note:** **AAC-LC @ 128 kbps stereo** is the industry default for VoD and live ABR. Su…
 
 ## Technical Details
 ```txt
@@ -79,16 +85,7 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 720p.m3u8
 ```
 
-`BANDWIDTH` must include audio bitrate — see [[bitrate streaming]].
-
-## Real-World Applications
-Used wherever AAC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **WebRTC voice** — prefer Opus (built into WebRTC); AAC adds encode latency.
-- **Con / skip when:** **Archival master** — store lossless (FLAC/PCM mezzanine); AAC only at delivery edge.
-- **Con / skip when:** **Ultra-low latency LL-HLS** — audio frame pacing matters; don't add redundant transcode hops.
+- `BANDWIDTH` must include audio bitrate — see [[bitrate streaming]].
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -100,7 +97,16 @@ Used wherever AAC sits in an ingest → package → CDN → player path. Concret
 | `-c:a copy` fails in HLS | Source MP3/Opus in TS | Transcode to AAC for fMP4/HLS ([[re-encoding]]) |
 | Loudness jumps between ads | No loudness normalization | EBU R128 / `-af loudnorm` on mezzanine |
 
-- **Opus in HLS** — limited Smart TV support; AAC remains the compatibility baseline for [[HLS]]/[[DASH]].
-- **ADTS vs raw AAC in MP4** — HLS fMP4 needs AAC in MP4 boxes (`mp4a`), not standalone ADTS `.aac` files in modern stacks.
-- **Sample rate mismatch across ladder** — switching video rungs can glitch if audio sample rates differ; lock to 48 kHz.
-- **Dual mono labeled stereo** — `-ac 2` on mono source wastes bits; detect channels upstream.
+- **Mistake:** **Opus in HLS**
+- **Mistake:** **ADTS vs raw AAC in MP4**
+- **Mistake:** **Sample rate mismatch across ladder**
+- **Mistake:** **Dual mono labeled stereo**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **WebRTC voice**
+- **Con / skip when:** **Archival master**
+- **Con / skip when:** **Ultra-low latency LL-HLS**
+
+## Real-World Applications
+- **Scenario:** Used wherever AAC sits in an ingest → package → CDN → player path

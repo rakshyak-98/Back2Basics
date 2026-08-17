@@ -4,12 +4,18 @@
 
 > “Discriptors” here means **descriptors** — kernel-managed integer handles (chiefly file descriptors) for open files, sockets, pipes, and epoll instances.
 
-
-
-
+```txt
+        Discriptors ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing with [[Epoll]]. This note keeps the legacy spelling as an alias.
+- **Interview probes:** Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing wi…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — file descriptors — deep-dive
@@ -29,10 +35,13 @@ Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing wit
 | `struct file` | Offset, flags, ops for one open instance |
 | `dup()` / `fork()` | Share underlying file description |
 
-Limits (`RLIMIT_NOFILE`, `fs.file-max`) cause `EMFILE` when leaked. [[Epoll]] watches many descriptors for readiness — foundation of [[non-blocking]] servers.
+- Limits (`RLIMIT_NOFILE`, `fs.file-max`) cause `EMFILE` when leaked.
+- [[Epoll]] watches many descriptors for readiness
 
-## Real-World Applications
-Long-running servers, reverse proxies, and any code that `accept`s without reliable `close` paths.
+## Mistakes to Avoid
+- **Mistake:** Editing only this alias and leaving [[file descriptors]] stale
+- **Mistake:** Ignoring `FD_CLOEXEC` across `exec`
+- **Mistake:** Raising limits forever instead of fixing descriptor leaks
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple integer ABI for I/O objects.
@@ -43,7 +52,6 @@ Long-running servers, reverse proxies, and any code that `accept`s without relia
 - Canonical detail: [[file descriptors]].
 - vs [[handle]]: Windows object-manager tokens vs Unix small integers.
 
-## Mistakes to Avoid
-- Editing only this alias and leaving [[file descriptors]] stale.
-- Ignoring `FD_CLOEXEC` across `exec`.
-- Raising limits forever instead of fixing descriptor leaks.
+
+### Use cases
+- Long-running servers, reverse proxies, and any code that `accept`s without re…

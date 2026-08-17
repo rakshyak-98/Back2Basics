@@ -4,12 +4,18 @@
 
 > MySQL `MEMORY` (formerly `HEAP`) storage engine—tables live entirely in RAM with table-level locking and no crash durability.
 
-
-
-
+```txt
+        memory engine ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-MEMORY engine questions check whether you know it is non-durable and table-locked—valid for scratch/cache tables, never for production durable state. Contrast with InnoDB ([[mysql engine]]).
+- **Interview probes:** MEMORY engine questions check whether you know it is non-durable and table-lo…
 
 ## Sources
 - [MySQL Reference Manual — MEMORY Storage Engine](https://dev.mysql.com/doc/refman/en/memory-storage-engine.html) — deep-dive
@@ -21,18 +27,18 @@ MEMORY engine questions check whether you know it is non-durable and table-locke
 - **Table-level locks:** poor concurrent write scaling.
 
 ## Technical Details
-Characteristics:
+- Characteristics:
 
 - Fixed-length rows only (variable types become fixed width internally)
 - Data lost on server restart
 - `HASH` or `BTREE` indexes
 - Table-level locks — poor concurrent write scaling
 
-Valid uses:
+- Valid uses:
 
-- Session scratch tables, temporary caches inside MySQL, read-only lookup tables rebuilt on startup
+- Session scratch tables, temporary caches inside MySQL, read-only lookup table…
 
-Not for production state: any data that must survive restart belongs in InnoDB ([[mysql engine]]) or an external store.
+- Not for production state: any data that must survive restart belongs in InnoD…
 
 ```sql
 CREATE TABLE session_scratch (
@@ -41,17 +47,18 @@ CREATE TABLE session_scratch (
 ) ENGINE=MEMORY;
 ```
 
-## Real-World Applications
-Ephemeral lookup tables rebuilt at startup, or per-session scratch space inside stored procedures. Example: a nightly job loads a small code list into MEMORY for fast joins, then discards it—knowing restart clears it is acceptable.
+## Mistakes to Avoid
+- **Mistake:** Storing user or financial state in MEMORY and discovering it van…
+- **Mistake:** Expecting row-level concurrency under write load
+- **Mistake:** Oversizing MEMORY tables until mysqld is OOM-killed
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Very fast reads for small working sets; simple for disposable data.
 - **Con:** No durability; table locks; memory pressure can affect the whole server.
 
 ## Comparison
-vs InnoDB ([[mysql engine]]): InnoDB gives row locks, [[ACID]], and crash recovery; MEMORY trades all of that for RAM speed. vs external Redis: Redis is purpose-built for ephemeral shared cache with richer ops tooling than MySQL MEMORY tables.
+- vs InnoDB ([[mysql engine]]): InnoDB gives row locks, [[ACID]], and crash rec…
 
-## Mistakes to Avoid
-- Storing user or financial state in MEMORY and discovering it vanished after restart.
-- Expecting row-level concurrency under write load.
-- Oversizing MEMORY tables until mysqld is OOM-killed.
+
+### Use cases
+- Ephemeral lookup tables rebuilt at startup, or per-session scratch space insi…

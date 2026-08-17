@@ -4,25 +4,31 @@
 
 > Removes the account from passwd/shadow/group — home/mail only if `-r`; other files stay as numeric UID orphans.
 
-
-
-
+```txt
+        userdel ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Offboarding depth: `-r` destructiveness, UID reuse, and that cron/systemd/user processes need manual cleanup.
+- **Interview probes:** Offboarding depth: `-r` destructiveness, UID reuse, and that cron/systemd/use…
 
 ## Sources
 - [man userdel](https://man7.org/linux/man-pages/man8/userdel.8.html) — deep-dive
 - [Wikipedia — userdel](https://en.wikipedia.org/wiki/Userdel) — overview
 
-## Core Definition
-`userdel` removes the account lines from `/etc/passwd`, `/etc/shadow`, and `/etc/group` (primary group if user-private). Files owned by the UID remain unless `-r` removes home and mail spool.
-
 ## Key Concepts
 - **`-r`:** remove home + mail spool — irreversible without backup.
 - **UID reuse hazard:** new user can inherit orphaned file ownership.
 - **Running processes:** stop/kill the user first or deletion fails / stays messy.
-- **Not full offboard:** cron, systemd user units, Docker volumes, cloud IAM keys need separate cleanup.
+- **Not full offboard:** cron, systemd user units, Docker volumes, cloud IAM keys need separate cleanu…
+
+
+- **Core:** `userdel` removes the account lines from `/etc/passwd`, `/etc/shadow`, and `/…
 
 ## Technical Details
 ```
@@ -59,8 +65,10 @@ getent passwd username
 | Numeric UID owners | Deleted without reassign | `find -uid` + `chown` |
 | LDAP/SSSD user | Not local | Directory tools — wrong tool |
 
-## Real-World Applications
-Contractor offboarding on bastion hosts: lock → nologin → kill processes → reassign web files → `userdel -r`.
+## Mistakes to Avoid
+- **Mistake:** `-r` without archive on non-throwaway hosts
+- **Mistake:** Deleting then letting the next hire reuse the UID over leftover …
+- **Mistake:** `userdel -f` on an active database/app user with open files
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clean local account removal when you own the UID space.
@@ -70,7 +78,6 @@ Contractor offboarding on bastion hosts: lock → nologin → kill processes →
 - vs temporary disable: `passwd -l` / `chage -E` without deleting.
 - vs rename: [[usermod]] `-l` / `-d -m`, not delete-recreate.
 
-## Mistakes to Avoid
-- `-r` without archive on non-throwaway hosts.
-- Deleting then letting the next hire reuse the UID over leftover files.
-- `userdel -f` on an active database/app user with open files.
+
+### Use cases
+- Contractor offboarding on bastion hosts: lock → nologin → kill processes → re…

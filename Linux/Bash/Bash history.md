@@ -4,19 +4,22 @@
 
 > Bash history stores commands you ran — search, redo, and carefully avoid logging secrets.
 
-
-
-
+```txt
+        Bash history ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HISTIGNORE`, and not putting passwords on the command line.
+- **Interview probes:** Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HIS…
 
 ## Sources
 - [Bash Reference — Bash History Facilities](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Facilities.html) — deep-dive
 - [history(3) / bash(1)](https://man7.org/linux/man-pages/man1/bash.1.html) — overview
-
-## Core Definition
-Commands may be saved to the in-memory history list and later to `~/.bash_history`. Interactive expansions (`!!`, `!$`) and Ctrl+R search the list. Options control size, duplicates, and ignored patterns.
 
 ## Key Concepts
 - **HISTSIZE / HISTFILESIZE:** Memory vs on-disk retention.
@@ -24,6 +27,9 @@ Commands may be saved to the in-memory history list and later to `~/.bash_histor
 - **HISTIGNORE:** Drop noisy commands (`ls`, `cd`).
 - **history -a / -r:** Append/read without waiting for logout.
 - **Secrets:** Leading space (with ignorespace) or avoid CLI secrets entirely.
+
+
+- **Core:** Commands may be saved to the in-memory history list and later to `~/.bash_his…
 
 ## Technical Details
 ```bash
@@ -55,8 +61,10 @@ export HISTCONTROL=ignoredups:erasedups
 | Ctrl+R weak | no fzf | Install [[fzf]] bindings |
 | Lost parallel-session cmds | default overwrite | `history -a` + `erasedups` patterns |
 
-## Real-World Applications
-Re-running a long deploy command with `!!`, editing a previous entry with `fc`, and configuring larger shared-safe history in `.bashrc`.
+## Mistakes to Avoid
+- **Mistake:** Putting tokens/passwords on the command line “just once.”
+- **Mistake:** Relying on `!!` inside scripts (history expansion is interactive…
+- **Mistake:** Assuming all parallel SSH sessions flush history cleanly by defa…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Massive interactive speed-up.
@@ -64,9 +72,8 @@ Re-running a long deploy command with `!!`, editing a previous entry with `fc`, 
 - **Trade-off:** Convenient expansions vs explicit scripts for anything important.
 
 ## Comparison
-vs [[fzf]] Ctrl+R: better fuzzy search UI. vs script files: history is personal/ephemeral; scripts are reviewable. Related: [[Bash syntax]] history expansion.
+- vs [[fzf]] Ctrl+R: better fuzzy search UI. vs script files: history is person…
 
-## Mistakes to Avoid
-- Putting tokens/passwords on the command line “just once.”
-- Relying on `!!` inside scripts (history expansion is interactive-oriented).
-- Assuming all parallel SSH sessions flush history cleanly by default.
+
+### Use cases
+- Re-running a long deploy command with `!!`, editing a previous entry with `fc…

@@ -4,19 +4,22 @@
 
 > jq is a JSON filter for the shell — select, reshape, and print without writing a script.
 
-
-
-
+```txt
+        jq ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-API/ops staple: path walks, `select`, `-r` for shell, and why whole-document load matters on big logs.
+- **Interview probes:** API/ops staple: path walks, `select`, `-r` for shell, and why whole-document …
 
 ## Sources
 - [jq Manual](https://jqlang.github.io/jq/manual/) — deep-dive
 - [jq(1)](https://manpages.debian.org/jq) — overview
-
-## Core Definition
-`jq` parses JSON from stdin or a file, applies a filter expression, and prints results. Default pretty-prints; `-r` emits raw strings; `-c` compact/NDJSON-friendly lines; `-e` fails on false/null for scripts.
 
 ## Key Concepts
 - **`.` / `.a.b`:** Identity / nested field walk.
@@ -24,6 +27,9 @@ API/ops staple: path walks, `select`, `-r` for shell, and why whole-document loa
 - **`select(...)` / `map(...)`:** Filter and transform.
 - **`-r` / `-c` / `-e`:** Raw strings, compact, exit status for automation.
 - **Streaming:** Default loads whole doc; `--stream` or line-oriented JSON for huge inputs.
+
+
+- **Core:** `jq` parses JSON from stdin or a file, applies a filter expression, and print…
 
 ## Technical Details
 ```bash
@@ -64,8 +70,10 @@ jq -e '.ok == true' resp.json
 | Huge memory | Whole-file load | `--stream` or NDJSON lines |
 | Exit 0 on miss | Default null success | `jq -e` |
 
-## Real-World Applications
-Extracting tokens from auth responses, filtering Kubernetes JSON, and shaping CI API payloads before the next pipeline step.
+## Mistakes to Avoid
+- **Mistake:** Comparing `"10"` and `10` without `tonumber`
+- **Mistake:** Using jq on multi-GB logs without streaming/line mode
+- **Mistake:** Forgetting `-e` in scripts that must fail on missing fields
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise JSON surgery in pipes; great with `curl`.
@@ -73,9 +81,8 @@ Extracting tokens from auth responses, filtering Kubernetes JSON, and shaping CI
 - **Trade-off:** `map(select)` vs `.[] | select` stream shapes differ.
 
 ## Comparison
-vs [[awk]]/[[grep]]: text/columns vs structured JSON. vs `yq`: YAML/TOML cousins. vs Python: use Python when transforms become programs.
+- vs [[awk]]/[[grep]]: text/columns vs structured JSON
 
-## Mistakes to Avoid
-- Comparing `"10"` and `10` without `tonumber`.
-- Using jq on multi-GB logs without streaming/line mode.
-- Forgetting `-e` in scripts that must fail on missing fields.
+
+### Use cases
+- Extracting tokens from auth responses, filtering Kubernetes JSON, and shaping…

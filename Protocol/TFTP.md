@@ -4,12 +4,18 @@
 
 > Trivial File Transfer Protocol moves small files over UDP without authentication — common for PXE boot loaders and embedded firmware because the stack fits in kilobytes of code.
 
-
-
-
+```txt
+        TFTP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask why PXE uses TFTP, how stop-and-wait limits throughput, and why TFTP must never face the public Internet.
+- **Interview probes:** Interviewers ask why PXE uses TFTP, how stop-and-wait limits throughput, and …
 
 ## Sources
 - [RFC 1350 — TFTP](https://datatracker.ietf.org/doc/html/rfc1350) — deep-dive
@@ -30,7 +36,7 @@ Interviewers ask why PXE uses TFTP, how stop-and-wait limits throughput, and why
 | 4 | ACK |
 | 5 | ERROR |
 
-PXE boot chain:
+- PXE boot chain:
 
 ```
 DHCP option 66/67 or UEFI HTTP boot
@@ -42,7 +48,7 @@ TFTP fetch pxelinux.0 / grub / iPXE
 Kernel + initrd → full OS install
 ```
 
-Often paired with [[dnsmasq]] DHCP on lab networks.
+- Often paired with [[dnsmasq]] DHCP on lab networks.
 
 ```bash
 # /etc/default/tftpd-hpa
@@ -51,16 +57,16 @@ TFTP_ADDRESS="0.0.0.0:69"
 TFTP_OPTIONS="--secure"
 ```
 
-`--secure` restricts paths to `TFTP_DIRECTORY`.
+- `--secure` restricts paths to `TFTP_DIRECTORY`.
 
 ```bash
 tftp 192.168.1.1 -c get firmware.bin
 ```
 
-## Real-World Applications
-PXE network boot, router/firmware updates on isolated management networks, and lab appliance imaging.
-
-**Example:** DHCP hands out next-server and boot filename; the NIC’s PXE ROM pulls `pxelinux.0` via TFTP before the kernel loads.
+## Mistakes to Avoid
+- **Mistake:** Exposing TFTP to the public Internet
+- **Mistake:** Omitting `--secure` / chroot so clients can read arbitrary serve…
+- **Mistake:** Using TFTP for large authenticated file distribution — wrong tool
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Tiny client implementation — works in ROM and constrained devices.
@@ -69,9 +75,10 @@ PXE network boot, router/firmware updates on isolated management networks, and l
 
 ## Comparison
 - vs [[ftp]]: FTP is TCP with auth options; TFTP wins for PXE ROM size.
-- vs [[SCP (Secure Copy Protocol)]] / HTTPS: prefer those for authenticated transfers outside isolated VLANs.
+- vs [[SCP (Secure Copy Protocol)]] / HTTPS: prefer those for authenticated transfers outside isola…
 
-## Mistakes to Avoid
-- Exposing TFTP to the public Internet.
-- Omitting `--secure` / chroot so clients can read arbitrary server paths.
-- Using TFTP for large authenticated file distribution — wrong tool.
+
+### Use cases
+- PXE network boot, router/firmware updates on isolated management networks, an…
+
+- **Example:** DHCP hands out next-server and boot filename

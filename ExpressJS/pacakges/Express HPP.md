@@ -4,26 +4,32 @@
 
 > HTTP Parameter Pollution (HPP) is when duplicate query or body keys (`?id=1&id=2`) parse inconsistently — `hpp` middleware drops polluted duplicates so validation sees one value.
 
-
-
-
+```txt
+        Express HPP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use HPP to see if you understand parser ambiguity, WAF bypass patterns, and that sanitizing duplicates is not a substitute for authorization checks.
+- **Interview probes:** Interviewers use HPP to see if you understand parser ambiguity, WAF bypass pa…
 
 ## Sources
 - [hpp on npm](https://www.npmjs.com/package/hpp) — overview
 - [OWASP — HTTP Parameter Pollution](https://owasp.org/www-community/attacks/HTTP_Parameter_Pollution) — deep-dive
 - [Express — req.query](https://expressjs.com/en/4x/api.html#req.query) — overview
 
-## Core Definition
-Different stacks treat duplicate keys as last-wins, first-wins, or arrays. Attackers send conflicting values hoping a gateway sees one value and the application another. `hpp` normalizes to a single value (with optional whitelist for legitimate multi-value keys).
-
 ## Key Concepts
 - **Pollution:** `?role=user&role=admin` — ambiguous arrays vs scalars.
 - **Whitelist:** keys that must remain arrays (`tag`, `id[]`) stay multi-value.
 - **Mount order:** after `express.json()` / `express.urlencoded()` so body keys are covered.
 - **Not a WAF:** still validate types and enforce authorization on the chosen value.
+
+
+- **Core:** Different stacks treat duplicate keys as last-wins, first-wins, or arrays
 
 ## Technical Details
 ```txt
@@ -49,10 +55,11 @@ app.use(hpp({ whitelist: ['tag'] }))
 | Arrays still appear | HPP not mounted | Confirm middleware order |
 | Bypass via POST body | Only query sanitized | Apply after body parsers |
 
-## Real-World Applications
-Public search and filter APIs, role query params on admin tools, and any endpoint where qs/body parsers turn duplicates into arrays that break `===` checks.
-
-**Example:** Middleware checks `req.query.role === 'admin'` while an attacker sends `role=user&role=admin` and an older parser yields an array that passes a buggy `includes` check — HPP plus strict schema validation closes the gap.
+## Mistakes to Avoid
+- **Mistake:** Mounting `hpp` before body parsers so POST pollution remains
+- **Mistake:** Forgetting to whitelist intentional multi-value parameters
+- **Mistake:** Treating HPP as sufficient security without authentication and a…
+- **Mistake:** Comparing query values with loose equality against arrays
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cheap normalization that removes a whole class of parser surprises.
@@ -60,12 +67,12 @@ Public search and filter APIs, role query params on admin tools, and any endpoin
 - **Con:** Does not stop authorization bugs if you trust the remaining value.
 
 ## Comparison
-- vs input schema validation ([[express query handler]]): HPP cleans shape; Zod/Joi enforce type and allowlists.
-- vs [[XSRF (cross-site request forgery)]]: CSRF is cross-site action; HPP is same-request parameter ambiguity.
+- vs input schema validation ([[express query handler]]): HPP cleans shape
+- vs [[XSRF (cross-site request forgery)]]: CSRF is cross-site action
 - vs WAF rules: complementary — WAF may see a different parse than Node.
 
-## Mistakes to Avoid
-- Mounting `hpp` before body parsers so POST pollution remains.
-- Forgetting to whitelist intentional multi-value parameters.
-- Treating HPP as sufficient security without authentication and authorization checks.
-- Comparing query values with loose equality against arrays.
+
+### Use cases
+- Public search and filter APIs, role query params on admin tools, and any endp…
+
+- **Example:** Middleware checks `req.query.role === 'admin'` while an attacker…

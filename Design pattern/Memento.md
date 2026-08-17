@@ -4,19 +4,21 @@
 
 > Memento captures and externalizes an object's internal state so it can be restored later — without exposing implementation details to outsiders.
 
-
-
-
+```txt
+        Memento ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-Memento interviews cover undo/snapshots without violating encapsulation of the originator.
+- **Interview probes:** Memento interviews cover undo/snapshots without violating encapsulation of th…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Memento) — deep-dive
 
 ## Technical Details
-**Roles**
-
 | Role | Role |
 |------|------|
 | **Originator** | Creates memento from its state; restores from memento |
@@ -28,16 +30,17 @@ Originator.createMemento() → Caretaker.store
 Caretaker.retrieve → Originator.restore(memento)
 ```
 
-## Real-World Applications
-- Editor undo, game save states, transactional rollback of complex objects.
-- Checkpoint before risky operations.
+## Mistakes to Avoid
+- **Mistake:** **Memory**
+- **Mistake:** **Encapsulation leak**
+- **Mistake:** **Versioning**
 
 ## Comparison
-**vs Command undo**
+- **vs Command undo**
 
-Command undo often stores **inverse operations**; Memento stores **state snapshots** — better when operations are hard to reverse analytically.
+- Command undo often stores **inverse operations**; Memento stores **state snap…
 
-## Mistakes to Avoid
-- **Memory** — deep copies of large graphs; consider incremental snapshots.
-- **Encapsulation leak** — caretaker must not mutate memento internals.
-- **Versioning** — old mementos after schema change need migration or discard.
+
+### Use cases
+- Editor undo, game save states, transactional rollback of complex objects.
+- Checkpoint before risky operations.

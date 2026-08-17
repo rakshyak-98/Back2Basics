@@ -4,12 +4,18 @@
 
 > Central loader for system settings from files — typed access, refresh rules, and safe defaults when files are missing or malformed.
 
-
-
-
+```txt
+        File-based configu ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-LLD interviews probe singleton vs injectability, hot reload vs restart, validation, and precedence (defaults < file < env < flags).
+- **Interview probes:** LLD interviews probe singleton vs injectability, hot reload vs restart, valid…
 
 ## Sources
 - [12-Factor — Config](https://12factor.net/config/) — overview
@@ -33,10 +39,10 @@ defaults → config.yaml → ENV overrides → validate → immutable snapshot
 | Secrets | Env/secret manager, not plaintext repo files |
 | Multi-process | Each process loads; or push via side car |
 
-## Real-World Applications
-Services read `/etc/myapp/config.yaml` at boot; Kubernetes mounts ConfigMaps and restarts or watches for changes.
-
-**Example:** Hot reload flips a feature flag without deploy — still validate types before swapping the snapshot.
+## Mistakes to Avoid
+- **Mistake:** Mutable global config mutated in place by callers
+- **Mistake:** No schema validation
+- **Mistake:** Storing passwords in the same committed file as harmless flags
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple ops story; easy to diff in git (non-secret parts).
@@ -46,7 +52,8 @@ Services read `/etc/myapp/config.yaml` at boot; Kubernetes mounts ConfigMaps and
 - vs env-only 12-factor: files help nested structure; env still wins for secrets/prod variance.
 - vs remote config services: files are simpler; remote adds central control and risk.
 
-## Mistakes to Avoid
-- Mutable global config mutated in place by callers.
-- No schema validation.
-- Storing passwords in the same committed file as harmless flags.
+
+### Use cases
+- Services read `/etc/myapp/config.yaml` at boot
+
+- **Example:** Hot reload flips a feature flag without deploy

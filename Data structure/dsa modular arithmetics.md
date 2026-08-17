@@ -4,12 +4,17 @@
 
 > Modular arithmetic is math on remainders — wrap indices, hash, and contest math under a modulus.
 
-
-
-
+```txt
+        dsa modular arithm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Modular arithmetic appears in hashing, wraparound indices, and contest math — wrong modulus handling fails edge cases.
+- **Interview probes:** Modular arithmetic appears in hashing, wraparound indices, and contest math
 
 ## Sources
 - [Wikipedia — Modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic) — overview
@@ -50,10 +55,10 @@ const add = (a, b, m) => mod(a + b, m)
 | No inverse | gcd≠1 | Different modulus / method |
 | Off-by-wrap | index -1 | `mod(i-1, n)` |
 
+## Mistakes to Avoid
+- **Mistake:** Language `%` on negatives — JS/C differ in sign of remainder
+- **Mistake:** **`(a*b)%m` with 32-bit ints**
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Plain floats — rounding ≠ modular rings.
 - **Trade-off:** Crypto without a library — don’t roll your own.
-
-## Mistakes to Avoid
-- Language `%` on negatives — JS/C differ in sign of remainder.
-- **`(a*b)%m` with 32-bit ints** — multiply can overflow; cast wide first.

@@ -4,12 +4,18 @@
 
 > Browser refuses to store or send cookies across sites when `Secure`/`SameSite`/domain attributes disagree with how the frontend and API are hosted.
 
-
-
-
+```txt
+        Cookie errors (cro ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers love cross-site cookie debugging: `SameSite=None; Secure`, HTTPS requirements, and SPA-on-localhost calling `api.example.com`.
+- **Interview probes:** Interviewers love cross-site cookie debugging: `SameSite=None
 
 ## Sources
 - [MDN — SameSite cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) — deep-dive
@@ -19,7 +25,7 @@ Interviewers love cross-site cookie debugging: `SameSite=None; Secure`, HTTPS re
 - **Hosted on different sites:** frontend and API may be cross-site → `SameSite=None` needs `Secure`.
 - **Dev vs prod:** `localhost` vs real HTTPS domains behave differently.
 - **Third-party blocking:** browsers increasingly restrict cross-site cookies.
-- **CORS ≠ cookie magically works:** you still need `credentials` mode + correct `Access-Control-Allow-Credentials` and a non-`*` origin.
+- **CORS ≠ cookie magically works:** you still need `credentials` mode + correct `Access-Control-Allow-Credentials…
 
 ## Technical Details
 ```txt
@@ -33,20 +39,21 @@ SPA on app.example.com → cross-site request → SameSite rules apply
 | Cookie not sent | Site context | `SameSite=None; Secure` or same-site deploy |
 | CORS error with credentials | ACAO `*` | Echo specific origin; allow credentials |
 
-## Real-World Applications
-SPA + API on sibling subdomains: prefer same-site parent domain cookie strategy or first-party BFF proxy to avoid third-party cookie pain.
-
-**Example:** Local Vite app → production API cookies rejected — use a local proxy or HTTPS tunnel matching attributes.
+## Mistakes to Avoid
+- **Mistake:** `SameSite=None` without `Secure`
+- **Mistake:** `Access-Control-Allow-Origin: *` with credentialed requests
+- **Mistake:** Setting `Domain=.example.com` incorrectly for localhost
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cookie auth is browser-native for first-party apps.
 - **Con:** Cross-site setups are fragile under modern browser rules.
 
 ## Comparison
-- vs bearer tokens in memory: fewer cookie attribute issues; more XSS token theft risk if stored wrong.
+- vs bearer tokens in memory: fewer cookie attribute issues
 - vs [[cookies configuration]]: errors note is triage; configuration note is attribute meanings.
 
-## Mistakes to Avoid
-- `SameSite=None` without `Secure`.
-- `Access-Control-Allow-Origin: *` with credentialed requests.
-- Setting `Domain=.example.com` incorrectly for localhost.
+
+### Use cases
+- SPA + API on sibling subdomains: prefer same-site parent domain cookie strate…
+
+- **Example:** Local Vite app → production API cookies rejected

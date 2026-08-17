@@ -4,12 +4,17 @@
 
 > Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
-
-
-
+```txt
+        go package ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Package/visibility questions check uppercase export, one package per directory, and avoiding import cycles — basic module hygiene.
+- **Interview probes:** Package/visibility questions check uppercase export, one package per director…
 
 ## Sources
 - [How to Write Go Code](https://go.dev/doc/code) — overview
@@ -56,12 +61,12 @@ func private() {} // same package only
 | Wrong package name | File mismatch in dir | Unify name |
 | Stale deps | Old sum/mod | `go mod tidy` |
 
+## Mistakes to Avoid
+- **Mistake:** `init()` order — dependency order; keep `init` tiny
+- **Mistake:** Test package `foo_test` — external test sees only exports
+- **Mistake:** Blank import — only for registering drivers (`database/sql`)
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Micro-packages of one tiny function — prefer cohesive packages.
 - **Trade-off:** Export everything “just in case” — keep API small.
 - **Trade-off:** Circular “utils” bags — name by domain.
-
-## Mistakes to Avoid
-- `init()` order — dependency order; keep `init` tiny.
-- Test package `foo_test` — external test sees only exports.
-- Blank import — only for registering drivers (`database/sql`).

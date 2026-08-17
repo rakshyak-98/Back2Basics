@@ -4,12 +4,18 @@
 
 > MySQL system variables — global, session, or read-only — control buffers, SQL mode, replication, and InnoDB durability behavior.
 
-
-
-
+```txt
+        variables ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb_flush_log_at_trx_commit`, `sql_mode`) and whether a change survives restart (`SET PERSIST` vs `SET GLOBAL`).
+- **Interview probes:** Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb…
 
 ## Sources
 - [Server System Variables](https://dev.mysql.com/doc/refman/en/server-system-variables.html) — deep-dive
@@ -37,8 +43,10 @@ SET GLOBAL max_connections = 500;  -- runtime only unless PERSIST
 | `innodb_flush_log_at_trx_commit` | Durability vs speed |
 | `sql_mode` | Strictness (`STRICT_TRANS_TABLES`) |
 
-## Real-World Applications
-Size buffer pool to ~50–70% of dedicated DB RAM (rule of thumb); raise `max_connections` only with pool math and memory headroom.
+## Mistakes to Avoid
+- **Mistake:** Setting `innodb_flush_log_at_trx_commit=0` on money paths for “s…
+- **Mistake:** Raising `max_connections` instead of fixing [[connection pooling…
+- **Mistake:** Changing `sql_mode` in production without checking application a…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Runtime tuning without always rebuilding images.
@@ -46,9 +54,8 @@ Size buffer pool to ~50–70% of dedicated DB RAM (rule of thumb); raise `max_co
 - **Trade-off:** Durability settings that buy QPS lose crash safety.
 
 ## Comparison
-vs [[SQL Configurations]]: cross-engine config discipline; this note is MySQL variable mechanics. vs `my.cnf`: files are source of truth for many fleets — keep PERSIST and files from fighting.
+- vs [[SQL Configurations]]: cross-engine config discipline; this note is MySQL…
 
-## Mistakes to Avoid
-- Setting `innodb_flush_log_at_trx_commit=0` on money paths for “speed.”
-- Raising `max_connections` instead of fixing [[connection pooling]].
-- Changing `sql_mode` in production without checking application assumptions.
+
+### Use cases
+- Size buffer pool to ~50–70% of dedicated DB RAM (rule of thumb)

@@ -4,27 +4,33 @@
 
 > An Autonomous System (AS) is how the Internet names who owns which IP blocks at the routing layer — one coherent routing policy under one ASN.
 
-
-
-
+```txt
+        Autonomous system ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about ASNs and [[BGP]] to see if you understand multi-homing, route announcements, and why hijacks/RPKI matter — not just “AS means a big company.”
+- **Interview probes:** Interviewers ask about ASNs and [[BGP]] to see if you understand multi-homing…
 
 ## Sources
 - [RFC 4271 — A Border Gateway Protocol 4 (BGP-4)](https://www.rfc-editor.org/rfc/rfc4271) — deep-dive
 - [RFC 1930 — Guidelines for creation, selection, and registration of an Autonomous System](https://www.rfc-editor.org/rfc/rfc1930) — overview
 - [Wikipedia — Autonomous system (Internet)](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) — overview
 
-## Core Definition
-An Autonomous System is a set of IP prefixes under a single routing policy, identified by an Autonomous System Number (ASN), and exchanged with neighbors via [[BGP]].
-
 ## Key Concepts
-- **ASN:** 16-bit (legacy) or 32-bit number → identity in the global routing system; private use includes 64512–65534 (and 32-bit private ranges).
-- **Announcement:** you advertise prefixes you are authorized to originate → others learn reachability.
-- **Routing policy:** what you announce, filter, and prefer (prepends, local-pref) → path selection is policy, not pure shortest path.
+- **ASN:** 16-bit (legacy) or 32-bit number → identity in the global routing system
+- **Announcement:** you advertise prefixes you are authorized to originate → others learn reachab…
+- **Routing policy:** what you announce, filter, and prefer (prepends, local-pref) → path selection…
 - **Single AS, many sites:** one coherent policy can span many physical locations.
-- **RPKI / IRR:** cryptographic and registry filters → upstreams should reject unauthorized origins (hijack defense).
+- **RPKI / IRR:** cryptographic and registry filters → upstreams should reject unauthorized ori…
+
+
+- **Core:** An Autonomous System is a set of IP prefixes under a single routing policy, i…
 
 ## Technical Details
 ```txt
@@ -33,7 +39,7 @@ AS64512 (your org)  ──BGP──►  AS15169 (Google)  ──►  global tabl
      └── announces 203.0.113.0/24   └── selects best path by policy
 ```
 
-Service impact: multi-homing, cloud egress, and DDoS scrubbing all manipulate **which AS path** traffic takes.
+- Service impact: multi-homing, cloud egress, and DDoS scrubbing all manipulate…
 
 ### Lookup ASN for prefix or IP
 
@@ -60,7 +66,7 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 # Register ASN via RIR (ARIN/RIPE/APNIC) before announcing on internet
 ```
 
-**Why filters matter:** announcing someone else's prefix = **BGP hijack** — upstreams should reject via RPKI/IRR.
+- **Why filters matter:** announcing someone else's prefix = **BGP hijack**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,10 +75,10 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 | RPKI INVALID | `rpki-validator` | Fix ROA max-length and origin ASN |
 | ASN not in global table | Registration not complete | Complete RIR SWIP; wait propagation |
 
-## Real-World Applications
-ISPs, large enterprises, and cloud providers each operate as ASes; BYOIP and multi-homed edges attach your prefixes to your ASN.
-
-**Example:** Traffic prefers the “wrong” ISP after multi-homing — export policy or AS-path prepends need tuning; check path views before blaming the [[routing table]] on a single host.
+## Mistakes to Avoid
+- **Mistake:** Letting private ASN (64512+) leak to the public Internet
+- **Mistake:** Ignoring more-specific hijacks
+- **Mistake:** Running BGP at the edge without filters/RPKI when a static defau…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear administrative boundary for policy and abuse contact at Internet scale.
@@ -80,11 +86,12 @@ ISPs, large enterprises, and cloud providers each operate as ASes; BYOIP and mul
 - **Con:** Private ASNs must not leak to the public Internet — upstreams should strip them.
 
 ## Comparison
-- vs a single host [[routing table]]: the host table forwards locally; AS/BGP exchanges reachability between networks.
-- vs [[CIDR (Classless Inter-Domain Routing)]]: CIDR is how prefixes are sized; an AS is who originates and policies them.
-- vs cloud default ASN: provider peering policy differs from your corporate ASN — BYOIP/peering terms matter.
+- vs a single host [[routing table]]: the host table forwards locally
+- vs [[CIDR (Classless Inter-Domain Routing)]]: CIDR is how prefixes are sized
+- vs cloud default ASN: provider peering policy differs from your corporate ASN
 
-## Mistakes to Avoid
-- Letting private ASN (64512+) leak to the public Internet.
-- Ignoring more-specific hijacks — a `/24` announced inside your `/16` steals traffic if accepted.
-- Running BGP at the edge without filters/RPKI when a static default or provider BGP would suffice for a single-homed site.
+
+### Use cases
+- ISPs, large enterprises, and cloud providers each operate as ASes
+
+- **Example:** Traffic prefers the “wrong” ISP after multi-homing

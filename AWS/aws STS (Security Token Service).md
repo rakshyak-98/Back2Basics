@@ -4,12 +4,15 @@
 
 > STS issues temporary security credentials after a principal proves it may assume a role — production AWS access should flow through STS rather than static access keys.
 
-
-
-
+```txt
+        aws STS (Security  ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               └── Pitfalls
+```
 
 ## Interview Relevance
-STS interviews cover AssumeRole, temporary credentials, and federation — why long-lived keys are avoided.
+- **Interview probes:** STS interviews cover AssumeRole, temporary credentials, and federation
 
 ## Sources
 - [AWS STS API Reference](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) — deep-dive
@@ -18,9 +21,10 @@ STS interviews cover AssumeRole, temporary credentials, and federation — why l
 ## Technical Details
 ### What STS provides
 
-STS returns **temporary credentials** (access key ID, secret access key, session token) with a defined expiration. Callers use these credentials like long-lived keys, but they expire automatically and can be scoped with session policies.
+- STS returns **temporary credentials** (access key ID, secret access key, sess…
+- Callers use these credentials like long-lived keys, but they expire automatic…
 
-Common operations:
+- Common operations:
 
 | API | Purpose |
 |-----|---------|
@@ -44,14 +48,16 @@ Principal (user, role, service)
   AWS API calls signed with session credentials
 ```
 
-The **trust policy** on the role defines who may call `AssumeRole`. The **permission policy** on the role defines what the session may do. An optional **inline session policy** further restricts the session for that single assumption.
+- The **trust policy** on the role defines who may call `AssumeRole`.
+- The **permission policy** on the role defines what the session may do.
+- An optional **inline session policy** further restricts the session for that …
 
 ### Where you meet STS daily
 
-- **EC2 instance profiles** — metadata service delivers rotating role credentials.
-- **Lambda execution roles** — runtime receives temporary credentials automatically.
-- **CI/CD OIDC** — pipeline assumes a deployment role without storing secrets.
-- **Cross-account access** — account A's role trusts account B's principal.
+- **EC2 instance profiles:** — metadata service delivers rotating role credentials.
+- **Lambda execution roles:** — runtime receives temporary credentials automatically.
+- **CI/CD OIDC:** — pipeline assumes a deployment role without storing secrets.
+- **Cross-account access:** — account A's role trusts account B's principal.
 
 ### CLI example
 
@@ -63,7 +69,7 @@ aws sts assume-role \
 aws sts get-caller-identity
 ```
 
-Export the returned `AccessKeyId`, `SecretAccessKey`, and `SessionToken` into the environment for subsequent CLI calls, or use `aws sts assume-role` with `--profile` and role chaining in `~/.aws/config`.
+- Export the returned `AccessKeyId`, `SecretAccessKey`, and `SessionToken` into…
 
 ## Mistakes to Avoid
 | Error | Typical cause |

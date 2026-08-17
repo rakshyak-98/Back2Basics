@@ -4,12 +4,18 @@
 
 > Packaged object code other programs link against — static archives (`.a`) baked in at link time, or shared objects (`.so`/`.dll`) loaded at run time.
 
-
-
-
+```txt
+        Library file ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask static vs shared linking, what `PIC` is for, and how `LD_LIBRARY_PATH` / rpath affect which `.so` you actually load.
+- **Interview probes:** Interviewers ask static vs shared linking, what `PIC` is for, and how `LD_LIB…
 
 ## Sources
 - [GNU — Introduction to Archives](https://sourceware.org/binutils/docs/binutils/ar.html) — overview
@@ -39,21 +45,22 @@ ldd ./app                             # see .so deps (Linux)
 | Static | Link time | Relink app to pick up lib fixes |
 | Shared | Run time | Replace `.so` (ABI-compatible) |
 
-## Real-World Applications
-OS packages ship shared libs (`libc`, `libssl`); embedded/air-gapped tools often prefer static to reduce deployment deps.
-
-**Example:** App works on the build machine but fails in production with `error while loading shared libraries` — fix rpath or install the `.so`.
+## Mistakes to Avoid
+- **Mistake:** Building shared libs without `-fPIC`
+- **Mistake:** Relying on random `LD_LIBRARY_PATH` hacks in production instead …
+- **Mistake:** Mixing static and shared copies of the same dependency (ODR/ABI …
 
 ## Pros/Cons or Trade-offs
 - **Pro (shared):** one security patch updates many apps; less disk duplication.
 - **Pro (static):** self-contained deploy; no `.so` search path surprises.
-- **Con (shared):** ABI breaks and path hell; **con (static):** huge binaries, must relink for fixes.
+- **Con (shared):** ABI breaks and path hell
 
 ## Comparison
 - vs [[object code]]: libraries are organized collections of objects plus metadata.
 - vs plugins: dynamically loaded modules are shared libs loaded explicitly (`dlopen`).
 
-## Mistakes to Avoid
-- Building shared libs without `-fPIC`.
-- Relying on random `LD_LIBRARY_PATH` hacks in production instead of proper install + rpath.
-- Mixing static and shared copies of the same dependency (ODR/ABI pain).
+
+### Use cases
+- OS packages ship shared libs (`libc`, `libssl`)
+
+- **Example:** App works on the build machine but fails in production with `err…

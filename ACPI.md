@@ -2,12 +2,20 @@
 
 # ACPI
 
-> ACPI (Advanced Configuration and Power Interface) is the OS–firmware contract for discovering hardware, configuring devices, and managing system power states — sleep, hibernate, and shutdown — without legacy BIOS-only hacks.
+> ACPI (Advanced Configuration and Power Interface) is the OS–firmware contract for discovering hardware, configuring devices, and managing system power states — sleep, hibernate, and shutdown — without legacy BIOS-only h…
 
-
+```txt
+        ACPI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explain how the operating system hands off to firmware for sleep/wake, what ACPI tables contain, and why broken ACPI causes boot or battery bugs.
+- **Interview probes:** Explain how the operating system hands off to firmware for sleep/wake, what A…
 
 ## Sources
 - [UEFI Forum — ACPI specification](https://uefi.org/specifications) — deep-dive
@@ -40,7 +48,7 @@ Explain how the operating system hands off to firmware for sleep/wake, what ACPI
 | **S3** | Suspend to RAM | Laptop sleep |
 | **S4** | Suspend to disk | Hibernate |
 
-Common Linux checks:
+- Common Linux checks:
 
 ```bash
 ls /sys/firmware/acpi/tables/
@@ -54,10 +62,12 @@ dmesg | grep -i acpi
 | Wake failures | IRQ/GPIO wake miswired | ACPI _PRW resources |
 | Battery wrong | ACPI battery objects | `_BST` / `_BIF` methods |
 
-ACPI replaced ad-hoc APM interfaces so one driver model works across vendors ([[BIOS]] / [[UEFI]] hand off tables at boot).
+- ACPI replaced ad-hoc APM interfaces so one driver model works across vendors …
 
-## Real-World Applications
-Laptop sleep/wake, server power capping, thermal throttling coordination, and datacenter idle-power policies.
+## Mistakes to Avoid
+- **Mistake:** Blaming the OS for sleep bugs without reading `dmesg` ACPI errors
+- **Mistake:** Patching DSDT without understanding AML side effects
+- **Mistake:** Assuming `suspend` works when firmware never implemented S3
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Uniform OS power model across vendors.
@@ -68,7 +78,6 @@ Laptop sleep/wake, server power capping, thermal throttling coordination, and da
 - vs legacy APM: ACPI is table-driven and extensible; APM was BIOS-centric and limited.
 - vs [[UEFI]] alone: UEFI boots the machine; ACPI governs runtime power and device enumeration.
 
-## Mistakes to Avoid
-- Blaming the OS for sleep bugs without reading `dmesg` ACPI errors.
-- Patching DSDT without understanding AML side effects.
-- Assuming `suspend` works when firmware never implemented S3.
+
+### Use cases
+- Laptop sleep/wake, server power capping, thermal throttling coordination, and…

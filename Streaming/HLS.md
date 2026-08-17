@@ -4,36 +4,42 @@
 
 > HLS cuts video into short HTTP files and a playlist — the player fetches the next chunk over plain HTTPS.
 
-
-
-
+```txt
+        HLS (HTTP Live Str ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk HLS end-to-end — not just name it. Signal fluency with **Master / multivariant**, **Media playlist**, **Segment**, **TARGETDURATION** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk HLS end-to-end
 
 ## Sources
 - [Wikipedia — HLS](https://en.wikipedia.org/wiki/HLS) — overview
 - [Apple HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
 - [RFC 8216 — HTTP Live Streaming](https://datatracker.ietf.org/doc/html/rfc8216) — deep-dive
 
-## Core Definition
-HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
-
 ## Key Concepts
-- **Master / multivariant:** Menu of quality playlists — “First download is the master; it lists renditions.”
-- **Media playlist:** Ordered list of segments for one rung — “The media playlist is the segment sequence.”
+- **Master / multivariant:** Menu of quality playlists
+- **Media playlist:** Ordered list of segments for one rung
 - **Segment:** 2–10 s media file — “Playback is just sequential HTTP GETs.”
 - **TARGETDURATION:** Max segment length advertised — “Players size buffer from TARGETDURATION.”
-- **MEDIA-SEQUENCE:** Live sliding window index — “Live playlists drop old segments and bump the sequence.”
-- **fMP4 / CMAF:** Modern segment shape (not only TS) — “We prefer fMP4 so HLS and DASH share bytes.”
-- **LL-HLS:** Parts + blocking playlist — “Partials cut live delay from tens of seconds to a few.”
+- **MEDIA-SEQUENCE:** Live sliding window index
+- **fMP4 / CMAF:** Modern segment shape (not only TS)
+- **LL-HLS:** Parts + blocking playlist
 
 **Flow:**
 
-1. **Ingest** — publisher pushes [[RTMP]] / [[SRT]] / [[RTSP]] pull / file into the packager.
-2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
-3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
-4. **Deliver** — CDN serves HTTP; player adapts quality from buffer + bandwidth.
+- **Note:** 1. **Ingest**
+- **Note:** 2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
+- **Note:** 3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
+- **Note:** 4. **Deliver**
+
+
+- **Core:** HLS is **stateless file delivery**. That is why it survives firewalls and sca…
 
 ## Technical Details
 ```txt
@@ -87,11 +93,12 @@ ffmpeg -i in.mp4 -c:v libx264 -c:a aac -g 60 -sc_threshold 0 \
 | `#EXT-X-KEY` / SAMPLE-AES | Encryption; pair with [[DRM]] / FairPlay for premium |
 | Signed URL / cookie on CDN | Stop hotlink of `.m3u8` and `.m4s` |
 
-Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `mediastreamvalidator` on macOS.
+- Debug: `curl` the master → follow a media playlist → HEAD a segment
 
 ### LL-HLS (low latency)
 
-Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
+- Classic HLS buffers several full segments → **~15–30 s** delay.
+- LL-HLS aims for **~2–5 s**:
 
 | Extension | Job |
 |-----------|-----|
@@ -100,23 +107,7 @@ Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims 
 | **`EXT-X-PRELOAD-HINT`** | Tell the player what to request next early |
 | **`EXT-X-RENDITION-REPORT`** | Sync sequence across rungs for faster ABR |
 
-Needs CMAF-style chunks and a player that understands LL tags.
-
-## Real-World Applications
-HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
-
-Used wherever HLS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
-- **Con / skip when:** **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
-- **Con / skip when:** **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
-
-## Comparison
-- vs [[WebRTC]]: **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
-- vs [[RTMP]]: **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
-- vs [[DASH]]: **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
+- Needs CMAF-style chunks and a player that understands LL tags.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -129,7 +120,24 @@ Used wherever HLS sits in an ingest → package → CDN → player path. Concret
 | ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
 | Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
 
-- **HLS is not a push protocol to the viewer** — the player pulls. Origin must keep playlists fresh for live.
-- **Packager restart resets `MEDIA-SEQUENCE`** — players hang; use discontinuity or coordinated restart.
-- **Absolute segment URLs behind a proxy** — player bypasses your app origin; rewrite manifests ([[streaming manifest file]]).
-- **LL tags on non-LL players** — gate features; don’t break legacy clients with unknown tags they mishandle.
+- **Mistake:** **HLS is not a push protocol to the viewer**
+- **Mistake:** **Packager restart resets `MEDIA-SEQUENCE`**
+- **Mistake:** **Absolute segment URLs behind a proxy**
+- **Mistake:** **LL tags on non-LL players**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser mesh / sub-second call**
+- **Con / skip when:** **Publisher → ingest only**
+- **Con / skip when:** **Apple-free Android-only shop that already standardized…
+
+## Comparison
+- vs [[WebRTC]]: **Browser mesh / sub-second call**
+- vs [[RTMP]]: **Publisher → ingest only**
+- vs [[DASH]]: **Apple-free Android-only shop that already standardized on DASH**
+
+
+### Use cases
+- HLS is **stateless file delivery**. That is why it survives firewalls and sca…
+
+- Used wherever HLS sits in an ingest → package → CDN → player path

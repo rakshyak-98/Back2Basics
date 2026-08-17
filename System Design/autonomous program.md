@@ -4,12 +4,18 @@
 
 > Autonomous program — long-running agent that watches inputs, decides, and acts with little human babysitting (jobs, bots, controllers).
 
-
-
-
+```txt
+        autonomous program ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Long-running agent loop: observe → decide → act with idempotency and kill switches.
+- **Interview probes:** Long-running agent loop: observe → decide → act with idempotency and kill swi…
 
 ## Sources
 - [Wikipedia — autonomous program](https://en.wikipedia.org/wiki/autonomous_program) — overview
@@ -37,9 +43,6 @@ loop:
 | Controller | Autoscaler, reconciler (K8s operator) |
 | Bot | Alert triage assistant |
 
----
-
-
 ### Configuration and commands
 
 ```txt
@@ -50,27 +53,6 @@ Hard requirements
 [ ] Circuit breaker on bad deps
 [ ] Kill switch / feature flag
 ```
-
----
-
-## Real-World Applications
-Ops bots, trading agents, and workflow automations that watch queues or metrics.
-
-## Pros/Cons or Trade-offs
-- **Human-in-the-loop required by policy** — approval workflows instead.
-- **One-shot migrations** — scripts with supervision.
-- **Unclear objective** — autonomy amplifies bad goals.
-
----
-
-
-- **Pro:** Scales human attention.
-- **Con:** Silent wrong actions compound.
-- **Trade-off:** autonomy vs mandatory human approval gates.
-
-## Comparison
-- vs cron scripts: richer sensing/decision loops vs fixed schedules.
-- vs [[event-driven]]: events may trigger autonomous handlers.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -93,3 +75,23 @@ Ops bots, trading agents, and workflow automations that watch queues or metrics.
 | Unsafe act in prod | No dry-run | Shadow mode first |
 
 ---
+
+## Pros/Cons or Trade-offs
+- **Human-in-the-loop required by policy** — approval workflows instead.
+- **One-shot migrations** — scripts with supervision.
+- **Unclear objective** — autonomy amplifies bad goals.
+
+---
+
+
+- **Pro:** Scales human attention.
+- **Con:** Silent wrong actions compound.
+- **Trade-off:** autonomy vs mandatory human approval gates.
+
+## Comparison
+- vs cron scripts: richer sensing/decision loops vs fixed schedules.
+- vs [[event-driven]]: events may trigger autonomous handlers.
+
+
+### Use cases
+- Ops bots, trading agents, and workflow automations that watch queues or metri…

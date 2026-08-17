@@ -4,12 +4,17 @@
 
 > Frontend layers separate UI, state, and API access — so screens don’t each reinvent fetching and rules.
 
-
-
-
+```txt
+        frontend layered a ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Frontend layering interviews check whether UI, state, and API access stay separated so screens do not each reinvent policy.
+- **Interview probes:** Frontend layering interviews check whether UI, state, and API access stay sep…
 
 ## Sources
 - [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview
@@ -63,10 +68,10 @@ export function OrderPage({ id }: { id: string }) {
 | God context | Whole app rerenders | Split stores / query |
 | Business rules only in UI | Pricing in React | Enforce on API too |
 
+## Mistakes to Avoid
+- **Mistake:** Prop drilling “layers”
+- **Mistake:** Duplicated clients
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Marketing static page — no need for stores and API modules.
 - **Trade-off:** Tiny widget — one component + fetch is fine until it grows.
-
-## Mistakes to Avoid
-- Prop drilling “layers” — deep trees without a data layer still couple everything.
-- Duplicated clients — three axios instances with three auth headers.

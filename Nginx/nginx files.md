@@ -4,12 +4,18 @@
 
 > Package paths and log rotation — where configs, PIDs, and access/error logs live, and how logrotate signals Nginx to reopen files.
 
-
-
-
+```txt
+        nginx files ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops interviews ask where to look when “my edit did nothing,” why disks fill from logs, and what `USR1` after logrotate does.
+- **Interview probes:** Ops interviews ask where to look when “my edit did nothing,” why disks fill f…
 
 ## Sources
 - [nginx.org — Logging](https://nginx.org/en/docs/ngx_core_module.html#error_log) — deep-dive
@@ -17,10 +23,10 @@ Ops interviews ask where to look when “my edit did nothing,” why disks fill 
 - [logrotate man page](https://linux.die.net/man/8/logrotate) — overview
 
 ## Key Concepts
-- **Config tree:** `/etc/nginx/nginx.conf` includes `sites-enabled` / `conf.d` — see [[nginx config structure]].
-- **Logs:** `/var/log/nginx/access.log` and `error.log` (override with `error_log` / `access_log` directives).
+- **Config tree:** `/etc/nginx/nginx.conf` includes `sites-enabled` / `conf.d`
+- **Logs:** `/var/log/nginx/access.log` and `error.log` (override with `error_log` / `acc…
 - **PID:** `/run/nginx.pid` — master process id for signals.
-- **logrotate + USR1:** After rename/compress, send `USR1` so Nginx reopens log file descriptors (avoids writing to deleted inodes).
+- **logrotate + USR1:** After rename/compress, send `USR1` so Nginx reopens log file descriptors (avo…
 
 ## Technical Details
 ```
@@ -49,7 +55,7 @@ sudo tail -f /var/log/nginx/error.log
 sudo tail -f /var/log/nginx/access.log
 ```
 
-Typical logrotate snippet:
+- Typical logrotate snippet:
 
 ```
 /var/log/nginx/*.log {
@@ -75,8 +81,11 @@ Typical logrotate snippet:
 | Site enabled twice | Duplicate server_name | One conf per `server_name`:port |
 | PID file stale | Crash | `systemctl restart nginx` |
 
-## Real-World Applications
-Enable a site via symlink, watch `error.log` for upstream 502s during deploy, rely on daily logrotate with USR1 postrotate.
+## Mistakes to Avoid
+- **Mistake:** Reloading without `nginx -t`
+- **Mistake:** Broken `sites-enabled` symlink to a deleted file
+- **Mistake:** Hand-editing `.log.1.gz` — use `zgrep` instead
+- **Disabling logrotate postrotate USR1::** → full disk
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Standard Debian layout is familiar across hosts.
@@ -84,10 +93,8 @@ Enable a site via symlink, watch `error.log` for upstream 502s during deploy, re
 
 ## Comparison
 - vs journald-only logging: Nginx file logs remain common; can also log to syslog.
-- vs [[nginx config structure]]: structure is the include tree; this note is paths + rotation lifecycle.
+- vs [[nginx config structure]]: structure is the include tree
 
-## Mistakes to Avoid
-- Reloading without `nginx -t` — bad config fails reload if you skip the test.
-- Broken `sites-enabled` symlink to a deleted file — `nginx -t` fails on boot.
-- Hand-editing `.log.1.gz` — use `zgrep` instead.
-- Disabling logrotate postrotate USR1 — Nginx keeps writing to the old inode → full disk.
+
+### Use cases
+- Enable a site via symlink, watch `error.log` for upstream 502s during deploy,…

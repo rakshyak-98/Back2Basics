@@ -4,12 +4,18 @@
 
 > Background JS thread in the browser — keep heavy CPU off the UI thread; talk via `postMessage`.
 
-
-
-
+```txt
+        web worker ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **web worker** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Dedicated worker**, **SharedWorker**, **transfer**.
+- **Interview probes:** Interviewers use **web worker** to check whether you can explain the mechanis…
 
 ## Sources
 - [MDN — Using web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) — deep-dive
@@ -39,8 +45,13 @@ w.onerror = console.error
 | Transfer list | `[buffer]` second arg |
 | Terminate | `w.terminate()` on unmount |
 
-## Real-World Applications
-In production APIs and tooling, **web worker** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **No DOM / `window`** in workers — pass results back to main to render; **Vite/webpack** need correct worker URL patterns — don’t string-path casually.
+## Mistakes to Avoid
+- **Mistake:** **No DOM / `window`** in workers
+- **Mistake:** **Vite/webpack** need correct worker URL patterns
+- **Mistake:** **UI still janky:** check Work still on main
+- **Mistake:** **DataCloneError:** check Non-cloneable payload
+- **Mistake:** **Worker 404:** check Wrong URL / bundler
+- **Mistake:** **Memory leak:** check Workers never terminated
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Background JS thread in the browser — keep heavy CPU off the UI thread; talk via…).
@@ -48,12 +59,8 @@ In production APIs and tooling, **web worker** shows up whenever teams ship Node
 - **Con / when not:** **Network-only waits** — async I/O already frees the UI.
 
 ## Comparison
-vs [[worker]]: know when each applies — do not treat them as interchangeable. vs [[throttle]]: know when each applies — do not treat them as interchangeable. vs [[Optimizing performance]]: know when each applies — do not treat them as interchangeable.
+- vs [[worker]]: know when each applies
 
-## Mistakes to Avoid
-- **No DOM / `window`** in workers — pass results back to main to render.
-- **Vite/webpack** need correct worker URL patterns — don’t string-path casually.
-- **UI still janky:** check Work still on main; fix: Move loop into worker
-- **DataCloneError:** check Non-cloneable payload; fix: Transfer buffers; plain data
-- **Worker 404:** check Wrong URL / bundler; fix: Use `new URL(..., import.meta.url)`
-- **Memory leak:** check Workers never terminated; fix: Terminate on page leave
+
+### Use cases
+- In production APIs and tooling, **web worker** shows up whenever teams ship N…

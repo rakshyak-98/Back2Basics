@@ -4,12 +4,18 @@
 
 > Spawn another OS process from Node — shell out, run binaries, or isolate crashable work. Mind shell injection.
 
-
-
-
+```txt
+        child process ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **child process** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **exec**, **spawn**, **fork**.
+- **Interview probes:** Interviewers use **child process** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Child process](https://nodejs.org/api/child_process.html) — deep-dive
@@ -44,21 +50,22 @@ child.on('exit', (code) => console.log('done', code))
 | `maxBuffer` (exec) | Prevent huge stdout OOM |
 | `detached` / `unref` | Daemonize carefully |
 
-## Real-World Applications
-In production APIs and tooling, **child process** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`exec(userInput)` is RCE** — never pass unsanitized input to a shell; **Windows vs POSIX** — shells and signals differ; prefer `execFile` for portability.
+## Mistakes to Avoid
+- **Mistake:** **`exec(userInput)` is RCE**
+- **Mistake:** **Windows vs POSIX**
+- **Mistake:** **Shell injection:** check User string in `exec`
+- **Mistake:** **`maxBuffer` exceeded:** check Large output via exec
+- **Mistake:** **Zombie / hang:** check Not consuming stdio
+- **Mistake:** **ENOENT:** check PATH / wrong binary
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Spawn another OS process from Node — shell out, run binaries, or isolate crashab…).
-- **Con / when not:** **CPU parallelism inside one application** — [[worker]] threads share memory differently.
-- **Con / when not:** **Tiny sync helpers** — maybe just a library call, not a process.
+- **Con / when not:** **CPU parallelism inside one application**
+- **Con / when not:** **Tiny sync helpers**
 
 ## Comparison
-vs [[worker]]: know when each applies — do not treat them as interchangeable. vs [[clustering]]: know when each applies — do not treat them as interchangeable. vs [[Node events driven]]: know when each applies — do not treat them as interchangeable.
+- vs [[worker]]: know when each applies
 
-## Mistakes to Avoid
-- **`exec(userInput)` is RCE** — never pass unsanitized input to a shell.
-- **Windows vs POSIX** — shells and signals differ; prefer `execFile` for portability.
-- **Shell injection:** check User string in `exec`; fix: `execFile` + fixed argv
-- **`maxBuffer` exceeded:** check Large output via exec; fix: `spawn` and stream
-- **Zombie / hang:** check Not consuming stdio; fix: Drain or `stdio: 'ignore'`
-- **ENOENT:** check PATH / wrong binary; fix: Absolute path; check `env`
+
+### Use cases
+- In production APIs and tooling, **child process** shows up whenever teams shi…

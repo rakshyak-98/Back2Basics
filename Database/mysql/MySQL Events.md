@@ -4,12 +4,18 @@
 
 > MySQL Event Scheduler—cron-like jobs executing SQL inside the server (`CREATE EVENT`) for housekeeping, rollups, and partition maintenance.
 
-
-
-
+```txt
+        MySQL Events ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Event scheduler questions cover enabling `event_scheduler`, `CREATE EVENT` syntax, monitoring, and when to prefer external cron for observability. Operational judgment matters more than memorizing every clause.
+- **Interview probes:** Event scheduler questions cover enabling `event_scheduler`, `CREATE EVENT` sy…
 
 ## Sources
 - [MySQL Reference Manual — Event Scheduler](https://dev.mysql.com/doc/refman/en/event-scheduler.html) — deep-dive
@@ -39,19 +45,20 @@ SHOW EVENTS;
 SELECT * FROM information_schema.EVENTS;
 ```
 
-Prefer external schedulers (Kubernetes CronJob) for complex workflows needing observability.
+- Prefer external schedulers (Kubernetes CronJob) for complex workflows needing…
 
-## Real-World Applications
-Daily session purge, partition rotation helpers, simple rollups. Example: `purge_sessions` deletes expired rows nightly; on-call checks `SHOW EVENTS` when rows stop disappearing after a failover reset globals.
+## Mistakes to Avoid
+- **Mistake:** Creating events while `event_scheduler` is OFF — silent no-ops
+- **Mistake:** Long-running event DELETEs without batching — lock and lag storms
+- **Mistake:** Relying on events for business-critical workflows without monito…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** No extra infrastructure for simple SQL housekeeping; runs close to the data.
 - **Con:** Easy to miss when scheduler is OFF after restore; limited metrics/alerting vs external job runners.
 
 ## Comparison
-vs [[mysql events 1]]: core scheduler vs supplemental one-shot/privilege examples. vs app/cron workers: external jobs integrate with deploy pipelines and paging; events stay inside MySQL.
+- vs [[mysql events 1]]: core scheduler vs supplemental one-shot/privilege exam…
 
-## Mistakes to Avoid
-- Creating events while `event_scheduler` is OFF — silent no-ops.
-- Long-running event DELETEs without batching — lock and lag storms.
-- Relying on events for business-critical workflows without monitoring.
+
+### Use cases
+- Daily session purge, partition rotation helpers, simple rollups. Example: `pu…

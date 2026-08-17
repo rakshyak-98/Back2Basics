@@ -4,12 +4,17 @@
 
 > DSA algorithms are named techniques on data structures — pick by constraints, not by fashion.
 
-
-
-
+```txt
+        DSA algorithms ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Named algorithm families (two pointers, sliding window, DFS/BFS, DP) are how interviewers score pattern recognition under constraints.
+- **Interview probes:** Named algorithm families (two pointers, sliding window, DFS/BFS, DP) are how …
 
 ## Sources
 - [LeetCode Explore — Interview patterns](https://leetcode.com/explore/) — overview
@@ -52,10 +57,10 @@ shortest path → BFS (unweighted) / Dijkstra
 | WA | edges | empty, overflow, dups |
 | Can’t start | no model | Draw examples |
 
+## Mistakes to Avoid
+- **Mistake:** Memorizing code without the invariant
+- **Mistake:** Ignoring constraints — O(n²) on 1e5 is dead on arrival
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** CRUD application without hot path — clarity over clever DSA.
 - **Trade-off:** When library sort/search suffices — don’t reimplement.
-
-## Mistakes to Avoid
-- Memorizing code without the invariant — one tweak and you’re stuck.
-- Ignoring constraints — O(n²) on 1e5 is dead on arrival.

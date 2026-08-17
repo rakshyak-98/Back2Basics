@@ -4,12 +4,17 @@
 
 > Markdown is lightweight plaintext that compiles to HTML — good for notes, READMEs, and docs-as-code.
 
-
-
-
+```txt
+        Markdown ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Markdown literacy is assumed — interviewers care about clarity in docs/PRs more than flavor quirks.
+- **Interview probes:** Markdown literacy is assumed
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -43,10 +48,6 @@ Markdown literacy is assumed — interviewers care about clarity in docs/PRs mor
 | Sanitize | User-generated MD |
 | Line endings | [[LF and CRLF]] |
 
-## Pros/Cons or Trade-offs
-- **Complex page layout** — real HTML/CSS.
-- **Strict legal pagination** — PDF.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Indentation in lists/code** — 4 spaces vs fences confuse beginners.
@@ -60,3 +61,7 @@ Markdown literacy is assumed — interviewers care about clarity in docs/PRs mor
 | Link 404 | path/wikilink | Fix target note |
 | XSS in HTML | raw HTML allowed | Sanitize |
 | Preview ≠ GitHub | dialect drift | Stick to GFM subset |
+
+## Pros/Cons or Trade-offs
+- **Complex page layout** — real HTML/CSS.
+- **Strict legal pagination** — PDF.

@@ -4,12 +4,18 @@
 
 > A Dockerfile is a layer recipe: `FROM` a base, `RUN`/`COPY` changes, then `ENTRYPOINT`/`CMD` as the process that runs.
 
-
-
-
+```txt
+        docker file ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe layer caching, multi-stage builds, exec versus shell form, and why you never bake secrets into image layers.
+- **Interview probes:** Interviewers probe layer caching, multi-stage builds, exec versus shell form,…
 
 ## Sources
 - [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — deep-dive
@@ -17,8 +23,8 @@ Interviewers probe layer caching, multi-stage builds, exec versus shell form, an
 
 ## Key Concepts
 - **Layers:** each instruction (roughly) adds a filesystem layer; order controls cache hits.
-- **Multi-stage:** build in one stage, copy artifacts into a slim runtime stage — smaller, safer images.
-- **ENTRYPOINT vs CMD:** ENTRYPOINT is the fixed main binary; CMD supplies default args (or the command if no entrypoint).
+- **Multi-stage:** build in one stage, copy artifacts into a slim runtime stage
+- **ENTRYPOINT vs CMD:** ENTRYPOINT is the fixed main binary
 - **Union filesystem:** overlay2 stacks layers; the container adds a thin writable layer on top.
 
 ## Technical Details
@@ -79,10 +85,12 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | Wrong arch on Apple/ARM | Platform | `--platform=linux/amd64` or multi-arch build |
 | Build needs secrets | Secret in layer history | BuildKit secrets; never `ENV PASS=` |
 
-## Real-World Applications
-CI builds reproducible application images; multi-stage Node/Go/Java builds ship only runtime bits to registries like [[AWS ECR]].
-
-**Example:** Copy `package*.json`, run `npm ci`, then copy app source — dependency layers stay cached across code-only commits.
+## Mistakes to Avoid
+- **Mistake:** Preferring `ADD` for remote URLs / auto-tar
+- **Mistake:** Shell form `CMD npm start` versus exec form `CMD ["npm","start"]`
+- **Mistake:** Splitting `apt-get update` and install across `RUN`s
+- **Mistake:** Putting huge mutable data in layers — use volumes instead
+- **Mistake:** Windows apps on a Linux daemon — wrong base OS
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Declarative, cacheable, reviewable image builds — the production path.
@@ -92,11 +100,10 @@ CI builds reproducible application images; multi-stage Node/Go/Java builds ship 
 ## Comparison
 - vs `docker commit`: Dockerfile is reproducible; commit is a debug escape hatch ([[docker OCI]]).
 - vs [[Docker compose]]: Dockerfile builds one image; Compose wires many containers.
-- vs VM golden images: containers share the host kernel and layer filesystem — lighter, different isolation story ([[Docker Runtime Security]]).
+- vs VM golden images: containers share the host kernel and layer filesystem
 
-## Mistakes to Avoid
-- Preferring `ADD` for remote URLs / auto-tar — surprising; use `COPY` + explicit `RUN curl`.
-- Shell form `CMD npm start` versus exec form `CMD ["npm","start"]` — signal handling differs (PID 1).
-- Splitting `apt-get update` and install across `RUN`s — chain update, install, and clean in one layer.
-- Putting huge mutable data in layers — use volumes instead.
-- Windows apps on a Linux daemon — wrong base OS.
+
+### Use cases
+- CI builds reproducible application images
+
+- **Example:** Copy `package*.json`, run `npm ci`, then copy app source

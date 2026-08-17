@@ -4,27 +4,33 @@
 
 > Server-to-server HTTP callback when something happens — the receiver must verify, dedupe, and answer fast; it is not a durable message bus.
 
-
-
-
+```txt
+        Webhook ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about webhooks to test signature verification, idempotency under retries, and why you enqueue work instead of doing heavy processing before returning 2xx.
+- **Interview probes:** Interviewers ask about webhooks to test signature verification, idempotency u…
 
 ## Sources
 - [Wikipedia — Webhook](https://en.wikipedia.org/wiki/Webhook) — overview
 - [Stripe — Webhooks](https://stripe.com/docs/webhooks) — deep-dive
 - [GitHub Docs — Validating webhook deliveries](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries) — deep-dive
 
-## Core Definition
-A webhook is an HTTP POST (usually JSON) from a publisher to your public HTTPS endpoint when an event occurs. Delivery is at-least-once in practice: publishers retry on timeouts and 5xx, so handlers must be idempotent.
-
 ## Key Concepts
-- **Push vs poll:** lower latency than polling; you operate a public URL, cryptography, and replay handling.
-- **Signature verification:** HMAC over the *raw* body with a shared secret → reject unsigned or tampered payloads.
-- **Idempotency:** store `event.id` / delivery id before side effects → retries must not double-charge or double-email.
-- **Fast ACK, async work:** return 2xx within the publisher timeout after durable enqueue → long work belongs in a worker.
-- **Not a bus:** no global ordering, limited backlog, weak fan-out — use [[kafka]] / [[MQTT]] / SQS for internal high-volume streams.
+- **Push vs poll:** lower latency than polling
+- **Signature verification:** HMAC over the *raw* body with a shared secret → reject unsigned or tampered p…
+- **Idempotency:** store `event.id` / delivery id before side effects → retries must not double-…
+- **Fast ACK, async work:** return 2xx within the publisher timeout after durable enqueue → long work bel…
+- **Not a bus:** no global ordering, limited backlog, weak fan-out
+
+
+- **Core:** A webhook is an HTTP POST (usually JSON) from a publisher to your public HTTP…
 
 ## Technical Details
 ```
@@ -86,7 +92,7 @@ curl -i -X POST https://api.example.com/webhooks/github \
   -d @payload.json
 ```
 
-**Production checklist:** HTTPS only; verify every request with constant-time compare; idempotency key; respond within provider timeout; process async; rotate secrets (dual-secret window); rate-limit or allowlist egress IPs when published.
+- **Production checklist:** HTTPS only
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,10 +103,10 @@ curl -i -X POST https://api.example.com/webhooks/github \
 | Timeouts in publisher log | Handler too slow | Enqueue then 200 |
 | Out-of-order events | Distributed delivery | Version fields per aggregate |
 
-## Real-World Applications
-Stripe payment events, GitHub repository events, Slack interactivity, and SaaS “notify my backend” integrations.
-
-**Example:** Stripe sends `invoice.paid`; the API verifies the signature, writes the event id, enqueues a worker, returns 200, then the worker provisions access.
+## Mistakes to Avoid
+- **Mistake:** Returning 200 before the event is durably enqueued
+- **Mistake:** Skipping signature checks because the URL is “secret.”
+- **Mistake:** Disabling verification in staging and forgetting to re-enable it
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Near-real-time, simple HTTP, no always-on poller.
@@ -109,11 +115,12 @@ Stripe payment events, GitHub repository events, Slack interactivity, and SaaS �
 
 ## Comparison
 - vs polling: webhooks push; polling is simpler operationally but slower and chatty.
-- vs [[SSE (Server-Sent Events)]]: SSE pushes to *browsers* over one long HTTP response; webhooks are server-to-server callbacks.
+- vs [[SSE (Server-Sent Events)]]: SSE pushes to *browsers* over one long HTTP response
 - vs [[kafka]]: Kafka is a durable internal log; webhooks are external integration glue.
 - Alias stub: [[Web hooks]] redirects here.
 
-## Mistakes to Avoid
-- Returning 200 before the event is durably enqueued — a crash loses the event with no retry.
-- Skipping signature checks because the URL is “secret.”
-- Disabling verification in staging and forgetting to re-enable it.
+
+### Use cases
+- Stripe payment events, GitHub repository events, Slack interactivity, and Saa…
+
+- **Example:** Stripe sends `invoice.paid`

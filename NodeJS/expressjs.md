@@ -4,12 +4,18 @@
 
 > Minimal HTTP framework on Node’s `http` — routers and middleware; concurrency is still the single-threaded event loop.
 
-
-
-
+```txt
+        expressjs ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **expressjs** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Middleware**, **app.set**, **Router**.
+- **Interview probes:** Interviewers use **expressjs** to check whether you can explain the mechanism…
 
 ## Sources
 - [Express — API reference](https://expressjs.com/en/4x/api.html) — deep-dive
@@ -41,21 +47,22 @@ app.listen(3000)
 | `express.json` | Parses body when Content-Type matches |
 | Error middleware `(err,req,res,next)` | Must be 4-arg, last |
 
-## Real-World Applications
-In production APIs and tooling, **expressjs** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **CPU-heavy work blocks all requests** — offload to [[worker]] / [[child process]]; **Empty `{}` body** — no body, unmatched type, or parse error can look like empty object depending on setup.
+## Mistakes to Avoid
+- **Mistake:** **CPU-heavy work blocks all requests**
+- **Mistake:** **Empty `{}` body**
+- **Mistake:** **`req.body` undefined:** check Missing parser / wrong CT
+- **Mistake:** **Hang forever:** check Forgot `res`/`next`
+- **Mistake:** **Wrong client IP:** check Behind proxy; fix: `trust proxy`
+- **Mistake:** **404 on mounted router:** check Path double-prefix
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Minimal HTTP framework on Node’s `http` — routers and middleware; concurrency is…).
-- **Con / when not:** **Ultra-low-level HTTP** — raw `http` / Fastify if you need different perf model.
+- **Con / when not:** **Ultra-low-level HTTP**
 - **Con / when not:** **Non-HTTP services** — gRPC/queues aren’t Express’s job.
 
 ## Comparison
-vs [[Express middleware]]: know when each applies — do not treat them as interchangeable. vs [[HTTP module]]: Express adds routing/middleware; `http` is the primitive Server/IncomingMessage/ServerResponse. vs [[node error]]: know when each applies — do not treat them as interchangeable.
+- vs [[Express middleware]]: know when each applies
 
-## Mistakes to Avoid
-- **CPU-heavy work blocks all requests** — offload to [[worker]] / [[child process]].
-- **Empty `{}` body** — no body, unmatched type, or parse error can look like empty object depending on setup.
-- **`req.body` undefined:** check Missing parser / wrong CT; fix: `express.json()`; check Content-Type
-- **Hang forever:** check Forgot `res`/`next`; fix: Always end or `next(err)`
-- **Wrong client IP:** check Behind proxy; fix: `trust proxy`
-- **404 on mounted router:** check Path double-prefix; fix: Mount path + router paths
+
+### Use cases
+- In production APIs and tooling, **expressjs** shows up whenever teams ship No…

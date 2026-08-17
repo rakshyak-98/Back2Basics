@@ -4,12 +4,18 @@
 
 > RAM holds running code, stacks, heaps, and cache; swap extends virtual memory to disk when physical pages are scarce — trading latency for capacity.
 
-
-
-
+```txt
+        RAM and Swap memor ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic ops interview: read `free -h`, explain buff/cache vs used, when swap helps vs when it causes latency cliffs, and how cgroup limits interact with OOM.
+- **Interview probes:** Classic ops interview: read `free -h`, explain buff/cache vs used, when swap …
 
 ## Sources
 - [Linux kernel docs — MM concepts / swap](https://docs.kernel.org/admin-guide/mm/concepts.html) — deep-dive
@@ -32,8 +38,10 @@ cat /proc/swaps
 - High swap use → latency spikes on page faults ([[CPU IO Bound Task]]).
 - [[cgroup (Control Group)]] `memory.max` can OOM-kill before swap helps.
 
-## Real-World Applications
-Latency-sensitive JVM/Go services often disable or minimize swap and size RAM + cgroup carefully. Batch hosts may allow swap as a safety net for rare spikes.
+## Mistakes to Avoid
+- **Mistake:** Panic because `free` “available” looks low while buff/cache is r…
+- **Mistake:** Enabling huge swap and calling the host “fine” while p99 latency…
+- **Mistake:** Expecting swap to preserve application state across reboot
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Survives memory spikes without immediate OOM.
@@ -44,7 +52,6 @@ Latency-sensitive JVM/Go services often disable or minimize swap and size RAM + 
 - vs [[Heap memory]]: heap is process-virtual; RAM/swap is physical backing.
 - vs [[Buffer cache]]: file cache is reclaimable; anonymous pages need swap or OOM under pressure.
 
-## Mistakes to Avoid
-- Panic because `free` “available” looks low while buff/cache is reclaimable.
-- Enabling huge swap and calling the host “fine” while p99 latency collapses.
-- Expecting swap to preserve application state across reboot.
+
+### Use cases
+- Latency-sensitive JVM/Go services often disable or minimize swap and size RAM…

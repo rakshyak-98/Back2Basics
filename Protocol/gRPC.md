@@ -4,12 +4,18 @@
 
 > gRPC is a high-performance RPC framework over HTTP/2 with Protocol Buffers — strong typing, streaming, and deadlines make it a common default for service-to-service calls.
 
-
-
-
+```txt
+        gRPC ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers compare gRPC to REST/JSON, expect the four call types, and ask why L7 balancers must be HTTP/2 / gRPC-aware.
+- **Interview probes:** Interviewers compare gRPC to REST/JSON, expect the four call types, and ask w…
 
 ## Sources
 - [gRPC documentation](https://grpc.io/docs/) — deep-dive
@@ -57,16 +63,17 @@ message HelloReply   { string message = 1; }
 | Client streaming | Stream of requests → one response |
 | Bidirectional | Both sides stream |
 
-- **Metadata** — analogous to HTTP headers (auth tokens, tracing)
-- **Context deadlines** — cancel long calls (`context.WithTimeout`)
-- **Status codes** — `codes.NotFound`, `codes.DeadlineExceeded`
-- **Load balancing** — L7 proxies need gRPC-aware balancing (HTTP/2 connection affinity)
-- **mTLS** — common in service meshes (Istio, Linkerd)
+- **Metadata:** — analogous to HTTP headers (auth tokens, tracing)
+- **Context deadlines:** — cancel long calls (`context.WithTimeout`)
+- **Status codes:** — `codes.NotFound`, `codes.DeadlineExceeded`
+- **Load balancing:** — L7 proxies need gRPC-aware balancing (HTTP/2 connection affinity)
+- **mTLS:** — common in service meshes (Istio, Linkerd)
 
-## Real-World Applications
-Microservice meshes, mobile backends that already speak Protobuf, and streaming APIs (logs, events) inside a cluster.
-
-**Example:** A Go payment service exposes `Charge` as unary gRPC with a 200ms deadline; the mesh enforces mTLS and retries only idempotent codes.
+## Mistakes to Avoid
+- **Mistake:** Exposing raw gRPC as a public browser API without grpc-web or a …
+- **Mistake:** Ignoring deadlines — hung handlers cascade under load
+- **Mistake:** Balancing gRPC like HTTP/1.1 round-robin without understanding c…
+- **Mistake:** Choosing gRPC for a public partner API that needs human-readable…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong contracts, efficient binary payloads, first-class streaming and deadlines.
@@ -82,8 +89,8 @@ Microservice meshes, mobile backends that already speak Protobuf, and streaming 
 
 - vs [[webSocket]]: WebSocket is a generic full-duplex pipe; gRPC adds IDL, stubs, and status model.
 
-## Mistakes to Avoid
-- Exposing raw gRPC as a public browser API without grpc-web or a gateway.
-- Ignoring deadlines — hung handlers cascade under load.
-- Balancing gRPC like HTTP/1.1 round-robin without understanding connection reuse.
-- Choosing gRPC for a public partner API that needs human-readable debugging and loose coupling.
+
+### Use cases
+- Microservice meshes, mobile backends that already speak Protobuf, and streami…
+
+- **Example:** A Go payment service exposes `Charge` as unary gRPC with a 200ms…

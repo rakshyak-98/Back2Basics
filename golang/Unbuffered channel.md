@@ -4,12 +4,17 @@
 
 > Unbuffered channel — send and receive happen together; no queue — the handoff *is* the sync point.
 
-
-
-
+```txt
+        Unbuffered channel ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Channels are a Go concurrency staple in interviews — they want rendezvous vs buffer, close ownership, and deadlock/leak reasoning, not just `go` keyword trivia.
+- **Interview probes:** Channels are a Go concurrency staple in interviews
 
 ## Sources
 - [Go blog — Share Memory By Communicating](https://go.dev/blog/codelab-share) — overview
@@ -52,12 +57,12 @@ for v := range ch { /* … */ }
 | Panic send on closed | Closed too early | Close once from sender |
 | Race on close | Multiple closers | `sync.Once` or one owner |
 
+## Mistakes to Avoid
+- **Mistake:** Nil channel blocks forever — `var ch chan int`; send/recv hang
+- **Mistake:** Don’t close from receiver — ownership rule: sender closes
+- **Mistake:** Range exits only on close — forgetting close = forever loop
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Need burst decoupling — use buffered or a queue.
 - **Trade-off:** Fan-out CPU work — worker pool with bounded buffer.
 - **Trade-off:** Simple mutex-protected state — sometimes a mutex is clearer.
-
-## Mistakes to Avoid
-- Nil channel blocks forever — `var ch chan int`; send/recv hang.
-- Don’t close from receiver — ownership rule: sender closes.
-- Range exits only on close — forgetting close = forever loop.

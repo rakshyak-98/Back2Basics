@@ -4,19 +4,22 @@
 
 > crontab schedules commands by minute — crond wakes each minute, matches the five time fields, and runs the job with a minimal environment.
 
-
-
-
+```txt
+        crontab ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Know the five fields, DOM/DOW OR semantics, absolute paths, logging, and when systemd timers are a better fit.
+- **Interview probes:** Know the five fields, DOM/DOW OR semantics, absolute paths, logging, and when…
 
 ## Sources
 - [crontab(5)](https://man7.org/linux/man-pages/man5/crontab.5.html) — deep-dive
 - [cron(8)](https://man7.org/linux/man-pages/man8/cron.8.html) — overview
-
-## Core Definition
-User crontabs live under `/var/spool/cron/crontabs/`; system jobs in `/etc/cron.d/` and `/etc/cron.*`. Edit with `crontab -e` (not by hand in spool). Jobs get a sparse env — set `PATH`, use absolute paths, redirect output.
 
 ## Key Concepts
 - **Five fields:** minute hour dom month dow.
@@ -24,6 +27,9 @@ User crontabs live under `/var/spool/cron/crontabs/`; system jobs in `/etc/cron.
 - **`@hourly` etc.:** Shortcuts for common schedules.
 - **Timezone:** System TZ unless `CRON_TZ=` set.
 - **Silence ≠ success:** Always log; mail may be unset.
+
+
+- **Core:** User crontabs live under `/var/spool/cron/crontabs/`; system jobs in `/etc/cr…
 
 ## Technical Details
 ```txt
@@ -60,8 +66,10 @@ systemctl status cron || systemctl status crond
 | Ran on wrong days | DOM/DOW OR | Rewrite schedule carefully |
 | Failures unnoticed | No logs | Redirect stdout/stderr; alert |
 
-## Real-World Applications
-Nightly backups, certificate expiry checks, and rotating temp cleanup — with explicit logs under `/var/log`.
+## Mistakes to Avoid
+- **Mistake:** Relative paths and assuming interactive `PATH`
+- **Mistake:** Editing spool files directly instead of `crontab -e`
+- **Mistake:** Assuming DOM+DOW means AND
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple, ubiquitous minute scheduling.
@@ -69,9 +77,8 @@ Nightly backups, certificate expiry checks, and rotating temp cleanup — with e
 - **Trade-off:** cron for simple repeats vs [[services/systemd]] timers for calendar + missed runs.
 
 ## Comparison
-vs systemd timers: better logging/dependencies/missed runs. vs at: one-shot future jobs. vs app schedulers: in-process for product logic.
+- vs systemd timers: better logging/dependencies/missed runs
 
-## Mistakes to Avoid
-- Relative paths and assuming interactive `PATH`.
-- Editing spool files directly instead of `crontab -e`.
-- Assuming DOM+DOW means AND.
+
+### Use cases
+- Nightly backups, certificate expiry checks, and rotating temp cleanup

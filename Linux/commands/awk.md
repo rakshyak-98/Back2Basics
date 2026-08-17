@@ -4,19 +4,22 @@
 
 > awk walks a file line by line — match a pattern, run an action on fields.
 
-
-
-
+```txt
+        awk ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic filter question: `$1`/`NF`/`NR`, `-F`, `BEGIN`/`END` aggregates — and knowing when CSV/JSON needs something else.
+- **Interview probes:** Classic filter question: `$1`/`NF`/`NR`, `-F`, `BEGIN`/`END` aggregates
 
 ## Sources
 - [GNU awk User’s Guide](https://www.gnu.org/software/gawk/manual/) — deep-dive
 - [awk(1)](https://man7.org/linux/man-pages/man1/awk.1p.html) — overview
-
-## Core Definition
-For each record (usually a line), awk splits fields on `FS`, optionally matches a pattern, then runs an action. `BEGIN` runs once first; `END` once last. No pattern means every line; no action means print the match.
 
 ## Key Concepts
 - **`$0` / `$1`…:** Whole line / fields after split.
@@ -24,6 +27,9 @@ For each record (usually a line), awk splits fields on `FS`, optionally matches 
 - **`-F` / `FS`:** Input separator (`-F:` for `/etc/passwd`).
 - **`BEGIN` / `END`:** Setup and teardown (sums, headers).
 - **Whitespace split:** Collapses runs of spaces; empty columns can disappear.
+
+
+- **Core:** For each record (usually a line), awk splits fields on `FS`, optionally match…
 
 ## Technical Details
 ```txt
@@ -56,8 +62,10 @@ awk 'BEGIN { FS=":"; OFS="\t" }
 | Totals wrong | Forgot `END` | Accumulate in body, print in `END` |
 | Locale weird numbers | Decimal comma | `LC_ALL=C awk …` |
 
-## Real-World Applications
-Pulling columns from `/etc/passwd`, summing access-log bytes, and quick `free`/`df` one-liners in incident shells.
+## Mistakes to Avoid
+- **Mistake:** Parsing quoted CSV with `-F,`
+- **Mistake:** Relying on gawk-only flags (`/regex/i`) in portable scripts
+- **Mistake:** Wrapping awk in a shell loop over every line of a huge file
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast streaming column tool; present everywhere.
@@ -65,9 +73,8 @@ Pulling columns from `/etc/passwd`, summing access-log bytes, and quick `free`/`
 - **Trade-off:** Keep work *inside* awk vs shell loops calling awk per line.
 
 ## Comparison
-vs [[grep]]: grep finds lines; awk reshapes fields. vs [[jq]]: jq for JSON. vs Python: use Python for quoted CSV and complex state.
+- vs [[grep]]: grep finds lines
 
-## Mistakes to Avoid
-- Parsing quoted CSV with `-F,`.
-- Relying on gawk-only flags (`/regex/i`) in portable scripts.
-- Wrapping awk in a shell loop over every line of a huge file.
+
+### Use cases
+- Pulling columns from `/etc/passwd`, summing access-log bytes, and quick `free…

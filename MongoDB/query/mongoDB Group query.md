@@ -4,12 +4,17 @@
 
 > `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
-
-
-
+```txt
+        mongoDB Group quer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Group/aggregate interviews check $group stages, accumulators, and memory limits.
+- **Interview probes:** Group/aggregate interviews check $group stages, accumulators, and memory limi…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -49,10 +54,6 @@ db.orders.aggregate([
 | Compound `_id` | `{ day, country }` multi-key |
 | `$project` after | Shape output |
 
-## Pros/Cons or Trade-offs
-- **Simple counts with a filter** — `countDocuments` may suffice.
-- **Realtime per-request heavy groups** — precompute / rollups.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **`$push` entire docs** — easy OOM; push only needed fields.
@@ -66,3 +67,7 @@ db.orders.aggregate([
 | Wrong totals | null fields | `$ifNull`; filter nulls |
 | Slow group | no match | Index + match first |
 | Too many groups | high-cardinality key | Bucket differently |
+
+## Pros/Cons or Trade-offs
+- **Simple counts with a filter** — `countDocuments` may suffice.
+- **Realtime per-request heavy groups** — precompute / rollups.

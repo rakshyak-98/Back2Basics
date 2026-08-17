@@ -4,12 +4,18 @@
 
 > Server-side language runtime — execute scripts via FPM or CLI, load extensions, and tune `php.ini` for web workloads.
 
-
-
-
+```txt
+        PHP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect FPM-behind-Nginx as the modern default, Composer autoload, opcache, and the CLI vs FPM ini split.
+- **Interview probes:** Interviewers expect FPM-behind-Nginx as the modern default, Composer autoload…
 
 ## Sources
 - [PHP — Manual](https://www.php.net/manual/en/) — deep-dive
@@ -19,7 +25,7 @@ Interviewers expect FPM-behind-Nginx as the modern default, Composer autoload, o
 - **SAPI:** FPM, CLI, (legacy) Apache module → how PHP is hosted.
 - **Per-request workers:** typical FPM model → one request at a time per worker.
 - **Composer:** dependency manager + PSR autoload → `vendor/autoload.php`.
-- **Opcache:** caches compiled bytecode → turn off timestamp validation in production and restart on deploy.
+- **Opcache:** caches compiled bytecode → turn off timestamp validation in production and re…
 
 ## Technical Details
 ```bash
@@ -42,10 +48,10 @@ opcache.validate_timestamps = 0
 memory_limit = 256M
 ```
 
-## Real-World Applications
-Production API: Nginx → PHP-FPM socket → front controller; cron uses CLI binary with its own ini.
-
-**Example:** Extension missing in web but present in CLI — you edited the wrong ini; align FPM conf.d.
+## Mistakes to Avoid
+- **Mistake:** `display_errors=On` in production
+- **Mistake:** World-writable upload directories inside the web root
+- **Mistake:** Using ancient `mysql_*` APIs instead of PDO/mysqli
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Huge web ecosystem; solid FPM hosting model.
@@ -55,7 +61,8 @@ Production API: Nginx → PHP-FPM socket → front controller; cron uses CLI bin
 - vs Node: PHP workers are usually blocking per request; Node is event-loop by default.
 - vs [[PHP-FPM]]: PHP is the language/runtime; FPM is the preferred process manager SAPI.
 
-## Mistakes to Avoid
-- `display_errors=On` in production.
-- World-writable upload directories inside the web root.
-- Using ancient `mysql_*` APIs instead of PDO/mysqli.
+
+### Use cases
+- Production API: Nginx → PHP-FPM socket → front controller
+
+- **Example:** Extension missing in web but present in CLI

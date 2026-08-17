@@ -4,12 +4,18 @@
 
 > Create a Pod through the API — declarative manifests (preferred), generated YAML from `kubectl run --dry-run`, or imperative one-offs for debug only.
 
-
-
-
+```txt
+        kubectl pod creati ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast bare Pods versus Deployments, `apply` versus `create`, and probes/resources that keep Pods schedulable and Ready.
+- **Interview probes:** Interviewers contrast bare Pods versus Deployments, `apply` versus `create`, …
 
 ## Sources
 - [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive
@@ -18,9 +24,9 @@ Interviewers contrast bare Pods versus Deployments, `apply` versus `create`, and
 
 ## Key Concepts
 - **API object, not direct container run:** apiserver → etcd → scheduler → kubelet.
-- **Bare Pod ≠ self-healing:** node loss/eviction does not recreate it — use Deployment/StatefulSet/Job for real workloads.
-- **`apply` upserts; `create` 409s** on re-run — CI/GitOps want apply.
-- **Requests schedule; limits cap; probes gate traffic.**
+- **Bare Pod ≠ self-healing:** node loss/eviction does not recreate it
+- **`apply` upserts; `create` 409s:** on re-run — CI/GitOps want apply.
+- **Requests schedule; limits cap; probes gate traffic.:** 
 
 ## Technical Details
 ```
@@ -79,7 +85,8 @@ kubectl run tmp-shell -n prod --rm -it \
 kubectl apply --server-side -f pod.yaml
 ```
 
-Multi-container: sidecars share Pod IP/volumes; cannot bind the same port. Init containers run to completion before mains.
+- Multi-container: sidecars share Pod IP/volumes; cannot bind the same port.
+- Init containers run to completion before mains.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,10 +99,13 @@ Multi-container: sidecars share Pod IP/volumes; cannot bind the same port. Init 
 | No Service traffic | endpoints | Not Ready; label mismatch |
 | YAML changes ignored | bare Pod immutability | Delete/recreate or use Deployment |
 
-## Real-World Applications
-Debug pods in prod namespaces, init wait-for-DB patterns, and generating manifests for GitOps from dry-run.
-
-**Example:** `kubectl run … --dry-run=client -o yaml` → add probes/env → `apply` → confirm Ready before attaching a Service selector.
+## Mistakes to Avoid
+- **Mistake:** Production apps as standalone Pods
+- **Mistake:** `kubectl run` without dry-run in shared clusters
+- **Mistake:** Omitting namespace (lands in `default`)
+- **Mistake:** `:latest` tags and missing resource requests (BestEffort evictio…
+- **Mistake:** `kubectl create` in scripts that re-run
+- **Mistake:** Two containers binding the same port in one Pod
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast path to a running container for learning and break-glass.
@@ -107,10 +117,8 @@ Debug pods in prod namespaces, init wait-for-DB patterns, and generating manifes
 - vs StatefulSet: ordered identity + stable storage.
 - vs Jobs: finite run-to-completion with `restartPolicy: OnFailure/Never`.
 
-## Mistakes to Avoid
-- Production apps as standalone Pods.
-- `kubectl run` without dry-run in shared clusters.
-- Omitting namespace (lands in `default`).
-- `:latest` tags and missing resource requests (BestEffort eviction).
-- `kubectl create` in scripts that re-run.
-- Two containers binding the same port in one Pod.
+
+### Use cases
+- Debug pods in prod namespaces, init wait-for-DB patterns, and generating mani…
+
+- **Example:** `kubectl run … --dry-run=client -o yaml` → add probes/env → `app…

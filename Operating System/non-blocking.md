@@ -4,12 +4,18 @@
 
 > Non-blocking I/O returns immediately when data is not ready — retry or wait via an event multiplexer instead of sleeping inside the kernel.
 
-
-
-
+```txt
+        Non-blocking ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-`O_NONBLOCK` + `EAGAIN` + `epoll_wait` loop; when it beats thread-per-connection.
+- **Interview probes:** `O_NONBLOCK` + `EAGAIN` + `epoll_wait` loop
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive
@@ -26,10 +32,12 @@
 epoll_wait(fds ready) → read/write each ready fd → repeat
 ```
 
-Contrast [[Blocking]] simplicity — decision criteria in [[Blocking Vs Non-Blocking]].
+- Contrast [[Blocking]] simplicity
 
-## Real-World Applications
-Nginx/Envoy-style proxies, Node event loop, and Go netpoller under the hood.
+## Mistakes to Avoid
+- **Mistake:** Busy-spinning on `EAGAIN` without waiting for readiness
+- **Mistake:** Mixing blocking disk calls on the event-loop thread
+- **Mistake:** Ignoring `EINTR` and short writes
 
 ## Pros/Cons or Trade-offs
 - **Pro:** High connection density; low thread overhead.
@@ -40,7 +48,6 @@ Nginx/Envoy-style proxies, Node event loop, and Go netpoller under the hood.
 - vs [[Blocking]]: sleep in kernel vs return + reactor.
 - vs async/await: language sugar over the same readiness model.
 
-## Mistakes to Avoid
-- Busy-spinning on `EAGAIN` without waiting for readiness.
-- Mixing blocking disk calls on the event-loop thread.
-- Ignoring `EINTR` and short writes.
+
+### Use cases
+- Nginx/Envoy-style proxies, Node event loop, and Go netpoller under the hood.

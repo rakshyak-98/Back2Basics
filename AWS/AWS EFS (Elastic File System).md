@@ -4,26 +4,31 @@
 
 > EFS is a managed, regional NFS file system that multiple EC2 instances mount concurrently — ideal for shared content, not for low-latency database block I/O.
 
-
-
-
+```txt
+        AWS EFS (Elastic F ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-EFS questions contrast shared NFS-style storage with EBS and S3 — throughput modes and mount targets.
+- **Interview probes:** EFS questions contrast shared NFS-style storage with EBS and S3
 
 ## Sources
 - [Amazon EFS User Guide](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html) — overview
 - [NFSv4.1 protocol (RFC 5661)](https://datatracker.ietf.org/doc/html/rfc5661) — deep-dive
 
 ## Key Concepts
-EFS presents a **POSIX file system** over NFSv4.1. Mount targets (one per AZ in your VPC) provide ENIs in your subnets. Clients mount:
+- **Note:** EFS presents a **POSIX file system** over NFSv4.1
 
 ```bash
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
+- **Note:** sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,…
   fs-0abc1234.efs.us-east-1.amazonaws.com:/ /mnt/efs
 ```
 
-Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS.
+- **Note:** Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler …
 
 ## Technical Details
 ### Performance modes and classes
@@ -35,22 +40,13 @@ Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS
 | **Elastic throughput** | Scales automatically (default on new file systems) |
 | **Standard vs Infrequent Access (IA)** | Lifecycle policy moves cold files to cheaper storage |
 
-**General Purpose** performance suits latency-sensitive workloads; **Max I/O** (legacy) handled higher aggregate throughput with higher latency.
+- **General Purpose:** performance suits latency-sensitive workloads
 
 ### Security
 
 - Mount targets need [[Security group]] allowing NFS (TCP 2049) from clients.
-- **Encryption at rest** (KMS) and **in transit** (TLS via mount helper).
-- **Access points** provide application-specific POSIX user/group and root directory isolation.
-
-## Comparison
-**vs [[EBS (Elastic Block Store)]]**
-
-| Need | Pick |
-|------|------|
-| Database data directory on one host | EBS io2/gp3 |
-| Shared WordPress uploads across web tier | EFS |
-| Read-heavy static assets | EFS + CloudFront origin |
+- **Encryption at rest:** (KMS) and **in transit** (TLS via mount helper).
+- **Access points:** provide application-specific POSIX user/group and root directory isolation.
 
 ## Mistakes to Avoid
 | Symptom | Check |
@@ -58,3 +54,12 @@ Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS
 | Mount timeout | Security group, subnet routing, mount target health |
 | Stale file handle | Client lost connectivity; remount |
 | High cost | IA lifecycle, throughput mode, data growth |
+
+## Comparison
+- **vs [[EBS (Elastic Block Store)]]**
+
+| Need | Pick |
+|------|------|
+| Database data directory on one host | EBS io2/gp3 |
+| Shared WordPress uploads across web tier | EFS |
+| Read-heavy static assets | EFS + CloudFront origin |

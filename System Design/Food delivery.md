@@ -4,12 +4,18 @@
 
 > Food-delivery platforms combine geo discovery, transactional ordering, and real-time logistics — separate read-heavy catalog search from write-heavy order state machines with explicit cancellation rules.
 
-
-
-
+```txt
+        Food delivery ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic system-design case: geo index, order state machine, courier realtime, and where eventual consistency is/ isn’t OK.
+- **Interview probes:** Classic system-design case: geo index, order state machine, courier realtime,…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications* — overview
@@ -30,10 +36,14 @@ Classic system-design case: geo index, order state machine, courier realtime, an
 | Courier tracking | Pub/sub or websocket fanout |
 | Peak dinner spike | [[backpressure]], autoscaling, load shed |
 
-Shard orders by region/restaurant ([[database sharding]]). Menus can be [[Eventual consistency]]; payments/inventory need stronger guarantees. APIs: [[API design]] with idempotent place-order.
+- Shard orders by region/restaurant ([[database sharding]]).
+- Menus can be [[Eventual consistency]]
+- APIs: [[API design]] with idempotent place-order.
 
-## Real-World Applications
-DoorDash/Uber Eats-style marketplaces and regional food logistics platforms.
+## Mistakes to Avoid
+- **Mistake:** One mega-service owning search, payments, and tracking
+- **Mistake:** No cancellation/compensation story when restaurant rejects
+- **Mistake:** Unbounded location update fanout without [[backpressure]]
 
 ## Pros/Cons or Trade-offs
 - **Cached menus:** fast reads; stale prices risk.
@@ -44,7 +54,6 @@ DoorDash/Uber Eats-style marketplaces and regional food logistics platforms.
 - vs generic e-commerce: adds geo + courier assignment + tight SLAs.
 - vs [[Splitwise]]: marketplace logistics vs shared-expense ledger.
 
-## Mistakes to Avoid
-- One mega-service owning search, payments, and tracking.
-- No cancellation/compensation story when restaurant rejects.
-- Unbounded location update fanout without [[backpressure]].
+
+### Use cases
+- DoorDash/Uber Eats-style marketplaces and regional food logistics platforms.

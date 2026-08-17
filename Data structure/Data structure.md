@@ -4,12 +4,17 @@
 
 > Data structures store data with different access costs — pick for the operations you run most.
 
-
-
-
+```txt
+        Data structure ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers expect you to pick structures by access pattern and cost — not by name familiarity.
+- **Interview probes:** Interviewers expect you to pick structures by access pattern and cost
 
 ## Sources
 - [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure) — overview
@@ -53,10 +58,10 @@ need relationships       → graph (adj list)
 | Ordering bugs | unstable map iteration | Use ordered structure |
 | Memory blow | unbounded cache | Bound + eviction |
 
+## Mistakes to Avoid
+- **Mistake:** Premature cleverness — array + scan beats fancy trees at small n
+- **Mistake:** Language defaults
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Tiny n — simplest container wins.
 - **Trade-off:** When a database index already solves it — don’t rebuild in application memory casually.
-
-## Mistakes to Avoid
-- Premature cleverness — array + scan beats fancy trees at small n.
-- Language defaults — “list” in Python is array; LinkedList in Java is nodes.

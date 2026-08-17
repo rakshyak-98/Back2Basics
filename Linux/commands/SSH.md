@@ -4,26 +4,32 @@
 
 > SSH (Secure Shell) opens an encrypted login/command channel to a remote host — authenticate with keys, then run shells, tunnels, or file copy.
 
-
-
-
+```txt
+        SSH ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect host key vs user key, KEX → session cipher, and why `StrictHostKeyChecking=no` / agent forwarding are footguns — not just “ssh user@host.”
+- **Interview probes:** Expect host key vs user key, KEX → session cipher, and why `StrictHostKeyChec…
 
 ## Sources
 - [OpenSSH Manual Pages](https://man.openbsd.org/ssh) — deep-dive
 - [RFC 4253 — SSH Transport](https://www.rfc-editor.org/rfc/rfc4253) — overview
 
-## Core Definition
-Client connects to `sshd`, verifies the **host key**, runs key exchange for a **symmetric session**, then authenticates the **user** (usually pubkey). Channels carry shell, port forwards, or SFTP.
-
 ## Key Concepts
 - **Host key:** Server identity in `known_hosts` — mismatch can mean reinstall or MITM.
 - **User key:** Private key stays local; public in `authorized_keys`.
-- **KEX:** Builds shared session key; bulk traffic uses AES-GCM/ChaCha, not the long-term SSH key.
+- **KEX:** Builds shared session key
 - **Tunnels:** `-L` local, `-R` remote, `-D` dynamic SOCKS.
 - **ssh-keyscan:** Fetches host key only — does not prove authenticity without out-of-band check.
+
+
+- **Core:** Client connects to `sshd`, verifies the **host key**, runs key exchange for a…
 
 ## Technical Details
 ```txt
@@ -53,7 +59,7 @@ ssh -L 8080:localhost:80 user@host
 ssh -R 8080:localhost:3000 user@host
 ```
 
-Server policy: [[sshd config]] — `PasswordAuthentication`, `PermitRootLogin`, `AllowUsers`, ciphers.
+- Server policy: [[sshd config]]
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,8 +68,10 @@ Server policy: [[sshd config]] — `PasswordAuthentication`, `PermitRootLogin`, 
 | Timeout | `nc -zv`; security groups | Open port; check bind address |
 | Works in shell, fails in CI | Missing agent / key | `ssh-agent`; `IdentitiesOnly=yes` |
 
-## Real-World Applications
-Bastion/`ProxyJump` access, local port forwards to private admin UIs, and CI deploy keys with locked-down `authorized_keys` commands.
+## Mistakes to Avoid
+- **Mistake:** Confusing host key trust with user authentication
+- **Mistake:** Blind `ssh-keyscan` into CI without fingerprint pinning
+- **Mistake:** Committing private keys or disabling host key checks “to make CI…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ubiquitous, auditable, supports tunnels and file copy.
@@ -71,9 +79,8 @@ Bastion/`ProxyJump` access, local port forwards to private admin UIs, and CI dep
 - **Trade-off:** Agent forwarding convenience vs bastion compromise risk.
 
 ## Comparison
-vs HTTPS APIs: different layer — SSH is ops access, not public API auth. vs VPN: SSH tunnels are point solutions; VPN is broader network access. Related: [[nc]], [[puTTY]].
+- vs HTTPS APIs: different layer
 
-## Mistakes to Avoid
-- Confusing host key trust with user authentication.
-- Blind `ssh-keyscan` into CI without fingerprint pinning.
-- Committing private keys or disabling host key checks “to make CI green.”
+
+### Use cases
+- Bastion/`ProxyJump` access, local port forwards to private admin UIs, and CI …

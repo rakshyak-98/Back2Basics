@@ -4,12 +4,18 @@
 
 > A cache stores copies of data closer to readers — process memory, Redis, CDN edge — to cut latency and shield the origin from repeated work.
 
-
-
-
+```txt
+        Cache system ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Cache-aside + invalidation, stampede protection, HTTP cache safety for personalized JSON, and “cache is not source of truth.”
+- **Interview probes:** Cache-aside + invalidation, stampede protection, HTTP cache safety for person…
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — caching — deep-dive
@@ -18,7 +24,7 @@ Cache-aside + invalidation, stampede protection, HTTP cache safety for personali
 
 ## Key Concepts
 - **Layers:** browser/CDN, in-process, distributed ([[Redis]]), query/object caches.
-- **Eventually consistent** by nature ([[Eventual consistency]]).
+- **Eventually consistent:** by nature ([[Eventual consistency]]).
 - **Cache-aside:** miss → origin → populate; write → delete/invalidate.
 - **Stampede:** singleflight/lock + TTL jitter.
 
@@ -45,9 +51,12 @@ def get_user(user_id):
     return user
 ```
 
-Stampede: `SET lock NX EX` → rebuild → set data → del lock. HTTP: never `public` authenticated JSON without reviewing `Vary`. DNS cache TTLs bite during cutovers.
+- Stampede: `SET lock NX EX` → rebuild → set data → del lock.
+- HTTP: never `public` authenticated JSON without reviewing `Vary`.
+- DNS cache TTLs bite during cutovers.
 
-Watch hit rate, evictions, p99, fragmentation. Oversized values saturate network first.
+- Watch hit rate, evictions, p99, fragmentation.
+- Oversized values saturate network first.
 
 | Mistake | Consequence |
 |---------|-------------|
@@ -57,8 +66,10 @@ Watch hit rate, evictions, p99, fragmentation. Oversized values saturate network
 | Local-only L1 multi-instance | Skew across pods |
 | Long DNS TTL pre-migration | Clients hit old IPs |
 
-## Real-World Applications
-API response caching, session stores, CDN static assets, and protecting sharded DBs from hot keys.
+## Mistakes to Avoid
+- **Mistake:** TTL-only invalidation for user-visible correctness
+- **Mistake:** Marking private responses `public`
+- **Mistake:** No circuit breaker on miss path when origin is sick
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Latency and origin protection.
@@ -69,7 +80,6 @@ API response caching, session stores, CDN static assets, and protecting sharded 
 - vs DB replicas: replicas are durable copies; caches are disposable accelerators.
 - vs [[backpressure]]: cache misses under origin slowdown need shedding/singleflight.
 
-## Mistakes to Avoid
-- TTL-only invalidation for user-visible correctness.
-- Marking private responses `public`.
-- No circuit breaker on miss path when origin is sick.
+
+### Use cases
+- API response caching, session stores, CDN static assets, and protecting shard…

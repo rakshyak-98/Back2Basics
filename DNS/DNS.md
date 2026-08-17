@@ -2,14 +2,20 @@
 
 # DNS
 
-> The Domain Name System maps human-readable names to records (A, AAAA, CNAME, MX, …) through a distributed, cached hierarchy — when lookups fail, the fault is usually resolver configuration, TTL caching, or a wrong authoritative answer.
+> The Domain Name System maps human-readable names to records (A, AAAA, CNAME, MX, …) through a distributed, cached hierarchy — when lookups fail, the fault is usually resolver configuration, TTL caching, or a wrong autho…
 
-
-
-
+```txt
+        DNS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk stub → recursive → authoritative, explain TTL/caching, and pick the right record type — not just recite “DNS turns names into IPs.”
+- **Interview probes:** Interviewers probe whether you can walk stub → recursive → authoritative, exp…
 
 ## Sources
 - [RFC 1035 — Domain Names](https://datatracker.ietf.org/doc/html/rfc1035) — deep-dive
@@ -17,10 +23,10 @@ Interviewers probe whether you can walk stub → recursive → authoritative, ex
 - [ICANN DNS overview](https://www.icann.org/resources/pages/dns-what-is-2021-02-25-en) — overview
 
 ## Key Concepts
-- **Hierarchy:** root → TLD → zone — answers come from the authoritative [[name server]] for that cut of the tree.
-- **Caching + TTL:** every hop may cache — stale answers often look like “DNS is broken” after a change.
-- **Recursive vs authoritative:** resolvers walk the tree; authoritative servers only answer for zones they host ([[DNS server]]).
-- **Record types:** typed tuples (A, MX, TXT, …) — wrong type or apex constraints break apps ([[dns record]]).
+- **Hierarchy:** root → TLD → zone
+- **Caching + TTL:** every hop may cache
+- **Recursive vs authoritative:** resolvers walk the tree
+- **Record types:** typed tuples (A, MX, TXT, …)
 
 ## Technical Details
 ```
@@ -39,7 +45,7 @@ Root servers (. ) → TLD servers (.com) → authoritative [[name server]] for z
 Answer + TTL cached at each hop
 ```
 
-Defined in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035) with extensions for DNSSEC ([RFC 4033](https://datatracker.ietf.org/doc/html/rfc4033)), EDNS0, and newer transports (DoH, DoT).
+- Defined in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035) with ext…
 
 | Type | Purpose |
 |------|---------|
@@ -52,12 +58,12 @@ Defined in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035) with extens
 | **SRV** | Service location (port, priority, weight) |
 | **CAA** | Which CAs may issue certificates for the domain |
 
-**Transport**
+- **Transport:** 
 
-- **UDP/53** — default; 512-byte traditional limit without EDNS
-- **TCP/53** — truncation (TC bit), large responses, zone transfers (AXFR)
-- **DNS-over-TLS (DoT)** — [RFC 7858](https://datatracker.ietf.org/doc/html/rfc7858)
-- **DNS-over-HTTPS (DoH)** — [RFC 8484](https://datatracker.ietf.org/doc/html/rfc8484)
+- **UDP/53:** — default; 512-byte traditional limit without EDNS
+- **TCP/53:** — truncation (TC bit), large responses, zone transfers (AXFR)
+- **DNS-over-TLS (DoT):** — [RFC 7858](https://datatracker.ietf.org/doc/html/rfc7858)
+- **DNS-over-HTTPS (DoH):** — [RFC 8484](https://datatracker.ietf.org/doc/html/rfc8484)
 
 ```bash
 dig example.com A +trace
@@ -66,14 +72,14 @@ dig example.com MX
 host -t TXT example.com
 ```
 
-Compare **stub → recursive → authoritative** answers to locate stale cache vs wrong zone data.
+- Compare **stub → recursive → authoritative** answers to locate stale cache vs…
 
-Local naming beyond global DNS: [[mDNS]] (`.local`), [[LLMNR]] (Windows link-local), and split-horizon / private [[DNS zone]]s.
+- Local naming beyond global DNS: [[mDNS]] (`.local`), [[LLMNR]] (Windows link-…
 
-## Real-World Applications
-Every browser, API client, and mail server depends on DNS before the first TCP connect.
-
-**Example:** After cutting TTL and updating an A record, half the fleet still hits the old IP — recursive caches have not expired; dig at `@ns1` (authoritative) vs `@8.8.8.8` (public recursive) isolates the lag.
+## Mistakes to Avoid
+- **Mistake:** Blaming “DNS” without checking which hop is wrong
+- **Mistake:** Expecting instant global updates with multi-hour TTLs still cach…
+- **Mistake:** Confusing recursive open resolvers with authoritative zone hosti…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Globally distributed, cached naming — scales without a single central database of all hosts.
@@ -81,10 +87,11 @@ Every browser, API client, and mail server depends on DNS before the first TCP c
 - **Con:** Cleartext UDP/53 leaks QNAMEs on the wire — DoT/DoH encrypt transport but still trust the resolver.
 
 ## Comparison
-- vs [[mDNS]] / [[LLMNR]]: global DNS needs servers and FQDNs; link-local multicast resolves names without a central [[name server]].
+- vs [[mDNS]] / [[LLMNR]]: global DNS needs servers and FQDNs
 - vs hosts file: static local overrides — no delegation, no TTL, no global consistency.
 
-## Mistakes to Avoid
-- Blaming “DNS” without checking which hop is wrong — stub, recursive cache, or authoritative zone data.
-- Expecting instant global updates with multi-hour TTLs still cached.
-- Confusing recursive open resolvers with authoritative zone hosting ([[DNS rebinding]] and amplification risks differ).
+
+### Use cases
+- Every browser, API client, and mail server depends on DNS before the first TC…
+
+- **Example:** After cutting TTL and updating an A record, half the fleet still…

@@ -4,12 +4,18 @@
 
 > An email server accepts SMTP, stores mailboxes, and serves messages to clients — treat it as a distributed system bounded by DNS authentication and reputation, not just open ports.
 
-
-
-
+```txt
+        E mail server ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers separate “run Postfix” from running a deliverable mail system: MX edge, queue, storage, IMAP access, and SPF/DKIM/DMARC alignment.
+- **Interview probes:** Interviewers separate “run Postfix” from running a deliverable mail system: M…
 
 ## Sources
 - [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive
@@ -23,7 +29,7 @@ Interviewers separate “run Postfix” from running a deliverable mail system: 
 - **Access:** IMAP for sync; optional POP3; CalDAV/CardDAV adjacent.
 - **Outbound:** queue, retry schedule, DKIM signing.
 
-Same host can run all layers (small install) or split (SES for outbound, Dovecot for storage).
+- **Note:** Same host can run all layers (small install) or split (SES for outbound, Dove…
 
 ## Technical Details
 ```
@@ -32,19 +38,21 @@ Clients :587  → Postfix submission (SASL auth) → Dovecot LMTP delivery
 Clients :993  → Dovecot IMAP (Maildir ~/mail)
 ```
 
-Without aligned **SPF**, **DKIM**, and **DMARC**, major providers throttle or reject mail. See [[servers/DSN records]].
+- Without aligned **SPF**, **DKIM**, and **DMARC**, major providers throttle or…
+- See [[servers/DSN records]].
 
-Operational metrics to watch:
+- Operational metrics to watch:
 
 - Queue depth (`mailq`)
 - Bounce rate and FBL complaints
 - TLS version on inbound/outbound connections
 - Greylist / RBL hits
 
-## Real-World Applications
-Self-hosted company mail, hybrid setups (local IMAP + cloud outbound), and on-call triage when mail queues grow.
-
-**Example:** Residential ISP blocks outbound port 25 — submission must use authenticated 587 on a proper MTA, not direct MX delivery from a laptop.
+## Mistakes to Avoid
+- **Mistake:** Treating open ports as “mail works” without SPF/DKIM/DMARC align…
+- **Mistake:** Running an open relay — authenticate submission users
+- **Mistake:** Ignoring queue depth and bounce rates until the IP is blocklisted
+- **Mistake:** Strict DMARC with DKIM pass but SPF fail
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Full control over retention, routing, and compliance.
@@ -52,11 +60,11 @@ Self-hosted company mail, hybrid setups (local IMAP + cloud outbound), and on-ca
 - **Con:** Operating all layers is expensive — many teams outsource outbound (SES) or the whole stack (Workspace/365).
 
 ## Comparison
-- vs [[mail server]]: this note emphasizes architecture and operations; [[mail server]] covers protocol ports and component names.
+- vs [[mail server]]: this note emphasizes architecture and operations
 - Protocol detail: [[SMTP]] and [[IMAP (Internet Message Access Protocol)]].
 
-## Mistakes to Avoid
-- Treating open ports as “mail works” without SPF/DKIM/DMARC alignment.
-- Running an open relay — authenticate submission users.
-- Ignoring queue depth and bounce rates until the IP is blocklisted.
-- Strict DMARC with DKIM pass but SPF fail — understand alignment rules before enforcing `p=reject`.
+
+### Use cases
+- Self-hosted company mail, hybrid setups (local IMAP + cloud outbound), and on…
+
+- **Example:** Residential ISP blocks outbound port 25

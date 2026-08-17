@@ -4,12 +4,17 @@
 
 > WebDriver is the W3C API for driving browsers — Selenium talks WebDriver to click, type, and assert UI.
 
-
-
-
+```txt
+        webdriver ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-WebDriver interviews cover browser automation — flaky selectors, waits, and CI reliability.
+- **Interview probes:** WebDriver interviews cover browser automation
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -42,10 +47,6 @@ await driver.quit()
 | Headless | CI without display |
 | Implicit wait | Can hide races — prefer explicit |
 
-## Pros/Cons or Trade-offs
-- **Unit logic tests** — no browser needed.
-- **API contracts** — HTTP tests are cheaper.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Sleep(1000) everywhere** — slow and still flaky; wait for conditions.
@@ -59,3 +60,7 @@ await driver.quit()
 | Flaky element | timing | Explicit wait / better selector |
 | Stale element | DOM re-render | Re-find element |
 | CI only fails | headless / res | Set viewport; await network |
+
+## Pros/Cons or Trade-offs
+- **Unit logic tests** — no browser needed.
+- **API contracts** — HTTP tests are cheaper.

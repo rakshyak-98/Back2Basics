@@ -4,12 +4,18 @@
 
 > Endianness defines which byte of a multi-byte integer sits at the lowest address — CPU, wire, and file formats must agree or you get silent corruption.
 
-
-
-
+```txt
+        Endian ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Network and binary formats: network byte order is big-endian; x86 is little-endian; show `htons`/`ntohl` fluency.
+- **Interview probes:** Network and binary formats: network byte order is big-endian
 
 ## Sources
 - Stevens, *UNIX Network Programming* — byte ordering — deep-dive
@@ -34,10 +40,12 @@ uint32_t x = 0x01020304;
 /* little-endian RAM: 04 03 02 01 */
 ```
 
-Conversion: `htons`, `htonl`, `le32toh` / `be32toh`.
+- Conversion: `htons`, `htonl`, `le32toh` / `be32toh`.
 
-## Real-World Applications
-Socket code, custom binary protocols, firmware image parsers, and cross-compiling ELF for different `EI_DATA`.
+## Mistakes to Avoid
+- **Mistake:** Casting wire buffers to host structs without conversion
+- **Mistake:** Checking magic numbers without considering byte order
+- **Mistake:** Mixing LE file formats with BE CPUs (or vice versa) without tests
 
 ## Pros/Cons or Trade-offs
 - **Native endian:** fast loads/stores on that CPU.
@@ -48,7 +56,6 @@ Socket code, custom binary protocols, firmware image parsers, and cross-compilin
 - vs alignment/packing: related binary-layout bugs, different root cause.
 - vs text protocols: JSON/UTF-8 avoid integer endian issues.
 
-## Mistakes to Avoid
-- Casting wire buffers to host structs without conversion.
-- Checking magic numbers without considering byte order.
-- Mixing LE file formats with BE CPUs (or vice versa) without tests.
+
+### Use cases
+- Socket code, custom binary protocols, firmware image parsers, and cross-compi…

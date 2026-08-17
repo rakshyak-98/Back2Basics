@@ -4,12 +4,18 @@
 
 > A distributed system is software whose parts run on multiple networked machines and must coordinate despite delayed messages, partial failures, and disagreeing clocks.
 
-
-
-
+```txt
+        distributed system ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Name partial failure, replication, consistency, coordination, and time — and say when *not* to distribute. Exactly-once = at-least-once + idempotency.
+- **Interview probes:** Name partial failure, replication, consistency, coordination, and time
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — deep-dive
@@ -17,8 +23,8 @@ Name partial failure, replication, consistency, coordination, and time — and s
 - Google SRE Book — overload and cascading failure — deep-dive
 
 ## Key Concepts
-- **Distribution trades complexity for scale/availability** — only when needed.
-- **Partial failure is normal** — design for it.
+- **Distribution trades complexity for scale/availability:** — only when needed.
+- **Partial failure is normal:** — design for it.
 - **CAP under partition:** choose consistency vs availability per operation.
 - **Exactly-once is composed:** at-least-once + idempotent handlers + dedupe keys.
 
@@ -36,7 +42,7 @@ Client → load balancer → service replicas → replicated data store
 | Coordination | Who is leader? | Consensus, leases, fencing |
 | Time | Ordering across hosts | Logical clocks, version vectors |
 
-Failure-first: failure domains, replication factor + ack policy, timeouts+jitter, idempotent consumers, backup restore drills.
+- Failure-first: failure domains, replication factor + ack policy, timeouts+jit…
 
 | What you see | Likely cause | Direction |
 |--------------|--------------|-----------|
@@ -46,8 +52,10 @@ Failure-first: failure domains, replication factor + ack policy, timeouts+jitter
 | Split brain writes | Both sides accept | Consensus/fencing/conflict policy |
 | Random auth failures | Clock skew | NTP; monotonic ids |
 
-## Real-World Applications
-Multi-AZ microservices, replicated datastores, and event pipelines that must survive zone loss.
+## Mistakes to Avoid
+- **Mistake:** Distributing before SLOs require it
+- **Mistake:** Assuming exactly-once messaging exists end-to-end
+- **Mistake:** Infinite retries without jitter/backoff ([[backpressure]])
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Capacity and fault domains beyond one box.
@@ -55,10 +63,9 @@ Multi-AZ microservices, replicated datastores, and event pipelines that must sur
 - **Trade-off:** distribute early vs stay on one well-operated node.
 
 ## Comparison
-- vs [[Distributed computing]]: computing emphasizes split workloads; this note emphasizes failure/coordination.
+- vs [[Distributed computing]]: computing emphasizes split workloads
 - vs single-node: simpler ACID; harder HA/scale.
 
-## Mistakes to Avoid
-- Distributing before SLOs require it.
-- Assuming exactly-once messaging exists end-to-end.
-- Infinite retries without jitter/backoff ([[backpressure]]).
+
+### Use cases
+- Multi-AZ microservices, replicated datastores, and event pipelines that must …

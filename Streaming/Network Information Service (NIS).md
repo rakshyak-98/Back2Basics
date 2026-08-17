@@ -4,12 +4,18 @@
 
 > NIS (Network Information Service) is an old shared directory for users, hosts, and maps — central admin for a LAN, not a streaming protocol.
 
-
-
-
+```txt
+        Network Informatio ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk Network Information Service end-to-end — not just name it. Signal fluency with **NIS / yp**, **NIS map**, **ypbind**, **vs DNS** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk Network Information Service end-to-end
 
 ## Sources
 - [Wikipedia — Network Information Service](https://en.wikipedia.org/wiki/Network_Information_Service) — overview
@@ -18,10 +24,10 @@ Interviewers probe whether you can walk Network Information Service end-to-end �
 - **NIS / yp:** Yellow Pages-style maps — “NIS centralized passwd and hosts on a LAN.”
 - **NIS map:** One keyed table — “`passwd.byname` is a map.”
 - **ypbind:** Client binder to NIS domain — “Client must bind to the right domain.”
-- **vs DNS:** DNS ≈ names→IP; NIS ≈ broader admin data — “DNS doesn’t replace NIS user maps.”
+- **vs DNS:** DNS ≈ names→IP; NIS ≈ broader admin data
 - **vs LDAP/AD:** Modern directories — “NIS is legacy; use LDAP/SSSD today.”
 
-Why this note sits under Streaming historically: naming collision / legacy operations next to media stacks — it is **not** part of HLS/WebRTC.
+- **Note:** Why this note sits under Streaming historically: naming collision / legacy op…
 
 ## Technical Details
 ```bash
@@ -32,15 +38,7 @@ ypmatch "$USER" passwd
 domainname
 ```
 
-Modern replacement: LDAP / FreeIPA / Active Directory + SSSD — not new NIS domains.
-
-## Real-World Applications
-Used wherever Network Information Service sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Any greenfield identity** — LDAP/OIDC/SAML.
-- **Con / skip when:** **Internet-facing authentication** — never.
+- Modern replacement: LDAP / FreeIPA / Active Directory + SSSD
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -50,5 +48,13 @@ Used wherever Network Information Service sits in an ingest → package → CDN 
 | Mixed with DNS confusion | Wrong mental model | Use DNS for names; directory for identities |
 | Security audit fail | Cleartext NIS | Migrate off NIS; never expose to internet |
 
-- **NIS is insecure by modern standards** — no crypto; treat as legacy LAN-only debt.
-- **Not related to media “streams”** — do not confuse with MPEG-TS or WebRTC.
+- **Mistake:** **NIS is insecure by modern standards**
+- **Mistake:** **Not related to media “streams”**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Any greenfield identity** — LDAP/OIDC/SAML.
+- **Con / skip when:** **Internet-facing authentication** — never.
+
+## Real-World Applications
+- **Scenario:** Used wherever Network Information Service sits in an ingest → package → CDN →…

@@ -4,29 +4,25 @@
 
 > Ordered browser work that turns HTML, CSS, and JavaScript bytes into the first pixels — optimize it to show content sooner.
 
-
-
-
+```txt
+        critical rendering ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic web performance question: DOM → CSSOM → render tree → layout → paint → composite. Interviewers want render-blocking insight (CSS, sync JS) and how you measure first paint / LCP.
+- **Interview probes:** Classic web performance question: DOM → CSSOM → render tree → layout → paint …
 
 ## Sources
 - [web.dev — Critical Rendering Path](https://web.dev/articles/critical-rendering-path) — deep-dive
 - [web.dev — Render-tree Construction, Layout, and Paint](https://web.dev/articles/critical-rendering-path/render-tree-construction) — deep-dive
 
-## Core Definition
-The critical rendering path is the minimum sequence of network and CPU steps required to put pixels on screen for the current navigation. Shortening it improves first render and sets the stage for smooth updates later.
-
-## Recall Cues
-- Why do interviewers care about Classic web performance question: DOM → CSSOM → render tree → layout → paint → composite?
-- Why do interviewers care about Interviewers want render-blocking insight (CSS, sync JS) and how you measure first paint / LCP?
-- What is step 1: Build DOM from HTML?
-- What is step 2: Build CSSOM from CSS (and apply)?
-- What is step 3: Combine into render tree (visible nodes only)?
-- What mistake is **Giant blocking CSS for the whole site on every route**?
-- What mistake is **Sync `<script>` in `<head>` without `defer`/`async` when order allows**?
-- What mistake is **Ignoring CSSOM — “HTML is small” still waits on styles before first meaningful paint**?
+## Key Concepts
+- **Core:** The critical rendering path is the minimum sequence of network and CPU steps …
 
 ## Technical Details
 ```
@@ -36,7 +32,7 @@ CSS  ──► CSSOM ┘
 JS (sync) can block HTML parse and delay CSSOM/DOM progress
 ```
 
-Pipeline checklist:
+- Pipeline checklist:
 
 1. Build DOM from HTML.
 2. Build CSSOM from CSS (and apply).
@@ -45,20 +41,21 @@ Pipeline checklist:
 5. [[Rendering performance/paint|Paint]] — fill draw lists / rasters.
 6. [[Rendering performance/composite|Composite]] — layers to screen.
 
-Measurement: Chrome Performance / Lighthouse; watch render-blocking resources, preload hints, and critical CSS strategies.
+- Measurement: Chrome Performance / Lighthouse
 
 ## Mistakes to Avoid
-- Giant blocking CSS for the whole site on every route.
-- Sync `<script>` in `<head>` without `defer`/`async` when order allows.
-- Ignoring CSSOM — “HTML is small” still waits on styles before first meaningful paint.
-
-## Comparison
-- vs [[Rendering performance/INP]]: CRP is mostly about first (and subsequent) rendering pipeline; INP measures interaction → next paint latency across the visit.
-- vs resource waterfalls: network timing feeds the CRP but is not the whole path — CPU parse/layout matter too.
-
-## Real-World Applications
-Marketing landing page: inline critical CSS for above-the-fold, defer non-critical stylesheets, async non-essential scripts — first contentful paint drops without rewriting the design.
+- **Mistake:** Giant blocking CSS for the whole site on every route
+- **Mistake:** Sync `<script>` in `<head>` without `defer`/`async` when order a…
+- **Mistake:** Ignoring CSSOM
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared mental model for both first load and subsequent frames.
 - **Con:** Over-inlining CSS/JS bloats HTML — hurts caching and can slow repeat visits.
+
+## Comparison
+- vs [[Rendering performance/INP]]: CRP is mostly about first (and subsequent) rendering pipeline
+- vs resource waterfalls: network timing feeds the CRP but is not the whole path
+
+
+### Use cases
+- Marketing landing page: inline critical CSS for above-the-fold, defer non-cri…

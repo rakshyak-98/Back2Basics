@@ -4,20 +4,26 @@
 
 > Streaming moves live or file video from ingest to the viewer — package, protect, and play over the network.
 
-
-
-
+```txt
+        Streaming ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk Streaming end-to-end — not just name it. Signal fluency with **Ingest**, **ABR**, **Manifest**, **Rendition** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk Streaming end-to-end
 
 ## Sources
 - [Wikipedia — Streaming](https://en.wikipedia.org/wiki/Streaming) — overview
 
 ## Key Concepts
-- **Ingest:** Accept publisher input — “Ingest is the front door — auth and backpressure first.”
+- **Ingest:** Accept publisher input
 - **ABR:** Switch quality mid-play — “ABR matches bitrate to the viewer’s network.”
-- **Manifest:** Segment menu (`.m3u8` / `.mpd`) — “The player reads the manifest, then pulls segments.”
+- **Manifest:** Segment menu (`.m3u8` / `.mpd`)
 - **Rendition:** One quality encode — “Each rendition is a rung on the ladder.”
 - **Mux:** Combine A/V into a container — “We mux H.264 + AAC into fMP4 or MPEG-TS.”
 - **Glass-to-glass:** Camera to display delay — “OTT HLS is seconds; WebRTC aims for sub-second.”
@@ -26,7 +32,7 @@ Interviewers probe whether you can walk Streaming end-to-end — not just name i
 - **Encode / ladder:** Make [[rendition]]s — Cost × N rungs ([[bitrate streaming]])
 - **Package:** Manifests + segments — [[HLS]] / [[DASH]] / [[Manifest (streaming)]]
 - **Protect:** Encrypt + license — [[DRM]] — not the same as “broadcast”
-- **Distribute:** CDN or peer path — HTTP cache vs [[ICE (Interactive Connectivity Establishment)]]
+- **Distribute:** CDN or peer path
 - **Playback:** Decode + present — Player owns ABR decisions
 
 ### Pipeline pieces (one job each)
@@ -42,7 +48,7 @@ Interviewers probe whether you can walk Streaming end-to-end — not just name i
 
 ### Muxing (say it clean)
 
-Video and audio encode apart; a **muxer** interleaves them with timestamps (PTS/DTS) into one container. The player **demuxes** to decode. Common containers: [[MPEG-TS]] (live/broadcast), MP4/fMP4 (HLS/DASH), FLV ([[RTMP]] ingest).
+- **Note:** Video and audio encode apart
 
 ## Technical Details
 ```txt
@@ -91,7 +97,7 @@ ffmpeg -re -i sample.mp4 -c copy -f flv rtmp://localhost/live/stream1
 | Short TTL on live manifests | Stale playlist = frozen edge |
 | WebRTC vs HLS choice | Audience size + latency SLA |
 
-Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-internals` / WebRTC internals for realtime.
+- Debug: `ffprobe` the playlist/segments
 
 ### Where to go next
 
@@ -102,19 +108,6 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 ### Related topics in this domain
 
 - …: [[…]]
-
-## Real-World Applications
-Used wherever Streaming sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Download-and-watch file delivery** — progressive MP4 / HLS VoD still “streams,” but don’t invent live packaging for a file drop.
-- **Con / skip when:** **Massive one-to-many on WebRTC mesh** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers.
-- **Con / skip when:** **Treating the hub as a runbook** — jump to the child note ([[ABR]], [[ingestion]], …) for deep triage.
-
-## Comparison
-- vs [[HLS]]: **Massive one-to-many on WebRTC mesh** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers.
-- vs [[ABR]]: **Treating the hub as a runbook** — jump to the child note ([[ABR]], [[ingestion]], …) for deep triage.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -128,7 +121,21 @@ Used wherever Streaming sits in an ingest → package → CDN → player path. C
 | Works via proxy once, then breaks | Absolute URLs in manifest | [[streaming manifest file]] rewrite |
 | Call connects, media silence | ICE/TURN | [[ICE (Interactive Connectivity Establishment)]] |
 
-- **Broadcast ≠ DRM** — broadcasting copies one stream to many; DRM **restricts** who can decrypt. Don’t conflate in design reviews.
-- **Ingest protocol ≠ egress protocol** — [[RTMP]] in, [[HLS]] out is normal; browsers don’t play RTMP anymore.
-- **Encode cost is channels × renditions** — GPU math fails when you count channels only.
-- **“Streaming” without a latency number** — OTT ABR and WebRTC are different products; pick the SLA first.
+- **Mistake:** **Broadcast ≠ DRM**
+- **Mistake:** **Ingest protocol ≠ egress protocol**
+- **Mistake:** **Encode cost is channels × renditions**
+- **Mistake:** **“Streaming” without a latency number**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Download-and-watch file delivery**
+- **Con / skip when:** **Massive one-to-many on WebRTC mesh**
+- **Con / skip when:** **Treating the hub as a runbook**
+
+## Comparison
+- vs [[HLS]]: **Massive one-to-many on WebRTC mesh**
+- vs [[ABR]]: **Treating the hub as a runbook**
+
+
+### Use cases
+- Used wherever Streaming sits in an ingest → package → CDN → player path

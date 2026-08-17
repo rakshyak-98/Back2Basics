@@ -4,12 +4,17 @@
 
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
-
-
-
+```txt
+        Web development ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Broad web-dev interviews want architecture judgment — boundaries between client, edge, and API.
+- **Interview probes:** Broad web-dev interviews want architecture judgment
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -21,10 +26,10 @@ Browser pipeline for a typical page:
 HTML bytes → parser → DOM
 CSS bytes  → parser → CSSOM
         DOM + CSSOM → render tree → layout → paint → composite
-JS: can block parse (sync script), defer until parse done, or async fetch
+- **Note:** JS: can block parse (sync script), defer until parse done, or async fetch
 ```
 
-**Main thread** owns DOM, layout, paint, and most JS. Long tasks jank UX — see [[Rendering performance/INP]].
+- **Note:** **Main thread** owns DOM, layout, paint, and most JS. Long tasks jank UX
 
 ## Technical Details
 ### Script loading (`async` vs `defer`)
@@ -65,20 +70,16 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 
 ### Accessibility baseline
 
-Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on interactive flows from day one.
-
-## Pros/Cons or Trade-offs
-- Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
-- Avoid reinventing bundler/security headers — platform defaults (Vercel, Cloudflare) first.
+- Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on in…
 
 ## Mistakes to Avoid
 > [!WARNING]
 > **Third-party scripts** (ads, tags) often inject blocking sync scripts — sandbox or load after consent.
 
-- **`document.write`** in async scripts can destroy DOM — banned in modern perf guides.
-- **CSP** ([[Security/content security policy]]) breaks inline scripts unless nonce/hash.
-- **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for authentication.
-- **`100vh`** includes mobile URL bar — use `dvh` where supported.
+- **Mistake:** **`document.write`** in async scripts can destroy DOM
+- **Mistake:** **CSP** ([[Security/content security policy]]) breaks inline scr…
+- **Mistake:** **Mobile Safari** ITP limits storage
+- **Mistake:** **`100vh`** includes mobile URL bar — use `dvh` where supported
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,3 +88,7 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 | Hydration mismatch (SSR) | Server HTML ≠ client render | Fix random IDs/dates; `suppressHydrationWarning` last resort |
 | Works in Chrome, broken Safari | API gap / date parsing | Polyfill or feature detect — [[Descriptive/JavaScript/Polyfilling]] |
 | LCP slow | Hero image unoptimized | `fetchpriority="high"`, WebP/AVIF, dimensions set |
+
+## Pros/Cons or Trade-offs
+- Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
+- Avoid reinventing bundler/security headers

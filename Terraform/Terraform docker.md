@@ -4,12 +4,18 @@
 
 > Practice Terraform against the local Docker provider — same init/plan/apply patterns as cloud, without a cloud bill.
 
-
-
-
+```txt
+        Terraform docker ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers like Docker-provider demos to prove you understand providers, implicit dependency graphs, and version pins before AWS/GCP.
+- **Interview probes:** Interviewers like Docker-provider demos to prove you understand providers, im…
 
 ## Sources
 - [kreuzwerkel/docker provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs) — deep-dive
@@ -19,8 +25,8 @@ Interviewers like Docker-provider demos to prove you understand providers, impli
 ## Key Concepts
 - **Non-cloud provider:** still pin → configure → resource → plan/apply.
 - **Implicit graph:** container references image ID → correct create order.
-- **Local state OK for learning;** teams need remote state later.
-- **Patterns transfer; blast radius does not** — Docker ≠ production cloud quotas/IAM.
+- **Local state OK for learning;:** teams need remote state later.
+- **Patterns transfer; blast radius does not:** — Docker ≠ production cloud quotas/IAM.
 
 ## Technical Details
 ```txt
@@ -94,10 +100,10 @@ TF_LOG=DEBUG terraform apply
 | Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
 | Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
-## Real-World Applications
-Onboarding engineers to HCL without cloud accounts; workshop destroy loops; validating provider lock-file behavior.
-
-**Example:** Apply nginx on `:8080`, curl it, destroy — then swap provider to AWS with the same workflow habits.
+## Mistakes to Avoid
+- **Mistake:** Treating local Docker Terraform as a production orchestrator
+- **Mistake:** Losing state and assuming `destroy` cleaned host containers
+- **Mistake:** Unpinned image tags in learning projects that later become “prod…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast, free feedback on Terraform mechanics.
@@ -105,10 +111,11 @@ Onboarding engineers to HCL without cloud accounts; workshop destroy loops; vali
 - **Con:** Compose may teach Linux networking faster than HCL for that narrow goal.
 
 ## Comparison
-- Same plugin pattern as [[terraform provider]]; graduate to [[Terraform setup]] remote state when collaborating.
+- Same plugin pattern as [[terraform provider]]
 - Core language still [[terraform]].
 
-## Mistakes to Avoid
-- Treating local Docker Terraform as a production orchestrator.
-- Losing state and assuming `destroy` cleaned host containers.
-- Unpinned image tags in learning projects that later become “prod-like.”
+
+### Use cases
+- Onboarding engineers to HCL without cloud accounts
+
+- **Example:** Apply nginx on `:8080`, curl it, destroy

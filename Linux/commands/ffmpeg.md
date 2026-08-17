@@ -4,19 +4,22 @@
 
 > ffmpeg builds a media pipeline — read inputs, transform (or copy), write outputs or streams.
 
-
-
-
+```txt
+        ffmpeg ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Media/ops: `-c copy` vs re-encode, `-re` for live pacing, `-map` for stream selection, and when UDP/RTMP patterns need the right muxer.
+- **Interview probes:** Media/ops: `-c copy` vs re-encode, `-re` for live pacing, `-map` for stream s…
 
 ## Sources
 - [FFmpeg Documentation](https://ffmpeg.org/documentation.html) — deep-dive
 - [ffmpeg(1)](https://ffmpeg.org/ffmpeg.html) — deep-dive
-
-## Core Definition
-Demux inputs → optionally decode/filter/encode → mux to a file or protocol. Stream copy (`-c copy`) remuxes without quality loss when codecs fit the container; otherwise re-encode.
 
 ## Key Concepts
 - **`-i`:** Each input source.
@@ -24,6 +27,9 @@ Demux inputs → optionally decode/filter/encode → mux to a file or protocol. 
 - **`-map`:** Explicit stream selection (don’t rely on defaults).
 - **`-re`:** Read input at realtime — required for live-like feeds from files.
 - **CRF / bitrate / preset:** Quality vs CPU vs size trade-offs.
+
+
+- **Core:** Demux inputs → optionally decode/filter/encode → mux to a file or protocol. S…
 
 ## Technical Details
 ```txt
@@ -61,8 +67,10 @@ ffmpeg -re -stream_loop -1 -i sample.mp4 \
 | A/V drift | Start times | `-itsoffset`; [[ffprobe]] |
 | High CPU on “simple” job | Accidental encode | Prefer `-c copy` |
 
-## Real-World Applications
-Remuxing camera footage, segmenting multicast MPEG-TS recordings, and simulating a live RTMP source from a file for ingest tests.
+## Mistakes to Avoid
+- **Mistake:** Omitting `-re` when feeding “live” from a file
+- **Mistake:** Relying on default stream selection and dropping tracks
+- **Mistake:** Treating UDP MPEG-TS as a reliable archive path
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal Swiss-army media tool; scriptable.
@@ -70,9 +78,8 @@ Remuxing camera footage, segmenting multicast MPEG-TS recordings, and simulating
 - **Trade-off:** CRF for VOD quality vs constrained bitrate for live ABR.
 
 ## Comparison
-vs [[ffprobe]]: probe metadata only. vs browser WebRTC: different stack for P2P. vs CDN packagers: ffmpeg is the worker/encoder, not the origin CDN.
+- vs [[ffprobe]]: probe metadata only
 
-## Mistakes to Avoid
-- Omitting `-re` when feeding “live” from a file.
-- Relying on default stream selection and dropping tracks.
-- Treating UDP MPEG-TS as a reliable archive path.
+
+### Use cases
+- Remuxing camera footage, segmenting multicast MPEG-TS recordings, and simulat…

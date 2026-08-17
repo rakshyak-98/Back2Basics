@@ -4,12 +4,17 @@
 
 > Prompt engineering shapes LLM inputs so outputs are reliable, constrained, and useful for a task.
 
-
-
-
+```txt
+        prompt enginerring ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Prompt engineering interviews cover constraints, few-shot examples, and evaluation — not magic phrasing.
+- **Interview probes:** Prompt engineering interviews cover constraints, few-shot examples, and evalu…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -17,7 +22,7 @@ Prompt engineering interviews cover constraints, few-shot examples, and evaluati
 
 ## Key Concepts
 ```txt
-system/role → task → constraints → format → (examples) → user input
+- **Note:** system/role → task → constraints → format → (examples) → user input
 ```
 
 ### Interview map (words you can say)
@@ -41,10 +46,6 @@ Return JSON: {"cause":"","check":"","fix":""}
 | Max tokens | Cost / cutoff |
 | Schema validation | Catch bad JSON |
 
-## Pros/Cons or Trade-offs
-- **Stable classify/extract at scale** — fine-tune or classical ML may be cheaper.
-- **Hard guarantees** — code + tests, not prose prompts alone.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Long prompts ≠ better** — bury the ask; put constraints near the end too.
@@ -58,3 +59,7 @@ Return JSON: {"cause":"","check":"","fix":""}
 | Hallucinated facts | no grounding | RAG / tools; say “unknown” |
 | Inconsistent | high temperature | Lower temp; tighten system |
 | Prompt injection | user controls instruction | Delimit untrusted input |
+
+## Pros/Cons or Trade-offs
+- **Stable classify/extract at scale**
+- **Hard guarantees** — code + tests, not prose prompts alone.

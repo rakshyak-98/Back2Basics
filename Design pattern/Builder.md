@@ -4,21 +4,26 @@
 
 > Builder separates **construction of a complex object** from its representation — so the same assembly steps can build different variants without a telescoping constructor.
 
-
-
-
+```txt
+        Builder ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-Builder interviews cover telescoping constructors, fluent steps, validation at build(), and how Builder differs from Factory Method.
+- **Interview probes:** Builder interviews cover telescoping constructors, fluent steps, validation a…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Builder) — deep-dive
 
 ## Key Concepts
-Objects with many optional fields invite constructors like `new House(3, true, false, "brick", null, …)`. Each new option multiplies overloads. Builder accumulates steps and validates before `build()`.
+- **Note:** Objects with many optional fields invite constructors like `new House(3, true…
 
 ```
-Director (optional) → Builder.setX().setY().build() → Product
+- **Note:** Director (optional) → Builder.setX().setY().build() → Product
 ```
 
 | Role | Responsibility |
@@ -35,16 +40,17 @@ func (b *QueryBuilder) From(table string) *QueryBuilder { ...; return b }
 func (b *QueryBuilder) Build() (string, error) { ... }
 ```
 
-## Real-World Applications
-- Many optional parameters with validation rules (HTTP requests, SQL, config objects).
-- Different representations from same process (JSON vs XML document builders).
+## Mistakes to Avoid
+- **Mistake:** Simple objects — a struct literal or named constructor is enough
+- **Mistake:** Mutable builders returned to multiple callers
 
 ## Comparison
-**vs other patterns**
+- **vs other patterns**
 
-- **Factory Method / Abstract Factory** — create whole product in one shot; Builder **stages** assembly.
+- **Factory Method / Abstract Factory**
 - **Prototype** — clone existing instance; Builder **constructs from scratch** via steps.
 
-## Mistakes to Avoid
-- Simple objects — a struct literal or named constructor is enough.
-- Mutable builders returned to multiple callers — document whether steps are reusable or single-shot.
+
+### Use cases
+- Many optional parameters with validation rules (HTTP requests, SQL, config objects).
+- Different representations from same process (JSON vs XML document builders).

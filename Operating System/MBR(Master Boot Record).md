@@ -4,12 +4,18 @@
 
 > Alias for the Master Boot Record — first-sector BIOS boot structure with partition table and 446-byte code field; canonical detail lives in [[MBR]].
 
-
-
-
+```txt
+        MBR(Master Boot Re ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Same as [[MBR]]: know LBA 0 is not a file, signature `0xAA55`, and UEFI/GPT relationship — including protective/hybrid MBR when CSM is enabled.
+- **Interview probes:** Same as [[MBR]]: know LBA 0 is not a file, signature `0xAA55`, and UEFI/GPT r…
 
 ## Sources
 - [Wikipedia — Master boot record](https://en.wikipedia.org/wiki/Master_boot_record) — overview
@@ -17,19 +23,20 @@ Same as [[MBR]]: know LBA 0 is not a file, signature `0xAA55`, and UEFI/GPT rela
 
 ## Key Concepts
 - **Not a file:** the MBR is LBA 0 on disk.
-- **512-byte sector** ending in **0xAA55**.
-- **Four primary partitions;** extended type for [[logical partitions]].
+- **512-byte sector:** ending in **0xAA55**.
+- **Four primary partitions;:** extended type for [[logical partitions]].
 - **Tiny boot code:** only enough to jump to VBR or GRUB stage2.
 
 ## Technical Details
-Corrupt partition entries or overwritten boot code produce “Operating system not found” on legacy firmware paths.
+- Corrupt partition entries or overwritten boot code produce “Operating system …
 
-UEFI systems may still contain an MBR-style protective or hybrid layout on GPT disks when **CSM** is enabled ([[Boot/UEFI (2)]]).
+- UEFI systems may still contain an MBR-style protective or hybrid layout on GP…
 
-Canonical layout and repair notes: [[MBR]].
+- Canonical layout and repair notes: [[MBR]].
 
-## Real-World Applications
-Imaging tools and `fdisk` still show “DOS/MBR” label style. Rescue media must distinguish boot-code damage from partition-table damage.
+## Mistakes to Avoid
+- **Mistake:** Editing only this alias and leaving [[MBR]] stale (or the revers…
+- **Mistake:** Treating protective GPT MBR as a real four-partition DOS layout …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Short alias note for the expanded name form.
@@ -39,6 +46,6 @@ Imaging tools and `fdisk` still show “DOS/MBR” label style. Rescue media mus
 - Full treatment: [[MBR]].
 - Modern firmware path: [[Boot/UEFI]].
 
-## Mistakes to Avoid
-- Editing only this alias and leaving [[MBR]] stale (or the reverse).
-- Treating protective GPT MBR as a real four-partition DOS layout to rewrite casually.
+
+### Use cases
+- Imaging tools and `fdisk` still show “DOS/MBR” label style

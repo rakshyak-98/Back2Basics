@@ -4,12 +4,17 @@
 
 > GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
-
-
-
+```txt
+        GPG sign (Git comm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency un…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -17,8 +22,8 @@ Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency under
 
 ## Key Concepts
 ```
-git commit -S ──► gpg signs hash ──► signature embedded in commit
-git log --show-signature ──► gpg --verify against trusted keys
+- **Note:** git commit -S ──► gpg signs hash ──► signature embedded in commit
+- **Note:** git log --show-signature ──► gpg --verify against trusted keys
 ```
 
 | Error | Meaning |
@@ -28,7 +33,7 @@ git log --show-signature ──► gpg --verify against trusted keys
 | `gpg: signing failed: Inappropriate ioctl` | TTY/pinentry broken over SSH |
 
 ## Technical Details
-**Generate key (if none):**
+- **Generate key (if none):** 
 
 ```bash
 gpg --full-generate-key
@@ -39,7 +44,7 @@ gpg --list-secret-keys --keyid-format=long
 #                ^^^^^^^^^^^^ long key ID for git config
 ```
 
-**Git + GPG wiring:**
+- **Git + GPG wiring:** 
 
 ```bash
 git config --global user.signingkey ABC123DEF456
@@ -54,14 +59,14 @@ git commit -S -m "feat: release prep"
 git tag -s v1.2.0 -m "Release 1.2.0"
 ```
 
-**Publish public key (GitHub/GitLab):**
+- **Publish public key (GitHub/GitLab):** 
 
 ```bash
 gpg --armor --export ABC123DEF456
 # Paste into GitHub → Settings → SSH and GPG keys
 ```
 
-**Verify:**
+- **Verify:** 
 
 ```bash
 git log --show-signature -1
@@ -69,19 +74,14 @@ git verify-commit HEAD
 git verify-tag v1.2.0
 ```
 
-**SSH signing (modern alternative — no GPG):**
+- **SSH signing (modern alternative — no GPG):** 
 
 ```bash
 git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519.pub
 ```
 
-See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
-
-## Pros/Cons or Trade-offs
-- **Internal-only repos with no audit requirement** — signing overhead may not pay off.
-- **Replace code review** — signature proves key holder signed, not that code is safe.
-- **Secrets in commits** — sign doesn't encrypt; use git-crypt/SOPS for confidentiality.
+- See [[gpg]] for repository key verification (nginx packages, etc.)
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -113,3 +113,8 @@ git config --global user.signingkey <LONG_ID> # must match
 gpg-agent --daemon                            # restart agent if stuck
 export GPG_TTY=$(tty)
 ```
+
+## Pros/Cons or Trade-offs
+- **Internal-only repos with no audit requirement**
+- **Replace code review**
+- **Secrets in commits**

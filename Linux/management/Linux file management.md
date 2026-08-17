@@ -4,12 +4,18 @@
 
 > Create, find, move, permission, and back up data on disk — paths, ownership, and mounts matter more than fancy tools.
 
-
-
-
+```txt
+        Linux file managem ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Everyday ops: inodes/hard links, `stat` before `chmod 777`, `-xdev`, and atomic write+rename patterns.
+- **Interview probes:** Everyday ops: inodes/hard links, `stat` before `chmod 777`, `-xdev`, and atom…
 
 ## Sources
 - `man 1 find`, `man 1 rsync`, `man 2 rename` — deep-dive
@@ -49,8 +55,10 @@ rsync -aHAX --delete src/ dst/
 | Vanished files | Wrong mount / overlay | `findmnt`; check binds |
 | Copy slow | Many small files | tar stream; tune rsync |
 
-## Real-World Applications
-Reclaim space with `du -x`, move an app tree with `rsync -aHAX`, and create data dirs with `install` so mode/owner are correct on first write.
+## Mistakes to Avoid
+- **Mistake:** `rm -rf` with unchecked variables
+- **Mistake:** Raw-copying live database files without snapshot/quiesce
+- **Mistake:** Recursive operations that cross unexpected bind mounts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple primitives compose into safe deploy/backup workflows.
@@ -60,7 +68,6 @@ Reclaim space with `du -x`, move an app tree with `rsync -aHAX`, and create data
 - vs [[file mount]]: attaching filesystems vs managing files on them.
 - vs object storage: different consistency and permission models.
 
-## Mistakes to Avoid
-- `rm -rf` with unchecked variables.
-- Raw-copying live database files without snapshot/quiesce.
-- Recursive operations that cross unexpected bind mounts.
+
+### Use cases
+- Reclaim space with `du -x`, move an app tree with `rsync -aHAX`, and create d…

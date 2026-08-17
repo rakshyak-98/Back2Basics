@@ -4,12 +4,18 @@
 
 > Language behind Flutter (and more) — sound null safety, isolates instead of shared-memory threads, and factories that can return subtypes or cached instances.
 
-
-
-
+```txt
+        Dart ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast Dart null safety with Java, explain isolates vs threads, and ask when a `factory` constructor beats a generative one.
+- **Interview probes:** Interviewers contrast Dart null safety with Java, explain isolates vs threads…
 
 ## Sources
 - [Dart language tour](https://dart.dev/language) — deep-dive
@@ -28,7 +34,7 @@ factory User.fromJson(Map<String, dynamic> json) {
 }
 ```
 
-A `factory` constructor can return a subtype or cached object — unlike a normal generative constructor that always creates a new instance of exactly that class.
+- A `factory` constructor can return a subtype or cached object
 
 | Feature | Role |
 |---------|------|
@@ -36,10 +42,10 @@ A `factory` constructor can return a subtype or cached object — unlike a norma
 | `async` | Future-based concurrency |
 | Isolates | Parallelism without shared mutable heap |
 
-## Real-World Applications
-Flutter apps: UI in Dart, heavy parse work in an isolate, factories for JSON models.
-
-**Example:** `factory` on an immutable model returns a canonical instance from a pool for identical keys.
+## Mistakes to Avoid
+- **Mistake:** Using `!` bang operators everywhere to silence null safety
+- **Mistake:** Assuming isolates share global mutable memory like threads
+- **Mistake:** Blocking the UI isolate with heavy sync work
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong null safety and Flutter productivity.
@@ -49,7 +55,8 @@ Flutter apps: UI in Dart, heavy parse work in an isolate, factories for JSON mod
 - vs [[kotlin syntax]]: both modern null-safe; Dart pairs tightly with Flutter.
 - vs JS: Dart is typed/AOT-friendly for mobile release builds.
 
-## Mistakes to Avoid
-- Using `!` bang operators everywhere to silence null safety.
-- Assuming isolates share global mutable memory like threads.
-- Blocking the UI isolate with heavy sync work.
+
+### Use cases
+- Flutter apps: UI in Dart, heavy parse work in an isolate, factories for JSON …
+
+- **Example:** `factory` on an immutable model returns a canonical instance fro…

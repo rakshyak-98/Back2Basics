@@ -4,26 +4,32 @@
 
 > Deploy scripts (Node, Ansible, Terraform) write vhost files — always `nginx -t`, then install, symlink, and reload so bad templates never take traffic.
 
-
-
-
+```txt
+        Nginx Automated Co ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Platform interviews ask how you ship Nginx config safely: least-privilege sudo, atomic install, serialize reloads, and never skip config test in CI.
+- **Interview probes:** Platform interviews ask how you ship Nginx config safely: least-privilege sud…
 
 ## Sources
 - [nginx.org — Controlling nginx](https://nginx.org/en/docs/control.html) — overview
 - [sudoers manual](https://www.sudo.ws/docs/man/1.8.27/sudoers.man/) — deep-dive
 - [Ansible — template module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html) — overview
 
-## Core Definition
-Automated Nginx config deployment generates per-tenant or per-release vhost files, validates them with `nginx -t`, installs into the include tree, and gracefully reloads workers.
-
 ## Key Concepts
-- **Safe pipeline:** write temp → `nginx -t` → install to `sites-available` → symlink `sites-enabled` → reload.
-- **Graceful reload:** workers finish in-flight requests; bad config can block new workers if you skip the test.
+- **Safe pipeline:** write temp → `nginx -t` → install to `sites-available` → symlink `sites-enabl…
+- **Graceful reload:** workers finish in-flight requests
 - **Least-privilege sudo:** whitelist exact binaries/paths — not `NOPASSWD: ALL`.
 - **Rollback:** keep previous conf versioned; restore + `nginx -t` + reload.
+
+
+- **Core:** Automated Nginx config deployment generates per-tenant or per-release vhost f…
 
 ## Technical Details
 ```
@@ -37,7 +43,7 @@ sudo chown -R deploy-user:deploy-user /var/www/html
 sudo chmod -R 755 /var/www/html
 ```
 
-Nginx reads as `www-data`/`nginx` — world-readable static files are fine; writable only where uploads need it.
+- Nginx reads as `www-data`/`nginx`
 
 ### Passwordless sudo for deploy user (visudo)
 
@@ -69,7 +75,7 @@ await exec('sudo nginx -t');
 await exec('sudo systemctl reload nginx');
 ```
 
-Prefer testing before install in stricter pipelines: write → `nginx -t -c` test harness → copy → reload.
+- Prefer testing before install in stricter pipelines: write → `nginx -t -c` te…
 
 ### Rollback
 
@@ -86,8 +92,11 @@ sudo nginx -t && sudo systemctl reload nginx
 | Old config still served | Symlink not updated | `readlink -f …/sites-enabled/site`; force `ln -sf` |
 | Include path broken | No shell expansion in `include` | Absolute paths in generated configs |
 
-## Real-World Applications
-Multi-tenant SaaS that provisions a vhost per customer domain from a deploy job; blue/green release that swaps upstream ports in generated config.
+## Mistakes to Avoid
+- **Mistake:** Blanket `NOPASSWD: ALL` for the deploy user
+- **Mistake:** Template tools (`envsubst`) eating Nginx `$uri`
+- **Mistake:** Disabling `nginx -t` in the pipeline “to save time.”
+- **Mistake:** Hand-editing generated files instead of the template source
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast, repeatable vhost provisioning with graceful reload.
@@ -98,8 +107,6 @@ Multi-tenant SaaS that provisions a vhost per customer domain from a deploy job;
 - vs Ansible/Terraform fleet management: better for many hosts than per-app runtime sudo.
 - vs [[Nginx ingress]]: in-cluster CRDs instead of writing `/etc/nginx` on nodes.
 
-## Mistakes to Avoid
-- Blanket `NOPASSWD: ALL` for the deploy user.
-- Template tools (`envsubst`) eating Nginx `$uri` — escape (`$$uri`) as required.
-- Disabling `nginx -t` in the pipeline “to save time.”
-- Hand-editing generated files instead of the template source.
+
+### Use cases
+- Multi-tenant SaaS that provisions a vhost per customer domain from a deploy j…

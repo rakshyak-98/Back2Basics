@@ -4,12 +4,18 @@
 
 > `systemd-oomd` kills cgroups under memory pressure early — before the global OOM killer picks a blunt victim.
 
-
-
-
+```txt
+        Linux out of memor ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Distinguish PSI/`systemd-oomd` (scoped, pressure-based) from the classic global OOM killer.
+- **Interview probes:** Distinguish PSI/`systemd-oomd` (scoped, pressure-based) from the classic glob…
 
 ## Sources
 - [systemd-oomd(8)](https://www.freedesktop.org/software/systemd/man/latest/systemd-oomd.service.html) — deep-dive
@@ -48,8 +54,10 @@ cat /proc/pressure/memory
 | Kills wrong service | Preference/slice | `ManagedOOMPreference=avoid` |
 | Still global OOM | Coverage gap | Enable ManagedOOM on the right slice |
 
-## Real-World Applications
-On developer workstations, oomd targets `user.slice` under pressure so one browser tab storm does not take down the whole session as harshly as global OOM.
+## Mistakes to Avoid
+- **Mistake:** Relying on oomd instead of setting memory limits
+- **Mistake:** Enabling without reading which slices are covered
+- **Mistake:** Expecting it on tiny embedded kernels without PSI
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Earlier, more contained kills using PSI.
@@ -59,7 +67,6 @@ On developer workstations, oomd targets `user.slice` under pressure so one brows
 - vs [[OOM (Linux Out Of Memory)]]: global last resort vs pressure-triggered scoped daemon.
 - vs hard `memory.max`: deterministic cgroup OOM vs heuristic pressure policy.
 
-## Mistakes to Avoid
-- Relying on oomd instead of setting memory limits.
-- Enabling without reading which slices are covered.
-- Expecting it on tiny embedded kernels without PSI.
+
+### Use cases
+- On developer workstations, oomd targets `user.slice` under pressure so one br…

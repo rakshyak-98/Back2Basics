@@ -4,30 +4,36 @@
 
 > Writers and readers of Kafka topics — producers append records; consumers track offsets and process events, usually inside a consumer group.
 
-
-
-
+```txt
+        kafka producer and ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe acks/`enable.idempotence`, key→partition mapping, consumer group rebalances, and whether you commit offsets before or after side effects.
+- **Interview probes:** Interviewers probe acks/`enable.idempotence`, key→partition mapping, consumer…
 
 ## Sources
 - [Kafka docs — Producer configs](https://kafka.apache.org/documentation/#producerconfigs) — deep-dive
 - [Kafka docs — Consumer configs](https://kafka.apache.org/documentation/#consumerconfigs) — deep-dive
 - [Confluent — Kafka consumers](https://docs.confluent.io/platform/current/clients/consumer.html) — overview
 
-## Core Definition
-A *producer* publishes records `(key, value, headers)` to a topic partition. A *consumer* reads those records from assigned partitions, processes them, and commits offsets so it can resume after restart.
-
 ## Key Concepts
-- **Keyed partitioning:** same key → same partition → per-key order; null key → sticky/round-robin distribution.
+- **Keyed partitioning:** same key → same partition → per-key order
 - **Acks:** `acks=all` waits for in-sync replicas → durability over latency.
-- **Idempotent producer:** broker dedupes producer retries → avoids duplicates on network retry (still need consumer idempotency for many apps).
+- **Idempotent producer:** broker dedupes producer retries → avoids duplicates on network retry (still n…
 - **Consumer group:** partitions split across members → add consumers until you hit partition count.
-- **Commit after success:** at-least-once when you commit post-processing; auto-commit can lose or duplicate under failure.
+- **Commit after success:** at-least-once when you commit post-processing
+
+
+- **Core:** A *producer* publishes records `(key, value, headers)` to a topic partition
 
 ## Technical Details
-Reuse a long-lived producer — creating and `disconnect`ing per message wastes TCP/handshake work:
+- Reuse a long-lived producer
 
 ```js
 const { Kafka } = require("kafkajs");
@@ -64,10 +70,10 @@ await consumer.run({
 | Duplicates after crash | Commit timing | Idempotent handlers; transactional patterns |
 | Short-lived producer thrash | New client per request | Share one producer per process |
 
-## Real-World Applications
-Notify inventory/order/discount services when a cart changes without synchronous HTTP fan-out — classic [[event-driven]] decoupling.
-
-**Example:** Cart service produces `cart.item.added` with `cartId` as key so all events for one cart stay ordered on one partition.
+## Mistakes to Avoid
+- **Mistake:** Instantiating a producer inside each request handler and disconn…
+- **Mistake:** Committing offsets before the database write succeeds
+- **Mistake:** Assuming global order across partitions
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Independent scale of producers and consumers; replay by resetting offsets.
@@ -75,10 +81,11 @@ Notify inventory/order/discount services when a cart changes without synchronous
 - **Con:** Rebalances pause processing; unstable membership hurts SLAs.
 
 ## Comparison
-- vs [[RabbitMQ]] consumers: Rabbit acks remove messages from a queue; Kafka consumers advance offsets in a retained log.
-- vs HTTP fan-out: producers do not wait on every downstream — failure isolation improves, consistency models change.
+- vs [[RabbitMQ]] consumers: Rabbit acks remove messages from a queue
+- vs HTTP fan-out: producers do not wait on every downstream
 
-## Mistakes to Avoid
-- Instantiating a producer inside each request handler and disconnecting immediately.
-- Committing offsets before the database write succeeds.
-- Assuming global order across partitions.
+
+### Use cases
+- Notify inventory/order/discount services when a cart changes without synchron…
+
+- **Example:** Cart service produces `cart.item.added` with `cartId` as key so …

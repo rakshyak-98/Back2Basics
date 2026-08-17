@@ -4,12 +4,18 @@
 
 > Wire device push across Apple Push Notification service and FCM — platform credentials on the server, device tokens from the client, permission UX in the app.
 
-
-
-
+```txt
+        Push notification  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers separate provider credentials (APNs key/cert, FCM service account), token storage, and permission prompts from “just call an SDK.”
+- **Interview probes:** Interviewers separate provider credentials (APNs key/cert, FCM service accoun…
 
 ## Sources
 - [Apple — Sending notification requests](https://developer.apple.com/documentation/usernotifications) — overview
@@ -34,10 +40,10 @@ Backend → APNs and/or FCM → device
 | Android | FCM / Google services |
 | iOS via FCM | FCM + uploaded APNs key |
 
-## Real-World Applications
-Order status and chat pings: server event → fan-out to user tokens → prune dead tokens from provider errors.
-
-**Example:** Android works, iOS silent — missing APNs key upload in Firebase or wrong bundle id.
+## Mistakes to Avoid
+- **Mistake:** Shipping without a token refresh path
+- **Mistake:** Treating data-only messages the same on iOS/Android without test…
+- **Mistake:** Hardcoding provider keys in the mobile app
 
 ## Pros/Cons or Trade-offs
 - **Pro:** OS-level delivery and battery-aware scheduling.
@@ -47,7 +53,8 @@ Order status and chat pings: server event → fan-out to user tokens → prune d
 - vs polling: push is event-driven but permission-gated.
 - vs [[Firebase messaging]]: this note is integration checklist; Firebase notes cover send APIs.
 
-## Mistakes to Avoid
-- Shipping without a token refresh path.
-- Treating data-only messages the same on iOS/Android without testing force-quit behavior.
-- Hardcoding provider keys in the mobile app.
+
+### Use cases
+- Order status and chat pings: server event → fan-out to user tokens → prune de…
+
+- **Example:** Android works, iOS silent

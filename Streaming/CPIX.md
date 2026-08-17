@@ -4,12 +4,18 @@
 
 > CPIX (Content Protection Information Exchange) is XML that hands your packager the keys and PSSH needed to encrypt media.
 
-
-
-
+```txt
+        CPIX ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk CPIX end-to-end — not just name it. Signal fluency with **CPIX**, **KID**, **CEK / PlainValue**, **PSSH** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk CPIX end-to-end
 
 ## Sources
 - [Wikipedia — CPIX](https://en.wikipedia.org/wiki/CPIX) — overview
@@ -17,12 +23,12 @@ Interviewers probe whether you can walk CPIX end-to-end — not just name it. Si
 ## Key Concepts
 - **CPIX:** XML format to exchange protection keys — “Packager speaks CPIX to the KMS.”
 - **KID:** Key identifier — “Manifest and license both name the same KID.”
-- **CEK / PlainValue:** The actual content encryption key (often Base64) — “Packager needs the raw key to encrypt; players get it via license.”
+- **CEK / PlainValue:** The actual content encryption key (often Base64)
 - **PSSH:** DRM-system init data — “We copy PSSH into DASH ContentProtection.”
 - **CENC:** Common encryption of samples — “One ciphertext; multiple DRM wrappers.”
-- **SPEKE:** AWS-style key exchange (CPIX-based) — “MediaConvert asks SPEKE; SPEKE returns CPIX-like material.”
+- **SPEKE:** AWS-style key exchange (CPIX-based)
 
-specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX is the **key delivery document** for packaging — not the player license token ([[streaming license]]).
+- **Note:** specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPI…
 
 ### Critical XML pieces
 
@@ -33,7 +39,7 @@ specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX i
 | `PSSH` | Widevine/PlayReady (etc.) signaling in the manifest |
 | Content / Usage rules | Which tracks / periods this key covers |
 
-**Without manifest signaling**, the player never knows which license server or KID to use — encryption alone is not enough.
+- **Note:** **Without manifest signaling**, the player never knows which license server o…
 
 ## Technical Details
 ```txt
@@ -49,7 +55,7 @@ Packager / transcoder
    Encrypt segments (CENC) + write ContentProtection / #EXT-X-KEY
 ```
 
-Conceptual flow (vendor URL/authentication vary):
+- Conceptual flow (vendor URL/authentication vary):
 
 ```bash
 # 1) Fetch CPIX for content id (auth headers per vendor)
@@ -73,20 +79,7 @@ packager \
 | Clear vs encrypted audio | Policy may leave audio clear; document it |
 | Who may see PlainValue | Only packager/KMS path — never the browser |
 
-Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemental via SPEKE.
-
-## Real-World Applications
-Used wherever CPIX sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Clear (unencrypted) delivery** — no KMS; skip CPIX.
-- **Con / skip when:** **Vendor proprietary-only key API with no CPIX** — use their packager plugin docs instead of forcing XML.
-- **Con / skip when:** **Player-side experiments** — CPIX is packaging/KMS; use [[EME]] samples for playback tests.
-- **Con / skip when:** **One-off remux with `-c copy`** — no new encryption ⇒ no new CPIX fetch.
-
-## Comparison
-- vs [[EME]]: **Player-side experiments** — CPIX is packaging/KMS; use [[EME]] samples for playback tests.
+- Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Ele…
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -98,7 +91,21 @@ Used wherever CPIX sits in an ingest → package → CDN → player path. Concre
 | Key works then dies mid-live | Rotation without updating packager | Sync key period; reload CPIX on rotate |
 | SPEKE timeout on MediaConvert | KMS endpoint / VPC | Network path to key provider; retry + alarms |
 
-- **CPIX ≠ license token** — CPIX feeds the **packager**. The player uses a separate [[streaming license]] / `pallycon-customdata-v2` style token.
-- **Never ship `PlainValue` to the client** — CEK belongs in the packager/KMS trust boundary; CDMs receive keys only via license response.
-- **PSSH omitted from MPD/m3u8** — encryptors that only set keys but skip ContentProtection leave players guessing.
-- **Clock and content-id drift** — license servers reject tokens whose content id doesn’t match the KID set from CPIX.
+- **Mistake:** **CPIX ≠ license token**
+- **Mistake:** **Never ship `PlainValue` to the client**
+- **Mistake:** **PSSH omitted from MPD/m3u8**
+- **Mistake:** **Clock and content-id drift**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Clear (unencrypted) delivery** — no KMS; skip CPIX.
+- **Con / skip when:** **Vendor proprietary-only key API with no CPIX**
+- **Con / skip when:** **Player-side experiments**
+- **Con / skip when:** **One-off remux with `-c copy`**
+
+## Comparison
+- vs [[EME]]: **Player-side experiments**
+
+
+### Use cases
+- Used wherever CPIX sits in an ingest → package → CDN → player path

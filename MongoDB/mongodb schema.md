@@ -4,12 +4,17 @@
 
 > MongoDB documents are flexible by default — add fields freely; use JSON Schema validation when you need guardrails.
 
-
-
-
+```txt
+        mongodb schema ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Schema design questions probe embedding vs referencing, unbounded arrays, and access-pattern-first modeling.
+- **Interview probes:** Schema design questions probe embedding vs referencing, unbounded arrays, and…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -53,10 +58,6 @@ db.createCollection('users', {
 | `validationLevel` | `moderate` skips invalid existing docs on update |
 | Indexes | Schema ≠ speed — still index query fields |
 
-## Pros/Cons or Trade-offs
-- **Strict relational invariants across many entities** — use SQL.
-- **Heavy multi-document joins as the default access** — rethink model.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Schema-less ≠ design-free** — bad embedding still kills performance.
@@ -70,3 +71,7 @@ db.createCollection('users', {
 | Mixed types on field | app bugs / no validator | Normalize + validate |
 | Slow “schema” evolution | huge backfill | [[mongodb migration]] in batches |
 | App assumes field always present | sparse docs | Default in app or `$ifNull` |
+
+## Pros/Cons or Trade-offs
+- **Strict relational invariants across many entities** — use SQL.
+- **Heavy multi-document joins as the default access** — rethink model.

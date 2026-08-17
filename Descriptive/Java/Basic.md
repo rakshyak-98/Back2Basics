@@ -4,12 +4,17 @@
 
 > Java basics — classes, `javac`/`java`, JVM bytecode, and the usual entrypoint `main`.
 
-
-
-
+```txt
+        Java Basic ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers may probe Java Basic as tooling or web platform literacy — expect a crisp definition, how it works, and when it is the wrong tool.
+- **Interview probes:** Interviewers may probe Java Basic as tooling or web platform literacy
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -49,10 +54,6 @@ public class Hello {
 | Module path | JPMS apps |
 | Heap `-Xmx` | Memory cap |
 
-## Pros/Cons or Trade-offs
-- **Tiny CLI glue** — scripting language may be faster to ship.
-- **Browser applets** — dead; use modern web stacks.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **File name = public class name** — `Hello.java` must hold `public class Hello`.
@@ -66,3 +67,7 @@ public class Hello {
 | UnsupportedClassVersion | newer bytecode than JVM | Upgrade JRE or retarget |
 | No main | wrong class | Point to class with main |
 | Package mismatch | folder vs package | Match directory layout |
+
+## Pros/Cons or Trade-offs
+- **Tiny CLI glue** — scripting language may be faster to ship.
+- **Browser applets** — dead; use modern web stacks.

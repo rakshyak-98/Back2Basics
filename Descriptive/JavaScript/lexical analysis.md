@@ -4,24 +4,29 @@
 
 > First compiler phase — scan source left-to-right into tokens; strip whitespace and comments — **ECMAScript lexical grammar**.
 
-
-
-
+```txt
+        Lexical analysis ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Lexer interviews cover tokenization before parse — relevant to compilers and template engines.
+- **Interview probes:** Lexer interviews cover tokenization before parse
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-Before parsing, the engine **tokenizes** source into atomic units: identifiers, keywords, numbers, strings, operators, punctuators. Insignificant input (spaces, comments, line terminators) is discarded or used only for ASI (automatic semicolon insertion).
+- **Note:** Before parsing, the engine **tokenizes** source into atomic units: identifier…
 
 ```
 "const x = 1 + 2;"
      │
      ▼ lexical analyzer (scanner)
-[const] [Identifier(x)] [=] [Numeric(1)] [+] [Numeric(2)] [;]
+- **Note:** [const] [Identifier(x)] [=] [Numeric(1)] [+] [Numeric(2)] [;]
      │
      ▼ parser
 VariableDeclaration …
@@ -35,7 +40,7 @@ VariableDeclaration …
 | **String / Template** | `'a'`, `` `hi ${x}` `` |
 | **Comment** | `//`, `/* */` — not tokens in output stream |
 
-Invalid sequences (`@`, lone `#` in wrong place pre-private-fields) fail here with **SyntaxError** before execution.
+- **Note:** Invalid sequences (`@`, lone `#` in wrong place pre-private-fields) fail here…
 
 ## Technical Details
 ### Inspect tokens (Node — acorn/espree)
@@ -60,7 +65,7 @@ return
 
 ### Hashbang handling
 
-`#!` on line 1 is treated as comment, stripped before tokenization — see [[Descriptive/JavaScript/HashBang Comment]].
+- `#!` on line 1 is treated as comment, stripped before tokenization
 
 ### Unicode identifiers
 
@@ -68,17 +73,13 @@ return
 const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 ```
 
-## Pros/Cons or Trade-offs
-- Don't hand-roll a lexer for production JS — use established parser (Babel, TypeScript, acorn).
-- Runtime validation of user expressions — parse in sandbox, never `eval` unchecked.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **HTML `<script>`** parsing can treat `<!--` or `-->` as comment start in legacy browsers — avoid those sequences inside scripts in HTML.
 
-- **Strict mode** reserved words (`let`, `yield`) tokenize differently in sloppy versus module code.
-- **JSON is not JS lexically** — no comments, trailing commas, unquoted keys.
-- **Minifiers** rename identifiers but must preserve token boundaries — broken source maps show lexical phase errors as wrong lines.
+- **Mistake:** **Strict mode** reserved words (`let`, `yield`) tokenize differe…
+- **Mistake:** **JSON is not JS lexically**
+- **Mistake:** **Minifiers** rename identifiers but must preserve token boundar…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,3 +88,7 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 | Template literal parse error | Unclosed `` ` `` or `${` | Balance braces inside `${}` |
 | Regex vs division ambiguity | `/` after expression | Wrap regex in parens or use `new RegExp` |
 | Private field `#` error | Old parser | Target ES2022+ or avoid private fields |
+
+## Pros/Cons or Trade-offs
+- Don't hand-roll a lexer for production JS
+- Runtime validation of user expressions

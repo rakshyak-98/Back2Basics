@@ -4,12 +4,18 @@
 
 > JavaScript runtime built on V8 + libuv — single-threaded event loop for I/O, with threadpool/workers for some blocking work.
 
-
-
-
+```txt
+        NodeJS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **NodeJS** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Event loop**, **libuv**, **Threadpool**.
+- **Interview probes:** Interviewers use **NodeJS** to check whether you can explain the mechanism in…
 
 ## Sources
 - [Node.js — Introduction](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs) — overview
@@ -49,21 +55,22 @@ node -e 'console.log(process.version)'
 
 - …: [[…]]
 
-## Real-World Applications
-In production APIs and tooling, **NodeJS** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **“Node is multi-threaded”** — only partially; your JS is not parallel by default; **Unhandled rejections** — treat as fatal in servers.
+## Mistakes to Avoid
+- **Mistake:** **“Node is multi-threaded”**
+- **Mistake:** **Unhandled rejections** — treat as fatal in servers
+- **Mistake:** **All requests slow:** check Sync CPU on loop
+- **Mistake:** **Memory climb:** check Leaks / caches; fix: Heap snapshot
+- **Mistake:** **Weird fs latency:** check Threadpool saturated
+- **Mistake:** **Module errors:** check ESM/CJS mix; fix: See [[node modules]]
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (JavaScript runtime built on V8 + libuv — single-threaded event loop for I/O, wit…).
-- **Con / when not:** **Heavy pure CPU services** — Go/Rust/Java may fit better (or isolate workers).
+- **Con / when not:** **Heavy pure CPU services**
 - **Con / when not:** **Browser-only APIs** — DOM isn’t in Node.
 
 ## Comparison
-vs [[event emitter]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[npm command]]: know when each applies — do not treat them as interchangeable.
+- vs [[event emitter]]: know when each applies
 
-## Mistakes to Avoid
-- **“Node is multi-threaded”** — only partially; your JS is not parallel by default.
-- **Unhandled rejections** — treat as fatal in servers.
-- **All requests slow:** check Sync CPU on loop; fix: Profile; worker
-- **Memory climb:** check Leaks / caches; fix: Heap snapshot
-- **Weird fs latency:** check Threadpool saturated; fix: Raise size / reduce load
-- **Module errors:** check ESM/CJS mix; fix: See [[node modules]]
+
+### Use cases
+- In production APIs and tooling, **NodeJS** shows up whenever teams ship Node/…

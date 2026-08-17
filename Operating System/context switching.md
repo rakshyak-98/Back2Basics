@@ -4,12 +4,18 @@
 
 > A context switch saves one thread’s CPU registers and restores another’s — the scheduler tax that shows up as `cs` in vmstat when runnable work outruns clean core capacity.
 
-
-
-
+```txt
+        Context switching ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explain voluntary vs involuntary switches, process vs thread switch cost (TLB), and mitigations (pool sizing, event loops).
+- **Interview probes:** Explain voluntary vs involuntary switches, process vs thread switch cost (TLB…
 
 ## Sources
 - Silberschatz, Galvin & Gagne, *Operating System Concepts* — CPU scheduling — deep-dive
@@ -29,16 +35,18 @@ pidstat -w 1      # voluntary vs involuntary
 perf stat -e context-switches,cpu-migrations -p PID
 ```
 
-Mitigation:
+- Mitigation:
 
 - Size [[thread pool]] ≈ cores for CPU-bound work.
 - Event loops for many idle connections ([[non-blocking]], [[Epoll]]).
 - Avoid oversubscribing [[SMT threads]] with lock-heavy workers.
 
-[[cgroup (Control Group)]] CPU throttling increases involuntary switches under quota pressure.
+- [[cgroup (Control Group)]] CPU throttling increases involuntary switches unde…
 
-## Real-World Applications
-Diagnosing “high CPU but low useful work,” tuning worker counts, and explaining latency cliffs under oversubscription.
+## Mistakes to Avoid
+- **Mistake:** Treating high `cs` as always bad
+- **Mistake:** Spawning unbounded threads “for concurrency.”
+- **Mistake:** Ignoring cgroup throttling as a source of involuntary switches
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Enables multitasking and overlap of I/O with compute.
@@ -49,7 +57,6 @@ Diagnosing “high CPU but low useful work,” tuning worker counts, and explain
 - vs [[mutexes]] contention: lock waits *cause* switches; fixing locks can cut `cs`.
 - vs migration: moving across cores is related but includes cache migration cost.
 
-## Mistakes to Avoid
-- Treating high `cs` as always bad — some wait-driven switches are healthy.
-- Spawning unbounded threads “for concurrency.”
-- Ignoring cgroup throttling as a source of involuntary switches.
+
+### Use cases
+- Diagnosing “high CPU but low useful work,” tuning worker counts, and explaini…

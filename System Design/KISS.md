@@ -4,12 +4,18 @@
 
 > KISS (Keep It Simple, Stupid) urges designs that solve the present problem with the fewest moving parts that still meet requirements — complexity is a loan with interest.
 
-
-
-
+```txt
+        KISS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Defend the simplest design that meets requirements; know when abstraction violates KISS.
+- **Interview probes:** Defend the simplest design that meets requirements
 
 ## Sources
 - Kelly Johnson / Lockheed Skunk Works — KISS origin in engineering culture — overview
@@ -26,16 +32,17 @@ Defend the simplest design that meets requirements; know when abstraction violat
 ### Questions before adding a part
 
 1. What requirement fails if we omit this?
-2. What is the operational cost (on-call, dashboards, upgrades)?
-3. Can we meet the service level objective with a boring solution for twelve more months?
-4. Does the team have production experience with this technology?
+- **Note:** 2. What is the operational cost (on-call, dashboards, upgrades)?
+- **Note:** 3. Can we meet the service level objective with a boring solution for twelve …
+- **Note:** 4. Does the team have production experience with this technology?
 
-If answers are weak, defer. [[System design]] interviews and production reviews both reward justified boxes, not fashionable ones.
+- **Note:** If answers are weak, defer
 
 ## Technical Details
 ### What simplicity means here
 
-Simplicity is not ignorance of scale. It is **refusing complexity that does not buy measurable reliability, performance, or velocity**.
+- Simplicity is not ignorance of scale.
+- It is **refusing complexity that does not buy measurable reliability, perform…
 
 | Simple (for now) | Complex (justify before building) |
 |------------------|-----------------------------------|
@@ -44,25 +51,28 @@ Simplicity is not ignorance of scale. It is **refusing complexity that does not 
 | Synchronous request-response | Event sourcing for a CRUD admin form |
 | Managed Redis cache | Self-sharded in-memory grid |
 
-The United States Navy reportedly coined KISS in the 1960s for aircraft engineering; software adopted it for the same reason — every part you add can fail and must be operated.
+- The United States Navy reportedly coined KISS in the 1960s for aircraft engin…
 
 ### KISS at boundaries
 
-[[API design]] should expose **stable product concepts**, not internal shard keys, retry semantics, or storage layout. Users and partner integrations benefit from simple mental models even when the implementation is distributed ([[database sharding]] hidden behind opaque identifiers).
+- [[API design]] should expose **stable product concepts**, not internal shard …
+- Users and partner integrations benefit from simple mental models even when th…
 
 ### When simplicity becomes negligence
 
-KISS is not an excuse to skip:
+- KISS is not an excuse to skip:
 
 - Authentication and authorization ([[Authentication web application]])
 - Backups and restore drills
 - Timeouts and idempotency on external calls
 - Basic observability (latency, errors, saturation)
 
-*Boring plus reliable* beats *clever plus fragile*.
+- *Boring plus reliable* beats *clever plus fragile*.
 
-## Real-World Applications
-Early product MVPs, incident remediations, and design reviews that prune gold-plating.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 Extract abstractions when duplication proves the same rule changes together — not when two snippets merely look similar. Apply [[SOLID]] at real boundaries (payment gateway, storage port), not as interface-per-class theater.
@@ -78,7 +88,6 @@ Extract abstractions when duplication proves the same rule changes together — 
 - vs [[DRY]]: do not abstract solely to dedupe lookalike code.
 - vs [[SOLID]]: principles serve clarity — not maximal type graphs.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- Early product MVPs, incident remediations, and design reviews that prune gold…

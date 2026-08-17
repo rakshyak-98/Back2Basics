@@ -4,12 +4,18 @@
 
 > Fast JSON Schema validator — compile a schema once, validate many payloads; get structured errors.
 
-
-
-
+```txt
+        Ajv (Another JSON  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Ajv (Another JSON validator)** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **compile**, **JSON Schema**, **errors**.
+- **Interview probes:** Interviewers use **Ajv (Another JSON validator)** to check whether you can ex…
 
 ## Sources
 - [Ajv — JSON Schema validator](https://ajv.js.org/) — deep-dive
@@ -52,21 +58,22 @@ npm install ajv
 | `allErrors` | Collect every failure |
 | Formats plugin | `format: email` needs ajv-formats |
 
-## Real-World Applications
-In production APIs and tooling, **Ajv (Another JSON validator)** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Ajv major versions** — options and defaults changed; pin major; **Don’t trust client types alone** — still sanitize for XSS/SQL at use sites.
+## Mistakes to Avoid
+- **Mistake:** **Ajv major versions** — options and defaults changed; pin major
+- **Mistake:** **Don’t trust client types alone**
+- **Mistake:** **format ignored:** check Missing ajv-formats; fix: Add plugin
+- **Mistake:** **Passes junk fields:** check No additionalProperties
+- **Mistake:** **Slow validates:** check Recompiling each request
+- **Mistake:** **Vague 400s:** check Dumping raw errors
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Fast JSON Schema validator — compile a schema once, validate many payloads; get …).
-- **Con / when not:** **TypeScript-first DTOs** — zod/yup may fit better in TS apps.
-- **Con / when not:** **Huge dynamic schemas per request** — compile cost dominates.
+- **Con / when not:** **TypeScript-first DTOs**
+- **Con / when not:** **Huge dynamic schemas per request**
 
 ## Comparison
-vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[open api specification]]: know when each applies — do not treat them as interchangeable. vs [[expressjs]]: know when each applies — do not treat them as interchangeable.
+- vs [[Packages/npm packages]]: know when each applies
 
-## Mistakes to Avoid
-- **Ajv major versions** — options and defaults changed; pin major.
-- **Don’t trust client types alone** — still sanitize for XSS/SQL at use sites.
-- **format ignored:** check Missing ajv-formats; fix: Add plugin
-- **Passes junk fields:** check No additionalProperties; fix: Set `false`
-- **Slow validates:** check Recompiling each request; fix: Compile once at boot
-- **Vague 400s:** check Dumping raw errors; fix: Map `instancePath` for clients
+
+### Use cases
+- In production APIs and tooling, **Ajv (Another JSON validator)** shows up whe…

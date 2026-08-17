@@ -4,27 +4,30 @@
 
 > Text blob that describes a media session — codecs, ports, ICE credentials — swapped as offer/answer before media flows.
 
-
-
-
+```txt
+        SDP (Session Descr ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk SDP end-to-end — not just name it. Signal fluency with **Offer / Answer**, **m= lines**, **a=fingerprint**, **a=ice-ufrag / ice-pwd** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk SDP end-to-end
 
 ## Sources
 - [Wikipedia — SDP](https://en.wikipedia.org/wiki/SDP) — overview
 - [RFC 8866 — SDP](https://datatracker.ietf.org/doc/html/rfc8866) — deep-dive
 
-## Core Definition
-When a WebRTC interviewer says SDP, they mean **Session Description Protocol** on [[WebRTC Signaling channels]] — offer/answer, not Bluetooth `sdptool`.
-
 ## Key Concepts
-- **Offer / Answer:** SDP dance (RFC 3264) — “One side offers capabilities; the other answers a subset.”
-- **m= lines:** Media sections (audio/video/app) — “Each m-line is a media kind we might send.”
+- **Offer / Answer:** SDP dance (RFC 3264)
+- **m= lines:** Media sections (audio/video/app)
 - **a=fingerprint:** DTLS cert hash — “We verify the DTLS peer matches SDP.”
 - **a=ice-ufrag / ice-pwd:** ICE auth for checks — “Connectivity checks prove we own this SDP.”
-- **a=candidate:** One ICE address (or trickle out-of-SDP) — “Trickle sends candidates separately over signaling.”
-- **setLocal / setRemote:** Apply SDP to the PC — “Never set remote before handling the matching signaling message.”
+- **a=candidate:** One ICE address (or trickle out-of-SDP)
+- **setLocal / setRemote:** Apply SDP to the PC
 - **Renegotiation:** New offer mid-call — “Add track / change direction → new offer/answer.”
 - **Acronym people say “SDP”:** Actual meaning — This vault
 - **Session Description Protocol:** WebRTC / SIP session text — **This note**
@@ -49,7 +52,10 @@ When a WebRTC interviewer says SDP, they mean **Session Description Protocol** o
 | How do we authenticate DTLS? | `a=fingerprint`, `a=setup` |
 | DataChannel? | `m=application` + SCTP port / `a=sctp-port` |
 
-Media still needs ICE + DTLS after SDP agrees — SDP alone does not open UDP.
+- **Note:** Media still needs ICE + DTLS after SDP agrees — SDP alone does not open UDP.
+
+
+- **Core:** When a WebRTC interviewer says SDP, they mean **Session Description Protocol*…
 
 ## Technical Details
 ```txt
@@ -95,7 +101,7 @@ POST /whip  Content-Type: application/sdp
 ← 201  body = answer SDP
 ```
 
-Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
+- Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 
 | Knob | Why it matters |
 |------|----------------|
@@ -103,21 +109,6 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 | Trickle ICE | Candidates often **not** all inlined; send via signaling as they appear |
 | Perfect negotiation (polite peer) | Avoid glare when both sides offer |
 | Codec prefs (`setCodecPreferences`) | Force H.264/VP8/AV1 before offer |
-
-## Real-World Applications
-When a WebRTC interviewer says SDP, they mean **Session Description Protocol** on [[WebRTC Signaling channels]] — offer/answer, not Bluetooth `sdptool`.
-
-Used wherever SDP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
-- **Con / skip when:** **Bluetooth profile discovery** — different SDP; use BlueZ/`sdptool`, not WebRTC notes.
-- **Con / skip when:** **Plain file HTTP streaming** — [[How to attach stream to HTTP handlers]]; no session description.
-
-## Comparison
-- vs [[HLS]]: **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
-- vs [[How to attach stream to HTTP handlers]]: **Plain file HTTP streaming** — [[How to attach stream to HTTP handlers]]; no session description.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -130,8 +121,24 @@ Used wherever SDP sits in an ingest → package → CDN → player path. Concret
 | Glare (both offered) | Two offers same time | Polite/impolite peer pattern |
 | Codec mismatch | No common rtpmap | Align codec list; SFU may rewrite SDP |
 
-- **Don’t hand-edit SDP in production** — easy to break ICE ufrag/pwd or fingerprint; use WebRTC APIs / SFU helpers.
-- **Logging full SDP** — leaks ICE passwords and fingerprints; treat as sensitive.
-- **SDP is not the media path** — swapping offer/answer over HTTPS does not mean UDP/TURN works.
-- **Wrong “SDP” in a streaming interview** — Bluetooth Service Discovery is unrelated; pivot to Session Description Protocol + signaling.
-- **Bundle / mid** — modern browsers bundle media on one ICE transport; mismatched mid after renegotiation breaks tracks.
+- **Mistake:** **Don’t hand-edit SDP in production**
+- **Mistake:** **Logging full SDP**
+- **Mistake:** **SDP is not the media path**
+- **Mistake:** **Wrong “SDP” in a streaming interview**
+- **Mistake:** **Bundle / mid**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **CDN OTT manifests**
+- **Con / skip when:** **Bluetooth profile discovery**
+- **Con / skip when:** **Plain file HTTP streaming**
+
+## Comparison
+- vs [[HLS]]: **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
+- vs [[How to attach stream to HTTP handlers]]: **Plain file HTTP streaming**
+
+
+### Use cases
+- When a WebRTC interviewer says SDP, they mean **Session Description Protocol*…
+
+- Used wherever SDP sits in an ingest → package → CDN → player path

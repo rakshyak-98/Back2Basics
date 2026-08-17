@@ -4,12 +4,18 @@
 
 > A thread pool keeps a fixed set of worker threads pulling tasks from a queue — amortizing create/destroy cost and bounding concurrency versus unbounded `pthread_create`.
 
-
-
-
+```txt
+        Thread pool ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Pool sizing: ≈ cores for CPU-bound; more for I/O-bound until [[context switching]]/locks dominate.
+- **Interview probes:** Pool sizing: ≈ cores for CPU-bound
 
 ## Sources
 - *Java Concurrency in Practice* — thread pool sizing — deep-dive
@@ -26,10 +32,12 @@ Pool sizing: ≈ cores for CPU-bound; more for I/O-bound until [[context switchi
 Submit task → queue ([[thread-safe queue]]) → idle worker runs → repeat
 ```
 
-Used in Java `ExecutorService`, Go worker pools, nginx optional thread modules, and many app servers ([[multi-threaded]]).
+- Used in Java `ExecutorService`, Go worker pools, nginx optional thread module…
 
-## Real-World Applications
-Request handlers, background job runners, and offloading blocking work from event loops.
+## Mistakes to Avoid
+- **Mistake:** Unbounded queues that OOM under load
+- **Mistake:** Running tasks that wait on the same pool (pool deadlock)
+- **Mistake:** Sizing only from core count for heavily I/O-bound work without m…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Reuse threads; predictable memory/concurrency.
@@ -40,7 +48,6 @@ Request handlers, background job runners, and offloading blocking work from even
 - vs thread-per-request: bounded vs unbounded concurrency.
 - vs pure event loop: pools help blocking/CPU slices the loop cannot run.
 
-## Mistakes to Avoid
-- Unbounded queues that OOM under load.
-- Running tasks that wait on the same pool (pool deadlock).
-- Sizing only from core count for heavily I/O-bound work without measuring.
+
+### Use cases
+- Request handlers, background job runners, and offloading blocking work from e…

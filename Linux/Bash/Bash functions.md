@@ -4,19 +4,22 @@
 
 > Bash functions are reusable shell blocks in the current session or a sourced file — they share the shell’s environment unless you isolate them.
 
-
-
-
+```txt
+        Bash functions ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows `local`, return codes, sourcing vs executing, and why `export -f` is rare compared to sourcing a library.
+- **Interview probes:** Shows `local`, return codes, sourcing vs executing, and why `export -f` is ra…
 
 ## Sources
 - [Bash Reference — Shell Functions](https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html) — deep-dive
 - [bash(1)](https://man7.org/linux/man-pages/man1/bash.1.html) — overview
-
-## Core Definition
-A function is a named compound command. When defined in the current shell (or via `source`), calling it runs in that shell — so it can change `cwd`, set variables, and define other functions. Running `./script.sh` usually uses a subshell; functions defined there vanish when it exits.
 
 ## Key Concepts
 - **`local`:** Scope variables to the function.
@@ -24,6 +27,9 @@ A function is a named compound command. When defined in the current shell (or vi
 - **Arguments:** `$1`…`$@` inside the function.
 - **Sourcing:** Load a library of functions into the caller.
 - **`export -f`:** Pass function to child bash — uncommon; prefer source.
+
+
+- **Core:** A function is a named compound command. When defined in the current shell (or…
 
 ## Technical Details
 ```bash
@@ -66,8 +72,10 @@ deploy() {
 | `exit` killed parent | Used exit in sourced fn | Prefer `return` |
 | Broken under `sh` | Bash-only syntax | Use bash shebang |
 
-## Real-World Applications
-Shared `log`/`die` helpers in deploy libraries, and wrapping SSH loops without copy-pasting.
+## Mistakes to Avoid
+- **Mistake:** Using `exit` inside sourced helper functions
+- **Mistake:** Forgetting `local` and clobbering globals
+- **Mistake:** Expecting `./lib.sh` to leave functions behind
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Structure scripts; reuse without forking.
@@ -75,9 +83,8 @@ Shared `log`/`die` helpers in deploy libraries, and wrapping SSH loops without c
 - **Trade-off:** Functions in-shell vs external scripts for isolation.
 
 ## Comparison
-vs [[bash sourcing other script]]: how libraries get loaded. vs external commands: functions avoid fork but share state. Related: [[bash script]], [[Bash syntax]].
+- vs [[bash sourcing other script]]: how libraries get loaded
 
-## Mistakes to Avoid
-- Using `exit` inside sourced helper functions.
-- Forgetting `local` and clobbering globals.
-- Expecting `./lib.sh` to leave functions behind.
+
+### Use cases
+- Shared `log`/`die` helpers in deploy libraries, and wrapping SSH loops withou…

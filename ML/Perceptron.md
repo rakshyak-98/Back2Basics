@@ -4,12 +4,17 @@
 
 > A perceptron is a tiny linear classifier — weighted sum + threshold; the building block of neural nets.
 
-
-
-
+```txt
+        Perceptron ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Perceptron to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Perceptron to check whether you can choose models/metr…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -48,10 +53,6 @@ b += lr * (y - ŷ)
 | Feature scale | Dominating dimensions |
 | Bias | Boundary not forced through origin |
 
-## Pros/Cons or Trade-offs
-- **XOR-like problems** — need MLP.
-- **Raw images/text** — use modern architectures.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Single perceptron ≠ deep learning** — no hidden layer → only linear boundaries.
@@ -65,3 +66,7 @@ b += lr * (y - ŷ)
 | Oscillates | lr too high | Lower lr; normalize X |
 | Always one class | class imbalance / bad init | Check labels; class weights |
 | Good train, bad test | tiny data | More data / simpler model |
+
+## Pros/Cons or Trade-offs
+- **XOR-like problems** — need MLP.
+- **Raw images/text** — use modern architectures.

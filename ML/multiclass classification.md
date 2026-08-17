@@ -4,34 +4,39 @@
 
 > Predict one label from **K > 2** classes — reduction strategies, metrics, and production pitfalls.
 
-
-
-
+```txt
+        Multiclass classif ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Multiclass classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Multiclass classification to check whether you can cho…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-Binary classifiers naturally output one score; multiclass extends via:
+- **Note:** Binary classifiers naturally output one score; multiclass extends via:
 
 ```txt
-One-vs-Rest (OvR):     K binary models — "class k vs all others"
-One-vs-One (OvO):      K(K-1)/2 pairwise models — vote or aggregate
-Softmax / multinomial: Single model, K outputs summing to 1 (logistic extension)
+- **Note:** One-vs-Rest (OvR): K binary models — "class k vs all others"
+- **Note:** One-vs-One (OvO): K(K-1)/2 pairwise models — vote or aggregate
+- **Note:** Softmax / multinomial: Single model, K outputs summing to 1 (logistic extensi…
 ```
 
-**Decision boundary view:** OvR creates K half-spaces; softmax learns coupled boundaries (preferred for linear/logistic when classes compete).
+- **Note:** **Decision boundary view:** OvR creates K half-spaces
 
 **Output types:**
 - **Hard label:** argmax of scores
 - **Probabilities:** must sum to 1 — calibrate if used for ranking or thresholds
 - **Top-k:** return k highest classes (search, catalog)
 
-**Imbalance:** macro versus micro versus weighted F1 — pick metric matching business cost (rare class recall versus overall accuracy).
+- **Note:** **Imbalance:** macro versus micro versus weighted F1
 
 ## Technical Details
 ### sklearn strategies
@@ -79,11 +84,6 @@ y_enc = le.fit_transform(y_train)
 # Persist le.classes_ for serving decode
 ```
 
-## Pros/Cons or Trade-offs
-- **Extremely large K (millions of labels)** — extreme classification, embeddings + ANN retrieval ([[ANN]]), not full softmax.
-- **Ordinal classes** (small < medium < large) — treat as [[ordinal classification]], not nominal multiclass.
-- **Need interpretable per-class rules** — shallow [[Decision tree]] or separate binary models per business line.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Hierarchical labels treated flat:** "dog" vs "golden retriever" as sibling classes wastes signal — use taxonomy-aware loss or cascade.
@@ -105,3 +105,8 @@ y_enc = le.fit_transform(y_train)
 | Great val, bad prod slice | Train skew vs prod geography | Stratified split by segment; monitor per-class recall |
 | K increases, latency spikes | OvO explosion | Switch to OvR or native multiclass; model distillation |
 | Label string mismatch at serve | Encoder drift | Version `LabelEncoder` / label map with model artifact |
+
+## Pros/Cons or Trade-offs
+- **Extremely large K (millions of labels)**
+- **Ordinal classes** (small < medium < large)
+- **Need interpretable per-class rules**

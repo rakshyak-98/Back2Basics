@@ -4,27 +4,33 @@
 
 > Full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
-
-
-
+```txt
+        WebSocket ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask WebSocket to see if you know the Upgrade handshake, why proxies/load balancers kill idle connections, and when to choose WS versus HTTP, SSE, or a managed pub/sub.
+- **Interview probes:** Interviewers ask WebSocket to see if you know the Upgrade handshake, why prox…
 
 ## Sources
 - [RFC 6455 — The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455.html) — deep-dive
 - [MDN — Writing WebSocket servers](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers) — overview
 - [Wikipedia — WebSocket](https://en.wikipedia.org/wiki/WebSocket) — overview
 
-## Core Definition
-WebSocket starts as HTTP/1.1 with an Upgrade handshake, then switches to a binary-framed protocol on the same [[TCP]] connection — no repeated HTTP headers per message.
-
 ## Key Concepts
-- **Upgrade handshake:** `Upgrade: websocket` + `Sec-WebSocket-Key` → `101 Switching Protocols` then framed messages.
+- **Upgrade handshake:** `Upgrade: websocket` + `Sec-WebSocket-Key` → `101 Switching Protocols` then f…
 - **Full-duplex:** either side pushes anytime → chat, live dashboards, collaborative editors.
 - **`ws://` / `wss://`:** browser schemes; TLS via `wss://` (often terminated at the edge).
 - **Hop-by-hop `Connection: Upgrade`:** every proxy must forward it — CDNs often strip by default.
 - **Sticky sessions / shared backplane:** in-memory session state needs affinity or pub/sub across pods.
+
+
+- **Core:** WebSocket starts as HTTP/1.1 with an Upgrade handshake, then switches to a bi…
 
 ## Technical Details
 ```
@@ -38,7 +44,8 @@ Client                          Server / Proxy
   │  ◄──── framed messages ────►   │  (TCP stays open)
 ```
 
-Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy environment variables for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
+- Browsers only speak `ws://` / `wss://`.
+- They **cannot** use standard HTTP proxy environment variables for WebSocket
 
 ### Nginx reverse proxy (production baseline)
 
@@ -113,12 +120,14 @@ function connect(url, attempt = 0) {
 }
 ```
 
-HTTP/2 and HTTP/3 do not carry WebSocket the same way — browsers still upgrade over HTTP/1.1 to the edge; ALB/ingress may need dedicated WS listener rules.
+- HTTP/2 and HTTP/3 do not carry WebSocket the same way
 
-## Real-World Applications
-Live dashboards, chat, collaborative editors, and game lobbies use WebSocket for server push without polling.
-
-**Example:** Connections die every ~60s behind nginx — default `proxy_read_timeout` killed idle sockets; raise it and send application pings under the LB idle limit.
+## Mistakes to Avoid
+- **Mistake:** Leaving nginx’s default 60s `proxy_read_timeout`
+- **Mistake:** Round-robin without sticky sessions or a shared backplane when s…
+- **Mistake:** Assuming HTTP GET `/health` proves WS works
+- **Mistake:** Missing reconnect/backoff
+- **Mistake:** Ignoring backpressure
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Low overhead after handshake; true bidirectional push on one connection.
@@ -126,13 +135,12 @@ Live dashboards, chat, collaborative editors, and game lobbies use WebSocket for
 - **Con:** Idle timeouts at every hop (proxy, LB, NAT) — heartbeats are mandatory in production.
 
 ## Comparison
-- vs ordinary HTTP/REST or [[gRPC]]: request/response CRUD is simpler to cache, debug, and load-balance — prefer HTTP unless you need continuous push.
+- vs ordinary HTTP/REST or [[gRPC]]: request/response CRUD is simpler to cache, debug, and load-bal…
 - vs SSE: SSE is server→client over HTTP; WebSocket is full-duplex.
-- vs high-frequency fan-out to millions of clients: dedicated pub/sub ([[MQTT]], SSE, or managed realtime) often scales better operationally.
+- vs high-frequency fan-out to millions of clients: dedicated pub/sub ([[MQTT]], SSE, or managed re…
 
-## Mistakes to Avoid
-- Leaving nginx’s default 60s `proxy_read_timeout` — the #1 production WebSocket killer.
-- Round-robin without sticky sessions or a shared backplane when state lives in one pod’s memory.
-- Assuming HTTP GET `/health` proves WS works — add a lightweight WS ping probe or TCP check on the WS port.
-- Missing reconnect/backoff — clients should resubscribe on `onopen`; servers must tolerate duplicate session IDs.
-- Ignoring backpressure — a slow consumer can buffer unbounded; monitor send queues and disconnect abusive clients.
+
+### Use cases
+- Live dashboards, chat, collaborative editors, and game lobbies use WebSocket …
+
+- **Example:** Connections die every ~60s behind nginx

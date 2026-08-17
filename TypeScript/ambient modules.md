@@ -4,20 +4,23 @@
 
 > `declare module` and `.d.ts` files describe JavaScript libraries TypeScript cannot see types for — they declare shapes; they do not implement runtime code.
 
-
-
-
+```txt
+        ambient modules ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about ambient modules to see if you can shim untyped packages, augment globals safely, and avoid wildcard `declare module '*'` that hides missing dependencies.
+- **Interview probes:** Interviewers ask about ambient modules to see if you can shim untyped package…
 
 ## Sources
 - [TypeScript Handbook — Modules — ambient modules](https://www.typescriptlang.org/docs/handbook/modules.html) — overview
 - [TypeScript Handbook — Declaration Files](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) — deep-dive
 - [TypeScript Handbook — Global .d.ts / modules](https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html) — deep-dive
-
-## Core Definition
-An ambient module is a type-only declaration (`declare module 'pkg'`, package `.d.ts`, or `declare global`) that tells the checker the shape of a value that already exists at runtime from JavaScript or the environment.
 
 ## Key Concepts
 - **`declare module 'x'`:** types for an untyped package import.
@@ -25,6 +28,9 @@ An ambient module is a type-only declaration (`declare module 'pkg'`, package `.
 - **`export {}`:** force a file to be a module so augmentations apply correctly.
 - **`typeRoots` / `types`:** where ambient packs load from ([[tsconfig]]).
 - **Package `types` field:** official entry for shipped declarations.
+
+
+- **Core:** An ambient module is a type-only declaration (`declare module 'pkg'`, package…
 
 ## Technical Details
 ```txt
@@ -64,10 +70,11 @@ export {}
 | Duplicate identifier | Double globals | Narrow scope; use modules |
 | Wrong shapes | Stale shim | Sync with runtime behavior |
 
-## Real-World Applications
-Legacy npm packages without types get a small `shim.d.ts`; browser apps augment `Window` for injected configuration.
-
-**Example:** `TS2307` on `import 'legacy-sdk'` — add `@types/legacy-sdk` or a local `declare module 'legacy-sdk'`, and keep the shim inside `include`.
+## Mistakes to Avoid
+- **Mistake:** Thinking ambient equals implementing
+- **Mistake:** `declare module '*'` wildcards that silence missing packages
+- **Mistake:** Overriding a package that already ships accurate types
+- **Mistake:** Using ambient declarations as a substitute for runtime validation
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Unlocks typed imports for JS libraries without rewriting them.
@@ -76,11 +83,11 @@ Legacy npm packages without types get a small `shim.d.ts`; browser apps augment 
 
 ## Comparison
 - vs normal TypeScript exports: your own TS code should use real exports, not ambient stubs.
-- vs [[Triple-Slash Directives]]: prefer `tsconfig` `types`/`include` over scattering `/// <reference />`.
-- vs [[typescript extend types]] module augmentation: augmentation patches existing modules; ambient modules introduce types for modules that had none.
+- vs [[Triple-Slash Directives]]: prefer `tsconfig` `types`/`include` over scattering `/// <referen…
+- vs [[typescript extend types]] module augmentation: augmentation patches existing modules
 
-## Mistakes to Avoid
-- Thinking ambient equals implementing — runtime must still provide the value.
-- `declare module '*'` wildcards that silence missing packages.
-- Overriding a package that already ships accurate types.
-- Using ambient declarations as a substitute for runtime validation.
+
+### Use cases
+- Legacy npm packages without types get a small `shim.d.ts`
+
+- **Example:** `TS2307` on `import 'legacy-sdk'`

@@ -4,12 +4,18 @@
 
 > JVM/JS/Native language with null-safe types — `val`/`var`, smart casts, data classes, and concise functions that interop with Java.
 
-
-
-
+```txt
+        Kotlin syntax ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe null safety (`?.`, `?:`, `!!`), `val` vs `var`, data classes, coroutines at a high level, and Java interop gotchas.
+- **Interview probes:** Interviewers probe null safety (`?.`, `?:`, `!!`), `val` vs `var`, data class…
 
 ## Sources
 - [Kotlin — Basic syntax](https://kotlinlang.org/docs/basic-syntax.html) — overview
@@ -42,10 +48,10 @@ if (x is String) println(x.length) // smart cast
 | getters/setters | properties |
 | POJO | `data class` |
 
-## Real-World Applications
-Android and backend JVM services: fewer NPEs, clearer models with `data class`, gradual Java migration.
-
-**Example:** Replace `if (x != null) x.foo()` chains with `x?.foo()` and Elvis defaults.
+## Mistakes to Avoid
+- **Mistake:** Sprinkling `!!` to silence the compiler
+- **Mistake:** Mutating `val` list contents and calling it “immutable” (referen…
+- **Mistake:** Ignoring Java nullable annotations when crossing APIs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Null safety and concision cut boilerplate.
@@ -55,7 +61,8 @@ Android and backend JVM services: fewer NPEs, clearer models with `data class`, 
 - vs Java: same ecosystem, stronger null model and less ceremony.
 - vs [[dart]]: similar modern-null ideas; different runtimes (JVM vs Flutter/Dart VM).
 
-## Mistakes to Avoid
-- Sprinkling `!!` to silence the compiler.
-- Mutating `val` list contents and calling it “immutable” (reference vs deep immutability).
-- Ignoring Java nullable annotations when crossing APIs.
+
+### Use cases
+- Android and backend JVM services: fewer NPEs, clearer models with `data class…
+
+- **Example:** Replace `if (x != null) x.foo()` chains with `x?.foo()` and Elvi…

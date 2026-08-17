@@ -4,19 +4,22 @@
 
 > HTTP over TLS — encrypts and authenticates web traffic; browsers require valid PKI chain for padlock, APIs should pin or trust store consciously.
 
-
-
-
+```txt
+        HTTPS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Baseline: HTTPS = HTTP over TLS — redirect, HSTS, and certificate trust are the operational checklist.
+- **Interview probes:** Baseline: HTTPS = HTTP over TLS
 
 ## Sources
 - [MDN — HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) — overview
 - [RFC 9110 — HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110) — deep-dive
-
-## Core Definition
-HTTPS is HTTP carried over TLS so browsers and APIs get confidentiality, integrity, and (usually) server authentication via PKI.
 
 ## Key Concepts
 ```txt
@@ -25,17 +28,20 @@ Client                          Server
   │── TLS ClientHello ───────────►│
   │◄─ cert chain + key exchange ──│
   │── Finished (encrypted) ──────►│
-  │◄─ HTTP request/response ─────►│  (confidential + integrity)
+- **Note:** │◄─ HTTP request/response ─────►│ (confidential + integrity)
 ```
 
 HTTPS provides:
-- **Confidentiality** — eavesdropper can't read body/headers (mostly)
-- **Integrity** — tampering detected
-- **Authentication** — server cert proves name (if PKI trusted)
+- **Confidentiality:** — eavesdropper can't read body/headers (mostly)
+- **Integrity:** — tampering detected
+- **Authentication:** — server cert proves name (if PKI trusted)
 
-Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
+- **Note:** Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
 
-HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
+- **Note:** HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer
+
+
+- **Core:** HTTPS is HTTP carried over TLS so browsers and APIs get confidentiality, inte…
 
 ## Technical Details
 ### Nginx TLS baseline
@@ -74,7 +80,7 @@ server {
 }
 ```
 
-**Why fullchain.pem:** serve leaf + intermediates — clients without AIA fetch may fail on missing intermediate.
+- **Why fullchain.pem:** serve leaf + intermediates
 
 ### Failure signals
 
@@ -86,19 +92,20 @@ server {
 | TLS handshake timeout | Firewall 443; SNI missing | Open port; correct vhost cert |
 | HTTP/2 errors behind old proxy | ALPN not forwarded | Enable HTTP/2 on edge; proxy_protocol |
 
-## Real-World Applications
-Every public web app terminates HTTPS at the edge, redirects HTTP, and serves HSTS once TLS is stable.
+## Mistakes to Avoid
+- **Mistake:** TLS terminates at LB
+- **Mistake:** `ssl_certificate` without full chain
+- **Mistake:** HSTS before HTTPS stable — locks users out if cert breaks
+- **Mistake:** Binary bodies fine on HTTP/1.1
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Confidentiality and server auth for web traffic users expect by default.
 - **Con:** Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
 
 ## Comparison
-- vs [[TLS (Transport Layer Security)]]: HTTPS is HTTP-over-TLS; TLS can protect other protocols too.
+- vs [[TLS (Transport Layer Security)]]: HTTPS is HTTP-over-TLS
 - vs [[HTTP Strict Transport Security]]: HSTS forces browsers to stick to HTTPS after first visit.
 
-## Mistakes to Avoid
-- TLS terminates at LB — backend HTTP is plaintext on network — use mTLS or private network.
-- `ssl_certificate` without full chain — Android/old clients fail intermittently.
-- HSTS before HTTPS stable — locks users out if cert breaks.
-- Binary bodies fine on HTTP/1.1 — `Content-Type: application/octet-stream` over TLS is normal.
+
+### Use cases
+- Every public web app terminates HTTPS at the edge, redirects HTTP, and serves…

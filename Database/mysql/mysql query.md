@@ -4,12 +4,18 @@
 
 > Running [[SQL]] on MySQL — read `EXPLAIN` plans, bind parameters, and shape predicates so the optimizer can use indexes instead of full scans.
 
-
-
-
+```txt
+        mysql query ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Almost every backend interview: interpret `EXPLAIN`, avoid functions on indexed columns, and never concatenate user input into SQL.
+- **Interview probes:** Almost every backend interview: interpret `EXPLAIN`, avoid functions on index…
 
 ## Sources
 - [EXPLAIN Output](https://dev.mysql.com/doc/refman/en/explain-output.html) — deep-dive
@@ -30,13 +36,16 @@ SET @email = 'a@b.com';
 EXECUTE stmt USING @email;
 ```
 
-Hot-path checklist:
+- Hot-path checklist:
+
 - Filter columns indexed and selective
 - Avoid `WHERE YEAR(created_at)=2024` on an indexed timestamp — use a range
 - Prefer driver bind APIs over string building
 
-## Real-World Applications
-Latency regressions traced with [[show query]] + `EXPLAIN ANALYZE`, then fixed by composite indexes matching the `WHERE`/`ORDER BY` shape.
+## Mistakes to Avoid
+- **Mistake:** SQL injection via string concatenation
+- **Mistake:** Selecting `*` on wide rows when a covering index would suffice
+- **Mistake:** Shipping queries never inspected under production-like data volu…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Declarative SQL lets the optimizer adapt as statistics change.
@@ -44,9 +53,8 @@ Latency regressions traced with [[show query]] + `EXPLAIN ANALYZE`, then fixed b
 - **Trade-off:** Hinting / forcing indexes vs fixing schema and statistics.
 
 ## Comparison
-vs ORM-generated SQL: ORMs are fine until N+1 or non-sargable predicates appear — know how to drop to SQL.
+- vs ORM-generated SQL: ORMs are fine until N+1 or non-sargable predicates appe…
 
-## Mistakes to Avoid
-- SQL injection via string concatenation.
-- Selecting `*` on wide rows when a covering index would suffice.
-- Shipping queries never inspected under production-like data volumes.
+
+### Use cases
+- Latency regressions traced with [[show query]] + `EXPLAIN ANALYZE`, then fixe…

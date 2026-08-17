@@ -4,12 +4,18 @@
 
 > Server generates barcode images (e.g. with `bwip-js`) and serves them over HTTP so clients display scannable codes without local encoder libraries.
 
-
-
-
+```txt
+        Bar code generate  ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask input validation (symbology + payload), caching, and why generation often lives on the server for consistency.
+- **Interview probes:** Interviewers ask input validation (symbology + payload), caching, and why gen…
 
 ## Sources
 - [bwip-js documentation](https://github.com/metafloor/bwip-js) — deep-dive
@@ -39,12 +45,12 @@ app.get("/barcodes", async (req, res) => {
 });
 ```
 
-Reject unknown `bcid` and oversized `text` to avoid CPU abuse.
+- Reject unknown `bcid` and oversized `text` to avoid CPU abuse.
 
-## Real-World Applications
-Warehouse labels, ticket QR codes, and receipt footnotes generated at print time.
-
-**Example:** Mobile app shows a membership QR — server signs/encodes so clients cannot mint arbitrary valid codes without auth.
+## Mistakes to Avoid
+- **Mistake:** Trusting raw query text without length limits
+- **Mistake:** Generating on every request with no cache for hot codes
+- **Mistake:** Using the wrong symbology for the scanner fleet
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One encoder version for all clients.
@@ -54,7 +60,8 @@ Warehouse labels, ticket QR codes, and receipt footnotes generated at print time
 - vs client-side generation: offline capable but inconsistent libraries.
 - vs pre-rendered assets: static files win for fixed catalogs; dynamic wins for user-specific codes.
 
-## Mistakes to Avoid
-- Trusting raw query text without length limits.
-- Generating on every request with no cache for hot codes.
-- Using the wrong symbology for the scanner fleet.
+
+### Use cases
+- Warehouse labels, ticket QR codes, and receipt footnotes generated at print t…
+
+- **Example:** Mobile app shows a membership QR

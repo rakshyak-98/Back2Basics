@@ -4,26 +4,33 @@
 
 > Node.js Clustering — node cluster uses cluster module (or PM2) to fork multiple Node processes bound to the same port via SO_REUSEPORT / master handoff. Each
 
-
-
-
+```txt
+        Node.js Clustering ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Node.js Clustering** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Node.js Clustering** to see if you understand what it do…
 
 ## Sources
 - [Node.js — Cluster](https://nodejs.org/api/cluster.html) — deep-dive
 - [Wikipedia — clustering](https://en.wikipedia.org/wiki/clustering) — overview
 
-## Core Definition
-Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes** bound to the same port via SO_REUSEPORT / master handoff. Each worker is a full V8 isolate — no shared memory between workers.
-
 ## Key Concepts
-- Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes** bound to the same port via SO_REUSEPORT / master handoff. Each worker is a full V8 isolate — no s…
-- Fixes **CPU-bound** and **event-loop saturation** on multi-core machines. Does **not** help a single slow request unless you also optimize that handler.
+- **Node cluster:** Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes…
+- **Fixes:** CPU-bound**:** Fixes **CPU-bound** and **event-loop saturation** on multi-cor…
+
+
+- **Core:** Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes…
 
 ## Technical Details
-Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes** bound to the same port via SO_REUSEPORT / master handoff. Each worker is a full V8 isolate — no shared memory between workers.
+- Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes…
+- Each worker is a full V8 isolate — no shared memory between workers.
 
 ```
                     ┌─ worker 1 (event loop)
@@ -33,7 +40,8 @@ Master (primary) ───┼─ worker 2 (event loop)
               OS load-balances incoming connections
 ```
 
-Fixes **CPU-bound** and **event-loop saturation** on multi-core machines. Does **not** help a single slow request unless you also optimize that handler.
+- Fixes **CPU-bound** and **event-loop saturation** on multi-core machines.
+- Does **not** help a single slow request unless you also optimize that handler.
 
 ### Minimal cluster module
 
@@ -82,7 +90,7 @@ module.exports = {
 
 ### Sticky sessions (WebSocket / session in memory)
 
-Default round-robin breaks in-memory session affinity. Options:
+- Default round-robin breaks in-memory session affinity.
 
 - Store session in Redis/DB (preferred)
 - `sticky-session` with `@socket.io/sticky` or nginx `ip_hash`
@@ -97,27 +105,28 @@ process.on('SIGTERM', () => {
 });
 ```
 
-Coordinate with K8s `terminationGracePeriodSeconds` and load balancer drain.
+- Coordinate with K8s `terminationGracePeriodSeconds` and load balancer drain.
 
-## Real-World Applications
-In production APIs and tooling, **clustering** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **In-memory caches are per-worker** — cache hit rate divided by N; use Redis/Memcached; **Cluster ≠ threads** — for shared-memory CPU work see [[worker threads]]; cluster is multi-process.
+## Mistakes to Avoid
+- **Mistake:** **In-memory caches are per-worker**
+- **Mistake:** **Cluster ≠ threads**
+- **Mistake:** **File descriptor limits**
+- **Mistake:** **OpenTelemetry/tracing**
+- **Mistake:** **Only one core busy:** check `htop`
+- **Mistake:** **WebSocket drops on reconnect:** check Different worker each ti…
+- **Mistake:** **Memory × N workers:** check Each fork duplicates heap baseline
+- **Mistake:** **Port EADDRINUSE on fork:** check Master still holding port inc…
+- **Mistake:** **Worker death loop:** check Logs on exit code
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Node.js Clustering — node cluster uses cluster module (or PM2) to fork multiple …).
-- **Con / when not:** **I/O-bound API with low CPU** — single process + async I/O may suffice; measure first.
-- **Con / when not:** **Serverless / Lambda** — platform scales instances; cluster inside one invocation is wrong model.
-- **Con / when not:** **Heavy shared state** — redesign for external store before forking.
+- **Con / when not:** **I/O-bound API with low CPU**
+- **Con / when not:** **Serverless / Lambda**
+- **Con / when not:** **Heavy shared state**
 
 ## Comparison
-vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[worker threads]]: Workers share process/memory options inside one OS process; cluster forks processes for multi-core HTTP. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
+- vs [[Event Loop]]: know when each applies
 
-## Mistakes to Avoid
-- **In-memory caches are per-worker** — cache hit rate divided by N; use Redis/Memcached.
-- **Cluster ≠ threads** — for shared-memory CPU work see [[worker threads]]; cluster is multi-process.
-- **File descriptor limits** — N workers × connections each; raise `ulimit -n`.
-- **OpenTelemetry/tracing** — propagate trace context; per-process exporters need batching.
-- **Only one core busy:** check `htop` — single node PID hot; fix: Not clustered; use PM2 `-i max`
-- **WebSocket drops on reconnect:** check Different worker each time; fix: Sticky sessions or shared pub/sub (Redis adapter)
-- **Memory × N workers:** check Each fork duplicates heap baseline; fix: Right-size worker count; not always `max` on memory-heavy apps
-- **Port EADDRINUSE on fork:** check Master still holding port incorrectly; fix: Upgrade Node; check custom server.listen logic
-- **Worker death loop:** check Logs on exit code; fix: Fix crash; add refork backoff to avoid fork bomb
+
+### Use cases
+- In production APIs and tooling, **clustering** shows up whenever teams ship N…

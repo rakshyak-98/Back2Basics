@@ -4,12 +4,17 @@
 
 > MongoDB users and roles live in databases — grant least privilege, usually via `admin`.
 
-
-
-
+```txt
+        mongosh user manag ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-User management checks roles, auth databases, and least-privilege for app vs admin users.
+- **Interview probes:** User management checks roles, auth databases, and least-privilege for app vs …
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -17,7 +22,7 @@ User management checks roles, auth databases, and least-privilege for app vs adm
 
 ## Key Concepts
 ```txt
-admin.createUser → roles[{ role, db }] → clients auth with authSource
+- **Note:** admin.createUser → roles[{ role, db }] → clients auth with authSource
 ```
 
 ### Interview map (words you can say)
@@ -48,10 +53,6 @@ db.dropUser('app')
 | Custom roles | Lock down collections |
 | X.509 / LDAP | Enterprise auth stories |
 
-## Pros/Cons or Trade-offs
-- **Local disposable docker** — root is fine for throwaway demos.
-- **Managed Atlas** — prefer UI/API database users.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Users in app DB vs admin** — URI `authSource` must match where the user was created.
@@ -65,3 +66,7 @@ db.dropUser('app')
 | Auth failed | authSource mismatch | Point URI at user DB |
 | Can’t create user | not admin | Use root/userAdmin |
 | Too much privilege | `root` in apps | Replace with readWrite |
+
+## Pros/Cons or Trade-offs
+- **Local disposable docker** — root is fine for throwaway demos.
+- **Managed Atlas** — prefer UI/API database users.

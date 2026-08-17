@@ -4,12 +4,18 @@
 
 > A thread-safe queue lets multiple producers and consumers enqueue/dequeue without corrupting structure — via locks, condition variables, or lock-free rings.
 
-
-
-
+```txt
+        Thread-safe queue ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-MPMC vs SPSC, blocking vs drop-on-full, and which structure backs a [[thread pool]].
+- **Interview probes:** MPMC vs SPSC, blocking vs drop-on-full, and which structure backs a [[thread …
 
 ## Sources
 - Herlihy & Shavit — concurrent queues — deep-dive
@@ -28,10 +34,12 @@ MPMC vs SPSC, blocking vs drop-on-full, and which structure backs a [[thread poo
 | [[atomic ring buffer]] | Fast SPSC; MPMC needs care |
 | `ConcurrentLinkedQueue` | GC language runtime managed |
 
-Backs [[thread pool]] task dispatch in [[multi-threaded]] systems; often guarded with [[mutexes]] when not lock-free.
+- Backs [[thread pool]] task dispatch in [[multi-threaded]] systems
 
-## Real-World Applications
-Executor frameworks, log shippers, and stage pipelines in stream processors.
+## Mistakes to Avoid
+- **Mistake:** Unbounded queues as load shedding “solutions.”
+- **Mistake:** Using an SPSC ring with multiple producers
+- **Mistake:** Forgetting memory visibility (locks/atomics/barriers) when rolli…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Decouples producers/consumers safely.
@@ -39,10 +47,9 @@ Executor frameworks, log shippers, and stage pipelines in stream processors.
 - **Trade-off:** lock simplicity vs lock-free complexity.
 
 ## Comparison
-- vs [[atomic ring buffer]]: ring is a common bounded implementation; “thread-safe queue” is the ADT.
+- vs [[atomic ring buffer]]: ring is a common bounded implementation
 - vs channels: language channels are queues with waiting built in.
 
-## Mistakes to Avoid
-- Unbounded queues as load shedding “solutions.”
-- Using an SPSC ring with multiple producers.
-- Forgetting memory visibility (locks/atomics/barriers) when rolling your own.
+
+### Use cases
+- Executor frameworks, log shippers, and stage pipelines in stream processors.

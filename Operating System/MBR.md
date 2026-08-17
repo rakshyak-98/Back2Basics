@@ -4,12 +4,18 @@
 
 > The Master Boot Record is the first 512-byte sector of a legacy BIOS-boot disk — partition table plus a tiny boot stub that chain-loads the real bootloader.
 
-
-
-
+```txt
+        MBR ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Storage/boot questions: MBR layout, four primary partitions, 2 TiB limit motivation for GPT, and how UEFI replaced BIOS+MBR.
+- **Interview probes:** Storage/boot questions: MBR layout, four primary partitions, 2 TiB limit moti…
 
 ## Sources
 - [Wikipedia — Master boot record](https://en.wikipedia.org/wiki/Master_boot_record) — overview
@@ -28,10 +34,13 @@ Byte 446–510: 4 × 16-byte partition entries
 Byte 510–511: 0xAA55 signature
 ```
 
-Boot repair on MBR disks: reinstall stage1/stage2 to the boot sector or embed GRUB in the gap after MBR. CSM legacy mode and old images still use MBR.
+- Boot repair on MBR disks: reinstall stage1/stage2 to the boot sector or embed…
+- CSM legacy mode and old images still use MBR.
 
-## Real-World Applications
-Cloud images and VMs may still ship MBR for BIOS compatibility. Dual-boot repair tools rewrite the MBR boot code without touching partition entries carefully.
+## Mistakes to Avoid
+- **Mistake:** Overwriting the MBR when you meant to rewrite only GRUB’s embedd…
+- **Mistake:** Assuming MBR is required on modern UEFI-only systems
+- **Mistake:** Ignoring protective MBR on GPT disks (first sector still looks “…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal on old BIOS firmware; simple layout.
@@ -42,7 +51,6 @@ Cloud images and VMs may still ship MBR for BIOS compatibility. Dual-boot repair
 - Alias note: [[MBR(Master Boot Record)]].
 - vs [[Boot/UEFI]]: UEFI uses ESP + GPT; MBR is the BIOS-era first sector.
 
-## Mistakes to Avoid
-- Overwriting the MBR when you meant to rewrite only GRUB’s embedded area — can wipe the partition table.
-- Assuming MBR is required on modern UEFI-only systems.
-- Ignoring protective MBR on GPT disks (first sector still looks “MBR-like”).
+
+### Use cases
+- Cloud images and VMs may still ship MBR for BIOS compatibility

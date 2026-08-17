@@ -4,19 +4,22 @@
 
 > APT (Advanced Package Tool) is Debian and Ubuntu's high-level package manager — it resolves dependencies from configured repositories and tracks installed `.deb` state.
 
-
-
-
+```txt
+        apt package manage ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Core Linux ops signal: can you update indexes, install/hold packages, recover from broken `dpkg`, and explain APT vs `dpkg` without guessing flags.
+- **Interview probes:** Core Linux ops signal: can you update indexes, install/hold packages, recover…
 
 ## Sources
 - [apt(8) man page](https://manpages.debian.org/apt) — deep-dive
 - [Debian APT User's Guide](https://www.debian.org/doc/manuals/apt-guide/) — overview
-
-## Core Definition
-APT wraps `dpkg`: `apt update` refreshes indexes; `apt install` fetches and configures packages; `apt upgrade` / `full-upgrade` apply newer versions while honoring dependencies and holds.
 
 ## Key Concepts
 - **Index vs package:** Update refreshes metadata; install downloads and configures.
@@ -24,6 +27,9 @@ APT wraps `dpkg`: `apt update` refreshes indexes; `apt install` fetches and conf
 - **remove vs purge:** Remove drops binaries; purge also drops configuration files.
 - **autoremove / clean:** Drop unused deps and cached `.deb` files.
 - **Lock files:** Only one APT/dpkg transaction at a time (`/var/lib/dpkg/lock*`).
+
+
+- **Core:** APT wraps `dpkg`: `apt update` refreshes indexes
 
 ## Technical Details
 ```bash
@@ -50,17 +56,18 @@ sudo apt clean
 | Broken dependencies | `sudo apt -f install` |
 | Lock held | `sudo lsof /var/lib/dpkg/lock-frontend` |
 
-## Real-World Applications
-Patching a fleet: `apt update && apt upgrade` in maintenance windows, with critical packages held so an automated upgrade cannot bump a pinned library mid-release.
+## Mistakes to Avoid
+- **Mistake:** Running `apt upgrade` without `apt update` on stale indexes
+- **Mistake:** Using `apt remove` when you needed `purge` to clear broken confi…
+- **Mistake:** Force-overwriting locks or killing `dpkg` mid-configure instead …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Dependency resolution and repository metadata beat hand-installing `.deb` files.
 - **Con:** Distro versions lag upstream; mixing third-party repos without pins causes “dependency hell.”
 
 ## Comparison
-vs `dpkg`: APT resolves and fetches; `dpkg -i` installs a local file without repo solving. vs yum/dnf/apk: same job on other families — different metadata and command names. See [[management/Package Manager]].
+- vs `dpkg`: APT resolves and fetches; `dpkg -i` installs a local file without …
 
-## Mistakes to Avoid
-- Running `apt upgrade` without `apt update` on stale indexes.
-- Using `apt remove` when you needed `purge` to clear broken config under `/etc`.
-- Force-overwriting locks or killing `dpkg` mid-configure instead of `dpkg --configure -a`.
+
+### Use cases
+- Patching a fleet: `apt update && apt upgrade` in maintenance windows, with cr…

@@ -4,12 +4,18 @@
 
 > Cilium is an eBPF-powered CNI — pod networking, optional kube-proxy replacement, NetworkPolicy (including L7), and Hubble flow observability.
 
-
-
-
+```txt
+        Cilium ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask why eBPF beats iptables at scale, how identity is label-based, and how you debug DROPPED verdicts with Hubble.
+- **Interview probes:** Interviewers ask why eBPF beats iptables at scale, how identity is label-base…
 
 ## Sources
 - [Cilium documentation](https://docs.cilium.io/) — deep-dive
@@ -17,9 +23,9 @@ Interviewers ask why eBPF beats iptables at scale, how identity is label-based, 
 - Brendan Burns et al., *Kubernetes: Up and Running* — overview
 
 ## Key Concepts
-- **eBPF dataplane:** filter/NAT/route in-kernel without iptables chain explosion at large Service counts.
+- **eBPF dataplane:** filter/NAT/route in-kernel without iptables chain explosion at large Service …
 - **Identity = labels:** policies survive Pod IP changes.
-- **Components:** cilium-agent (per node), cilium-operator, Hubble relay/UI, optional Envoy for L7.
+- **Components:** cilium-agent (per node), cilium-operator, Hubble relay/UI, optional Envoy for…
 - **kube-proxy replacement:** BPF service LB maps — do not run both modes blindly.
 
 ## Technical Details
@@ -61,9 +67,9 @@ spec:
           port: 8080
 ```
 
-CiliumNetworkPolicy adds DNS-aware/L7 HTTP rules when standard NetworkPolicy is insufficient.
+- CiliumNetworkPolicy adds DNS-aware/L7 HTTP rules when standard NetworkPolicy …
 
-Debug flow:
+- Debug flow:
 
 ```bash
 kubectl -n kube-system exec ds/cilium -- cilium endpoint list | grep <pod-ip>
@@ -82,10 +88,12 @@ kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 | Cross-node pod fail | VXLAN/GENEVE vs routing | Fix underlay MTU / L2 adjacency |
 | High CPU on cilium-agent | Map pressure, policy count | Split policies; reduce L7 scope |
 
-## Real-World Applications
-Zero-trust namespace policies, replacing kube-proxy at scale, and incident “who dropped my packet?” with Hubble.
-
-**Example:** Frontend→API suddenly fails; Hubble shows DROPPED on a new deny-all NetworkPolicy missing an allow from `app=frontend`.
+## Mistakes to Avoid
+- **Mistake:** First deny-all NetworkPolicy without allows
+- **Mistake:** Running kube-proxy and Cilium BPF LB together incorrectly
+- **Mistake:** Host firewall blocking Geneve/VXLAN between nodes
+- **Mistake:** Label typos that Hubble shows as DROPPED with empty peers
+- **Mistake:** Rolling strict mode cluster-wide instead of namespace by namespa…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Unified networking, policy, and observability with strong scale characteristics.
@@ -97,9 +105,8 @@ Zero-trust namespace policies, replacing kube-proxy at scale, and incident “wh
 - vs [[ingress]]: Cilium can also do Ingress; classic ingress-nginx still common at the edge.
 - Complements mTLS/authZ — does not replace them.
 
-## Mistakes to Avoid
-- First deny-all NetworkPolicy without allows — instant outage (default is allow-all without NP).
-- Running kube-proxy and Cilium BPF LB together incorrectly.
-- Host firewall blocking Geneve/VXLAN between nodes.
-- Label typos that Hubble shows as DROPPED with empty peers.
-- Rolling strict mode cluster-wide instead of namespace by namespace.
+
+### Use cases
+- Zero-trust namespace policies, replacing kube-proxy at scale, and incident “w…
+
+- **Example:** Frontend→API suddenly fails

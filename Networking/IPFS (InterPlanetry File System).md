@@ -4,30 +4,26 @@
 
 > IPFS finds files by content hash (CID), not by server URL — peers share blocks like a P2P CDN.
 
-
-
-
+```txt
+        IPFS (InterPlaneta ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast **content addressing** (CID) with location addressing (URL/host), and probe pinning, DHT lookup, and why “upload to IPFS” is not durable storage by itself.
+- **Interview probes:** Interviewers contrast **content addressing** (CID) with location addressing (…
 
 ## Sources
 - [IPFS Docs — Concepts](https://docs.ipfs.tech/concepts/) — deep-dive
 - [IPFS Docs — Content Identifiers (CID)](https://docs.ipfs.tech/concepts/content-addressing/) — deep-dive
 - [Wikipedia — InterPlanetary File System](https://en.wikipedia.org/wiki/InterPlanetary_File_System) — overview
 
-## Core Definition
-IPFS (InterPlanetary File System) is a peer-to-peer content-addressed storage and retrieval network: data is split into hashed blocks, named by a root CID, and fetched from peers that advertise those blocks.
-
-## Recall Cues
-- Why do interviewers care about Interviewers contrast **content addressing** (CID) with location addressing (URL/host), and probe pinning, DHT lookup, and why “upload to IPFS” is not durable storage by itself?
-- What happens in the **Split** step?
-- What happens in the **Name** step?
-- What happens in the **Find** step?
-- What happens in the **Get** step?
-- What mistake is **Assuming upload equals durable storage — without a pin (yours or a service), content can disappear**?
-- What mistake is **Treating CID as secrecy — anyone with the CID can fetch public data**?
-- What mistake is **Trusting HTTP gateways blindly — they can lie or go down; verify CID when it matters**?
+## Key Concepts
+- **Core:** IPFS (InterPlanetary File System) is a peer-to-peer content-addressed storage…
 
 ## Technical Details
 ```txt
@@ -37,7 +33,7 @@ File → chunk → hash each block → root CID
                 └─ retrieve by CID (DHT + peers)
 ```
 
-How a fetch works:
+- How a fetch works:
 
 1. **Split** — file becomes blocks; each gets a hash.
 2. **Name** — root CID identifies the whole DAG.
@@ -77,23 +73,24 @@ curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
 | Can’t reach private data | Published on public network | Encrypt payload; or private IPFS / permissioned store |
 
 ## Mistakes to Avoid
-- Assuming upload equals durable storage — without a pin (yours or a service), content can disappear.
-- Treating CID as secrecy — anyone with the CID can fetch public data.
-- Trusting HTTP gateways blindly — they can lie or go down; verify CID when it matters.
-- Using raw CIDs for “latest” mutable APIs — prefer controlled object storage, or IPNS with eyes open.
-- Expecting easy delete-on-request compliance once data is widely replicated.
-
-## Comparison
-- vs HTTP URL / S3: location addressing (host + path); IPFS addresses content (CID).
-- vs [[P2P (Peer-to-Peer)]] CDNs: IPFS is content-addressed block sharing; BitTorrent-style swarms share similar ideas with different tooling.
-- vs IPNS: CIDs are immutable; IPNS adds mutable pointers carefully on top.
-
-## Real-World Applications
-Decentralized websites, NFT metadata, and mirror archives publish immutable blobs by CID and serve them via gateways or local nodes.
-
-**Example:** A team uploads a whitepaper once, pins it on a pinning service, and shares the CID — readers fetch the same bytes from any provider without depending on one origin server.
+- **Mistake:** Assuming upload equals durable storage
+- **Mistake:** Treating CID as secrecy
+- **Mistake:** Trusting HTTP gateways blindly
+- **Mistake:** Using raw CIDs for “latest” mutable APIs
+- **Mistake:** Expecting easy delete-on-request compliance once data is widely …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Integrity by construction — hash mismatch means wrong or corrupted data.
 - **Con:** Availability needs pins — upload alone is not forever.
 - **Con:** DHT lookup and peer fetch can be slow vs object storage + CDN.
+
+## Comparison
+- vs HTTP URL / S3: location addressing (host + path); IPFS addresses content (CID).
+- vs [[P2P (Peer-to-Peer)]] CDNs: IPFS is content-addressed block sharing
+- vs IPNS: CIDs are immutable; IPNS adds mutable pointers carefully on top.
+
+
+### Use cases
+- Decentralized websites, NFT metadata, and mirror archives publish immutable b…
+
+- **Example:** A team uploads a whitepaper once, pins it on a pinning service, …

@@ -4,18 +4,23 @@
 
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
-
-
-
+```txt
+        `new` operator ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-new-operator questions check instance creation steps and what happens without new in non-strict mode.
+- **Interview probes:** new-operator questions check instance creation steps and what happens without…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-`new Constructor(args)` is syntactic sugar for a fixed sequence — no magic keyword beyond this algorithm:
+- **Note:** `new Constructor(args)` is syntactic sugar for a fixed sequence
 
 ```
 1. Let obj = OrdinaryObjectCreate(Constructor.prototype)
@@ -32,7 +37,7 @@ new User('Ada')
    └─ return obj (unless User returns different object)
 ```
 
-Works on **any** function with a `prototype` object — convention marks "constructors" by naming (`PascalCase`).
+- **Note:** Works on **any** function with a `prototype` object
 
 ## Technical Details
 ### Manual equivalent (understanding only)
@@ -73,17 +78,13 @@ class Service {
 // Service() without new → TypeError in class fields mode
 ```
 
-## Pros/Cons or Trade-offs
-- Object literals for simple data: `{ id: 1 }` not `new Object()`.
-- Factory functions when callers forget `new` often — export plain function returning object.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > `new String(1)` creates object wrapper; `String(1)` returns primitive — subtle `typeof` bugs.
 
-- **`new Array(3)`** creates sparse array with length 3, not `[3]`.
-- **Optional `new` on builtins:** `Symbol()` must not use `new`; `BigInt()` same.
-- **Minifiers** may break `new.target` checks if constructor inlined incorrectly — rare.
+- **Mistake:** **`new Array(3)`** creates sparse array with length 3, not `[3]`
+- **Mistake:** **Optional `new` on builtins:** `Symbol()` must not use `new`
+- **Mistake:** **Minifiers** may break `new.target` checks if constructor inlin…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,3 +93,7 @@ class Service {
 | Constructor returns `{}` | Explicit return object | Remove return or document factory |
 | `new` on async function | Not constructable | Use factory async function |
 | Subclass forgets `new` | `Reflect.construct` edge case | Always `new Derived()` |
+
+## Pros/Cons or Trade-offs
+- Object literals for simple data: `{ id: 1 }` not `new Object()`.
+- Factory functions when callers forget `new` often

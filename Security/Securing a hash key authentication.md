@@ -4,34 +4,40 @@
 
 > Shared-secret HMAC authentication done safely — vault the key, rotate it, verify tags in constant time, always over TLS.
 
-
-
-
+```txt
+        Securing a hash ke ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-API design: shared-secret HMAC auth — key storage, rotation, timing-safe compare, and transport over TLS.
+- **Interview probes:** API design: shared-secret HMAC auth
 
 ## Sources
 - [OWASP — REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html) — overview
 - [RFC 2104 — HMAC](https://www.rfc-editor.org/rfc/rfc2104) — deep-dive
 
-## Core Definition
-Hash-key authentication means client and server share a secret used to compute an HMAC (or similar) tag; securing it is key custody, rotation, and constant-time verification.
-
 ## Key Concepts
-**Hash-key authentication** = server and client share a secret used to compute [[HMAC (Hash based Message Authentication Codes)]] or compare API key hashes:
+- **Note:** **Hash-key authentication** = server and client share a secret used to comput…
 
 ```txt
-Client:  Authorization: HMAC-SHA256 signature over canonical request
+- **Note:** Client: Authorization: HMAC-SHA256 signature over canonical request
 Server:  recompute with stored secret → timing-safe equal?
 ```
 
 Threat model:
-- **Leak** via git, logs, environment dump, support ticket
-- **Offline brute force** if secret weak or fast hash (MD5)
-- **Replay** if no timestamp/nonce in signed payload
+- **Leak:** via git, logs, environment dump, support ticket
+- **Offline brute force:** if secret weak or fast hash (MD5)
+- **Replay:** if no timestamp/nonce in signed payload
 
-Security = **key hygiene** + **transport** + **verification discipline**.
+- **Note:** Security = **key hygiene** + **transport** + **verification discipline**.
+
+
+- **Core:** Hash-key authentication means client and server share a secret used to comput…
 
 ## Technical Details
 ### Generate strong secrets
@@ -75,7 +81,7 @@ Day 0: accept primary + secondary; issue new creds with secondary
 Day 7: revoke primary; secondary → primary
 ```
 
-See [[Token rotation]].
+- See [[Token rotation]].
 
 ### Require HTTPS
 
@@ -84,7 +90,7 @@ See [[Token rotation]].
 if ($scheme != "https") { return 301 https://$host$request_uri; }
 ```
 
-**Why KMS:** audit trail, IAM access, automatic rotation hooks — not grep-able in `.env` backups.
+- **Why KMS:** audit trail, IAM access, automatic rotation hooks
 
 ### Failure signals
 
@@ -96,19 +102,20 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 | Suspected leak | Unusual IPs; spike in usage | Rotate immediately; invalidate old key |
 | Timing attacks | Non-constant compare | `crypto.timingSafeEqual` |
 
-## Real-World Applications
-Partner webhooks and machine APIs authenticate with rotated HMAC secrets stored in a vault or KMS.
+## Mistakes to Avoid
+- **Mistake:** Logging full request
+- **Mistake:** MD5/SHA1 for password storage
+- **Mistake:** Same secret all environments
+- **Mistake:** Query string signing
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple machine auth when mutual TLS or OAuth is overkill — if keys are vaulted.
 - **Con:** Shared MAC keys **don't scale** to untrusted third-party integrators — use OAuth/mTLS or asymmetric webhook signatures per consumer.
 
 ## Comparison
-- vs [[HMAC (Hash based Message Authentication Codes)]]: HMAC is the primitive; this note is operational key hygiene.
+- vs [[HMAC (Hash based Message Authentication Codes)]]: HMAC is the primitive
 - vs [[KMS]]: prefer KMS/vault over long-lived plaintext secrets on disk.
 
-## Mistakes to Avoid
-- Logging full request — includes `Authorization` — common leak vector.
-- MD5/SHA1 for password storage — use argon2/bcrypt/yescrypt — see [[yashcrypt]].
-- Same secret all environments — prod key in staging = breach multiplier.
-- Query string signing — URLs logged everywhere; prefer headers or POST body.
+
+### Use cases
+- Partner webhooks and machine APIs authenticate with rotated HMAC secrets stor…

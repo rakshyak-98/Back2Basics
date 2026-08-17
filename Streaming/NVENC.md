@@ -4,18 +4,24 @@
 
 > NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
-
-
-
+```txt
+        NVENC (NVIDIA Enco ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers ask about NVENC to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about NVENC to see if you understand the pipeline role, fail…
 
 ## Sources
 - [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC) — overview
 
 ## Key Concepts
-**NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datacenter L4/A10/A100 lines). It runs **parallel to CUDA cores** — multiple live channels per GPU without starving compute. Quality at equal bitrate historically lagged **libx264**; modern **RTX 40+ / Ada** encoders close the gap for live **CBR** workloads.
+- **Note:** **NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datace…
 
 | Use case | NVENC fit | Prefer libx264 when |
 |----------|-----------|---------------------|
@@ -24,7 +30,7 @@ Interviewers ask about NVENC to see if you understand the pipeline role, failure
 | **Low latency** | `preset p1` + tune ll | — |
 | **AV1 delivery** | RTX 40+ AV1 NVENC | Software AV1 for max compression |
 
-Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
+- **Note:** Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
 
 ## Technical Details
 ```txt
@@ -58,7 +64,7 @@ ffmpeg -i input.mp4 -c:v hevc_nvenc -preset p5 -rc vbr -cq 23 -b:v 0 -maxrate 8M
   -c:a aac -b:a 128k output.mp4
 ```
 
-Cap with `-maxrate` for manifest honesty — see [[CRF (Constant Rate Factor)]].
+- Cap with `-maxrate` for manifest honesty — see [[CRF (Constant Rate Factor)]].
 
 ### Multi-session on one GPU
 
@@ -68,7 +74,7 @@ nvidia-smi encodersessions
 nvidia-smi dmon -s u -d 1
 ```
 
-Consumer GeForce has **session count limits** (historically 3 on some drivers; datacenter cards higher) — verify for your fleet.
+- Consumer GeForce has **session count limits** (historically 3 on some drivers…
 
 ### OBS settings (Quick Sync vs NVENC)
 
@@ -80,7 +86,7 @@ Keyframe Interval: 2 s (matches HLS segment)
 Preset: Quality or Max Quality (P4–P5 equivalent)
 ```
 
-See [[OBS]].
+- See [[OBS]].
 
 ### Quality check vs x264
 
@@ -88,15 +94,6 @@ See [[OBS]].
 ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 # Or SSIM: ffmpeg -i a -i b -lavfi ssim -f null -
 ```
-
-## Real-World Applications
-Used wherever NVENC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
-- **Con / skip when:** **Film grain VoD mastering** — software encode preserves detail better at same size.
-- **Con / skip when:** **One short clip monthly** — GPU fleet overhead not worth operations.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -108,8 +105,17 @@ Used wherever NVENC sits in an ingest → package → CDN → player path. Concr
 | CUDA errors in pipeline | OOM on GPU | Reduce concurrent `-hwaccel`; fall back SW decode |
 | HEVC won't play on device | Profile/ tag | `-tag:v hvc1` for Apple |
 
-- **Cloud VM without GPU** — AWS `g4dn` etc. required; default instances have no NVENC.
-- **Driver version ↔ ffmpeg build** — stale static ffmpeg may miss newest NVENC API.
-- **B-frames + ultra-low latency** — reduce B-frame count for LL-HLS paths.
-- **GeForce vs Quadro licensing** — consumer drivers on servers may violate EULA; use datacenter cards in prod.
-- **Audio still on CPU** — GPU encode doesn't offload AAC; plan CPU for audio + mux.
+- **Mistake:** **Cloud VM without GPU**
+- **Mistake:** **Driver version ↔ ffmpeg build**
+- **Mistake:** **B-frames + ultra-low latency**
+- **Mistake:** **GeForce vs Quadro licensing**
+- **Mistake:** **Audio still on CPU**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **No NVIDIA hardware**
+- **Con / skip when:** **Film grain VoD mastering**
+- **Con / skip when:** **One short clip monthly**
+
+## Real-World Applications
+- **Scenario:** Used wherever NVENC sits in an ingest → package → CDN → player path

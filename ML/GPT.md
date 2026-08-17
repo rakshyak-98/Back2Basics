@@ -4,12 +4,17 @@
 
 > GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
-
-
-
+```txt
+        GPT ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-GPT questions check transformer next-token prediction, context limits, and hallucination failure modes.
+- **Interview probes:** GPT questions check transformer next-token prediction, context limits, and ha…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -49,10 +54,6 @@ client.chat.completions.create(
 | `response_format` | JSON mode |
 | Seed (when available) | Repro experiments |
 
-## Pros/Cons or Trade-offs
-- **Strict deterministic logic** — write code.
-- **Tiny classify with tons of labels** — classical model may win.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Training cutoff** — doesn’t know your private docs unless you pass them.
@@ -66,3 +67,7 @@ client.chat.completions.create(
 | 429 rate limit | headers | Backoff; smaller prompts |
 | Unstable JSON | free-form | schema / JSON mode |
 | Stale answers | no tools/RAG | Ground with retrieval |
+
+## Pros/Cons or Trade-offs
+- **Strict deterministic logic** — write code.
+- **Tiny classify with tons of labels** — classical model may win.

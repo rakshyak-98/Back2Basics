@@ -4,12 +4,18 @@
 
 > Breakpoints and step-through for Node — Inspector protocol via `--inspect` / built-in debugger.
 
-
-
-
+```txt
+        node debugger ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **node debugger** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Inspector**, **inspect-brk**, **debugger;**.
+- **Interview probes:** Interviewers use **node debugger** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Debugging](https://nodejs.org/en/learn/getting-started/debugging) — deep-dive
@@ -41,21 +47,22 @@ debugger // breakpoint when inspector connected
 | VS Code launch.json | `runtimeArgs: ["--inspect"]` |
 | `NODE_OPTIONS=--inspect` | Attach without code change |
 
-## Real-World Applications
-In production APIs and tooling, **node debugger** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`--inspect` on public interfaces** — unauthenticated RCE surface. Tunnel instead; **Async stack traces** — enable async stacks in DevTools for promises.
+## Mistakes to Avoid
+- **Mistake:** **`--inspect` on public interfaces**
+- **Mistake:** **Async stack traces**
+- **Mistake:** **Can’t attach:** check Port/firewall
+- **Mistake:** **Breakpoint never hits:** check Sourcemaps / wrong file
+- **Mistake:** **Hangs only under debug:** check Timing/race
+- **Mistake:** **Prod compromised:** check Inspect on 0.0.0.0
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Breakpoints and step-through for Node — Inspector protocol via `--inspect` / bui…).
-- **Con / when not:** **Production traffic debugging** — prefer logs/metrics/traces.
-- **Con / when not:** **Flaky tests** — fix determinism; don’t rely on stepping forever.
+- **Con / when not:** **Production traffic debugging**
+- **Con / when not:** **Flaky tests**
 
 ## Comparison
-vs [[node inspect]]: know when each applies — do not treat them as interchangeable. vs [[REPL]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
+- vs [[node inspect]]: know when each applies
 
-## Mistakes to Avoid
-- **`--inspect` on public interfaces** — unauthenticated RCE surface. Tunnel instead.
-- **Async stack traces** — enable async stacks in DevTools for promises.
-- **Can’t attach:** check Port/firewall; fix: Check listen address; localhost first
-- **Breakpoint never hits:** check Sourcemaps / wrong file; fix: Map dist→src; break on resolved path
-- **Hangs only under debug:** check Timing/race; fix: Look for race; don’t “fix” by sleeping
-- **Prod compromised:** check Inspect on 0.0.0.0; fix: Bind localhost; auth tunnel
+
+### Use cases
+- In production APIs and tooling, **node debugger** shows up whenever teams shi…

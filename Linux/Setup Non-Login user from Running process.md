@@ -4,25 +4,25 @@
 
 > Service accounts should run daemons without login shells — create a system user, assign file ownership, and run the process under that UID via systemd.
 
-
-
-
+```txt
+        Setup Non-Login us ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Hardening basics: least privilege, `nologin` shell, systemd `User=` — interviewers watch for “run everything as root” vs proper system users.
+- **Interview probes:** Hardening basics: least privilege, `nologin` shell, systemd `User=`
 
 ## Sources
 - [useradd(8)](https://man7.org/linux/man-pages/man8/useradd.8.html) — deep-dive
 - [systemd.service — User=](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive
 
-## Core Definition
-A **system user** (`useradd --system`) gets a low UID, usually no home, and `/usr/sbin/nologin` (or `/bin/false`) so nobody can SSH in as that account. The running service drops to that UID via the unit file.
-
-## Recall Cues
-- Why do interviewers care about Hardening basics: least privilege, `nologin` shell, systemd `User=` — interviewers watch for “run everything as root” vs proper system users?
-- What mistake is **Creating a system user with `/bin/bash` “just in case.”**?
-- What mistake is **Changing `User=` without `chown` on state directories**?
-- What mistake is **Using `usermod -G` without `-a` when adding supplementary groups later**?
+## Key Concepts
+- **Core:** A **system user** (`useradd --system`) gets a low UID, usually no home, and `…
 
 ## Technical Details
 ```bash
@@ -45,17 +45,18 @@ NoNewPrivileges=yes
 ```
 
 ## Mistakes to Avoid
-- Creating a system user with `/bin/bash` “just in case.”
-- Changing `User=` without `chown` on state directories.
-- Using `usermod -G` without `-a` when adding supplementary groups later.
-
-## Comparison
-vs running as your login user: fine for dev, wrong for services. vs containers: still map to a non-root UID inside the image. See [[user management]].
-
-## Real-World Applications
-Migrating an app started as root in a screen session onto a proper systemd unit with a dedicated `myapp` user and locked-down `/var/lib/myapp`.
+- **Mistake:** Creating a system user with `/bin/bash` “just in case.”
+- **Mistake:** Changing `User=` without `chown` on state directories
+- **Mistake:** Using `usermod -G` without `-a` when adding supplementary groups…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Blast radius limited if the app is compromised; clearer audit trail.
 - **Con:** Extra ownership/permission work on upgrades and shared sockets.
 - **Trade-off:** Shared group for multi-process apps vs one UID per binary.
+
+## Comparison
+- vs running as your login user: fine for dev, wrong for services
+
+
+### Use cases
+- Migrating an app started as root in a screen session onto a proper systemd un…

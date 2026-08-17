@@ -4,18 +4,23 @@
 
 > Human-readable identifier bound to a program entity — variables, functions, constants — instead of raw literals — **readability + refactor safety**.
 
-
-
-
+```txt
+        Symbolic name ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Symbolic names/linker questions check how names resolve to addresses — systems interview territory.
+- **Interview probes:** Symbolic names/linker questions check how names resolve to addresses
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-A **symbolic name** maps meaning to storage or behavior. The compiler/interpreter resolves the name to an address, register, or closure slot at compile or run time.
+- **Note:** A **symbolic name** maps meaning to storage or behavior
 
 ```
 Source:     const MAX_RETRIES = 3;
@@ -32,7 +37,7 @@ vs magic:   if (attempt > 3) …   // what is 3?
 | **Function** | `function parseInvoice()` | Named behavior |
 | **Label** | `retry:` (assembly/Go) | Control flow target |
 
-Same concept across languages: Python symbols, Rust bindings, DNS hostnames as symbolic network names.
+- **Note:** Same concept across languages: Python symbols, Rust bindings, DNS hostnames a…
 
 ## Technical Details
 ### Named constants (avoid magic values)
@@ -74,17 +79,13 @@ const ID_BY_ROLE = Object.fromEntries(
 );
 ```
 
-## Pros/Cons or Trade-offs
-- Ultra-local throwaway loop index `i` — noise if scope is 3 lines.
-- Over-abstracting every literal (`const TWO = 2`) — hurts readability.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Symbolic names in logs/config must stay stable** — renaming env vars without migration breaks deploy scripts.
 
-- **`const` object fields remain mutable** — name says constant binding, not deep freeze.
-- **Dynamic keys** `obj[variable]` lose static rename support in IDEs.
-- **DNS symbolic names** cache TTL — name resolution is not the same as JS binding lifetime.
+- **Mistake:** **`const` object fields remain mutable**
+- **Mistake:** **Dynamic keys** `obj[variable]` lose static rename support in I…
+- **Mistake:** **DNS symbolic names** cache TTL
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,3 +94,7 @@ const ID_BY_ROLE = Object.fromEntries(
 | Duplicate symbol names | Shadowing in nested scope | Rename or narrow block |
 | Export name collision | Barrel re-exports | Explicit export aliases |
 | Minified stack unreadable | Production build | Source maps; keep named fns in errors |
+
+## Pros/Cons or Trade-offs
+- Ultra-local throwaway loop index `i` — noise if scope is 3 lines.
+- Over-abstracting every literal (`const TWO = 2`) — hurts readability.

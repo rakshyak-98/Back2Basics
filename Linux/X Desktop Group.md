@@ -4,25 +4,31 @@
 
 > The X Desktop Group (XDG) publishes freedesktop.org standards — base directories, `.desktop` files, icons, and portals that unify GNOME, KDE, and other desktops.
 
-
-
-
+```txt
+        X Desktop Group ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Useful for “where does config live?” — `XDG_CONFIG_HOME`, desktop entries, and portals for sandboxed apps on Wayland.
+- **Interview probes:** Useful for “where does config live?”
 
 ## Sources
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) — deep-dive
 - [Desktop Entry Specification](https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html) — deep-dive
-
-## Core Definition
-XDG (via freedesktop.org) defines shared desktop conventions: **Base Directory** (`XDG_CONFIG_HOME`, `XDG_DATA_HOME`), **Desktop Entry** (`.desktop` launchers), **Icon Theme**, **MIME apps**, and **xdg-desktop-portal** for sandboxed apps on Wayland.
 
 ## Key Concepts
 - **Base dirs:** Prefer `~/.config`, `~/.local/share`, `~/.cache` over dumping in `$HOME`.
 - **.desktop files:** Launch metadata — Name, Exec, Icon, Categories, MIME types.
 - **Portals:** Mediated access to files, screenshots, devices for Flatpak/sandboxes.
 - **MIME defaults:** `xdg-open` / `xdg-mime` choose handlers.
+
+
+- **Core:** XDG (via freedesktop.org) defines shared desktop conventions: **Base Director…
 
 ## Technical Details
 ```bash
@@ -46,8 +52,10 @@ xdg-open file.pdf
 update-desktop-database ~/.local/share/applications
 ```
 
-## Real-World Applications
-Shipping a custom launcher for an internal tool, fixing “Open with…” defaults, and explaining why Flatpak apps ask portals instead of reading arbitrary paths.
+## Mistakes to Avoid
+- **Mistake:** Hard-coding `~/.config` without respecting `$XDG_CONFIG_HOME`
+- **Mistake:** Forgetting `update-desktop-database` after adding `.desktop` fil…
+- **Mistake:** Expecting portals to work identically across every compositor
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cross-DE consistency; cleaner home directories.
@@ -55,9 +63,8 @@ Shipping a custom launcher for an internal tool, fixing “Open with…” defau
 - **Trade-off:** Portals improve security at the cost of extra prompts and integration bugs.
 
 ## Comparison
-vs dumping config in `$HOME`: XDG is the modern convention. vs GNOME-only gsettings: XDG is cross-desktop; [[gsetting]] is GNOME/dconf-specific. Related: [[wayland]], [[Linux display manager]].
+- vs dumping config in `$HOME`: XDG is the modern convention. vs GNOME-only gse…
 
-## Mistakes to Avoid
-- Hard-coding `~/.config` without respecting `$XDG_CONFIG_HOME`.
-- Forgetting `update-desktop-database` after adding `.desktop` files.
-- Expecting portals to work identically across every compositor.
+
+### Use cases
+- Shipping a custom launcher for an internal tool, fixing “Open with…” defaults…

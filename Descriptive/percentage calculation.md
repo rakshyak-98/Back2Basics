@@ -4,18 +4,23 @@
 
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
-
-
-
+```txt
+        Percentage calcula ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Percentage CSS/layout interviews check containing block rules — a common layout bug source.
+- **Interview probes:** Percentage CSS/layout interviews check containing block rules
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-**Percent = parts per hundred.** Three operations cover 90% of production math:
+- **Note:** **Percent = parts per hundred.** Three operations cover 90% of production mat…
 
 ```
 Part   = Whole × (Rate / 100)
@@ -23,7 +28,7 @@ Rate   = (Part / Whole) × 100
 Whole  = Part / (Rate / 100)
 ```
 
-**Percent change:** `(new − old) / old × 100` — use **old** as baseline unless stated otherwise.
+- **Note:** **Percent change:** `(new − old) / old × 100`
 
 ```
 240 whole, find 15%:
@@ -76,17 +81,13 @@ const errorRate = (errors / requests) * 100;
 const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 ```
 
-## Pros/Cons or Trade-offs
-- Statistical significance — use proper tests, not raw % delta on tiny samples.
-- GPU/memory "percent" in monitoring — know if it's of host, cgroup limit, or pod request.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Percentage points ≠ percent change.** Rate 5% → 7% is **+2 percentage points**, not +2% (that's +40% relative change).
 
-- **Stacked discounts:** 20% off then 10% off ≠ 30% off — multiply complements: `0.8 × 0.9 = 0.72`.
-- **Uptime:** 99.9% allows ~43 min/month downtime — don't advertise "100%".
-- **Chart axes** starting above zero exaggerate percent moves.
+- **Mistake:** **Stacked discounts:** 20% off then 10% off ≠ 30% off
+- **Mistake:** **Uptime:** 99.9% allows ~43 min/month downtime
+- **Mistake:** **Chart axes** starting above zero exaggerate percent moves
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,3 +96,7 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 | Percentages sum to 99.9% | Rounding per row | Round last row to 100% or use largest remainder |
 | "50% faster" confusion | Relative vs absolute | 50% faster = half the time, not zero time |
 | Tip/tax double-applied | Compound order | Define order: pre-tax vs post-tax |
+
+## Pros/Cons or Trade-offs
+- Statistical significance — use proper tests, not raw % delta on tiny samples.
+- GPU/memory "percent" in monitoring

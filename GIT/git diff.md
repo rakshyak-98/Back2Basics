@@ -4,12 +4,17 @@
 
 > git diff — show unstaged, staged, or commit-to-commit file changes.
 
-
-
-
+```txt
+        git diff ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Diff questions check staged vs unstaged, word-diff, and reading patches in review.
+- **Interview probes:** Diff questions check staged vs unstaged, word-diff, and reading patches in re…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -22,7 +27,7 @@ git diff --cached --name-only;
 git diff main.. --name-only;
 git diff --name-status;
 ```
-- compare one file between two branches
+- **compare one:** compare one file between two branches
 ```bash
 git diff branch1 branch2 -- <file path>;
 ```
@@ -61,9 +66,6 @@ git diff branch1 branch2 -- path/   # one file between branches
 git diff --stat
 ```
 
-## Pros/Cons or Trade-offs
-- Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > `git diff` without flags shows **working tree versus index** — not last commit.
@@ -74,3 +76,6 @@ git diff --stat
 | Diff shows whole file | File mode or encoding flip | Check `core.filemode`; normalize encoding |
 | Cannot diff binary | Expected for images/binaries | `git diff --numstat`; use external diff tool |
 | Wrong comparison range | `..` versus `...` syntax | `A..B` = reachable from B not A; `A...B` = symmetric difference since merge base |
+
+## Pros/Cons or Trade-offs
+- Do not rely on diff alone for merge conflict resolution

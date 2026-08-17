@@ -4,19 +4,22 @@
 
 > dmidecode prints SMBIOS/DMI tables from firmware — vendor, model, serial, slots, and memory layout as the BIOS recorded them.
 
-
-
-
+```txt
+        dmidecode ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Hardware inventory: system serial/model, memory DIMM layout, and knowing firmware can lie (especially VMs) — confirm PCI with lspci.
+- **Interview probes:** Hardware inventory: system serial/model, memory DIMM layout, and knowing firm…
 
 ## Sources
 - [dmidecode(8)](https://man7.org/linux/man-pages/man8/dmidecode.8.html) — deep-dive
 - [SMBIOS reference](https://www.dmtf.org/standards/smbios) — overview
-
-## Core Definition
-SMBIOS/DMI tables live in firmware. `dmidecode` dumps typed records (`-t system`, `memory`, `slot`, …) or string shortcuts (`-s system-serial-number`). It reports what BIOS claims — not live PCI link training.
 
 ## Key Concepts
 - **Type tables:** system, bios, baseboard, chassis, processor, memory, slot.
@@ -24,6 +27,9 @@ SMBIOS/DMI tables live in firmware. `dmidecode` dumps typed records (`-t system`
 - **Slot vs electrical width:** Slot label can disagree with `lspci -vv` link status.
 - **VM caveat:** Hypervisors often synthesize or omit fields.
 - **Sensitivity:** Serials are inventory secrets.
+
+
+- **Core:** SMBIOS/DMI tables live in firmware. `dmidecode` dumps typed records (`-t syst…
 
 ## Technical Details
 ```bash
@@ -50,8 +56,10 @@ lspci -d 10de: -vv
 | Permission denied | Needs root | `sudo` |
 | Serial mismatch vs asset DB | Reimage / swapped chassis | Re-inventory; don’t trust alone |
 
-## Real-World Applications
-Asset tagging from serials, confirming RAM population before ordering DIMMs, and cross-checking GPU slot capability with lspci.
+## Mistakes to Avoid
+- **Mistake:** Trusting DMI slot width over `lspci -vv` for performance issues
+- **Mistake:** Pasting serial dumps into public tickets
+- **Mistake:** Expecting perfect DMI on all hypervisors
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast firmware-level inventory without opening the chassis.
@@ -59,9 +67,8 @@ Asset tagging from serials, confirming RAM population before ordering DIMMs, and
 - **Trade-off:** dmidecode for identity/layout vs lspci for enumerated devices.
 
 ## Comparison
-vs [[lspci]]: live PCI enumeration and drivers. vs [[nvidia-smi]]: GPU runtime after driver bind. vs cloud instance metadata: often more accurate on VMs.
+- vs [[lspci]]: live PCI enumeration and drivers
 
-## Mistakes to Avoid
-- Trusting DMI slot width over `lspci -vv` for performance issues.
-- Pasting serial dumps into public tickets.
-- Expecting perfect DMI on all hypervisors.
+
+### Use cases
+- Asset tagging from serials, confirming RAM population before ordering DIMMs, …

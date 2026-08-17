@@ -4,12 +4,18 @@
 
 > Shared memory maps the same physical pages into multiple processes — zero-copy IPC once mapped, requiring separate synchronization for concurrent access.
 
-
-
-
+```txt
+        Shared memory ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-IPC menu: when shm beats pipes, how you sync (mutex/atomics in the region), and SysV key collisions under namespaces.
+- **Interview probes:** IPC menu: when shm beats pipes, how you sync (mutex/atomics in the region), a…
 
 ## Sources
 - Stevens, *Advanced Programming in the UNIX Environment* — deep-dive
@@ -29,10 +35,14 @@ Process A ──┐
 Process B ──┘
 ```
 
-After mapping, loads/stores are ordinary. Contrast pipes (kernel copies each byte). See [[How to manipulate memory directly]] for `mmap` details; fds may back POSIX shm objects ([[file descriptors]]).
+- After mapping, loads/stores are ordinary.
+- Contrast pipes (kernel copies each byte).
+- See [[How to manipulate memory directly]] for `mmap` details
 
-## Real-World Applications
-High-bandwidth telemetry, database buffer pools across processes, and game engines sharing assets.
+## Mistakes to Avoid
+- **Mistake:** Mapping without a defined layout and sync protocol
+- **Mistake:** Leaking SysV segments (`ipcs` leftovers)
+- **Mistake:** Assuming stores are instantly visible without barriers/atomics o…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Highest bandwidth IPC after setup.
@@ -43,7 +53,6 @@ High-bandwidth telemetry, database buffer pools across processes, and game engin
 - vs pipes/sockets: copy vs map.
 - vs threads sharing heap: threads share by default; processes need shm.
 
-## Mistakes to Avoid
-- Mapping without a defined layout and sync protocol.
-- Leaking SysV segments (`ipcs` leftovers).
-- Assuming stores are instantly visible without barriers/atomics on weak memory models.
+
+### Use cases
+- High-bandwidth telemetry, database buffer pools across processes, and game en…

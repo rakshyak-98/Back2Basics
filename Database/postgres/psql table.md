@@ -4,12 +4,18 @@
 
 > Create and inspect PostgreSQL tables — types, constraints, indexes (including [[GIN]]), partitions, and `\d` introspection.
 
-
-
-
+```txt
+        psql table ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Schema design in Postgres: `TIMESTAMPTZ`, `JSONB`+GIN, identity/serial keys, and declarative partitioning.
+- **Interview probes:** Schema design in Postgres: `TIMESTAMPTZ`, `JSONB`+GIN, identity/serial keys, …
 
 ## Sources
 - [CREATE TABLE](https://www.postgresql.org/docs/current/sql-createtable.html) — deep-dive
@@ -41,10 +47,12 @@ CREATE TABLE orders_2024 PARTITION OF orders
   FOR VALUES FROM ('2024-01-01') TO ('2025-01-01');
 ```
 
-Large rewrites: see [[Alter table]] patterns and `pg_repack` / rewrite-aware migrations.
+- Large rewrites: see [[Alter table]] patterns and `pg_repack` / rewrite-aware …
 
-## Real-World Applications
-SaaS OLTP schemas with JSONB metadata for optional attributes and GIN for containment queries.
+## Mistakes to Avoid
+- **Mistake:** Using `TIMESTAMP` without time zone for absolute instants
+- **Mistake:** Partitioning without aligning PK/unique constraints to the parti…
+- **Mistake:** Skipping `\d` / catalogs and guessing column types in incidents
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Expressive types reduce external document stores for moderate needs.
@@ -52,9 +60,8 @@ SaaS OLTP schemas with JSONB metadata for optional attributes and GIN for contai
 - **Trade-off:** `BIGSERIAL` vs `GENERATED … AS IDENTITY` / UUIDs.
 
 ## Comparison
-vs [[mysql table]]: InnoDB clusters on PK; Postgres heap + indexes differ physically. Types and partitioning syntax also diverge.
+- vs [[mysql table]]: InnoDB clusters on PK
 
-## Mistakes to Avoid
-- Using `TIMESTAMP` without time zone for absolute instants.
-- Partitioning without aligning PK/unique constraints to the partition key.
-- Skipping `\d` / catalogs and guessing column types in incidents.
+
+### Use cases
+- SaaS OLTP schemas with JSONB metadata for optional attributes and GIN for con…

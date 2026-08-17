@@ -4,12 +4,18 @@
 
 > Copy or compose behavior into objects/classes — share methods without deep inheritance trees.
 
-
-
-
+```txt
+        mixin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **mixin** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **mixin**, **composition**, **conflict**.
+- **Interview probes:** Interviewers use **mixin** to check whether you can explain the mechanism in …
 
 ## Sources
 - [Wikipedia — mixin](https://en.wikipedia.org/wiki/mixin) — overview
@@ -43,21 +49,22 @@ const withSpeak = (Base) => class extends Base {
 | Instance assign | Per-object overrides |
 | TypeScript mixins | Constrained generics pattern |
 
-## Real-World Applications
-In production APIs and tooling, **mixin** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Order matters** — later `Object.assign` overwrites methods silently; **Stateful mixins** — shared mutable props on prototype bite everyone.
+## Mistakes to Avoid
+- **Mistake:** **Order matters**
+- **Mistake:** **Stateful mixins**
+- **Mistake:** **Wrong `this`:** check Detached method
+- **Mistake:** **Method clash:** check Two mixins same name
+- **Mistake:** **Hard to trace:** check Too many mixins
+- **Mistake:** **Broken instanceof expectations:** check Prototype soup
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Copy or compose behavior into objects/classes — share methods without deep inher…).
 - **Con / when not:** **One class needs the behavior** — just write a method.
-- **Con / when not:** **React** — hooks/HOCs replaced mixin era (`React.createClass` mixins are gone).
+- **Con / when not:** **React**
 
 ## Comparison
-vs [[prototype]]: know when each applies — do not treat them as interchangeable. vs [[Packages/Immer]]: know when each applies — do not treat them as interchangeable. vs [[React Pattern/Higher order Component (HOCs)]]: know when each applies — do not treat them as interchangeable.
+- vs [[prototype]]: know when each applies
 
-## Mistakes to Avoid
-- **Order matters** — later `Object.assign` overwrites methods silently.
-- **Stateful mixins** — shared mutable props on prototype bite everyone.
-- **Wrong `this`:** check Detached method; fix: Call via object / bind
-- **Method clash:** check Two mixins same name; fix: Rename; compose explicitly
-- **Hard to trace:** check Too many mixins; fix: Prefer explicit helpers
-- **Broken instanceof expectations:** check Prototype soup; fix: Document lineage
+
+### Use cases
+- In production APIs and tooling, **mixin** shows up whenever teams ship Node/J…

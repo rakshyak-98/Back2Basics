@@ -4,12 +4,17 @@
 
 > Moving data between database servers or nodes while scaling — much harder for relational databases introducing sharding than for partition-native NoSQL; replication and sharding solve different problems.
 
-
-
-
+```txt
+        Scaling data migra ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
+- **Interview probes:** Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and rebalancing — deep-dive
@@ -21,7 +26,7 @@ Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
 
 ### 1. Relational database — [[mysql]] / [[postgres]]
 
-Suppose you start with:
+- Suppose you start with:
 
 ```text
              ┌──────────────┐
@@ -30,7 +35,7 @@ Users ──────►│ MySQL        │
              └──────────────┘
 ```
 
-Now you want to scale horizontally:
+- Now you want to scale horizontally:
 
 ```text
              ┌──────────┐
@@ -42,9 +47,9 @@ Now you want to scale horizontally:
              └──────────┘
 ```
 
-You need to decide **how to partition the existing data**.
+- You need to decide **how to partition the existing data**.
 
-For example:
+- For example:
 
 ```text
 users 1–1,000,000     → Node 1
@@ -52,11 +57,11 @@ users 1,000,001–2M   → Node 2
 users 2M–3M           → Node 3
 ```
 
-This is **[[database sharding]]**.
+- This is **[[database sharding]]**.
 
-The migration is difficult because existing data has to be redistributed while the application may still be writing to the database.
+- The migration is difficult because existing data has to be redistributed whil…
 
-You might have:
+- You might have:
 
 ```text
 Old DB
@@ -74,21 +79,16 @@ Old DB
  Node1 Node2 Node3
 ```
 
-The hard part is not simply copying rows. You have to deal with:
+- The hard part is not simply copying rows.
+- You have to deal with:
 
-* foreign keys
-* [[ACID]] transactions
-* unique constraints
-* indexes
-* JOINs
-* concurrent writes
-* consistency during migration
+- * foreign keys * [[ACID]] transactions * unique constraints * indexes * JOINs…
 
 ### 2. NoSQL database
 
-Many NoSQL databases are designed around **partitioning from the beginning** ([[BASE]] tradeoffs).
+- Many NoSQL databases are designed around **partitioning from the beginning** …
 
-For example:
+- For example:
 
 ```text
                     user_id
@@ -100,7 +100,7 @@ For example:
           1–100      101–200    201–300
 ```
 
-If you add Node D:
+- If you add Node D:
 
 ```text
 Before:
@@ -118,19 +118,20 @@ C ─── users 151–225
 D ─── users 226–300
 ```
 
-The database can **automatically rebalance partitions**.
+- The database can **automatically rebalance partitions**.
 
-This makes scaling and migration easier operationally.
+- This makes scaling and migration easier operationally.
 
-However, it still is not free. Data has to physically move between nodes, and during rebalancing the system has to maintain availability and consistency.
+- However, it still is not free.
+- Data has to physically move between nodes, and during rebalancing the system …
 
 ### The big difference
 
-Think of it like this:
+- Think of it like this:
 
 #### Traditional SQL
 
-You often start with:
+- You often start with:
 
 ```text
               ONE DATABASE
@@ -140,15 +141,15 @@ You often start with:
       Users      Orders     Payments
 ```
 
-Then later decide:
+- Then later decide:
 
 > "We need to split this across machines."
 
-That can be a significant architectural change.
+- That can be a significant architectural change.
 
 #### Distributed NoSQL
 
-You often start with:
+- You often start with:
 
 ```text
                  Partition Key
@@ -160,11 +161,11 @@ You often start with:
       Node A         Node B         Node C
 ```
 
-Distribution is already part of the database's design.
+- Distribution is already part of the database's design.
 
 ### 3. Migration during scaling is particularly important
 
-Imagine an IPTV backend with:
+- Imagine an IPTV backend with:
 
 ```text
 10 million users
@@ -172,7 +173,7 @@ Imagine an IPTV backend with:
 1 billion viewing records
 ```
 
-Initially:
+- Initially:
 
 ```text
                   MySQL
@@ -180,7 +181,7 @@ Initially:
               1 large machine
 ```
 
-Eventually you need:
+- Eventually you need:
 
 ```text
               ┌───────────┐
@@ -192,17 +193,17 @@ Eventually you need:
      MySQL 1     MySQL 2     MySQL 3
 ```
 
-You cannot simply say:
+- You cannot simply say:
 
 ```text
 CREATE NODE 3;
 ```
 
-and expect all data to magically be redistributed while everything continues normally.
+- and expect all data to magically be redistributed while everything continues …
 
-You need a migration strategy.
+- You need a migration strategy.
 
-A common approach is:
+- A common approach is:
 
 ```text
                  Existing DB
@@ -224,17 +225,17 @@ A common approach is:
           New shards
 ```
 
-This is why **database migrations become a major concern when horizontally scaling SQL databases**.
+- This is why **database migrations become a major concern when horizontally sc…
 
 > **Note:** This is different from versioned **schema** migrations ([[database migration]]) — here we mean **data redistribution** across nodes while the system stays live.
 
 ### 4. Replication vs sharding
 
-This distinction is very important.
+- This distinction is very important.
 
 #### Replication
 
-Copies the **same data**:
+- Copies the **same data**:
 
 ```text
              Primary
@@ -244,17 +245,15 @@ Copies the **same data**:
        SAME DATA  SAME DATA
 ```
 
-Useful for:
+- Useful for:
 
-* read scaling
-* high availability
-* failover
+- * read scaling * high availability * failover
 
-But it does not fundamentally solve storage or write scaling.
+- But it does not fundamentally solve storage or write scaling.
 
 #### Sharding
 
-Splits **different data**:
+- Splits **different data**:
 
 ```text
           Database
@@ -265,21 +264,19 @@ Splits **different data**:
       A-F    G-M    N-Z
 ```
 
-Useful for:
+- Useful for:
 
-* write scaling
-* storage scaling
-* distributing workload
+- * write scaling * storage scaling * distributing workload
 
-But it makes application and database architecture more complicated.
+- But it makes application and database architecture more complicated.
 
 ### In one sentence
 
-**SQL databases:** migration becomes difficult mainly when you introduce sharding because relationships, transactions, and existing data need to be redistributed safely.
+- **SQL databases:** migration becomes difficult mainly when you introduce shar…
 
-**Distributed NoSQL databases:** migration and rebalancing is usually more built-in because partitioning is a fundamental part of their architecture.
+- **Distributed NoSQL databases:** migration and rebalancing is usually more bu…
 
-**Distributed SQL** (CockroachDB / Spanner-style): tries to give you SQL semantics while automatically moving data between nodes — a third category between manual SQL sharding and partition-native NoSQL.
+- **Distributed SQL:** (CockroachDB / Spanner-style): tries to give you SQL sema…
 
 | Pattern | What moves | Solves | Does not solve |
 |---------|------------|--------|----------------|
@@ -287,7 +284,6 @@ But it makes application and database architecture more complicated.
 | Sharding | Subset per node | Write + storage scale | Cross-shard transactions without redesign |
 | NoSQL rebalance | Partition ranges | Add nodes with less app change | Zero cost — data still physically moves |
 | Distributed SQL | Automatic range moves | SQL + distribution | Coordination latency and ops complexity |
-
 
 ### Configuration and commands
 
@@ -303,7 +299,7 @@ But it makes application and database architecture more complicated.
 7. Stop writes to old single node; decommission
 ```
 
-See also [[database sharding]] resharding sketch and [[mysql data migrations]] for row-copy mechanics.
+- See also [[database sharding]] resharding sketch and [[mysql data migrations]…
 
 ### NoSQL add-node checklist
 
@@ -321,8 +317,6 @@ Schema migration ([[database migration]]): ALTER TABLE, versioned DDL
 Scaling data migration (this note): move rows across nodes while scaling
 ```
 
----
-
 ### Interview map (words you can say)
 
 | Word | Plain meaning | Say in interview |
@@ -332,28 +326,6 @@ Scaling data migration (this note): move rows across nodes while scaling
 | **Dual-write** | App writes old + new during migration | "Bridge until backfill catches up." |
 | **Replication** | Same data, more copies | "Read scale — not write scale." |
 | **Cutover** | Switch reads/writes to new topology | "Needs checksums and rollback plan." |
-
----
-
-## Real-World Applications
-Sharding an existing OLTP database, region migrations, and major engine upgrades under live write traffic.
-
-## Pros/Cons or Trade-offs
-- **Sharding migration before exhausting replicas + vertical scale** — see [[Horizontal vs Vertical Scaling]].
-- **Full resharding for a one-time archive** — time-based partition drop or cold storage may be simpler.
-- **Cross-shard transactions without saga** — if money paths need atomicity across shards, redesign or use distributed SQL first.
-
----
-
-
-
-- **Pro:** Live migration avoids long read-only windows.
-- **Con:** Dual-write bugs and lag create hard-to-debug divergence.
-- **Trade-off:** brief downtime cutover vs longer dual-running complexity.
-
-## Comparison
-- vs [[database sharding]]: sharding is why many migrations exist; this note is the move itself.
-- vs [[Horizontal vs Vertical Scaling]]: scale decision precedes the migration plan.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -384,3 +356,24 @@ Sharding an existing OLTP database, region migrations, and major engine upgrades
 | Writes spike during rebalance | Hot partition | Salt keys; add capacity before rebalance |
 
 ---
+
+## Pros/Cons or Trade-offs
+- **Sharding migration before exhausting replicas + vertical scale**
+- **Full resharding for a one-time archive**
+- **Cross-shard transactions without saga**
+
+---
+
+
+
+- **Pro:** Live migration avoids long read-only windows.
+- **Con:** Dual-write bugs and lag create hard-to-debug divergence.
+- **Trade-off:** brief downtime cutover vs longer dual-running complexity.
+
+## Comparison
+- vs [[database sharding]]: sharding is why many migrations exist; this note is the move itself.
+- vs [[Horizontal vs Vertical Scaling]]: scale decision precedes the migration plan.
+
+
+### Use cases
+- Sharding an existing OLTP database, region migrations, and major engine upgra…

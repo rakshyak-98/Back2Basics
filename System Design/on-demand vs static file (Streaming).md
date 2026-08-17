@@ -4,12 +4,18 @@
 
 > On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
-
-
-
+```txt
+        on-demand vs stati ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-VOD/static CDN vs on-demand generation; cacheability and origin cost.
+- **Interview probes:** VOD/static CDN vs on-demand generation; cacheability and origin cost.
 
 ## Sources
 - [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file) — overview
@@ -33,8 +39,6 @@ On-demand: mezz → request → packager/transcoder → CDN cache → players
 | **Pre-packaged static** | Predictable CDN hit; simple origin | Storage × renditions; slow publish |
 | **Just-in-time / on-demand** | Storage lean; late binding DRM/ladder | First-byte latency; origin CPU |
 
----
-
 
 ### Configuration and commands
 
@@ -52,10 +56,27 @@ player → CDN → origin packager (miss) → cache segments
 | Warmup | Prefetch popular ladder after publish |
 | Fallback | Pre-bake poster / audio-only |
 
+## Mistakes to Avoid
+> [!WARNING]
+> **“Static file” still needs manifests** — players want HLS/DASH, not one giant MP4 (unless progressive).
+
+> [!WARNING]
+> **On-demand without cache** — origin becomes the bottleneck.
+
+> [!WARNING]
+> **Live ≠ VOD on-demand** — live has different latency/GOP rules ([[HLS]] / [[DASH]]).
+
 ---
 
-## Real-World Applications
-Video platforms choosing CDN packaging vs just-in-time packaging.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Long startup | Cold JIT transcode | Pre-warm; bake top bitrates |
+| 404 segment | Packager race | Atomic publish; retry |
+| CDN stampede | Many misses one asset | Request coalesce; longer TTL |
+| Huge bill | JIT every unique | Cache; limit ladder |
+| DRM mismatch | Late binding fail | Align CPIX/keys pre-play |
+
+---
 
 ## Pros/Cons or Trade-offs
 - **True live events** — live pipeline, not VOD JIT.
@@ -81,24 +102,6 @@ Video platforms choosing CDN packaging vs just-in-time packaging.
 - Choose **A** when …
 - Choose **B** when …
 
-## Mistakes to Avoid
-> [!WARNING]
-> **“Static file” still needs manifests** — players want HLS/DASH, not one giant MP4 (unless progressive).
 
-> [!WARNING]
-> **On-demand without cache** — origin becomes the bottleneck.
-
-> [!WARNING]
-> **Live ≠ VOD on-demand** — live has different latency/GOP rules ([[HLS]] / [[DASH]]).
-
----
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Long startup | Cold JIT transcode | Pre-warm; bake top bitrates |
-| 404 segment | Packager race | Atomic publish; retry |
-| CDN stampede | Many misses one asset | Request coalesce; longer TTL |
-| Huge bill | JIT every unique | Cache; limit ladder |
-| DRM mismatch | Late binding fail | Align CPIX/keys pre-play |
-
----
+### Use cases
+- Video platforms choosing CDN packaging vs just-in-time packaging.

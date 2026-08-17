@@ -4,12 +4,17 @@
 
 > Sorting puts elements in order — pick by stability, memory, and whether data is almost sorted.
 
-
-
-
+```txt
+        Sorting algorithm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Sorting interviews check stability, average vs worst case, and when n log n is enough vs counting/radix.
+- **Interview probes:** Sorting interviews check stability, average vs worst case, and when n log n i…
 
 ## Sources
 - [Wikipedia — Sorting algorithm](https://en.wikipedia.org/wiki/Sorting_algorithm) — overview
@@ -50,10 +55,10 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 | Wrong order | comparator bug | Antisymmetry checks |
 | Too slow | O(n²) on large n | n log n algorithm |
 
+## Mistakes to Avoid
+- **Mistake:** JS sort without comparator
+- **“Quicksort always n log n”::** → n² unless mitigated
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Already sorted stream — maintain a structure instead.
 - **Trade-off:** Need order stats only — quickselect / heap, not full sort.
-
-## Mistakes to Avoid
-- JS sort without comparator — lexicographic on strings; numbers need `(a,b)=>a-b`.
-- “Quicksort always n log n” — adversarial pivots → n² unless mitigated.

@@ -4,12 +4,18 @@
 
 > Stack-based languages express programs as operations on an operand stack — no named registers in the source model; the JVM, Forth, and RPN calculators work this way.
 
-
-
-
+```txt
+        Stack based progra ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Bytecode / VM interviews: operand stack vs register machines, and how JIT still maps stacks onto hardware registers.
+- **Interview probes:** Bytecode / VM interviews: operand stack vs register machines, and how JIT sti…
 
 ## Sources
 - JVM specification — operand stack — deep-dive
@@ -19,17 +25,20 @@ Bytecode / VM interviews: operand stack vs register machines, and how JIT still 
 - **Operand stack semantics:** each [[opcode]] pushes/pops values.
 - **Virtual vs hardware:** language model is stack; JIT/AOT still uses CPU registers.
 - **Interpreter loop:** manipulates a virtual stack often in [[Heap memory]].
-- **Overflow:** deep expression stacks → `StackOverflowError` — related to but not identical to kernel [[Stack Frame]] limits.
+- **Overflow:** deep expression stacks → `StackOverflowError`
 
 ## Technical Details
 ```txt
 push 2 → push 3 → add → stack top is 5
 ```
 
-Contrast register-machine ISAs targeted by [[assembly language]]. Bytecode [[interpreter]]s evaluate the stack machine; hot paths compile to native code.
+- Contrast register-machine ISAs targeted by [[assembly language]].
+- Bytecode [[interpreter]]s evaluate the stack machine
 
-## Real-World Applications
-JVM/.NET IL, WebAssembly (stack machine ISA), Forth embedded systems, and RPN calculators.
+## Mistakes to Avoid
+- **Mistake:** Equating JVM operand-stack overflow with Linux thread-stack over…
+- **Mistake:** Assuming stack bytecode cannot be fast — JITs rewrite hot traces
+- **Mistake:** Writing huge expression trees that blow interpreter stacks in re…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Compact bytecode; simple compiler front-ends.
@@ -37,10 +46,9 @@ JVM/.NET IL, WebAssembly (stack machine ISA), Forth embedded systems, and RPN ca
 - **Trade-off:** stack VM simplicity vs register-based IR for optimization (LLVM-style).
 
 ## Comparison
-- vs [[Stack Frame]]: call stack frames are ABI/runtime; operand stacks are language evaluation state.
+- vs [[Stack Frame]]: call stack frames are ABI/runtime
 - vs register ISAs ([[assembly language]]): named registers vs push/pop model.
 
-## Mistakes to Avoid
-- Equating JVM operand-stack overflow with Linux thread-stack overflow without checking which stack faulted.
-- Assuming stack bytecode cannot be fast — JITs rewrite hot traces.
-- Writing huge expression trees that blow interpreter stacks in recursive descent evaluators.
+
+### Use cases
+- JVM/.NET IL, WebAssembly (stack machine ISA), Forth embedded systems, and RPN…

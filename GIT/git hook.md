@@ -4,12 +4,17 @@
 
 > scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
-
-
-
+```txt
+        Git Hooks ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git Hooks` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git Hooks` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -18,7 +23,7 @@ Interviewers use `Git Hooks` to check real Git fluency under pressure — histor
 ## Key Concepts
 ```
 git commit  →  pre-commit → commit-msg → post-commit
-git push    →  pre-push → (remote) pre-receive / update / post-receive
+- **Note:** git push → pre-push → (remote) pre-receive / update / post-receive
 ```
 
 Exit non-zero from a hook **blocks** the operation.
@@ -49,14 +54,14 @@ git config core.hooksPath .husky
 
 ### Useful hook scripts
 
-**pre-commit** — lint staged files only:
+- **pre-commit:** — lint staged files only:
 
 ```bash
 #!/bin/sh
 npm run lint-staged || exit 1
 ```
 
-**commit-message** — enforce Conventional Commits:
+- **commit-message:** — enforce Conventional Commits:
 
 ```bash
 #!/bin/sh
@@ -67,7 +72,7 @@ grep -qE '^(feat|fix|docs|chore)(\(.+\))?: .+' "$commit_msg_file" || {
 }
 ```
 
-**pre-push** — block force-push to main:
+- **pre-push:** — block force-push to main:
 
 ```bash
 #!/bin/sh
@@ -90,7 +95,7 @@ git commit --no-verify
 git push --no-verify
 ```
 
-Document when bypass is acceptable (hotfix with failing unrelated test).
+- Document when bypass is acceptable (hotfix with failing unrelated test).
 
 | Hook | Trigger | Typical use |
 |------|---------|-------------|
@@ -100,11 +105,7 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 | `post-merge` | After merge | `npm install` if lockfile changed |
 | `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
 
-Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
-
-## Pros/Cons or Trade-offs
-- **Heavy integration tests in pre-commit** — belongs in CI; local hook should stay under ~10s.
-- **Security-only on client hooks** — attacker can bypass; enforce on server/PR checks.
+- Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-rec…
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -126,3 +127,7 @@ Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receiv
 | Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
 | CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
 | `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
+
+## Pros/Cons or Trade-offs
+- **Heavy integration tests in pre-commit**
+- **Security-only on client hooks**

@@ -4,12 +4,18 @@
 
 > Creates an account record — UID, home, shell, groups — usually lower-level than `adduser` on Debian/Ubuntu.
 
-
-
-
+```txt
+        useradd ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect `-m` for home, `--system` for service accounts, and `adduser` vs `useradd` on Ubuntu.
+- **Interview probes:** Expect `-m` for home, `--system` for service accounts, and `adduser` vs `user…
 
 ## Sources
 - [man useradd](https://man7.org/linux/man-pages/man8/useradd.8.html) — deep-dive
@@ -41,7 +47,7 @@ sudo chown -R alice:alice /home/alice
 sudo adduser bob
 ```
 
-Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
+- Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,8 +56,10 @@ Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 | UID conflict | Explicit `-u` clash | Free UID; `getent passwd` |
 | Groups missing later | Used `-G` wrong | `usermod -aG` (append) |
 
-## Real-World Applications
-Provisioning human logins and daemon users on bare metal or classic VMs before configuration management takes over.
+## Mistakes to Avoid
+- **Mistake:** `usermod -G` without `-a` later — wipes supplementary groups
+- **Mistake:** Creating system users without a home path some daemons still need
+- **Mistake:** Duplicating LDAP/SSSD users locally
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise, scriptable control of UID/home/shell.
@@ -61,7 +69,6 @@ Provisioning human logins and daemon users on bare metal or classic VMs before c
 - vs `adduser`: friendlier Debian wrapper for interactive humans.
 - vs [[usermod]]: create vs mutate.
 
-## Mistakes to Avoid
-- `usermod -G` without `-a` later — wipes supplementary groups.
-- Creating system users without a home path some daemons still need.
-- Duplicating LDAP/SSSD users locally.
+
+### Use cases
+- Provisioning human logins and daemon users on bare metal or classic VMs befor…

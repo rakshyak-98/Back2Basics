@@ -4,19 +4,22 @@
 
 > Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
-
-
-
+```txt
+        certbot (letsencry ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Platform interviews ask how you obtain and renew free TLS certs safely — plugins, webroot/DNS-01, and renewal timers.
+- **Interview probes:** Platform interviews ask how you obtain and renew free TLS certs safely
 
 ## Sources
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — deep-dive
 - [Let's Encrypt — Getting Started](https://letsencrypt.org/getting-started/) — overview
-
-## Core Definition
-Certbot is an ACME client that proves domain control, installs Let's Encrypt certificates, and renews them before expiry.
 
 ## Key Concepts
 ```txt
@@ -35,7 +38,10 @@ certbot ──ACME──► Let's Encrypt
 | `~/.config/letsencrypt/cli.ini` | Per-user config |
 | `/etc/letsencrypt/live/…/fullchain.pem` | What TLS servers should use |
 
-Use **`--staging`** while debugging — avoids production rate limits; staging certs are untrusted.
+- **Note:** Use **`--staging`** while debugging
+
+
+- **Core:** Certbot is an ACME client that proves domain control, installs Let's Encrypt …
 
 ## Technical Details
 ```bash
@@ -72,7 +78,7 @@ sudo certbot renew --quiet   # cron/systemd timer
 
 ### Webroot
 
-Writes challenge files into your docroot so the running server serves them:
+- Writes challenge files into your docroot so the running server serves them:
 
 ```bash
 sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
@@ -80,7 +86,8 @@ sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.c
 
 ### HTTP-01 Challenge
 
-Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
+- Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>`…
+- DNS-01 instead sets a TXT record (wildcards).
 
 ### Failure signals
 
@@ -93,8 +100,10 @@ Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on
 | nginx still old cert | Wrong `ssl_certificate` path | Point to `live/…/fullchain.pem`; reload |
 | Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
 
-## Real-World Applications
-Automate public HTTPS on Nginx/Apache with Certbot install + systemd renew timer before the 90-day cert expires.
+## Mistakes to Avoid
+- **Mistake:** Staging certs look “broken” in browsers
+- **Mistake:** Standalone steals :80
+- **Mistake:** IPv6 AAAA wrong
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Free, automated public TLS with short-lived certs and renew timers.
@@ -106,7 +115,6 @@ Automate public HTTPS on Nginx/Apache with Certbot install + systemd renew timer
 - vs [[ACME server]]: client vs CA API.
 - vs commercial CA portals: Certbot+LE is API-first and short-lived (≈90 days).
 
-## Mistakes to Avoid
-- Staging certs look “broken” in browsers — expected; switch off `--staging` for real trust.
-- Standalone steals :80 — fails if nginx already listens; use webroot or stop nginx briefly.
-- IPv6 AAAA wrong — LE may prefer v6; align A/AAAA or remove bad AAAA.
+
+### Use cases
+- Automate public HTTPS on Nginx/Apache with Certbot install + systemd renew ti…

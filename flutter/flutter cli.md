@@ -4,22 +4,28 @@
 
 > Terminal front door to the Flutter SDK — create projects, run on devices, switch channels, and inspect logs.
 
-
-
-
+```txt
+        Flutter CLI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want channel vs release cadence, debug (JIT) vs release (AOT), and the day-to-day commands you use to ship and debug.
+- **Interview probes:** Interviewers want channel vs release cadence, debug (JIT) vs release (AOT), a…
 
 ## Sources
 - [Flutter — Using the Flutter CLI](https://docs.flutter.dev/reference/flutter-cli) — deep-dive
 - [Flutter — Flutter channels](https://docs.flutter.dev/install/upgrade#switching-flutter-channels) — overview
 
 ## Key Concepts
-- **Channel:** release stream (`stable`, `beta`, `dev`, `master`) → pick stability vs newest APIs.
+- **Channel:** release stream (`stable`, `beta`, `dev`, `master`) → pick stability vs newest…
 - **`flutter create`:** scaffolds platform folders + `lib/main.dart` → consistent project layout.
 - **`flutter run`:** debug session with JIT + hot reload → fastest iteration on device/emulator.
-- **`flutter attach`:** reconnect the tool to an already-running app → useful after detach or from IDE.
+- **`flutter attach`:** reconnect the tool to an already-running app → useful after detach or from ID…
 - **Device target (`-d`):** pick emulator, USB device, or chrome → multi-device workflows.
 
 ## Technical Details
@@ -47,20 +53,21 @@ flutter bash-completion         # shell completion (where supported)
 | `--profile` | AOT + tracing | Perf work |
 | `--release` / `flutter build` | AOT optimized | Ship / smoke-test release |
 
-## Real-World Applications
-Daily mobile work: create app → `flutter devices` → `flutter run` → fix with hot reload → `flutter build appbundle` for Play.
-
-**Example:** A teammate on `master` breaks CI; pin the team to `stable` and document `flutter channel` in the README.
+## Mistakes to Avoid
+- **Mistake:** Shipping from `master`/`dev` without a rollback plan
+- **Mistake:** Assuming `flutter run` performance equals release
+- **Mistake:** Ignoring `flutter doctor` when devices or toolchains vanish afte…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One CLI covers create, run, analyze, build, and doctor.
 - **Con:** Channel upgrades can move Gradle/Xcode expectations — budget a sync day after `flutter upgrade`.
 
 ## Comparison
-- vs IDE Run button: CLI is scriptable for CI; IDE is faster for breakpoint UX — see [[flutter debugging]].
+- vs IDE Run button: CLI is scriptable for CI; IDE is faster for breakpoint UX
 - vs `dart` CLI: Flutter wraps Dart plus platform tooling (Gradle, Xcode, web).
 
-## Mistakes to Avoid
-- Shipping from `master`/`dev` without a rollback plan — prefer `stable` for production apps.
-- Assuming `flutter run` performance equals release — profile with `--profile` / `--release`.
-- Ignoring `flutter doctor` when devices or toolchains vanish after OS updates.
+
+### Use cases
+- Daily mobile work: create app → `flutter devices` → `flutter run` → fix with …
+
+- **Example:** A teammate on `master` breaks CI

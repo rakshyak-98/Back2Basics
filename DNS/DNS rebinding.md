@@ -2,26 +2,24 @@
 
 # DNS rebinding
 
-> DNS rebinding tricks a browser into treating an attacker-controlled hostname as same-origin with an internal IP — the attack rotates DNS answers from a public IP to `127.0.0.1` or RFC1918 space after the same-origin check passes.
+> DNS rebinding tricks a browser into treating an attacker-controlled hostname as same-origin with an internal IP — the attack rotates DNS answers from a public IP to `127.0.0.1` or RFC1918 space after the same-origin che…
 
-
-
-
+```txt
+        DNS rebinding ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Security and frontend interviews use this to test same-origin policy depth — host vs IP — and whether you secure localhost/admin UIs beyond “it’s only local.”
+- **Interview probes:** Security and frontend interviews use this to test same-origin policy depth
 
 ## Sources
 - [Stanford — DNS Rebinding Protection in Web Browsers](https://crypto.stanford.edu/dns/dns-rebinding.pdf) — deep-dive
 - [W3C Private Network Access](https://wicg.github.io/private-network-access/) — deep-dive
 - [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) — overview
-
-## Recall Cues
-- Why do interviewers care about Security and frontend interviews use this to test same-origin policy depth — host vs IP — and whether you secure localhost/admin UIs beyond “it’s only local.”?
-- What is step 1: Victim visits `evil.example` controlled by attacker?
-- What mistake is **Binding admin UIs to all interfaces without authentication**?
-- What mistake is **Trusting “private IP” alone as a security boundary for browser-reachable services**?
-- What mistake is **Skipping Host/Origin validation because “our SPA is the only client.”**?
 
 ## Technical Details
 1. Victim visits `evil.example` controlled by attacker.
@@ -43,29 +41,30 @@ Browser: same host label, different IP — bypasses naive IP pinning
 | **DNS** | Block external resolution of internal names (split horizon) |
 | **Network** | Firewall internal services from client subnets |
 
-**Developer checklist**
+- **Developer checklist:** 
 
-- Never assume "only our JS runs on this origin" when DNS is attacker-controlled.
-- Use **HTTPS** with correct certificates — internal IPs will fail cert validation unless attacker also forges certs.
-- Implement **CSRF tokens** and **Origin/Referer** checks on state-changing APIs.
+- Never assume "only our JS runs on this origin" when DNS is attacker-controlle…
+- Use **HTTPS** with correct certificates
+- Implement **CSRF tokens** and **Origin/Referer** checks on state-changing API…
 
-Tools like `rbndr.us` demonstrate rebinding in controlled environments (authorized lab only).
+- Tools like `rbndr.us` demonstrate rebinding in controlled environments (autho…
 
 ## Mistakes to Avoid
-- Binding admin UIs to all interfaces without authentication.
-- Trusting “private IP” alone as a security boundary for browser-reachable services.
-- Skipping Host/Origin validation because “our SPA is the only client.”
-
-## Comparison
-- vs [[CORS (Cross Origin Request Sharing)]]: CORS constrains cross-origin XHR; rebinding stays same-origin by keeping the host label.
-- vs [[mDNS]] spoofing: link-local name lies vs flipping global DNS for a browser origin.
-
-## Real-World Applications
-Hardening home routers, developer dashboards on `:3000`, and IoT admin UIs against hostile web pages.
-
-**Example:** A Node debugger bound to `0.0.0.0` without auth is reachable after rebinding even if you thought “only localhost clients exist.”
+- **Mistake:** Binding admin UIs to all interfaces without authentication
+- **Mistake:** Trusting “private IP” alone as a security boundary for browser-r…
+- **Mistake:** Skipping Host/Origin validation because “our SPA is the only cli…
 
 ## Pros/Cons or Trade-offs
-- **Pro (mitigations):** Private Network Access and mandatory auth shrink the attack surface.
-- **Con (pure DNS pinning):** historically brittle and largely abandoned — do not rely on it alone.
+- **Pro (mitigations):** Private Network Access and mandatory auth shrink the a…
+- **Con (pure DNS pinning):** historically brittle and largely abandoned
 - **Con:** HTTPS helps but fails open if the internal service is cleartext HTTP.
+
+## Comparison
+- vs [[CORS (Cross Origin Request Sharing)]]: CORS constrains cross-origin XHR
+- vs [[mDNS]] spoofing: link-local name lies vs flipping global DNS for a browser origin.
+
+
+### Use cases
+- Hardening home routers, developer dashboards on `:3000`, and IoT admin UIs ag…
+
+- **Example:** A Node debugger bound to `0.0.0.0` without auth is reachable aft…

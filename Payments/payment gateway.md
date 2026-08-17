@@ -4,27 +4,33 @@
 
 > A payment gateway sits between the merchant site or POS and the acquirer — it tokenizes sensitive data, routes to card networks, and returns authorization and capture results.
 
-
-
-
+```txt
+        Payment gateway ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check whether you know gateway versus [[PSP]], PCI scope by integration pattern, and why redirects/webhooks — not client success pages — decide payment state.
+- **Interview probes:** Interviewers check whether you know gateway versus [[PSP]], PCI scope by inte…
 
 ## Sources
 - [Wikipedia — Payment gateway](https://en.wikipedia.org/wiki/Payment_gateway) — overview
 - [PCI SSC — SAQ instructions and guidelines](https://www.pcisecuritystandards.org/document_library/) — deep-dive
 - [Stripe — Payment Intents (authorize/capture model)](https://docs.stripe.com/payments/paymentintents) — overview
 
-## Core Definition
-The gateway is the software integration layer for card-not-present (and often wallet) payments. Money settles through the acquirer; the gateway provides APIs, hosted fields, tokens, and webhooks. A [[PSP]] may bundle gateway + processing + merchant account; a standalone gateway may plug into a third-party acquirer.
-
 ## Key Concepts
-- **Not the money pipe:** settlement is acquirer-side; gateway returns authorization and capture outcomes.
-- **Tokenization:** browser/SDK collects PAN; merchant server sees tokens only when designed correctly.
+- **Not the money pipe:** settlement is acquirer-side
+- **Tokenization:** browser/SDK collects PAN
 - **Authorize then capture:** hold funds at checkout; capture on ship — void unused authorization.
 - **Idempotency:** retries with the same key prevent double charges on timeouts.
 - **Webhook as truth:** client redirects lie; signed server callbacks confirm final state.
+
+
+- **Core:** The gateway is the software integration layer for card-not-present (and often…
 
 ## Technical Details
 ```
@@ -72,10 +78,12 @@ GATEWAY_API_URL=https://api.gateway.com           # production
 | Timeout duplicate charges | No idempotency | Same key on retry |
 | PCI audit failure | PAN in logs/DB | Tokenize; review SAQ type |
 
-## Real-World Applications
-E-commerce checkout, hotel deposits, and subscription first charges that later move to stored credentials / network tokens.
-
-**Example:** Shopper closes the tab after 3-D Secure — the success URL never runs; a `payment.succeeded` webhook still marks the order paid.
+## Mistakes to Avoid
+- **Mistake:** Treating the client success redirect as proof of payment
+- **Mistake:** Posting raw PAN to your API and claiming hosted-checkout scope
+- **Mistake:** Retrying charges without an idempotency key
+- **Mistake:** Mixing sandbox and live keys in one environment
+- **Mistake:** Logging full card or payment-method objects
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Hosted/embedded patterns shrink PCI scope dramatically.
@@ -83,13 +91,12 @@ E-commerce checkout, hotel deposits, and subscription first charges that later m
 - **Con:** Marketplace split payouts need platform products ([[Strip]] Connect-style), not a bare gateway alone.
 
 ## Comparison
-- vs [[PSP]]: PSP often includes gateway + merchant account + KYC; gateway alone may be only the API layer.
+- vs [[PSP]]: PSP often includes gateway + merchant account + KYC
 - vs [[PSI GSS]] / [[SAQ GSS]]: architecture and questionnaire paths for outsourced card entry.
 - vs direct bank ACH/wire: gateway adds little for invoice-only B2B.
 
-## Mistakes to Avoid
-- Treating the client success redirect as proof of payment.
-- Posting raw PAN to your API and claiming hosted-checkout scope.
-- Retrying charges without an idempotency key.
-- Mixing sandbox and live keys in one environment.
-- Logging full card or payment-method objects.
+
+### Use cases
+- E-commerce checkout, hotel deposits, and subscription first charges that late…
+
+- **Example:** Shopper closes the tab after 3-D Secure

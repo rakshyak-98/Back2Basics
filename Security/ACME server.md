@@ -4,19 +4,22 @@
 
 > The CA’s API that ACME clients (Certbot, Caddy, Traefik) call to prove domain control and get certificates.
 
-
-
-
+```txt
+        ACME server ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how automated certificate issuance works end-to-end — ACME challenges, account keys, and how clients like Certbot talk to the CA API.
+- **Interview probes:** Interviewers ask how automated certificate issuance works end-to-end
 
 ## Sources
 - [RFC 8555 — Automatic Certificate Management Environment](https://www.rfc-editor.org/rfc/rfc8555) — deep-dive
 - [Let's Encrypt — How It Works](https://letsencrypt.org/how-it-works/) — overview
-
-## Core Definition
-An ACME server is the Certificate Authority API that ACME clients call to prove domain control and receive X.509 certificates.
 
 ## Key Concepts
 ```txt
@@ -31,6 +34,9 @@ ACME client                    ACME server (CA)
 |------|-----|
 | **ACME client** | Certbot, lego, Caddy, cert-manager |
 | **ACME server** | Let’s Encrypt, ZeroSSL, Google Trust, step-ca |
+
+
+- **Core:** An ACME server is the Certificate Authority API that ACME clients call to pro…
 
 ## Technical Details
 ```bash
@@ -64,8 +70,10 @@ sudo certbot certonly --server https://ca.internal/acme/directory ...
 | Private CA untrusted externally | Root not in public stores | Distribute root only inside org |
 | Account key lost | New account = fine; certs independent | Recreate account; keep backup of account key if required by CA |
 
-## Real-World Applications
-Let's Encrypt and private ACME CAs (step-ca, Smallstep) issue short-lived certs to Certbot, Caddy, and Traefik for public and internal TLS.
+## Mistakes to Avoid
+- **Mistake:** Staging vs prod directories are different
+- **Mistake:** ACME proves domain control, not company legal identity
+- **Mistake:** Self-hosted ACME still needs a trust story
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Automates certificate issuance and renewal with a standard API.
@@ -77,7 +85,6 @@ Let's Encrypt and private ACME CAs (step-ca, Smallstep) issue short-lived certs 
 - vs [[certbot (letsencrypt)]]: ACME is the CA protocol/API; Certbot is one client.
 - vs manual [[PKI]]: ACME automates issuance and renewal with domain-control challenges.
 
-## Mistakes to Avoid
-- Staging vs prod directories are different — mixing them confuses rate-limit and trust expectations.
-- ACME proves domain control, not company legal identity — DV certs only; EV/OV are out of band.
-- Self-hosted ACME still needs a trust story — browsers won’t trust your CA unless you install the root.
+
+### Use cases
+- Let's Encrypt and private ACME CAs (step-ca, Smallstep) issue short-lived cer…

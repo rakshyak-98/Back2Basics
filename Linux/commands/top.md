@@ -4,23 +4,29 @@
 
 > Live process monitor — CPU, RAM, and load, refreshing until you quit.
 
-
-
-
+```txt
+        top ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort with `P`/`M` instead of guessing.
+- **Interview probes:** Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort…
 
 ## Sources
 - [man top](https://man7.org/linux/man-pages/man1/top.1.html) — deep-dive
 - [Wikipedia — top (software)](https://en.wikipedia.org/wiki/Top_(software)) — overview
 
 ## Key Concepts
-- **Load average:** runnable + uninterruptible tasks (1/5/15 min) — compare to `nproc`, not to “100%.”
-- **`id` / `wa` / `st`:** idle, I/O wait, steal (hypervisor) — diagnose CPU-bound vs disk vs noisy neighbor.
+- **Load average:** runnable + uninterruptible tasks (1/5/15 min)
+- **`id` / `wa` / `st`:** idle, I/O wait, steal (hypervisor)
 - **RES vs VIRT:** chase RES for pressure; scary VIRT is often mappings.
 - **`%CPU` > 100:** multi-threaded process summing cores.
-- **Irix mode:** `%CPU` as % of one core vs whole machine — know the mode before comparing hosts.
+- **Irix mode:** `%CPU` as % of one core vs whole machine
 
 ## Technical Details
 ```txt
@@ -39,7 +45,7 @@ Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort wi
 | `st` | Steal (VM) |
 | `buff/cache` | Reclaimable page cache |
 
-Drive it: `P` CPU hog → `M` RAM hog → `1` per-core → `H` threads → `k` kill → `c` full command.
+- Drive it: `P` CPU hog → `M` RAM hog → `1` per-core → `H` threads → `k` kill →…
 
 ```bash
 top
@@ -66,8 +72,10 @@ nproc
 | `%MEM` high, little `free` | `buff/cache` vs RES | Don’t panic on cache; check [[OOM (Linux Out Of Memory)]] |
 | VM slow, `st` high | Steal in header | Resize hypervisor / noisy neighbor |
 
-## Real-World Applications
-Live incident triage on a SSH session, batch `-bn1` in Ansible one-liners, and spotting steal time on noisy cloud neighbors.
+## Mistakes to Avoid
+- **Mistake:** Equating load with CPU %
+- **Mistake:** Panicking because “used” RAM includes reclaimable cache
+- **Mistake:** Renicing randomly in production — cgroups are the real limiter
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Always available in rescue shells; interactive sorting.
@@ -77,7 +85,6 @@ Live incident triage on a SSH session, batch `-bn1` in Ansible one-liners, and s
 - vs [[ps]]: snapshot vs live refresh.
 - vs `htop`: nicer UX; still learn stock `top` for busybox/rescue.
 
-## Mistakes to Avoid
-- Equating load with CPU % — disk wait raises load while CPUs look idle.
-- Panicking because “used” RAM includes reclaimable cache.
-- Renicing randomly in production — cgroups are the real limiter.
+
+### Use cases
+- Live incident triage on a SSH session, batch `-bn1` in Ansible one-liners, an…

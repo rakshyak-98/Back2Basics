@@ -4,19 +4,22 @@
 
 > ip (iproute2) configures links, addresses, routes, and neighbors via netlink — the modern replacement for ifconfig/route.
 
-
-
-
+```txt
+        ip ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Core networking: `ip route get`, ephemeral vs persisted config, and mapping legacy net-tools to iproute2.
+- **Interview probes:** Core networking: `ip route get`, ephemeral vs persisted config, and mapping l…
 
 ## Sources
 - [ip(8)](https://man7.org/linux/man-pages/man8/ip.8.html) — deep-dive
 - [iproute2 documentation](https://wiki.linuxfoundation.org/networking/iproute2) — overview
-
-## Core Definition
-Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding), **rule** (policy routing). `ip` talks netlink to the kernel. Changes are immediate and often ephemeral unless persisted in Netplan/NM/systemd-networkd.
 
 ## Key Concepts
 - **link / addr / route / neigh / rule:** Main object families.
@@ -24,6 +27,9 @@ Network configuration is objects: **link** (interface), **address** (IP on link)
 - **Ephemeral CLI:** Lost on reboot without a network manager.
 - **Policy routing:** Extra tables via `ip rule` — invisible in default `ip route` alone.
 - **netns:** Containers = network namespaces + veth.
+
+
+- **Core:** Network configuration is objects: **link** (interface), **address** (IP on li…
 
 ## Technical Details
 | Legacy | iproute2 |
@@ -65,8 +71,10 @@ ip link add link eth0 name eth0.100 type vlan id 100
 | MTU black hole | Large ping fails | Lower MTU; PMTUD |
 | Config lost on reboot | Only CLI used | Persist in Netplan/NM/networkd |
 
-## Real-World Applications
-Debugging “no route to host,” adding a temporary static route during an incident, and checking RX drops with `ip -s link`.
+## Mistakes to Avoid
+- **Mistake:** Hard-coding `eth0` on cloud images (`ens5`, etc.)
+- **Mistake:** Ignoring `ip rule` / alternate tables when routes “look right.”
+- **Mistake:** Changing MTU on live production TCP without a window
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise, scriptable, complete netlink surface.
@@ -74,9 +82,8 @@ Debugging “no route to host,” adding a temporary static route during an inci
 - **Trade-off:** `add` vs `replace` for idempotent automation.
 
 ## Comparison
-vs [[ss]]: sockets/process ownership, not L3 config. vs [[route]]: older net-tools; prefer `ip route`. vs firewall/nftables: routes don’t filter.
+- vs [[ss]]: sockets/process ownership, not L3 config. vs [[route]]: older net-…
 
-## Mistakes to Avoid
-- Hard-coding `eth0` on cloud images (`ens5`, etc.).
-- Ignoring `ip rule` / alternate tables when routes “look right.”
-- Changing MTU on live production TCP without a window.
+
+### Use cases
+- Debugging “no route to host,” adding a temporary static route during an incid…

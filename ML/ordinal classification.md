@@ -4,19 +4,24 @@
 
 > Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
-
-
-
+```txt
+        Ordinal classifica ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Ordinal classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Ordinal classification to check whether you can choose…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-Nominal multiclass treats "medium" versus "large" as equally wrong as "small" versus "large". Ordinal models encode **rank structure**:
+- **Note:** Nominal multiclass treats "medium" versus "large" as equally wrong as "small"…
 
 ```txt
 Ratings: 1 < 2 < 3 < 4 < 5
@@ -33,7 +38,7 @@ Approaches:
 | **Weighted loss multiclass** | Penalize far-off classes more |
 | **Corn loss / coral** | Neural ordinal heads (modern) |
 
-**Ordinal cross-entropy** (sometimes used) applies class weights by distance from true rank — not standard softmax CE.
+- **Note:** **Ordinal cross-entropy** (sometimes used) applies class weights by distance …
 
 ## Technical Details
 ```python
@@ -61,12 +66,7 @@ clf.fit(X_train, y_train)  # y must be 0..K-1 ordered integers
 pred = clf.predict(X_test)
 ```
 
-Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
-
-## Pros/Cons or Trade-offs
-- **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
-- **True continuous measurement** — [[regression]] without bucketing.
-- **Binary decision** — [[binary classification]].
+- Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -82,3 +82,8 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 | Classes collapsed to middle | Imbalance | Class weights; focal loss variants |
 | Good accuracy, bad user UX | Far-off errors hidden | Report MAE / off-by-2 rate |
 | Label order ambiguous | Domain definition | Lock encoding doc (low=0 vs low=1) |
+
+## Pros/Cons or Trade-offs
+- **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
+- **True continuous measurement** — [[regression]] without bucketing.
+- **Binary decision** — [[binary classification]].

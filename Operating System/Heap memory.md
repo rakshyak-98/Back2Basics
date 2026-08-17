@@ -4,12 +4,18 @@
 
 > Heap memory is dynamically allocated process memory — `malloc`, `new`, GC arenas — growing independently of the call stack and subject to fragmentation and OOM policy.
 
-
-
-
+```txt
+        Heap memory ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast stack vs heap, ask how allocators get pages from the kernel (`brk`/`mmap`), and how leaks show up in RSS / cgroup OOM.
+- **Interview probes:** Interviewers contrast stack vs heap, ask how allocators get pages from the ke…
 
 ## Sources
 - Wilson et al., “Dynamic Storage Allocation: A Survey and Classification” — deep-dive
@@ -17,23 +23,27 @@ Interviewers contrast stack vs heap, ask how allocators get pages from the kerne
 - [Wikipedia — Dynamic memory allocation](https://en.wikipedia.org/wiki/Dynamic_memory_allocation) — overview
 
 ## Key Concepts
-- **Stack vs heap:** stack is LIFO per thread ([[Stack Frame]], [[stack pointer]]); heap lives until `free` / GC.
+- **Stack vs heap:** stack is LIFO per thread ([[Stack Frame]], [[stack pointer]])
 - **Allocator → kernel:** `brk` / `mmap` anonymous pages; RSS counts toward limits.
 - **Fragmentation / leaks:** long-lived processes can grow RSS even with GC if native caches pin memory.
-- **Swap interaction:** cold heap pages may go to [[RAM and Swap memory]] — bad for latency-sensitive runtimes.
+- **Swap interaction:** cold heap pages may go to [[RAM and Swap memory]]
 
 ## Technical Details
-Allocators (`malloc`, jemalloc, tcmalloc) request anonymous pages. Resident size (RSS) counts toward [[cgroup (Control Group)]] and can trigger [[OOM (Linux Out Of Memory)]] when over limit.
+- Allocators (`malloc`, jemalloc, tcmalloc) request anonymous pages.
+- Resident size (RSS) counts toward [[cgroup (Control Group)]] and can trigger …
 
 ```bash
 pmap -x PID
 cat /proc/PID/smaps_rollup
 ```
 
-[[Browser memory]] splits JS heap versus native renderer allocations. Managed runtimes trade safety for GC pauses and larger footprint.
+- [[Browser memory]] splits JS heap versus native renderer allocations.
+- Managed runtimes trade safety for GC pauses and larger footprint.
 
-## Real-World Applications
-JVM/Go services tune heap size against container `memory.max`. Native caches (Redis-style arenas, language allocators) need explicit caps so the kernel does not OOM-kill neighbors.
+## Mistakes to Avoid
+- **Mistake:** Ignoring native allocations when only watching a managed heap me…
+- **Mistake:** Setting container memory == JVM `-Xmx` with no headroom for meta…
+- **Mistake:** Assuming `free()` always returns pages to the OS immediately (al…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Flexible lifetimes; shared by all threads in the process.
@@ -44,7 +54,6 @@ JVM/Go services tune heap size against container `memory.max`. Native caches (Re
 - vs [[Stack Frame]]: automatic, bounded, no free; heap is explicit/managed lifetime.
 - vs [[Browser memory]]: browser total includes heaps across processes plus GPU/DOM.
 
-## Mistakes to Avoid
-- Ignoring native allocations when only watching a managed heap metric.
-- Setting container memory == JVM `-Xmx` with no headroom for metaspace, threads, and direct buffers.
-- Assuming `free()` always returns pages to the OS immediately (allocators often retain arenas).
+
+### Use cases
+- JVM/Go services tune heap size against container `memory.max`

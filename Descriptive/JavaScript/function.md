@@ -4,22 +4,27 @@
 
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
-
-
-
+```txt
+        Function (JavaScri ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Function interviews cover declarations vs expressions, closures, and first-class usage.
+- **Interview probes:** Function interviews cover declarations vs expressions, closures, and first-cl…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-Functions are values: assign, pass, return, store on objects. Each **invocation** creates a new execution context; the function object persists and can hold its own properties.
+- **Note:** Functions are values: assign, pass, return, store on objects. Each **invocati…
 
 ```
 const fn = function add(a, b) { return a + b; };
-fn.customMeta = { version: 1 };   // legal — functions are objects
+- **Note:** fn.customMeta = { version: 1 }; // legal — functions are objects
 
 fn(2, 3) → new context → return 5 → context popped
 ```
@@ -60,7 +65,7 @@ const flatMapped = arr.flatMap(x => [x, x * 2]);
 // [1, 2, 2, 4, 3, 6] — one level flat
 ```
 
-Use `flatMap` when mapper returns arrays and you want a single list; equivalent to `.map().flat(1)`.
+- Use `flatMap` when mapper returns arrays and you want a single list
 
 ### Custom properties on functions (metadata, caches)
 
@@ -80,17 +85,13 @@ const withAuth = (token) => (req) => fetch(req, {
 });
 ```
 
-## Pros/Cons or Trade-offs
-- One-liner used once — inline or extract only when name clarifies intent.
-- Class when only data — plain object or record type may suffice.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > Functions are **mutable objects** — reassigning `parseConfig = null` does not remove it from closures that already captured the old reference.
 
-- **`function.length`:** count of parameters before first default/rest — not always runtime arity.
-- **Generator/async:** return iterators/promises; different error paths.
-- **Strict mode** in modules and classes — silent global leaks become errors.
+- **Mistake:** **`function.length`:** count of parameters before first default/…
+- **Mistake:** **Generator/async:** return iterators/promises
+- **Mistake:** **Strict mode** in modules and classes
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,3 +100,7 @@ const withAuth = (token) => (req) => fetch(req, {
 | `this` undefined in method passed as callback | Detached method | `bind`, arrow wrapper, or class field |
 | Stack overflow | Recursion | Iterate or trampoline |
 | Memory growth | Closure over big scope | Narrow captured vars |
+
+## Pros/Cons or Trade-offs
+- One-liner used once — inline or extract only when name clarifies intent.
+- Class when only data — plain object or record type may suffice.

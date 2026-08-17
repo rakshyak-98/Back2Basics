@@ -4,12 +4,18 @@
 
 > First-class functions — assign to variables, pass as arguments, return from functions; tear-offs and closures power Flutter callbacks.
 
-
-
-
+```txt
+        Dart functions ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want first-class functions, optional/named params, tear-offs vs lambdas, and lexical closures capturing state.
+- **Interview probes:** Interviewers want first-class functions, optional/named params, tear-offs vs …
 
 ## Sources
 - [Dart — Functions](https://dart.dev/language/functions) — deep-dive
@@ -38,10 +44,10 @@ FloatingActionButton(onPressed: viewModel.increment);
 | Block body | Multiple statements |
 | Named params | Readable Flutter widget APIs |
 
-## Real-World Applications
-Widget callbacks, `list.map((x) => …)`, and dependency injection of strategy functions.
-
-**Example:** Prefer tear-offs when signatures match to avoid allocating a new lambda each rebuild.
+## Mistakes to Avoid
+- **Mistake:** Creating new lambdas in `build` that break equality optimization…
+- **Mistake:** Capturing huge objects in long-lived closures
+- **Mistake:** Overusing optional positional params when named params are clear…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Expressive APIs; great for UI callbacks.
@@ -51,7 +57,8 @@ Widget callbacks, `list.map((x) => …)`, and dependency injection of strategy f
 - vs Java lambdas: similar idea; Dart had first-class functions from early on.
 - vs [[dart]]: language overview vs function-specific idioms.
 
-## Mistakes to Avoid
-- Creating new lambdas in `build` that break equality optimizations unnecessarily.
-- Capturing huge objects in long-lived closures.
-- Overusing optional positional params when named params are clearer.
+
+### Use cases
+- Widget callbacks, `list.map((x) => …)`, and dependency injection of strategy …
+
+- **Example:** Prefer tear-offs when signatures match to avoid allocating a new…

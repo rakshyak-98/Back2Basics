@@ -4,12 +4,18 @@
 
 > FCM multicast sends one payload to up to 500 registration tokens in one Admin SDK call — best for an explicit device list without a topic.
 
-
-
-
+```txt
+        Multicast delivery ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want the 500 limit, `sendEachForMulticast` per-token results, and chunking/pruning strategy.
+- **Interview probes:** Interviewers want the 500 limit, `sendEachForMulticast` per-token results, an…
 
 ## Sources
 - [Firebase — Send a message to multiple devices](https://firebase.google.com/docs/cloud-messaging/send-message#send-messages-to-multiple-devices) — deep-dive
@@ -38,10 +44,10 @@ batchResponse.responses.forEach((resp, idx) => {
 | Tokens per multicast | 500 |
 | Payload | Normal FCM message limits |
 
-## Real-World Applications
-Notify all devices for one account (often <<500) in a single multicast; for all-user blasts, prefer topics or chunked jobs.
-
-**Example:** High failure rate after app reinstall wave — prune `registration-token-not-registered` aggressively.
+## Mistakes to Avoid
+- **Mistake:** Passing >500 tokens and assuming the SDK silently handles it
+- **Mistake:** Ignoring `failureCount` / per-token errors
+- **Mistake:** Deduping poorly so retries double-notify users
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple API for known token lists; detailed failures.
@@ -51,7 +57,8 @@ Notify all devices for one account (often <<500) in a single multicast; for all-
 - vs topic send: topics scale broadcast; multicast targets a concrete list.
 - vs single send: multicast reduces HTTP chatter for batches ≤500.
 
-## Mistakes to Avoid
-- Passing >500 tokens and assuming the SDK silently handles it.
-- Ignoring `failureCount` / per-token errors.
-- Deduping poorly so retries double-notify users.
+
+### Use cases
+- Notify all devices for one account (often <<500) in a single multicast
+
+- **Example:** High failure rate after app reinstall wave

@@ -4,18 +4,23 @@
 
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
-
-
-
+```txt
+        Constructor functi ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Constructor interviews check new, prototypes, and class syntax equivalence.
+- **Interview probes:** Constructor interviews check new, prototypes, and class syntax equivalence.
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-A **constructor function** is a normal function intended to be called with `new`. It creates an object, links prototypes, runs the body with `this` bound to that object, and returns it (unless overridden).
+- **Note:** A **constructor function** is a normal function intended to be called with `n…
 
 ```
 new Person('Ada')
@@ -32,7 +37,7 @@ new Person('Ada')
 | ES6+ | `class User { constructor() { … } }` — syntactic sugar over prototypes |
 | Factory (no `new`) | `function createUser() { return { … }; }` — no prototype chain |
 
-Constructors are **not** special to the engine — only `new` gives them constructor semantics.
+- **Note:** Constructors are **not** special to the engine
 
 ## Technical Details
 ### ES5 constructor + prototype methods
@@ -85,18 +90,13 @@ class Admin extends User {
 }
 ```
 
-## Pros/Cons or Trade-offs
-- Simple data holders — plain objects or `Object.create(null)` suffice.
-- Heavy inheritance hierarchies — favor composition or factory functions.
-- TypeScript codebase — `class` + interfaces gives better tooling.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > Arrow functions cannot be constructors — no `prototype`, `new` throws.
 
-- **`new.target`:** detects whether function invoked via `new` (useful in dual factory/constructor APIs).
-- **Shared state bug:** `function User() { this.tags = []; }` is per-instance; `User.prototype.tags = []` is shared.
-- **Minification + `instanceof`:** breaking constructor names can confuse debuggers, not semantics.
+- **Mistake:** **`new.target`:** detects whether function invoked via `new` (us…
+- **Mistake:** **Shared state bug:** `function User() { this.tags = []
+- **Mistake:** **Minification + `instanceof`:** breaking constructor names can …
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,3 +105,8 @@ class Admin extends User {
 | `instanceof` false across iframes | Different realm prototypes | Duck-type or Symbol branding |
 | Subclass `this` before `super` | ES6 class rules | Call `super()` first in derived constructor |
 | Constructor returns plain object | Explicit `return { … }` | Only return object if intentional; else omit return |
+
+## Pros/Cons or Trade-offs
+- Simple data holders — plain objects or `Object.create(null)` suffice.
+- Heavy inheritance hierarchies — favor composition or factory functions.
+- TypeScript codebase — `class` + interfaces gives better tooling.

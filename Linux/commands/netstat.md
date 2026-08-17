@@ -4,12 +4,18 @@
 
 > Lists sockets, listeners, and some interface stats — legacy on modern Linux; prefer [[ss]].
 
-
-
-
+```txt
+        netstat ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers check whether you reach for `ss` first and treat netstat as a legacy net-tools fallback, not the default inventory tool.
+- **Interview probes:** Interviewers check whether you reach for `ss` first and treat netstat as a le…
 
 ## Sources
 - [Wikipedia — netstat](https://en.wikipedia.org/wiki/netstat) — overview
@@ -45,7 +51,7 @@ sudo netstat -p
 | `-p` | PID/program |
 | `-s` | Statistics |
 
-Prefer [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
+- Prefer [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,10 +60,10 @@ Prefer [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 | No process names | Not root | `sudo`; or `ss -p` |
 | “Port free” but bind fails | IPv6 / other user | Check `ss -lntup` fully |
 
-## Real-World Applications
-Quick port inventory on older hosts that still ship net-tools, or reading legacy runbooks that have not migrated to `ss`.
-
-**Example:** A minimal container image has no `netstat` — use `ss -luntp` from iproute2 instead of installing net-tools.
+## Mistakes to Avoid
+- **Mistake:** Assuming netstat is installed — many images omit net-tools
+- **Mistake:** Omitting `-n` so reverse DNS makes the tool look hung
+- **Mistake:** Using netstat for packet capture or firewall policy
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Familiar flags for operators trained on classic Unix.
@@ -67,7 +73,8 @@ Quick port inventory on older hosts that still ship net-tools, or reading legacy
 - vs [[ss]]: same job, newer kernel/netlink path — use `ss` on modern Linux.
 - vs [[lsof]]: `lsof -i` is file-descriptor oriented; `ss`/`netstat` are socket-table oriented.
 
-## Mistakes to Avoid
-- Assuming netstat is installed — many images omit net-tools.
-- Omitting `-n` so reverse DNS makes the tool look hung.
-- Using netstat for packet capture or firewall policy — use tcpdump / nftables / [[ufw]] instead.
+
+### Use cases
+- Quick port inventory on older hosts that still ship net-tools, or reading leg…
+
+- **Example:** A minimal container image has no `netstat`

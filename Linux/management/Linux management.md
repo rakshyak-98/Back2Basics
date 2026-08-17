@@ -4,12 +4,18 @@
 
 > Ops umbrella for a host — packages, services, users, storage, network, and observability.
 
-
-
-
+```txt
+        Linux management ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Staff/ops framing: cattle vs pets, break-glass vs config management, blast radius, and manage to SLOs not vibes.
+- **Interview probes:** Staff/ops framing: cattle vs pets, break-glass vs config management, blast ra…
 
 ## Sources
 - [Google SRE book — Effective Troubleshooting](https://sre.google/sre-book/effective-troubleshooting/) — overview
@@ -49,8 +55,10 @@ df -h; free -h
 | Network partition | `ip`/`ss`/ping | Routes/firewall/DNS |
 | Auth failures | time + PAM + LDAP | NTP; getent; tickets |
 
-## Real-World Applications
-SEV response: confirm blast radius, use the break-glass kit, fix with a tracked change, then re-apply CM so the host is not a snowflake.
+## Mistakes to Avoid
+- **Mistake:** Leaving undocumented manual fixes
+- **Mistake:** Endless surgery on hosts that should be rebuilt from image
+- **Mistake:** Managing containers by babysitting their guest OS
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One mental model for host health across layers.
@@ -60,7 +68,6 @@ SEV response: confirm blast radius, use the break-glass kit, fix with a tracked 
 - vs [[Linux system management]]: day-2 patch/observe focus under this umbrella.
 - vs cloud control plane: use provider APIs for platforms you don’t own as pets.
 
-## Mistakes to Avoid
-- Leaving undocumented manual fixes.
-- Endless surgery on hosts that should be rebuilt from image.
-- Managing containers by babysitting their guest OS.
+
+### Use cases
+- SEV response: confirm blast radius, use the break-glass kit, fix with a track…

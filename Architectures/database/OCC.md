@@ -4,12 +4,17 @@
 
 > OCC (Optimistic Concurrency Control) lets transactions run, then checks for conflict at commit — retry if someone else wrote first.
 
-
-
-
+```txt
+        OCC ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-OCC interviews contrast validate-at-commit vs locking — retry storms under contention and when MVCC/locking fits better.
+- **Interview probes:** OCC interviews contrast validate-at-commit vs locking
 
 ## Sources
 - [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview
@@ -17,7 +22,7 @@ OCC interviews contrast validate-at-commit vs locking — retry storms under con
 
 ## Key Concepts
 ```txt
-read version/etag → compute → commit if version unchanged else retry
+- **Note:** read version/etag → compute → commit if version unchanged else retry
 ```
 
 ### Interview map (words you can say)
@@ -29,7 +34,7 @@ read version/etag → compute → commit if version unchanged else retry
 | **Retry** | Run the txn again | “Conflicts should be rare or OCC hurts.” |
 | **vs pessimistic** | Lock first | “Hot rows prefer locks or queues.” |
 
-Used in: HTTP `If-Match`, DynamoDB conditional writes, many ORMs’ `@Version`.
+- **Note:** Used in: HTTP `If-Match`, DynamoDB conditional writes, many ORMs’ `@Version`.
 
 ## Technical Details
 ```sql
@@ -53,10 +58,10 @@ If-Match: "etag-abc"
 | Double charge | retry without idempotency | Idempotent keys |
 | High latency | retry storms | Cap retries; backoff |
 
+## Mistakes to Avoid
+- **Mistake:** OCC needs rare conflicts — hot counters are a bad fit
+- **Mistake:** Retry must be safe — pair with idempotency for side effects
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Very hot rows — use locks, single-threaded owner, or atomic increment.
 - **Trade-off:** Multi-row invariants without a txn story — need real transactions, not only etags.
-
-## Mistakes to Avoid
-- OCC needs rare conflicts — hot counters are a bad fit.
-- Retry must be safe — pair with idempotency for side effects.

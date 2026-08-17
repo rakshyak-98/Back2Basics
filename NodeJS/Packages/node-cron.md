@@ -4,12 +4,18 @@
 
 > In-process cron schedules — fires JS callbacks on a crontab pattern while the Node process is alive.
 
-
-
-
+```txt
+        node-cron ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **node-cron** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **ScheduledTask**, **In-process**.
+- **Interview probes:** Interviewers use **node-cron** to check whether you can explain the mechanism…
 
 ## Sources
 - [node-cron](https://github.com/node-cron/node-cron) — deep-dive
@@ -45,21 +51,22 @@ tasks.forEach((t) => t.stop())
 | Registry array | Stop all on SIGTERM |
 | Validate expr | `cron.validate` |
 
-## Real-World Applications
-In production APIs and tooling, **node-cron** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Multi-instance apps** — every replica runs the job unless you coordinate; **Not durable** — process crash misses ticks; use a queue/scheduler for critical jobs.
+## Mistakes to Avoid
+- **Mistake:** **Multi-instance apps**
+- **Mistake:** **Not durable**
+- **Mistake:** **Runs N times:** check N cluster workers
+- **Mistake:** **Can’t stop:** check Discarded return value; fix: Keep registry
+- **Mistake:** **Wrong hour:** check TZ; fix: Set timezone explicitly
+- **Mistake:** **Overlap:** check Long job > interval
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (In-process cron schedules — fires JS callbacks on a crontab pattern while the No…).
-- **Con / when not:** **Clustered / K8s many pods** — use system cron, Cloud Scheduler, or a lock.
+- **Con / when not:** **Clustered / K8s many pods**
 - **Con / when not:** **Exactly-once billing jobs** — need durable job system.
 
 ## Comparison
-vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[clustering]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
+- vs [[Packages/npm packages]]: know when each applies
 
-## Mistakes to Avoid
-- **Multi-instance apps** — every replica runs the job unless you coordinate.
-- **Not durable** — process crash misses ticks; use a queue/scheduler for critical jobs.
-- **Runs N times:** check N cluster workers; fix: Leader election or external scheduler
-- **Can’t stop:** check Discarded return value; fix: Keep registry
-- **Wrong hour:** check TZ; fix: Set timezone explicitly
-- **Overlap:** check Long job > interval; fix: Mutex / skip-if-running
+
+### Use cases
+- In production APIs and tooling, **node-cron** shows up whenever teams ship No…

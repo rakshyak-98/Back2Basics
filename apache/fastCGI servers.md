@@ -4,12 +4,18 @@
 
 > Binary protocol between a web server and long-lived application workers — reuse processes instead of forking per request like classic CGI.
 
-
-
-
+```txt
+        FastCGI ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Apache proxy to a FastCGI socket/port.
+- **Interview probes:** Interviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Ap…
 
 ## Sources
 - [FastCGI specification](https://fastcgi-archives.github.io/) — deep-dive
@@ -26,7 +32,8 @@ Interviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Apach
 Client → Nginx/Apache → FastCGI (socket) → worker → response
 ```
 
-Apache often uses `proxy_fcgi`; Nginx uses `fastcgi_pass`. PHP’s common server-side is [[PHP-FPM]].
+- Apache often uses `proxy_fcgi`; Nginx uses `fastcgi_pass`.
+- PHP’s common server-side is [[PHP-FPM]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -34,10 +41,10 @@ Apache often uses `proxy_fcgi`; Nginx uses `fastcgi_pass`. PHP’s common server
 | Spiky latency | Pool too small | Raise `pm.max_children` carefully |
 | Memory blowup | Too many workers | Lower children; fix leaks |
 
-## Real-World Applications
-Almost every PHP site behind Nginx/Apache today: front server serves static files and proxies PHP to FPM via FastCGI.
-
-**Example:** Deploy moves socket path from `/run/php/php8.2-fpm.sock` to `8.3` — update vhost or get 502s.
+## Mistakes to Avoid
+- **Mistake:** World-writable FastCGI sockets
+- **Mistake:** Sizing `max_children` above what RAM can hold (`memory_limit × c…
+- **Mistake:** Mixing leftover `mod_php` with FPM on the same vhost accidentally
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Far better throughput than classic [[CGI]].
@@ -45,9 +52,10 @@ Almost every PHP site behind Nginx/Apache today: front server serves static file
 
 ## Comparison
 - vs CGI: persistent vs process-per-request.
-- vs HTTP reverse proxy to Node/Java: FastCGI is a specialized app protocol; many modern apps just speak HTTP upstream.
+- vs HTTP reverse proxy to Node/Java: FastCGI is a specialized app protocol
 
-## Mistakes to Avoid
-- World-writable FastCGI sockets.
-- Sizing `max_children` above what RAM can hold (`memory_limit × children`).
-- Mixing leftover `mod_php` with FPM on the same vhost accidentally.
+
+### Use cases
+- Almost every PHP site behind Nginx/Apache today: front server serves static f…
+
+- **Example:** Deploy moves socket path from `/run/php/php8.2-fpm.sock` to `8.3`

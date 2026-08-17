@@ -4,12 +4,18 @@
 
 > Caps CPU, memory, I/O, and PIDs so one tenant cannot sink the host — niceness is soft; cgroups are hard.
 
-
-
-
+```txt
+        Linux resource man ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Soft vs hard controls: nice/ionice vs `MemoryMax`/`CPUQuota`, plus PSI as early warning.
+- **Interview probes:** Soft vs hard controls: nice/ionice vs `MemoryMax`/`CPUQuota`, plus PSI as ear…
 
 ## Sources
 - [cgroup-v2 documentation](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) — deep-dive
@@ -49,8 +55,10 @@ ionice -c 3 -p PID
 | Disk latency spike | Heavy writer | ionice / IOWeight |
 | Fork bomb | TasksMax | Set TasksMax; find spawner |
 
-## Real-World Applications
-Protect an API unit with `CPUQuota=200%` and `MemoryMax=1G`, watch PSI during load tests, and nice a batch compressor so it yields under contention.
+## Mistakes to Avoid
+- **Mistake:** Limits without metrics — you only learn in outages
+- **Mistake:** Trying to “fix” memory leaks with nice
+- **Mistake:** Ignoring runtime heap vs cgroup mismatch
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Predictable multi-tenant behavior on shared hosts.
@@ -60,7 +68,6 @@ Protect an API unit with `CPUQuota=200%` and `MemoryMax=1G`, watch PSI during lo
 - vs [[renice]]: soft only — won’t stop a runaway alone.
 - vs [[Linux cgroup]]: this note is the ops policy layer; cgroup is the mechanism.
 
-## Mistakes to Avoid
-- Limits without metrics — you only learn in outages.
-- Trying to “fix” memory leaks with nice.
-- Ignoring runtime heap vs cgroup mismatch.
+
+### Use cases
+- Protect an API unit with `CPUQuota=200%` and `MemoryMax=1G`, watch PSI during…

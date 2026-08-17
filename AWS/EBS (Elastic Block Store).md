@@ -4,12 +4,15 @@
 
 > EBS provides network-attached block volumes for EC2 — durable, snapshot-backed disks you attach to one instance at a time (except Multi-Attach on io2).
 
-
-
-
+```txt
+        EBS (Elastic Block ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               └── Comparison
+```
 
 ## Interview Relevance
-EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constraints.
+- **Interview probes:** EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constra…
 
 ## Sources
 - [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) — overview
@@ -27,7 +30,8 @@ EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constraint
 | **sc1** | Cold HDD | Infrequent access |
 | **Instance store** | Ephemeral local NVMe | Fast, lost on stop/terminate — not EBS but often compared |
 
-Volumes live in an **Availability Zone**. Attach only to instances in the same AZ (unless using cross-AZ patterns with replication software).
+- Volumes live in an **Availability Zone**.
+- Attach only to instances in the same AZ (unless using cross-AZ patterns with …
 
 ### Attach and mount
 
@@ -39,13 +43,13 @@ sudo mkdir /data
 sudo mount /dev/nvme1n1 /data
 ```
 
-Add `/etc/fstab` entry using UUID, not device name, for reboot safety.
+- Add `/etc/fstab` entry using UUID, not device name, for reboot safety.
 
 ### Snapshots and AMIs
 
-- **Snapshots** are incremental backups to S3 (managed by AWS); create [[AMI (Amazon Machine Image)]] from snapshots.
-- **Copy snapshots** across regions for disaster recovery.
-- **Fast Snapshot Restore** costs extra; use for large parallel launches.
+- **Snapshots:** are incremental backups to S3 (managed by AWS)
+- **Copy snapshots:** across regions for disaster recovery.
+- **Fast Snapshot Restore:** costs extra; use for large parallel launches.
 
 ### Resize
 
@@ -58,10 +62,11 @@ sudo xfs_growfs /data
 
 ### Encryption
 
-Enable encryption at creation; uses AWS-managed or customer-managed KMS keys. Encrypted snapshots stay encrypted when copied.
+- Enable encryption at creation; uses AWS-managed or customer-managed KMS keys.
+- Encrypted snapshots stay encrypted when copied.
 
 ## Comparison
-**vs [[AWS EFS (Elastic File System)]]**
+- **vs [[AWS EFS (Elastic File System)]]**
 
 | EBS | EFS |
 |-----|-----|

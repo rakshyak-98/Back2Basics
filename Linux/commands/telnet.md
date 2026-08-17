@@ -4,25 +4,31 @@
 
 > Cleartext TCP client — fastest manual probe for “does this port accept connections and speak text?”
 
-
-
-
+```txt
+        telnet ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows you can hand-talk SMTP/HTTP for debugging, know telnet is not encrypted, and prefer [[nc]] / `openssl s_client` for most modern checks.
+- **Interview probes:** Shows you can hand-talk SMTP/HTTP for debugging, know telnet is not encrypted…
 
 ## Sources
 - [Wikipedia — Telnet](https://en.wikipedia.org/wiki/Telnet) — overview
 - [RFC 854 — Telnet Protocol Specification](https://www.rfc-editor.org/rfc/rfc854) — deep-dive
-
-## Core Definition
-`telnet host port` opens a raw TCP session and prints bytes to your terminal. It does not encrypt. It shines when you type protocol lines interactively (SMTP, HTTP/1.0, IMAP).
 
 ## Key Concepts
 - **Banner grab:** see the service hello — sanity check, not a scanner.
 - **Escape:** Ctrl+] then `quit` to leave stuck sessions.
 - **TLS:** use `openssl s_client` (with `-starttls` when needed), not cleartext telnet.
 - **vs nc:** prefer [[nc]] `-zv` for open/closed-only tests and scripting.
+
+
+- **Core:** `telnet host port` opens a raw TCP session and prints bytes to your terminal
 
 ## Technical Details
 ```
@@ -60,8 +66,10 @@ ss -lntup
 | Connect then close | TLS-only port | `openssl s_client` on 465/993/443 |
 | Garbled characters | Binary protocol | Use a real client library |
 
-## Real-World Applications
-Mail relay debugging on port 25, legacy appliance consoles, and quick HTTP header peeks when curl is unavailable.
+## Mistakes to Avoid
+- **Mistake:** Sending passwords over telnet
+- **Mistake:** Using telnet against TLS-only ports and calling the service “bro…
+- **Mistake:** Leaving telnetd enabled on servers
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Interactive protocol debugging with zero ceremony.
@@ -71,7 +79,6 @@ Mail relay debugging on port 25, legacy appliance consoles, and quick HTTP heade
 - vs [[nc]]: nc is better for scripting and port probes.
 - vs [[SSH]]: remote administration must never use telnetd.
 
-## Mistakes to Avoid
-- Sending passwords over telnet.
-- Using telnet against TLS-only ports and calling the service “broken.”
-- Leaving telnetd enabled on servers.
+
+### Use cases
+- Mail relay debugging on port 25, legacy appliance consoles, and quick HTTP he…

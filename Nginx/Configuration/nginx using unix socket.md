@@ -4,29 +4,36 @@
 
 > Same-host upstream over a unix socket — skip TCP loopback for lower latency and no port conflicts; socket permissions must allow Nginx to connect.
 
-
-
-
+```txt
+        Nginx + Unix Domai ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Platform interviews ask why unix sockets beat `127.0.0.1`, how to fix 502 permission errors, and how systemd cleans stale socket files.
+- **Interview probes:** Platform interviews ask why unix sockets beat `127.0.0.1`, how to fix 502 per…
 
 ## Sources
 - [nginx.org — proxy_pass (unix)](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) — deep-dive
 - [man unix(7)](https://man7.org/linux/man-pages/man7/unix.7.html) — overview
 - [systemd — RuntimeDirectory](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#RuntimeDirectory=) — overview
 
-## Core Definition
-Nginx can reverse-proxy to an HTTP upstream bound on a unix domain socket (`http://unix:/path.sock`) instead of a TCP port on localhost.
-
 ## Key Concepts
-- **Why unix sockets:** Avoid TCP/IP stack on loopback — typically higher throughput / lower latency same-host; no port collisions.
-- **Permissions:** Socket file mode + directory ownership so the Nginx user (e.g. `www-data`) can connect.
+- **Why unix sockets:** Avoid TCP/IP stack on loopback
+- **Permissions:** Socket file mode + directory ownership so the Nginx user (e.g
 - **Stale sockets:** Crash leaves a socket file that blocks bind — remove in `ExecStartPre`.
 - **WebSocket still works:** Set `Upgrade` / `Connection` headers as with TCP upstreams.
 
+
+- **Core:** Nginx can reverse-proxy to an HTTP upstream bound on a unix domain socket (`h…
+
 ## Technical Details
-Unix sockets avoid TCP overhead on the same host (often ~20–30% throughput gain in benchmarks). Trade-off: socket file permissions and cleanup on restart.
+- Unix sockets avoid TCP overhead on the same host (often ~20–30% throughput ga…
+- Trade-off: socket file permissions and cleanup on restart.
 
 ### App side (Express)
 
@@ -92,7 +99,7 @@ server {
 }
 ```
 
-Syntax: `http://unix:/absolute/path.sock` — no host/port.
+- Syntax: `http://unix:/absolute/path.sock` — no host/port.
 
 ```bash
 ls -la /var/run/my-api/app.sock
@@ -105,7 +112,7 @@ sudo nginx -t && sudo systemctl reload nginx
 | TCP `127.0.0.1:3000` | ~18,500 | ~2.1 ms |
 | Unix socket | ~24,000+ | ~1.4 ms |
 
-Numbers vary by hardware and payload — directionally correct for same-host proxy.
+- Numbers vary by hardware and payload
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,8 +122,10 @@ Numbers vary by hardware and payload — directionally correct for same-host pro
 | curl unix works, Nginx 502 | Typo in `proxy_pass` path | Paths must match exactly |
 | Intermittent 502 after restart | Nginx before app ready | systemd ordering + health check |
 
-## Real-World Applications
-Node/Python/PHP-FPM on the same VM as Nginx, proxying over `/run/app/app.sock` in production.
+## Mistakes to Avoid
+- **Mistake:** `chmod 777` on the socket — use group membership instead
+- **Mistake:** Forgetting `/var/run` is tmpfs
+- **Mistake:** Assuming WebSockets need TCP
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Latency and port hygiene on single-host deploys.
@@ -124,10 +133,9 @@ Node/Python/PHP-FPM on the same VM as Nginx, proxying over `/run/app/app.sock` i
 - **Con:** Local development is often simpler on a TCP port; switch to socket for production.
 
 ## Comparison
-- vs TCP `127.0.0.1:PORT`: sockets win on same host; TCP wins for remote upstreams and simple local DX.
-- vs [[nginx stream]]: stream is L4 listen/proxy; unix socket here is an HTTP upstream transport for `proxy_pass`.
+- vs TCP `127.0.0.1:PORT`: sockets win on same host
+- vs [[nginx stream]]: stream is L4 listen/proxy
 
-## Mistakes to Avoid
-- `chmod 777` on the socket — use group membership instead.
-- Forgetting `/var/run` is tmpfs — use `RuntimeDirectory=` so `/run/my-api` returns after reboot.
-- Assuming WebSockets need TCP — Upgrade headers work over unix sockets too.
+
+### Use cases
+- Node/Python/PHP-FPM on the same VM as Nginx, proxying over `/run/app/app.sock…

@@ -4,23 +4,26 @@
 
 > Encrypt and authenticate bytes on the wire — terminate at the edge, prefer modern suites, automate certificate renewal, verify the full chain.
 
-
-
-
+```txt
+        TLS (Transport Lay ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Core networking/security: handshake, certificates, cipher suites, termination points, and TLS 1.2 vs 1.3 differences.
+- **Interview probes:** Core networking/security: handshake, certificates, cipher suites, termination…
 
 ## Sources
 - [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446) — deep-dive
 - [RFC 5246 — TLS 1.2](https://www.rfc-editor.org/rfc/rfc5246) — deep-dive
 - [MDN — TLS](https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security) — overview
 
-## Core Definition
-TLS encrypts and authenticates a byte stream above TCP (or QUIC); after handshake, application protocols like HTTP become HTTPS.
-
 ## Key Concepts
-TLS sits above TCP. Handshake negotiates version, ciphers, and (usually) server identity via **X.509 certificate**. After handshake, application data (HTTP → HTTPS) is encrypted and integrity-protected.
+- **Note:** TLS sits above TCP
 
 ```
 Client                         Server
@@ -31,9 +34,12 @@ Client                         Server
   │◄══ encrypted HTTP ══════════►│
 ```
 
-**Certificate** binds public key to DNS name (SAN). **Private key** stays on server (or HSM). **Chain** = leaf + intermediates; clients trust via OS/browser CA store.
+- **Note:** **Certificate** binds public key to DNS name (SAN). **Private key** stays on …
 
 SSL is obsolete terminology — say TLS 1.2/1.3.
+
+
+- **Core:** TLS encrypts and authenticates a byte stream above TCP (or QUIC)
 
 ## Technical Details
 ### Nginx TLS termination
@@ -68,7 +74,7 @@ server {
 }
 ```
 
-application behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
+- application behind proxy must trust `X-Forwarded-Proto` only from known hop
 
 ### Let's Encrypt (certbot)
 
@@ -106,8 +112,12 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 | Works in browser, fails in app | Custom CA not trusted | Add CA to trust store or use public CA |
 | Handshake OK, then 502 | Backend issue, not TLS | See [[Configuration]] 502 playbook |
 
-## Real-World Applications
-Edge Nginx terminates TLS for HTTPS sites; automate Let's Encrypt renewals and prefer TLS 1.2+.
+## Mistakes to Avoid
+- **Mistake:** Private key permissions — `chmod 600`; never commit to git
+- **Mistake:** TLS renegotiation / client certs
+- **Mistake:** HSTS before HTTPS stable
+- **Mistake:** Wildcard cert `*.example.com`
+- **Mistake:** Certificate transparency + short lifetimes
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Industry-standard wire security with broad client support.
@@ -118,9 +128,6 @@ Edge Nginx terminates TLS for HTTPS sites; automate Let's Encrypt renewals and p
 - vs [[https]]: TLS is the secure channel; HTTPS is HTTP on TLS.
 - vs VPN/mTLS mesh: different trust and hop models for east-west traffic.
 
-## Mistakes to Avoid
-- Private key permissions — `chmod 600`; never commit to git.
-- TLS renegotiation / client certs — rare for public APIs; adds complexity.
-- HSTS before HTTPS stable — locks users to HTTPS; broken cert becomes hard outage.
-- Wildcard cert `*.example.com` — does not cover `example.com` bare (needs SAN entry).
-- Certificate transparency + short lifetimes — Let's Encrypt 90 days; automate renew or pager at T-30.
+
+### Use cases
+- Edge Nginx terminates TLS for HTTPS sites

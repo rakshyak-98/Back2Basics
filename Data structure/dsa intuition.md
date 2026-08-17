@@ -4,12 +4,17 @@
 
 > DSA intuition is recognizing which pattern fits — before you write a line of code.
 
-
-
-
+```txt
+        dsa intuition ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Pattern intuition is the soft skill behind DSA interviews — classify before coding, then justify complexity.
+- **Interview probes:** Pattern intuition is the soft skill behind DSA interviews
 
 ## Sources
 - [NeetCode — Pattern roadmap](https://neetcode.io/roadmap) — overview
@@ -54,10 +59,10 @@ count ways / max score   → DP
 | BFS TLE | branching | Visited set; better model |
 | Greedy WA | no proof | Fall back to DP |
 
+## Mistakes to Avoid
+- **Mistake:** Forcing DP everywhere — many problems are two pointers + sort
+- **Mistake:** Ignoring “contiguous” — the whole game for windows
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Systems design interviews — different intuition.
 - **Trade-off:** When the API already sorts/searches — use the library.
-
-## Mistakes to Avoid
-- Forcing DP everywhere — many problems are two pointers + sort.
-- Ignoring “contiguous” — the whole game for windows.

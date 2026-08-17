@@ -4,12 +4,18 @@
 
 > Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
-
-
-
+```txt
+        Data fetching Fron ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Query-cache keys, invalidation after mutations, waterfall avoidance, and auth refresh races.
+- **Interview probes:** Query-cache keys, invalidation after mutations, waterfall avoidance, and auth…
 
 ## Sources
 - TanStack Query / SWR documentation — overview
@@ -52,8 +58,10 @@ useMutation({
 | Waterfalls | Parallel + consolidate endpoints |
 | Auth flicker | Single refresh mutex |
 
-## Real-World Applications
-SPA dashboards, mobile web apps, and BFFs feeding typed hooks.
+## Mistakes to Avoid
+- **Mistake:** `useEffect` fetch without cleanup / race on id change
+- **Mistake:** Incomplete cache keys
+- **Mistake:** Putting server data only in Redux without a fetch cache
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Deduped fetches; fewer loading bugs.
@@ -64,7 +72,6 @@ SPA dashboards, mobile web apps, and BFFs feeding typed hooks.
 - vs [[Real-time Subscription]]: push updates vs pull/query cache.
 - vs [[cache system]]: browser/query cache is one cache layer.
 
-## Mistakes to Avoid
-- `useEffect` fetch without cleanup / race on id change.
-- Incomplete cache keys.
-- Putting server data only in Redux without a fetch cache.
+
+### Use cases
+- SPA dashboards, mobile web apps, and BFFs feeding typed hooks.

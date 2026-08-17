@@ -4,12 +4,18 @@
 
 > A rolling buffer overwrites the oldest entries when full — fixed memory for logs, metrics, and telemetry where history beyond N samples is expendable.
 
-
-
-
+```txt
+        Rolling Buffer ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows you can pick bounded in-memory history with an explicit loss policy — interviewers contrast drop-oldest vs block-on-full under backpressure.
+- **Interview probes:** Shows you can pick bounded in-memory history with an explicit loss policy
 
 ## Sources
 - [Wikipedia — Circular buffer](https://en.wikipedia.org/wiki/Circular_buffer) — overview
@@ -22,18 +28,18 @@ Shows you can pick bounded in-memory history with an explicit loss policy — in
 - **Sizing:** [[right buffer]] capacity from acceptable loss horizon.
 
 ## Technical Details
-Unlike a blocking queue that stops producers, a **rolling** (circular) design keeps the most recent window.
-
-Uses:
+- Unlike a blocking queue that stops producers, a **rolling** (circular) design…
 
 - Application log tail in memory
 - Metrics dashboards (last 15 minutes)
 - Kernel printk before journald ([[kernel ring buffer]])
 
-Ask: “If I only keep 1 MB of logs, what incidents become unexplainable?”
+- Ask: “If I only keep 1 MB of logs, what incidents become unexplainable?”
 
-## Real-World Applications
-`dmesg` / printk ring, APM agents’ in-memory metric windows, and game/network capture rings that keep the last N seconds for postmortems.
+## Mistakes to Avoid
+- **Mistake:** Treating a rolling buffer as durable audit storage
+- **Mistake:** Undersizing so that the burst that caused the outage is already …
+- **Mistake:** Blocking producers “to be safe” when the product requirement was…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Bounded memory; always keeps recent signal.
@@ -41,10 +47,9 @@ Ask: “If I only keep 1 MB of logs, what incidents become unexplainable?”
 - **Trade-off:** larger buffer vs cost of shipping/storing full history.
 
 ## Comparison
-- vs [[atomic ring buffer]]: atomic ring is the lock-free structure; rolling is the overwrite policy.
+- vs [[atomic ring buffer]]: atomic ring is the lock-free structure
 - vs [[kernel ring buffer]]: kernel’s concrete rolling log for printk.
 
-## Mistakes to Avoid
-- Treating a rolling buffer as durable audit storage.
-- Undersizing so that the burst that caused the outage is already overwritten.
-- Blocking producers “to be safe” when the product requirement was drop-oldest.
+
+### Use cases
+- `dmesg` / printk ring, APM agents’ in-memory metric windows, and game/network…

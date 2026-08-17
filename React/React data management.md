@@ -4,19 +4,22 @@
 
 > Decide where data lives — server cache, URL, local UI state, or a global client store — and keep those roles separate.
 
-
-
-
+```txt
+        React data managem ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers draw the line between server state and client state; mixing them is a common senior-filter fail.
+- **Interview probes:** Interviewers draw the line between server state and client state
 
 ## Sources
 - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive
 - [Managing State](https://react.dev/learn/managing-state) — overview
-
-## Core Definition
-Data management assigns each piece of state an owner: remote cache, router, component, or global store — not one bucket for everything.
 
 ## Key Concepts
 - **Server state:** [[react-query]] / RTK Query.
@@ -24,8 +27,11 @@ Data management assigns each piece of state an owner: remote cache, router, comp
 - **Client UI state:** modals, drafts — `useState` / [[zustand]].
 - **Cross-feature client:** [[Redux]] when justified.
 
+
+- **Core:** Data management assigns each piece of state an owner: remote cache, router, c…
+
 ## Technical Details
-Decision cheat sheet:
+- Decision cheat sheet:
 
 | Data | Home |
 |------|------|
@@ -34,16 +40,17 @@ Decision cheat sheet:
 | Modal open | Local state |
 | Multi-step wizard draft shared across routes | Store |
 
-## Real-World Applications
-Admin table: filters in the URL, rows in TanStack Query, row-selection in component state.
+## Mistakes to Avoid
+- **Mistake:** Mirroring every query result into Redux
+- **Mistake:** Storing auth tokens in a persistence middleware without XSS thre…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear ownership reduces sync bugs.
 - **Con:** Too many tools without conventions confuse newcomers.
 
 ## Comparison
-- vs [[React State management]]: state management is the client mechanisms; data management includes server/URL.
+- vs [[React State management]]: state management is the client mechanisms
 
-## Mistakes to Avoid
-- Mirroring every query result into Redux.
-- Storing auth tokens in a persistence middleware without XSS threat modeling.
+
+### Use cases
+- Admin table: filters in the URL, rows in TanStack Query, row-selection in com…

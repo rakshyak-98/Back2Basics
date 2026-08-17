@@ -4,19 +4,22 @@
 
 > The everyday toolkit to list, inspect, signal, and prioritize processes — ps, top, pgrep, kill, lsof.
 
-
-
-
+```txt
+        Linux process comm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Incident flow: find → watch → explain (fds/ports) → act (TERM then service restart) — without reckless `killall`.
+- **Interview probes:** Incident flow: find → watch → explain (fds/ports) → act (TERM then service re…
 
 ## Sources
 - [ps(1)](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive
 - [kill(1)](https://man7.org/linux/man-pages/man1/kill.1.html) — overview
-
-## Core Definition
-Use [[ps]]/`pgrep` to find, [[top]]/`pidstat` to watch, [[lsof]]/`/proc` to explain opens, and `kill`/`systemctl` to act. Prefer service-aware restarts for daemons over raw signals when units exist.
 
 ## Key Concepts
 - **pgrep/pidof:** Name → PIDs without fragile `ps | grep`.
@@ -24,6 +27,9 @@ Use [[ps]]/`pgrep` to find, [[top]]/`pidstat` to watch, [[lsof]]/`/proc` to expl
 - **Priority:** `renice` / nice — see [[renice]].
 - **STAT letters:** R/S/D/Z — see [[ps]].
 - **Service layer:** `systemctl` for managed daemons.
+
+
+- **Core:** Use [[ps]]/`pgrep` to find, [[top]]/`pidstat` to watch, [[lsof]]/`/proc` to e…
 
 ## Technical Details
 ```txt
@@ -63,8 +69,10 @@ systemctl restart foo.service
 | Zombies | `STAT Z`; PPID | Fix parent reaping |
 | Permission denied signal | Ownership | Correct user; systemd unit |
 
-## Real-World Applications
-Finding a runaway worker, gracefully stopping it with TERM, and restarting via systemd so dependencies and restart policy stay correct.
+## Mistakes to Avoid
+- **Mistake:** Broad `killall`/`pkill` without `pgrep -a` first
+- **Mistake:** Jumping to KILL before TERM/service stop
+- **Mistake:** Parsing `ps` in cron instead of `pgrep`/`/proc`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal toolbox on every Linux host.
@@ -72,9 +80,8 @@ Finding a runaway worker, gracefully stopping it with TERM, and restarting via s
 - **Trade-off:** Raw signals for one-offs vs systemctl for daemons.
 
 ## Comparison
-vs [[Services commands]]: unit lifecycle. vs [[gdb]]: deep crash inspect. vs cgroup/OOM: resource limits vs process signals.
+- vs [[Services commands]]: unit lifecycle
 
-## Mistakes to Avoid
-- Broad `killall`/`pkill` without `pgrep -a` first.
-- Jumping to KILL before TERM/service stop.
-- Parsing `ps` in cron instead of `pgrep`/`/proc`.
+
+### Use cases
+- Finding a runaway worker, gracefully stopping it with TERM, and restarting vi…

@@ -4,12 +4,18 @@
 
 > An application programming interface is the contract between clients and your backend: stable resources, predictable errors, and explicit authentication — hide implementation details, not product capability.
 
-
-
-
+```txt
+        API design ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers watch for resource modeling, idempotency on retries, pagination choice, authn vs authz status codes, and how you shed load under overload.
+- **Interview probes:** Interviewers watch for resource modeling, idempotency on retries, pagination …
 
 ## Sources
 - [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231) — HTTP/1.1 semantics and methods — deep-dive
@@ -32,8 +38,7 @@ Interviewers watch for resource modeling, idempotency on retries, pagination cho
 | `PATCH` | Partial update | No | Often |
 | `DELETE` | Remove | No | Yes |
 
-**Good:** `GET /v1/organizations/{orgId}/projects/{projectId}`  
-**Poor:** `GET /getProjectById?id=7`
+- **Good:** `GET /v1/organizations/{orgId}/projects/{projectId}` **Poor:** `GET…
 
 ```json
 {
@@ -42,7 +47,7 @@ Interviewers watch for resource modeling, idempotency on retries, pagination cho
 }
 ```
 
-RFC 7807 error body example: `type`, `title`, `status`, `detail`, `instance`.
+- RFC 7807 error body example: `type`, `title`, `status`, `detail`, `instance`.
 
 | Concern | Practice |
 |---------|----------|
@@ -51,7 +56,11 @@ RFC 7807 error body example: `type`, `title`, `status`, `detail`, `instance`.
 | Authorization | RBAC/ABAC on resource and tenant |
 | Distinction | `401` = not authenticated; `403` = authenticated but not allowed |
 
-Cursor pagination: `GET /v1/items?limit=50&cursor=...` with `next_cursor` / `has_more`. Version in path (`/v1`) or content negotiation. Rate limits: [[Token bucket]]. Cache headers for safe `GET`s — see [[cache system]]. Apply [[backpressure]] at the gateway (max page size, timeouts).
+- Cursor pagination: `GET /v1/items?limit=50&cursor=...` with `next_cursor` / `…
+- Version in path (`/v1`) or content negotiation.
+- Rate limits: [[Token bucket]].
+- Cache headers for safe `GET`s — see [[cache system]].
+- Apply [[backpressure]] at the gateway (max page size, timeouts).
 
 | Smell | Why it hurts |
 |-------|--------------|
@@ -61,19 +70,20 @@ Cursor pagination: `GET /v1/items?limit=50&cursor=...` with `next_cursor` / `has
 | Stack traces in errors | Information disclosure |
 | Missing correlation ids | Incidents become guesswork |
 
-## Real-World Applications
-Public SaaS APIs, mobile backends, and internal microservice contracts that must survive client retries and multi-year versioning.
+## Mistakes to Avoid
+- **Mistake:** Returning `200` with `{ "error": true }`
+- **Mistake:** Creating resources with bare `POST` and no idempotency key
+- **Mistake:** Removing fields from a live version without a deprecation window
 
 ## Pros/Cons or Trade-offs
 - **REST fine-grained:** simple caches; can be chatty on mobile.
 - **Composite/expand reads:** fewer round trips; harder caching and authz.
-- **GraphQL:** flexible client shapes; needs schema governance ([[KISS]] — not for a three-field screen).
+- **GraphQL:** flexible client shapes; needs schema governance ([[KISS]]
 
 ## Comparison
 - vs RPC/gRPC: different contract style; same need for idempotency and errors.
 - vs [[Authentication web application]]: auth is the identity layer the API boundary enforces.
 
-## Mistakes to Avoid
-- Returning `200` with `{ "error": true }`.
-- Creating resources with bare `POST` and no idempotency key.
-- Removing fields from a live version without a deprecation window.
+
+### Use cases
+- Public SaaS APIs, mobile backends, and internal microservice contracts that m…

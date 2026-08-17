@@ -4,12 +4,18 @@
 
 > Splitwise-style systems track shared expenses in groups, derive who owes whom, and optionally simplify debts — a ledger and settlement tracker, not a payment processor unless integrated with one.
 
-
-
-
+```txt
+        Splitwise ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Model balances as a graph of debts; idempotent expense writes; settle-up consistency.
+- **Interview probes:** Model balances as a graph of debts
 
 ## Sources
 - Splitwise public product documentation — expense types and settlement semantics — overview
@@ -40,11 +46,11 @@ Simplify: if Alice owes Bob $30 and Bob owes Alice $50 → net Bob owes Alice $2
 | Balance | Derived net between users (per group) |
 | Settlement | Payment recorded between two users |
 
-Product requirements typically include: create groups, add or remove members, create and edit expenses, notify members, role-based access control (administrator versus member), settle debts.
+- Product requirements typically include: create groups, add or remove members,…
 
 ### Application programming interface sketch
 
-See [[API design]] for conventions:
+- See [[API design]] for conventions:
 
 ```http
 POST   /v1/groups
@@ -62,7 +68,7 @@ GET    /v1/groups/{id}/balances
 | Percentage | Percent per user |
 | Shares | Weighted shares |
 
-Store money as **integer minor units** (cents) — never floating point ([[marshalling]]).
+- Store money as **integer minor units** (cents)
 
 ### Balance calculation
 
@@ -79,28 +85,35 @@ def balances(group_id):
     return net
 ```
 
-Persist **atomic expenses** as the audit trail; balances are derived (or materialized with careful invalidation).
+- Persist **atomic expenses** as the audit trail
 
 ### Debt simplification
 
-Optional **minimum cash flow** on the net graph: repeatedly match the largest creditor with the largest debtor until balances zero. User experience may show both gross pairwise debts and simplified nets.
+- Optional **minimum cash flow** on the net graph: repeatedly match the largest…
+- User experience may show both gross pairwise debts and simplified nets.
 
 ### Notifications and concurrency
 
-Emit events (`expense_added`, `settlement_recorded`) to an async queue ([[event-driven]]) — do not block the expense POST on email or push delivery. Use **idempotency keys** on create to survive client retries.
+- Emit events (`expense_added`, `settlement_recorded`) to an async queue ([[eve…
+- Use **idempotency keys** on create to survive client retries.
 
-Use database transactions or row locks per group when expense and settlement race ([[Concurrent modification]]).
+- Use database transactions or row locks per group when expense and settlement …
 
 ### Authorization
 
-Users read only groups they belong to. Only payer or group administrator edits an expense. JSON Web Token subject maps to `user_id` ([[Authentication web application]]).
+- Users read only groups they belong to.
+- Only payer or group administrator edits an expense.
+- JSON Web Token subject maps to `user_id` ([[Authentication web application]]).
 
 ### Scope limits
 
-This pattern fits **informal expense sharing**. Enterprise accounts payable, tax invoicing, and high-frequency trading ledgers need different consistency and compliance models.
+- This pattern fits **informal expense sharing**.
+- Enterprise accounts payable, tax invoicing, and high-frequency trading ledger…
 
-## Real-World Applications
-Expense-sharing apps and lightweight social ledgers.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear UX for multi-party balances.
@@ -111,7 +124,6 @@ Expense-sharing apps and lightweight social ledgers.
 - vs [[Food delivery]]: marketplace logistics vs shared-expense accounting.
 - vs banking ledgers: Splitwise-style is social netting, not regulated core banking.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- Expense-sharing apps and lightweight social ledgers.

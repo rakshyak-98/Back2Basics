@@ -4,12 +4,18 @@
 
 > SIMD runs one instruction across a vector of data lanes — SSE, AVX, AVX-512 on x86, NEON on ARM — speeding numeric kernels without extra threads.
 
-
-
-
+```txt
+        Single Instruction ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Performance interviews: data parallelism vs thread parallelism, when auto-vectorization helps, and how to check CPU feature flags.
+- **Interview probes:** Performance interviews: data parallelism vs thread parallelism, when auto-vec…
 
 ## Sources
 - Intel Intrinsics Guide — deep-dive
@@ -28,15 +34,17 @@ Performance interviews: data parallelism vs thread parallelism, when auto-vector
 | SIMD | Data parallel in one thread |
 | [[multi-threaded]] | Multiple threads on cores |
 
-Use SIMD for dense math; use threads for independent tasks or I/O overlap ([[CPU IO Bound Task]]).
+- Use SIMD for dense math
 
 ```bash
 grep -E 'avx|neon|sse' /proc/cpuinfo
 lscpu
 ```
 
-## Real-World Applications
-Image codecs, ML kernels, checksums, and database columnar scans. JVM/HotSpot and LLVM emit SIMD when loops are hot and proven safe.
+## Mistakes to Avoid
+- **Mistake:** Shipping AVX-512-only binaries to hosts without the feature
+- **Mistake:** Expecting SIMD to fix I/O-bound latency
+- **Mistake:** Ignoring remainder/tail elements and getting wrong results on no…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Large speedups on dense numeric loops on one core.
@@ -47,7 +55,6 @@ Image codecs, ML kernels, checksums, and database columnar scans. JVM/HotSpot an
 - vs [[multi-threaded]]: threads scale across cores; SIMD scales across lanes in one core.
 - vs scalar [[assembly language]]: same ISA family; SIMD is packed-data ops.
 
-## Mistakes to Avoid
-- Shipping AVX-512-only binaries to hosts without the feature.
-- Expecting SIMD to fix I/O-bound latency.
-- Ignoring remainder/tail elements and getting wrong results on non-multiple-of-lane sizes.
+
+### Use cases
+- Image codecs, ML kernels, checksums, and database columnar scans

@@ -4,25 +4,30 @@
 
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
-
-
-
+```txt
+        DSL (Domain Specif ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-DSL questions separate internal vs external DSLs and when a constrained language beats a general-purpose API.
+- **Interview probes:** DSL questions separate internal vs external DSLs and when a constrained langu…
 
 ## Sources
 - [Martin Fowler — Domain-Specific Languages](https://martinfowler.com/books/dsl.html) — deep-dive
 - [Wikipedia — Domain-specific language](https://en.wikipedia.org/wiki/Domain-specific_language) — overview
 
 ## Key Concepts
-A **DSL** trades generality for **domain fit**: SQL for relations, Regex for strings, HCL for infra, CSS for styling, Mermaid for diagrams.
+- **Note:** A **DSL** trades generality for **domain fit**: SQL for relations, Regex for …
 
 ```
-General-purpose (Java, Python)     DSL (SQL, Makefile, GraphQL schema)
+- **Note:** General-purpose (Java, Python) DSL (SQL, Makefile, GraphQL schema)
         │                                    │
-   Turing-complete, broad              Narrow vocabulary, high signal
-   more boilerplate                    wrong tool outside domain
+- **Note:** Turing-complete, broad Narrow vocabulary, high signal
+- **Note:** more boilerplate wrong tool outside domain
 ```
 
 | Type | Example | Hosted in |
@@ -76,7 +81,7 @@ flowchart LR
   Client --> API --> DB
 ```
 
-See [[Descriptive/Mermaid (DSL)]].
+- See [[Descriptive/Mermaid (DSL)]].
 
 ### Anti-pattern — accidental DSL
 
@@ -95,12 +100,12 @@ See [[Descriptive/Mermaid (DSL)]].
 | Two DSLs for same domain | Org drift | Consolidate; version schema |
 | Hard to test | No golden files | Snapshot parse → AST → eval |
 
+## Mistakes to Avoid
+- **Mistake:** Every DSL becomes a maintenance product
+- **Mistake:** **YAML as DSL**
+- **Mistake:** **Internal DSL** inherits host complexity
+- **Mistake:** **Version DSL files** in git
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** One-off 10-line configuration — JSON/YAML enough.
 - **Trade-off:** Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
-
-## Mistakes to Avoid
-- Every DSL becomes a maintenance product — parsers, docs, migration, IDE support.
-- **YAML as DSL** — easy to start, painful at scale (no types, footgun syntax).
-- **Internal DSL** inherits host complexity — Ruby DSL unreadable to non-Ruby devs.
-- **Version DSL files** in git — breaking grammar needs migration tool.

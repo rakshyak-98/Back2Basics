@@ -4,12 +4,18 @@
 
 > Long-lived process accepting client requests — **connection model + state strategy** define scale and failure modes.
 
-
-
-
+```txt
+        Server ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Connection lifecycle, process model, pooling, and overload behavior of a long-lived server.
+- **Interview probes:** Connection lifecycle, process model, pooling, and overload behavior of a long…
 
 ## Sources
 - [Wikipedia — server](https://en.wikipedia.org/wiki/server) — overview
@@ -23,7 +29,9 @@ Connection lifecycle, process model, pooling, and overload behavior of a long-li
 ## Technical Details
 ### How it works
 
-A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread versus event loop**, **stateless versus session**, **HTTP versus WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
+- A **server** listens on a **port**, accepts **connections** or **requests**, …
+- Design choices: **thread versus event loop**, **stateless versus session**, *…
+- Scale = **many concurrent connections** without exhausting **file descriptors…
 
 ```txt
 Client ──► load balancer ──► server pool
@@ -40,10 +48,7 @@ Client ──► load balancer ──► server pool
 | **Process pool** | uWSGI, prefork Apache | Isolation |
 | **Serverless** | Lambda | No idle cost; cold start |
 
-**Server can upgrade HTTP to SSE** for server-push notifications — one long-lived response stream per client.
-
----
-
+- **Server can upgrade HTTP to SSE:** for server-push notifications
 
 ### Configuration and commands
 
@@ -77,7 +82,7 @@ app.get('/events', (req, res) => {
 });
 ```
 
-One-way server→client; for bidirectional use [[webSocket]].
+- One-way server→client; for bidirectional use [[webSocket]].
 
 ### Session vs stateless
 
@@ -109,27 +114,6 @@ SIGTERM → stop accept → drain in-flight → close DB pool → exit
 Kubernetes preStop hook + terminationGracePeriodSeconds
 ```
 
----
-
-## Real-World Applications
-HTTP API servers, reverse proxies, and gRPC services behind load balancers.
-
-## Pros/Cons or Trade-offs
-- **Pure static site** — object storage + CDN, no application server.
-- **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
-- **Long batch ETL** — job queue worker, not synchronous HTTP server.
-
----
-
-
-- **Pro:** Persistent process amortizes startup and holds pools.
-- **Con:** Memory leaks and connection storms accumulate over uptime.
-- **Trade-off:** thread-per-request simplicity vs async scalability.
-
-## Comparison
-- vs [[node serverless]]: always-on process vs on-demand invocations.
-- vs [[concurrent connection]]: servers must size for live sockets, not just RPS.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Blocking the event loop** — one sync bcrypt stalls all Node clients.
@@ -159,3 +143,23 @@ HTTP API servers, reverse proxies, and gRPC services behind load balancers.
 | CPU pegged | Sync crypto/blocking | Offload; async I/O ([[Event Loop]]) |
 
 ---
+
+## Pros/Cons or Trade-offs
+- **Pure static site** — object storage + CDN, no application server.
+- **Heavy GPU transcode**
+- **Long batch ETL** — job queue worker, not synchronous HTTP server.
+
+---
+
+
+- **Pro:** Persistent process amortizes startup and holds pools.
+- **Con:** Memory leaks and connection storms accumulate over uptime.
+- **Trade-off:** thread-per-request simplicity vs async scalability.
+
+## Comparison
+- vs [[node serverless]]: always-on process vs on-demand invocations.
+- vs [[concurrent connection]]: servers must size for live sockets, not just RPS.
+
+
+### Use cases
+- HTTP API servers, reverse proxies, and gRPC services behind load balancers.

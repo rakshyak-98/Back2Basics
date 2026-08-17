@@ -4,12 +4,18 @@
 
 > A storage snapshot is a point-in-time view of a volume — copy-on-write or redirect-on-write — so you can roll back or clone without copying every block up front.
 
-
-
-
+```txt
+        Take snapshot ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Backup/DR interviews: crash-consistent vs application-consistent snapshots, and why a snapshot alone is not an off-site backup.
+- **Interview probes:** Backup/DR interviews: crash-consistent vs application-consistent snapshots, a…
 
 ## Sources
 - [Wikipedia — Snapshot (computer storage)](https://en.wikipedia.org/wiki/Snapshot_(computer_storage)) — overview
@@ -19,7 +25,7 @@ Backup/DR interviews: crash-consistent vs application-consistent snapshots, and 
 ## Key Concepts
 - **Point-in-time view:** COW / ROW deferred copy of changed blocks.
 - **Providers:** Btrfs, ZFS, LVM, cloud volume APIs, hypervisors.
-- **Consistency:** quiesce + [[fsync]] for application-consistent; otherwise crash-consistent recovery.
+- **Consistency:** quiesce + [[fsync]] for application-consistent
 - **Not a backup:** still on the same failure domain until replicated off-box.
 
 ## Technical Details
@@ -27,12 +33,15 @@ Backup/DR interviews: crash-consistent vs application-consistent snapshots, and 
 Live volume → snapshot COW → mount clone for backup/forensics
 ```
 
-File systems and volume managers expose snapshot ops distinct from normal file copy. VM “memory snapshots” (pause + RAM image) are a different mechanism related to [[RAM and Swap memory]].
+- File systems and volume managers expose snapshot ops distinct from normal fil…
+- VM “memory snapshots” (pause + RAM image) are a different mechanism related t…
 
-Related durable media: [[Persistent Block Storage]].
+- Related durable media: [[Persistent Block Storage]].
 
-## Real-World Applications
-EBS snapshots before risky migrations, ZFS send/receive pipelines, and VM golden-image clones.
+## Mistakes to Avoid
+- **Mistake:** Calling local-only snapshots a disaster-recovery strategy
+- **Mistake:** Snapshotting a busy database without flush/quiesce and expecting…
+- **Mistake:** Letting snapshot chains grow unbounded until the pool fills
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast, space-efficient point-in-time copies.
@@ -43,7 +52,6 @@ EBS snapshots before risky migrations, ZFS send/receive pipelines, and VM golden
 - vs full backup copy: backup usually leaves the box; snapshot may not.
 - vs [[fsync]]: fsync makes one write durable; snapshot freezes a volume view.
 
-## Mistakes to Avoid
-- Calling local-only snapshots a disaster-recovery strategy.
-- Snapshotting a busy database without flush/quiesce and expecting clean restore.
-- Letting snapshot chains grow unbounded until the pool fills.
+
+### Use cases
+- EBS snapshots before risky migrations, ZFS send/receive pipelines, and VM gol…

@@ -4,28 +4,34 @@
 
 > Server metadata that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content or clickjacking.
 
-
-
-
+```txt
+        HTTP Response Head ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Web hardening: security and caching headers — CSP, HSTS, X-Frame-Options/frame-ancestors, Cache-Control mistakes.
+- **Interview probes:** Web hardening: security and caching headers
 
 ## Sources
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/) — overview
 - [MDN — HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) — deep-dive
 
-## Core Definition
-HTTP response headers carry caching, framing, MIME-sniffing, and browser security policy that shape client behavior.
-
 ## Key Concepts
-Response headers are **out-of-band instructions** to browsers, proxies, and CDNs. Some are **security defaults** (CSP, HSTS); others define **cache keys** (`Vary`, `Cache-Control`). Order of middleware matters: headers set after response sent are ignored.
+- **Note:** Response headers are **out-of-band instructions** to browsers, proxies, and C…
 
 ```
-Origin ──► App middleware ──► reverse proxy/CDN ──► browser interprets headers
+- **Note:** Origin ──► App middleware ──► reverse proxy/CDN ──► browser interprets headers
                                     │
                                     └── may strip/add unless explicitly forwarded
 ```
+
+
+- **Core:** HTTP response headers carry caching, framing, MIME-sniffing, and browser secu…
 
 ## Technical Details
 ### Security baseline (production)
@@ -56,7 +62,8 @@ Access-Control-Allow-Credentials: true
 Vary: Origin
 ```
 
-Never `Allow-Origin: *` with credentials ([[CORS (Cross Origin Request Sharing)]]). Always **`Vary: Origin`** when origin is dynamic.
+- Never `Allow-Origin: *` with credentials ([[CORS (Cross Origin Request Sharin…
+- Always **`Vary: Origin`** when origin is dynamic.
 
 ### Caching + `Vary`
 
@@ -65,14 +72,14 @@ Cache-Control: public, max-age=3600
 Vary: Accept-Encoding, Accept-Language
 ```
 
-**`Vary`** tells CDNs/browsers which **request headers** participate in the cache key — critical for content negotiation (gzip/br, locale).
+- **`Vary`:** tells CDNs/browsers which **request headers** participate in the c…
 
 ```nginx
 # Separate cache keys for WebP vs JPEG when content negotiation used
 add_header Vary "Accept" always;
 ```
 
-Common `Vary` values: `Accept-Encoding` (compression), `Accept` (format), `Origin` (CORS), `Cookie` (careful — often disables shared cache hit rate).
+- Common `Vary` values: `Accept-Encoding` (compression), `Accept` (format), `Or…
 
 ### Express (Node)
 
@@ -103,8 +110,11 @@ curl -I -H 'Accept: image/webp' https://example.com/img
 curl -I -H 'Origin: https://app.example.com' https://api.example.com/v1/x
 ```
 
-## Real-World Applications
-Set security and cache headers at the reverse proxy or app framework for clickjacking, MIME sniffing, and CDN behavior.
+## Mistakes to Avoid
+- **Mistake:** Multiple `Set-Cookie` + missing `Vary: Cookie`
+- **Mistake:** `Access-Control-Allow-Origin: *` + credentials
+- **Mistake:** HSTS on dev `.local`
+- **Mistake:** CSP report-only forgotten in prod
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One place to enforce browser security and caching policy.
@@ -112,11 +122,9 @@ Set security and cache headers at the reverse proxy or app framework for clickja
 - **Con:** `Vary: *` — effectively uncacheable; fix root cause instead.
 
 ## Comparison
-- vs [[content security policy]] / [[HTTP Strict Transport Security]]: those are specific headers covered in depth elsewhere; this note is the set.
+- vs [[content security policy]] / [[HTTP Strict Transport Security]]: those are specific headers c…
 - vs request headers: clients send; security policy is mostly on responses.
 
-## Mistakes to Avoid
-- Multiple `Set-Cookie` + missing `Vary: Cookie` — CDN may serve user A's page to user B from cache.
-- `Access-Control-Allow-Origin: *` + credentials — browser rejects; looks like "CORS randomly broken."
-- HSTS on dev `.local` — browsers remember; use distinct hostnames for dev.
-- CSP report-only forgotten in prod — still enforces if switched accidentally; test in Report-Only first.
+
+### Use cases
+- Set security and cache headers at the reverse proxy or app framework for clic…

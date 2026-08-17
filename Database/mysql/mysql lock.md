@@ -4,12 +4,18 @@
 
 > InnoDB row-level locks, gap locks, and next-key locks that implement isolation—deadlocks are normal and one transaction is rolled back.
 
-
-
-
+```txt
+        mysql lock ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Locking interviews cover record/gap/next-key locks under REPEATABLE READ, `FOR UPDATE`, and deadlock retry. Expect to read `SHOW ENGINE INNODB STATUS` deadlock section conceptually.
+- **Interview probes:** Locking interviews cover record/gap/next-key locks under REPEATABLE READ, `FO…
 
 ## Sources
 - [MySQL Reference Manual — InnoDB Locking](https://dev.mysql.com/doc/refman/en/innodb-locking.html) — deep-dive
@@ -39,19 +45,20 @@ SHOW ENGINE INNODB STATUS\G
 -- LATEST DETECTED DEADLOCK section
 ```
 
-Application should retry deadlocked transactions ([[MySQL Error]] 1213).
+- Application should retry deadlocked transactions ([[MySQL Error]] 1213).
 
-## Real-World Applications
-Inventory decrement and seat booking under concurrency. Example: `SELECT … FOR UPDATE` then update quantity; on deadlock, retry the whole transaction rather than surfacing 1213 to the user as a hard failure.
+## Mistakes to Avoid
+- **Mistake:** Treating deadlocks as server bugs instead of expected concurrenc…
+- **Mistake:** Holding locks across user think-time or external HTTP calls
+- **Mistake:** Scanning huge ranges under RR without indexes — gap lock storms
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Row-level locking allows high concurrency vs table locks; gap locks prevent phantoms under RR.
 - **Con:** Gap locks increase contention on hot index ranges; long transactions amplify deadlocks and wait timeouts (1205).
 
 ## Comparison
-vs [[ACID]] isolation levels: locks (and MVCC) are mechanisms that implement isolation. vs [[mysql transaction]]: transactions define boundaries; locks are what InnoDB takes inside those boundaries.
+- vs [[ACID]] isolation levels: locks (and MVCC) are mechanisms that implement …
 
-## Mistakes to Avoid
-- Treating deadlocks as server bugs instead of expected concurrency outcomes.
-- Holding locks across user think-time or external HTTP calls.
-- Scanning huge ranges under RR without indexes — gap lock storms.
+
+### Use cases
+- Inventory decrement and seat booking under concurrency. Example: `SELECT … FO…

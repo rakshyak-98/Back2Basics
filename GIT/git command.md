@@ -4,12 +4,17 @@
 
 > When history is wrong — reflog, bisect, and dry-run merge before you force-push.
 
-
-
-
+```txt
+        Git Commands — Rec ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git Commands — Recovery & Debug` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git Commands
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -58,10 +63,6 @@ git stash list && git stash apply stash@{0}
 |------|---------|
 | … | `…` |
 
-## Pros/Cons or Trade-offs
-- **Force-push shared main** — prefer revert.
-- **Bisect on flaky tests** — script must be deterministic.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **`git clean -fd` is irreversible** — preview with `-n`.
@@ -80,3 +81,7 @@ git stash list && git stash apply stash@{0}
 | When did bug land? | Bisect | `git bisect run` between good/bad |
 | Conflict mess | `git ls-files -u` | Fix markers; `--continue` / `--abort` |
 | Auth mid-push | credential helper | Clear helper; SSH/PAT |
+
+## Pros/Cons or Trade-offs
+- **Force-push shared main** — prefer revert.
+- **Bisect on flaky tests** — script must be deterministic.

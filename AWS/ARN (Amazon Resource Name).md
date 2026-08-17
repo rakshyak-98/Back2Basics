@@ -2,14 +2,17 @@
 
 # ARN (Amazon Resource Name)
 
-> An ARN is the stable, globally unique identifier AWS uses in IAM policies, CloudTrail logs, and cross-service references — get the partition, service, region, account, and resource path wrong and authorization silently fails.
+> An ARN is the stable, globally unique identifier AWS uses in IAM policies, CloudTrail logs, and cross-service references — get the partition, service, region, account, and resource path wrong and authorization silently…
 
-
-
-
+```txt
+        ARN (Amazon Resour ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               └── Mechanism
+```
 
 ## Interview Relevance
-ARN literacy shows you can scope IAM policies precisely — wrong ARN patterns are a common AccessDenied root cause.
+- **Interview probes:** ARN literacy shows you can scope IAM policies precisely
 
 ## Sources
 - [Identify AWS resources using ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) — deep-dive
@@ -31,21 +34,21 @@ arn:partition:service:region:account-id:resource
 Examples:
 
 ```
-arn:aws:ec2:us-east-1:123456789012:instance/i-0abcd1234efgh5678
+- **Note:** arn:aws:ec2:us-east-1:123456789012:instance/i-0abcd1234efgh5678
 arn:aws:s3:::my-bucket/object-key
 arn:aws:iam::123456789012:role/AppRole
 arn:aws:lambda:us-east-1:123456789012:function:processor
 ```
 
-S3 ARNs omit region and account in the bucket form; object ARNs append the key after the bucket name.
+- **Note:** S3 ARNs omit region and account in the bucket form
 
 ## Technical Details
 ### Where ARNs matter
 
-- **IAM policies** — `Resource` elements almost always use ARN patterns with `*` wildcards.
-- **Resource-based policies** — S3 bucket policies, KMS key policies, Lambda function URLs reference principal and resource ARNs.
-- **CloudTrail** — `eventSource`, `resources`, and `recipientAccountId` tie events to ARNs.
-- **Cross-account access** — trust policies list principal ARNs; resource policies grant them access.
+- **IAM policies:** — `Resource` elements almost always use ARN patterns with `*` wildcards.
+- **Resource-based policies:** — S3 bucket policies, KMS key policies, Lambda function URLs reference princi…
+- **CloudTrail:** — `eventSource`, `resources`, and `recipientAccountId` tie events to ARNs.
+- **Cross-account access:** — trust policies list principal ARNs; resource policies grant them access.
 
 ### Wildcards in policies
 
@@ -53,7 +56,8 @@ S3 ARNs omit region and account in the bucket form; object ARNs append the key a
 "Resource": "arn:aws:s3:::logs-*/*"
 ```
 
-`*` matches within a segment; `?` matches a single character. Overly broad `Resource: "*"` is convenient in sandboxes and dangerous in production.
+- `*` matches within a segment; `?` matches a single character.
+- Overly broad `Resource: "*"` is convenient in sandboxes and dangerous in prod…
 
 ### ARN vs name vs ID
 

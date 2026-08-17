@@ -4,12 +4,18 @@
 
 > Client hits an API gateway, then domain services — sync reads over gRPC where needed, async facts over a bus after local commits.
 
-
-
-
+```txt
+        Ecommerce platform ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want clear failure domains (catalog vs money), outbox/idempotency, and why you do not lock inventory while waiting on a payment provider.
+- **Interview probes:** Interviewers want clear failure domains (catalog vs money), outbox/idempotenc…
 
 ## Sources
 - [Kleppmann — Designing Data-Intensive Applications](https://dataintensive.net/) — deep-dive
@@ -38,20 +44,21 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 | PSP latency | Do not hold DB locks across HTTP to Stripe/etc. |
 | Cascades | Timeouts, bulkheads, backoff |
 
-## Real-World Applications
-Order placed → local persist + outbox row → payment intent → webhook completes money path → async notify.
-
-**Example:** Payment succeeds but order write fails — recover via webhook replay and idempotency keys, not a distributed 2PC across PSP + DB.
+## Mistakes to Avoid
+- **Mistake:** One giant ACID transaction across search index + PSP + primary DB
+- **Mistake:** Fire-and-forget dual writes without an outbox
+- **Mistake:** Letting notification failures roll back paid orders
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clear domains scale teams and blast radius.
 - **Con:** Eventual consistency needs explicit user-visible states.
 
 ## Comparison
-- vs [[marketplace app]]: this note is the platform wiring; marketplace adds two-sided trust/payout specifics.
+- vs [[marketplace app]]: this note is the platform wiring
 - vs modular monolith: start monolith if the team is small; keep the same domain boundaries.
 
-## Mistakes to Avoid
-- One giant ACID transaction across search index + PSP + primary DB.
-- Fire-and-forget dual writes without an outbox.
-- Letting notification failures roll back paid orders.
+
+### Use cases
+- Order placed → local persist + outbox row → payment intent → webhook complete…
+
+- **Example:** Payment succeeds but order write fails

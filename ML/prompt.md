@@ -4,12 +4,17 @@
 
 > A prompt is the input text/messages you send an LLM — instructions plus the user ask.
 
-
-
-
+```txt
+        prompt ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about prompt to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about prompt to check whether you can choose models/metrics …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -44,10 +49,6 @@ Answer using only Context. If missing, say "unknown".
 | Eval set | Catch regressions |
 | Length | Cost + attention |
 
-## Pros/Cons or Trade-offs
-- **Deterministic transforms** — regex/code.
-- **Private data you can’t send off-box** — local models or classical pipelines.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Prompts in code without tests** — silent quality regressions.
@@ -61,3 +62,7 @@ Answer using only Context. If missing, say "unknown".
 | Uses outside knowledge | no grounding rule | “only Context” + refuse |
 | Unstable | vague ask | Examples + schema |
 | Injection | user overrides system | Delimit; strip instructions |
+
+## Pros/Cons or Trade-offs
+- **Deterministic transforms** — regex/code.
+- **Private data you can’t send off-box** — local models or classical pipelines.

@@ -4,12 +4,17 @@
 
 > Optimized distributed GBDT — histogram splits, regularized leaf weights, sparsity-aware — **Chen & Guestrin**; default for production tabular ML at scale.
 
-
-
-
+```txt
+        XGBoost ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about XGBoost to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about XGBoost to check whether you can choose models/metrics…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -23,13 +28,13 @@ Obj = Σ loss(yᵢ, ŷᵢ) + Σ Ω(tree_k)
 Ω = γ·(# leaves) + ½λ·Σwⱼ²     # penalize complex trees
 ```
 
-**Second-order approximation:** uses gradient **and** Hessian for faster, stabler splits.
+- **Note:** **Second-order approximation:** uses gradient **and** Hessian for faster, sta…
 
-**Histogram algorithm:** bin continuous features → O(#bins) split search versus exact sort — huge win on wide data.
+- **Note:** **Histogram algorithm:** bin continuous features → O(#bins) split search vers…
 
-**Sparsity:** learns default direction for missing values per split — no impute required (but document missing semantics).
+- **Note:** **Sparsity:** learns default direction for missing values per split
 
-**Distributed:** DMatrix + column blocks; multi-GPU / cluster via `xgboost.dtrain` patterns or Spark XGBoost.
+- **Note:** **Distributed:** DMatrix + column blocks
 
 ## Technical Details
 ### Python (native API)
@@ -100,12 +105,6 @@ loaded = xgb.Booster()
 loaded.load_model("model.json")
 ```
 
-## Pros/Cons or Trade-offs
-- **Small n, wide p with linear signal** — logistic + L1 may generalize with zero tuning.
-- **Pure image/text/audio** — deep nets or pretrained embeddings dominate.
-- **Need fully native categorical without encoding** — CatBoost often less pipeline work.
-- **Regulatory mandate for linear interpretability** — use GAM/GLM with documented coefficients.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Version skew train vs serve:** XGBoost JSON models are not always forward-compatible across major versions — pin version in serving container.
@@ -127,3 +126,9 @@ loaded.load_model("model.json")
 | Worse than LightGBM on categoricals | One-hot explosion | Native cat in LightGBM/CatBoost; target encoding w/ CV |
 | Different results same seed | Threading / data order | `seed`, `deterministic_histogram=1` (version-dependent) |
 | Slow batch predict | Python loop over rows | `Booster.predict(DMatrix)` batch; Treelite/ONNX |
+
+## Pros/Cons or Trade-offs
+- **Small n, wide p with linear signal**
+- **Pure image/text/audio** — deep nets or pretrained embeddings dominate.
+- **Need fully native categorical without encoding**
+- **Regulatory mandate for linear interpretability**

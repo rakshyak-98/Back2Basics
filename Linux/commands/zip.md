@@ -4,12 +4,18 @@
 
 > Packs files into a portable `.zip` archive — common for sharing; lossy for Unix permissions versus `tar`.
 
-
-
-
+```txt
+        zip ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect `-r` for directories, weak zip encryption vs real crypto, and when to prefer `tar`/`rsync`/`git archive`.
+- **Interview probes:** Expect `-r` for directories, weak zip encryption vs real crypto, and when to …
 
 ## Sources
 - [Info-ZIP zip documentation](http://infozip.sourceforge.net/Zip.html) — overview
@@ -54,8 +60,10 @@ unzip -t archive.zip
 | PK compat errors | Corrupt / partial download | Re-transfer; `unzip -t` |
 | Huge unexpected size | Build artifacts included | `-x` or `git archive` |
 
-## Real-World Applications
-Shipping a release artifact to non-Unix users, or peeking an untrusted upload with `unzip -l` before extract.
+## Mistakes to Avoid
+- **Mistake:** Using `zip -e` for confidential data
+- **Mistake:** Extracting untrusted archives without listing size first
+- **Mistake:** Relying on zip for backups that need ownership/ACLs
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Universal interchange format across Windows/macOS/Linux.
@@ -66,7 +74,6 @@ Shipping a release artifact to non-Unix users, or peeking an untrusted upload wi
 - vs [[rsync]]: incremental sync, not a one-shot archive.
 - vs [[gpg]]/age: real confidentiality for secrets.
 
-## Mistakes to Avoid
-- Using `zip -e` for confidential data.
-- Extracting untrusted archives without listing size first.
-- Relying on zip for backups that need ownership/ACLs.
+
+### Use cases
+- Shipping a release artifact to non-Unix users, or peeking an untrusted upload…

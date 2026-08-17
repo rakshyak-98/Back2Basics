@@ -4,12 +4,18 @@
 
 > Multi-cloud continuous delivery control plane — pipelines, optional image bakes, deploy stages, judgments, and rollback — Netflix-style CD.
 
-
-
-
+```txt
+        Spinnaker ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers separate CI (build artifact) from CD (promote safely): baking, server groups, manual judgment/canary, and rollback strategy.
+- **Interview probes:** Interviewers separate CI (build artifact) from CD (promote safely): baking, s…
 
 ## Sources
 - [Spinnaker docs](https://spinnaker.io/docs/) — deep-dive
@@ -38,22 +44,24 @@ CI builds image → Spinnaker pipeline
 | Trigger | Docker tag, Git, cron, webhook |
 | Judgment | Human gate before prod |
 
-Spinnaker orchestrates; the cluster executes. Stale Clouddriver cache looks like “UI drift.”
+- Spinnaker orchestrates; the cluster executes.
+- Stale Clouddriver cache looks like “UI drift.”
 
-## Real-World Applications
-Promote the same container digest staging → prod with a judgment gate and automated rollback hooks.
-
-**Example:** Jenkins builds `api:1.4.2` → Spinnaker deploys to EKS staging → canary → prod.
+## Mistakes to Avoid
+- **Mistake:** Baking mutable “latest” without digest pinning
+- **Mistake:** Skipping judgments on prod for high-risk services without automa…
+- **Mistake:** Debugging only the UI when Clouddriver cache is stale
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Rich multi-cloud deploy semantics and visibility.
 - **Con:** Operationally heavy versus GitHub Actions-only deploys for small teams.
 
 ## Comparison
-- vs [[Github action]]: Actions often builds and deploys; Spinnaker specializes in progressive delivery control planes.
+- vs [[Github action]]: Actions often builds and deploys
 - vs raw `kubectl apply` in CI: Spinnaker adds inventory, strategies, and gated pipelines.
 
-## Mistakes to Avoid
-- Baking mutable “latest” without digest pinning.
-- Skipping judgments on prod for high-risk services without automated analysis.
-- Debugging only the UI when Clouddriver cache is stale — check cloud APIs directly.
+
+### Use cases
+- Promote the same container digest staging → prod with a judgment gate and aut…
+
+- **Example:** Jenkins builds `api:1.4.2` → Spinnaker deploys to EKS staging → …

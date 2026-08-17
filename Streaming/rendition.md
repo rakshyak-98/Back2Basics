@@ -4,12 +4,18 @@
 
 > A rendition is one encoded quality of the same source — resolution, bitrate, or codec — so ABR can switch without stopping.
 
-
-
-
+```txt
+        rendition ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk rendition end-to-end — not just name it. Signal fluency with **Rendition**, **Ladder**, **Variant stream**, **Representation** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk rendition end-to-end
 
 ## Sources
 - [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition) — overview
@@ -25,7 +31,7 @@ Interviewers probe whether you can walk rendition end-to-end — not just name i
 ### Capacity math (say the number)
 
 [!NOTE]
-Encode load **multiplies**: 300 channels × 3 video renditions ≈ **900** concurrent encode jobs — not 300 — when you size [[NVENC]] / CPU.
+- **Note:** Encode load **multiplies**: 300 channels × 3 video renditions ≈ **900** concu…
 
 ## Technical Details
 ```txt
@@ -65,15 +71,6 @@ ffmpeg -i in.mp4 \
 | Path per rendition | Clear CDN cache keys / purge |
 | Codec per rung (AVC vs HEVC) | Device reach vs bandwidth — label `CODECS` honestly |
 
-## Real-World Applications
-Used wherever rendition sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Single-bitrate contribution link** — one rendition to ingest; ladder after origin.
-- **Con / skip when:** **Archive mezzanine** — store one master; spawn renditions at package time.
-- **Con / skip when:** **Interactive WebRTC** — usually one encode per peer direction, not an HLS-style ladder.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,7 +82,16 @@ Used wherever rendition sits in an ingest → package → CDN → player path. C
 | HEVC rung never used | Device can’t decode | Keep AVC baseline rung |
 | Loudness jump between rungs | Different audio encodes | One audio rendition or matched loudness |
 
-- **“Three profiles” means three encodes** — ops and cost plans that count channels only are wrong by factor M.
-- **Upscaling a low rendition on a 4K TV** — looks soft; cap display or add a higher rung.
-- **Renaming folders without regenerating the master** — player still points at dead URIs.
-- **Different frame rates in one ladder** — many players mishandle; prefer separate ladders per fps.
+- **Mistake:** **“Three profiles” means three encodes**
+- **Mistake:** **Upscaling a low rendition on a 4K TV**
+- **Mistake:** **Renaming folders without regenerating the master**
+- **Mistake:** **Different frame rates in one ladder**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Single-bitrate contribution link**
+- **Con / skip when:** **Archive mezzanine**
+- **Con / skip when:** **Interactive WebRTC**
+
+## Real-World Applications
+- **Scenario:** Used wherever rendition sits in an ingest → package → CDN → player path

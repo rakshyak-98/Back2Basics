@@ -4,12 +4,18 @@
 
 > A handle is an opaque token the OS returns so user mode can reference a kernel object without exposing its address — Windows HANDLEs and Unix file descriptors play the same role.
 
-
-
-
+```txt
+        Handle ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Cross-platform systems: opaque capability tokens, duplication/inheritance, and leak/`CloseHandle` discipline.
+- **Interview probes:** Cross-platform systems: opaque capability tokens, duplication/inheritance, an…
 
 ## Sources
 - [Microsoft Learn — Handles and Objects](https://learn.microsoft.com/en-us/windows/win32/sysinfo/handles-and-objects) — deep-dive
@@ -28,10 +34,13 @@ Cross-platform systems: opaque capability tokens, duplication/inheritance, and l
 | Linux / POSIX | int fd | `close()` |
 | Windows | HANDLE | `CloseHandle()` |
 
-Security: handles carry access rights (Windows DACL; Unix permissions + `/proc` visibility). Cross-platform libs (`std::fs::File`, `os.File`) wrap the native type.
+- Security: handles carry access rights (Windows DACL
+- Cross-platform libs (`std::fs::File`, `os.File`) wrap the native type.
 
-## Real-World Applications
-Win32 services, Wine compatibility layers, and portable runtimes abstracting fd vs HANDLE.
+## Mistakes to Avoid
+- **Mistake:** Double-close / use-after-close
+- **Mistake:** Assuming a numeric HANDLE/fd value is meaningful across processe…
+- **Mistake:** Leaking handles until process handle-table limits hit
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Safe indirection; kernel can revoke/validate.
@@ -42,7 +51,6 @@ Win32 services, Wine compatibility layers, and portable runtimes abstracting fd 
 - vs [[file descriptors]]: Unix specialization of the handle idea.
 - vs raw pointers: handles survive kernel object moves/revocation better.
 
-## Mistakes to Avoid
-- Double-close / use-after-close.
-- Assuming a numeric HANDLE/fd value is meaningful across processes without intentional sharing.
-- Leaking handles until process handle-table limits hit.
+
+### Use cases
+- Win32 services, Wine compatibility layers, and portable runtimes abstracting …

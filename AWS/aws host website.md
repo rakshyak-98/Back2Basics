@@ -4,15 +4,14 @@
 
 > The cheapest way to host a static website on AWS is S3 static website hosting plus CloudFront (optional) and Route 53 for DNS — no EC2 required unless you need server-side logic.
 
-
-
-
+```txt
+        aws host website ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Interviewers ask about aws host website to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- Why must ACM certificates for CloudFront be in us-east-1?
-- When is S3 alone without CloudFront insufficient for production?
+- **Interview probes:** Interviewers ask about aws host website to see whether you can design and ope…
 
 ## Sources
 - [Hosting a static website on Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html) — overview
@@ -54,14 +53,15 @@ Interviewers ask about aws host website to see whether you can design and operat
 
 ### Why CloudFront
 
-- **HTTPS** with free ACM certificates at the edge
-- **Caching** reduces S3 request cost and latency
-- **Origin Access Control (OAC)** keeps bucket private
+- **HTTPS:** with free ACM certificates at the edge
+- **Caching:** reduces S3 request cost and latency
+- **Origin Access Control (OAC):** keeps bucket private
 
 ### SPA routing
 
-Configure CloudFront custom error response: `403` → `/index.html` with `200` so client-side routers work.
+- Configure CloudFront custom error response: `403` → `/index.html` with `200` …
 
 ### Cost levers
 
-S3 storage + requests, CloudFront data transfer, Route 53 hosted zone monthly fee. Static sites at low traffic are typically cents per month.
+- S3 storage + requests, CloudFront data transfer, Route 53 hosted zone monthly…
+- Static sites at low traffic are typically cents per month.

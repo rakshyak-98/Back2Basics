@@ -4,12 +4,18 @@
 
 > LLVM-based C/C++/Objective-C compiler front end — parses your source, emits LLVM IR, then the rest of the toolchain optimizes and codegen’s.
 
-
-
-
+```txt
+        Clang ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast clang vs gcc flags, what a “front end” does vs LLVM middle/back end, and how warnings/`-Wall` catch bugs before runtime.
+- **Interview probes:** Interviewers contrast clang vs gcc flags, what a “front end” does vs LLVM mid…
 
 ## Sources
 - [Clang — Official documentation](https://clang.llvm.org/docs/index.html) — deep-dive
@@ -17,7 +23,7 @@ Interviewers contrast clang vs gcc flags, what a “front end” does vs LLVM mi
 
 ## Key Concepts
 - **Front end:** lex/parse/sema for C-family languages → LLVM IR.
-- **Driver:** `clang` orchestrates preprocess → compile → assemble → link (like `gcc` driver UX).
+- **Driver:** `clang` orchestrates preprocess → compile → assemble → link (like `gcc` drive…
 - **Diagnostics:** often clearer error messages than older toolchains → faster fix loops.
 - **Cross tools:** `clang --target=…` + sysroot → embedded and cross builds.
 
@@ -37,10 +43,10 @@ clang --version
 | `-c` | Compile only → object file |
 | `-fPIC` | Position-independent code for shared libs |
 
-## Real-World Applications
-Default compiler on macOS; common choice on Linux for better diagnostics and sanitizer integration (`-fsanitize=address`).
-
-**Example:** A cryptic template error in gcc becomes a readable clang note — switch local builds to clang for debugging, keep CI compiler pinned.
+## Mistakes to Avoid
+- **Mistake:** Ignoring warnings with `-Wno-everything` to “make CI green.”
+- **Mistake:** Mixing objects built with incompatible ABI flags across clang/gc…
+- **Mistake:** Forgetting `-fPIC` when building shared libraries
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Excellent diagnostics and LLVM tooling ecosystem (sanitizers, `clang-tidy`).
@@ -50,7 +56,8 @@ Default compiler on macOS; common choice on Linux for better diagnostics and san
 - vs gcc: similar driver UX; different optimizers and extensions.
 - vs [[transpiler]]: clang lowers to machine/IR; transpilers emit another high-level language.
 
-## Mistakes to Avoid
-- Ignoring warnings with `-Wno-everything` to “make CI green.”
-- Mixing objects built with incompatible ABI flags across clang/gcc without a policy.
-- Forgetting `-fPIC` when building shared libraries.
+
+### Use cases
+- Default compiler on macOS
+
+- **Example:** A cryptic template error in gcc becomes a readable clang note

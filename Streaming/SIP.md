@@ -4,19 +4,25 @@
 
 > SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
-
-
-
+```txt
+        SIP (Session Initi ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about SIP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about SIP to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP) — overview
 - [RFC 3261 — SIP](https://datatracker.ietf.org/doc/html/rfc3261) — deep-dive
 
 ## Key Concepts
-**SIP** is text-based signaling (like HTTP) for establishing, modifying, and tearing down **media sessions**. Actual audio/video flows over **RTP/RTCP** (usually UDP) on separate ports — SIP only negotiates codecs and endpoints.
+- **Note:** **SIP** is text-based signaling (like HTTP) for establishing, modifying, and …
 
 | Message | Role |
 |---------|------|
@@ -26,7 +32,7 @@ Interviewers ask about SIP to see if you understand the pipeline role, failure m
 | **BYE** | Hang up |
 | **OPTIONS** | Capability ping |
 
-**SDP offer/answer** lists `m=audio PORT RTP/AVP` — if NAT wrong, signaling succeeds but **one-way audio** (classic production bug).
+- **Note:** **SDP offer/answer** lists `m=audio PORT RTP/AVP`
 
 ## Technical Details
 ```txt
@@ -72,7 +78,7 @@ sip.Method == "INVITE"
 sip.Call-ID == "abc@host"
 ```
 
-Enable **SIP decoding** + **RTP stream analysis** (Telephony → RTP streams).
+- Enable **SIP decoding** + **RTP stream analysis** (Telephony → RTP streams).
 
 ### NAT traversal toolkit
 
@@ -89,18 +95,6 @@ Contact header must reflect reachable address:
   Contact: <sip:user@203.0.113.5:5060>   ; public, not 192.168.1.10
 SDP c= line must match RTP port forwarding / media relay
 ```
-
-## Real-World Applications
-Used wherever SIP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
-- **Con / skip when:** **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
-- **Con / skip when:** **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
-
-## Comparison
-- vs [[webSocket]]: **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -119,8 +113,21 @@ Used wherever SIP sits in an ingest → package → CDN → player path. Concret
 ss -ulnp | grep -E '5060|10000'
 ```
 
-- **SIP ALG on consumer routers** — mangled headers; disable ALG industry-wide recommendation.
-- **Private IP in SDP** — remote sends RTP to unroutable 10.x address.
-- **TLS/SRTP vs plain** — WebRTC requires DTLS-SRTP; legacy SIP trunk may be RTP only — transcoding/SBC boundary.
-- **Re-INVITE for hold/music** — missed re-INVITE handling → dropped call on hold.
-- **Registration expiry** — NAT binding dies before re-REGISTER; shorten expiry or keepalive OPTIONS.
+- **Mistake:** **SIP ALG on consumer routers**
+- **Mistake:** **Private IP in SDP**
+- **Mistake:** **TLS/SRTP vs plain**
+- **Re-INVITE for hold/music**::** → dropped call on hold
+- **Mistake:** **Registration expiry**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Low-latency game state**
+- **Con / skip when:** **One-to-many broadcast**
+- **Con / skip when:** **DIY SIP without SBC at scale**
+
+## Comparison
+- vs [[webSocket]]: **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
+
+
+### Use cases
+- Used wherever SIP sits in an ingest → package → CDN → player path

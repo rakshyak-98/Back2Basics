@@ -4,12 +4,18 @@
 
 > Named settings inside Nginx context blocks — `server`, `listen`, `location`, `proxy_pass`, and friends — that decide how each request is handled.
 
-
-
-
+```txt
+        directives ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers expect you to name the core directives and what each does (virtual host, path match, reverse proxy headers) without reading a cheat sheet.
+- **Interview probes:** Interviewers expect you to name the core directives and what each does (virtu…
 
 ## Sources
 - [nginx.org — Alphabetical index of directives](https://nginx.org/en/docs/dirindex.html) — overview
@@ -23,7 +29,7 @@ Interviewers expect you to name the core directives and what each does (virtual 
 - **`root` / `index`:** Base directory for static files; default file for directory requests.
 - **`location`:** Path-based handler (static, proxy, FastCGI, rewrite).
 - **`proxy_pass` / `proxy_set_header`:** Forward to an upstream; pass `Host`, `X-Real-IP`, `X-Forwarded-For`.
-- **`error_page`:** Custom page for specific status codes (e.g. `error_page 404 /custom_404.html;`).
+- **`error_page`:** Custom page for specific status codes (e.g
 - **`upstream`:** Named backend pool for load balancing.
 - **`gzip` / `gzip_types`:** Response compression for selected MIME types.
 - **`auth_basic` / `auth_basic_user_file`:** HTTP Basic authentication.
@@ -36,7 +42,7 @@ server {
 }
 ```
 
-Minimal server block (see [[Configuration]] for fuller examples):
+- Minimal server block (see [[Configuration]] for fuller examples):
 
 ```nginx
 server {
@@ -57,18 +63,19 @@ server {
 | Proxy returns 502 | upstream down; bad `proxy_pass` URL | `curl` backend; trailing slash rules |
 | Config test fails | typo in directive name | `nginx -t` shows file:line |
 
-## Real-World Applications
-Define one `server` per hostname, `location /` for static or SPA fallback, and `location /api/` with `proxy_pass` plus forwarded headers for the app.
+## Mistakes to Avoid
+- **Mistake:** Treating `alias` like `root`
+- **Mistake:** Putting TLS certificates only on `default_server` when you serve…
+- **Mistake:** Relying on directive order folklore instead of documented locati…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Small set of directives covers reverse proxy + static + TLS for most sites.
 - **Con:** Inheritance and merge rules across nested blocks surprise people — last-wins and context limits matter.
 
 ## Comparison
-- vs [[How does directive work]]: this note is a directive cheat sheet; that note covers match order, inheritance, and `try_files` patterns.
-- vs Apache `mod_*` directives: different names and merge model; Nginx prefers declarative `location` over complex `if`.
+- vs [[How does directive work]]: this note is a directive cheat sheet
+- vs Apache `mod_*` directives: different names and merge model
 
-## Mistakes to Avoid
-- Treating `alias` like `root` — `alias` replaces the matched location path; `root` appends the full URI.
-- Putting TLS certificates only on `default_server` when you serve many names — each name needs a matching cert or SAN/wildcard.
-- Relying on directive order folklore instead of documented location precedence.
+
+### Use cases
+- Define one `server` per hostname, `location /` for static or SPA fallback, an…

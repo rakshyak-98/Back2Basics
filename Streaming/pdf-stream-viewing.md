@@ -4,32 +4,38 @@
 
 > Stream a PDF into the browser — render pages as bytes arrive (PDF.js + HTTP range), don’t wait for the whole file.
 
-
-
-
+```txt
+        pdf-stream-viewing ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk pdf-stream-viewing end-to-end — not just name it. Signal fluency with **Range request**, **206 Partial Content**, **PDF.js**, **Linearized PDF** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk pdf-stream-viewing end-to-end
 
 ## Sources
 - [Wikipedia — pdf-stream-viewing](https://en.wikipedia.org/wiki/pdf-stream-viewing) — overview
 
-## Core Definition
-This is document progressive loading, not media [[ABR]]. Same HTTP range idea as video segment fetches, different parser.
-
 ## Key Concepts
 - **Range request:** Client asks for a byte slice — “We fetch only the pages needed.”
-- **206 Partial Content:** Server honors the range — “No 206 ⇒ progressive view falls back to full download.”
-- **PDF.js:** Mozilla’s JS PDF engine — “Renders to canvas; talks HTTP range under the hood.”
+- **206 Partial Content:** Server honors the range
+- **PDF.js:** Mozilla’s JS PDF engine
 - **Linearized PDF:** “Fast web view” layout — “Hint table up front — first page shows sooner.”
 - **Object stream / xref:** Where page objects live — “Broken xref ⇒ blank pages even if bytes arrived.”
 
 **Flow:**
 
-1. **Serve** — host PDF with range support (most static servers do).
-2. **Prefer linearized** — distill/fast-web-view when generating large docs.
-3. **Load** — `pdfjsLib.getDocument(url)` (or your worker setup).
-4. **Render** — `getPage(n)` → viewport → canvas as the user navigates.
+- **Note:** 1. **Serve** — host PDF with range support (most static servers do).
+- **Note:** 2. **Prefer linearized** — distill/fast-web-view when generating large docs.
+- **Note:** 3. **Load** — `pdfjsLib.getDocument(url)` (or your worker setup).
+- **Note:** 4. **Render** — `getPage(n)` → viewport → canvas as the user navigates.
+
+
+- **Core:** This is document progressive loading, not media [[ABR]]
 
 ## Technical Details
 ```txt
@@ -74,24 +80,12 @@ loadingTask.promise.then((pdf) => {
 | Linearized (“fast web view”) | Faster time-to-first-page on big files |
 | Auth on ranges | Signed URLs must allow multiple range GETs |
 
-Check ranges:
+- Check ranges:
 
 ```bash
 curl -I https://example.com/doc.pdf | grep -i accept-ranges
 curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 ```
-
-## Real-World Applications
-This is document progressive loading, not media [[ABR]]. Same HTTP range idea as video segment fetches, different parser.
-
-Used wherever pdf-stream-viewing sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Tiny PDFs** — single GET is simpler; range complexity buys nothing.
-- **Con / skip when:** **Print-faithful desktop application** — native viewers / print pipelines beat canvas.
-- **Con / skip when:** **You need searchable server-side text extract** — use a PDF library on the backend, not PDF.js alone.
-- **Con / skip when:** **DRM’d or encrypted PDFs with proprietary plugins** — PDF.js may not unlock vendor schemes.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -103,7 +97,19 @@ Used wherever pdf-stream-viewing sits in an ingest → package → CDN → playe
 | Random page failures | Truncated object / bad upload | Re-upload; verify Content-Length; checksum |
 | Mobile OOM on huge PDF | Full raster at high scale | Lower scale; render visible pages only |
 
-- **`<iframe src="file.pdf">` is not streaming control** — browser plugin behavior varies; PDF.js gives you progressive + UX control.
-- **Gzip on PDFs** — some stacks break range + Content-Encoding; prefer identity encoding for ranged PDFs.
-- **“Streaming” PDF ≠ media stream** — don’t wire this into [[HLS]] handlers; it’s HTTP file progressive load ([[Byte stream]] / static).
-- **Worker and file URL mismatch** — wrong `workerSrc` silently falls back to main-thread jank.
+- **Mistake:** **`<iframe src="file.pdf">` is not streaming control**
+- **Mistake:** **Gzip on PDFs**
+- **Mistake:** **“Streaming” PDF ≠ media stream**
+- **Mistake:** **Worker and file URL mismatch**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Tiny PDFs**
+- **Con / skip when:** **Print-faithful desktop application**
+- **Con / skip when:** **You need searchable server-side text extract**
+- **Con / skip when:** **DRM’d or encrypted PDFs with proprietary plugins**
+
+## Real-World Applications
+- **Note:** This is document progressive loading, not media [[ABR]]
+
+- **Note:** Used wherever pdf-stream-viewing sits in an ingest → package → CDN → player p…

@@ -4,12 +4,18 @@
 
 > Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.
 
-
-
-
+```txt
+        REPL ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **REPL** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **REPL**, **`.load` / `.save`**, **`require.main`**.
+- **Interview probes:** Interviewers use **REPL** to check whether you can explain the mechanism in p…
 
 ## Sources
 - [Node.js — REPL](https://nodejs.org/api/repl.html) — deep-dive
@@ -46,8 +52,11 @@ const __dirname = path.dirname(__filename)
 | `NODE_REPL_HISTORY` | Persist command history |
 | `_` | Last result |
 
-## Real-World Applications
-In production APIs and tooling, **REPL** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Side effects stick** — vars and listeners remain until exit; **`__dirname` missing:** check ESM context; fix: Build from `import.meta.url`.
+## Mistakes to Avoid
+- **Mistake:** **Side effects stick** — vars and listeners remain until exit
+- **Mistake:** **`__dirname` missing:** check ESM context
+- **Mistake:** **`require.main` weird:** check REPL isn’t a file
+- **Mistake:** **Top-level await:** check Old Node / mode
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.).
@@ -55,10 +64,8 @@ In production APIs and tooling, **REPL** shows up whenever teams ship Node/JS se
 - **Con / when not:** **Long scripts** — write a `.js` and `node` it.
 
 ## Comparison
-vs [[node inspect]]: know when each applies — do not treat them as interchangeable. vs [[node command]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
+- vs [[node inspect]]: know when each applies
 
-## Mistakes to Avoid
-- **Side effects stick** — vars and listeners remain until exit.
-- **`__dirname` missing:** check ESM context; fix: Build from `import.meta.url`
-- **`require.main` weird:** check REPL isn’t a file; fix: Don’t rely on it for path logic
-- **Top-level await:** check Old Node / mode; fix: Newer Node REPL supports TLA
+
+### Use cases
+- In production APIs and tooling, **REPL** shows up whenever teams ship Node/JS…

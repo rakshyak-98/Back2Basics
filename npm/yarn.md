@@ -4,27 +4,33 @@
 
 > Alternative Node package manager — deterministic installs via a lockfile, with strong workspace support for monorepos (Classic and Berry).
 
-
-
-
+```txt
+        Yarn ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use Yarn to check whether you can explain lockfile discipline, Classic versus Berry (node_modules vs Plug’n’Play), and why mixing Yarn with [[npm]] in one project causes drift.
+- **Interview probes:** Interviewers use Yarn to check whether you can explain lockfile discipline, C…
 
 ## Sources
 - [Yarn Classic documentation](https://classic.yarnpkg.com/en/docs/) — overview
 - [Yarn Berry documentation](https://yarnpkg.com/getting-started) — deep-dive
 - [Wikipedia — Yarn (package manager)](https://en.wikipedia.org/wiki/Yarn_(package_manager)) — overview
 
-## Core Definition
-Yarn installs JavaScript packages from the npm registry (or mirrors) using its own resolver and lockfile format, aiming for reproducible installs and convenient monorepo workspaces.
-
 ## Key Concepts
-- **Classic (v1) vs Berry (v2+):** Classic uses `yarn.lock` + hoisted `node_modules`; Berry uses `.yarnrc.yml`, can use Plug’n’Play (`.pnp.cjs`), and is enabled via Corepack.
+- **Classic (v1) vs Berry (v2+):** Classic uses `yarn.lock` + hoisted `node_modules`
 - **Lockfile:** pins exact versions → everyone and continuous integration get the same tree.
 - **Workspaces:** one root project owns multiple packages → install once, link locally.
-- **`yarn why`:** explains why a package is present → debug duplicate versions and hoisting surprises.
+- **`yarn why`:** explains why a package is present → debug duplicate versions and hoisting sur…
 - **Zero-install (Berry):** commit the cache for offline installs → large repository size trade-off.
+
+
+- **Core:** Yarn installs JavaScript packages from the npm registry (or mirrors) using it…
 
 ## Technical Details
 ### Daily commands
@@ -72,10 +78,10 @@ yarn install
 | Classic and Berry mixed | `.yarnrc.yml` present? | Pick one major line; do not mix lockfile formats |
 | Stale continuous integration cache | Cache key | Key cache on lockfile hash |
 
-## Real-World Applications
-Teams pick Yarn for monorepos, faster installs than older npm, or Berry’s Plug’n’Play and constraints.
-
-**Example:** A polyrepo migrates to workspaces under one `yarn.lock` so shared libraries link locally without publishing for every change.
+## Mistakes to Avoid
+- **Mistake:** Running `yarn` and `npm install` interchangeably
+- **Mistake:** Jumping majors with non-interactive upgrade without reading chan…
+- **Mistake:** Adopting Berry Plug’n’Play without committing the team to SDK an…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong workspace story; `yarn why` and interactive upgrades help day-to-day maintenance.
@@ -84,9 +90,10 @@ Teams pick Yarn for monorepos, faster installs than older npm, or Berry’s Plug
 
 ## Comparison
 - vs [[npm]]: Same registry; different lockfile and workspace UX. Prefer one manager per project.
-- vs [[pnpm cli]]: pnpm focuses on a content-addressable store and strict dependency isolation; Yarn Berry focuses on PnP and project constraints.
+- vs [[pnpm cli]]: pnpm focuses on a content-addressable store and strict dependency isolation
 
-## Mistakes to Avoid
-- Running `yarn` and `npm install` interchangeably — two lockfiles mean silent version drift.
-- Jumping majors with non-interactive upgrade without reading changelogs.
-- Adopting Berry Plug’n’Play without committing the team to SDK and continuous integration setup.
+
+### Use cases
+- Teams pick Yarn for monorepos, faster installs than older npm, or Berry’s Plu…
+
+- **Example:** A polyrepo migrates to workspaces under one `yarn.lock` so share…

@@ -4,25 +4,31 @@
 
 > System V init was the classic sequential runlevel boot model — largely replaced by systemd on modern distributions but still referenced in legacy scripts and packaging.
 
-
-
-
+```txt
+        SYSV (System V) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and how to detect PID 1. Deep SysV trivia is less valuable than migration awareness.
+- **Interview probes:** Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and h…
 
 ## Sources
 - [LSB init scripts](https://refspecs.linuxfoundation.org/lsb.shtml) — overview
 - [systemd-sysv-generator](https://www.freedesktop.org/software/systemd/man/latest/systemd-sysv-generator.html) — deep-dive
-
-## Core Definition
-**SysV init** used `/etc/inittab` and numbered scripts in `/etc/init.d/` with `start|stop|status` actions. **Runlevels** 0–6 selected boot mode. **LSB headers** in init scripts declared dependencies. systemd maps runlevels to **targets**.
 
 ## Key Concepts
 - **Runlevels:** Halt (0), single-user (1), multi-user (2–5), reboot (6).
 - **init.d scripts:** Shell wrappers with LSB headers.
 - **systemd-sysv-generator:** Compatibility shim that turns old scripts into units.
 - **PID 1:** Today almost always `systemd` on server distros.
+
+
+- **Core:** **SysV init** used `/etc/inittab` and numbered scripts in `/etc/init.d/` with…
 
 ## Technical Details
 | Level | Typical meaning |
@@ -56,8 +62,10 @@ ps -p 1 -o comm=
 # systemd vs init
 ```
 
-## Real-World Applications
-Supporting vendor appliances that still ship `/etc/init.d` scripts, and translating “start in runlevel 3” docs into `multi-user.target` on systemd hosts.
+## Mistakes to Avoid
+- **Mistake:** Writing new services as SysV scripts on systemd fleets
+- **Mistake:** Using `killall` in stop actions without verifying the process na…
+- **Mistake:** Assuming runlevel commands still control boot the same way under…
 
 ## Pros/Cons or Trade-offs
 - **Pro (historical):** Simple mental model; easy to read shell scripts.
@@ -65,9 +73,8 @@ Supporting vendor appliances that still ship `/etc/init.d` scripts, and translat
 - **Trade-off:** Compatibility generators vs rewriting as native [[system service unit files]].
 
 ## Comparison
-vs [[services/systemd]]: systemd is socket/target-based and parallel. vs [[LSB (Linux Standard Base)]]: LSB standardized SysV script metadata. Prefer native units on modern hosts.
+- vs [[services/systemd]]: systemd is socket/target-based and parallel
 
-## Mistakes to Avoid
-- Writing new services as SysV scripts on systemd fleets.
-- Using `killall` in stop actions without verifying the process name.
-- Assuming runlevel commands still control boot the same way under systemd.
+
+### Use cases
+- Supporting vendor appliances that still ship `/etc/init.d` scripts, and trans…

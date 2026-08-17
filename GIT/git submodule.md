@@ -4,12 +4,17 @@
 
 > pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
-
-
-
+```txt
+        Git Submodule ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git Submodule` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git Submodule` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -41,7 +46,7 @@ git submodule add https://github.com/org/lib.git vendor/lib
 git commit -m "Add lib submodule at v2.1.0"
 ```
 
-Creates `.gitmodules` + gitlink entry.
+- Creates `.gitmodules` + gitlink entry.
 
 ### Day-to-day updates
 
@@ -71,10 +76,6 @@ rm -rf .git/modules/vendor/lib
 git commit -m "Remove lib submodule"
 ```
 
-## Pros/Cons or Trade-offs
-- **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
-- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Detached HEAD is default** inside submodule — easy to commit locally and forget to push submodule remote before updating parent.
@@ -102,3 +103,7 @@ git commit -m "Remove lib submodule"
 git diff vendor/lib
 git submodule foreach 'git rev-parse HEAD'
 ```
+
+## Pros/Cons or Trade-offs
+- **npm/cargo/go modules exist**
+- **Teams unfamiliar with gitlinks**

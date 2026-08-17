@@ -4,22 +4,27 @@
 
 > Distributed ledger guarantees for builders — immutability, consensus, and transparency trade off against latency, cost, and privacy; don't treat "on-chain" as magic persistence.
 
-
-
-
+```txt
+        Blockchain propert ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Property questions check immutability, transparency, and what blockchain does not guarantee (correct business logic).
+- **Interview probes:** Property questions check immutability, transparency, and what blockchain does…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 - [Blockchain — Wikipedia](https://en.wikipedia.org/wiki/Blockchain) — overview
 
 ## Key Concepts
-A blockchain is an **append-only, replicated log** where blocks link via cryptographic hashes. Network nodes agree on ordering through a **consensus** protocol (PoW, PoS, BFT variants).
+- **Note:** A blockchain is an **append-only, replicated log** where blocks link via cryp…
 
 ```
-Tx submitted ──► mempool ──► block proposed ──► consensus ──► finalized chain
+- **Note:** Tx submitted ──► mempool ──► block proposed ──► consensus ──► finalized chain
                               │
                               └── hash links to parent block
 ```
@@ -48,9 +53,9 @@ Properties engineers care about:
    PostgreSQL                      Blockchain
 ```
 
-- **Anchor hash on-chain, data off-chain** — store document hash in contract event; blob in S3/IPFS.
-- **Wallet/signing** — user keys in HSM/browser wallet; server never holds user seed in production.
-- **Idempotency** — tx nonce management; retry with same nonce versus replacement.
+- **Anchor hash on-chain, data off-chain:** — store document hash in contract event; blob in S3/IPFS.
+- **Wallet/signing:** — user keys in HSM/browser wallet; server never holds user seed in production.
+- **Idempotency:** — tx nonce management; retry with same nonce versus replacement.
 
 ### Read contract (Ethereum JSON-RPC)
 
@@ -86,11 +91,6 @@ contract.on('Transfer', (from, to, value, event) => {
 - Monitor reorg depth for your chain.
 - Rate-limit public RPC; self-host node for SLA.
 
-## Pros/Cons or Trade-offs
-- **CRUD application with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
-- **Sub-second latency requirements** — chain finality is seconds to minutes.
-- **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Public = world-readable** — emails, KYC, trade secrets don't belong on public L1.
@@ -112,3 +112,8 @@ contract.on('Transfer', (from, to, value, event) => {
 | RPC intermittent | Provider rate limit | Self-host or paid tier; exponential backoff |
 | Indexer drift | Missed events during downtime | Backfill from last synced block |
 | Wrong network in wallet | `chainId` mismatch | Prompt switch network; validate in backend |
+
+## Pros/Cons or Trade-offs
+- **CRUD application with trusted operator**
+- **Sub-second latency requirements** — chain finality is seconds to minutes.
+- **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.

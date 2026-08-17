@@ -4,12 +4,17 @@
 
 > Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
-
-
-
+```txt
+        go project ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Project ladders show deliberate practice — interviewers care that you can scope CLI→HTTP→concurrency work with a clear test bar.
+- **Interview probes:** Project ladders show deliberate practice
 
 ## Sources
 - [Go project layout conventions (community)](https://github.com/golang-standards/project-layout) — overview
@@ -64,14 +69,14 @@ docker compose up -d # when Postgres required
 | 8 | Booking service | Idempotent book, services split |
 | 9 | Log aggregator | Ingest + query + backpressure |
 
-**Production checklist (all):** structured logs, `-race` clean, health endpoint, configuration via environment, README with failure modes.
+- **Production checklist (all):** structured logs, `-race` clean, health endpoi…
+
+## Mistakes to Avoid
+- **Mistake:** Framework shopping — finish one stdlib HTTP service first
+- **Mistake:** Skipping graceful shutdown — leaks in WS/chat projects
+- **Mistake:** No idempotency on book/pay — instant production bug
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Resume spam of 9 half-apps — ship 3 polished ones.
 - **Trade-off:** Rewriting Kubernetes for learning — too wide.
 - **Trade-off:** Copying entire starter kits — you won’t learn.
-
-## Mistakes to Avoid
-- Framework shopping — finish one stdlib HTTP service first.
-- Skipping graceful shutdown — leaks in WS/chat projects.
-- No idempotency on book/pay — instant production bug.

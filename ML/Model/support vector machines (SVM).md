@@ -4,26 +4,31 @@
 
 > Find the **maximum-margin** separating hyperplane (or ε-tube for regression) — kernel trick maps to high-D implicitly — **Cortes & Vapnik (1995)**.
 
-
-
-
+```txt
+        Support Vector Mac ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Support Vector Machines (SVM) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Support Vector Machines (SVM) to check whether you can…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
 
 ## Key Concepts
-**Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification versus margin width.
+- **Note:** **Hard margin:** separate classes with widest gap. **Soft margin (C):** allow…
 
 ```txt
 min  ½‖w‖² + C Σ ξᵢ
 s.t. yᵢ(w·φ(xᵢ) + b) ≥ 1 − ξᵢ
 ```
 
-**Kernel K(x,x')** replaces explicit φ — common **RBF** (Gaussian) for nonlinear boundaries. Support vectors are training points on or inside the margin — prediction depends mostly on them, not all data.
+- **Note:** **Kernel K(x,x')** replaces explicit φ
 
 | Mode | sklearn class | Key param |
 |------|---------------|-----------|
@@ -31,7 +36,7 @@ s.t. yᵢ(w·φ(xᵢ) + b) ≥ 1 − ξᵢ
 | Multiclass | `SVC` (OvO/OvR) | same |
 | Regression | `SVR` | `C`, `epsilon` |
 
-SVMs shine on **medium-sized, dense** data; struggle on **large sparse text** unless linear kernel + careful scaling.
+- **Note:** SVMs shine on **medium-sized, dense** data
 
 ## Technical Details
 ```python
@@ -67,12 +72,7 @@ from sklearn.svm import SVR
 svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 ```
 
-`probability=True` on `SVC` wraps Platt scaling — slow; use `decision_function` + calibrate separately if needed.
-
-## Pros/Cons or Trade-offs
-- **Huge datasets (millions+ rows)** — [[Gradient boosting]] / linear models scale better.
-- **Need feature importances for compliance** — prefer [[Decision tree]] or linear models.
-- **Image/audio deep learning** — CNNs / transformers dominate.
+- `probability=True` on `SVC` wraps Platt scaling
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -88,3 +88,8 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 | Test perf random | Unscaled features | Pipeline with scaler |
 | Memory blowup | RBF on 500k rows | Subsample; linear kernel |
 | Platt probs miscalibrated | `probability=True` | CalibratedClassifierCV |
+
+## Pros/Cons or Trade-offs
+- **Huge datasets (millions+ rows)**
+- **Need feature importances for compliance**
+- **Image/audio deep learning** — CNNs / transformers dominate.

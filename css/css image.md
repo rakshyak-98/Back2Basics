@@ -4,27 +4,33 @@
 
 > Percent-sized images inside a clipped parent need explicit width, height, and `object-fit` — otherwise browsers disagree on the containing block and the image stretches or leaks.
 
-
-
-
+```txt
+        CSS image sizing ( ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use clipped-image sizing to check whether you understand replaced elements, percentage height chains, and `object-fit` versus `background-size` for crop-and-fill UI.
+- **Interview probes:** Interviewers use clipped-image sizing to check whether you understand replace…
 
 ## Sources
 - [MDN — `object-fit`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) — deep-dive
 - [MDN — Styling replaced elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Images/Replaced_element_properties) — overview
 - [MDN — `object-position`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) — overview
 
-## Core Definition
-A replaced element (`img`, `video`) has intrinsic dimensions; CSS `width`/`height` size its box, while `object-fit` / `object-position` control how the media paints inside that box without changing layout the way `background-*` does on a non-replaced box.
-
 ## Key Concepts
-- **Containing block:** `%` width/height resolve against the parent — parents need a defined size for `%` height to work.
-- **`object-fit: cover | contain | fill`:** scale media inside the box → `cover` crops; `contain` letterboxes; `fill` stretches.
-- **Clip wrapper:** `overflow: hidden` on the parent crops; sizing belongs on the `img`, not only the wrapper.
+- **Containing block:** `%` width/height resolve against the parent
+- **`object-fit: cover | contain | fill`:** scale media inside the box → `cover` crops
+- **Clip wrapper:** `overflow: hidden` on the parent crops
 - **Inline gap:** `img` is inline by default → baseline gap (~4px); `display: block` removes it.
 - **CLS:** missing width/height attributes → layout shift when the image loads.
+
+
+- **Core:** A replaced element (`img`, `video`) has intrinsic dimensions
 
 ## Technical Details
 ```txt
@@ -83,10 +89,10 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 | Blurry upscale | Intrinsic vs display size | Correct resolution; `srcset` |
 | CLS on load | Missing dimensions | HTML `width`/`height` or `aspect-ratio` |
 
-## Real-World Applications
-Progress bars that reveal a photo, avatar crops in fixed squares, and hero media inside aspect-ratio cards all need `object-fit` plus a stable box.
-
-**Example:** A funding progress widget sets wrapper width to 45% and uses `object-fit: cover; object-position: left` so the image fills the clipped region without squashing.
+## Mistakes to Avoid
+- **Mistake:** Expecting `object-fit` without both width and height on the repl…
+- **Mistake:** Fighting `img` for pure decoration
+- **Mistake:** Using `object-fit: none` unless you truly want pixel-exact, unsc…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** `img` + `object-fit` keeps semantics and `alt` text while cropping cleanly.
@@ -94,10 +100,11 @@ Progress bars that reveal a photo, avatar crops in fixed squares, and hero media
 - **Con:** Decorative fills are often simpler as `background-image`.
 
 ## Comparison
-- vs `background-size: cover`: backgrounds are not replaced elements — no intrinsic `alt`, easier fill, weaker semantics.
-- vs [[Flash of Unstyled Content]]: missing dimensions cause CLS; late CSS causes FOUC — related polish issues.
+- vs `background-size: cover`: backgrounds are not replaced elements
+- vs [[Flash of Unstyled Content]]: missing dimensions cause CLS; late CSS causes FOUC
 
-## Mistakes to Avoid
-- Expecting `object-fit` without both width and height on the replaced element.
-- Fighting `img` for pure decoration — prefer background when there is no meaningful `alt`.
-- Using `object-fit: none` unless you truly want pixel-exact, unscaled cropping.
+
+### Use cases
+- Progress bars that reveal a photo, avatar crops in fixed squares, and hero me…
+
+- **Example:** A funding progress widget sets wrapper width to 45% and uses `ob…

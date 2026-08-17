@@ -4,18 +4,23 @@
 
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
-
-
-
+```txt
+        VS Code (CLI and w ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Editor fluency shows debugging/LSP setup — when configuration belongs in shared workspace settings.
+- **Interview probes:** Editor fluency shows debugging/LSP setup
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-`code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC. Opening paths attaches folders to the **current window** or spawns new windows depending on flags and settings.
+- **Note:** `code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC
 
 ```
 code . ──► running instance ──► opens folder in window
@@ -23,7 +28,7 @@ code . ──► running instance ──► opens folder in window
          └── -n forces new window; -r reuses existing
 ```
 
-Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach points.
+- **Note:** Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach …
 
 ## Technical Details
 ### Open workspace
@@ -86,7 +91,7 @@ code --install-extension esbenp.prettier-vscode
 
 ### Command ID (keybindings / tasks)
 
-Find command ID: **Command Palette → "Developer: Show Command Palette"** → run command → **"Developer: Toggle Keyboard Shortcuts Troubleshooting"** logs IDs.
+- Find command ID: **Command Palette → "Developer: Show Command Palette"** → ru…
 
 ```json
 // keybindings.json
@@ -96,7 +101,8 @@ Find command ID: **Command Palette → "Developer: Show Command Palette"** → r
 }
 ```
 
-Common IDs:
+- Common IDs:
+
 - `workbench.action.files.saveAll`
 - `editor.action.formatDocument`
 - `workbench.action.reloadWindow`
@@ -108,10 +114,6 @@ Common IDs:
 # From palette: Terminal: Create New Terminal
 # Settings: terminal.integrated.cwd, shell args
 ```
-
-## Pros/Cons or Trade-offs
-- **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
-- **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -135,3 +137,7 @@ Common IDs:
 | Extension missing in remote | Local vs remote install | Install extension on SSH/WSL side |
 | Format on save broken | No default formatter | Set `"editor.defaultFormatter"` per language |
 | Keybinding no effect | Conflicting chord | Troubleshooting log; unbind conflict |
+
+## Pros/Cons or Trade-offs
+- **Production server editing**
+- **Heavy batch refactors**

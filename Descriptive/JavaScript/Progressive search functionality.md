@@ -4,29 +4,34 @@
 
 > Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
-
-
-
+```txt
+        Progressive search ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Progressive search interviews cover debounce, ranking, and accessibility of live results.
+- **Interview probes:** Progressive search interviews cover debounce, ranking, and accessibility of l…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
 ```txt
-Keystroke → debounce window → abort prior fetch → new query → render results
+- **Note:** Keystroke → debounce window → abort prior fetch → new query → render results
                 ↑                      ↑
            drop noise            race-safe UI
 ```
 
-**Progressive search** = results refine as user types (autocomplete, catalog filter, command palette). Latency perception beats raw ms — show skeleton within 100ms, replace when data lands.
+- **Note:** **Progressive search** = results refine as user types (autocomplete, catalog …
 
 **Three costs:**
-1. **Network** — one request per term without debounce → DDoS your own API
+- **Note:** 1. **Network** — one request per term without debounce → DDoS your own API
 2. **Server** — `%term%` LIKE without index → DB CPU spike
-3. **Client** — re-render 5k DOM nodes each key → main thread jank ([[Animation]])
+- **Note:** 3. **Client**
 
 ## Technical Details
 ### Debounced fetch with abort
@@ -112,11 +117,6 @@ API: GET /search?q=foo&limit=20
 - Preserve query in URL ?q= for share/back
 ```
 
-## Pros/Cons or Trade-offs
-- **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
-- **Heavy analytics query** — batch/report UI, not per-keystroke.
-- **Offline-first with tiny dataset** — filter in memory; skip network entirely.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Debounce ≠ throttle** — throttle fires on interval (scroll); search wants debounce (quiet period).
@@ -138,3 +138,8 @@ API: GET /search?q=foo&limit=20
 | Mobile keyboard jank | Input handler work | Debounce; virtualize list |
 | Empty for valid terms | Encoding / case | `encodeURIComponent`; normalize Unicode NFC |
 | Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
+
+## Pros/Cons or Trade-offs
+- **Small fixed dropdown (< 20 items)**
+- **Heavy analytics query** — batch/report UI, not per-keystroke.
+- **Offline-first with tiny dataset** — filter in memory; skip network entirely.

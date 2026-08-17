@@ -4,12 +4,17 @@
 
 > Strategy defines a family of algorithms, encapsulates each one, and makes them interchangeable — so the client picks behavior at runtime without conditional branches in the hot path.
 
-
-
-
+```txt
+        Strategy pattern ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Comparison
+```
 
 ## Interview Relevance
-Strategy tests swapping algorithms at runtime without if/else forests — composition over conditional inheritance.
+- **Interview probes:** Strategy tests swapping algorithms at runtime without if/else forests
 
 ## Sources
 - Gamma et al., *Design Patterns* (Strategy) — deep-dive
@@ -19,10 +24,11 @@ Strategy tests swapping algorithms at runtime without if/else forests — compos
 Context → Strategy interface → ConcreteStrategyA / B
 ```
 
-Context calls `strategy.execute(data)`; wiring can happen at construction or via setter.
+- **Note:** Context calls `strategy.execute(data)`
 
 ## Technical Details
-Payment processing: `PaymentStrategy` with `pay(amount)` — `CreditCard`, `PayPal`. Checkout holds a strategy reference.
+- Payment processing: `PaymentStrategy` with `pay(amount)`
+- Checkout holds a strategy reference.
 
 ```typescript
 class Checkout {
@@ -31,12 +37,12 @@ class Checkout {
 }
 ```
 
-## Real-World Applications
-- Multiple algorithms for one job (compression, routing, pricing rules).
-- Eliminating `switch` on type codes in business logic.
+## Mistakes to Avoid
+- **Mistake:** Strategy per tiny variation — functions or lambdas may be enough
+- **Mistake:** Context must expose all data strategies need
 
 ## Comparison
-**vs Template Method**
+- **vs Template Method**
 
 | | Strategy | Template Method |
 |---|----------|-----------------|
@@ -44,6 +50,7 @@ class Checkout {
 | Runtime swap | Easy | Harder (subclass fixed) |
 | Granularity | Whole algorithm | Fixed skeleton, variable steps |
 
-## Mistakes to Avoid
-- Strategy per tiny variation — functions or lambdas may be enough.
-- Context must expose all data strategies need — avoid strategies reaching into private context state.
+
+### Use cases
+- Multiple algorithms for one job (compression, routing, pricing rules).
+- Eliminating `switch` on type codes in business logic.

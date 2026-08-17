@@ -4,12 +4,17 @@
 
 > traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
-
-
-
+```txt
+        Git log ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git log` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git log` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -22,7 +27,7 @@ git log -p file.js        patches per commit for file
 git show <sha>            one commit detail
 ```
 
-For merge commits, default log may hide individual parents — use `-m` or `--first-parent` depending on question.
+- **Note:** For merge commits, default log may hide individual parents
 
 ## Technical Details
 ### Basics
@@ -76,7 +81,7 @@ git log -G "regex" -- path/
 git log --pretty=format:"%h - %an (%ar): %s"
 ```
 
-See [[git formating]] for full placeholder table.
+- See [[git formating]] for full placeholder table.
 
 ### Since/until
 
@@ -84,10 +89,6 @@ See [[git formating]] for full placeholder table.
 git log --since="2025-01-01" --until="2025-06-01"
 git log --after="2 weeks ago"
 ```
-
-## Pros/Cons or Trade-offs
-- **Working tree diff** — use [[git diff]] for unstaged/staged changes.
-- **Find introducing bug** — prefer `git bisect` over manual log scroll.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -107,3 +108,7 @@ git log --after="2 weeks ago"
 | Merge commit shows no files | Need `-m` | `git log -m -1 merge_sha` |
 | Huge slow log | Entire repo history | Narrow path/date; `--oneline` |
 | Wrong author in audit | Author vs committer | `%an` vs `%cn` in format |
+
+## Pros/Cons or Trade-offs
+- **Working tree diff** — use [[git diff]] for unstaged/staged changes.
+- **Find introducing bug** — prefer `git bisect` over manual log scroll.

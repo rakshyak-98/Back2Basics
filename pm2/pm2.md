@@ -4,12 +4,18 @@
 
 > Node.js process manager — keep apps alive, reload with zero-ish downtime, and supervise logs/clusters in production-like environments.
 
-
-
-
+```txt
+        pm2 ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask cluster mode vs fork, restart policies, and why pm2 is not a substitute for a proper init system on every host (but often pairs with systemd).
+- **Interview probes:** Interviewers ask cluster mode vs fork, restart policies, and why pm2 is not a…
 
 ## Sources
 - [PM2 documentation](https://pm2.keymetrics.io/docs/usage/quick-start/) — deep-dive
@@ -36,10 +42,10 @@ pm2 save && pm2 startup
 | `reload` | Graceful rolling restart |
 | `save`/`startup` | Resurrect after reboot |
 
-## Real-World Applications
-Single VPS Node API: pm2 cluster behind Nginx; `pm2 save` after a good state.
-
-**Example:** Memory leak — `max_memory_restart` in ecosystem file recycles the worker.
+## Mistakes to Avoid
+- **Mistake:** Running `pm2` as a random user without `startup` integration the…
+- **Mistake:** Cluster mode with in-memory sessions and no sticky/shared store
+- **Mistake:** Ignoring log rotation until disks fill
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast ops UX for Node on VMs.
@@ -49,7 +55,8 @@ Single VPS Node API: pm2 cluster behind Nginx; `pm2 save` after a good state.
 - vs [[ecosystem]]: CLI ad-hoc vs declarative file.
 - vs systemd alone: pm2 adds Node-aware clustering/log UX; systemd is the OS supervisor.
 
-## Mistakes to Avoid
-- Running `pm2` as a random user without `startup` integration then wondering why reboot kills apps.
-- Cluster mode with in-memory sessions and no sticky/shared store.
-- Ignoring log rotation until disks fill.
+
+### Use cases
+- Single VPS Node API: pm2 cluster behind Nginx; `pm2 save` after a good state.
+
+- **Example:** Memory leak

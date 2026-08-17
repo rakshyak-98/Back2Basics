@@ -4,19 +4,25 @@
 
 > Minimal client-state library for React — store outside the component tree with selective subscriptions — **when Redux is overkill**.
 
-
-
-
+```txt
+        Zustand ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers separate server state vs client UI state and ask when Context, Redux, or a small store is the right tool.
+- **Interview probes:** Interviewers separate server state vs client UI state and ask when Context, R…
 
 ## Sources
 - [Zustand documentation](https://docs.pmnd.rs/zustand/getting-started/introduction) — deep-dive
 - [Zustand GitHub](https://github.com/pmndrs/zustand) — overview
 
 ## Key Concepts
-Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).
+- **Note:** Zustand holds state in a **vanilla store** (works without React). Components …
 
 | Pattern | API |
 |---------|-----|
@@ -25,7 +31,7 @@ Zustand holds state in a **vanilla store** (works without React). Components **s
 | **Outside React** | `useStore.getState().inc()` in event handlers, middleware |
 | **Slices** | Multiple `create` stores or combine with middleware |
 
-**Server state** (API data, cache, stale-while-revalidate) belongs in **TanStack Query / RTK Query** — not Zustand. See [[React data management]].
+- **Note:** **Server state** (API data, cache, stale-while-revalidate) belongs in **TanSt…
 
 ## Technical Details
 ```txt
@@ -101,16 +107,8 @@ export const createCartStore = () =>
 // per-request in RSC/App Router or getServerSideProps — never global on server
 ```
 
-On server: **new store per request**. On client: hydrate once from serialized snapshot or accept flash.
-
-## Real-World Applications
-Apply Zustand in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
-- **Con / skip when:** **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
-- **Con / skip when:** **Cross-tab sync requirements** — add `BroadcastChannel` or use URL/server state.
+- On server: **new store per request**.
+- On client: hydrate once from serialized snapshot or accept flash.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -127,8 +125,17 @@ import { useShallow } from 'zustand/react/shallow';
 const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 ```
 
-- **Zustand for API cache** — reinventing React Query: no stale time, dedup, background refetch, error retry.
-- **SSR singleton leak** — user A's cart visible to user B — catastrophic; always isolate server stores.
-- **Selector object** — `useStore(s => ({ x: s.x, y: s.y }))` new ref every time → infinite renders without `useShallow`.
-- **persist + sensitive data** — localStorage is XSS-readable; don't persist tokens.
-- **Testing** — reset store between tests: `useCart.setState({ items: [] }, true)`.
+- **Mistake:** **Zustand for API cache**
+- **Mistake:** **SSR singleton leak**
+- **Selector object**::** → infinite renders without `useShallow`
+- **Mistake:** **persist + sensitive data**
+- **Mistake:** **Testing**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Server-fetched lists with cache invalidation**
+- **Con / skip when:** **Complex event-sourced domain**
+- **Con / skip when:** **Cross-tab sync requirements**
+
+## Real-World Applications
+- **Scenario:** Apply Zustand in feature code where the Key Concepts match

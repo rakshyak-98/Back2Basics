@@ -4,12 +4,17 @@
 
 > `$lookup` joins collections in an aggregation — Mongo’s left outer join.
 
-
-
-
+```txt
+        mongodb lookup que ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-$lookup interviews cover application-side joins vs embedding — and why lookup can be expensive.
+- **Interview probes:** $lookup interviews cover application-side joins vs embedding
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -59,10 +64,6 @@ db.orders.aggregate([
 | preserveNull | Left join vs drop |
 | Project in pipeline | Smaller payloads |
 
-## Pros/Cons or Trade-offs
-- **Always-together data** — embed ([[mongodb denormalization]]).
-- **Graph depth searches** — `$graphLookup` or external graph DB.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **ObjectId vs string** — equality fails silently → empty `as`.
@@ -76,3 +77,7 @@ db.orders.aggregate([
 | Slow lookup | missing index | Index foreign key |
 | Dup rows after unwind | many matches | Expect multiplicative rows |
 | Huge as arrays | unbounded relations | `$limit` in pipeline |
+
+## Pros/Cons or Trade-offs
+- **Always-together data** — embed ([[mongodb denormalization]]).
+- **Graph depth searches** — `$graphLookup` or external graph DB.

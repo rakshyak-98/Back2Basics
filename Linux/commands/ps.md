@@ -4,12 +4,18 @@
 
 > One-shot process snapshot — PID, state, TTY, CPU, memory, and command line from `/proc`.
 
-
-
-
+```txt
+        ps ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STAT/TTY/RSS, and pick BSD (`aux`) vs UNIX (`-ef`) styles deliberately.
+- **Interview probes:** Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STA…
 
 ## Sources
 - [man ps](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive
@@ -49,7 +55,8 @@ kill -s TERM <pid>
 | `-L` / `-T` | Thread-level CPU (Java/Go storms) |
 | `TTY` | Session-bound vs daemon |
 
-No controlling TTY means no interactive I/O and no terminal-generated `SIGINT` / logout `SIGHUP` unless something else signals. Check: `ps -o pid,tty,cmd` → `?`, or `ls -l /proc/<pid>/fd/0` not linked to a tty/pts.
+- No controlling TTY means no interactive I/O and no terminal-generated `SIGINT…
+- Check: `ps -o pid,tty,cmd` → `?`, or `ls -l /proc/<pid>/fd/0` not linked to a…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,10 +66,11 @@ No controlling TTY means no interactive I/O and no terminal-generated `SIGINT` /
 | Zombies | `ps -eo pid,ppid,stat,cmd` for `Z` | Fix parent reaping |
 | Ctrl-C does nothing | `TTY` is `?` | Signal by PID from another session |
 
-## Real-World Applications
-First step in “who owns this CPU/RAM?”, finding zombies, and mapping supervisor → worker trees before kill decisions.
-
-**Example:** After SIGQUIT on a supervisor, use `ps --ppid` / `pstree` and [[lsof]] to catch leftover workers still holding a port.
+## Mistakes to Avoid
+- **Mistake:** Treating VSZ as “RAM used”
+- **Mistake:** Using `ps` as a continuous dashboard
+- **Mistake:** Parsing `ps` output in scripts when `pgrep`/`pidof` or `/proc` s…
+- **Mistake:** Expecting Ctrl-C to stop a process whose TTY is `?`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Scriptable, customizable columns, works over plain SSH without a TUI.
@@ -72,8 +80,8 @@ First step in “who owns this CPU/RAM?”, finding zombies, and mapping supervi
 - vs [[top]]: live refresh and sorting UI; `ps` is one shot.
 - vs [[lsof]] / [[ss]]: open files and sockets — not process tables.
 
-## Mistakes to Avoid
-- Treating VSZ as “RAM used” — watch RSS (and PSS) under memory pressure.
-- Using `ps` as a continuous dashboard.
-- Parsing `ps` output in scripts when `pgrep`/`pidof` or `/proc` suffice.
-- Expecting Ctrl-C to stop a process whose TTY is `?`.
+
+### Use cases
+- First step in “who owns this CPU/RAM?”, finding zombies, and mapping supervis…
+
+- **Example:** After SIGQUIT on a supervisor, use `ps --ppid` / `pstree` and [[…

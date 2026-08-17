@@ -4,12 +4,17 @@
 
 > Training fits model parameters on labeled data — split, fit, validate, then lock the test set.
 
-
-
-
+```txt
+        model tranning ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about model tranning to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about model tranning to check whether you can choose models/…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -17,7 +22,7 @@ Interviewers ask about model tranning to check whether you can choose models/met
 
 ## Key Concepts
 ```txt
-raw → preprocess (fit on train only) → train → validate → test once
+- **Note:** raw → preprocess (fit on train only) → train → validate → test once
 ```
 
 ### Interview map (words you can say)
@@ -44,10 +49,6 @@ print(model.score(X_test, y_test))
 | Random seed | Reproducible splits |
 | Pipeline | Prevent leakage |
 
-## Pros/Cons or Trade-offs
-- **No labels** — unsupervised / pretrained embeddings first.
-- **One-shot demo** — still keep a holdout if you’ll claim accuracy.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Scaling fit on all data** — classic leakage; fit scaler on train only.
@@ -61,3 +62,7 @@ print(model.score(X_test, y_test))
 | Underfit | high train error | Richer model / features |
 | Overfit | train≫val | Regularize; more data |
 | Unstable scores | tiny test | Cross-val; bigger holdout |
+
+## Pros/Cons or Trade-offs
+- **No labels** — unsupervised / pretrained embeddings first.
+- **One-shot demo** — still keep a holdout if you’ll claim accuracy.

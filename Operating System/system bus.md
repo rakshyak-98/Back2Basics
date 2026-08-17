@@ -4,12 +4,18 @@
 
 > The system bus is the backbone connecting CPU, main memory, and I/O controllers — every syscall that touches disk or network eventually moves bytes across these links.
 
-
-
-
+```txt
+        System bus ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence costs behind false sharing on [[mutexes]].
+- **Interview probes:** Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence co…
 
 ## Sources
 - Hennessy & Patterson, *Computer Architecture* — deep-dive
@@ -32,10 +38,14 @@ Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence costs
      I/O bridge → [[PCI (Peripheral Component Interconnect)]] / USB / NVMe
 ```
 
-Driver buffers often live in [[Buffer cache]] pages. Frequency ([[base clock speed]]) and storage ([[Persistent Block Storage]]) still ride this path. Generic concept note: [[bus]].
+- Driver buffers often live in [[Buffer cache]] pages.
+- Frequency ([[base clock speed]]) and storage ([[Persistent Block Storage]]) s…
+- Generic concept note: [[bus]].
 
-## Real-World Applications
-NUMA-aware placement, GPU/NIC DMA tuning, and explaining memory-bandwidth ceilings.
+## Mistakes to Avoid
+- **Mistake:** Ignoring NUMA when pinning threads and allocating memory
+- **Mistake:** Blaming only software for bandwidth limits that are interconnect…
+- **Mistake:** False sharing from contended cache lines on “the bus” coherence …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Unified model for thinking about data movement.
@@ -46,7 +56,6 @@ NUMA-aware placement, GPU/NIC DMA tuning, and explaining memory-bandwidth ceilin
 - vs [[bus]]: general term vs CPU-centric system path emphasis.
 - vs network links: in-chassis vs across machines.
 
-## Mistakes to Avoid
-- Ignoring NUMA when pinning threads and allocating memory.
-- Blaming only software for bandwidth limits that are interconnect-bound.
-- False sharing from contended cache lines on “the bus” coherence traffic.
+
+### Use cases
+- NUMA-aware placement, GPU/NIC DMA tuning, and explaining memory-bandwidth cei…

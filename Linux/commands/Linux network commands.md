@@ -4,19 +4,22 @@
 
 > Pocket kit for “is it listening, reachable, or DNS?” — ss/lsof for sockets, nc/tcpdump to probe, dig/resolvectl for names.
 
-
-
-
+```txt
+        Linux network comm ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Incident first five minutes: listening ports, route, DNS, and reachability — with the right tool per layer (not everything is `ping`).
+- **Interview probes:** Incident first five minutes: listening ports, route, DNS, and reachability
 
 ## Sources
 - [ss(8)](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive
 - [tcpdump(1)](https://www.tcpdump.org/manpages/tcpdump.1.html) — overview
-
-## Core Definition
-Map the question to a tool: local listen → `ss`/`lsof`; path → `ip route get`; name → `dig`/`resolvectl`; TCP reach → `nc -zv`; packets → `tcpdump`. Host firewall ([[ufw]]) and cloud SGs are separate layers.
 
 ## Key Concepts
 - **Listen vs reach:** Something bound locally ≠ remote can connect.
@@ -24,6 +27,9 @@ Map the question to a tool: local listen → `ss`/`lsof`; path → `ip route get
 - **DNS vs NSS:** `dig` is DNS; `getent hosts` follows nsswitch.
 - **Cloud + host firewall:** Both must allow the path.
 - **Capture sparingly:** tcpdump is powerful and noisy.
+
+
+- **Core:** Map the question to a tool: local listen → `ss`/`lsof`
 
 ## Technical Details
 ```txt
@@ -55,8 +61,10 @@ sudo ufw status verbose
 | Wrong IP used | `dig` vs `getent hosts` | Fix DNS/nsswitch/search |
 | netstat missing | package | Use `ss` |
 
-## Real-World Applications
-“Port open in cloud console but app times out” triage, confirming nginx listens on 443, and catching DNS split-horizon mismatches.
+## Mistakes to Avoid
+- **Mistake:** Testing with `ping` when the app is TCP/TLS-only
+- **Mistake:** Ignoring cloud firewall when host ufw looks open
+- **Mistake:** Leaving debug listeners or aggressive scans on shared hosts
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast layered diagnosis without an APM.
@@ -64,9 +72,8 @@ sudo ufw status verbose
 - **Trade-off:** Quick `nc` vs scoped [[nmap]] audits.
 
 ## Comparison
-vs [[ip]]: L3 objects. vs [[ss]]/[[lsof]]: sockets/FDs. vs [[dig]]: DNS truth. vs [[ufw]]: host filter policy.
+- vs [[ip]]: L3 objects
 
-## Mistakes to Avoid
-- Testing with `ping` when the app is TCP/TLS-only.
-- Ignoring cloud firewall when host ufw looks open.
-- Leaving debug listeners or aggressive scans on shared hosts.
+
+### Use cases
+- “Port open in cloud console but app times out” triage, confirming nginx liste…

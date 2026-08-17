@@ -4,12 +4,17 @@
 
 > CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
-
-
-
+```txt
+        CAS (Conditional A ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk CAS end-to-end — not just name it. Signal fluency with **CAS**, **CW**, **ECM**, **EMM** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk CAS end-to-end
 
 ## Sources
 - [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS) — overview
@@ -29,7 +34,8 @@ Video source → Encoder → Scrambler
               Entitled? → CW → decrypt → watch
 ```
 
-operations knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
+- operations knobs live in the CAS vendor console + scrambler
+- Typical checks from the transport side:
 
 ```bash
 # Confirm ECM/EMM PIDs present in the TS (TSDuck / analyzer)
@@ -47,7 +53,7 @@ ffprobe -hide_banner udp://@<addr>:<port>   # programs present?
 | CAS ID / box pairing | Card swapped to wrong STB fails decrypt |
 | Scrambler algorithm | Must match STB CAS client (vendor stack) |
 
-Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → force EMM → STB pairing logs.
+- Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → for…
 
 ### Components
 
@@ -71,7 +77,7 @@ Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → 
 
 ### Control Word (CW)
 
-The **Control Word** is the short-lived symmetric key used to decrypt the stream.
+- The **Control Word** is the short-lived symmetric key used to decrypt the str…
 
 ```txt
 Encrypted Stream
@@ -81,11 +87,11 @@ Control Word
 Decrypted Video
 ```
 
-The CW changes frequently to limit the usefulness of leaked keys.
+- The CW changes frequently to limit the usefulness of leaked keys.
 
 ### Standard flow / example
 
-A user subscribes to the **Sports Package**:
+- A user subscribes to the **Sports Package**:
 
 1. Channel is encrypted at headend.
 2. STB receives the encrypted stream.
@@ -95,7 +101,7 @@ A user subscribes to the **Sports Package**:
 6. STB decrypts the stream.
 7. Video plays.
 
-If the subscription expires:
+- If the subscription expires:
 
 - No valid entitlement.
 - No usable Control Word.
@@ -115,7 +121,7 @@ If the subscription expires:
 
 ### CAS in IPTV
 
-For [[IPTV]], the flow is:
+- For [[IPTV]], the flow is:
 
 ```txt
 Live Encoder
@@ -129,22 +135,24 @@ Multicast/Unicast IPTV
 Set-Top Box
 ```
 
-The STB communicates with the CAS server to obtain decryption information before playing the channel. See also [[Multicast]] for multicast delivery patterns.
+- The STB communicates with the CAS server to obtain decryption information bef…
+- See also [[Multicast]] for multicast delivery patterns.
 
 ### CAS in OTT
 
-Traditional CAS is generally **not** used for browser-based or mobile OTT services. Instead, OTT platforms use **[[DRM]]** systems such as:
+- Traditional CAS is generally **not** used for browser-based or mobile OTT ser…
+- Instead, OTT platforms use **[[DRM]]** systems such as:
 
 - Google Widevine
 - Microsoft PlayReady
 - Apple FairPlay
 
-Some operators deploy **CAS + DRM together**:
+- Some operators deploy **CAS + DRM together**:
 
-- **CAS** secures traditional IPTV or broadcast delivery to operator STBs.
-- **DRM** secures OTT playback on web, mobile, and smart TV apps.
+- **CAS:** secures traditional IPTV or broadcast delivery to operator STBs.
+- **DRM:** secures OTT playback on web, mobile, and smart TV apps.
 
-In modern video platforms, it is common to see **CAS protecting managed IPTV or broadcast services**, while **DRM protects OTT services**, allowing the same content to be securely delivered across different device types.
+- In modern video platforms, it is common to see **CAS protecting managed IPTV …
 
 ### Popular CAS vendors
 
@@ -153,19 +161,6 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 - Viaccess-Orca
 - Conax
 - Verimatrix
-
-## Real-World Applications
-Used wherever CAS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
-- **Con / skip when:** **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
-- **Con / skip when:** **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
-
-## Comparison
-- vs [[DRM]]: **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
-- vs [[DRM]]: **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -177,7 +172,21 @@ Used wherever CAS sits in an ingest → package → CDN → player path. Concret
 | IPTV multicast works clear, fails scrambled | IGMP + CAS path | Confirm STB reaches CAS over return path (IP or phone line) |
 | OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
 
-- **Leaked CW is short-lived** — but ECM replay within the rotation window can still enable piracy; monitor headend ECM injection.
-- **EMM lag** — new subscription may take minutes until EMM reaches STB; don't promise instant activation without CAS ops confirmation.
-- **CAS ≠ DRM** — putting Widevine on an operator STB line does not replace broadcast CAS; hybrid ops need two KMS stacks.
-- **Card-sharing / cloned smart cards** — operator fraud vector; CAS vendor anti-piracy modules (renewable security) required in contracts.
+- **Mistake:** **Leaked CW is short-lived**
+- **Mistake:** **EMM lag**
+- **Mistake:** **CAS ≠ DRM**
+- **Mistake:** **Card-sharing / cloned smart cards**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser or mobile OTT**
+- **Con / skip when:** **Clear internal feeds**
+- **Con / skip when:** **VOD-only SaaS**
+
+## Comparison
+- vs [[DRM]]: **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
+- vs [[DRM]]: **VOD-only SaaS**
+
+
+### Use cases
+- Used wherever CAS sits in an ingest → package → CDN → player path

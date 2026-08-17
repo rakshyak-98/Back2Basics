@@ -4,23 +4,26 @@
 
 > MPEG-TS packs video, audio, and tables into 188-byte packets — the broadcast-friendly container for IPTV and UDP ingest.
 
-
-
-
+```txt
+        MPEG-TS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk MPEG-TS end-to-end — not just name it. Signal fluency with **TS packet**, **PID**, **PAT**, **PMT** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk MPEG-TS end-to-end
 
 ## Sources
 - [Wikipedia — MPEG-TS](https://en.wikipedia.org/wiki/MPEG-TS) — overview
 - [ISO/IEC 13818-1 MPEG-TS](https://www.iso.org/standard/81539.html) — deep-dive
 
-## Core Definition
-In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments for [[HLS]] / [[DASH]], apply [[DRM]] at package time. Operator feeds may already be **CAS-scrambled** — decrypt on the STB, not in the OTT packager ([[CAS (Conditional Access System)]]).
-
 ## Key Concepts
 - **TS packet:** Fixed 188 bytes — “I can lose packets and resync on the next sync byte.”
-- **PID:** Packet ID — which stream this is — “Video and audio ride different PIDs in one mux.”
+- **PID:** Packet ID — which stream this is — “Video and audio ride different PIDs in on…
 - **PAT:** Program Association Table — “PAT lists services and where each PMT lives.”
 - **PMT:** Program Map Table — “PMT lists this channel’s video/audio/PCR PIDs.”
 - **MPTS:** Multi-Program TS — “Many channels in one UDP stream.”
@@ -29,14 +32,17 @@ In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments
 
 **Flow:**
 
-1. **Mux** — encoder puts elementary streams + PSI tables into 188-byte packets.
-2. **Carry** — send over UDP [[Multicast]], SRT, or store as `.ts` / `.m2ts`.
-3. **Ingest** — media server joins/listens, validates PAT/PMT, may `zap` MPTS → SPTS ([[tsduck]]).
-4. **Repackage** — for OTT, remux to [[CMAF]] / HLS TS segments; for STB, often leave TS.
+- **Note:** 1. **Mux** — encoder puts elementary streams + PSI tables into 188-byte packe…
+- **Note:** 2. **Carry** — send over UDP [[Multicast]], SRT, or store as `.ts` / `.m2ts`.
+- **Note:** 3. **Ingest**
+- **Note:** 4. **Repackage**
 
 ### TS ingest (why media servers care)
 
-**TS ingest** means your pipeline **receives** MPEG-TS (UDP multicast, SRT, file) and remuxes or transcodes — it is the [[ingestion]] front door for broadcast feeds.
+- **Note:** **TS ingest** means your pipeline **receives** MPEG-TS (UDP multicast, SRT, f…
+
+
+- **Core:** In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segment…
 
 ## Technical Details
 ```txt
@@ -71,23 +77,7 @@ ffmpeg -i "srt://0.0.0.0:9000?mode=listener" -c copy -f mpegts srt_in.ts
 | 188 vs 192 (BD) | Blu-ray adds 4-byte timestamp — don’t assume 188 everywhere |
 | UDP buffer / TTL | Multicast drops look like “bad encode” |
 
-Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss → encoder PID map.
-
-## Real-World Applications
-In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segments for [[HLS]] / [[DASH]], apply [[DRM]] at package time. Operator feeds may already be **CAS-scrambled** — decrypt on the STB, not in the OTT packager ([[CAS (Conditional Access System)]]).
-
-Used wherever MPEG-TS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Browser-first OTT delivery** — prefer [[CMAF]] fMP4 + [[HLS]] / [[DASH]] manifests for CDN caching and DRM.
-- **Con / skip when:** **Random-access large VoD with one URL** — fragmented MP4 / CMAF seeks cleaner than scanning TS.
-- **Con / skip when:** **Peer-to-peer browser calls** — [[WebRTC]] uses RTP, not MPEG-TS.
-- **Con / skip when:** **Simple progressive download of a short clip** — plain MP4 over HTTPS is enough.
-
-## Comparison
-- vs [[CMAF]]: **Browser-first OTT delivery** — prefer [[CMAF]] fMP4 + [[HLS]] / [[DASH]] manifests for CDN caching and DRM.
-- vs [[WebRTC]]: **Peer-to-peer browser calls** — [[WebRTC]] uses RTP, not MPEG-TS.
+- Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss …
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -99,7 +89,24 @@ Used wherever MPEG-TS sits in an ingest → package → CDN → player path. Con
 | HLS from TS stutters | Segment vs keyframe align | Align GOP to segment; prefer [[CMAF]] pack |
 | Black on STB only | [[CAS (Conditional Access System)]] | Entitlements / CW — not a mux bug |
 
-- **TS is not MP4** — no single “moov” index. Players and packagers must read PAT/PMT and PIDs continuously.
-- **MPTS on one multicast** — many channels share one UDP flow. Downstream that expects SPTS will break until you filter ([[tsduck]] `zap`).
-- **Scrambled ≠ corrupt** — CAS-encrypted payloads look like garbage to `ffmpeg` decode; probe tables, don’t assume encode failure.
-- **188-byte framing on a [[Byte stream]]** — TCP/SRT still needs a demuxer; “connected” ≠ “valid PAT.”
+- **Mistake:** **TS is not MP4**
+- **Mistake:** **MPTS on one multicast**
+- **Mistake:** **Scrambled ≠ corrupt**
+- **Mistake:** **188-byte framing on a [[Byte stream]]**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser-first OTT delivery**
+- **Con / skip when:** **Random-access large VoD with one URL**
+- **Con / skip when:** **Peer-to-peer browser calls**
+- **Con / skip when:** **Simple progressive download of a short clip**
+
+## Comparison
+- vs [[CMAF]]: **Browser-first OTT delivery**
+- vs [[WebRTC]]: **Peer-to-peer browser calls** — [[WebRTC]] uses RTP, not MPEG-TS.
+
+
+### Use cases
+- In [[flussonic]]-style setups: ingest UDP/SRT TS → remux to fMP4 / TS segment…
+
+- Used wherever MPEG-TS sits in an ingest → package → CDN → player path

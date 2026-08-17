@@ -4,18 +4,24 @@
 
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
-
-
-
+```txt
+        Re-encoding ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Re-encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Re-encoding to see if you understand the pipeline role…
 
 ## Sources
 - [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding) — overview
 
 ## Key Concepts
-**Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.
+- **Note:** **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/fr…
 
 | Trigger | Action | Example |
 |---------|--------|---------|
@@ -24,7 +30,7 @@ Interviewers ask about Re-encoding to see if you understand the pipeline role, f
 | Container only | Remux copy | TS → fMP4 same codec |
 | Broadcast compliance | Re-encode CBR | VoD VBR → live CBR |
 
-See [[transcoding]] for ladder workflow; this note focuses on **when and how** to re-encode safely.
+- **Note:** See [[transcoding]] for ladder workflow
 
 ## Technical Details
 ```txt
@@ -65,7 +71,7 @@ ffmpeg -hwaccel cuda -i input.mp4 -c:v h264_nvenc -preset p4 -b:v 4500k \
   -g 60 -c:a aac -b:a 128k output.mp4
 ```
 
-See [[NVENC]].
+- See [[NVENC]].
 
 ### Batch VoD farm pattern
 
@@ -84,18 +90,6 @@ ffmpeg -i output.mp4 -vf signalstats -f null -
 ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 ```
 
-## Real-World Applications
-Used wherever Re-encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
-- **Con / skip when:** **Quality-critical archive** — store mezzanine; re-encode only derivatives.
-- **Con / skip when:** **Real-time when copy works** — ingest `-c copy` to packager saves GPU.
-
-## Comparison
-- vs [[CMAF]]: **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,7 +100,20 @@ Used wherever Re-encoding sits in an ingest → package → CDN → player path.
 | ABR switch broken | GOP not fixed | `-g` + `-sc_threshold 0` |
 | GPU slower than CPU | PCIe / decode on CPU | `-hwaccel cuda` full pipeline |
 
-- **OBS stream → re-encode → ladder** — two lossy passes; record mezzanine separately for VoD.
-- **`-c:v copy` into wrong container** — H.265 in TS may fail on old STBs; probe target devices.
-- **Upscaling low source** — re-encoding 480p to 1080p doesn't add detail; wastes bits.
-- **Subtitle burn-in vs soft subs** — re-encode required for burn-in; soft subs can remux.
+- **OBS stream::** → re-encode → ladder** — two lossy passes; record mezzanine separately for VoD
+- **Mistake:** **`-c:v copy` into wrong container**
+- **Mistake:** **Upscaling low source**
+- **Mistake:** **Subtitle burn-in vs soft subs**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Codec already matches**
+- **Con / skip when:** **Quality-critical archive**
+- **Con / skip when:** **Real-time when copy works**
+
+## Comparison
+- vs [[CMAF]]: **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
+
+
+### Use cases
+- Used wherever Re-encoding sits in an ingest → package → CDN → player path

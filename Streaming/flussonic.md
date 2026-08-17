@@ -4,23 +4,29 @@
 
 > Media server that ingests live UDP/SRT/RTMP, packages HLS/DASH, and can encrypt with DRM keys — the packaging edge in front of players.
 
-
-
-
+```txt
+        flussonic ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk flussonic end-to-end — not just name it. Signal fluency with **Ingest**, **Package**, **DRM encrypt**, **PSSH** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk flussonic end-to-end
 
 ## Sources
 - [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic) — overview
 
 ## Key Concepts
-- **Ingest:** How live bytes enter Flussonic — “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.”
+- **Ingest:** How live bytes enter Flussonic
 - **Package:** Remux/segment for OTT — “We output DASH/HLS the CDN and players understand.”
-- **DRM encrypt:** Scramble samples with KMS keys — “Flussonic encrypts; it does not authorize viewers.”
-- **PSSH:** DRM init data in the manifest/init — “Player needs PSSH to start a license request.”
-- **License token:** Your backend’s signed “this user may play” — “DoveRunner checks the token, then returns content keys.”
-- **Manifest rewrite:** Proxy fixes absolute URLs — “Browser must hit your gateway, not 127.0.0.1 inside the box.”
+- **DRM encrypt:** Scramble samples with KMS keys
+- **PSSH:** DRM init data in the manifest/init
+- **License token:** Your backend’s signed “this user may play”
+- **Manifest rewrite:** Proxy fixes absolute URLs
 
 ### Roles (keep them straight)
 
@@ -31,14 +37,14 @@ Interviewers probe whether you can walk flussonic end-to-end — not just name i
 | **Your license backend** | Auth user → sign token player sends to DoveRunner |
 | **Player** | Fetch manifest → request license → decrypt via CDM ([[EME]], [[DRM]]) |
 
-Without Flussonic encryption, the stream is clear. Without license tokens, anyone who can fetch segments may still need a CDM path — but you lose entitlement control; design assumes signed tokens.
+- **Note:** Without Flussonic encryption, the stream is clear. Without license tokens, an…
 
 ### License token story (4 steps)
 
-1. Player wants `content_id` — your application already authenticated the user.
-2. Your backend builds a short-lived token (user, device, content, expiry, rights) and **HMAC-signs** with the site key.
-3. Player sends license request + token (+ PSSH) to DoveRunner.
-4. DoveRunner validates signature and policy → returns decryption license to the CDM.
+- **Note:** 1. Player wants `content_id`
+- **Note:** 2. Your backend builds a short-lived token (user, device, content, expiry, ri…
+- **Note:** 3. Player sends license request + token (+ PSSH) to DoveRunner.
+- **Note:** 4. DoveRunner validates signature and policy → returns decryption license to …
 
 ```txt
 Player → your API: “token for channel_1”
@@ -110,21 +116,7 @@ token signature + expiry OK?
 | Output hostname in manifests | Absolute `127.0.0.1` breaks browsers behind a proxy — rewrite ([[streaming manifest file]]) |
 | Token TTL | Long-lived tokens = sharing / piracy window |
 
-Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, not the identity provider.
-
-## Real-World Applications
-Used wherever flussonic sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
-- **Con / skip when:** **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
-- **Con / skip when:** **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
-
-## Comparison
-- vs [[WebRTC]]: **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
-- vs [[How to attach stream to HTTP handlers]]: **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
-- vs [[Microservice]]: **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
+- Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -137,8 +129,23 @@ Used wherever flussonic sits in an ingest → package → CDN → player path. C
 | License denied intermittently | Clock skew / expired token | NTP; shorten path from mint → player request |
 | High origin CPU | Transcode + encrypt on one box | Separate ABR ladder; scale Flussonic / push CDN |
 
-- **Flussonic encrypts; DoveRunner authorizes** — configuring packaging without a license token path leaves you with ciphertext nobody legitimate can play — or a broken entitlement story.
-- **Site key on the client** — never ship the HMAC site key in the app; only your backend signs tokens.
-- **Manifest hostnames** — Flussonic may emit URLs valid only on the host/container network; browsers need the public/gateway path.
-- **Clear vs encrypted testing** — prove ingest→HLS/DASH clear first; then enable DRM so you don’t debug two failures at once.
-- **Not a WebRTC SFU** — Flussonic here is OTT packaging. Browser P2P uses [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not UDP TS ingest.
+- **Mistake:** **Flussonic encrypts; DoveRunner authorizes**
+- **Mistake:** **Site key on the client**
+- **Mistake:** **Manifest hostnames**
+- **Mistake:** **Clear vs encrypted testing**
+- **Mistake:** **Not a WebRTC SFU**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser mesh calls / data channels**
+- **Con / skip when:** **Simple file download APIs**
+- **Con / skip when:** **No DRM, tiny audience, already have nginx-rtmp**
+
+## Comparison
+- vs [[WebRTC]]: **Browser mesh calls / data channels**
+- vs [[How to attach stream to HTTP handlers]]: **Simple file download APIs**
+- vs [[Microservice]]: **No DRM, tiny audience, already have nginx-rtmp**
+
+
+### Use cases
+- Used wherever flussonic sits in an ingest → package → CDN → player path

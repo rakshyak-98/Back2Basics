@@ -4,26 +4,32 @@
 
 > Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
-
-
-
+```txt
+        Service Worker ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe **Service Worker** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+- **Interview probes:** Interviewers probe **Service Worker** to see if you understand what it does o…
 
 ## Sources
 - [MDN — Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) — deep-dive
 - [Wikipedia — ServiceWorker](https://en.wikipedia.org/wiki/ServiceWorker) — overview
 
-## Core Definition
-Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
-
 ## Key Concepts
-- Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
-- Short-lived: wakes on events, may terminate when idle. **No DOM access.**
+- **Unlike [[web:** Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is …
+- **Short-lived: wakes:** Short-lived: wakes on events, may terminate when idle. **No DOM access.**
+
+
+- **Core:** Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is …
 
 ## Technical Details
-Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
+- Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is …
 
 ```txt
 Page registers /sw.js
@@ -33,7 +39,8 @@ Page registers /sw.js
   → optional push / sync
 ```
 
-Short-lived: wakes on events, may terminate when idle. **No DOM access.**
+- Short-lived: wakes on events, may terminate when idle.
+- **No DOM access.:** 
 
 | Capability | API |
 |------------|-----|
@@ -88,28 +95,30 @@ self.addEventListener("fetch", (event) => {
 
 ### Update flow
 
-New SW waits in **waiting** until tabs close — call `skipWaiting()` + `clients.claim()` carefully; prompt user to refresh.
+- New SW waits in **waiting** until tabs close
 
-Requires **HTTPS** (localhost exempt). See [[content security policy]] for worker-source.
+- Requires **HTTPS** (localhost exempt).
+- See [[content security policy]] for worker-source.
 
-## Real-World Applications
-In production APIs and tooling, **ServiceWorker** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Cache API ≠ HTTP cache** — you must version and delete old caches on activate; **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
+## Mistakes to Avoid
+- **Mistake:** **Cache API ≠ HTTP cache**
+- **Debugging pain** — DevTools::** → Application → Service Workers → "Bypass for network" during dev
+- **Mistake:** **SW never registers:** check Not HTTPS / wrong path
+- **Mistake:** **Stale assets forever:** check cache-first on HTML
+- **Mistake:** **404 after deploy:** check Old precache list
+- **Mistake:** **SW not updating:** check Browser cache on sw.js
+- **Mistake:** **CSP blocks:** check `worker-src`; fix: Add self in CSP
+- **Mistake:** **Works in dev only:** check build paths
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Service Worker — unlike web workers (page-spawned, die with tab), a service work…).
-- **Con / when not:** **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
-- **Con / when not:** **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
-- **Con / when not:** **SSR-only apps with no offline need** — skip SW complexity.
+- **Con / when not:** **Heavy computation**
+- **Con / when not:** **authentication secrets in SW**
+- **Con / when not:** **SSR-only apps with no offline need**
 
 ## Comparison
-vs [[web workers]]: know when each applies — do not treat them as interchangeable. vs [[content security policy]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable.
+- vs [[web workers]]: know when each applies
 
-## Mistakes to Avoid
-- **Cache API ≠ HTTP cache** — you must version and delete old caches on activate.
-- **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
-- **SW never registers:** check Not HTTPS / wrong path; fix: Serve over TLS; scope path
-- **Stale assets forever:** check cache-first on HTML; fix: network-first for navigations
-- **404 after deploy:** check Old precache list; fix: Version CACHE name; cleanup activate
-- **SW not updating:** check Browser cache on sw.js; fix: `Cache-Control: no-cache` on sw file
-- **CSP blocks:** check `worker-src`; fix: Add self in CSP
-- **Works in dev only:** check build paths; fix: Precache hashed filenames from manifest
+
+### Use cases
+- In production APIs and tooling, **ServiceWorker** shows up whenever teams shi…

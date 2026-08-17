@@ -4,12 +4,18 @@
 
 > InnoDB tables store rows in clustered primary-key order — DDL defines columns, constraints, and indexes that shape every [[mysql query]] plan.
 
-
-
-
+```txt
+        mysql table ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Clustered primary key design (narrow, monotonic) and the cost of large `ALTER`s are staple InnoDB questions.
+- **Interview probes:** Clustered primary key design (narrow, monotonic) and the cost of large `ALTER…
 
 ## Sources
 - [CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html) — overview
@@ -17,7 +23,7 @@ Clustered primary key design (narrow, monotonic) and the cost of large `ALTER`s 
 
 ## Key Concepts
 - **Clustered index = table:** Secondary index leaves store primary key values.
-- **Narrow monotonic PKs:** Prefer `BIGINT AUTO_INCREMENT` (or UUID strategies that avoid random hotspots).
+- **Narrow monotonic PKs:** Prefer `BIGINT AUTO_INCREMENT` (or UUID strategies that avoid random hotspots…
 - **Constraints:** PK, UNIQUE, FK, CHECK (version-dependent enforcement).
 - **Charset:** Default `utf8mb4` for modern Unicode.
 
@@ -34,10 +40,12 @@ CREATE TABLE orders (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-Large `ALTER` may rebuild the table — see [[Alter table]] and online DDL options.
+- Large `ALTER` may rebuild the table
 
-## Real-World Applications
-Order/payment tables with surrogate BIGINT PKs, FKs to users, and secondary indexes matching access paths.
+## Mistakes to Avoid
+- **Mistake:** Wide, mutable primary keys that inflate every secondary index
+- **Mistake:** `ALTER` on huge tables without an online strategy
+- **Mistake:** Mixing charsets/collations across related columns
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Clustered storage makes PK lookups and PK-range scans fast.
@@ -45,9 +53,8 @@ Order/payment tables with surrogate BIGINT PKs, FKs to users, and secondary inde
 - **Trade-off:** Natural vs surrogate keys — correctness/clarity versus insert locality.
 
 ## Comparison
-vs heap-organized tables in other engines: InnoDB always clusters on PK (or hidden row ID if none).
+- vs heap-organized tables in other engines: InnoDB always clusters on PK (or h…
 
-## Mistakes to Avoid
-- Wide, mutable primary keys that inflate every secondary index.
-- `ALTER` on huge tables without an online strategy.
-- Mixing charsets/collations across related columns.
+
+### Use cases
+- Order/payment tables with surrogate BIGINT PKs, FKs to users, and secondary i…

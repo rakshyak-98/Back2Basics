@@ -4,12 +4,18 @@
 
 > Backpressure is the policy when a consumer cannot keep pace with a producer — block, bound the queue, shed load, or reject — so buffers do not exhaust memory and cascade failure.
 
-
-
-
+```txt
+        backpressure ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Name an explicit overflow policy for every stage; distinguish TCP flow control from application-level unbounded Promise/queue growth.
+- **Interview probes:** Name an explicit overflow policy for every stage
 
 ## Sources
 - Reactive Streams specification — backpressure contract — deep-dive
@@ -47,7 +53,8 @@ limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
 limit_req zone=api burst=20 nodelay;
 ```
 
-Kafka consumer lag is implicit backpressure — disk is still finite. **TCP backpressure ≠ app backpressure** — `Promise.all` on a million tasks still OOMs.
+- Kafka consumer lag is implicit backpressure — disk is still finite.
+- **TCP backpressure ≠ app backpressure:** 
 
 | Symptom | Likely cause |
 |---------|--------------|
@@ -56,8 +63,10 @@ Kafka consumer lag is implicit backpressure — disk is still finite. **TCP back
 | 429 storms | Retries without jitter |
 | Silent loss | Drop without dead-letter |
 
-## Real-World Applications
-Stream processors, API gateways, Node streams, and any pipeline in [[Scaling Throughput in High-load system]].
+## Mistakes to Avoid
+- **Mistake:** Unbounded queues “for reliability.”
+- **Mistake:** Dropping without metrics/DLQ
+- **Mistake:** Assuming the kernel socket buffer saves the application
 
 ## Pros/Cons or Trade-offs
 - **Block:** preserves data; can deadlock/timeout upstream.
@@ -68,7 +77,6 @@ Stream processors, API gateways, Node streams, and any pipeline in [[Scaling Thr
 - vs [[Token bucket]]: admission shaping vs full-pipeline consumer pressure.
 - vs infinite buffer: “never block” until memory death.
 
-## Mistakes to Avoid
-- Unbounded queues “for reliability.”
-- Dropping without metrics/DLQ.
-- Assuming the kernel socket buffer saves the application.
+
+### Use cases
+- Stream processors, API gateways, Node streams, and any pipeline in [[Scaling …

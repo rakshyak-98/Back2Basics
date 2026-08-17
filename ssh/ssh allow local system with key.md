@@ -4,12 +4,18 @@
 
 > Install an ed25519 public key into a local user’s `authorized_keys`, lock down permissions, then confirm login — including on loopback — before turning off passwords.
 
-
-
-
+```txt
+        ssh allow local sy ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers look for permission pitfalls (`StrictModes`), `AllowUsers` lockouts, and `authorized_keys` options like `from=` / `command=`.
+- **Interview probes:** Interviewers look for permission pitfalls (`StrictModes`), `AllowUsers` locko…
 
 ## Sources
 - [OpenSSH — sshd](https://man.openbsd.org/sshd.8) — deep-dive
@@ -17,7 +23,7 @@ Interviewers look for permission pitfalls (`StrictModes`), `AllowUsers` lockouts
 
 ## Key Concepts
 - **Trust model:** possession of private key + listing in `authorized_keys`.
-- **StrictModes:** `~/.ssh` 700, `authorized_keys` 600, home not group/world-writable — otherwise sshd ignores keys silently.
+- **StrictModes:** `~/.ssh` 700, `authorized_keys` 600, home not group/world-writable
 - **AllowUsers / Match:** can reject valid keys before auth messaging completes.
 - **Key options:** `from=`, `command=`, `restrict` limit blast radius per key.
 
@@ -48,7 +54,7 @@ echo "ssh-ed25519 AAAA... comment" >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-One line per key; first matching key wins.
+- One line per key; first matching key wins.
 
 ```bash
 ssh -i ~/.ssh/id_ed25519 -v ubuntu@127.0.0.1    # local loopback test
@@ -90,7 +96,8 @@ sudo tail -f /var/log/auth.log
 sudo sshd -T | grep -E 'pubkey|password|allowusers|permitroot'
 ```
 
-If `AllowUsers` is set, only listed users may SSH. Loopback tests validate sshd + keys without network/firewall variables.
+- If `AllowUsers` is set, only listed users may SSH.
+- Loopback tests validate sshd + keys without network/firewall variables.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -103,10 +110,12 @@ If `AllowUsers` is set, only listed users may SSH. Loopback tests validate sshd 
 | Connection timeout (not denied) | firewall, `ListenAddress`, SG | `ss -tlnp \| grep 22` |
 | Root can't login | `PermitRootLogin no` | Use sudo user |
 
-## Real-World Applications
-Cloud image bootstrap (`ubuntu`/`ec2-user` keys), deploy users with forced commands, and lab loopback validation before remote cutover.
-
-**Example:** Add a deploy key with `command=` and `no-port-forwarding`, confirm via `127.0.0.1`, then set `PasswordAuthentication no`.
+## Mistakes to Avoid
+- **Mistake:** Editing `sshd_config` on the only session without `sshd -t` and …
+- **Mistake:** World-readable `authorized_keys` or home
+- **Mistake:** Pasting a key with a mid-line break
+- **Mistake:** SELinux wrong context on RHEL — `restorecon -Rv ~/.ssh`
+- **Mistake:** `PasswordAuthentication no` before confirming the key works
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Strong, auditable per-user access without shared passwords.
@@ -118,9 +127,8 @@ Cloud image bootstrap (`ubuntu`/`ec2-user` keys), deploy users with forced comma
 - vs shared team private key: per-user keys + bastion/SSO at org scale.
 - Full directive reference: [[sshd config]].
 
-## Mistakes to Avoid
-- Editing `sshd_config` on the only session without `sshd -t` and a second session.
-- World-readable `authorized_keys` or home — sshd ignores keys silently.
-- Pasting a key with a mid-line break; `ssh-copy-id` without verifying permissions.
-- SELinux wrong context on RHEL — `restorecon -Rv ~/.ssh`.
-- `PasswordAuthentication no` before confirming the key works.
+
+### Use cases
+- Cloud image bootstrap (`ubuntu`/`ec2-user` keys), deploy users with forced co…
+
+- **Example:** Add a deploy key with `command=` and `no-port-forwarding`, confi…

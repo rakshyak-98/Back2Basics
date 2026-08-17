@@ -4,12 +4,18 @@
 
 > JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
-
-
-
+```txt
+        JavaScript engine ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **JavaScript engine** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **V8**, **JavaScriptCore**.
+- **Interview probes:** Interviewers use **JavaScript engine** to check whether you can explain the m…
 
 ## Sources
 - [V8 — Docs](https://v8.dev/docs) — deep-dive
@@ -21,7 +27,7 @@ Interviewers use **JavaScript engine** to check whether you can explain the mech
 - **JavaScriptCore:** Safari — | **Hermes**
 
 ## Technical Details
-Pipeline (simplified):
+- Pipeline (simplified):
 
 ```txt
 Source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
@@ -37,9 +43,9 @@ Source → parser → AST → interpreter (Ignition) → optimizing compiler (Tu
 | **SpiderMonkey** | Firefox (Gecko platform) |
 | **JavaScriptCore** | Safari |
 
-Gecko is Firefox's **layout/rendering** engine; **SpiderMonkey** is its JS engine — check `about:support` / `about:buildconfig` in Firefox.
+- Gecko is Firefox's **layout/rendering** engine; **SpiderMonkey** is its JS en…
 
-Node uses **V8** + libuv for I/O — same language, different embed API than browser ([[NodeJS]]).
+- Node uses **V8** + libuv for I/O
 
 ### Inspect V8 flags (Node)
 
@@ -51,7 +57,7 @@ node --max-old-space-size=4096 app.js # heap cap
 
 ### Chrome DevTools Performance
 
-Record → Main thread → see **Parse HTML / Compile Script / Evaluate** — long yellow blocks = parse/compile cost.
+- Record → Main thread → see **Parse HTML / Compile Script / Evaluate**
 
 ### Feature detection (not engine sniffing)
 
@@ -60,24 +66,25 @@ if ("structuredClone" in globalThis) { /* use */ }
 // Avoid navigator.userAgent branching for language features
 ```
 
-Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for missing builtins.
+- Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for m…
 
-## Real-World Applications
-In production APIs and tooling, **javascript engine** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **User-agent engine detection** — brittle; use feature detects + integration tests; **Micro-optimizing for one engine** — V8-specific tricks may hurt JSC or future versions.
+## Mistakes to Avoid
+- **Mistake:** **User-agent engine detection**
+- **Mistake:** **Micro-optimizing for one engine**
+- **Mistake:** **Slow first load:** check Parse/compile huge bundle
+- **Mistake:** **Works Chrome, fails Safari:** check JSC semantics / date parsi…
+- **Mistake:** **Memory climb:** check Detached DOM, closures
+- **Mistake:** **Deopt storms:** check Polymorphic hot functions
+- **Mistake:** **Different Node vs browser:** check API surface
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing …).
-- **Con / when not:** **Choosing framework** — engine differences rarely matter versus architecture.
-- **Con / when not:** **Security boundaries** — sandbox with CSP/isolation, not "pick V8 version".
+- **Con / when not:** **Choosing framework**
+- **Con / when not:** **Security boundaries**
 
 ## Comparison
-vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[Descriptive/JavaScript/pre-parser]]: know when each applies — do not treat them as interchangeable. vs [[wasm]]: know when each applies — do not treat them as interchangeable.
+- vs [[Event Loop]]: know when each applies
 
-## Mistakes to Avoid
-- **User-agent engine detection** — brittle; use feature detects + integration tests.
-- **Micro-optimizing for one engine** — V8-specific tricks may hurt JSC or future versions.
-- **Slow first load:** check Parse/compile huge bundle; fix: Code-split; [[SWC]] minify; defer non-critical
-- **Works Chrome, fails Safari:** check JSC semantics / date parsing; fix: Test WebKit; avoid non-standard extensions
-- **Memory climb:** check Detached DOM, closures; fix: Heap snapshot in DevTools
-- **Deopt storms:** check Polymorphic hot functions; fix: Stable object shapes; avoid `delete` on props
-- **Different Node vs browser:** check API surface; fix: `globalThis` checks; separate builds
+
+### Use cases
+- In production APIs and tooling, **javascript engine** shows up whenever teams…

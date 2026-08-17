@@ -4,12 +4,17 @@
 
 > Chain of Responsibility passes a request along a chain of handlers until one handles it — decoupling sender from receiver and allowing dynamic handler ordering.
 
-
-
-
+```txt
+        Chain of Responsib ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Use cases
+```
 
 ## Interview Relevance
-Chain of Responsibility probes handler pipelines — ordering, short-circuiting, and who owns unhandled requests.
+- **Interview probes:** Chain of Responsibility probes handler pipelines
 
 ## Sources
 - Gamma et al., *Design Patterns* (Chain of Responsibility) — deep-dive
@@ -23,22 +28,22 @@ Handler1 → Handler2 → Handler3 → (done or drop)
    }
 ```
 
-Examples: logging filters (debug → info → error), middleware stacks, UI event bubbling, approval workflows.
+- **Note:** Examples: logging filters (debug → info → error), middleware stacks, UI event…
 
 ## Technical Details
-**Middleware shape (HTTP)**
+- **Middleware shape (HTTP):** 
 
 ```text
 request → auth → rateLimit → validate → handler → response
 ```
 
-Each link calls `next()` or short-circuits with a response.
-
-## Real-World Applications
-- Multiple objects *might* handle a request; exact handler unknown at compile time.
-- Ordered processing with optional early exit.
+- Each link calls `next()` or short-circuits with a response.
 
 ## Mistakes to Avoid
-- Request never handled — ensure terminal handler or explicit failure.
-- Hidden order dependency — document chain sequence.
-- Debugging long chains — trace which handler acted.
+- **Mistake:** Request never handled
+- **Mistake:** Hidden order dependency — document chain sequence
+- **Mistake:** Debugging long chains — trace which handler acted
+
+## Real-World Applications
+- **Multiple objects:** Multiple objects *might* handle a request
+- **Ordered processing:** Ordered processing with optional early exit.

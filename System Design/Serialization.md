@@ -4,12 +4,18 @@
 
 > Serialization converts in-memory structures to bytes for storage or network transport and back — the contract between producers and consumers must survive version changes and language boundaries.
 
-
-
-
+```txt
+        Serialization ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Avro.
+- **Interview probes:** Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Av…
 
 ## Sources
 - [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON data interchange format — deep-dive
@@ -26,11 +32,11 @@ Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Avro.
 ### Schema evolution rules
 
 ```txt
-Additive changes: new optional fields — old readers ignore unknown fields
-Breaking changes: rename, change type, remove required field — coordinate deploy or version bump
+- **Note:** Additive changes: new optional fields — old readers ignore unknown fields
+- **Note:** Breaking changes: rename, change type, remove required field
 ```
 
-Protocol Buffers field **numbers** are permanent — never reuse. Prefer optional fields over required in evolving APIs.
+- **Note:** Protocol Buffers field **numbers** are permanent
 
 ```bash
 protoc --go_out=. order.proto
@@ -43,7 +49,7 @@ protoc --go_out=. order.proto
 Object ──serialize──► bytes ──wire / disk──► bytes ──deserialize──► object
 ```
 
-Also called **marshalling** — see [[marshalling]] for language-specific notes.
+- Also called **marshalling** — see [[marshalling]] for language-specific notes.
 
 | Format | Strengths | Typical use |
 |--------|-----------|-------------|
@@ -62,19 +68,7 @@ Also called **marshalling** — see [[marshalling]] for language-specific notes.
 | Polymorphic JSON without type discriminator | Ambiguous decode |
 | `int64` in JSON | Some languages stringify large integers |
 
-Compress **before** encrypting if both apply — encrypted data does not compress well.
-
-## Real-World Applications
-RPC payloads, event buses, and durable message formats.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Portable state across languages and time.
-- **Con:** Version drift and expensive (de)serialization CPU.
-- **Trade-off:** human-readable JSON vs compact binary.
-
-## Comparison
-- vs [[marshalling]]: overlapping; marshalling often implies RPC object graphs.
-- vs [[event-driven]]: events need stable serialized contracts.
+- Compress **before** encrypting if both apply
 
 ## Mistakes to Avoid
 ### Symptom → direction
@@ -88,6 +82,19 @@ RPC payloads, event buses, and durable message formats.
 Same-process calls should pass objects — do not serialize unnecessarily.
 
 
-- Treating Serialization as a silver bullet without measuring the bottleneck.
-- Ignoring failure modes and operability until production.
-- Skipping idempotency, timeouts, or rollback where the pattern requires them.
+- **Mistake:** Treating Serialization as a silver bullet without measuring the …
+- **Mistake:** Ignoring failure modes and operability until production
+- **Mistake:** Skipping idempotency, timeouts, or rollback where the pattern re…
+
+## Pros/Cons or Trade-offs
+- **Pro:** Portable state across languages and time.
+- **Con:** Version drift and expensive (de)serialization CPU.
+- **Trade-off:** human-readable JSON vs compact binary.
+
+## Comparison
+- vs [[marshalling]]: overlapping; marshalling often implies RPC object graphs.
+- vs [[event-driven]]: events need stable serialized contracts.
+
+
+### Use cases
+- RPC payloads, event buses, and durable message formats.

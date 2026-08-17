@@ -4,26 +4,25 @@
 
 > STUN asks a public server “how does the internet see me?” — you get a public IP:port to share for a direct path.
 
-
-
-
+```txt
+        STUN (Session Trav ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-WebRTC/NAT interviews: STUN discovers server-reflexive candidates; it is not a relay — TURN is.
+- **Interview probes:** WebRTC/NAT interviews: STUN discovers server-reflexive candidates; it is not …
 
 ## Sources
 - [RFC 8489 — STUN](https://www.rfc-editor.org/rfc/rfc8489) — deep-dive
 - [WebRTC — ICE overview](https://webrtc.org/getting-started/peer-connections) — overview
 
-## Core Definition
-STUN lets a host ask a public server how the internet sees its IP:port, producing a server-reflexive address for ICE candidate gathering.
-
-## Recall Cues
-- Why do interviewers care about WebRTC/NAT interviews: STUN discovers server-reflexive candidates; it is not a relay — TURN is?
-- What mistake is **STUN ≠ relay — discovering an address does not mean peers can reach it. Symmetric NAT and strict firewalls need TURN**?
-- What mistake is **STUN does not traverse for you — it only reports the mapping. Hole punching and ICE checks still must succeed**?
-- What mistake is **Public STUN is not an SLA — fine for demos; production wants your own STUN/TURN (or a paid edge)**?
-- What mistake is **VPN / split tunnel — mapped address may be the VPN egress, not the path your peer expects**?
+## Key Concepts
+- **Core:** STUN lets a host ask a public server how the internet sees its IP:port, produ…
 
 ## Technical Details
 ```js
@@ -66,20 +65,21 @@ turnutils_stunclient stun.l.google.com
 | Corporate “connecting” forever | UDP 3478 filtered | Try TURN over TCP/TLS 443 |
 
 ## Mistakes to Avoid
-- STUN ≠ relay — discovering an address does not mean peers can reach it. Symmetric NAT and strict firewalls need TURN.
-- STUN does not traverse for you — it only reports the mapping. Hole punching and ICE checks still must succeed.
-- Public STUN is not an SLA — fine for demos; production wants your own STUN/TURN (or a paid edge).
-- VPN / split tunnel — mapped address may be the VPN egress, not the path your peer expects.
-
-## Comparison
-- vs [[TURN server (Traversal Using Relays around NAT)]]: STUN discovers addresses; TURN relays media.
-- vs [[NAT Traversal]]: STUN is one ICE tool inside broader NAT traversal.
-
-## Real-World Applications
-WebRTC clients gather `srflx` candidates via public STUN (e.g. Google 19302) before trying TURN.
+- **Mistake:** STUN ≠ relay
+- **Mistake:** STUN does not traverse for you
+- **Mistake:** Public STUN is not an SLA
+- **Mistake:** VPN / split tunnel
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Enables many direct P2P paths without paying for relay bandwidth.
 - **Con:** You already force all media through a media server / SFU with public IPs — path discovery is simpler; STUN optional.
 - **Con:** One-to-many OTT — use [[HLS]] / [[DASH]]; not peer NAT punch.
 - **Con:** You need guaranteed connectivity across corporate NATs — plan TURN first; STUN alone is not enough.
+
+## Comparison
+- vs [[TURN server (Traversal Using Relays around NAT)]]: STUN discovers addresses
+- vs [[NAT Traversal]]: STUN is one ICE tool inside broader NAT traversal.
+
+
+### Use cases
+- WebRTC clients gather `srflx` candidates via public STUN (e.g

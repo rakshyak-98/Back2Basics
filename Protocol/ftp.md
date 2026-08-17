@@ -4,12 +4,18 @@
 
 > FTP transfers files over TCP with separate control (21) and data channels — NAT and firewalls make passive mode common, and SFTP/HTTPS replace FTP for most new designs.
 
-
-
-
+```txt
+        ftp ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers test active versus passive mode, FTPS versus SFTP (not the same), and why cleartext FTP is rarely acceptable now.
+- **Interview probes:** Interviewers test active versus passive mode, FTPS versus SFTP (not the same)…
 
 ## Sources
 - [RFC 959 — FTP](https://datatracker.ietf.org/doc/html/rfc959) — deep-dive
@@ -17,8 +23,8 @@ Interviewers test active versus passive mode, FTPS versus SFTP (not the same), a
 
 ## Key Concepts
 - **Two channels:** control on 21; data on a second connection (active or passive).
-- **Active vs passive:** active needs inbound to the client; passive has the client dial a high server port — works through client NAT.
-- **FTPS ≠ SFTP:** FTPS is FTP+TLS; SFTP is an SSH subsystem ([[SCP (Secure Copy Protocol)]] family).
+- **Active vs passive:** active needs inbound to the client; passive has the client dial a high server…
+- **FTPS ≠ SFTP:** FTPS is FTP+TLS
 
 ## Technical Details
 | Mode | Control | Data | Firewall note |
@@ -48,10 +54,11 @@ lftp ftp.example.com    # scripting friendly
 curl -u user:pass ftp://ftp.example.com/file.txt -O
 ```
 
-## Real-World Applications
-Legacy mainframe/batch partner drops, declining anonymous mirrors, and embedded devices with tiny stacks.
-
-**Example:** A partner still requires FTP; you force FTPS + passive mode with a fixed PASV port range opened on the firewall.
+## Mistakes to Avoid
+- **Mistake:** Exposing anonymous write FTP on sensitive networks
+- **Mistake:** Confusing SFTP with FTPS in security reviews
+- **Mistake:** Using active mode through client-side NAT without understanding …
+- **Mistake:** Advertising a private IP in PASV responses behind NAT
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ubiquitous legacy support and simple anonymous read mirrors.
@@ -63,8 +70,8 @@ Legacy mainframe/batch partner drops, declining anonymous mirrors, and embedded 
 - vs [[TFTP]]: TFTP is UDP/no-auth for PXE; FTP is TCP with optional auth.
 - vs HTTPS object storage: better for scale and CDN.
 
-## Mistakes to Avoid
-- Exposing anonymous write FTP on sensitive networks.
-- Confusing SFTP with FTPS in security reviews.
-- Using active mode through client-side NAT without understanding inbound requirements.
-- Advertising a private IP in PASV responses behind NAT — clients cannot connect.
+
+### Use cases
+- Legacy mainframe/batch partner drops, declining anonymous mirrors, and embedd…
+
+- **Example:** A partner still requires FTP

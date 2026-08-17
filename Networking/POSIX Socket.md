@@ -4,12 +4,18 @@
 
 > POSIX sockets are the portable `socket()`/`bind()`/`connect()` API — a socket is a file descriptor you `read`/`write`/`close`.
 
-
-
-
+```txt
+        POSIX Socket ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want the client/server call sequence, what `bind` does vs `connect`, and that TCP is a byte stream (no message boundaries) — plus common errors like `EADDRINUSE` and `EAGAIN`.
+- **Interview probes:** Interviewers want the client/server call sequence, what `bind` does vs `conne…
 
 ## Sources
 - [IEEE Std 1003.1 — `socket`](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html) — deep-dive
@@ -17,8 +23,8 @@ Interviewers want the client/server call sequence, what `bind` does vs `connect`
 - [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview
 
 ## Key Concepts
-- **Socket as fd:** create with `socket`, then `read`/`write`/`close` like a file → “looks like a file to the process.”
-- **`bind`:** attach local IP:port → server identity; clients usually skip it (OS ephemeral-binds).
+- **Socket as fd:** create with `socket`, then `read`/`write`/`close` like a file → “looks like a…
+- **`bind`:** attach local IP:port → server identity
 - **`listen` / `accept`:** queue + take connections → TCP server path.
 - **`connect`:** dial peer → client path; OS may ephemeral-bind first.
 - **`AF_INET` / `AF_UNIX`:** IPv4 network vs local IPC → Unix domain skips the network stack.
@@ -75,10 +81,10 @@ ss -tnp
 | `SIGPIPE` / `EPIPE` | Write after peer close | `MSG_NOSIGNAL` or ignore SIGPIPE |
 | Client works, server unreachable from LAN | Bound `127.0.0.1` | Bind `0.0.0.0` / correct interface |
 
-## Real-World Applications
-POSIX sockets are the portable baseline for servers and clients; production code still tunes backlog, reuse, and non-blocking I/O on top.
-
-**Example:** A service bound only to `127.0.0.1` passes local health checks but fails from the LAN — bind `INADDR_ANY` / `0.0.0.0` (or the intended interface) and open the firewall.
+## Mistakes to Avoid
+- **Mistake:** Treating one `send` as one `recv` on [[TCP]]
+- **Mistake:** Requiring `bind` on every client
+- **Mistake:** Binding `127.0.0.1` then expecting LAN reachability
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Portable across Unix-like systems; one mental model for stream and datagram.
@@ -86,11 +92,12 @@ POSIX sockets are the portable baseline for servers and clients; production code
 - **Con:** Blocking sockets in a single-thread server: one slow client stalls everyone.
 
 ## Comparison
-- vs [[BSD Socket]] / [[Berkeley sockets]]: POSIX ≈ portable Berkeley/BSD sockets; Linux adds beyond-POSIX knobs.
-- vs `AF_UNIX` for same-host IPC: prefer Unix sockets when you do not need IP — simpler than firewall/NAT noise.
+- vs [[BSD Socket]] / [[Berkeley sockets]]: POSIX ≈ portable Berkeley/BSD sockets
+- vs `AF_UNIX` for same-host IPC: prefer Unix sockets when you do not need IP
 - vs application libraries: prefer HTTP/gRPC stacks unless you own the wire format.
 
-## Mistakes to Avoid
-- Treating one `send` as one `recv` on [[TCP]] — frame in the application; TCP has no message boundaries.
-- Requiring `bind` on every client — omit unless you need a fixed source port/IP.
-- Binding `127.0.0.1` then expecting LAN reachability — see [[localhost]].
+
+### Use cases
+- POSIX sockets are the portable baseline for servers and clients
+
+- **Example:** A service bound only to `127.0.0.1` passes local health checks b…

@@ -4,12 +4,16 @@
 
 > Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
-
-
-
+```txt
+        Estimator (ML / st ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Estimator (ML / statistics) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Estimator (ML / statistics) to check whether you can c…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -53,10 +57,6 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
         return np.full(len(X), self.majority_)
 ```
 
-## Pros/Cons or Trade-offs
-- **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
-- **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Fitting on test data** — even "just once" for scaling — invalidates all reported metrics.
@@ -71,3 +71,7 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 | CV worse than single split | Leakage in preprocessing | Pipeline wrapped in CV |
 | `fit` hangs | Huge one-hot, dense matrix | Sparse matrices; feature selection |
 | Coefficients "wrong sign" | Collinearity, scaling | Regularization; VIF review |
+
+## Pros/Cons or Trade-offs
+- **One-off SQL aggregate**
+- **Online learning at high QPS**

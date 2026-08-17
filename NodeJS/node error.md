@@ -4,12 +4,18 @@
 
 > Common Node + MySQL disconnect: idle connection killed by server `wait_timeout` — use a pool that replaces dead sockets.
 
-
-
-
+```txt
+        node error ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **node error** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **wait_timeout**, **Pool**, **PROTOCOL_CONNECTION_LOST**.
+- **Interview probes:** Interviewers use **node error** to check whether you can explain the mechanis…
 
 ## Sources
 - [Node.js — Errors](https://nodejs.org/api/errors.html) — deep-dive
@@ -52,20 +58,21 @@ SHOW VARIABLES LIKE '%timeout%';
 | Pool `error` handler | Log lost connections |
 | Server timeouts | Align with pool idle behavior |
 
-## Real-World Applications
-In production APIs and tooling, **node error** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **One global connection in serverless** — cold starts + timeouts; prefer short-lived or external pooler; **Swallowing pool errors** — always log `PROTOCOL_CONNECTION_LOST` / timeout codes.
+## Mistakes to Avoid
+- **Mistake:** **One global connection in serverless**
+- **Mistake:** **Swallowing pool errors**
+- **Mistake:** **Disconnect after idle:** check Single `createConnection`
+- **Mistake:** **Errors after nodemon:** check Stale handles
+- **Mistake:** **Still timing out:** check Server timeout tiny
+- **Mistake:** **Too many conns:** check Limit × replicas
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Common Node + MySQL disconnect: idle connection killed by server `wait_timeout` …).
-- **Con / when not:** This note is a **failure playbook**, not a library — for application errors see [[Error handeling]].
+- **Con / when not:** This note is a **failure playbook**, not a library
 
 ## Comparison
-vs [[Error handeling]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable. vs [[mysql/mysql connection]]: know when each applies — do not treat them as interchangeable.
+- vs [[Error handeling]]: know when each applies
 
-## Mistakes to Avoid
-- **One global connection in serverless** — cold starts + timeouts; prefer short-lived or external pooler.
-- **Swallowing pool errors** — always log `PROTOCOL_CONNECTION_LOST` / timeout codes.
-- **Disconnect after idle:** check Single `createConnection`; fix: Switch to pool
-- **Errors after nodemon:** check Stale handles; fix: Pool; don’t keep global conn across restarts
-- **Still timing out:** check Server timeout tiny; fix: Raise `wait_timeout` or ping/keepalive
-- **Too many conns:** check Limit × replicas; fix: Lower `connectionLimit`
+
+### Use cases
+- In production APIs and tooling, **node error** shows up whenever teams ship N…

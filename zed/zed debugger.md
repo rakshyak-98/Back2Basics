@@ -4,12 +4,18 @@
 
 > Debug Adapter integration in Zed — launch or attach; on Linux, attach uses `ptrace` and can fail when Yama `ptrace_scope` blocks it.
 
-
-
-
+```txt
+        Zed debugger ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers/tooling screens: distinguish launch vs attach, and know `kernel.yama.ptrace_scope` when attach fails on hardened Linux.
+- **Interview probes:** Interviewers/tooling screens: distinguish launch vs attach, and know `kernel.…
 
 ## Sources
 - [Kernel — Yama LSM](https://www.kernel.org/doc/Documentation/security/Yama.txt) — deep-dive
@@ -18,18 +24,18 @@ Interviewers/tooling screens: distinguish launch vs attach, and know `kernel.yam
 ## Key Concepts
 - **Launch:** debugger starts the process.
 - **Attach:** debugger joins a PID via `ptrace` (Linux).
-- **Console modes:** commands vs expressions — prefix expressions with `?` when the console is in commands mode.
+- **Console modes:** commands vs expressions
 - **Yama scope:** `ptrace_scope=1` (common default) restricts attaching to non-child processes.
 
 ## Technical Details
-Typical attach failure:
+- Typical attach failure:
 
 ```text
 Could not attach: The current value of ptrace_scope is 1
 sudo sysctl -w kernel.yama.ptrace_scope=0
 ```
 
-Prefer temporary/session changes and understand the security trade-off; persistent changes belong in sysctl config only with intent.
+- Prefer temporary/session changes and understand the security trade-off
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -37,20 +43,21 @@ Prefer temporary/session changes and understand the security trade-off; persiste
 | Wrong process | PID | Re-select PID / restart debug config |
 | Breakpoints unbound | Symbols / optimized build | Debug build; correct cwd |
 
-## Real-World Applications
-Attach to a running Flutter/Android host process during a sticky bug; if attach is blocked, relaunch under the debugger.
-
-**Example:** Hotel app Flutter frontend attach to PID fails on Ubuntu — Yama policy, not a broken DAP config.
+## Mistakes to Avoid
+- **Mistake:** Permanently setting `ptrace_scope=0` on shared hardening-sensiti…
+- **Mistake:** Confusing “commands mode” console input with expression evaluati…
+- **Mistake:** Attaching to the wrong PID after a restart
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Attach avoids restarting hard-to-reproduce state.
 - **Con:** Loosening `ptrace_scope` weakens process isolation — use carefully.
 
 ## Comparison
-- vs [[flutter debugging]]: Flutter has its own VM service path; native attach still hits OS ptrace rules.
+- vs [[flutter debugging]]: Flutter has its own VM service path
 - vs gdb attach: same kernel restriction class.
 
-## Mistakes to Avoid
-- Permanently setting `ptrace_scope=0` on shared hardening-sensitive hosts without review.
-- Confusing “commands mode” console input with expression evaluation.
-- Attaching to the wrong PID after a restart.
+
+### Use cases
+- Attach to a running Flutter/Android host process during a sticky bug
+
+- **Example:** Hotel app Flutter frontend attach to PID fails on Ubuntu

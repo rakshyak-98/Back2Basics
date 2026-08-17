@@ -4,19 +4,23 @@
 
 > MongoDB sharding splits a collection across shards by shard key — mongos routes queries using the config servers' chunk map.
 
-
-
-
+```txt
+        MongoDB sharding ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask sharding to test shard-key choice, scatter-gather risk, and the roles of mongos, shards, and config servers — bad keys are hard to undo.
+- **Interview probes:** Interviewers ask sharding to test shard-key choice, scatter-gather risk, and …
 
 ## Sources
 - [Sharding — MongoDB Manual](https://www.mongodb.com/docs/manual/sharding/) — deep-dive
 - [Shard Keys — MongoDB Manual](https://www.mongodb.com/docs/manual/core/sharding-shard-key/) — overview
 
 ## Technical Details
-All administrator below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
+- All administrator below runs against **mongos** (`mongosh` → cluster router),…
 
 ### 1. Deploy topology (lab sketch)
 
@@ -27,7 +31,7 @@ Shard B:  b1,b2,b3         --shardsvr --replSet shardB
 mongos:   --configdb cfgRS/cfg1:27019,cfg2:27019,cfg3:27019
 ```
 
-Initiate each replica set (`rs.initiate`), then connect to **mongos**.
+- Initiate each replica set (`rs.initiate`), then connect to **mongos**.
 
 ### 2. Register shards + shard a collection
 
@@ -51,14 +55,14 @@ sh.shardCollection('app.orders', { userId: 'hashed' })
 sh.status()
 ```
 
-Ranged example (query-local):
+- Ranged example (query-local):
 
 ```js
 db.app.events.createIndex({ tenantId: 1, createdAt: 1 })
 sh.shardCollection('app.events', { tenantId: 1, createdAt: 1 })
 ```
 
-Connection string (application → mongos):
+- Connection string (application → mongos):
 
 ```
 mongodb://user:pass@mongos1:27017,mongos2:27017/app?authSource=admin
@@ -77,7 +81,8 @@ sh.isBalancerRunning()      // should migrate toward balance
 sh.getBalancerState()
 ```
 
-Balancer moves chunks automatically. Watch until chunk counts / data size converge; do not expect instant balance on large collections.
+- Balancer moves chunks automatically.
+- Watch until chunk counts / data size converge
 
 ```js
 // Optional: window migrations off-peak
@@ -88,7 +93,8 @@ sh.startBalancer()
 
 ### 4. Scale in / de-scale (remove a shard)
 
-Drain data off a shard, then retire hardware. **Do not shut down the shard until drain completes.**
+- Drain data off a shard, then retire hardware.
+- **Do not shut down the shard until drain completes.:** 
 
 ```js
 // Start drain — returns immediately; work is async
@@ -103,7 +109,7 @@ db.adminCommand({ removeShard: 'shardC' })
 sh.status()
 ```
 
-Checklist while draining:
+- Checklist while draining:
 
 ```txt
 1. Balancer on (required for chunk migrate)
@@ -113,7 +119,7 @@ Checklist while draining:
 5. Update monitoring / connection docs; keep mongos count ≥ 2
 ```
 
-Move primary shard for unsharded data:
+- Move primary shard for unsharded data:
 
 ```js
 db.adminCommand({ movePrimary: 'analytics', to: 'shardA' })
@@ -131,11 +137,6 @@ db.collection.getShardDistribution()   // from mongos, per collection
 // Change shard key (6.0+ online reshard — plan capacity first)
 sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 ```
-
-## Pros/Cons or Trade-offs
-- Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondaries — sharding adds mongos/CSRS/balancer complexity.
-- Access pattern is mostly global scans / heavy cross-entity analytics — use a warehouse, not more shards.
-- You cannot pick a stable shard key aligned to queries — fix the model first ([[mongodb schema]], [[mongodb denormalization]]).
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -162,3 +163,8 @@ sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 | mongos flapping / stale routing | mongos logs; CSRS health | Fix config RS; bounce mongos; ensure majority CSRS |
 | Writes fail `ShardKeyNotFound` / immutable key | Update tries to change shard key fields | Don't mutate shard key; delete+insert or redesign |
 | Orphaned docs after failed migrate | Range deleter lag; disk | Let range deleter finish; check recipient health |
+
+## Pros/Cons or Trade-offs
+- Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondar…
+- Access pattern is mostly global scans / heavy cross-entity analytics
+- You cannot pick a stable shard key aligned to queries

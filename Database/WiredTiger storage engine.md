@@ -4,12 +4,18 @@
 
 > Default MongoDB storage engine since 3.2 — document-level concurrency, compressed cache pages, and checkpoint-plus-journal durability for crash recovery.
 
-
-
-
+```txt
+        WiredTiger storage ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast WiredTiger with legacy MMAPv1 and with relational buffer-pool+WAL designs. Signal: document-level locks, compression, and journal/checkpoint durability — not collection-wide locks or “mmap equals durability.”
+- **Interview probes:** Interviewers contrast WiredTiger with legacy MMAPv1 and with relational buffe…
 
 ## Sources
 - [MongoDB Documentation — WiredTiger Storage Engine](https://www.mongodb.com/docs/manual/core/wiredtiger/) — deep-dive
@@ -17,15 +23,15 @@ Interviewers contrast WiredTiger with legacy MMAPv1 and with relational buffer-p
 - [MongoDB Documentation — Storage](https://www.mongodb.com/docs/manual/core/storage/) — overview
 - [WiredTiger documentation](https://source.wiredtiger.com/) — overview
 
-## Core Definition
-WiredTiger is MongoDB’s modern storage engine: B-tree (and related) structures in a cache with optional compression, document-level concurrency control, periodic checkpoints of data files, and a journal that hardens operations between checkpoints.
-
 ## Key Concepts
 - **Document-level concurrency:** writers on different documents do not take collection-wide locks.
-- **Compression:** Snappy / zlib / zstd on cache pages and on-disk representations — less I/O, more CPU.
+- **Compression:** Snappy / zlib / zstd on cache pages and on-disk representations
 - **Checkpoint:** consistent on-disk snapshot of data files.
-- **Journal:** between checkpoints, records durable intent — mental cousin of [[write-ahead logging]].
-- **Cache vs OS page cache:** WiredTiger manages its own cache; interactions with [[MMAP]]/OS cache differ from MMAPv1’s model.
+- **Journal:** between checkpoints, records durable intent
+- **Cache vs OS page cache:** WiredTiger manages its own cache
+
+
+- **Core:** WiredTiger is MongoDB’s modern storage engine: B-tree (and related) structure…
 
 ## Technical Details
 ```txt
@@ -45,12 +51,15 @@ Crash ──► recover from last checkpoint + replay journal
 | Durability model | Checkpoint + journal | Memory-mapped files + journaling era-dependent |
 | Status | Default since 3.2 | Removed from modern MongoDB |
 
-Operational knobs teams discuss: cache size, checkpoint frequency, journal commit interval — trade latency for durability similar in spirit to relational sync-commit settings.
+- Operational knobs teams discuss: cache size, checkpoint frequency, journal co…
 
-Large files: [[GridFS]] sits above storage engines for blob chunking — not a substitute for WiredTiger itself.
+- Large files: [[GridFS]] sits above storage engines for blob chunking
 
-## Real-World Applications
-MongoDB clusters storing session documents, product catalogs, and event payloads with secondary indexes; tune cache so the working set fits, and keep journaling on for replica-set durability expectations.
+## Mistakes to Avoid
+- **Mistake:** Assuming MongoDB still behaves like MMAPv1 under load
+- **Mistake:** Equating “in cache” with “durable across power loss” without jou…
+- **Mistake:** Undersizing WiredTiger cache so the working set thrash-evicts co…
+- **Mistake:** Treating [[GridFS]] as a storage-engine choice rather than a chu…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** High write concurrency, compression, modern default for MongoDB.
@@ -58,10 +67,8 @@ MongoDB clusters storing session documents, product catalogs, and event payloads
 - **Trade-off:** Stronger journal/checkpoint sync vs write latency.
 
 ## Comparison
-vs MMAPv1: WiredTiger won on concurrency and compression — MMAPv1 is historical context only. vs [[MySQL storage]] / InnoDB: both use logging + checkpoints; InnoDB is page/row relational; WiredTiger is document-oriented. vs [[MMAP]]: mmap is a mapping technique; WiredTiger does not make “rely on OS page cache alone” the durability story.
+- vs MMAPv1: WiredTiger won on concurrency and compression
 
-## Mistakes to Avoid
-- Assuming MongoDB still behaves like MMAPv1 under load.
-- Equating “in cache” with “durable across power loss” without journal/checkpoint policy.
-- Undersizing WiredTiger cache so the working set thrash-evicts constantly.
-- Treating [[GridFS]] as a storage-engine choice rather than a chunking pattern on top.
+
+### Use cases
+- MongoDB clusters storing session documents, product catalogs, and event paylo…

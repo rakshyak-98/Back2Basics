@@ -4,12 +4,18 @@
 
 > Shrink the container attack surface: non-root, dropped capabilities, seccomp, read-only rootfs — defense in depth on a shared kernel.
 
-
-
-
+```txt
+        Docker Runtime Sec ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers test whether you know containers are namespaced processes (not VMs), and can name concrete controls: USER, capabilities, seccomp, no-new-privileges, and why mounting the Docker socket is host root.
+- **Interview probes:** Interviewers test whether you know containers are namespaced processes (not V…
 
 ## Sources
 - [Docker — Seccomp security profiles](https://docs.docker.com/engine/security/seccomp/) — deep-dive
@@ -17,15 +23,15 @@ Interviewers test whether you know containers are namespaced processes (not VMs)
 - Liz Rice, *Container Security* (O'Reilly) — deep-dive
 - Nigel Poulton, *Docker Deep Dive* — overview
 
-## Core Definition
-A container shares the host kernel; security is layered isolation (namespaces, cgroups, capabilities, seccomp, optional LSM) so application compromise stays least-privilege and cannot easily become host root.
-
 ## Key Concepts
-- **Shared kernel:** namespaces (pid, net, mnt, …) + cgroups — isolation is strong but not a hypervisor boundary.
+- **Shared kernel:** namespaces (pid, net, mnt, …) + cgroups
 - **Capabilities:** subset of traditional root; drop ALL and add back minimally.
-- **seccomp:** syscall filter; Docker’s default blocks dangerous calls (`reboot`, `mount`, …).
+- **seccomp:** syscall filter
 - **Read-only rootfs + no-new-privileges:** stop persistence and setuid escalation paths.
 - **Defense in depth:** image hygiene + runtime flags + host LSM (AppArmor/SELinux).
+
+
+- **Core:** A container shares the host kernel
 
 ## Technical Details
 ```
@@ -81,7 +87,8 @@ cap_add:
   - NET_BIND_SERVICE   # only if binding <1024; prefer listen >1024
 ```
 
-Default retained caps include `CHOWN`, `NET_RAW`, etc. — **drop ALL, add back minimally**.
+- Default retained caps include `CHOWN`, `NET_RAW`, etc.
+- — **drop ALL, add back minimally**.
 
 ### seccomp
 
@@ -92,7 +99,7 @@ security_opt:
   - seccomp=default.json
 ```
 
-Custom profile workflow: run with `seccomp=unconfined` in staging, audit `auditd`/falco for syscalls, generate an allowlist.
+- Custom profile workflow: run with `seccomp=unconfined` in staging, audit `aud…
 
 ### Read-only root filesystem
 
@@ -109,7 +116,7 @@ volumes:
   - app-cache:/var/cache/myapp   # explicit writable paths only
 ```
 
-Kubernetes equivalent: `securityContext.allowPrivilegeEscalation: false` + `runAsNonRoot: true`.
+- Kubernetes equivalent: `securityContext.allowPrivilegeEscalation: false` + `r…
 
 ### Resource + network isolation
 
@@ -145,10 +152,12 @@ networks:
 | DNS works in development, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
 | JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
 
-## Real-World Applications
-Production API containers, CI runners that must not own the host, and Kubernetes pods with matching `securityContext`.
-
-**Example:** An API runs as UID 10001, read-only rootfs, `cap_drop: ALL`, and writes only to `/tmp` tmpfs — a remote code exploit cannot drop a binary on `/` or remount devices.
+## Mistakes to Avoid
+- **Mistake:** Mounting `/var/run/docker.sock` into app containers
+- **Mistake:** `--privileged` in production
+- **Mistake:** Root in container plus a kernel breakout CVE
+- **Mistake:** Writable `/tmp` without `noexec`
+- **Mistake:** Assuming seccomp replaces MAC
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Cheap, layered controls that raise the bar after application compromise.
@@ -157,12 +166,11 @@ Production API containers, CI runners that must not own the host, and Kubernetes
 
 ## Comparison
 - vs VM / gVisor / Firecracker: stronger isolation when multi-tenant risk is high.
-- vs image scanning alone: scanning finds known CVEs; runtime flags limit blast radius of unknown bugs.
+- vs image scanning alone: scanning finds known CVEs
 - vs K8s-only hardening: compose hardening is useless if [[Pods]] ship with open `securityContext`.
 
-## Mistakes to Avoid
-- Mounting `/var/run/docker.sock` into app containers — the container owns the host (CI only with isolated runners).
-- `--privileged` in production — disables seccomp and capability restrictions.
-- Root in container plus a kernel breakout CVE — non-root raises the bar.
-- Writable `/tmp` without `noexec`; baking `ENV API_KEY=` into layers.
-- Assuming seccomp replaces MAC — AppArmor/SELinux still matter on the host.
+
+### Use cases
+- Production API containers, CI runners that must not own the host, and Kuberne…
+
+- **Example:** An API runs as UID 10001, read-only rootfs, `cap_drop: ALL`, and…

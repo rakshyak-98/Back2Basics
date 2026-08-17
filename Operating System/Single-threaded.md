@@ -4,12 +4,18 @@
 
 > A single-threaded program has one call stack and one scheduler entity — concurrency must come from non-blocking I/O, events, or external processes, not sibling threads.
 
-
-
-
+```txt
+        Single-threaded ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Explain how Redis/Node-style designs stay correct without locks, and what breaks when one CPU-bound loop stalls the whole process.
+- **Interview probes:** Explain how Redis/Node-style designs stay correct without locks, and what bre…
 
 ## Sources
 - [Wikipedia — Thread (computing)](https://en.wikipedia.org/wiki/Thread_(computing)) — overview
@@ -22,20 +28,20 @@ Explain how Redis/Node-style designs stay correct without locks, and what breaks
 - **Escape hatch:** worker processes or [[multi-threaded]] helpers for CPU/blocking work.
 
 ## Technical Details
-Examples: early Node.js event loop, Redis main thread (with helper I/O threads in newer versions), many embedded firmware loops.
+- Examples: early Node.js event loop, Redis main thread (with helper I/O thread…
 
-Advantages:
+- Advantages:
 
 - Easier reasoning about [[Stack Frame]] and globals.
 - Lower [[context switching]] than oversized thread pools.
 
-Limits:
-
 - One CPU-bound loop blocks everything.
 - Many network clients require [[non-blocking]] / [[Epoll]].
 
-## Real-World Applications
-Redis command processing, game main loops, and UI toolkits that keep rendering on one thread while offloading work.
+## Mistakes to Avoid
+- **Mistake:** Doing heavy crypto/compression on the event-loop thread
+- **Mistake:** Assuming “single-threaded” means “single-core forever”
+- **Mistake:** Adding threads casually without a sync story once shared mutable…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simpler correctness; no lock ordering bugs.
@@ -44,9 +50,8 @@ Redis command processing, game main loops, and UI toolkits that keep rendering o
 
 ## Comparison
 - vs [[multi-threaded]]: multiple stacks and shared heap needing synchronization.
-- vs [[Blocking]]: a single thread that blocks on I/O still stalls the whole program unless the runtime uses async primitives.
+- vs [[Blocking]]: a single thread that blocks on I/O still stalls the whole program unless the run…
 
-## Mistakes to Avoid
-- Doing heavy crypto/compression on the event-loop thread.
-- Assuming “single-threaded” means “single-core forever” — runtimes may still use helper threads.
-- Adding threads casually without a sync story once shared mutable state appears.
+
+### Use cases
+- Redis command processing, game main loops, and UI toolkits that keep renderin…

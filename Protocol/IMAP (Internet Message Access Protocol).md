@@ -4,12 +4,18 @@
 
 > IMAP lets mail clients synchronize folders and flags with a server-side mailbox over TCP — messages stay on the server so multiple devices share the same state (unlike typical POP3).
 
-
-
-
+```txt
+        IMAP (Internet Mes ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers contrast IMAP with POP3 and SMTP: who stores mail, which port is preferred, and what `\Seen` / IDLE mean for multi-device sync.
+- **Interview probes:** Interviewers contrast IMAP with POP3 and SMTP: who stores mail, which port is…
 
 ## Sources
 - [RFC 3501 — IMAP4rev1](https://datatracker.ietf.org/doc/html/rfc3501) — deep-dive
@@ -49,10 +55,10 @@ openssl s_client -connect imap.example.com:993
 # a002 LIST "" "*"
 ```
 
-## Real-World Applications
-Desktop + phone mail clients against Dovecot, Exchange, or Workspace IMAP endpoints.
-
-**Example:** Marking a message read on the phone sets `\Seen`; the desktop client refreshes and shows it read without re-downloading the body.
+## Mistakes to Avoid
+- **Mistake:** Preferring port 143 without STARTTLS in production
+- **Mistake:** Expecting POP3-style “delete after download” semantics from IMAP
+- **Mistake:** Forgetting that `\Seen` is shared state
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Correct model for multi-device users and shared server search.
@@ -63,7 +69,8 @@ Desktop + phone mail clients against Dovecot, Exchange, or Workspace IMAP endpoi
 - vs POP3: IMAP keeps state on the server; POP3 is download-oriented.
 - vs [[SMTP]]: SMTP moves mail between MTAs; IMAP accesses the stored mailbox.
 
-## Mistakes to Avoid
-- Preferring port 143 without STARTTLS in production.
-- Expecting POP3-style “delete after download” semantics from IMAP.
-- Forgetting that `\Seen` is shared state — “unread counts” surprise users across devices.
+
+### Use cases
+- Desktop + phone mail clients against Dovecot, Exchange, or Workspace IMAP end…
+
+- **Example:** Marking a message read on the phone sets `\Seen`

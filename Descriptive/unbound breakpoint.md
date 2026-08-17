@@ -4,12 +4,16 @@
 
 > Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
-
-
-
+```txt
+        Unbound breakpoint ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Unbound breakpoint questions diagnose source-map/path mismatches — a common IDE debugging trap.
+- **Interview probes:** Unbound breakpoint questions diagnose source-map/path mismatches
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -50,16 +54,13 @@ module.exports = {
 };
 ```
 
-## Pros/Cons or Trade-offs
-- Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Optimizers (Terser)** drop unreachable code — breakpoint in removed branch stays unbound forever.
 
-- **Hot reload (Vite/HMR)** replaces modules — breakpoints may unbind until re-set.
-- **Inline source maps** huge but bind reliably; external maps need correct `//# sourceMappingURL`.
-- **Breakpoint in `node_modules`** — skipped unless `"skipFiles": false` and map exists.
+- **Mistake:** **Hot reload (Vite/HMR)** replaces modules
+- **Mistake:** **Inline source maps** huge but bind reliably
+- **Mistake:** **Breakpoint in `node_modules`**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,3 +70,6 @@ module.exports = {
 | Unbound in monorepo package | `link:` / workspace paths | `resolveSourceMapLocations` include package |
 | Conditional breakpoint unbound | Syntax in condition | Simplify `x > 1` test |
 | Docker path mismatch | `/app` vs local | `localRoot` / `remoteRoot` in launch.json |
+
+## Pros/Cons or Trade-offs
+- Don't fight unbound breakpoints in minified production without source maps

@@ -4,15 +4,14 @@
 
 > AWS networking is VPC-centric: you define IP ranges, subnets per Availability Zone, route tables, gateways, and firewalls — most "cannot connect" incidents are routing or security group mistakes, not broken cables.
 
-
-
-
+```txt
+        AWS Networking ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Interviewers ask about AWS Networking to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- What makes a subnet "public" in AWS terms?
-- Why do private subnets need a NAT gateway for outbound package updates?
+- **Interview probes:** Interviewers ask about AWS Networking to see whether you can design and opera…
 
 ## Sources
 - [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) — overview
@@ -56,13 +55,15 @@ Interviewers ask about AWS Networking to see whether you can design and operate 
 
 ### DNS inside VPC
 
-Enable **DNS hostnames** and **DNS resolution** on the VPC. Instances receive internal DNS names like `ip-10-0-1-5.ec2.internal`. Public hosted zones use [[Route53]].
+- Enable **DNS hostnames** and **DNS resolution** on the VPC.
+- Instances receive internal DNS names like `ip-10-0-1-5.ec2.internal`.
+- Public hosted zones use [[Route53]].
 
 ### Hybrid connectivity
 
-- **Site-to-Site VPN** — IPsec over internet
-- **Direct Connect** — dedicated circuit to AWS
-- **Transit Gateway** — hub for many VPCs and VPN/DX attachments
+- **Site-to-Site VPN:** — IPsec over internet
+- **Direct Connect:** — dedicated circuit to AWS
+- **Transit Gateway:** — hub for many VPCs and VPN/DX attachments
 
 ### Debugging checklist
 

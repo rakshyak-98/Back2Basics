@@ -4,12 +4,18 @@
 
 > Functions that let function components hold state and side effects — call them at the top level, same order every render.
 
-
-
-
+```txt
+        react hooks ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want Rules of Hooks, dependency arrays, and when a custom hook beats an HOC — not a list of hook names.
+- **Interview probes:** Interviewers want Rules of Hooks, dependency arrays, and when a custom hook b…
 
 ## Sources
 - [React — Reusing Logic with Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
@@ -48,17 +54,6 @@ function useWindowWidth() {
 | `useLayoutEffect` | DOM measure before paint |
 | `useId` | Stable SSR-safe IDs |
 
-## Real-World Applications
-Apply react hooks in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Class components you won’t touch** — don’t rewrite just to use hooks.
-- **Con / skip when:** **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
-
-## Comparison
-- vs [[react-query]]: **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,5 +62,17 @@ Apply react hooks in feature code where the Key Concepts match; verify with the 
 | Infinite setState loop | Effect writes its dep | Restructure deps |
 | Invalid hook call | Called outside component | Only in components/custom hooks |
 
-- **ESLint `exhaustive-deps`** — silencing it without a reason usually creates bugs.
-- **`useEffect` is not `componentDidMount` only** — think “synchronize with a system,” not lifecycle cargo cult.
+- **Mistake:** **ESLint `exhaustive-deps`**
+- **Mistake:** **`useEffect` is not `componentDidMount` only**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Class components you won’t touch**
+- **Con / skip when:** **Data fetching sprawl**
+
+## Comparison
+- vs [[react-query]]: **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
+
+
+### Use cases
+- Apply react hooks in feature code where the Key Concepts match

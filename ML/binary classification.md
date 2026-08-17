@@ -4,12 +4,17 @@
 
 > Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
-
-
-
+```txt
+        Binary classificat ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about Binary classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Binary classification to check whether you can choose …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -17,13 +22,13 @@ Interviewers ask about Binary classification to check whether you can choose mod
 - [binary classification — Wikipedia](https://en.wikipedia.org/wiki/Binary_classification) — overview
 
 ## Key Concepts
-Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 versus 0.
+- **Note:** Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margi…
 
 ```txt
-score(x) → probability p → if p ≥ τ then positive else negative
+- **Note:** score(x) → probability p → if p ≥ τ then positive else negative
 ```
 
-Imbalanced data (1% fraud): 99% accuracy by predicting all negatives — useless. Track **ROC-AUC**, **PR-AUC**, **F1**, **calibration**, and **cost-sensitive** metrics tied to business harm.
+- **Note:** Imbalanced data (1% fraud): 99% accuracy by predicting all negatives
 
 | Metric | When it matters |
 |--------|-----------------|
@@ -65,11 +70,6 @@ model = xgb.XGBClassifier(
 )
 ```
 
-## Pros/Cons or Trade-offs
-- **More than two unordered classes** — [[multiclass classification]].
-- **Ordered labels** (low/medium/high) — [[ordinal classification]].
-- **Ranking/search quality** — [[Mean Average Precision (MAP)]] / [[Normalized Discounted Cumulative Gain (NDCG)]].
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Default 0.5 threshold** is rarely optimal when false negatives cost 100× false positives (medical, fraud).
@@ -84,3 +84,8 @@ model = xgb.XGBClassifier(
 | Probabilities look wrong | Calibration plot | Platt / isotonic via `CalibratedClassifierCV` |
 | Train AUC 1.0, prod collapse | Target leakage, temporal split | Time-based split; remove post-outcome features |
 | Different results per run | Random seed, data order | Set seeds; stratified CV |
+
+## Pros/Cons or Trade-offs
+- **More than two unordered classes** — [[multiclass classification]].
+- **Ordered labels** (low/medium/high) — [[ordinal classification]].
+- **Ranking/search quality**

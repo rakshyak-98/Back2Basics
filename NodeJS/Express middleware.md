@@ -4,12 +4,18 @@
 
 > Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
-
-
-
+```txt
+        Express middleware ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Express middleware** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **next()**, **Error middleware**, **Router-level**.
+- **Interview probes:** Interviewers use **Express middleware** to check whether you can explain the …
 
 ## Sources
 - [Express — Using middleware](https://expressjs.com/en/guide/using-middleware.html) — deep-dive
@@ -44,21 +50,22 @@ app.use((err, _req, res, _next) => {
 | Path-scoped `app.use('/api', …)` | Don’t run globally when unneeded |
 | Async errors | Pass to `next(err)` (or wrappers) |
 
-## Real-World Applications
-In production APIs and tooling, **Express middleware** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5; **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”.
+## Mistakes to Avoid
+- **Mistake:** **Async middleware**
+- **Sending twice**::** → “Cannot set headers after they are sent.”
+- **Mistake:** **Request hangs:** check No `next` / no `res`
+- **Mistake:** **Error HTML dump:** check No error middleware
+- **Mistake:** **`body` empty:** check Parser after route
+- **Mistake:** **Auth skipped:** check Middleware after route
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call …).
-- **Con / when not:** **Business logic only used by one route** — put it in the route/handler module.
-- **Con / when not:** **Heavy CPU** — don’t block the middleware chain; queue/worker.
+- **Con / when not:** **Business logic only used by one route**
+- **Con / when not:** **Heavy CPU**
 
 ## Comparison
-vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[node error]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
+- vs [[expressjs]]: know when each applies
 
-## Mistakes to Avoid
-- **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5.
-- **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”
-- **Request hangs:** check No `next` / no `res`; fix: Always continue or end
-- **Error HTML dump:** check No error middleware; fix: Add 4-arg handler
-- **`body` empty:** check Parser after route; fix: Reorder `express.json()`
-- **Auth skipped:** check Middleware after route; fix: `app.use(auth)` before protected routes
+
+### Use cases
+- In production APIs and tooling, **Express middleware** shows up whenever team…

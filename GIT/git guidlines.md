@@ -4,12 +4,17 @@
 
 > git guidlines — feat: add new inventory endpoint
 
-
-
-
+```txt
+        git guidlines ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Guideline questions check team conventions — trunk-based vs long-lived branches and review norms.
+- **Interview probes:** Guideline questions check team conventions
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -36,26 +41,24 @@ security: add authentication to inventory routes
 [optional footer]
 Example:
 feat: add inventory filtering endpoint
-- Implements filtering by asset type
-- Adds validation for filter parameters
-- Includes error handling for invalid filters
+- **Implements filtering:** Implements filtering by asset type
+- **Adds validation:** Adds validation for filter parameters
+- **Includes error:** Includes error handling for invalid filters
 Ticket: AT-123
 ```
-- keep first line under 50 characters
-- use imperative mood (add not added)
-- include relevant ticket/issues numbers
-- separate subject from body with blank line
-- describe what and why, not how
+- **keep first:** keep first line under 50 characters
+- **use imperative:** use imperative mood (add not added)
+- **include relevant:** include relevant ticket/issues numbers
+- **separate subject:** separate subject from body with blank line
+- **describe what:** describe what and why, not how
 
 ## Technical Details
-Use conventional prefixes in subject line:
+- Use conventional prefixes in subject line:
+
 - `feat:` new behavior
 - `fix:` bug repair
 - `docs:` documentation only
 - `chore:` tooling or maintenance
-
-## Pros/Cons or Trade-offs
-- Do not rewrite published history on shared branches to fix message typos.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -66,3 +69,6 @@ Use conventional prefixes in subject line:
 | History hard to read | Mixed message styles | Agree on prefix convention in team doc |
 | Revert hard to find | No scope in subject | Add scope: `fix(auth): ...` |
 | Broken bisect | WIP commits on main | Squash or rebase before merge to main |
+
+## Pros/Cons or Trade-offs
+- Do not rewrite published history on shared branches to fix message typos.

@@ -4,19 +4,22 @@
 
 > TL;DR — put the outcome and key constraint first; details follow.
 
-
-
-
+```txt
+        TL;DR ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Communication skill interviews and staff promo packets reward executives who lead with the answer. Same habit in PRs, runbooks, and incident chat.
+- **Interview probes:** Communication skill interviews and staff promo packets reward executives who …
 
 ## Sources
 - [Wikipedia — TL;DR](https://en.wikipedia.org/wiki/TL%3BDR) — overview
 - [Google Engineering Practices — Writing good CL descriptions](https://google.github.io/eng-practices/review/developer/cl-descriptions.html) — deep-dive
-
-## Core Definition
-TL;DR means “too long; didn’t read” — a discipline of leading with the conclusion so busy readers get the decision, risk, or fix before narrative context.
 
 ## Key Concepts
 - **Answer first:** Decision, impact, or fix command in line one.
@@ -24,9 +27,10 @@ TL;DR means “too long; didn’t read” — a discipline of leading with the c
 - **Details after:** Evidence, alternatives, links.
 - **Audience:** On-call, reviewer, and exec need different depth — same first line.
 
-## Technical Details
-Patterns:
 
+- **Core:** TL;DR means “too long; didn’t read”
+
+## Technical Details
 | Context | First line |
 |---------|------------|
 | PR | What changed + why (risk) |
@@ -34,19 +38,20 @@ Patterns:
 | Chat/incident | “API 5xx from bad deploy; rolling back `api` now.” |
 | Design doc | Recommendation + top trade-off |
 
-Pair with [[Repro]] when claiming a bug: TL;DR states the failure; repro proves it.
+- Pair with [[Repro]] when claiming a bug: TL;DR states the failure
 
-## Real-World Applications
-PR description: “Adds idempotency keys to checkout webhooks so Stripe retries do not double-charge. Flag: `checkout_idempotency` default off.” Reviewers decide faster; [[Code review]] quality rises.
+## Mistakes to Avoid
+- **Mistake:** Burying the rollback command under paragraphs of history
+- **Mistake:** TL;DR that restates the title without a decision
+- **Mistake:** Omitting the risk/constraint (“works” without “at what cost”)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Respects reader time; surfaces decisions.
 - **Con:** Over-compressed TL;DRs hide uncertainty — still link evidence.
 
 ## Comparison
-vs full narrative blog posts: opposite ordering. vs [[Repro]]: TL;DR communicates; repro verifies. Related vault tone: [[general]], [[README]].
+- vs full narrative blog posts: opposite ordering. vs [[Repro]]: TL;DR communic…
 
-## Mistakes to Avoid
-- Burying the rollback command under paragraphs of history.
-- TL;DR that restates the title without a decision.
-- Omitting the risk/constraint (“works” without “at what cost”).
+
+### Use cases
+- PR description: “Adds idempotency keys to checkout webhooks so Stripe retries…

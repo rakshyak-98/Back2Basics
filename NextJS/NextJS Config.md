@@ -4,26 +4,32 @@
 
 > `next.config.js` (or `.mjs` / `.ts`) holds Next.js knobs — redirects, headers, images, and build output — without putting app logic in the configuration file.
 
-
-
-
+```txt
+        NextJS Config ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about `next.config` to see if you know which settings affect deploy shape (`output`, `basePath`), security headers, and image allowlists — and what must live in environment variables instead.
+- **Interview probes:** Interviewers ask about `next.config` to see if you know which settings affect…
 
 ## Sources
 - [Next.js Docs — next.config.js Options](https://nextjs.org/docs/app/api-reference/config/next-config-js) — deep-dive
 - [Next.js Docs — Configuring](https://nextjs.org/docs/app/api-reference/config) — overview
 
-## Core Definition
-`next.config.*` is a Node module loaded at build and server start; it is not shipped to the browser, and it shapes routing, asset URLs, and feature flags for the whole app.
-
 ## Key Concepts
-- **File forms:** `.js`, `.mjs`, or `.ts` → pick ESM vs CJS carefully; `.cjs`/`.cts` are not supported.
+- **File forms:** `.js`, `.mjs`, or `.ts` → pick ESM vs CJS carefully
 - **`output: 'standalone'`:** traces a minimal Node server tree → friendlier Docker images.
 - **`basePath` / `assetPrefix`:** subpath or CDN URLs → wrong values break CSS/JS after deploy.
 - **`images.remotePatterns`:** allowlist for `next/image` remotes → refusals are configuration, not magic.
-- **`headers` / `redirects` / `rewrites`:** edge routing and security headers → keep secrets out of committed configuration.
+- **`headers` / `redirects` / `rewrites`:** edge routing and security headers → keep secrets out of committed configurati…
+
+
+- **Core:** `next.config.*` is a Node module loaded at build and server start
 
 ## Technical Details
 ```txt
@@ -64,10 +70,10 @@ module.exports = nextConfig
 | Configuration load failure | ESM vs CJS | Prefer `next.config.mjs` or `.ts` carefully |
 | Headers not applied | `source` matcher | Fix path patterns |
 
-## Real-World Applications
-Teams set `standalone` for Kubernetes, pin remote image hosts for a CDN, and add [[HTTP Strict Transport Security]] plus frame-denial headers in one place.
-
-**Example:** App served under `https://example.com/app` needs `basePath: '/app'` or every static asset 404s.
+## Mistakes to Avoid
+- **Mistake:** Committing secrets in `next.config` — use environment variables
+- **Mistake:** Enabling `typescript.ignoreBuildErrors` to “green” CI
+- **Mistake:** Forgetting that many configuration changes need a restart of `ne…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Central, typed knobs for deploy and security — reviewers see intent in one file.
@@ -75,10 +81,11 @@ Teams set `standalone` for Kubernetes, pin remote image hosts for a CDN, and add
 - **Con:** Putting business rules in configuration makes testing and reuse harder than code.
 
 ## Comparison
-- vs environment variables: secrets and per-environment values belong in the environment; configuration holds structure and allowlists.
-- vs route handlers / middleware: request-time logic stays in code; configuration sets global defaults.
+- vs environment variables: secrets and per-environment values belong in the environment
+- vs route handlers / middleware: request-time logic stays in code
 
-## Mistakes to Avoid
-- Committing secrets in `next.config` — use environment variables.
-- Enabling `typescript.ignoreBuildErrors` to “green” CI — ships broken contracts.
-- Forgetting that many configuration changes need a restart of `next dev` / rebuild.
+
+### Use cases
+- Teams set `standalone` for Kubernetes, pin remote image hosts for a CDN, and …
+
+- **Example:** App served under `https://example.com/app` needs `basePath: '/ap…

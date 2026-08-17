@@ -4,12 +4,18 @@
 
 > Eventual consistency means replicas may disagree right after a write, but if updates stop, they converge — availability and latency now, sameness later.
 
-
-
-
+```txt
+        Eventual consisten ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Define eventual vs strong, name client guarantees (read-your-writes), and pick conflict policies — plus where money/security must not be eventual.
+- **Interview probes:** Define eventual vs strong, name client guarantees (read-your-writes), and pic…
 
 ## Sources
 - Werner Vogels, "Eventually Consistent" (ACM Queue, 2008) — overview
@@ -44,7 +50,7 @@ Read from B before replication completes → stale value
 | Bounded staleness | Max lag SLO |
 | Tolerate stale | UI “updating…” / version |
 
-Stronger: higher [[Quorum]] R/W, sync replication, or leader reads.
+- Stronger: higher [[Quorum]] R/W, sync replication, or leader reads.
 
 | Policy | Behavior |
 |--------|----------|
@@ -53,10 +59,12 @@ Stronger: higher [[Quorum]] R/W, sync replication, or leader reads.
 | CRDTs | Mathematically mergeable |
 | Read repair | Background fix |
 
-Poor fit: money/inventory, security revocation, global unique constraints.
+- Poor fit: money/inventory, security revocation, global unique constraints.
 
-## Real-World Applications
-CDN/DNS caches, multi-region user profiles, and social feeds where brief staleness is acceptable.
+## Mistakes to Avoid
+- **Mistake:** No conflict policy ([[Concurrent modification]] disasters)
+- **Mistake:** “Eventually revoked” access for security-critical rights
+- **Mistake:** Calling it fine for ledger balances without reservations/sagas
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Lower latency, higher availability under partition.
@@ -67,7 +75,6 @@ CDN/DNS caches, multi-region user profiles, and social feeds where brief stalene
 - vs strong/linearizable stores: agree before ack vs converge later.
 - vs [[Quorum]]: quorums tune how eventual/strong a given op is.
 
-## Mistakes to Avoid
-- No conflict policy ([[Concurrent modification]] disasters).
-- “Eventually revoked” access for security-critical rights.
-- Calling it fine for ledger balances without reservations/sagas.
+
+### Use cases
+- CDN/DNS caches, multi-region user profiles, and social feeds where brief stal…

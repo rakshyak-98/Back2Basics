@@ -4,12 +4,17 @@
 
 > Goroutine — lightweight concurrent function the Go runtime schedules onto OS threads (`go f()`).
 
-
-
-
+```txt
+        go-routines ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Goroutines + scheduler questions separate “cheap threads” myths from M:N scheduling, leaks, and when channels vs mutexes fit.
+- **Interview probes:** Goroutines + scheduler questions separate “cheap threads” myths from M:N sche…
 
 ## Sources
 - [Go blog — Concurrency is not parallelism](https://go.dev/blog/concurrency-is-not-parallelism) — overview
@@ -18,7 +23,7 @@ Goroutines + scheduler questions separate “cheap threads” myths from M:N sch
 
 ## Key Concepts
 ```txt
-main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
+- **Note:** main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
 ```
 
 | Primitive | Role |
@@ -65,12 +70,12 @@ wg.Wait()
 | Main exits early | No WaitGroup | Wait before return |
 | Too many goroutines | Unbounded spawn | Worker pool |
 
+## Mistakes to Avoid
+- **Mistake:** Loop variable capture (old Go)
+- **Mistake:** No join without sync — `go f()` alone doesn’t wait
+- **Mistake:** Blocking forever on chan — always plan cancellation
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Tiny sync work — plain function call.
 - **Trade-off:** One goroutine per request without limits — bound concurrency.
 - **Trade-off:** Sharing structs “carefully” — prefer message passing or clear mutex.
-
-## Mistakes to Avoid
-- Loop variable capture (old Go) — pass `v := v` or use Go 1.22+ per-iter semantics.
-- No join without sync — `go f()` alone doesn’t wait.
-- Blocking forever on chan — always plan cancellation.

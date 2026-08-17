@@ -4,22 +4,21 @@
 
 > Git-connected Jamstack host — Netlify runs your build command, publishes the output directory to a CDN, and attaches functions/redirects as configured.
 
-
-
-
+```txt
+        Netlify deployment ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`netlify.toml`, and SPA fallback behavior.
+- **Interview probes:** Interviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`net…
 
 ## Sources
 - [Netlify docs — Deploy](https://docs.netlify.com/site-deploys/overview/) — deep-dive
 - [Netlify — netlify.toml](https://docs.netlify.com/configure-builds/file-based-configuration/) — overview
-
-## Recall Cues
-- Why do interviewers care about Interviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`netlify.toml`, and SPA fallback behavior?
-- What mistake is **Wrong `publish` directory (deploying repo root)**?
-- What mistake is **Secrets in client-side environment variables**?
-- What mistake is **Forgetting branch deploy vs production context variables**?
 
 ## Technical Details
 ```toml
@@ -46,19 +45,20 @@ netlify deploy --prod
 | Headers | `[[headers]]` in toml |
 
 ## Mistakes to Avoid
-- Wrong `publish` directory (deploying repo root).
-- Secrets in client-side environment variables.
-- Forgetting branch deploy vs production context variables.
+- **Mistake:** Wrong `publish` directory (deploying repo root)
+- **Mistake:** Secrets in client-side environment variables
+- **Mistake:** Forgetting branch deploy vs production context variables
+
+## Pros/Cons or Trade-offs
+- **Pro:** Simple static+functions workflow and previews.
+- **Con:** Long-lived servers/websockets need another platform.
 
 ## Comparison
 - vs [[vercel deployment]]: similar Jamstack shape; different config files and function models.
 - vs classic VM+Nginx: less OS ops; more platform limits.
 
-## Real-World Applications
-Marketing sites and Vite/React SPAs with form handling or light functions.
 
-**Example:** Vue Router history mode 404 on refresh — add the SPA rewrite above.
+### Use cases
+- Marketing sites and Vite/React SPAs with form handling or light functions.
 
-## Pros/Cons or Trade-offs
-- **Pro:** Simple static+functions workflow and previews.
-- **Con:** Long-lived servers/websockets need another platform.
+- **Example:** Vue Router history mode 404 on refresh

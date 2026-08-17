@@ -4,12 +4,18 @@
 
 > Supplemental examples for MySQL scheduled events—one-shot events, conditional execution, and privilege requirements alongside [[MySQL Events]].
 
-
-
-
+```txt
+        mysql events 1 ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Follow-up to event scheduler: one-time `AT` schedules, `EVENT` privilege, and DEFINER security risks. Shows you do not treat in-DB cron as free of auth concerns.
+- **Interview probes:** Follow-up to event scheduler: one-time `AT` schedules, `EVENT` privilege, and…
 
 ## Sources
 - [MySQL Reference Manual — CREATE EVENT](https://dev.mysql.com/doc/refman/en/create-event.html) — deep-dive
@@ -27,25 +33,26 @@ DO
   INSERT INTO archive.orders SELECT * FROM orders WHERE created_at < '2024-04-01';
 ```
 
-Permissions:
+- Permissions:
 
 ```sql
 GRANT EVENT ON mydb.* TO 'scheduler'@'%';
 ```
 
-`DEFINER` clause runs event as another user—review for privilege escalation.
+- `DEFINER` clause runs event as another user—review for privilege escalation.
 
-## Real-World Applications
-Scheduled one-time archival at year boundaries. Example: create an event to move Q1 rows to archive schema at midnight New Year, then drop the event after success.
+## Mistakes to Avoid
+- **Mistake:** Granting EVENT broadly to application users who only need DML
+- **Mistake:** Using powerful DEFINER accounts for trivial housekeeping
+- **Mistake:** Forgetting the scheduler must be ON ([[MySQL Events]]) or the ev…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Keeps simple timed SQL next to the data without an external scheduler.
 - **Con:** Weaker observability than Kubernetes CronJobs; DEFINER mistakes widen privilege blast radius.
 
 ## Comparison
-vs [[MySQL Events]]: primary note for enabling/monitoring the scheduler; this leaf holds supplemental one-shot and privilege examples. vs external cron: external systems win for complex multi-service workflows.
+- vs [[MySQL Events]]: primary note for enabling/monitoring the scheduler
 
-## Mistakes to Avoid
-- Granting EVENT broadly to application users who only need DML.
-- Using powerful DEFINER accounts for trivial housekeeping.
-- Forgetting the scheduler must be ON ([[MySQL Events]]) or the event never fires.
+
+### Use cases
+- Scheduled one-time archival at year boundaries

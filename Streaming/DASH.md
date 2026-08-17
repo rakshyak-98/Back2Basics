@@ -4,35 +4,38 @@
 
 > DASH serves the same idea as HLS over HTTP — an [[MPD]] menu plus segments — as an open MPEG standard.
 
-
-
-
+```txt
+        DASH (Dynamic Adap ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk DASH end-to-end — not just name it. Signal fluency with **MPD**, **Period**, **AdaptationSet**, **Representation** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk DASH end-to-end
 
 ## Sources
 - [Wikipedia — DASH](https://en.wikipedia.org/wiki/DASH) — overview
 - [DASH Industry Forum](https://dashif.org/) — overview
 - [ISO/IEC 23009-1 DASH](https://www.iso.org/standard/83314.html) — deep-dive
 
-## Core Definition
-Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, Apple Safari does **not** play DASH natively — plan dual packaging or HLS-only for iOS.
-
 ## Key Concepts
 - **MPD:** XML root playlist — “DASH starts with the Media Presentation Description.”
 - **Period:** Time slice of the show — “Live and VoD are Periods on a timeline.”
 - **AdaptationSet:** Group of same media type — “Video Adaptations hold the ABR ladder.”
 - **Representation:** One quality rung — “Each Representation is a bitrate/resolution choice.”
-- **SegmentTemplate:** URL pattern with `$Number$` — “We don’t list every file; the template builds URLs.”
-- **Dynamic vs static:** Live refresh vs fixed VoD — “Dynamic MPD must be re-fetched; static is complete.”
+- **SegmentTemplate:** URL pattern with `$Number$`
+- **Dynamic vs static:** Live refresh vs fixed VoD
 
 **Flow:**
 
-1. **Encode** — [[ABR]] ladder into shared fMP4 when possible ([[CMAF]]).
-2. **Describe** — generate [[MPD]] with Representations + timing.
-3. **Fetch** — player picks Representation from bandwidth + buffer.
-4. **Adapt** — next segment from another Representation at a switch point.
+- **Note:** 1. **Encode** — [[ABR]] ladder into shared fMP4 when possible ([[CMAF]]).
+- **Note:** 2. **Describe** — generate [[MPD]] with Representations + timing.
+- **Note:** 3. **Fetch** — player picks Representation from bandwidth + buffer.
+- **Note:** 4. **Adapt** — next segment from another Representation at a switch point.
 
 ### Tooling you will hear
 
@@ -41,6 +44,9 @@ Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, 
 | Bitmovin / Shaka packager | Package + play |
 | AWS Elemental MediaConvert / MediaPackage | Managed ladder + MPD |
 | ffmpeg + mp4box / Bento4 | DIY segment + MPD |
+
+
+- **Core:** Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HL…
 
 ## Technical Details
 ```txt
@@ -72,7 +78,7 @@ GET manifest.mpd  ([[MPD]])
 </MPD>
 ```
 
-`duration="120"` @ `timescale="30"` → 4 s segments.
+- `duration="120"` @ `timescale="30"` → 4 s segments.
 
 ### Live dynamic knobs
 
@@ -97,21 +103,6 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 # Player: Shaka / dash.js stats for Representation switches
 ```
 
-## Real-World Applications
-Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HLS, Apple Safari does **not** play DASH natively — plan dual packaging or HLS-only for iOS.
-
-Used wherever DASH sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
-- **Con / skip when:** **Interactive sub-second** — [[WebRTC]], not segment DASH.
-- **Con / skip when:** **Legacy Apple-only TS devices** — HLS TS path may be mandatory.
-
-## Comparison
-- vs [[HLS]]: **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
-- vs [[WebRTC]]: **Interactive sub-second** — [[WebRTC]], not segment DASH.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -123,7 +114,23 @@ Used wherever DASH sits in an ingest → package → CDN → player path. Concre
 | DRM fail | Missing PSSH / license | Align [[DRM]] + [[EME]] |
 | Parse error | Broken XML / namespace | Validate `xmlns`; escape entities |
 
-- **Hand-edited MPD drifts from segments** — treat the MPD as a generated artifact, not a hand-tuned config forever.
-- **Caching a dynamic MPD like VoD** — viewers stick on a dead live edge.
-- **DASH-only greenfield kills iOS** — always ask “where does Safari play?”
-- **`bandwidth` forgetting audio** — player thinks the rung is cheaper than it is → rebuffer.
+- **Mistake:** **Hand-edited MPD drifts from segments**
+- **Mistake:** **Caching a dynamic MPD like VoD**
+- **Mistake:** **DASH-only greenfield kills iOS**
+- **`bandwidth` forgetting audio**::** → rebuffer
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **iOS / Safari-first with no dual package**
+- **Con / skip when:** **Interactive sub-second**
+- **Con / skip when:** **Legacy Apple-only TS devices**
+
+## Comparison
+- vs [[HLS]]: **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
+- vs [[WebRTC]]: **Interactive sub-second** — [[WebRTC]], not segment DASH.
+
+
+### Use cases
+- Like [[HLS]], DASH rides **plain HTTP** through CDNs and firewalls. Unlike HL…
+
+- Used wherever DASH sits in an ingest → package → CDN → player path

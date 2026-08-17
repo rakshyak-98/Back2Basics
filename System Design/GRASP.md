@@ -4,12 +4,18 @@
 
 > GRASP (General Responsibility Assignment Software Patterns) guides which object should own a behavior — answering "who should know this?" and "who should create that?" before [[SOLID]] shapes the type relationships.
 
-
-
-
+```txt
+        GRASP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Name several GRASP patterns (Information Expert, Controller, Low Coupling) and apply them to a class-responsibility sketch.
+- **Interview probes:** Name several GRASP patterns (Information Expert, Controller, Low Coupling) an…
 
 ## Sources
 - Craig Larman, *Applying UML and Patterns* (Prentice Hall, 3rd ed.) — GRASP patterns — overview
@@ -29,7 +35,7 @@ Name several GRASP patterns (Information Expert, Controller, Low Coupling) and a
 2. Assign a Controller per use case entry
 3. Place business rules on Information Experts
 4. Create new instances near their Creator / Expert
-5. Extract Pure Fabrications for email, database, payment software development kits
+- **Note:** 5. Extract Pure Fabrications for email, database, payment software developmen…
 ```
 
 ### Smells
@@ -44,7 +50,8 @@ Name several GRASP patterns (Information Expert, Controller, Low Coupling) and a
 ## Technical Details
 ### Core patterns
 
-Craig Larman documented GRASP in *Applying UML and Patterns*. The patterns are questions, not ceremony:
+- Craig Larman documented GRASP in *Applying UML and Patterns*.
+- The patterns are questions, not ceremony:
 
 | Pattern | Question | Typical answer |
 |---------|----------|----------------|
@@ -58,8 +65,10 @@ Craig Larman documented GRASP in *Applying UML and Patterns*. The patterns are q
 | **Indirection** | Two classes too tightly coupled? | Introduce mediator between them |
 | **Protected Variations** | What is likely to change? | Stable interface around volatile implementation |
 
-## Real-World Applications
-OO responsibility assignment in domain models and service layers.
+## Mistakes to Avoid
+- **Mistake:** Skipping failure modes until production
+- **Mistake:** Ignoring idempotency, timeouts, or rollback where required
+- **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared vocabulary for design critiques.
@@ -67,15 +76,14 @@ OO responsibility assignment in domain models and service layers.
 - **Trade-off:** more indirection vs direct scripts.
 
 ## Comparison
-GRASP assigns **responsibilities** at design time. SOLID refines **type structure** (substitutability, interface size, dependency direction). Both apply at module boundaries in [[System design]].
+- GRASP assigns **responsibilities** at design time
 
-Avoid **ManagerFactoryBuilder** over-fabrication — not every line needs a new class.
+- Avoid **ManagerFactoryBuilder** over-fabrication
 
 
 - vs [[SOLID]]: SOLID is dependency/form; GRASP is responsibility placement.
 - vs [[KISS]]: pick the lightest GRASP move that clarifies ownership.
 
-## Mistakes to Avoid
-- Skipping failure modes until production.
-- Ignoring idempotency, timeouts, or rollback where required.
-- Optimizing or distributing before measuring the real bottleneck.
+
+### Use cases
+- OO responsibility assignment in domain models and service layers.

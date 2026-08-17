@@ -4,12 +4,18 @@
 
 > Map URLs → layouts → screens — prefer **relative routes + route objects** so base path changes don't break — **React Router v6+ docs**.
 
-
-
-
+```txt
+        React routes ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Use cases
+```
 
 ## Interview Relevance
-Interviewers use React routes to test whether you can apply the idea under production constraints, not recite docs.
+- **Interview probes:** Interviewers use React routes to test whether you can apply the idea under pr…
 
 ## Sources
 - [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes) — overview
@@ -84,15 +90,7 @@ function AppLayout() {
 
 ### Protected route
 
-Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login" />` or `<Outlet />`.
-
-## Real-World Applications
-Apply React routes in feature code where the Key Concepts match; verify with the Mistakes table.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **File-based routing only** — Next.js application Router owns routes; don't fight framework.
-- **Con / skip when:** **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
+- Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/logi…
 
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
@@ -103,5 +101,13 @@ Apply React routes in feature code where the Key Concepts match; verify with the
 | Loader data stale | No revalidation | `shouldRevalidate` / Query cache |
 | Basename broken assets | Hardcoded `/` paths | `import.meta.env.BASE_URL` |
 
-- **All absolute paths** (`/manage-rooms`) — works until app moves under `/v2`; use relative segments in nested config.
-- **Client-only router on SSR** — hydrate with same route on server ([[RSC (React Server Component boundaries)]]).
+- **Mistake:** **All absolute paths** (`/manage-rooms`)
+- **Mistake:** **Client-only router on SSR**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **File-based routing only**
+- **Con / skip when:** **Hash routing (`#/`)**
+
+## Real-World Applications
+- **Scenario:** Apply React routes in feature code where the Key Concepts match

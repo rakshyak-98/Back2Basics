@@ -4,19 +4,24 @@
 
 > Sliding window — grow/shrink a contiguous range while keeping an invariant (sum, unique chars, etc.).
 
-
-
-
+```txt
+        Sliding window ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Sliding window is a high-frequency pattern — fixed vs variable window, invariant maintenance, and when two pointers apply.
+- **Interview probes:** Sliding window is a high-frequency pattern
 
 ## Sources
 - [Wikipedia — Sliding window protocol](https://en.wikipedia.org/wiki/Sliding_window_protocol) — overview
 - [NeetCode — Sliding Window](https://neetcode.io/practice) — overview
 
 ## Key Concepts
-Maintain indices `left` and `right` defining window `[left, right]`. Advance `right` to grow; advance `left` to shrink when a **validity invariant** breaks (sum too large, duplicate char seen, etc.).
+- **Note:** Maintain indices `left` and `right` defining window `[left, right]`. Advance …
 
 ```
 arr:  [ 2, 1, 5, 1, 3, 2 ]     target sum ≤ 7
@@ -27,10 +32,10 @@ arr:  [ 2, 1, 5, 1, 3, 2 ]     target sum ≤ 7
 ```
 
 Two flavors:
-- **Fixed-size window** — length `k` given; slide `L` and `R` together.
-- **Variable-size window** — maximize/minimize length subject to constraint.
+- **Fixed-size window:** — length `k` given; slide `L` and `R` together.
+- **Variable-size window:** — maximize/minimize length subject to constraint.
 
-Works when the problem asks: *longest/shortest subarray/substring such that …* or *count subarrays where …* (sometimes needs prefix sum + hash map instead).
+- **Note:** Works when the problem asks: *longest/shortest subarray/substring such that ……
 
 ## Technical Details
 ### Template — variable window (longest substring without repeating char)
@@ -103,13 +108,13 @@ function minSubArrayLen(target, nums) {
 | Works for positives, fails with negatives | Monotonic shrink assumption broken | Switch to prefix sum + hash map |
 | Count subarrays off by one | Count at shrink vs expand step | Define whether each valid window counted once |
 
+## Mistakes to Avoid
+- **Mistake:** Non-negative numbers assumption
+- **Mistake:** `left` never goes backward
+- **Mistake:** Distinct vs at-most-k
+- **Mistake:** String vs array indexing
+
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Subsequence (non-contiguous) — window requires contiguous segment; use DP or two-pointer on sorted arrays differently.
 - **Trade-off:** Arbitrary numeric targets with negatives — use [[Prefix sum]] + hash map.
 - **Trade-off:** Global optimization without contiguous constraint — e.g. max subarray sum with one deletion — may need Kadane variant, not pure window.
-
-## Mistakes to Avoid
-- Non-negative numbers assumption — "minimum window with sum ≥ target" needs positive values (or non-decreasing contribution). Negative values break monotonic shrink.
-- `left` never goes backward — except rare jump tricks (character map). If you reset `left = 0` every time, you're back to O(n²).
-- Distinct vs at-most-k — "at most 2 distinct" uses shrink-on-invalid; "exactly 2 distinct" often needs `atMost(k) - atMost(k-1)`.
-- String vs array indexing — same logic; watch Unicode code points vs UTF-16 code units for emoji substrings.

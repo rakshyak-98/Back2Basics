@@ -4,20 +4,23 @@
 
 > MongoDB — a document database: JSON-like BSON docs, replica sets for failover, sharding for scale; production pain is often indexes, pools, or schema drift.
 
-
-
-
+```txt
+        MongoDB ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Expect document model vs relational, replica set elections, read preference, and index design (ESR rule, compound keys). Signal: you know when flexibility becomes unqueryable chaos.
+- **Interview probes:** Expect document model vs relational, replica set elections, read preference, …
 
 ## Sources
 - [MongoDB Manual — Introduction](https://www.mongodb.com/docs/manual/introduction/) — overview
 - [MongoDB Manual — Replication](https://www.mongodb.com/docs/manual/replication/) — deep-dive
 - [Wikipedia — MongoDB](https://en.wikipedia.org/wiki/MongoDB) — overview
-
-## Core Definition
-MongoDB stores BSON documents in collections. Schemas can vary by document; indexes make query paths fast; replica sets provide HA; sharding partitions data across nodes.
 
 ## Key Concepts
 - **Document model:** Nested docs and arrays; design for access patterns, not 3NF purity.
@@ -25,6 +28,9 @@ MongoDB stores BSON documents in collections. Schemas can vary by document; inde
 - **Replica set:** Primary + secondaries; automatic failover ([[mongodb replicaset]]).
 - **Sharding:** Horizontal scale via shard key ([[mongodb sharding]]).
 - **Drivers / ODM:** Connection pools ([[mongodb connection]]); [[mongoose/mongoose]] in Node.
+
+
+- **Core:** MongoDB stores BSON documents in collections. Schemas can vary by document
 
 ## Technical Details
 ```txt
@@ -49,18 +55,19 @@ App ──► driver pool ──► mongod (primary)
 | Stale reads | Read preference | `primary` for read-your-writes |
 | OOM | WiredTiger cache | RAM / cache sizing / shard |
 
-## Real-World Applications
-Product catalog with varied attributes per SKU; session or event data with high write rates; multi-region apps using replica sets and careful read concern/write concern.
+## Mistakes to Avoid
+- **Mistake:** Unbounded arrays / documents that grow forever
+- **Mistake:** Secondary reads for read-your-writes correctness
+- **Mistake:** Unique business keys without unique indexes
+- **Mistake:** Connection-per-request without pooling
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Flexible documents; horizontal scale path; rich aggregation.
 - **Con:** Easy to skip schema discipline; wrong shard key is painful; multi-doc transactions cost more than people expect.
 
 ## Comparison
-vs Postgres ([[postgres essential]]): stronger relational constraints and joins by default; Mongo favors document locality. vs [[Redis]]: Redis is in-memory structures/cache; Mongo is durable document storage. Engine note: [[WiredTiger storage engine]].
+- vs Postgres ([[postgres essential]]): stronger relational constraints and joi…
 
-## Mistakes to Avoid
-- Unbounded arrays / documents that grow forever.
-- Secondary reads for read-your-writes correctness.
-- Unique business keys without unique indexes.
-- Connection-per-request without pooling.
+
+### Use cases
+- Product catalog with varied attributes per SKU

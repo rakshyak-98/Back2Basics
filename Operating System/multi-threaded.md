@@ -4,12 +4,18 @@
 
 > A multi-threaded program runs several threads in one process sharing address space and file descriptors — parallelism without [[Inter Process Communication]] for every byte.
 
-
-
-
+```txt
+        Multi-threaded ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-When threads beat processes, what is shared vs private, and how locks/races show up versus event-loop designs.
+- **Interview probes:** When threads beat processes, what is shared vs private, and how locks/races s…
 
 ## Sources
 - Herlihy & Shavit, *The Art of Multiprocessor Programming* — deep-dive
@@ -23,18 +29,20 @@ When threads beat processes, what is shared vs private, and how locks/races show
 - **Sync tax:** [[critical sections]] and [[mutexes]].
 
 ## Technical Details
-Helps with:
+- Helps with:
 
-- Parallel CPU work on multiple cores ([[Single Instruction, Multiple Data (SIMD)]] is orthogonal — data parallelism inside one thread).
+- Parallel CPU work on multiple cores ([[Single Instruction, Multiple Data (SIM…
 - [[CPU IO Bound Task]] — one thread blocks while others run.
 - Structured servers via [[thread pool]].
 
-Costs: contention, races, deadlocks; [[Stack trace]] per thread when debugging.
+- Costs: contention, races, deadlocks
 
-Versus [[Single-threaded]] event loops: fewer locks, must use [[non-blocking]] I/O for concurrency.
+- Versus [[Single-threaded]] event loops: fewer locks, must use [[non-blocking]…
 
-## Real-World Applications
-App servers, parallel compressors, and UI apps with background workers.
+## Mistakes to Avoid
+- **Mistake:** Unbounded thread-per-request
+- **Mistake:** Sharing mutable state without synchronization
+- **Mistake:** Ignoring lock contention while adding more threads
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Uses multiple cores; shared memory is fast.
@@ -45,7 +53,6 @@ App servers, parallel compressors, and UI apps with background workers.
 - vs [[Single-threaded]]: concurrency without shared-heap races.
 - vs multi-process: stronger isolation, heavier IPC.
 
-## Mistakes to Avoid
-- Unbounded thread-per-request.
-- Sharing mutable state without synchronization.
-- Ignoring lock contention while adding more threads.
+
+### Use cases
+- App servers, parallel compressors, and UI apps with background workers.

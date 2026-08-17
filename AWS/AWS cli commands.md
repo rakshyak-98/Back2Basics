@@ -4,15 +4,14 @@
 
 > The AWS CLI maps almost every AWS API to `aws <service> <operation>` — combine `--query`, `--output`, and JMESPath filters to script infrastructure without clicking the console.
 
-
-
-
+```txt
+        AWS cli commands ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-Interviewers ask about AWS cli commands to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
-
-- How do you filter `describe-instances` to running instances in one AZ?
-- What command confirms which account your credentials belong to?
+- **Interview probes:** Interviewers ask about AWS cli commands to see whether you can design and ope…
 
 ## Sources
 - [AWS CLI Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html) — deep-dive
@@ -89,11 +88,11 @@ aws route53 list-resource-record-sets --hosted-zone-id Z1234567890ABC
 aws cloudformation deploy --template-file template.yaml --stack-name my-stack --capabilities CAPABILITY_IAM
 ```
 
-Many teams prefer Terraform; CLI remains essential for ad hoc operations and CI scripts.
+- Many teams prefer Terraform
 
 ### Pagination
 
-Large lists auto-paginate with `--no-paginate` to disable, or use:
+- Large lists auto-paginate with `--no-paginate` to disable, or use:
 
 ```bash
 aws ec2 describe-instances --max-items 10 --starting-token <token>

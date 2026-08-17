@@ -4,12 +4,18 @@
 
 > Concurrent connections — how many live sockets/sessions you hold at once; often the real limit before CPU is.
 
-
-
-
+```txt
+        concurrent connect ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-FD/socket limits, keepalives, and why connection count ≠ request concurrency.
+- **Interview probes:** FD/socket limits, keepalives, and why connection count ≠ request concurrency.
 
 ## Sources
 - [Wikipedia — concurrent connection](https://en.wikipedia.org/wiki/concurrent_connection) — overview
@@ -36,8 +42,6 @@ clients ══╝
 | Worker count | App server |
 | NAT ports | Client side |
 
----
-
 
 ### Configuration and commands
 
@@ -53,27 +57,6 @@ sysctl net.core.somaxconn
 | Keep-alive | Fewer handshakes; more idle conns |
 | HTTP/2 multiplex | Many streams / one conn |
 | Idle timeout | Reap dead mobiles |
-
----
-
-## Real-World Applications
-WebSocket fleets, reverse proxies, and API gateways under C10k-style load.
-
-## Pros/Cons or Trade-offs
-- **Pure batch jobs** — connections short; optimize CPU/IO instead.
-- **Serverless with tiny concurrency** — different scaling story.
-- **One administrator user** — ignore micro-tuning.
-
----
-
-
-- **Pro:** Models real resource pressure for long-lived clients.
-- **Con:** Easy to confuse with throughput.
-- **Trade-off:** many idle conns vs short-lived request/response.
-
-## Comparison
-- vs [[Throughput]]: connections are concurrency capacity; throughput is completion rate.
-- vs [[server]]: servers must accept and account for connection lifecycle.
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -96,3 +79,23 @@ WebSocket fleets, reverse proxies, and API gateways under C10k-style load.
 | LB 502 under load | Backend conn cap | Raise upstream; warm pools |
 
 ---
+
+## Pros/Cons or Trade-offs
+- **Pure batch jobs** — connections short; optimize CPU/IO instead.
+- **Serverless with tiny concurrency** — different scaling story.
+- **One administrator user** — ignore micro-tuning.
+
+---
+
+
+- **Pro:** Models real resource pressure for long-lived clients.
+- **Con:** Easy to confuse with throughput.
+- **Trade-off:** many idle conns vs short-lived request/response.
+
+## Comparison
+- vs [[Throughput]]: connections are concurrency capacity; throughput is completion rate.
+- vs [[server]]: servers must accept and account for connection lifecycle.
+
+
+### Use cases
+- WebSocket fleets, reverse proxies, and API gateways under C10k-style load.

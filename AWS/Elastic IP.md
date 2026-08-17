@@ -4,12 +4,15 @@
 
 > An Elastic IP is a static public IPv4 address you allocate to your account and associate with an instance or network interface — it survives stop/start but costs money when allocated and not attached.
 
-
-
-
+```txt
+        Elastic IP ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               └── Use cases
+```
 
 ## Interview Relevance
-Elastic IP questions cover public addressing, costs when unattached, and alternatives like load balancers.
+- **Interview probes:** Elastic IP questions cover public addressing, costs when unattached, and alte…
 
 ## Sources
 - [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) — overview
@@ -18,10 +21,10 @@ Elastic IP questions cover public addressing, costs when unattached, and alterna
 ## Technical Details
 ### Behavior
 
-- **Regional** resource tied to your VPC-capable account.
-- **Reassociable** — move between instances or ENIs without changing the public address clients use.
-- **Default limit** — five EIPs per region (increase via support ticket).
-- **Billing** — charged when allocated to your account and not associated with a running instance, or when associated with a stopped instance (policy details per AWS pricing page).
+- **Regional:** resource tied to your VPC-capable account.
+- **Reassociable:** — move between instances or ENIs without changing the public address clients …
+- **Default limit:** — five EIPs per region (increase via support ticket).
+- **Billing:** — charged when allocated to your account and not associated with a running in…
 
 ### Associate
 
@@ -30,11 +33,12 @@ aws ec2 allocate-address --domain vpc
 aws ec2 associate-address --instance-id i-0abc --allocation-id eipalloc-0abc
 ```
 
-Disassociate before terminating the instance if you need to preserve the address.
+- Disassociate before terminating the instance if you need to preserve the addr…
 
 ### IPv6 note
 
-Elastic IPs apply to **IPv4**. IPv6 addresses on VPC subnets are separate CIDR allocations; use EIPv6 patterns or load balancers for stable IPv6 endpoints.
+- Elastic IPs apply to **IPv4**.
+- IPv6 addresses on VPC subnets are separate CIDR allocations
 
 ## Real-World Applications
 | Use | Alternative |
@@ -43,4 +47,4 @@ Elastic IPs apply to **IPv4**. IPv6 addresses on VPC subnets are separate CIDR a
 | NAT instance (uncommon) | Managed NAT Gateway |
 | Quick demo / single EC2 | Often unnecessary — use instance public DNS |
 
-For production HTTP services, prefer a load balancer with health checks rather than binding a brittle EIP to one instance.
+- **Note:** For production HTTP services, prefer a load balancer with health checks rathe…

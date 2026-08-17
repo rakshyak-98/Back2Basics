@@ -4,12 +4,18 @@
 
 > Linux IPC message bus — services expose methods and signals; desktop environments and systemd lean on it heavily.
 
-
-
-
+```txt
+        D-Bus ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Know system vs session bus, well-known names, activation-on-call, and `busctl` for live introspection.
+- **Interview probes:** Know system vs session bus, well-known names, activation-on-call, and `busctl…
 
 ## Sources
 - [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — deep-dive
@@ -50,8 +56,10 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 | No session bus | Headless SSH | linger / systemd --user |
 | Hang on call | Dead service | `busctl monitor`; restart provider |
 
-## Real-World Applications
-`hostnamectl` and many desktop settings UIs are D-Bus clients — debug with `busctl introspect` when the CLI hangs or returns access denied.
+## Mistakes to Avoid
+- **Mistake:** Calling the session bus as root expecting system services
+- **Mistake:** Triggering heavy desktop activation from a headless script unint…
+- **Mistake:** Using D-Bus as a high-throughput data plane
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Discoverable local control plane with introspection.
@@ -61,7 +69,6 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 - vs gRPC/HTTP: those are cross-host; D-Bus is local machine IPC.
 - vs raw UNIX sockets: D-Bus adds naming, typing, and policy.
 
-## Mistakes to Avoid
-- Calling the session bus as root expecting system services.
-- Triggering heavy desktop activation from a headless script unintentionally.
-- Using D-Bus as a high-throughput data plane.
+
+### Use cases
+- `hostnamectl` and many desktop settings UIs are D-Bus clients

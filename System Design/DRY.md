@@ -4,20 +4,26 @@
 
 > DRY (Don't Repeat Yourself) means every piece of knowledge has one authoritative representation — duplication of *rules*, not mere similar text.
 
-
-
-
+```txt
+        DRY ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Show you distinguish business-rule duplication from coincidental similarity, and know the rule of three / wrong-abstraction trap.
+- **Interview probes:** Show you distinguish business-rule duplication from coincidental similarity, …
 
 ## Sources
 - Hunt & Thomas, *The Pragmatic Programmer* — DRY — deep-dive
 - Martin Fowler, “Duplicated Code” refactoring catalog — overview
 
 ## Key Concepts
-- **Single source of truth** for invariants and policies.
-- **Coincidental similarity ≠ DRY violation.**
+- **Single source of truth:** for invariants and policies.
+- **Coincidental similarity ≠ DRY violation.:** 
 - **Centralize:** domain module, OpenAPI/protobuf, IaC modules, runbooks.
 - **Rule of three:** tolerate two copies; extract on third proven same rule.
 
@@ -41,10 +47,12 @@ Ops policy     → one runbook linked from alerts
 | [[SOLID]] | SRP splits similar code | Different actors → keep separate |
 | Microservices | Shared lib couples deploys | Contract tests over fat jars |
 
-Anti-patterns: mega-utility everyone fears; stringly-typed config drift; copy-paste microservices.
+- Anti-patterns: mega-utility everyone fears
 
-## Real-World Applications
-Shared validation libraries, schema-first APIs, and Terraform modules for repeated infra.
+## Mistakes to Avoid
+- **Mistake:** Deduplicating on appearance alone
+- **Mistake:** Fat shared jars that force lockstep deploys
+- **Mistake:** Documenting the same key three different names across env/Helm/d…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Changes land once; fewer drift bugs.
@@ -55,7 +63,6 @@ Shared validation libraries, schema-first APIs, and Terraform modules for repeat
 - vs [[KISS]]: simplicity may prefer local duplication until proven.
 - vs [[SOLID]] SRP: similar-looking code can still have different reasons to change.
 
-## Mistakes to Avoid
-- Deduplicating on appearance alone.
-- Fat shared jars that force lockstep deploys.
-- Documenting the same key three different names across env/Helm/docs.
+
+### Use cases
+- Shared validation libraries, schema-first APIs, and Terraform modules for rep…

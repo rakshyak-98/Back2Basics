@@ -4,12 +4,18 @@
 
 > An abstract storage location is any addressable place where bytes live — file, block device, memory-mapped region, or cloud object — without naming the physical medium underneath.
 
-
-
-
+```txt
+        Abstract storage l ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want you to separate *what the app names* (path, volume, LBA, handle) from *what stores bits*, and to tie that to permissions, caching, and durability.
+- **Interview probes:** Interviewers want you to separate *what the app names* (path, volume, LBA, ha…
 
 ## Sources
 - [Linux kernel docs — Page Cache](https://docs.kernel.org/mm/page_cache.html) — deep-dive
@@ -30,12 +36,17 @@ Interviewers want you to separate *what the app names* (path, volume, LBA, handl
 | Container | bind-mounted path in a namespace | host filesystem, copy-on-write graph driver |
 | Cloud VM | EBS volume or persistent disk | hypervisor storage backend |
 
-**Path names** resolve through VFS to an inode and backing store. **Block devices** expose sectors; filesystems usually sit on top. **Memory-mapped files** map a file range into the process — same cached pages may back both `read()` and loads.
+- **Path names:** resolve through VFS to an inode and backing store.
+- **Block devices:** expose sectors; filesystems usually sit on top.
+- **Memory-mapped files:** map a file range into the process
 
-Concrete layout: [[MBR]], [[logical partitions]], [[Persistent Block Storage]]. Durability: [[fsync]].
+- Concrete layout: [[MBR]], [[logical partitions]], [[Persistent Block Storage]…
+- Durability: [[fsync]].
 
-## Real-World Applications
-The same binary runs on laptop SSD, SAN LUN, or NFS because it talks to abstract locations. Cloud volume attach/detach remaps the abstract device without rewriting the app.
+## Mistakes to Avoid
+- **Mistake:** Assuming a successful `write` to an abstract path is durable wit…
+- **Mistake:** Treating cloud volume identity as physical media identity for DR
+- **Mistake:** Bypassing the abstraction with `/dev/mem`-style access when a fi…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Portability and centralized policy.
@@ -43,10 +54,9 @@ The same binary runs on laptop SSD, SAN LUN, or NFS because it talks to abstract
 - **Trade-off:** raw block devices (more control) vs filesystem paths (simpler ops).
 
 ## Comparison
-- vs [[Persistent Block Storage]]: block storage is one durable backend; abstract location is the naming/handle layer above any medium.
+- vs [[Persistent Block Storage]]: block storage is one durable backend
 - vs object storage keys: both are abstract; APIs and consistency models differ.
 
-## Mistakes to Avoid
-- Assuming a successful `write` to an abstract path is durable without flush semantics.
-- Treating cloud volume identity as physical media identity for DR.
-- Bypassing the abstraction with `/dev/mem`-style access when a file/block API exists.
+
+### Use cases
+- The same binary runs on laptop SSD, SAN LUN, or NFS because it talks to abstr…

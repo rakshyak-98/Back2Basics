@@ -4,12 +4,18 @@
 
 > Keyboard selection from scrollback into tmux paste buffers — capture logs and commands without a mouse-only workflow.
 
-
-
-
+```txt
+        tmux copy-mode ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Ops interviews: navigate scrollback, copy text, paste across panes — especially on jump hosts without clipboard sharing.
+- **Interview probes:** Ops interviews: navigate scrollback, copy text, paste across panes
 
 ## Sources
 - [tmux — Buffers and copy mode](https://man.openbsd.org/tmux#WINDOWS_AND_PANES) — deep-dive
@@ -27,7 +33,7 @@ tmux show-buffer
 tmux list-buffers
 ```
 
-With `mode-keys vi`, motions feel like vim visual mode inside the pane history.
+- With `mode-keys vi`, motions feel like vim visual mode inside the pane histor…
 
 | Task | Typical flow |
 |------|----------------|
@@ -35,10 +41,10 @@ With `mode-keys vi`, motions feel like vim visual mode inside the pane history.
 | Paste | Prefix + `]` |
 | Search history | `/` or `?` in vi mode |
 
-## Real-World Applications
-Copy a failed migration error from scrollback into a ticket without re-running the command.
-
-**Example:** SSH from a phone — mouse selection fails; copy-mode still works.
+## Mistakes to Avoid
+- **Mistake:** Confusing tmux buffer with the OS clipboard (needs explicit inte…
+- **Mistake:** Exiting copy-mode before copying
+- **Mistake:** Huge scrollback eating memory — set history limits thoughtfully
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Reliable remote copy when OS clipboard forwarding is broken.
@@ -48,7 +54,8 @@ Copy a failed migration error from scrollback into a ticket without re-running t
 - vs terminal emulator selection: emulator clipboard may not work over plain SSH; tmux buffers do.
 - vs [[tmux]] basics: copy-mode is scrollback UX inside the multiplexer.
 
-## Mistakes to Avoid
-- Confusing tmux buffer with the OS clipboard (needs explicit integration).
-- Exiting copy-mode before copying.
-- Huge scrollback eating memory — set history limits thoughtfully.
+
+### Use cases
+- Copy a failed migration error from scrollback into a ticket without re-runnin…
+
+- **Example:** SSH from a phone — mouse selection fails; copy-mode still works.

@@ -4,27 +4,33 @@
 
 > Central brain that sequences tasks and services into a workflow — retries, timeouts, and rollback live in one place (unlike choreography, where peers react to events).
 
-
-
-
+```txt
+        Orchestration (Dev ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask orchestration vs choreography to see if you pick a central workflow engine when order, compensation, and failure policy matter — and avoid DAGing a one-line cron.
+- **Interview probes:** Interviewers ask orchestration vs choreography to see if you pick a central w…
 
 ## Sources
 - [Wikipedia — Orchestration (computing)](https://en.wikipedia.org/wiki/Orchestration_(computing)) — overview
 - [Apache Airflow — DAGs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html) — deep-dive
 - [[Architectures/Orchestration layer]] — deep-dive (distributed systems)
 
-## Core Definition
-In DevOps, orchestration means a controller (pipeline engine, DAG scheduler, or workflow system) drives multi-step work with explicit dependencies, retries, and central error handling — contrast event-driven choreography without a single director.
-
 ## Key Concepts
 - **Central sequencing:** step B runs only after A succeeds → strict order and shared failure policy.
 - **Retries / timeouts:** orchestrator owns recovery knobs → steps stay idempotent.
 - **Compensating actions:** rollback or feature-flag off when a mid-pipeline step fails.
-- **Choreography alternative:** services react to events — better at high scale when central state does not fit.
-- **Decision signal:** 3+ dependent steps, or need for automated rollback → orchestrate; simple cron → do not.
+- **Choreography alternative:** services react to events
+- **Decision signal:** 3+ dependent steps, or need for automated rollback → orchestrate
+
+
+- **Core:** In DevOps, orchestration means a controller (pipeline engine, DAG scheduler, …
 
 ## Technical Details
 ```
@@ -42,7 +48,7 @@ Orchestrator (Airflow, Temporal, Jenkins pipeline)
 | Simple cron + one script | No — cron enough |
 | Event-driven microservices only | Maybe choreography instead |
 
-Kubernetes Job / Helm pre-upgrade hook (light orchestration):
+- Kubernetes Job / Helm pre-upgrade hook (light orchestration):
 
 ```yaml
 apiVersion: batch/v1
@@ -58,7 +64,7 @@ spec:
           image: myapp:migrate
 ```
 
-Airflow-shaped DAG:
+- Airflow-shaped DAG:
 
 ```python
 from airflow.decorators import dag, task
@@ -75,7 +81,7 @@ def etl():
 etl()
 ```
 
-Jenkins declarative stages:
+- Jenkins declarative stages:
 
 ```groovy
 pipeline {
@@ -102,10 +108,11 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 | DAG never runs | Catchup backlog | Disable catchup; reset start date |
 | Helm hook ran twice | Failed release retried | Hook weights + delete policy |
 
-## Real-World Applications
-Release pipelines sequence test → migrate → deploy → smoke; data platforms use [[Airflow]] DAGs for extract/transform/load with retries.
-
-**Example:** Deploy succeeds but migration fails — without orchestration you leave a half-applied release; with it you roll back or stop promotion.
+## Mistakes to Avoid
+- **Mistake:** DAGing a bash one-liner
+- **Mistake:** Storing secrets in the DAG repository
+- **Mistake:** Skipping idempotency — retries will double-charge or double-write
+- **Mistake:** Running a non-HA scheduler for critical production workflows
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One place for retries, timeouts, visibility, and compensating actions.
@@ -113,12 +120,12 @@ Release pipelines sequence test → migrate → deploy → smoke; data platforms
 - **Con:** Long synchronous pipelines block releases — split verify versus promote.
 
 ## Comparison
-- vs choreography ([[Architectures/Orchestration layer]], [[Messaging/webhook]]): choreography scales event peers; orchestration owns strict sequence and compensation.
-- vs [[Jenkins]] pipelines: Jenkins is CI-oriented orchestration; [[Airflow]] is batch/data DAG orchestration.
-- vs edge [[Edge orchestration tools for industrial IoT]]: same “desired workflow” idea, different constraints (offline, OT).
+- vs choreography ([[Architectures/Orchestration layer]], [[Messaging/webhook]]): choreography scal…
+- vs [[Jenkins]] pipelines: Jenkins is CI-oriented orchestration
+- vs edge [[Edge orchestration tools for industrial IoT]]: same “desired workflow” idea, different …
 
-## Mistakes to Avoid
-- DAGing a bash one-liner — wait until workflow complexity justifies a controller.
-- Storing secrets in the DAG repository — use a vault or CI secret store.
-- Skipping idempotency — retries will double-charge or double-write.
-- Running a non-HA scheduler for critical production workflows.
+
+### Use cases
+- Release pipelines sequence test → migrate → deploy → smoke
+
+- **Example:** Deploy succeeds but migration fails

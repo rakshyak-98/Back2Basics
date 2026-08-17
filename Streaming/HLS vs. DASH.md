@@ -4,23 +4,29 @@
 
 > HLS and DASH both do ABR over HTTP — pick by device reach, then share segments with CMAF when you need both.
 
-
-
-
+```txt
+        HLS vs. DASH ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers probe whether you can walk HLS vs. DASH end-to-end — not just name it. Signal fluency with **HLS**, **DASH**, **Manifest**, **CMAF** and when you would pick a different path.
+- **Interview probes:** Interviewers probe whether you can walk HLS vs. DASH end-to-end
 
 ## Sources
 - [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH) — overview
 
 ## Key Concepts
-- **HLS:** Apple’s HTTP Live Streaming — “HLS is the safe default wherever Safari matters.”
-- **DASH:** MPEG Dynamic Adaptive Streaming over HTTP — “DASH is the open MPD-based ABR protocol.”
+- **HLS:** Apple’s HTTP Live Streaming
+- **DASH:** MPEG Dynamic Adaptive Streaming over HTTP
 - **Manifest:** Playlist metadata — “HLS uses m3u8; DASH uses MPD XML.”
 - **CMAF:** Shared fMP4 segments — “One segment store, two manifests — that’s CMAF.”
 - **Native vs MSE:** OS player vs JS/MSE — “Safari plays HLS natively; DASH usually needs MSE.”
-- **LL-HLS / low-latency DASH:** Live delay cutters — “Latency is a packaging choice, not ‘DASH is always faster’.”
+- **LL-HLS / low-latency DASH:** Live delay cutters
 - **Topic:** [[HLS]] — [[DASH]]
 - **Spec owner:** Apple (RFC 8216 + extensions) — MPEG / ISO open standard
 - **Manifest:** `.m3u8` text — `.mpd` XML ([[MPD]])
@@ -44,9 +50,9 @@ Interviewers probe whether you can walk HLS vs. DASH end-to-end — not just nam
 
 ### Decision in one line
 
-- Need **Safari / iOS** → ship [[HLS]] (add DASH only if you must).
-- Need **max open / Android-centric** → [[DASH]], still offer HLS for Apple.
-- Need **both without double storage** → [[CMAF]] shared `.m4s` + dual manifests.
+- **Need:** Safari:** Need **Safari / iOS** → ship [[HLS]] (add DASH only if you must).
+- **Need:** max:** Need **max open / Android-centric** → [[DASH]], still offer HLS for Ap…
+- **Need:** both:** Need **both without double storage** → [[CMAF]] shared `.m4s` + dual …
 
 ## Technical Details
 ```txt
@@ -89,18 +95,6 @@ load(useHls ? '/master.m3u8' : '/manifest.mpd')
 curl -sI "https://cdn/.../video_720p_00001.m4s"
 ```
 
-## Real-World Applications
-Used wherever HLS vs. DASH sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **This comparison as a runtime switch every request** — pick packaging once; feature-detect at the player.
-- **Con / skip when:** **Ultra-low-latency calls** — neither replaces [[WebRTC]].
-- **Con / skip when:** **Single internal mezzanine** — protocol choice belongs at **egress**, not archive.
-
-## Comparison
-- vs [[WebRTC]]: **Ultra-low-latency calls** — neither replaces [[WebRTC]].
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,7 +106,20 @@ Used wherever HLS vs. DASH sits in an ingest → package → CDN → player path
 | “DASH is lower latency” but measured same | Same segment size both sides | Shorten segments or enable LL features |
 | ABR differs wildly between players | Different `BANDWIDTH` / Representation | Align advertised bitrates |
 
-- **“DASH is open so we skip HLS”** — you just lost Safari unless you dual-package.
-- **Old blog: HLS = TS only, DASH = always lower latency** — modern HLS is fMP4/CMAF; latency is packaging, not brand name.
-- **Two ladders, two GOPs** — “HLS vs DASH” bugs are often encode drift, not protocol dogma.
-- **Citation bingo in design docs** — interviewers want device matrix + CMAF plan, not Mux-vs-Wowza link dumps.
+- **Mistake:** **“DASH is open so we skip HLS”**
+- **Mistake:** **Old blog: HLS = TS only, DASH = always lower latency**
+- **Mistake:** **Two ladders, two GOPs**
+- **Mistake:** **Citation bingo in design docs**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **This comparison as a runtime switch every request**
+- **Con / skip when:** **Ultra-low-latency calls**
+- **Con / skip when:** **Single internal mezzanine**
+
+## Comparison
+- vs [[WebRTC]]: **Ultra-low-latency calls** — neither replaces [[WebRTC]].
+
+
+### Use cases
+- Used wherever HLS vs

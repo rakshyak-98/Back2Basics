@@ -4,12 +4,18 @@
 
 > Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
-
-
-
+```txt
+        Predicted vs actua ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Predicted vs actual plot to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about Predicted vs actual plot to check whether you can choo…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -36,7 +42,7 @@ Patterns tell stories:
 | Horizontal band at cap | Target clipped; model hits ceiling |
 | Clusters off diagonal | Missing segment feature or wrong model per segment |
 
-For **ranking** models, same plot compares predicted scores to graded relevance — use alongside [[Mean Average Precision (MAP)]].
+- **Note:** For **ranking** models, same plot compares predicted scores to graded relevan…
 
 ## Technical Details
 ```python
@@ -67,20 +73,7 @@ plt.plot(lims, lims, "r--")
 
 ### Residual companion
 
-Always pair with [[Visualization/Residual plot]] — actual versus predicted hides structure in errors when scale is large.
-
-## Pros/Cons or Trade-offs
-- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
-- **High-dimensional output** — per-target subplots or aggregate metrics.
-- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
-
-## Comparison
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-- Choose **A** when …
-- Choose **B** when …
+- Always pair with [[Visualization/Residual plot]]
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -96,3 +89,16 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 | Vertical stripe at one y | Class imbalance bucket | Classification not regression |
 | Predictions constant | Dead model / leakage removed | Baseline check |
 | Rank plot flat | Scores uncalibrated | Calibrate; check [[Visualization/Rank distribution]] |
+
+## Pros/Cons or Trade-offs
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
+- **High-dimensional output** — per-target subplots or aggregate metrics.
+- **Only ranking matters**
+
+## Comparison
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+- Choose **A** when …
+- Choose **B** when …

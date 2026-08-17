@@ -4,12 +4,14 @@
 
 > Elastic Container Registry stores Docker/OCI images privately in your AWS account — Lambda, ECS, and EKS pull images using IAM-authenticated `docker push` and `docker pull`.
 
-
-
-
+```txt
+        AWS ECR ──┬── Interview
+               ├── Sources
+               └── Mechanism
+```
 
 ## Interview Relevance
-ECR questions cover private container registries, image scanning, and IAM for push/pull in CI/CD.
+- **Interview probes:** ECR questions cover private container registries, image scanning, and IAM for…
 
 ## Sources
 - [Amazon ECR User Guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html) — overview
@@ -18,16 +20,17 @@ ECR questions cover private container registries, image scanning, and IAM for pu
 ## Technical Details
 ### Repositories and images
 
-- **Repository** — logical name (`my-app/backend`)
-- **Image** — identified by tag and immutable **digest** (`sha256:…`)
-- **Lifecycle policies** — expire untagged or old images to control storage cost
-- **Scanning** — basic or enhanced vulnerability scanning on push
+- **Repository:** — logical name (`my-app/backend`)
+- **Image:** — identified by tag and immutable **digest** (`sha256:…`)
+- **Lifecycle policies:** — expire untagged or old images to control storage cost
+- **Scanning:** — basic or enhanced vulnerability scanning on push
 
-Images are regional. Replicate across regions for disaster recovery with ECR replication rules.
+- Images are regional.
+- Replicate across regions for disaster recovery with ECR replication rules.
 
 ### Authentication
 
-ECR uses a token from [[aws STS (Security Token Service)]]:
+- ECR uses a token from [[aws STS (Security Token Service)]]:
 
 ```bash
 aws ecr get-login-password --region us-east-1 | \
@@ -43,7 +46,7 @@ docker tag my-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app:lat
 docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
 ```
 
-Deploy by **digest**, not floating `:latest`, in production pipelines.
+- Deploy by **digest**, not floating `:latest`, in production pipelines.
 
 ### IAM permissions (typical CI role)
 
@@ -62,7 +65,7 @@ Deploy by **digest**, not floating `:latest`, in production pipelines.
 }
 ```
 
-`GetAuthorizationToken` is account-wide; repository actions scope to [[ARN (Amazon Resource Name)]].
+- `GetAuthorizationToken` is account-wide
 
 ### Integration points
 

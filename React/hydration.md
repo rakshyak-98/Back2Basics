@@ -4,24 +4,30 @@
 
 > Client React attaches listeners to server-rendered HTML — mismatch between server and client markup breaks the page.
 
-
-
-
+```txt
+        Hydration ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want the SSR → hydrate story and classic mismatch causes (`Date.now()`, `window`, locale).
+- **Interview probes:** Interviewers want the SSR → hydrate story and classic mismatch causes (`Date.…
 
 ## Sources
 - [hydrateRoot](https://react.dev/reference/react-dom/client/hydrateRoot) — deep-dive
 - [Hydrating HTML](https://react.dev/reference/react-dom/client/hydrateRoot#hydrating-server-rendered-html) — overview
 
-## Core Definition
-Hydration reuses server HTML and binds React event system; server and first client render must produce the same tree.
-
 ## Key Concepts
 - **Same tree:** server HTML must match client’s first render.
 - **Browser-only values:** gate with `useEffect` or client components.
 - **suppressHydrationWarning:** rare escape hatch for known text diffs (e.g. timestamps).
+
+
+- **Core:** Hydration reuses server HTML and binds React event system
 
 ## Technical Details
 ```tsx
@@ -32,8 +38,9 @@ const [now, setNow] = useState<string | null>(null)
 useEffect(() => setNow(new Date().toLocaleString()), [])
 ```
 
-## Real-World Applications
-Next.js app shows a hydration warning because a theme class from `localStorage` differs from server default — fix with client-only theme gate.
+## Mistakes to Avoid
+- **Mistake:** Reading `window` / `localStorage` during render on the server pa…
+- **Mistake:** Random IDs without `useId`
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Fast first paint from SSR HTML.
@@ -42,6 +49,6 @@ Next.js app shows a hydration warning because a theme class from `localStorage` 
 ## Comparison
 - vs CSR-only: no hydration step; slower first contentful paint for content-heavy pages.
 
-## Mistakes to Avoid
-- Reading `window` / `localStorage` during render on the server path.
-- Random IDs without `useId`.
+
+### Use cases
+- Next.js app shows a hydration warning because a theme class from `localStorag…

@@ -4,12 +4,18 @@
 
 > Make Node faster and safer under load — find the bottleneck first (CPU, I/O, GC), then cache, cluster, or compress.
 
-
-
-
+```txt
+        Optimization ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use **Optimization** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Event-loop lag**, **Cluster / LB**, **Cache**.
+- **Interview probes:** Interviewers use **Optimization** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Diagnostics / profiling](https://nodejs.org/en/learn/diagnostics/) — overview
@@ -43,21 +49,22 @@ app.use(compression())
 | Redis / HTTP cache | Cut DB and origin load |
 | Nginx gzip | Smaller responses |
 
-## Real-World Applications
-In production APIs and tooling, **Optimization** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Micro-optimizing without a profile** — usually wrong bottleneck; **Cache without TTL/invalidation** — serves stale or grows forever.
+## Mistakes to Avoid
+- **Mistake:** **Micro-optimizing without a profile** — usually wrong bottleneck
+- **Mistake:** **Cache without TTL/invalidation**
+- **Mistake:** **High lag, 1 core pegged:** check Sync CPU / JSON
+- **Mistake:** **Slow DB:** check Query plans; fix: Indexes; pool; cache
+- **Mistake:** **Memory climb:** check Heap snapshot
+- **Mistake:** **One box saturated:** check Single process; fix: Cluster + LB
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Solves the job described above when used in the right layer (Make Node faster and safer under load — find the bottleneck first (CPU, I/O, GC)…).
 - **Con / when not:** **Premature cluster** — fix the hot path first.
-- **Con / when not:** **application-level gzip only** — often better at the edge/proxy.
+- **Con / when not:** **application-level gzip only**
 
 ## Comparison
-vs [[clustering]]: know when each applies — do not treat them as interchangeable. vs [[worker]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable.
+- vs [[clustering]]: know when each applies
 
-## Mistakes to Avoid
-- **Micro-optimizing without a profile** — usually wrong bottleneck.
-- **Cache without TTL/invalidation** — serves stale or grows forever.
-- **High lag, 1 core pegged:** check Sync CPU / JSON; fix: Async; [[worker]]; stream
-- **Slow DB:** check Query plans; fix: Indexes; pool; cache
-- **Memory climb:** check Heap snapshot; fix: Bound caches; fix leaks
-- **One box saturated:** check Single process; fix: Cluster + LB
+
+### Use cases
+- In production APIs and tooling, **Optimization** shows up whenever teams ship…

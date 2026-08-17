@@ -4,12 +4,18 @@
 
 > `GRANT` / `REVOKE` on PostgreSQL objects — tables, sequences, schemas, functions — plus default privileges for objects created later.
 
-
-
-
+```txt
+        psql privileges ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Operational security: least privilege, `ALTER DEFAULT PRIVILEGES`, and column-level grants. Sequence `USAGE` is the classic missing grant.
+- **Interview probes:** Operational security: least privilege, `ALTER DEFAULT PRIVILEGES`, and column…
 
 ## Sources
 - [GRANT](https://www.postgresql.org/docs/current/sql-grant.html) — deep-dive
@@ -32,10 +38,12 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA app
 GRANT UPDATE (status) ON orders TO fulfillment;
 ```
 
-Also grant `USAGE, SELECT` on sequences backing serial/identity columns.
+- Also grant `USAGE, SELECT` on sequences backing serial/identity columns.
 
-## Real-World Applications
-CI migration role creates objects; default privileges auto-grant to `app_read` / `app_write` so deploys do not require manual re-grants.
+## Mistakes to Avoid
+- **Mistake:** Granting table DML without schema `USAGE`
+- **Mistake:** Skipping sequence grants for `SERIAL`/`IDENTITY` inserts
+- **Mistake:** Relying on superuser in application connection strings
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Precise access control; defaults scale with schema growth.
@@ -43,9 +51,8 @@ CI migration role creates objects; default privileges auto-grant to `app_read` /
 - **Trade-off:** Broad schema grants vs per-table grants (simplicity vs least privilege).
 
 ## Comparison
-vs [[ACL (postgreSQL)]]: catalog/RLS theory; this note is day-to-day GRANT practice. vs [[mysql Privileges]]: similar verbs, different role/host model.
+- vs [[ACL (postgreSQL)]]: catalog/RLS theory
 
-## Mistakes to Avoid
-- Granting table DML without schema `USAGE`.
-- Skipping sequence grants for `SERIAL`/`IDENTITY` inserts.
-- Relying on superuser in application connection strings.
+
+### Use cases
+- CI migration role creates objects

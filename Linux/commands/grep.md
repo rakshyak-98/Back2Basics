@@ -4,19 +4,22 @@
 
 > grep filters lines matching a pattern — first tool for log triage, config audits, and “does this string exist anywhere?”
 
-
-
-
+```txt
+        grep ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ripgrep/`jq` instead.
+- **Interview probes:** Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ri…
 
 ## Sources
 - [grep(1)](https://man7.org/linux/man-pages/man1/grep.1.html) — deep-dive
 - [GNU grep manual](https://www.gnu.org/software/grep/manual/) — overview
-
-## Core Definition
-`grep` reads input line-by-line, tests each line against a regex (basic by default; extended with `-E`), prints matches. Exit 0 if any match, 1 if none. It does not understand JSON/CSV structure — pair with `jq`/`awk` for fields.
 
 ## Key Concepts
 - **`-i` / `-v` / `-n` / `-c` / `-l`:** Case, invert, line numbers, count, filenames.
@@ -24,6 +27,9 @@ Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ripgr
 - **`-E` vs `-F`:** Extended regex vs fixed string.
 - **`-A/-B/-C`:** Context for stack traces.
 - **Exit codes:** 1 is “no match” — breaks `set -e` if mishandled.
+
+
+- **Core:** `grep` reads input line-by-line, tests each line against a regex (basic by de…
 
 ## Technical Details
 ```bash
@@ -52,8 +58,10 @@ grep -r --exclude-dir={.git,node_modules} PATTERN .
 | Regex too greedy | Metacharacters | `-F` for literals |
 | `set -e` fails on no match | Exit 1 | `grep -q … \|\| true` only when intentional |
 
-## Real-World Applications
-Finding `PasswordAuthentication` in sshd configs, filtering journal noise, and locating which config still embeds an API key.
+## Mistakes to Avoid
+- **Mistake:** Using `error|warn` without `-E` (literal pipe)
+- **Mistake:** Grepping binary files without `-a` / proper tools
+- **Mistake:** Treating exit 1 as a hard script failure when “no match” is expe…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Ubiquitous, scriptable, pipeline-friendly.
@@ -61,9 +69,8 @@ Finding `PasswordAuthentication` in sshd configs, filtering journal noise, and l
 - **Trade-off:** `rg` for codebases (gitignore-aware) vs grep for logs on minimal hosts.
 
 ## Comparison
-vs [[awk]]: fields/aggregates. vs [[journalctl]]: structured systemd filters first. vs ripgrep: faster recursive defaults for source trees.
+- vs [[awk]]: fields/aggregates
 
-## Mistakes to Avoid
-- Using `error|warn` without `-E` (literal pipe).
-- Grepping binary files without `-a` / proper tools.
-- Treating exit 1 as a hard script failure when “no match” is expected.
+
+### Use cases
+- Finding `PasswordAuthentication` in sshd configs, filtering journal noise, an…

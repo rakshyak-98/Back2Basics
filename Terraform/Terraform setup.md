@@ -4,24 +4,22 @@
 
 > Terraform setup is install the CLI, pin versions, configure providers and auth, optionally remote state, then run the first workflow.
 
-
-
-
+```txt
+        Terraform setup ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask version pins, remote state + locking, and how secrets stay out of git across AWS/GCP/Azure roots.
+- **Interview probes:** Interviewers ask version pins, remote state + locking, and how secrets stay o…
 
 ## Sources
 - [HashiCorp — Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) — overview
 - [HashiCorp — Backend configuration](https://developer.hashicorp.com/terraform/language/backend) — deep-dive
 - Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
-
-## Recall Cues
-- Why do interviewers care about version pins, remote state + locking, and how secrets stay out of git across AWS/GCP/Azure roots?
-- What mistake is **Keys in `.tf` / `.tfvars`**?
-- What mistake is **Skipping remote state for collaborative work**?
-- What mistake is **Relying only on workspaces for prod isolation**?
-- What mistake is **Long-lived JSON GCP keys when WIF/ADC works**?
 
 ## Technical Details
 ### Install CLI
@@ -63,7 +61,7 @@ provider "aws" {
 }
 ```
 
-Auth: access keys, `AWS_PROFILE`, SSO, or instance/task IAM / GitHub OIDC.
+- Auth: access keys, `AWS_PROFILE`, SSO, or instance/task IAM / GitHub OIDC.
 
 ### GCP
 
@@ -81,7 +79,8 @@ terraform {
 }
 ```
 
-Auth: ADC (`gcloud auth application-default login`), `GOOGLE_APPLICATION_CREDENTIALS`, or Workload Identity. GCS locking is built-in.
+- Auth: ADC (`gcloud auth application-default login`), `GOOGLE_APPLICATION_CRED…
+- GCS locking is built-in.
 
 ### Azure / Kubernetes (same pattern)
 
@@ -110,7 +109,9 @@ project-root/
 └── modules/<name>/…
 ```
 
-First-run: install → versions/providers → auth → optional backend → `init` → `plan`/`apply`. Practice without cloud: [[Terraform docker]]. Large layout: [[ecommerce-eks-layout]].
+- First-run: install → versions/providers → auth → optional backend → `init` → …
+- Practice without cloud: [[Terraform docker]].
+- Large layout: [[ecommerce-eks-layout]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -121,21 +122,22 @@ First-run: install → versions/providers → auth → optional backend → `ini
 | Wrong account | Profile / assume_role | `aws sts get-caller-identity` |
 
 ## Mistakes to Avoid
-- Keys in `.tf` / `.tfvars`.
-- Skipping remote state for collaborative work.
-- Relying only on workspaces for prod isolation.
-- Long-lived JSON GCP keys when WIF/ADC works.
-
-## Comparison
-- Provider aliases/multi-account → [[terraform provider]].
-- Non-secret knobs → [[variable file]]; debug → [[Terraform CLI]].
-
-## Real-World Applications
-Bootstrapping a team backend once, then per-env roots under `environments/dev|stage|prod`.
-
-**Example:** Create S3 state bucket + DynamoDB lock table by hand once; every root’s `backend.tf` points at a unique key.
+- **Mistake:** Keys in `.tf` / `.tfvars`
+- **Mistake:** Skipping remote state for collaborative work
+- **Mistake:** Relying only on workspaces for prod isolation
+- **Mistake:** Long-lived JSON GCP keys when WIF/ADC works
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Repeatable roots with remote lock scale to teams.
 - **Con:** Local state on a shared repo invites corrupted ownership.
 - **Con:** Exploring one console resource first can be faster — then codify.
+
+## Comparison
+- Provider aliases/multi-account → [[terraform provider]].
+- Non-secret knobs → [[variable file]]; debug → [[Terraform CLI]].
+
+
+### Use cases
+- Bootstrapping a team backend once, then per-env roots under `environments/dev…
+
+- **Example:** Create S3 state bucket + DynamoDB lock table by hand once

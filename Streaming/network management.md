@@ -4,18 +4,24 @@
 
 > Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
-
-
-
+```txt
+        Network management ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask about Network management to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+- **Interview probes:** Interviewers ask about Network management to see if you understand the pipeli…
 
 ## Sources
 - [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management) — overview
 
 ## Key Concepts
-Streaming **breaks at the network layer** before the player shows a useful error: **RTMP stall**, **UDP TS gaps**, **CDN 502**, **TLS reset**. Operators correlate **publisher uplink**, **origin ingest**, and **viewer last-mile** — each hop has different tools and SLOs.
+- **Note:** Streaming **breaks at the network layer** before the player shows a useful er…
 
 | Symptom layer | First tool | Typical culprit |
 |---------------|------------|-----------------|
@@ -24,7 +30,7 @@ Streaming **breaks at the network layer** before the player shows a useful error
 | **Segment gap** | Origin m3u8 sequence | Packager crash |
 | **Viewer rebuffer** | CDN cache miss, MTR | Origin overload, bad ABR |
 
-This note is **streaming-focused triage** — see [[Networking]] for routing/BGP.
+- **Note:** This note is **streaming-focused triage**
 
 ## Technical Details
 ```txt
@@ -89,18 +95,6 @@ sudo nft list ruleset | grep -E '1935|443'
 # AWS: security group + NACL both directions
 ```
 
-## Real-World Applications
-Used wherever Network management sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
-
-## Pros/Cons or Trade-offs
-- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
-- **Con / skip when:** **Application codec debug** — use `ffprobe`, not packet capture first.
-- **Con / skip when:** **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
-- **Con / skip when:** **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
-
-## Comparison
-- vs [[EME]]: **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
-
 ## Mistakes to Avoid
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,8 +106,21 @@ Used wherever Network management sits in an ingest → package → CDN → playe
 | TLS errors on license | Certificate chain | Full chain on 443; see [[TLS (Transport Layer Security)]] |
 | High latency live | Segment duration + CDN + playlist | [[HLS]] LL-HLS tuning; not a "network mgmt" knob alone |
 
-- **tcpdump on 10 Gbps ingest** — can drop packets itself; use sampled capture or mirror port.
-- **Wi-Fi publisher for broadcast** — jitter buffers hide until catastrophic disconnect; require wired for SLA events.
-- **Symmetric NAT + RTMP** — publish outbound OK; don't confuse with viewer UDP/WebRTC paths.
-- **CDN cache mistaken for network fix** — stale manifest looks like "network lag"; check `Age` header.
-- **Rate-limit on auth webhook** — ingest drops when auth service slow, looks like network failure.
+- **Mistake:** **tcpdump on 10 Gbps ingest**
+- **Mistake:** **Wi-Fi publisher for broadcast**
+- **Mistake:** **Symmetric NAT + RTMP**
+- **Mistake:** **CDN cache mistaken for network fix**
+- **Mistake:** **Rate-limit on auth webhook**
+
+## Pros/Cons or Trade-offs
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Application codec debug**
+- **Con / skip when:** **DRM license logic**
+- **Con / skip when:** **Full corporate LAN redesign**
+
+## Comparison
+- vs [[EME]]: **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
+
+
+### Use cases
+- Used wherever Network management sits in an ingest → package → CDN → player p…

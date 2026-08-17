@@ -4,19 +4,22 @@
 
 > fontconfig CLI tools list, match, and rebuild fonts when apps show missing glyphs or wrong faces.
 
-
-
-
+```txt
+        Font commands (fon ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Desktop/ops niche: `fc-list` / `fc-match` / `fc-cache`, user vs system font dirs, and Flatpak sandbox font isolation.
+- **Interview probes:** Desktop/ops niche: `fc-list` / `fc-match` / `fc-cache`, user vs system font d…
 
 ## Sources
 - [fontconfig documentation](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html) — deep-dive
 - [fc-cache(1)](https://man.archlinux.org/man/fc-cache.1) — overview
-
-## Core Definition
-Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + size. Files live under `/usr/share/fonts`, `~/.local/share/fonts`, etc. After adding fonts, rebuild the cache or apps keep stale metadata.
 
 ## Key Concepts
 - **fc-list:** Inventory family, style, file path.
@@ -24,6 +27,9 @@ Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + siz
 - **fc-cache:** Rebuild caches after install/remove.
 - **User vs system dirs:** `~/.local/share/fonts` needs no root.
 - **Sandbox gap:** Snap/Flatpak may not see host fonts.
+
+
+- **Core:** Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + …
 
 ## Technical Details
 ```txt
@@ -53,8 +59,10 @@ sudo fc-cache -fv
 | Bold/italic wrong | `fc-match "Family:style=Bold"` | Install bold face file |
 | Emoji wrong | `fc-match emoji` | Install Noto Color Emoji; fix fallbacks |
 
-## Real-World Applications
-Installing a Nerd Font for terminal icons, fixing missing glyphs after a fresh laptop setup, and debugging Flatpak apps that ignore host fonts.
+## Mistakes to Avoid
+- **Mistake:** Expecting host fonts inside Flatpak without overrides
+- **Mistake:** Clearing `~/.cache/fontconfig` as a routine “fix” on large homes
+- **Mistake:** Assuming `fc-match` output looks identical under X11 vs Wayland …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One matching layer for GTK/Qt/many apps.
@@ -62,9 +70,8 @@ Installing a Nerd Font for terminal icons, fixing missing glyphs after a fresh l
 - **Trade-off:** `fc-cache -f` on NFS homes can be slow.
 
 ## Comparison
-vs setting a terminal profile font: profile is app-local; fontconfig is system matching. vs Windows/macOS font stacks: different APIs entirely. Related: [[Linux terminal]], [[wayland]].
+- vs setting a terminal profile font: profile is app-local
 
-## Mistakes to Avoid
-- Expecting host fonts inside Flatpak without overrides.
-- Clearing `~/.cache/fontconfig` as a routine “fix” on large homes.
-- Assuming `fc-match` output looks identical under X11 vs Wayland renderers.
+
+### Use cases
+- Installing a Nerd Font for terminal icons, fixing missing glyphs after a fres…

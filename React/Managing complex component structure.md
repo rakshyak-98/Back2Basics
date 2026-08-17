@@ -4,27 +4,33 @@
 
 > Keep large UIs navigable — feature folders, composition, and clear ownership instead of one 2k-line component.
 
-
-
-
+```txt
+        Managing complex c ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers ask how you structure features, shared UI, and cross-cutting providers in a growing React app.
+- **Interview probes:** Interviewers ask how you structure features, shared UI, and cross-cutting pro…
 
 ## Sources
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — overview
 - [Managing State](https://react.dev/learn/managing-state) — deep-dive
-
-## Core Definition
-Complex UI stays maintainable when components are composed in a hierarchy with clear state owners and feature boundaries.
 
 ## Key Concepts
 - **Feature folders:** UI + hooks + API colocated.
 - **Lift state sparingly:** only as high as shared need.
 - **Compound / context:** for interrelated subcomponents ([[React Pattern/Compound Components]]).
 
+
+- **Core:** Complex UI stays maintainable when components are composed in a hierarchy wit…
+
 ## Technical Details
-Suggested layout:
+- Suggested layout:
 
 ```txt
 features/checkout/
@@ -35,8 +41,9 @@ features/checkout/
 shared/ui/
 ```
 
-## Real-World Applications
-Checkout grew to payment + address + review — split into compound steps with one checkout hook owning the draft.
+## Mistakes to Avoid
+- **Mistake:** God component with all modals and tabs
+- **Mistake:** Context that wraps the entire app for one rarely used value
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Parallel team work on features.
@@ -45,6 +52,6 @@ Checkout grew to payment + address + review — split into compound steps with o
 ## Comparison
 - vs [[React Architecture]]: architecture is the system view; this is the component-tree craft.
 
-## Mistakes to Avoid
-- God component with all modals and tabs.
-- Context that wraps the entire app for one rarely used value.
+
+### Use cases
+- Checkout grew to payment + address + review

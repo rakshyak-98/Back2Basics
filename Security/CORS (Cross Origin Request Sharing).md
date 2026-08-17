@@ -4,19 +4,25 @@
 
 > Browser rule: JS on evil.com cannot read api.example.com responses unless that API opts in with CORS headers — curl ignores it.
 
-
-
-
+```txt
+        CORS (Cross Origin ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic frontend/backend interview: CORS is browser-enforced, not server ACL — credentials, preflight, and ACAO vs * are the traps.
+- **Interview probes:** Classic frontend/backend interview: CORS is browser-enforced, not server ACL
 
 ## Sources
 - [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) — overview
 - [Fetch Living Standard — CORS protocol](https://fetch.spec.whatwg.org/#http-cors-protocol) — deep-dive
 
-## Core Definition
-CORS is a browser mechanism that allows (or blocks) reading cross-origin responses in JavaScript when the server opts in via response headers.
+## Key Concepts
+- **Core:** CORS is a browser mechanism that allows (or blocks) reading cross-origin resp…
 
 ## Technical Details
 ### Express (`cors` package)
@@ -93,8 +99,13 @@ curl -i 'https://api.example.com/users' \
 | Duplicate ACAO headers | nginx + app both set | Single layer owns CORS — remove duplicate |
 | Redirect on preflight | 301 http→https loses CORS | Fix URL to final HTTPS; avoid redirect on OPTIONS |
 
-## Real-World Applications
-SPA on `app.example.com` calling `api.example.com` needs explicit ACAO (and credentials rules) — same-origin BFF avoids CORS entirely.
+## Mistakes to Avoid
+- **Mistake:** CORS is not authentication
+- **Mistake:** Error responses must include CORS headers
+- **Mistake:** **`withCredentials: true`** forbids `Access-Control-Allow-Origin…
+- **Mistake:** **Preflight cache** (`Max-Age`) masks configuration fixes
+- **Mistake:** **Multiple origins**
+- **Mistake:** **WebSocket** has separate origin check at handshake
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Lets a deliberate cross-origin SPA/API split work in browsers.
@@ -103,13 +114,9 @@ SPA on `app.example.com` calling `api.example.com` needs explicit ACAO (and cred
 - **Con:** "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
 ## Comparison
-- vs [[SOP (Same-Origin Policy)]]: SOP is the default deny; CORS is the server opt-in exception for browsers.
+- vs [[SOP (Same-Origin Policy)]]: SOP is the default deny
 - vs server ACLs: curl ignores CORS — still authenticate and authorize.
 
-## Mistakes to Avoid
-- CORS is not authentication. — Any client without a browser can call your API. Still require [[JWT authentication]] / sessions.
-- Error responses must include CORS headers — or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
-- **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.
-- **Preflight cache** (`Max-Age`) masks configuration fixes — hard refresh or wait cache expiry when testing.
-- **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
-- **WebSocket** has separate origin check at handshake — see [[webSocket]].
+
+### Use cases
+- SPA on `app.example.com` calling `api.example.com` needs explicit ACAO (and c…

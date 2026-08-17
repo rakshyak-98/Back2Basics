@@ -4,12 +4,18 @@
 
 > BSD sockets are the original Berkeley API for network (and Unix-domain) I/O — POSIX standardized the same shape.
 
-
-
-
+```txt
+        BSD Socket ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use “BSD sockets” to check whether you know the classic `socket`/`bind`/`connect` model Linux and macOS still expose, and that “BSD” here names the API lineage — not FreeBSD itself.
+- **Interview probes:** Interviewers use “BSD sockets” to check whether you know the classic `socket`…
 
 ## Sources
 - [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview
@@ -17,8 +23,8 @@ Interviewers use “BSD sockets” to check whether you know the classic `socket
 - [man 2 socket (Linux)](https://man7.org/linux/man-pages/man2/socket.2.html) — deep-dive
 
 ## Key Concepts
-- **BSD / Berkeley API:** `socket`, `bind`, `listen`, `connect`, `send`, `recv` → the programming model every mainstream OS still ships.
-- **POSIX sockets:** portable standardization of that shape → same calls; fewer OS-specific extras. See [[POSIX Socket]].
+- **BSD / Berkeley API:** `socket`, `bind`, `listen`, `connect`, `send`, `recv` → the programming model…
+- **POSIX sockets:** portable standardization of that shape → same calls
 - **Address family:** `AF_INET`, `AF_INET6`, `AF_UNIX` → which namespace the address lives in.
 - **Socket type:** `SOCK_STREAM` / `SOCK_DGRAM` → TCP-like stream vs UDP-like datagram.
 - **File descriptor:** sockets are fds → `poll` / `select` / `epoll` work on them like files.
@@ -67,10 +73,11 @@ lsof -i -P -n
 | Works on Linux, fails on BSD | Linux-only option | Gate `epoll`/`SO_*` behind `#ifdef` |
 | Can’t find peer via Unix socket | Path / permissions | Same FS path; check directory execute bits |
 
-## Real-World Applications
-Every language runtime’s networking layer wraps this API; operators still debug live sockets with `ss` and `lsof`.
-
-**Example:** A microservice opens `AF_INET` + `SOCK_STREAM` for outbound HTTP and `AF_UNIX` for same-host sidecar IPC — one API, two transports.
+## Mistakes to Avoid
+- **Mistake:** Treating “BSD sockets” in embedded docs as “you run FreeBSD”
+- **Mistake:** Assuming the API alone sends packets
+- **Mistake:** Teaching only mandatory client/server
+- **Mistake:** Confusing OpenBSD/FreeBSD hardening docs with the `socket(2)` ma…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** One fd-shaped model for [[TCP]], [[UDP]], and local [[Inter Process Communication]].
@@ -78,12 +85,12 @@ Every language runtime’s networking layer wraps this API; operators still debu
 - **Con:** Linux extras (`epoll`, some `SO_*`) are beyond strict portable BSD/POSIX; gate them per OS.
 
 ## Comparison
-- vs [[POSIX Socket]]: POSIX is the portable standardization of the Berkeley shape; “BSD sockets” often means the historical/API lineage.
-- vs [[Berkeley sockets]]: same API family — Berkeley/BSD naming is interchangeable in most interviews; this note stresses OS-vs-API confusion.
+- vs [[POSIX Socket]]: POSIX is the portable standardization of the Berkeley shape
+- vs [[Berkeley sockets]]: same API family
 - vs raw application protocols in C: prefer mature libraries unless you must own the wire format.
 
-## Mistakes to Avoid
-- Treating “BSD sockets” in embedded docs as “you run FreeBSD” — usually means Berkeley-style API.
-- Assuming the API alone sends packets — sockets need a transport ([[TCP]]/[[UDP]]) and routing.
-- Teaching only mandatory client/server — datagram and Unix sockets are often peer-to-peer with the same calls.
-- Confusing OpenBSD/FreeBSD hardening docs with the `socket(2)` man page on Linux.
+
+### Use cases
+- Every language runtime’s networking layer wraps this API
+
+- **Example:** A microservice opens `AF_INET` + `SOCK_STREAM` for outbound HTTP…

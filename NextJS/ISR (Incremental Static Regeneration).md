@@ -4,27 +4,33 @@
 
 > Incremental Static Regeneration regenerates static pages on a timer or on demand after deploy — users get a stale page immediately while a fresh one builds in the background.
 
-
-
-
+```txt
+        ISR (Incremental S ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers use ISR to test whether you can explain stale-while-revalidate versus SSR and pure SSG, and when static export or personalized pages make ISR the wrong tool.
+- **Interview probes:** Interviewers use ISR to test whether you can explain stale-while-revalidate v…
 
 ## Sources
 - [Next.js Docs — Incremental Static Regeneration](https://nextjs.org/docs/app/guides/incremental-static-regeneration) — deep-dive
 - [Next.js Docs — `revalidatePath`](https://nextjs.org/docs/app/api-reference/functions/revalidatePath) — overview
 - [Next.js Blog — ISR](https://nextjs.org/blog/next-9-5#stable-incremental-static-regeneration) — overview
 
-## Core Definition
-ISR keeps CDN/filesystem-cached HTML for a route, then regenerates that page after a `revalidate` window or an on-demand invalidation, without rebuilding the entire site.
-
 ## Key Concepts
-- **Time-based revalidate:** `revalidate: N` (Pages) or `export const revalidate = N` / `fetch(..., { next: { revalidate: N } })` (App) → at most one regen per window after the page goes stale.
-- **On-demand:** `revalidatePath` / `revalidateTag` (or Pages `res.revalidate`) → CMS webhooks purge specific routes.
-- **Stale-while-revalidate:** first request after expiry still gets the old page → document editorial freshness SLA.
+- **Time-based revalidate:** `revalidate: N` (Pages) or `export const revalidate = N` / `fetch(..., { next…
+- **On-demand:** `revalidatePath` / `revalidateTag` (or Pages `res.revalidate`) → CMS webhooks…
+- **Stale-while-revalidate:** first request after expiry still gets the old page → document editorial fresh…
 - **Runtime requirement:** Node.js server (default) — not supported with static export.
 - **Self-host multi-instance:** default filesystem cache is per process → use a shared `cacheHandler`.
+
+
+- **Core:** ISR keeps CDN/filesystem-cached HTML for a route, then regenerates that page …
 
 ## Technical Details
 ```txt
@@ -80,10 +86,10 @@ export async function POST(req: Request) {
 | 401 on revalidate | Secret mismatch | Match header and environment variable |
 | Split views across pods | Local cache only | Shared `cacheHandler` |
 
-## Real-World Applications
-Marketing blogs and product catalogs regenerate from a CMS on a webhook while staying mostly static and cheap to serve.
-
-**Example:** Editors publish in Contentful → webhook hits `/api/revalidate` → next visitor triggers regeneration of `/blog/[slug]`.
+## Mistakes to Avoid
+- **Mistake:** Expecting ISR with `output: 'export'`
+- **Mistake:** ISR-caching personalized pages (cart, account)
+- **Mistake:** Promising “always fresh” without stating the stale window to edi…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Near-static performance with post-deploy updates — no full rebuild for every edit.
@@ -91,11 +97,12 @@ Marketing blogs and product catalogs regenerate from a CMS on a webhook while st
 - **Con:** Incorrect for per-user or real-time data; needs shared cache when scaled out.
 
 ## Comparison
-- vs pure SSG: SSG needs a full rebuild (or redeploy) for content changes; ISR updates individual pages.
+- vs pure SSG: SSG needs a full rebuild (or redeploy) for content changes
 - vs SSR: SSR is fresh every request but costs latency and origin load.
 - vs [[NextJS Deployment]] static export: export has no server to revalidate.
 
-## Mistakes to Avoid
-- Expecting ISR with `output: 'export'` — there is no regeneration process.
-- ISR-caching personalized pages (cart, account) — use SSR or client fetch.
-- Promising “always fresh” without stating the stale window to editors and legal.
+
+### Use cases
+- Marketing blogs and product catalogs regenerate from a CMS on a webhook while…
+
+- **Example:** Editors publish in Contentful → webhook hits `/api/revalidate` →…

@@ -4,12 +4,18 @@
 
 > CoreDNS is a DNS server built as a chain of plugins — the default cluster DNS in Kubernetes, mapping `Service` and `Pod` names to cluster IPs with optional forwarding to upstream resolvers.
 
-
-
-
+```txt
+        CoreDNS ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Kubernetes interviews ask how `svc.namespace.svc.cluster.local` resolves, where the Corefile lives, and how forward/cache plugins affect external lookups.
+- **Interview probes:** Kubernetes interviews ask how `svc.namespace.svc.cluster.local` resolves, whe…
 
 ## Sources
 - [CoreDNS documentation](https://coredns.io/manual/toc/) — deep-dive
@@ -48,11 +54,11 @@ Kubernetes interviews ask how `svc.namespace.svc.cluster.local` resolves, where 
 | `rewrite` | Modify queries/responses |
 | `etcd` / `file` | Alternative backends |
 
-**Kubernetes integration**
+- **Kubernetes integration:** 
 
 - Service `kube-dns` or `coredns` in `kube-system`
 - Pods use `/etc/resolv.conf` `nameserver 10.96.0.10` (cluster IP varies)
-- **Stub domains** and **upstream nameservers** via ConfigMap `coredns` or `dns` config
+- **Stub domains:** and **upstream nameservers** via ConfigMap `coredns` or `dns` config
 
 ```bash
 kubectl -n kube-system get configmap coredns -o yaml
@@ -61,12 +67,12 @@ kubectl run -it --rm debug --image=busybox --restart=Never -- nslookup kubernete
 dig @10.96.0.10 my-svc.my-ns.svc.cluster.local
 ```
 
-Failures often trace to **NetworkPolicy**, **CoreDNS pod not ready**, or **forward plugin** unable to reach corporate resolver.
+- Failures often trace to **NetworkPolicy**, **CoreDNS pod not ready**, or **fo…
 
-## Real-World Applications
-In-cluster service discovery; stub-domain forwarding to on-prem DNS for hybrid names.
-
-**Example:** `my-api.default.svc.cluster.local` resolves via CoreDNS; `api.corp.example` falls through `forward` to the office recursive resolver.
+## Mistakes to Avoid
+- **Mistake:** Editing the wrong ConfigMap or forgetting CoreDNS pods reload af…
+- **Mistake:** Blocking CoreDNS with NetworkPolicy while debugging “service DNS…
+- **Mistake:** Expecting CoreDNS alone to host public Internet zones with full …
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Small footprint, plugin model, first-class Kubernetes integration.
@@ -74,10 +80,11 @@ In-cluster service discovery; stub-domain forwarding to on-prem DNS for hybrid n
 - **Con:** Misconfigured `forward` or NetworkPolicy makes “DNS is down” for the whole cluster.
 
 ## Comparison
-- vs [[BIND]] / [[Unbound]]: CoreDNS targets dynamic service discovery; BIND/Unbound suit Internet zones and validating recursion.
+- vs [[BIND]] / [[Unbound]]: CoreDNS targets dynamic service discovery
 - vs [[dnsmasq]]: dnsmasq is LAN/DHCP edge; CoreDNS is cluster DNS.
 
-## Mistakes to Avoid
-- Editing the wrong ConfigMap or forgetting CoreDNS pods reload after Corefile changes.
-- Blocking CoreDNS with NetworkPolicy while debugging “service DNS failed.”
-- Expecting CoreDNS alone to host public Internet zones with full DNSSEC zone-master workflows.
+
+### Use cases
+- In-cluster service discovery
+
+- **Example:** `my-api.default.svc.cluster.local` resolves via CoreDNS

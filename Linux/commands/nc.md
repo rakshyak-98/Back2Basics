@@ -4,19 +4,22 @@
 
 > nc opens a raw TCP/UDP socket as client or listener — the common ops pattern is a connect probe: did SYN get SYN-ACK?
 
-
-
-
+```txt
+        nc (netcat) ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Reachability triage: `nc -zv`, timeout `-w`, OpenBSD vs GNU flag differences, and knowing TCP open ≠ HTTP/TLS OK.
+- **Interview probes:** Reachability triage: `nc -zv`, timeout `-w`, OpenBSD vs GNU flag differences,…
 
 ## Sources
 - [nc(1) — OpenBSD](https://man.openbsd.org/nc.1) — deep-dive
 - [ncat(1) — Nmap](https://nmap.org/ncat/guide/) — overview
-
-## Core Definition
-netcat creates a raw socket. **Connect probe** (`-z`) tests whether a port answers; **listen** (`-l`) accepts connections for debug sinks. Variants (OpenBSD `nc`, GNU netcat, `ncat`) differ in flags.
 
 ## Key Concepts
 - **`-z`:** Zero-I/O scan — connect only.
@@ -24,6 +27,9 @@ netcat creates a raw socket. **Connect probe** (`-z`) tests whether a port answe
 - **`-l` / `-p`:** Listen (GNU often needs `-p PORT`).
 - **UDP (`-u`):** Weaker signal — no RST like TCP.
 - **Layer limit:** Proves TCP handshake, not app correctness.
+
+
+- **Core:** netcat creates a raw socket. **Connect probe** (`-z`) tests whether a port an…
 
 ## Technical Details
 | Variant | `-z` scan | Listen | Notes |
@@ -52,8 +58,10 @@ ss -lntp | grep :8080
 | `-zv` open, app fails | TLS/HTTP layer | `openssl s_client`, curl |
 | UDP “open” flaky | Normal | App-specific probe (`dig @host`) |
 
-## Real-World Applications
-Quick “is 443 open from this subnet?”, SMTP banner smoke tests, and temporary localhost listeners for webhook debugging.
+## Mistakes to Avoid
+- **Mistake:** Leaving `nc -l` bound on `0.0.0.0` on production
+- **Mistake:** Treating open TCP as valid TLS/HTTP
+- **Mistake:** Using UDP `-z` success as strong proof
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Tiny, everywhere, great for TCP reachability.
@@ -61,9 +69,8 @@ Quick “is 443 open from this subnet?”, SMTP banner smoke tests, and temporar
 - **Trade-off:** bash `/dev/tcp` for portable scripts vs full ncat features.
 
 ## Comparison
-vs [[ss]]: local listeners/process ownership. vs [[nmap]]: scoped audits, not ad-hoc probes. vs [[telnet]]: similar banner poking; nc is more scriptable.
+- vs [[ss]]: local listeners/process ownership. vs [[nmap]]: scoped audits, not…
 
-## Mistakes to Avoid
-- Leaving `nc -l` bound on `0.0.0.0` on production.
-- Treating open TCP as valid TLS/HTTP.
-- Using UDP `-z` success as strong proof.
+
+### Use cases
+- Quick “is 443 open from this subnet?”, SMTP banner smoke tests, and temporary…

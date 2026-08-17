@@ -4,12 +4,17 @@
 
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
-
-
-
+```txt
+        ANN (Artificial Ne ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about ANN (Artificial Neural Network) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about ANN (Artificial Neural Network) to check whether you c…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -21,10 +26,10 @@ A feedforward ANN maps input **x** through layers:
 ```txt
 h₁ = σ(W₁x + b₁)
 h₂ = σ(W₂h₁ + b₂)
-ŷ  = W₃h₂ + b₃        # regression head, or softmax for classes
+- **Note:** ŷ = W₃h₂ + b₃ # regression head, or softmax for classes
 ```
 
-Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **softmax**). Training minimizes loss (MSE, cross-entropy) via **backpropagation** — chain rule through the graph.
+- **Note:** Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **sof…
 
 | Concept | Meaning |
 |---------|---------|
@@ -33,7 +38,7 @@ Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **softma
 | **Regularization** | Dropout, L2, early stopping fight overfit |
 | **Batch norm** | Stabilizes deep training; watch train/eval mode |
 
-For **retrieval at scale** (recommendation, search), ANN also means **Approximate Nearest Neighbor** index (FAISS, HNSW) — different topic; see embedding + vector DB patterns below.
+- **Note:** For **retrieval at scale** (recommendation, search), ANN also means **Approxi…
 
 ## Technical Details
 ### scikit-learn MLP (tabular baseline)
@@ -71,12 +76,7 @@ model = nn.Sequential(
 # loss = nn.CrossEntropyLoss(); optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 ```
 
-**Why StandardScaler:** unscaled features dominate gradients; tree models don't need this — see [[Decision tree]].
-
-## Pros/Cons or Trade-offs
-- **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
-- **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
-- **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
+- **Why StandardScaler:** unscaled features dominate gradients; tree models don…
 
 ## Mistakes to Avoid
 > [!WARNING]
@@ -92,3 +92,8 @@ model = nn.Sequential(
 | Slow convergence | LR schedule, batch size | AdamW + warmup; tune batch size to GPU |
 | Random results | Seeds, data shuffle | Fix `random_state`; set torch/cuda seeds |
 | "ANN" search returns garbage | Embedding quality, index params | Retrain embeddings; tune HNSW `ef`, recall@k |
+
+## Pros/Cons or Trade-offs
+- **Small tabular datasets (<10k rows)**
+- **Need exact interpretable coefficients**
+- **Hard latency SLA on CPU**

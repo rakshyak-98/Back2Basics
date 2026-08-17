@@ -4,12 +4,18 @@
 
 > Change the URI inside Nginx before looking up files or proxying — different from `root`/`alias`/`try_files`, which leave the browser URL alone unless you `return`/`permanent`.
 
-
-
-
+```txt
+        nginx URL rewrite ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers distinguish internal rewrite vs external redirect (`permanent`/`redirect`), query-string handling, and interaction with `proxy_pass`.
+- **Interview probes:** Interviewers distinguish internal rewrite vs external redirect (`permanent`/`…
 
 ## Sources
 - [nginx.org — ngx_http_rewrite_module](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) — deep-dive
@@ -24,7 +30,7 @@ Interviewers distinguish internal rewrite vs external redirect (`permanent`/`red
 | `rewrite` | Change URI inside Nginx | can change if redirect flag | depends |
 | `return` / `proxy_pass` | Final answer / proxy | can change | N/A |
 
-- **Flags:** `last` re-search locations; `break` stop rewrite module; `redirect` (302); `permanent` (301).
+- **Flags:** `last` re-search locations
 - **Query string:** Rewrite may drop `$args` unless you append `$is_args$args`.
 
 ## Technical Details
@@ -43,8 +49,10 @@ location /api/ {
 | 301 when expecting internal | `permanent` flag | Use `last` or `break` for internal rewrite |
 | Wrong backend path | `proxy_pass` URI part | With URI in proxy_pass, location prefix is replaced |
 
-## Real-World Applications
-Migrate `/old/...` to `/new/...` with 301; strip `/api` prefix before proxying to a backend that expects bare paths.
+## Mistakes to Avoid
+- **Mistake:** Using `rewrite ..
+- **Mistake:** Preferring rewrite for simple redirects instead of `return 301`
+- **Mistake:** Chaining rewrites that fight `try_files` SPA fallbacks
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Powerful pattern-based URI transforms without touching the app.
@@ -54,7 +62,6 @@ Migrate `/old/...` to `/new/...` with 301; strip `/api` prefix before proxying t
 - vs [[URL Rewriting]]: general concept vs Nginx `rewrite`/`return` specifics.
 - vs `return 301`: clearer for host/scheme redirects than complex rewrite.
 
-## Mistakes to Avoid
-- Using `rewrite ... permanent` when you only needed an internal rewrite — browsers cache 301s.
-- Preferring rewrite for simple redirects instead of `return 301`.
-- Chaining rewrites that fight `try_files` SPA fallbacks.
+
+### Use cases
+- Migrate `/old/...` to `/new/...` with 301

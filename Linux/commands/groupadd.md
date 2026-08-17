@@ -4,19 +4,22 @@
 
 > groupadd creates a Unix group (name + GID) — it does not add members; file permissions and sudo/docker access hang off group membership.
 
-
-
-
+```txt
+        groupadd ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Shows you know GID vs membership, `-r` system groups, and the classic `usermod -G` without `-a` lockout.
+- **Interview probes:** Shows you know GID vs membership, `-r` system groups, and the classic `usermo…
 
 ## Sources
 - [groupadd(8)](https://man7.org/linux/man-pages/man8/groupadd.8.html) — deep-dive
 - [group(5)](https://man7.org/linux/man-pages/man5/group.5.html) — overview
-
-## Core Definition
-Groups are numeric **GID** + name mappings. File permissions use UID for owner, GID for group (`ls -l` third column). Users join via primary group (`useradd`) or supplementary groups (`usermod -aG`). `groupadd` only creates the group.
 
 ## Key Concepts
 - **Primary vs supplementary:** One primary GID; many secondary groups.
@@ -24,6 +27,9 @@ Groups are numeric **GID** + name mappings. File permissions use UID for owner, 
 - **Explicit GID (`-g`):** Needed for NFS / multi-host consistency.
 - **Session cache:** New membership applies after re-login / `newgrp`.
 - **/etc/group:** Local membership; LDAP/SSSD may shadow via NSS.
+
+
+- **Core:** Groups are numeric **GID** + name mappings
 
 ## Technical Details
 ```txt
@@ -63,8 +69,10 @@ sudo groupdel oldproject
 | User not in group after add | Session cached | Re-login; `newgrp`; verify `id` |
 | `usermod -G` wiped groups | Forgot `-a` | Restore; always `-aG` |
 
-## Real-World Applications
-Shared deploy directories with setgid `2775`, and granting `docker`/`sudo` without making every operator root.
+## Mistakes to Avoid
+- **Mistake:** `usermod -G` without `-a` (drops `sudo`/`docker`)
+- **Mistake:** Expecting open SSH sessions to pick up new groups immediately
+- **Mistake:** Creating local groups that shadow LDAP/SSSD names without checki…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Simple DAC sharing model on one host.
@@ -72,9 +80,8 @@ Shared deploy directories with setgid `2775`, and granting `docker`/`sudo` witho
 - **Trade-off:** Unix groups vs ACLs (`setfacl`) for complex sharing.
 
 ## Comparison
-vs [[useradd]]: creates users (with a primary group). vs [[linux groups]]: conceptual membership model. vs cloud IAM: different identity plane.
+- vs [[useradd]]: creates users (with a primary group)
 
-## Mistakes to Avoid
-- `usermod -G` without `-a` (drops `sudo`/`docker`).
-- Expecting open SSH sessions to pick up new groups immediately.
-- Creating local groups that shadow LDAP/SSSD names without checking `getent`.
+
+### Use cases
+- Shared deploy directories with setgid `2775`, and granting `docker`/`sudo` wi…

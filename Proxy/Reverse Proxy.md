@@ -4,12 +4,18 @@
 
 > Server-side proxy that accepts client requests and forwards them to internal backends — TLS termination, routing, and hiding origin servers.
 
-
-
-
+```txt
+        Reverse Proxy ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Interviewers want reverse vs forward proxy, why APIs sit behind Nginx/Enovy, and headers (`X-Forwarded-For`/`Proto`) for real client IP and HTTPS scheme.
+- **Interview probes:** Interviewers want reverse vs forward proxy, why APIs sit behind Nginx/Enovy, …
 
 ## Sources
 - [Wikipedia — Reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy) — overview
@@ -32,12 +38,12 @@ Client → Reverse proxy (TLS) → App1 / App2 / Static
 | Route | `/api` → Node, `/` → static |
 | Buffer/upload limits | Protect slow backends |
 
-Preserve client info with forwarded headers — and trust them only from your proxy hop.
+- Preserve client info with forwarded headers
 
-## Real-World Applications
-Public HTTPS on Nginx/Caddy; Node/PHP-FPM/Java listen on localhost ports.
-
-**Example:** App thinks all users are `127.0.0.1` — configure forwarded headers and app trust settings.
+## Mistakes to Avoid
+- **Mistake:** Trusting `X-Forwarded-*` from the open internet without hop limi…
+- **Mistake:** Leaving backends publicly reachable bypassing the proxy
+- **Mistake:** Forgetting WebSocket upgrade headers on proxied WS apps
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Central TLS, routing, and security controls.
@@ -47,7 +53,8 @@ Public HTTPS on Nginx/Caddy; Node/PHP-FPM/Java listen on localhost ports.
 - vs forward proxy (corp egress): opposite trust direction.
 - vs API gateway: gateway adds auth/rate-limit product features on the same idea.
 
-## Mistakes to Avoid
-- Trusting `X-Forwarded-*` from the open internet without hop limits.
-- Leaving backends publicly reachable bypassing the proxy.
-- Forgetting WebSocket upgrade headers on proxied WS apps.
+
+### Use cases
+- Public HTTPS on Nginx/Caddy; Node/PHP-FPM/Java listen on localhost ports.
+
+- **Example:** App thinks all users are `127.0.0.1`

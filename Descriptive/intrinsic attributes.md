@@ -4,18 +4,23 @@
 
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
-
-
-
+```txt
+        Intrinsic attribut ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Intrinsic sizing interviews cover width/height hints to reduce CLS in responsive layouts.
+- **Interview probes:** Intrinsic sizing interviews cover width/height hints to reduce CLS in respons…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
 
 ## Key Concepts
-In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their allowed attributes. **`IntrinsicAttributes`** is the small set every JSX element gets (mainly `key` and `ref`). Component authors extend this when wrapping native elements.
+- **Note:** In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their a…
 
 ```
 JSX:  <button className="x" onClick={fn} />
@@ -32,7 +37,7 @@ TypeScript: React.ButtonHTMLAttributes<HTMLButtonElement>
 | `React.IntrinsicAttributes` | Universal JSX attrs (`key`, `ref`) |
 | Component `Props` | Your custom interface + optional `children` |
 
-Custom components do **not** automatically accept every DOM attribute unless you forward them (spread or explicit passthrough).
+- **Note:** Custom components do **not** automatically accept every DOM attribute unless …
 
 ## Technical Details
 ### Extend native element props on a wrapper
@@ -73,18 +78,14 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 // eslint react/jsx-props-no-spreading — often disabled for design-system primitives
 ```
 
-## Pros/Cons or Trade-offs
-- Plain JavaScript React project without TS — compiler won't enforce intrinsic attrs.
-- Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > Spreading unknown props onto DOM nodes can inject invalid attributes silently in JS — TypeScript catches this only if your props interface is tight.
 
-- **`key` and `ref` are not props** — they live on `IntrinsicAttributes`, not in `props` inside the component.
-- **Event types differ:** `onChange` on `<input>` versus custom component needs explicit typing.
-- **SVG versus HTML:** separate intrinsic element maps — `<svg>` attrs differ from `<div>`.
-- **React 19:** reference as prop reduces `forwardRef` boilerplate — check your React version typings.
+- **Mistake:** **`key` and `ref` are not props**
+- **Mistake:** **Event types differ:** `onChange` on `<input>` versus custom co…
+- **Mistake:** **SVG versus HTML:** separate intrinsic element maps
+- **Mistake:** **React 19:** reference as prop reduces `forwardRef` boilerplate
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,3 +94,7 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 | Ref not attached | Functional component without `forwardRef` | Wrap with `React.forwardRef` |
 | Accessibility attrs rejected | Wrong element type | Match ARIA role to element (`button` vs `div role="button"`) |
 | Spread hides invalid props | `{...props}` too permissive | Narrow with `Pick` or explicit allowlist |
+
+## Pros/Cons or Trade-offs
+- Plain JavaScript React project without TS
+- Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.

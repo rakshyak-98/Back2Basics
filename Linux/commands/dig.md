@@ -4,19 +4,22 @@
 
 > dig asks DNS questions and prints the raw answer — use it to see whether a name, type, or resolver is wrong.
 
-
-
-
+```txt
+        dig ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth NS, and dig ≠ getent hosts.
+- **Interview probes:** DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth N…
 
 ## Sources
 - [dig(1)](https://man.bind9.net/man1/dig.html) — deep-dive
 - [RFC 1035 — DNS](https://www.rfc-editor.org/rfc/rfc1035) — overview
-
-## Core Definition
-`dig` sends DNS queries to a resolver (from `/etc/resolv.conf` or `@server`) and shows status, answer, authority, and additional sections. Trailing-dot FQDNs avoid search-domain rewriting.
 
 ## Key Concepts
 - **NOERROR + ANSWER:** Usable records for that type.
@@ -24,6 +27,9 @@ DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth NS, 
 - **NOERROR + empty:** Name exists; that type doesn’t (common for missing AAAA).
 - **`+trace`:** Walk from root to leaf.
 - **Auth query:** `@ns1…` bypasses recursive cache for truth from the zone.
+
+
+- **Core:** `dig` sends DNS queries to a resolver (from `/etc/resolv.conf` or `@server`) …
 
 ## Technical Details
 ```bash
@@ -51,8 +57,10 @@ dig @$(dig +short example.com NS | head -1) example.com A
 | Split-horizon mismatch | VPN vs public | dig from same network as app |
 | Stale answer | Cache | Query auth NS; lower TTL wait |
 
-## Real-World Applications
-Proving a missing AAAA is intentional empty NOERROR, verifying a change hit authoritative NS, and comparing public vs internal views.
+## Mistakes to Avoid
+- **Mistake:** Treating empty NOERROR as “DNS broken.”
+- **Mistake:** Stopping at a CNAME without following the chain
+- **Mistake:** Forgetting search domains rewrite short names (use trailing dot)
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Explicit, typed, scriptable DNS truth.
@@ -60,9 +68,8 @@ Proving a missing AAAA is intentional empty NOERROR, verifying a change hit auth
 - **Trade-off:** `+short` for scripts vs full output for humans.
 
 ## Comparison
-vs [[getent]] hosts: NSS path including files. vs `resolvectl`: systemd-resolved view. vs [[nc]]: reachability after you have an IP.
+- vs [[getent]] hosts: NSS path including files
 
-## Mistakes to Avoid
-- Treating empty NOERROR as “DNS broken.”
-- Stopping at a CNAME without following the chain.
-- Forgetting search domains rewrite short names (use trailing dot).
+
+### Use cases
+- Proving a missing AAAA is intentional empty NOERROR, verifying a change hit a…

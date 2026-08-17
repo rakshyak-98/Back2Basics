@@ -4,12 +4,18 @@
 
 > Points a systemd unit at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
-
-
-
+```txt
+        Service masking ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               ├── Trade-offs
+               └── Comparison
+```
 
 ## Interview Relevance
-Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/networkd without console access.
+- **Interview probes:** Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/…
 
 ## Sources
 - [systemd.unit(5) — mask](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive
@@ -50,8 +56,10 @@ sudo systemctl mask --now cups.socket cups.service
 | Package re-enables | maintainer scripts | Mask again; divert |
 | Can’t mask | Read-only `/usr` | Mask via `/etc/systemd/system` |
 
-## Real-World Applications
-Hard-disable Bluetooth or CUPS on a locked-down server image so package scripts cannot quietly re-enable them.
+## Mistakes to Avoid
+- **Mistake:** Masking sshd/networkd without console/serial
+- **Mistake:** Masking only the `.service` when a `.socket` still activates it
+- **Mistake:** Treating mask as uninstall
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Reliable “stay dead” against reactivation paths.
@@ -61,7 +69,6 @@ Hard-disable Bluetooth or CUPS on a locked-down server image so package scripts 
 - vs `disable`: softer; allows manual start.
 - vs uninstall: mask leaves binaries; remove the package if attack surface matters.
 
-## Mistakes to Avoid
-- Masking sshd/networkd without console/serial.
-- Masking only the `.service` when a `.socket` still activates it.
-- Treating mask as uninstall.
+
+### Use cases
+- Hard-disable Bluetooth or CUPS on a locked-down server image so package scrip…

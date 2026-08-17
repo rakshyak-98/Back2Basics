@@ -4,12 +4,16 @@
 
 > Algorithms that assign **discrete class labels** from features — pick by data size, interpretability, imbalance, and latency — **scikit-learn classifier zoo**.
 
-
-
-
+```txt
+        ML Classifiers ──┬── Interview
+               ├── Sources
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers ask about ML Classifiers to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+- **Interview probes:** Interviewers ask about ML Classifiers to check whether you can choose models/…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -40,11 +44,6 @@ for name, clf in candidates.items():
 3. Metric aligned to cost ([[binary classification]] PR-AUC versus accuracy).
 4. Persist with `joblib` + training data hash + schema version.
 
-## Pros/Cons or Trade-offs
-- **Continuous target** — [[regression]].
-- **Ordered ratings** — [[ordinal classification]].
-- **Search ranking** — learning-to-rank + [[Normalized Discounted Cumulative Gain (NDCG)]].
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Accuracy on imbalanced data** — report precision/recall/F1 or PR-AUC per class.
@@ -59,3 +58,8 @@ for name, clf in candidates.items():
 | Slow inference | Forest depth, k-NN | Reduce trees; distill to logistic |
 | Unstable feature importances | Correlated features | [[Random forest]] impurity vs SHAP |
 | High variance across CV folds | Small data | Simpler model; collect more labels |
+
+## Pros/Cons or Trade-offs
+- **Continuous target** — [[regression]].
+- **Ordered ratings** — [[ordinal classification]].
+- **Search ranking**

@@ -4,12 +4,17 @@
 
 > Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
-
-
-
+```txt
+        Git patch files ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers use `Git patch files` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+- **Interview probes:** Interviewers use `Git patch files` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
@@ -17,14 +22,14 @@ Interviewers use `Git patch files` to check real Git fluency under pressure — 
 
 ## Key Concepts
 ```
-feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.patch
+- **Note:** feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
                                                     │
                                            git am *.patch
                                                     ▼
                                             replayed commits on target branch
 ```
 
-Use for: mailing lists, exporting PR to air-gapped environment, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
+- **Note:** Use for: mailing lists, exporting PR to air-gapped environment, carrying patc…
 
 ## Technical Details
 ### Export range
@@ -77,10 +82,6 @@ git apply patch.file
 git commit -C HEAD  # after manual apply
 ```
 
-## Pros/Cons or Trade-offs
-- **Same repository, same remote** — push branch + PR.
-- **Interactive conflict-prone long series** — one merge or rebase onto target.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **`git apply` vs `git am`** — apply doesn't create commit metadata; easy to lose authorship.
@@ -99,3 +100,7 @@ git commit -C HEAD  # after manual apply
 | `corrupt patch at line` | Line endings CRLF | `git config core.autocrlf`; regenerate patch |
 | Duplicate commits after am | Patches already applied | `git log`; skip or rebase --onto |
 | Merge commit patch huge | Need `-m` parent | `format-patch -m -1 merge_sha` |
+
+## Pros/Cons or Trade-offs
+- **Same repository, same remote** — push branch + PR.
+- **Interactive conflict-prone long series** — one merge or rebase onto target.

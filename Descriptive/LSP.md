@@ -4,12 +4,17 @@
 
 > LSP (Language Server Protocol) gives editors completions, go-to-def, and diagnostics via a language server process.
 
-
-
-
+```txt
+        LSP ──┬── Interview
+               ├── Sources
+               ├── Concepts
+               ├── Mechanism
+               ├── Pitfalls
+               └── Trade-offs
+```
 
 ## Interview Relevance
-Interviewers contrast LSP with DAP — language intelligence (completions, diagnostics) versus debugging. Expect capability negotiation and why the editor stays thin.
+- **Interview probes:** Interviewers contrast LSP with DAP
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -18,7 +23,7 @@ Interviewers contrast LSP with DAP — language intelligence (completions, diagn
 
 ## Key Concepts
 ```txt
-Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
+- **Note:** Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
 ```
 
 ### Interview map (words you can say)
@@ -44,10 +49,6 @@ pylsp --help
 | `settings.json` | Server config |
 | Memory | Big monorepos need tuning |
 
-## Pros/Cons or Trade-offs
-- **Tiny throwaway script in notepad** — overkill.
-- **Formatting only** — formatter CLI may suffice.
-
 ## Mistakes to Avoid
 > [!WARNING]
 > **Multiple language servers** — fight over the same file type.
@@ -61,3 +62,7 @@ pylsp --help
 | Wrong diagnostics | bad root | Open correct workspace folder |
 | Stale types | server crash/cache | Restart LSP |
 | Slow IDE | huge project | Exclude build dirs |
+
+## Pros/Cons or Trade-offs
+- **Tiny throwaway script in notepad** — overkill.
+- **Formatting only** — formatter CLI may suffice.
