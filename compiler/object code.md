@@ -5,7 +5,7 @@
 > Compiler output for one translation unit — machine instructions and symbols in a relocatable file (`.o` / `.obj`), not yet a finished program.
 
 ```txt
-        Object code ──┬── Interview
+        Object code ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that you know compile vs link: unresolved symbols are ofte…
+## Why It Matters
+- **Key signal:** Reviewers check that you know compile vs link: unresolved symbols are ofte…
 
 ## Sources
 - [Wikipedia — Object file](https://en.wikipedia.org/wiki/Object_file) — overview

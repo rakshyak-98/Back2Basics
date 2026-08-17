@@ -5,7 +5,7 @@
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
 ```txt
-        DSL (Domain Specif ──┬── Interview
+        DSL (Domain Specif ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** DSL questions separate internal vs external DSLs and when a constrained langu…
+## Why It Matters
+- **Key signal:** DSL questions separate internal vs external DSLs and when a constrained langu…
 
 ## Sources
 - [Martin Fowler — Domain-Specific Languages](https://martinfowler.com/books/dsl.html) — deep-dive

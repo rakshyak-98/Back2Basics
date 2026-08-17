@@ -5,7 +5,7 @@
 > GC reclaims heap objects your program can’t reach — you don’t `free()`, but you can still leak via lingering references.
 
 ```txt
-        Garbage Collection ──┬── Interview
+        Garbage Collection ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** GC interviews cover reachability, mark-and-sweep intuition, and memory leak p…
+## Why It Matters
+- **Key signal:** GC reviews cover reachability, mark-and-sweep intuition, and memory leak p…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -25,9 +25,9 @@
 roots → reachable graph stays  |  unreachable → collect
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Reachability** | Still referenced | “Detach listeners/maps.” |
 | **Mark-sweep / generational** | Common strategies | “Young objects die fast.” |

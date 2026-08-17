@@ -5,7 +5,7 @@
 > Debugger — runs (or attaches to) a process, stops at breakpoints, lets you inspect memory/stack and step.
 
 ```txt
-        How does debugger  ──┬── Interview
+        How does debugger  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Debugger questions check breakpoints, stepping, and how debug adapters talk t…
+## Why It Matters
+- **Key signal:** Debugger questions check breakpoints, stepping, and how debug adapters talk t…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

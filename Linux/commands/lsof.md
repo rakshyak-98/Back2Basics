@@ -5,7 +5,7 @@
 > lsof lists open files — and on Linux that includes sockets, pipes, and devices — showing which process holds them.
 
 ```txt
-        lsof ──┬── Interview
+        lsof ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic: who holds this port/file, deleted-but-open disk leaks, and when to p…
+## Why It Matters
+- **Key signal:** Classic: who holds this port/file, deleted-but-open disk leaks, and when to p…
 
 ## Sources
 - [lsof(8)](https://man7.org/linux/man-pages/man8/lsof.8.html) — deep-dive

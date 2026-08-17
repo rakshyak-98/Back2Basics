@@ -5,7 +5,7 @@
 > IMAP lets mail clients synchronize folders and flags with a server-side mailbox over TCP — messages stay on the server so multiple devices share the same state (unlike typical POP3).
 
 ```txt
-        IMAP (Internet Mes ──┬── Interview
+        IMAP (Internet Mes ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast IMAP with POP3 and SMTP: who stores mail, which port is…
+## Why It Matters
+- **Key signal:** Reviewers contrast IMAP with POP3 and SMTP: who stores mail, which port is…
 
 ## Sources
 - [RFC 3501 — IMAP4rev1](https://datatracker.ietf.org/doc/html/rfc3501) — deep-dive

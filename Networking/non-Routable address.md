@@ -5,7 +5,7 @@
 > Non-routable addresses stay on the private side — the public internet will not deliver packets to them.
 
 ```txt
-        non-Routable addre ──┬── Interview
+        non-Routable addre ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask RFC 1918 / non-routable space to confirm you know why privat…
+## Why It Matters
+- **Key signal:** Reviewers ask RFC 1918 / non-routable space to confirm you know why privat…
 
 ## Sources
 - [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918) — deep-dive

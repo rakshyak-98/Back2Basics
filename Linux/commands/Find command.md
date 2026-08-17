@@ -5,7 +5,7 @@
 > find walks a directory tree and selects files by name, time, size, or owner — then prints or runs a command on them.
 
 ```txt
-        Find command ──┬── Interview
+        Find command ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +…
+## Why It Matters
+- **Key signal:** Ops safety: predicates before `-delete`, `-mtime` sign meaning, `-exec … {} +…
 
 ## Sources
 - [find(1)](https://man7.org/linux/man-pages/man1/find.1.html) — deep-dive

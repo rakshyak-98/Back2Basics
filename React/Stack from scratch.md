@@ -5,7 +5,7 @@
 > Build a React app toolchain yourself — bundler, JSX transform, TypeScript, lint, test — to know what Vite/CRA hide.
 
 ```txt
-        Stack from scratch ──┬── Interview
+        Stack from scratch ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers rarely want you to invent Webpack from memory
+## Why It Matters
+- **Key signal:** Reviewers rarely want you to invent Webpack from memory
 
 ## Sources
 - [Vite guide](https://vitejs.dev/guide/) — overview

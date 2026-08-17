@@ -5,7 +5,7 @@
 > AV1 is an open video codec — same quality at lower bitrate than H.264/HEVC, but encode cost and device support still gate rollout.
 
 ```txt
-        AV1 ──┬── Interview
+        AV1 ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk AV1 end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk AV1 end-to-end
 
 ## Sources
 - [Wikipedia — AV1](https://en.wikipedia.org/wiki/AV1) — overview

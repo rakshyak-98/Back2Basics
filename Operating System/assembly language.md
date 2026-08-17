@@ -5,7 +5,7 @@
 > Assembly language is human-readable mnemonics for machine instructions — the lowest level most developers use before silicon, where syscalls, stacks, and calling conventions become visible.
 
 ```txt
-        Assembly language ──┬── Interview
+        Assembly language ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can read a syscall sequence, explain calling convention / stack fra…
+## Why It Matters
+- **Key signal:** Shows you can read a syscall sequence, explain calling convention / stack fra…
 
 ## Sources
 - Intel® 64 and IA-32 Architectures Software Developer’s Manual — deep-dive

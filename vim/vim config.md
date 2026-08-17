@@ -5,7 +5,7 @@
 > Startup settings in `.vimrc` / `init.vim` — indentation, search, syntax, and clipboard so Vim matches your project and OS.
 
 ```txt
-        vim config ──┬── Interview
+        vim config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops and platform interviews care whether you can make stock Vim usable on a f…
+## Why It Matters
+- **Key signal:** Ops and platform reviews care whether you can make stock Vim usable on a f…
 
 ## Sources
 - [Vim help — options](https://vimhelp.org/options.txt.html) — deep-dive

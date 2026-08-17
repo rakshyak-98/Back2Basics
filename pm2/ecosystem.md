@@ -5,7 +5,7 @@
 > Declarative process config (`ecosystem.config.js`) — apps, instances, environment variables, log paths, and restart policies in one reviewable file.
 
 ```txt
-        PM2 ecosystem file ──┬── Interview
+        PM2 ecosystem file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers prefer ecosystem files over tribal `pm2 start` commands
+## Why It Matters
+- **Key signal:** Reviewers prefer ecosystem files over tribal `pm2 start` commands
 
 ## Sources
 - [PM2 — Ecosystem file](https://pm2.keymetrics.io/docs/usage/application-declaration/) — deep-dive

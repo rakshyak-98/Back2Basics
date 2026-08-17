@@ -5,7 +5,7 @@
 > AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
 ```txt
-        AI chat with memor ──┬── Interview
+        AI chat with memor ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AI chat with memory to check whether you can choose mo…
+## Why It Matters
+- **Key signal:** Reviewers ask about AI chat with memory to check whether you can choose mo…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

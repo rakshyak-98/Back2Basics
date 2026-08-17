@@ -5,7 +5,7 @@
 > Transcoding decodes media then re-encodes it — new codec, size, or bitrate for devices and ABR ladders.
 
 ```txt
-        transcoding ──┬── Interview
+        transcoding ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk transcoding end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk transcoding end-to-end
 
 ## Sources
 - [Wikipedia — transcoding](https://en.wikipedia.org/wiki/transcoding) — overview

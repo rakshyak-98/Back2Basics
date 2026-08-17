@@ -5,7 +5,7 @@
 > Predictable client state container — actions dispatch to pure reducers that produce the next store snapshot.
 
 ```txt
-        Redux ──┬── Interview
+        Redux ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux Essentials](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) — deep-dive

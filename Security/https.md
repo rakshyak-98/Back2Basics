@@ -5,7 +5,7 @@
 > HTTP over TLS — encrypts and authenticates web traffic; browsers require valid PKI chain for padlock, APIs should pin or trust store consciously.
 
 ```txt
-        HTTPS ──┬── Interview
+        HTTPS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Baseline: HTTPS = HTTP over TLS
+## Why It Matters
+- **Key signal:** Baseline: HTTPS = HTTP over TLS
 
 ## Sources
 - [MDN — HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) — overview

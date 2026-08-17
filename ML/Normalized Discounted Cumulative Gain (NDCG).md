@@ -5,7 +5,7 @@
 > Graded ranking metric — relevant items higher in the list score more; normalized to [0,1] vs ideal ranking — **Järvelin & Kekäläinen (2002)**.
 
 ```txt
-        Normalized Discoun ──┬── Interview
+        Normalized Discoun ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Normalized Discounted Cumulative Gain (NDCG) to check …
+## Why It Matters
+- **Key signal:** Reviewers ask about Normalized Discounted Cumulative Gain (NDCG) to check …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

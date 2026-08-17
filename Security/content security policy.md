@@ -5,7 +5,7 @@
 > HTTP header that whitelists where scripts, styles, connections, and frames may load from — primary defense-in-depth against XSS and data exfiltration.
 
 ```txt
-        Content Security P ──┬── Interview
+        Content Security P ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Web security interviews ask how CSP reduces XSS impact, what default-src/scri…
+## Why It Matters
+- **Key signal:** Web security reviews ask how CSP reduces XSS impact, what default-src/scri…
 
 ## Sources
 - [MDN — Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) — overview

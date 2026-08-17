@@ -5,7 +5,7 @@
 > FCM multicast sends one payload to up to 500 registration tokens in one Admin SDK call — best for an explicit device list without a topic.
 
 ```txt
-        Multicast delivery ──┬── Interview
+        Multicast delivery ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the 500 limit, `sendEachForMulticast` per-token results, an…
+## Why It Matters
+- **Key signal:** Reviewers want the 500 limit, `sendEachForMulticast` per-token results, an…
 
 ## Sources
 - [Firebase — Send a message to multiple devices](https://firebase.google.com/docs/cloud-messaging/send-message#send-messages-to-multiple-devices) — deep-dive

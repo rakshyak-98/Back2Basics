@@ -5,7 +5,7 @@
 > MongoDB users and roles live in databases — grant least privilege, usually via `admin`.
 
 ```txt
-        mongosh user manag ──┬── Interview
+        mongosh user manag ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** User management checks roles, auth databases, and least-privilege for app vs …
+## Why It Matters
+- **Key signal:** User management checks roles, auth databases, and least-privilege for app vs …
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** admin.createUser → roles[{ role, db }] → clients auth with authSource
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Role** | Privilege bundle | “`readWrite` on `app`.” |
 | **authSource** | DB that stores the user | “Often `admin`.” |

@@ -5,7 +5,7 @@
 > Predict one label from **K > 2** classes — reduction strategies, metrics, and production pitfalls.
 
 ```txt
-        Multiclass classif ──┬── Interview
+        Multiclass classif ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Multiclass classification to check whether you can cho…
+## Why It Matters
+- **Key signal:** Reviewers ask about Multiclass classification to check whether you can cho…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

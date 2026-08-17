@@ -5,7 +5,7 @@
 > A CMS lets editors create, review, and publish structured content — headless systems expose JSON APIs while frontends own presentation.
 
 ```txt
-        CMS (Content Manag ──┬── Interview
+        CMS (Content Manag ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/pr…
+## Why It Matters
+- **Key signal:** Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/pr…
 
 ## Sources
 - Strapi / Directus documentation — headless content modeling — overview

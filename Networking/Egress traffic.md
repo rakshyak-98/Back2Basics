@@ -5,7 +5,7 @@
 > Outbound packets leaving your network boundary toward the internet or another VPC — billed, filtered, and NAT'd differently from ingress.
 
 ```txt
-        Egress traffic ──┬── Interview
+        Egress traffic ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use egress to test whether you separate outbound paths (NAT, fil…
+## Why It Matters
+- **Key signal:** Reviewers use egress to test whether you separate outbound paths (NAT, fil…
 
 ## Sources
 - [AWS — NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) — deep-dive

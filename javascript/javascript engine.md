@@ -5,7 +5,7 @@
 > JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
 ```txt
-        JavaScript engine ──┬── Interview
+        JavaScript engine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **JavaScript engine** to check whether you can explain the m…
+## Why It Matters
+- **Key signal:** Reviewers use **JavaScript engine** to check whether you can explain the m…
 
 ## Sources
 - [V8 — Docs](https://v8.dev/docs) — deep-dive

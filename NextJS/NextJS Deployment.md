@@ -5,7 +5,7 @@
 > Deploying Next.js means serving the production build — static HTML where possible, plus a Node (or platform) server for SSR, API routes, and ISR.
 
 ```txt
-        NextJS Deployment ──┬── Interview
+        NextJS Deployment ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you deploy Next.js to see if you know it is not a plain …
+## Why It Matters
+- **Key signal:** Reviewers ask how you deploy Next.js to see if you know it is not a plain …
 
 ## Sources
 - [Next.js Docs — Deploying](https://nextjs.org/docs/app/getting-started/deploying) — overview

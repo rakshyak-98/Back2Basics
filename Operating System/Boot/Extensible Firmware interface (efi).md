@@ -5,7 +5,7 @@
 > EFI is Intel’s 1990s firmware spec that evolved into UEFI — modular drivers, GPT disks, and PE/COFF boot apps instead of BIOS interrupt chains.
 
 ```txt
-        Extensible Firmwar ──┬── Interview
+        Extensible Firmwar ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Boot interviews: Boot vs Runtime Services, ExitBootServices, and that “EFI pa…
+## Why It Matters
+- **Key signal:** Boot reviews: Boot vs Runtime Services, ExitBootServices, and that “EFI pa…
 
 ## Sources
 - UEFI Forum — [Specifications](https://uefi.org/specifications) — deep-dive

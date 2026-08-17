@@ -5,7 +5,7 @@
 > Admin SDK / HTTP v1 sends pushes through FCM — single token, multicast (≤500), topics, or a fan-out job for large audiences.
 
 ```txt
-        Firebase messaging ──┬── Interview
+        Firebase messaging ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers catch the classic bug: `tokens.slice(0, 500)` once
+## Why It Matters
+- **Key signal:** Reviewers catch the classic bug: `tokens.slice(0, 500)` once
 
 ## Sources
 - [Firebase Admin — Send messages](https://firebase.google.com/docs/cloud-messaging/send-message) — deep-dive

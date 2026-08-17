@@ -5,7 +5,7 @@
 > Real-time subscription keeps a channel open (or long-polls) so the server pushes updates when data changes — replacing wasteful polling for live dashboards, chat, and order status.
 
 ```txt
-        Real-time Subscrip ──┬── Interview
+        Real-time Subscrip ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Compare WebSocket/SSE/long-poll
+## Why It Matters
+- **Key signal:** Compare WebSocket/SSE/long-poll
 
 ## Sources
 - [HTML Living Standard — Server-sent events](https://html.spec.whatwg.org/multipage/server-sent-events.html) — overview

@@ -5,7 +5,7 @@
 > A streaming manifest lists segments and bitrates — if it embeds absolute origin URLs, rewrite them when you proxy so the player stays on your app host.
 
 ```txt
-        streaming manifest ──┬── Interview
+        streaming manifest ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk streaming manifest file end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk streaming manifest file end-to-end
 
 ## Sources
 - [Wikipedia — streaming manifest file](https://en.wikipedia.org/wiki/streaming_manifest_file) — overview

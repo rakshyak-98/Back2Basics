@@ -5,7 +5,7 @@
 > gsettings reads and writes GNOME/dconf keys — the schema’d way to change desktop settings from the shell.
 
 ```txt
-        gsetting ──┬── Interview
+        gsetting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop Linux: schema/key model, dconf vs gsettings, and why SSH without a se…
+## Why It Matters
+- **Key signal:** Desktop Linux: schema/key model, dconf vs gsettings, and why SSH without a se…
 
 ## Sources
 - [GSettings overview — GNOME](https://developer.gnome.org/documentation/tutorials/gsettings.html) — deep-dive

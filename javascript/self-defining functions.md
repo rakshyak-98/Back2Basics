@@ -5,7 +5,7 @@
 > Self-defining (lazy) function — first call installs a faster replacement implementation, later calls skip setup.
 
 ```txt
-        self-defining func ──┬── Interview
+        self-defining func ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **self-defining functions** to see if you understand what …
+## Why It Matters
+- **Key signal:** Reviewers probe **self-defining functions** to see if you understand what …
 
 ## Sources
 - [Wikipedia — self-defining functions](https://en.wikipedia.org/wiki/self-defining_functions) — overview

@@ -5,7 +5,7 @@
 > Kubernetes package manager — charts template manifests; releases track what you installed and how to upgrade or roll back.
 
 ```txt
-        Helm ──┬── Interview
+        Helm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers distinguish chart/release/repo, templating (`values` → manifests…
+## Why It Matters
+- **Key signal:** Reviewers distinguish chart/release/repo, templating (`values` → manifests…
 
 ## Sources
 - [Helm — Docs](https://helm.sh/docs/) — deep-dive

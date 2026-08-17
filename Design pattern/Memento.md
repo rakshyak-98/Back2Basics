@@ -5,15 +5,15 @@
 > Memento captures and externalizes an object's internal state so it can be restored later — without exposing implementation details to outsiders.
 
 ```txt
-        Memento ──┬── Interview
+        Memento ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Memento interviews cover undo/snapshots without violating encapsulation of th…
+## Why It Matters
+- **Key signal:** Memento reviews cover undo/snapshots without violating encapsulation of th…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Memento) — deep-dive

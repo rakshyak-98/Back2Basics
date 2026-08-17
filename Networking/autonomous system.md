@@ -5,7 +5,7 @@
 > An Autonomous System (AS) is how the Internet names who owns which IP blocks at the routing layer — one coherent routing policy under one ASN.
 
 ```txt
-        Autonomous system ──┬── Interview
+        Autonomous system ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ASNs and [[BGP]] to see if you understand multi-homing…
+## Why It Matters
+- **Key signal:** Reviewers ask about ASNs and [[BGP]] to see if you understand multi-homing…
 
 ## Sources
 - [RFC 4271 — A Border Gateway Protocol 4 (BGP-4)](https://www.rfc-editor.org/rfc/rfc4271) — deep-dive

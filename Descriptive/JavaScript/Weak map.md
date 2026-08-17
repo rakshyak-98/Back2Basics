@@ -5,7 +5,7 @@
 > `WeakMap` keys are objects held weakly — if nothing else references the key, the entry can be GC’d.
 
 ```txt
-        Weak map ──┬── Interview
+        Weak map ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** WeakMap questions check ephemeral metadata without preventing GC
+## Why It Matters
+- **Key signal:** WeakMap questions check ephemeral metadata without preventing GC
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 - **Note:** WeakMap: object key → value (key not kept alive by the map)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Weak ref** | Doesn’t keep key alive | “No memory leak from the map.” |
 | **No enumerate** | Can’t list keys | “Privacy + GC freedom.” |

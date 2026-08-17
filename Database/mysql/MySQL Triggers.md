@@ -5,7 +5,7 @@
 > Automatic stored logic fired on INSERT/UPDATE/DELETE — audit rows, stamp columns, or reject bad transitions in the same transaction as the triggering statement.
 
 ```txt
-        MySQL Triggers ──┬── Interview
+        MySQL Triggers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want awareness of hidden side effects: triggers complicate migra…
+## Why It Matters
+- **Key signal:** Reviewers want awareness of hidden side effects: triggers complicate migra…
 
 ## Sources
 - [MySQL Reference Manual — Triggers](https://dev.mysql.com/doc/refman/en/triggers.html) — deep-dive

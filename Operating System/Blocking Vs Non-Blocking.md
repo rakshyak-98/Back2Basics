@@ -5,7 +5,7 @@
 > Blocking waits inside the kernel until I/O is ready; non-blocking returns immediately and pushes the wait into your event loop — choose by concurrency shape, not ideology.
 
 ```txt
-        Blocking Vs Non-Bl ──┬── Interview
+        Blocking Vs Non-Bl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** A classic systems interview fork: walk both models, name `EAGAIN` / `epoll`, …
+## Why It Matters
+- **Key signal:** A classic systems review fork: walk both models, name `EAGAIN` / `epoll`, …
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — non-blocking I/O, `select`, `poll`, `epoll` — deep-dive

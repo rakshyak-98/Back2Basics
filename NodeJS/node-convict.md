@@ -5,7 +5,7 @@
 > node-convict — loads config from defaults → file → environment variables → CLI args (order configurable). Each key has a schema: type, format, default, env var
 
 ```txt
-        node-convict ──┬── Interview
+        node-convict ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **node-convict** to see if you understand what it does ope…
+## Why It Matters
+- **Key signal:** Reviewers probe **node-convict** to see if you understand what it does ope…
 
 ## Sources
 - [mozilla/node-convict](https://github.com/mozilla/node-convict) — deep-dive

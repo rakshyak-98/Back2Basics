@@ -5,15 +5,15 @@
 > EC2 provides resizable virtual machines in a VPC — you choose an image, instance type, storage, and security groups; the first outage is usually networking or disk, not the hypervisor.
 
 ```txt
-        AWS EC2 ──┬── Interview
+        AWS EC2 ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** EC2 interviews cover instance types, AMIs, EBS vs instance store, security gr…
+## Why It Matters
+- **Key signal:** EC2 reviews cover instance types, AMIs, EBS vs instance store, security gr…
 
 ## Sources
 - [Amazon EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html) — overview

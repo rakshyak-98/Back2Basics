@@ -5,7 +5,7 @@
 > Variable (JavaScript) — a variable is not the value itself — it's an identifier bound in an Environment Record (Lexical environment):
 
 ```txt
-        Variable (JavaScri ──┬── Interview
+        Variable (JavaScri ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Variable (JavaScript)** to see if you understand what it…
+## Why It Matters
+- **Key signal:** Reviewers probe **Variable (JavaScript)** to see if you understand what it…
 
 ## Sources
 - [MDN — Declarations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations) — deep-dive

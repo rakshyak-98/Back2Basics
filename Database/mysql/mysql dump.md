@@ -5,7 +5,7 @@
 > Logical backup with `mysqldump`—SQL or delimited output of schema and data for restore, cloning, and disaster recovery drills.
 
 ```txt
-        mysql dump ──┬── Interview
+        mysql dump ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Backup interviews expect `--single-transaction` for InnoDB consistent snapsho…
+## Why It Matters
+- **Key signal:** Backup reviews expect `--single-transaction` for InnoDB consistent snapsho…
 
 ## Sources
 - [MySQL Reference Manual — mysqldump](https://dev.mysql.com/doc/refman/en/mysqldump.html) — deep-dive

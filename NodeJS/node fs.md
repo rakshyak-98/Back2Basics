@@ -5,7 +5,7 @@
 > Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
 
 ```txt
-        node fs ──┬── Interview
+        node fs ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **node fs** to see if you understand what it does operatio…
+## Why It Matters
+- **Key signal:** Reviewers probe **node fs** to see if you understand what it does operatio…
 
 ## Sources
 - [Node.js — File system](https://nodejs.org/api/fs.html) — deep-dive

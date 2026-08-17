@@ -5,7 +5,7 @@
 > Real systems stack buffers at every speed boundary — app, libc, socket, page cache, controller — and flushing one layer does not flush the layers below.
 
 ```txt
-        Multiple levels of ──┬── Interview
+        Multiple levels of ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Durability and latency: name the stack, and what `fflush` / `write` / `close`…
+## Why It Matters
+- **Key signal:** Durability and latency: name the stack, and what `fflush` / `write` / `close`…
 
 ## Sources
 - Stevens, *UNIX Network Programming* — deep-dive

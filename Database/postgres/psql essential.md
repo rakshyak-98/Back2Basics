@@ -5,7 +5,7 @@
 > `psql` — the interactive PostgreSQL terminal for connecting, meta-commands, schema inspection, and scripting [[SQL]].
 
 ```txt
-        psql essential ──┬── Interview
+        psql essential ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Comfort with `\d`, `\dt`, `\timing`, and connection URIs signals you can debu…
+## Why It Matters
+- **Key signal:** Comfort with `\d`, `\dt`, `\timing`, and connection URIs signals you can debu…
 
 ## Sources
 - [psql](https://www.postgresql.org/docs/current/app-psql.html) — deep-dive

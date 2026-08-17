@@ -5,7 +5,7 @@
 > git repo config — know what it does, how to configure it, and how it fails in production.
 
 ```txt
-        git repo config ──┬── Interview
+        git repo config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Repo config interviews cover local vs global settings, and what belongs in co…
+## Why It Matters
+- **Key signal:** Repo config reviews cover local vs global settings, and what belongs in co…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

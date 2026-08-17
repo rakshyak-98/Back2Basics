@@ -5,7 +5,7 @@
 > Terminal front door to the Flutter SDK — create projects, run on devices, switch channels, and inspect logs.
 
 ```txt
-        Flutter CLI ──┬── Interview
+        Flutter CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want channel vs release cadence, debug (JIT) vs release (AOT), a…
+## Why It Matters
+- **Key signal:** Reviewers want channel vs release cadence, debug (JIT) vs release (AOT), a…
 
 ## Sources
 - [Flutter — Using the Flutter CLI](https://docs.flutter.dev/reference/flutter-cli) — deep-dive

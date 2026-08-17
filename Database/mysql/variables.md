@@ -5,7 +5,7 @@
 > MySQL system variables — global, session, or read-only — control buffers, SQL mode, replication, and InnoDB durability behavior.
 
 ```txt
-        variables ──┬── Interview
+        variables ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb…
+## Why It Matters
+- **Key signal:** Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb…
 
 ## Sources
 - [Server System Variables](https://dev.mysql.com/doc/refman/en/server-system-variables.html) — deep-dive

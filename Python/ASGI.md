@@ -5,7 +5,7 @@
 > Asynchronous Server Gateway Interface — standard way async Python web servers talk to apps (HTTP, WebSocket, lifespan).
 
 ```txt
-        ASGI ──┬── Interview
+        ASGI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Backend interviews contrast WSGI vs ASGI: sync workers vs async event loop, W…
+## Why It Matters
+- **Key signal:** Backend reviews contrast WSGI vs ASGI: sync workers vs async event loop, W…
 
 ## Sources
 - [ASGI specification](https://asgi.readthedocs.io/en/stable/specs/main.html) — deep-dive

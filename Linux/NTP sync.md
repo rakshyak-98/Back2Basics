@@ -5,7 +5,7 @@
 > NTP (Network Time Protocol) keeps host clocks close enough that TLS, Kerberos, and distributed logs stay trustworthy.
 
 ```txt
-        NTP sync ──┬── Interview
+        NTP sync ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you know clock skew breaks auth and debugging, can name `systemd-timesy…
+## Why It Matters
+- **Key signal:** Shows you know clock skew breaks auth and debugging, can name `systemd-timesy…
 
 ## Sources
 - [systemd-timesyncd.service](https://www.freedesktop.org/software/systemd/man/latest/systemd-timesyncd.service.html) — deep-dive

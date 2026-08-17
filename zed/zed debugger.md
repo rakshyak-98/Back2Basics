@@ -5,7 +5,7 @@
 > Debug Adapter integration in Zed — launch or attach; on Linux, attach uses `ptrace` and can fail when Yama `ptrace_scope` blocks it.
 
 ```txt
-        Zed debugger ──┬── Interview
+        Zed debugger ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers/tooling screens: distinguish launch vs attach, and know `kernel.…
+## Why It Matters
+- **Key signal:** Reviewers on tooling screens: distinguish launch vs attach, and know `kernel.…
 
 ## Sources
 - [Kernel — Yama LSM](https://www.kernel.org/doc/Documentation/security/Yama.txt) — deep-dive

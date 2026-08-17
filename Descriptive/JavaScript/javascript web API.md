@@ -5,7 +5,7 @@
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
 ```txt
-        JavaScript Web API ──┬── Interview
+        JavaScript Web API ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Web API interviews cover browser capabilities beyond ECMAScript
+## Why It Matters
+- **Key signal:** Web API reviews cover browser capabilities beyond ECMAScript
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

@@ -5,7 +5,7 @@
 > ffmpeg builds a media pipeline — read inputs, transform (or copy), write outputs or streams.
 
 ```txt
-        ffmpeg ──┬── Interview
+        ffmpeg ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Media/ops: `-c copy` vs re-encode, `-re` for live pacing, `-map` for stream s…
+## Why It Matters
+- **Key signal:** Media/ops: `-c copy` vs re-encode, `-re` for live pacing, `-map` for stream s…
 
 ## Sources
 - [FFmpeg Documentation](https://ffmpeg.org/documentation.html) — deep-dive

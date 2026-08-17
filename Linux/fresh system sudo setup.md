@@ -5,7 +5,7 @@
 > On a fresh Linux system, configure sudo so administrators can elevate safely — group membership, `visudo` edits, and optional narrow passwordless rules for automation.
 
 ```txt
-        fresh system sudo  ──┬── Interview
+        fresh system sudo  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Security/ops hybrid: grant least privilege, use `visudo`, prefer `sudoers.d` …
+## Why It Matters
+- **Key signal:** Security/ops hybrid: grant least privilege, use `visudo`, prefer `sudoers.d` …
 
 ## Sources
 - `man 5 sudoers` — deep-dive

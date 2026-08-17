@@ -5,7 +5,7 @@
 > Splitwise-style systems track shared expenses in groups, derive who owes whom, and optionally simplify debts — a ledger and settlement tracker, not a payment processor unless integrated with one.
 
 ```txt
-        Splitwise ──┬── Interview
+        Splitwise ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Model balances as a graph of debts
+## Why It Matters
+- **Key signal:** Model balances as a graph of debts
 
 ## Sources
 - Splitwise public product documentation — expense types and settlement semantics — overview

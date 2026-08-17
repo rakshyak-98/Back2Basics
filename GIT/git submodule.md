@@ -5,7 +5,7 @@
 > pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
 ```txt
-        Git Submodule ──┬── Interview
+        Git Submodule ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git Submodule` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git Submodule` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

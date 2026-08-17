@@ -5,7 +5,7 @@
 > SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
 ```txt
-        SWC (Speedy Web Co ──┬── Interview
+        SWC (Speedy Web Co ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **SWC (Speedy Web Compiler)** to see if you understand wha…
+## Why It Matters
+- **Key signal:** Reviewers probe **SWC (Speedy Web Compiler)** to see if you understand wha…
 
 ## Sources
 - [SWC — Getting started](https://swc.rs/docs/getting-started) — deep-dive

@@ -5,7 +5,7 @@
 > Five parallel environments, promotion gates, and per-stage deploy strategy for an e-commerce microservice platform on EKS — the operations contract, not tool marketing.
 
 ```txt
-        ecommerce cicd env ──┬── Interview
+        ecommerce cicd env ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe environment topology to see if you separate accounts and s…
+## Why It Matters
+- **Key signal:** Reviewers probe environment topology to see if you separate accounts and s…
 
 ## Sources
 - [Argo Rollouts — Canary](https://argo-rollouts.readthedocs.io/en/stable/features/canary/) — deep-dive

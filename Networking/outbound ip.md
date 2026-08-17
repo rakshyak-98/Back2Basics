@@ -5,7 +5,7 @@
 > Outbound IP is the address the internet sees when you call out — often a NAT or load-balancer IP, not your private NIC.
 
 ```txt
-        outbound ip ──┬── Interview
+        outbound ip ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask this to see if you know inbound and outbound addresses can d…
+## Why It Matters
+- **Key signal:** Reviewers ask this to see if you know inbound and outbound addresses can d…
 
 ## Sources
 - [AWS — NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) — deep-dive
@@ -23,7 +23,7 @@
 - [Wikipedia — Network address translation](https://en.wikipedia.org/wiki/Network_address_translation) — overview
 
 ## Key Concepts
-| Word | Plain meaning | Interview phrasing |
+| Word | Plain meaning | Review phrasing |
 |------|---------------|--------------------|
 | **Outbound / egress IP** | Source IP on the wire leaving you | “What SaaS allowlists.” |
 | **Inbound IP** | Address clients use to reach you | “Can differ from outbound (LB vs NAT).” |

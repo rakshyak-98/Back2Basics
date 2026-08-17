@@ -5,7 +5,7 @@
 > The everyday toolkit to list, inspect, signal, and prioritize processes — ps, top, pgrep, kill, lsof.
 
 ```txt
-        Linux process comm ──┬── Interview
+        Linux process comm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Incident flow: find → watch → explain (fds/ports) → act (TERM then service re…
+## Why It Matters
+- **Key signal:** Incident flow: find → watch → explain (fds/ports) → act (TERM then service re…
 
 ## Sources
 - [ps(1)](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive

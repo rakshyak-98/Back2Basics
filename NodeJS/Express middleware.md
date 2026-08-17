@@ -5,7 +5,7 @@
 > Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
 ```txt
-        Express middleware ──┬── Interview
+        Express middleware ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Express middleware** to check whether you can explain the …
+## Why It Matters
+- **Key signal:** Reviewers use **Express middleware** to check whether you can explain the …
 
 ## Sources
 - [Express — Using middleware](https://expressjs.com/en/guide/using-middleware.html) — deep-dive

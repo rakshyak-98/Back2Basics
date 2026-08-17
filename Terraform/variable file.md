@@ -5,7 +5,7 @@
 > Variables, locals, outputs, and tfvars make one Terraform configuration work across environments without editing resource blocks.
 
 ```txt
-        variable file ──┬── Interview
+        variable file ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test precedence order, `sensitive` limits, validation blocks, an…
+## Why It Matters
+- **Key signal:** Reviewers test precedence order, `sensitive` limits, validation blocks, an…
 
 ## Sources
 - [HashiCorp — Input variables](https://developer.hashicorp.com/terraform/language/values/variables) — deep-dive

@@ -5,7 +5,7 @@
 > HSTS — browser remembers “this host is HTTPS-only,” so it never sends cleartext HTTP (and blocks cert bypass for preload).
 
 ```txt
-        HTTP Strict Transp ──┬── Interview
+        HTTP Strict Transp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardening interviews: HSTS removes the cleartext HTTP window
+## Why It Matters
+- **Key signal:** Hardening reviews: HSTS removes the cleartext HTTP window
 
 ## Sources
 - [RFC 6797 — HSTS](https://www.rfc-editor.org/rfc/rfc6797) — deep-dive

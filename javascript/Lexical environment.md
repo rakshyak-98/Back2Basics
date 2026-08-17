@@ -5,7 +5,7 @@
 > Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
 ```txt
-        Lexical environmen ──┬── Interview
+        Lexical environmen ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Lexical environment** to check whether you can explain the…
+## Why It Matters
+- **Key signal:** Reviewers use **Lexical environment** to check whether you can explain the…
 
 ## Sources
 - [ECMA-262 — Lexical Environments](https://tc39.es/ecma262/#sec-lexical-environments) — deep-dive

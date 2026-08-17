@@ -5,7 +5,7 @@
 > Release cycle — the contract for when change ships, how much risk rides together, and what happens when production goes red.
 
 ```txt
-        Release cycle ──┬── Interview
+        Release cycle ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff interviews love deploy ≠ release, feature flags, rollback criteria, and…
+## Why It Matters
+- **Key signal:** Staff reviews love deploy ≠ release, feature flags, rollback criteria, and…
 
 ## Sources
 - [Google SRE — Release Engineering](https://sre.google/sre-book/release-engineering/) — deep-dive

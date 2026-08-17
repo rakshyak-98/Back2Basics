@@ -5,7 +5,7 @@
 > Database sharding splits one logical database into independent physical databases keyed by a shard column — horizontal write scale at the cost of cross-shard queries and transactions.
 
 ```txt
-        database sharding ──┬── Interview
+        database sharding ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** When to shard, how to pick a shard key, avoid cross-shard joins, and sketch a…
+## Why It Matters
+- **Key signal:** When to shard, how to pick a shard key, avoid cross-shard joins, and sketch a…
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications*, ch. 6 Partitioning — deep-dive

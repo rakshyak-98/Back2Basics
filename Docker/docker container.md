@@ -5,7 +5,7 @@
 > A container is a running (or created) instance of an image: isolated process, writable layer, and optional mounts and ports.
 
 ```txt
-        docker container ──┬── Interview
+        docker container ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check image versus container, publish flags, volume persistence,…
+## Why It Matters
+- **Key signal:** Reviewers check image versus container, publish flags, volume persistence,…
 
 ## Sources
 - [Docker — Run a container](https://docs.docker.com/engine/containers/run/) — overview

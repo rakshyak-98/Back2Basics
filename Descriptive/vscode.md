@@ -5,7 +5,7 @@
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
 ```txt
-        VS Code (CLI and w ──┬── Interview
+        VS Code (CLI and w ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Editor fluency shows debugging/LSP setup
+## Why It Matters
+- **Key signal:** Editor fluency shows debugging/LSP setup
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

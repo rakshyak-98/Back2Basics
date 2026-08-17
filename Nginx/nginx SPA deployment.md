@@ -5,7 +5,7 @@
 > Client-side routers own URLs that are not on disk — `try_files` falls back to `index.html` without breaking API routes or hashed assets.
 
 ```txt
-        Nginx SPA Deployme ──┬── Interview
+        Nginx SPA Deployme ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Frontend/platform interviews ask why refresh on `/dashboard` 404s, how to spl…
+## Why It Matters
+- **Key signal:** Frontend/platform reviews ask why refresh on `/dashboard` 404s, how to spl…
 
 ## Sources
 - [nginx.org — try_files](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files) — deep-dive

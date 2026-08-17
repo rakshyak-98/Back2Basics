@@ -5,7 +5,7 @@
 > The OOM killer terminates processes when the kernel cannot free enough memory after reclaim — on the whole machine or inside a cgroup that hit its limit.
 
 ```txt
-        OOM (Linux Out Of  ──┬── Interview
+        OOM (Linux Out Of  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core SRE signal: distinguish host OOM from cgroup/container OOM, read `dmesg`…
+## Why It Matters
+- **Key signal:** Core SRE signal: distinguish host OOM from cgroup/container OOM, read `dmesg`…
 
 ## Sources
 - [OOM Killer — kernel admin guide](https://www.kernel.org/doc/html/latest/admin-guide/mm/oom-killer.html) — deep-dive

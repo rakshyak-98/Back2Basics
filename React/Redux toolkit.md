@@ -5,7 +5,7 @@
 > Official Redux batteries — `configureStore`, `createSlice`, Immer, and thunks without hand-written boilerplate.
 
 ```txt
-        Redux Toolkit ──┬── Interview
+        Redux Toolkit ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers treat RTK as the default Redux answer
+## Why It Matters
+- **Key signal:** Reviewers treat RTK as the default Redux answer
 
 ## Sources
 - [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started) — deep-dive

@@ -5,7 +5,7 @@
 > Functions — first-class values with multiple returns; methods are functions with a receiver.
 
 ```txt
-        go functions ──┬── Interview
+        go functions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Multiple returns, defer, and method receivers show up constantly
+## Why It Matters
+- **Key signal:** Multiple returns, defer, and method receivers show up constantly
 
 ## Sources
 - [Go spec — Function types](https://go.dev/ref/spec#Function_types) — deep-dive

@@ -5,13 +5,13 @@
 > AWS networking is VPC-centric: you define IP ranges, subnets per Availability Zone, route tables, gateways, and firewalls — most "cannot connect" incidents are routing or security group mistakes, not broken cables.
 
 ```txt
-        AWS Networking ──┬── Interview
+        AWS Networking ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AWS Networking to see whether you can design and opera…
+## Why It Matters
+- **Key signal:** Reviewers ask about AWS Networking to see whether you can design and opera…
 
 ## Sources
 - [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) — overview

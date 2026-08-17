@@ -5,7 +5,7 @@
 > Amazon Web Services — cloud building blocks (compute, storage, network, identity) you compose with APIs; misconfigured IAM or security groups usually break first.
 
 ```txt
-        AWS ──┬── Interview
+        AWS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to separate identity ([[IAM]]), network reachability …
+## Why It Matters
+- **Key signal:** Reviewers expect you to separate identity ([[IAM]]), network reachability …
 
 ## Sources
 - [AWS Documentation](https://docs.aws.amazon.com/) — deep-dive

@@ -5,7 +5,7 @@
 > B-tree secondary structures in InnoDB that map indexed column values to primary keys—right indexes turn table scans into range seeks; wrong indexes slow writes.
 
 ```txt
-        mysql index ──┬── Interview
+        mysql index ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Indexing is a staple: composite leftmost prefix, EXPLAIN access types, and wr…
+## Why It Matters
+- **Key signal:** Indexing is a staple: composite leftmost prefix, EXPLAIN access types, and wr…
 
 ## Sources
 - [MySQL Reference Manual — Optimization and Indexes](https://dev.mysql.com/doc/refman/en/optimization-indexes.html) — deep-dive

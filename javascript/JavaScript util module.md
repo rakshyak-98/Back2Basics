@@ -5,7 +5,7 @@
 > JavaScript util module (Node.js) — legacy Node core APIs are callback-last (err, result) =>. util.promisify wraps them into Promises for async/await composition with promise chains.
 
 ```txt
-        JavaScript util mo ──┬── Interview
+        JavaScript util mo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **JavaScript util module (Node.js)** to see if you underst…
+## Why It Matters
+- **Key signal:** Reviewers probe **JavaScript util module (Node.js)** to see if you underst…
 
 ## Sources
 - [Wikipedia — JavaScript util module](https://en.wikipedia.org/wiki/JavaScript_util_module) — overview

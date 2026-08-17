@@ -5,7 +5,7 @@
 > One-way loop: UI dispatches → middleware → reducer → store notify → UI selects.
 
 ```txt
-        Redux concept and  ──┬── Interview
+        Redux concept and  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux concept and data flow](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) — deep-dive

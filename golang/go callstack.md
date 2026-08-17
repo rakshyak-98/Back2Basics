@@ -5,7 +5,7 @@
 > Call stack unwind — Go walks frames backward on panic and runs each `defer` before the frame dies.
 
 ```txt
-        go callstack ──┬── Interview
+        go callstack ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Panic/defer unwind questions separate “errors as values” from stack unwinding
+## Why It Matters
+- **Key signal:** Panic/defer unwind questions separate “errors as values” from stack unwinding
 
 ## Sources
 - [Go spec — Defer statements](https://go.dev/ref/spec#Defer_statements) — deep-dive

@@ -5,7 +5,7 @@
 > ETag + If-Match stop lost updates — write only if the resource is still the version you read.
 
 ```txt
-        ETAG or IF MATCH ──┬── Interview
+        ETAG or IF MATCH ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: vers…
+## Why It Matters
+- **Key signal:** Reviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: vers…
 
 ## Sources
 - [RFC 9110 — HTTP Semantics (Conditional Requests / ETag)](https://www.rfc-editor.org/rfc/rfc9110#name-conditional-requests) — deep-dive

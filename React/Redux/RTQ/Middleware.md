@@ -5,7 +5,7 @@
 > RTK Query middleware manages subscriptions, caching lifetimes, and request lifecycle in the store.
 
 ```txt
-        RTK Query Middlewa ──┬── Interview
+        RTK Query Middlewa ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [RTK Query Middleware](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive

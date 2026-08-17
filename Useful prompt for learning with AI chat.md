@@ -5,7 +5,7 @@
 > Useful learning prompts — ask the model for facts to memorize, real problems to solve, contrasts, and post-mortems on your mistakes.
 
 ```txt
-        Useful prompt for  ──┬── Interview
+        Useful prompt for  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Self-taught and staff candidates who learn deliberately beat those who only p…
+## Why It Matters
+- **Key signal:** Self-taught and staff candidates who learn deliberately beat those who only p…
 
 ## Sources
 - [Make It Stick — retrieval practice (overview via authors’ site)](https://www.retrievalpractice.org/) — overview

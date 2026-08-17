@@ -5,7 +5,7 @@
 > Ops umbrella for a host — packages, services, users, storage, network, and observability.
 
 ```txt
-        Linux management ──┬── Interview
+        Linux management ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff/ops framing: cattle vs pets, break-glass vs config management, blast ra…
+## Why It Matters
+- **Key signal:** Staff/ops framing: cattle vs pets, break-glass vs config management, blast ra…
 
 ## Sources
 - [Google SRE book — Effective Troubleshooting](https://sre.google/sre-book/effective-troubleshooting/) — overview

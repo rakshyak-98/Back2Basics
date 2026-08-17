@@ -5,7 +5,7 @@
 > Line-oriented Unix text editor — edit files by address and command when you have a shell but no full-screen UI.
 
 ```txt
-        ed ──┬── Interview
+        ed ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers rarely quiz `ed` itself
+## Why It Matters
+- **Key signal:** Reviewers rarely quiz `ed` itself
 
 ## Sources
 - [GNU ed manual](https://www.gnu.org/software/ed/manual/ed_manual.html) — deep-dive

@@ -5,7 +5,7 @@
 > MySQL Event Scheduler—cron-like jobs executing SQL inside the server (`CREATE EVENT`) for housekeeping, rollups, and partition maintenance.
 
 ```txt
-        MySQL Events ──┬── Interview
+        MySQL Events ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Event scheduler questions cover enabling `event_scheduler`, `CREATE EVENT` sy…
+## Why It Matters
+- **Key signal:** Event scheduler questions cover enabling `event_scheduler`, `CREATE EVENT` sy…
 
 ## Sources
 - [MySQL Reference Manual — Event Scheduler](https://dev.mysql.com/doc/refman/en/event-scheduler.html) — deep-dive

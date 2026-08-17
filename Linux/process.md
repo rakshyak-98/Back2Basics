@@ -5,7 +5,7 @@
 > A running program instance — the kernel tracks PID, memory, open files, and scheduling until exit.
 
 ```txt
-        process ──┬── Interview
+        process ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core OS question: fork/exec, zombies, signals (TERM vs KILL), and D-state vs …
+## Why It Matters
+- **Key signal:** Core OS question: fork/exec, zombies, signals (TERM vs KILL), and D-state vs …
 
 ## Sources
 - [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) — deep-dive

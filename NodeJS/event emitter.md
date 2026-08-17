@@ -5,7 +5,7 @@
 > Pub/sub inside one process — `emit` named events; listeners run synchronously in registration order.
 
 ```txt
-        event emitter ──┬── Interview
+        event emitter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **event emitter** to check whether you can explain the mecha…
+## Why It Matters
+- **Key signal:** Reviewers use **event emitter** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — deep-dive

@@ -5,7 +5,7 @@
 > Inspect live and historical MySQL queries — `SHOW PROCESSLIST`, Performance Schema, and the slow query log — to find what blocks production.
 
 ```txt
-        show query ──┬── Interview
+        show query ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** On-call / debugging signal: how do you find the culprit query, kill it safely…
+## Why It Matters
+- **Key signal:** On-call / debugging signal: how do you find the culprit query, kill it safely…
 
 ## Sources
 - [SHOW PROCESSLIST](https://dev.mysql.com/doc/refman/en/show-processlist.html) — overview

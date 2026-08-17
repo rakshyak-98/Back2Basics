@@ -5,7 +5,7 @@
 > Concurrent connections — how many live sockets/sessions you hold at once; often the real limit before CPU is.
 
 ```txt
-        concurrent connect ──┬── Interview
+        concurrent connect ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** FD/socket limits, keepalives, and why connection count ≠ request concurrency.
+## Why It Matters
+- **Key signal:** FD/socket limits, keepalives, and why connection count ≠ request concurrency.
 
 ## Sources
 - [Wikipedia — concurrent connection](https://en.wikipedia.org/wiki/concurrent_connection) — overview

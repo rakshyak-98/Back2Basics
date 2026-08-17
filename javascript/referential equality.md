@@ -5,7 +5,7 @@
 > Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
 ```txt
-        Referential equali ──┬── Interview
+        Referential equali ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Referential equality** to see if you understand what it …
+## Why It Matters
+- **Key signal:** Reviewers probe **Referential equality** to see if you understand what it …
 
 ## Sources
 - [Wikipedia — referential equality](https://en.wikipedia.org/wiki/referential_equality) — overview

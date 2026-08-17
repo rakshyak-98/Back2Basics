@@ -5,7 +5,7 @@
 > Message broker — middleware that accepts messages from producers and delivers them to consumers via queues or streams.
 
 ```txt
-        Message Broker ──┬── Interview
+        Message Broker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want delivery guarantees (at-most/at-least/exactly-once *effects…
+## Why It Matters
+- **Key signal:** Reviewers want delivery guarantees (at-most/at-least/exactly-once *effects…
 
 ## Sources
 - [Wikipedia — Message broker](https://en.wikipedia.org/wiki/Message_broker) — overview

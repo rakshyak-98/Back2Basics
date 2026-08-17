@@ -5,7 +5,7 @@
 > `declare module` and `.d.ts` files describe JavaScript libraries TypeScript cannot see types for — they declare shapes; they do not implement runtime code.
 
 ```txt
-        ambient modules ──┬── Interview
+        ambient modules ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ambient modules to see if you can shim untyped package…
+## Why It Matters
+- **Key signal:** Reviewers ask about ambient modules to see if you can shim untyped package…
 
 ## Sources
 - [TypeScript Handbook — Modules — ambient modules](https://www.typescriptlang.org/docs/handbook/modules.html) — overview

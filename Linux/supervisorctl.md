@@ -5,7 +5,7 @@
 > CLI for Supervisor — start/stop/tail programs from `supervisord.conf` when systemd is not the process manager.
 
 ```txt
-        supervisorctl ──┬── Interview
+        supervisorctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Legacy Python/deploy literacy: know Supervisor exists, how `reread`/`update` …
+## Why It Matters
+- **Key signal:** Legacy Python/deploy literacy: know Supervisor exists, how `reread`/`update` …
 
 ## Sources
 - [Supervisor documentation](http://supervisord.org/) — deep-dive

@@ -5,7 +5,7 @@
 > An application programming interface is the contract between clients and your backend: stable resources, predictable errors, and explicit authentication — hide implementation details, not product capability.
 
 ```txt
-        API design ──┬── Interview
+        API design ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch for resource modeling, idempotency on retries, pagination …
+## Why It Matters
+- **Key signal:** Reviewers watch for resource modeling, idempotency on retries, pagination …
 
 ## Sources
 - [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231) — HTTP/1.1 semantics and methods — deep-dive

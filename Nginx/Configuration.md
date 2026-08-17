@@ -5,7 +5,7 @@
 > Reverse proxy and static file front door — match a `location`, then `root`/`alias`, `proxy_pass`, or `fastcgi_pass`; always `nginx -t` before reload.
 
 ```txt
-        Nginx Configuratio ──┬── Interview
+        Nginx Configuratio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you pick `location` precedence, when `root` vs `alias` d…
+## Why It Matters
+- **Key signal:** Reviewers ask how you pick `location` precedence, when `root` vs `alias` d…
 
 ## Sources
 - [nginx.org — Beginner’s Guide](https://nginx.org/en/docs/beginners_guide.html) — overview

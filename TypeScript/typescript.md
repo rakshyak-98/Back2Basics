@@ -5,7 +5,7 @@
 > TypeScript is JavaScript plus a static type layer erased at compile time — it catches interface mistakes before runtime, not instead of runtime checks.
 
 ```txt
-        typescript ──┬── Interview
+        typescript ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask TypeScript to see if you understand erasure (types disappear…
+## Why It Matters
+- **Key signal:** Reviewers ask TypeScript to see if you understand erasure (types disappear…
 
 ## Sources
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html) — deep-dive

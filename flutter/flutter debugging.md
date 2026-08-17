@@ -5,7 +5,7 @@
 > Watch the Dart VM, Flutter tool, and platform bridges (`adb`, iOS tools) while an app runs — find jank, crashes, and layout bugs.
 
 ```txt
-        Flutter debugging ──┬── Interview
+        Flutter debugging ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care that you can name the processes in a debug session, when ho…
+## Why It Matters
+- **Key signal:** Reviewers care that you can name the processes in a debug session, when ho…
 
 ## Sources
 - [Flutter — Debugging Flutter apps](https://docs.flutter.dev/testing/debugging) — deep-dive

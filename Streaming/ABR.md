@@ -5,7 +5,7 @@
 > ABR picks a lower or higher quality mid-play — match the viewer's bandwidth so playback stays smooth.
 
 ```txt
-        ABR (Adaptive Bit  ──┬── Interview
+        ABR (Adaptive Bit  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk ABR end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk ABR end-to-end
 
 ## Sources
 - [Wikipedia — ABR](https://en.wikipedia.org/wiki/ABR) — overview
@@ -100,7 +100,7 @@ ffmpeg -i <source> -c copy -f flv rtmp://cdn1/live/key \
 | A/V jump at switch | Audio not shared / wrong group | Separate audio group or align audio segments |
 
 - **Mistake:** **ABR ≠ encoding**
-- **Unaligned keyframes** — switch mid-GOP::** → glitch until the next IDR. Align or fail interviews on “seamless ABR”
+- **Unaligned keyframes** — switch mid-GOP::** → glitch until the next IDR. Align or fail reviews on “seamless ABR”
 - **Mistake:** **CDN only cached the default rung**
 - **Mistake:** **Encode cost scales with N**
 

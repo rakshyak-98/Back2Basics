@@ -5,7 +5,7 @@
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
 ```txt
-        Lexical Grammer ──┬── Interview
+        Lexical Grammer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Lexical grammar questions check how JS source is tokenized
+## Why It Matters
+- **Key signal:** Lexical grammar questions check how JS source is tokenized
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

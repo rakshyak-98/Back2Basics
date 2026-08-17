@@ -5,7 +5,7 @@
 > Two-sided marketplace: buyers and sellers share catalog and checkout — hard parts are inventory races, payments, payouts, and trust — not CRUD screens.
 
 ```txt
-        Marketplace app ──┬── Interview
+        Marketplace app ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff interviews probe double-sale prevention, webhook idempotency, payout vs…
+## Why It Matters
+- **Key signal:** Staff reviews probe double-sale prevention, webhook idempotency, payout vs…
 
 ## Sources
 - [Stripe — Webhooks best practices](https://stripe.com/docs/webhooks/best-practices) — deep-dive

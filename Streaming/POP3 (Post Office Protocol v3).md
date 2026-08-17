@@ -5,7 +5,7 @@
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
 ```txt
-        POP3 (Post Office  ──┬── Interview
+        POP3 (Post Office  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about POP3 to see if you understand the pipeline role, failu…
+## Why It Matters
+- **Key signal:** Reviewers ask about POP3 to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3) — overview

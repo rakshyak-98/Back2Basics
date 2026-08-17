@@ -5,7 +5,7 @@
 > Injection of executable script into a page another user's browser will run — steals sessions, defaces UI, exfiltrates data.
 
 ```txt
-        Cross-site scripti ──┬── Interview
+        Cross-site scripti ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Must-know web vuln: stored/reflected/DOM XSS, output encoding, and why CSP is…
+## Why It Matters
+- **Key signal:** Must-know web vuln: stored/reflected/DOM XSS, output encoding, and why CSP is…
 
 ## Sources
 - [OWASP — Cross Site Scripting](https://owasp.org/www-community/attacks/xss/) — overview

@@ -5,7 +5,7 @@
 > Network Interface Card — hardware (or virtio) port that moves L2 frames between host memory and the wire; 10G is the common server step-up from 1G.
 
 ```txt
-        NIC (10 NIC) ──┬── Interview
+        NIC (10 NIC) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about NICs to see if you separate line rate from application…
+## Why It Matters
+- **Key signal:** Reviewers ask about NICs to see if you separate line rate from application…
 
 ## Sources
 - [Wikipedia — Network interface controller](https://en.wikipedia.org/wiki/Network_interface_controller) — overview

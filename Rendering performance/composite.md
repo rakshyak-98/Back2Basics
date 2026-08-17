@@ -5,7 +5,7 @@
 > Compositing merges painted layers into the final frame — the cheap last step when animations only change transform or opacity.
 
 ```txt
-        composite ──┬── Interview
+        composite ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Frontend performance interviews ask why `transform` / `opacity` stay smooth w…
+## Why It Matters
+- **Key signal:** Frontend performance reviews ask why `transform` / `opacity` stay smooth w…
 
 ## Sources
 - [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive

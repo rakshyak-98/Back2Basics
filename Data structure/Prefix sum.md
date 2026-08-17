@@ -5,7 +5,7 @@
 > Precomputed cumulative totals — answer any fixed-range sum query in O(1) after O(n) preprocess; foundation for range queries, subarray counts, and difference arrays.
 
 ```txt
-        Prefix sum ──┬── Interview
+        Prefix sum ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Prefix sums are a classic range-query trick
+## Why It Matters
+- **Key signal:** Prefix sums are a classic range-query trick
 
 ## Sources
 - [Wikipedia — Prefix sum](https://en.wikipedia.org/wiki/Prefix_sum) — overview

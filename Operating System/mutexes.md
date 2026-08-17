@@ -5,7 +5,7 @@
 > A mutex (mutual exclusion lock) ensures at most one thread runs a protected [[critical sections]] region at a time — the default tool when shared mutable state must not race.
 
 ```txt
-        Mutexes ──┬── Interview
+        Mutexes ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Futex fast-path, lock ordering, hold-time rules, and mutex vs semaphore.
+## Why It Matters
+- **Key signal:** Futex fast-path, lock ordering, hold-time rules, and mutex vs semaphore.
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — mutexes and futex — deep-dive

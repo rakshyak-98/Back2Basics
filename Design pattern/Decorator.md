@@ -5,15 +5,15 @@
 > Decorator wraps an object to add responsibilities dynamically while keeping the same interface — stacking layers instead of subclassing every combination.
 
 ```txt
-        Decorator ──┬── Interview
+        Decorator ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Decorator checks open/closed extension by wrapping the same interface
+## Why It Matters
+- **Key signal:** Decorator checks open/closed extension by wrapping the same interface
 
 ## Sources
 - Gamma et al., *Design Patterns* (Decorator) — deep-dive

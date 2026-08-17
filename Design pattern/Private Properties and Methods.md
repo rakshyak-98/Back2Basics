@@ -5,15 +5,15 @@
 > Private members hide implementation detail inside a class or module — so invariants stay enforceable and public APIs stay small.
 
 ```txt
-        Private Properties ──┬── Interview
+        Private Properties ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask encapsulation mechanics
+## Why It Matters
+- **Key signal:** Reviewers ask encapsulation mechanics
 
 ## Sources
 - Gamma et al., *Design Patterns* (encapsulation) — deep-dive

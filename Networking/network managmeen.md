@@ -5,7 +5,7 @@
 > NetworkManager sits between kernel netlink and admin intent (CLI, GUI, cloud-init) — persistent connection profiles, not one-off `ip` commands.
 
 ```txt
-        NetworkManager (ne ──┬── Interview
+        NetworkManager (ne ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask NetworkManager when routes or DNS “vanish after reboot”
+## Why It Matters
+- **Key signal:** Reviewers ask NetworkManager when routes or DNS “vanish after reboot”
 
 ## Sources
 - [NetworkManager documentation](https://networkmanager.dev/docs/) — deep-dive

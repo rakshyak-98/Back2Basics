@@ -5,7 +5,7 @@
 > Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
 ```txt
-        Encoding ──┬── Interview
+        Encoding ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Encoding to see if you understand the pipeline role, f…
+## Why It Matters
+- **Key signal:** Reviewers ask about Encoding to see if you understand the pipeline role, f…
 
 ## Sources
 - [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding) — overview

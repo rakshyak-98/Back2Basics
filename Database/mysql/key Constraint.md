@@ -5,7 +5,7 @@
 > MySQL constraints—PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK (8.0.16+)—that enforce row validity at insert/update time.
 
 ```txt
-        key Constraint ──┬── Interview
+        key Constraint ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Constraint questions check PRIMARY/UNIQUE/FK/CHECK literacy, InnoDB-only FKs,…
+## Why It Matters
+- **Key signal:** Constraint questions check PRIMARY/UNIQUE/FK/CHECK literacy, InnoDB-only FKs,…
 
 ## Sources
 - [MySQL Reference Manual — CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html) — deep-dive

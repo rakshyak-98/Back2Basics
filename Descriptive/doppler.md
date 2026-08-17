@@ -5,7 +5,7 @@
 > Doppler — stores secrets in projects × configs (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
 
 ```txt
-        Doppler ──┬── Interview
+        Doppler ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Doppler (secrets) interviews cover syncing secrets to runtimes without baking…
+## Why It Matters
+- **Key signal:** Doppler (secrets) reviews cover syncing secrets to runtimes without baking…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

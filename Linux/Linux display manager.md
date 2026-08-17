@@ -5,7 +5,7 @@
 > A display manager (DM) shows the graphical login greeter and starts the user’s X11 or Wayland session after authentication.
 
 ```txt
-        Linux display mana ──┬── Interview
+        Linux display mana ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Graphical login troubleshooting: GDM/SDDM/LightDM, PAM auth, session `.deskto…
+## Why It Matters
+- **Key signal:** Graphical login troubleshooting: GDM/SDDM/LightDM, PAM auth, session `.deskto…
 
 ## Sources
 - [Arch Wiki — Display manager](https://wiki.archlinux.org/title/Display_manager) — overview

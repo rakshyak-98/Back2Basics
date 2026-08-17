@@ -5,7 +5,7 @@
 > Linux configuration is the sum of `/etc`, per-user dotfiles, kernel boot parameters, and systemd units that define how this host behaves.
 
 ```txt
-        Linux configuratio ──┬── Interview
+        Linux configuratio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Senior ops signal: know which layer wins (image → distro defaults → `/etc` → …
+## Why It Matters
+- **Key signal:** Senior ops signal: know which layer wins (image → distro defaults → `/etc` → …
 
 ## Sources
 - [FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html) — overview

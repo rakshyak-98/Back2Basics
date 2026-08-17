@@ -5,14 +5,14 @@
 > An Elastic IP is a static public IPv4 address you allocate to your account and associate with an instance or network interface — it survives stop/start but costs money when allocated and not attached.
 
 ```txt
-        Elastic IP ──┬── Interview
+        Elastic IP ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Elastic IP questions cover public addressing, costs when unattached, and alte…
+## Why It Matters
+- **Key signal:** Elastic IP questions cover public addressing, costs when unattached, and alte…
 
 ## Sources
 - [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) — overview

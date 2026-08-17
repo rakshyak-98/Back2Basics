@@ -5,7 +5,7 @@
 > Compile and bundle React into static assets — minify, split chunks, hash filenames for CDN caching.
 
 ```txt
-        React build ──┬── Interview
+        React build ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask what a production build does differently from dev (minify, t…
+## Why It Matters
+- **Key signal:** Reviewers ask what a production build does differently from dev (minify, t…
 
 ## Sources
 - [Vite production build](https://vitejs.dev/guide/build.html) — deep-dive

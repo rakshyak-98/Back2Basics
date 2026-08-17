@@ -5,15 +5,15 @@
 > Facade offers a single simplified entry point to a subsystem — hiding many classes, protocols, and error modes behind one coordinated call.
 
 ```txt
-        Facade ──┬── Interview
+        Facade ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Facade probes giving callers one simple entry to a messy subsystem
+## Why It Matters
+- **Key signal:** Facade probes giving callers one simple entry to a messy subsystem
 
 ## Sources
 - Gamma et al., *Design Patterns* (Facade) — deep-dive

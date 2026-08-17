@@ -5,7 +5,7 @@
 > Reuse a bounded set of open database connections — acquire, use, release — so request threads do not pay connect cost or exhaust the database.
 
 ```txt
-        Connection Pool (L ──┬── Interview
+        Connection Pool (L ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic LLD: thread safety, max size, timeouts, validation (borrow/return), a…
+## Why It Matters
+- **Key signal:** Classic LLD: thread safety, max size, timeouts, validation (borrow/return), a…
 
 ## Sources
 - [HikariCP — About](https://github.com/brettwooldridge/HikariCP) — deep-dive

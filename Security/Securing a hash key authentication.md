@@ -5,7 +5,7 @@
 > Shared-secret HMAC authentication done safely — vault the key, rotate it, verify tags in constant time, always over TLS.
 
 ```txt
-        Securing a hash ke ──┬── Interview
+        Securing a hash ke ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** API design: shared-secret HMAC auth
+## Why It Matters
+- **Key signal:** API design: shared-secret HMAC auth
 
 ## Sources
 - [OWASP — REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html) — overview

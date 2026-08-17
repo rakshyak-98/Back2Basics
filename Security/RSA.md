@@ -5,7 +5,7 @@
 > Public-key algorithm from factoring hardness — historically TLS and signatures; prefer modern curves for new signing when you can.
 
 ```txt
-        RSA ──┬── Interview
+        RSA ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Crypto: RSA keygen/sign/encrypt roles, padding (OAEP/PSS), and why new system…
+## Why It Matters
+- **Key signal:** Crypto: RSA keygen/sign/encrypt roles, padding (OAEP/PSS), and why new system…
 
 ## Sources
 - [RFC 8017 — PKCS #1 RSA Cryptography](https://www.rfc-editor.org/rfc/rfc8017) — deep-dive

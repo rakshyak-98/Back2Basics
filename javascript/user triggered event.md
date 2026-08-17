@@ -5,7 +5,7 @@
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
 ```txt
-        User-triggered eve ──┬── Interview
+        User-triggered eve ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **User-triggered events** to see if you understand what it…
+## Why It Matters
+- **Key signal:** Reviewers probe **User-triggered events** to see if you understand what it…
 
 ## Sources
 - [Wikipedia — user triggered event](https://en.wikipedia.org/wiki/user_triggered_event) — overview

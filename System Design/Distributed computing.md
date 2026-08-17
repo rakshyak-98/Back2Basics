@@ -5,7 +5,7 @@
 > Distributed computing splits one workload across networked machines that exchange messages — aggregate capacity paid for with coordination, partial failure, and serialization.
 
 ```txt
-        Distributed comput ──┬── Interview
+        Distributed comput ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Partition + idempotent tasks + checkpoints
+## Why It Matters
+- **Key signal:** Partition + idempotent tasks + checkpoints
 
 ## Sources
 - Dean & Ghemawat, MapReduce (OSDI 2004) — deep-dive

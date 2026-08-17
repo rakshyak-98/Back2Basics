@@ -5,7 +5,7 @@
 > A Head-End System (HES) sits at the edge of trust between devices and the core platform — ingesting telemetry, validating identity, buffering bursts, and forwarding with at-least-once delivery that the core must dedupli…
 
 ```txt
-        HES Architecture ──┬── Interview
+        HES Architecture ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain head-end as trust boundary between field devices and IT systems
+## Why It Matters
+- **Key signal:** Explain head-end as trust boundary between field devices and IT systems
 
 ## Sources
 - IEC 61968 / utility head-end integration guides (domain-specific) — overview

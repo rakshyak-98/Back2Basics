@@ -5,7 +5,7 @@
 > Terminal client for Vercel — link a project, pull environment variables, preview-deploy, and promote to production.
 
 ```txt
-        Vercel CLI ──┬── Interview
+        Vercel CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want preview vs `--prod`, how linking works (`.vercel/`), and CI…
+## Why It Matters
+- **Key signal:** Reviewers want preview vs `--prod`, how linking works (`.vercel/`), and CI…
 
 ## Sources
 - [Vercel CLI reference](https://vercel.com/docs/cli) — deep-dive

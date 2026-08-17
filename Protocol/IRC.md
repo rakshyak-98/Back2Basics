@@ -5,7 +5,7 @@
 > IRC (Internet Relay Chat) — clients join a server or network of servers for channels and DMs; text chat over a simple TCP protocol.
 
 ```txt
-        IRC ──┬── Interview
+        IRC ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use IRC to probe simple line protocols, TLS versus cleartext por…
+## Why It Matters
+- **Key signal:** Reviewers use IRC to probe simple line protocols, TLS versus cleartext por…
 
 ## Sources
 - [RFC 1459 — Internet Relay Chat Protocol](https://datatracker.ietf.org/doc/html/rfc1459) — deep-dive

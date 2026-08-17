@@ -5,7 +5,7 @@
 > Common Node runtime failures — await/module-mode mistakes, ESM path helpers, and `super()` order in custom errors.
 
 ```txt
-        Runtime Errors ──┬── Interview
+        Runtime Errors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Runtime Errors** to check whether you can explain the mech…
+## Why It Matters
+- **Key signal:** Reviewers use **Runtime Errors** to check whether you can explain the mech…
 
 ## Sources
 - [Wikipedia — Runtime Errors](https://en.wikipedia.org/wiki/Runtime_Errors) — overview

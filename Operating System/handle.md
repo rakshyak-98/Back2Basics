@@ -5,7 +5,7 @@
 > A handle is an opaque token the OS returns so user mode can reference a kernel object without exposing its address — Windows HANDLEs and Unix file descriptors play the same role.
 
 ```txt
-        Handle ──┬── Interview
+        Handle ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Cross-platform systems: opaque capability tokens, duplication/inheritance, an…
+## Why It Matters
+- **Key signal:** Cross-platform systems: opaque capability tokens, duplication/inheritance, an…
 
 ## Sources
 - [Microsoft Learn — Handles and Objects](https://learn.microsoft.com/en-us/windows/win32/sysinfo/handles-and-objects) — deep-dive

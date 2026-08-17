@@ -5,7 +5,7 @@
 > Functions that let function components hold state and side effects — call them at the top level, same order every render.
 
 ```txt
-        react hooks ──┬── Interview
+        react hooks ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want Rules of Hooks, dependency arrays, and when a custom hook b…
+## Why It Matters
+- **Key signal:** Reviewers want Rules of Hooks, dependency arrays, and when a custom hook b…
 
 ## Sources
 - [React — Reusing Logic with Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive

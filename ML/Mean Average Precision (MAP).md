@@ -5,15 +5,15 @@
 > Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
 ```txt
-        Mean Average Preci ──┬── Interview
+        Mean Average Preci ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Mean Average Precision (MAP) to check whether you can …
+## Why It Matters
+- **Key signal:** Reviewers ask about Mean Average Precision (MAP) to check whether you can …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

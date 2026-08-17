@@ -5,7 +5,7 @@
 > `by` hands a property’s getter/setter logic to another object — reuse lazy load, observables, and map-backed fields without boilerplate.
 
 ```txt
-        Kotlin property de ──┬── Interview
+        Kotlin property de ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want `by lazy`, custom `ReadOnlyProperty`, and how delegation di…
+## Why It Matters
+- **Key signal:** Reviewers want `by lazy`, custom `ReadOnlyProperty`, and how delegation di…
 
 ## Sources
 - [Kotlin — Delegated properties](https://kotlinlang.org/docs/delegated-properties.html) — deep-dive

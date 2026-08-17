@@ -5,7 +5,7 @@
 > WebDriver is the W3C API for driving browsers — Selenium talks WebDriver to click, type, and assert UI.
 
 ```txt
-        webdriver ──┬── Interview
+        webdriver ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** WebDriver interviews cover browser automation
+## Why It Matters
+- **Key signal:** WebDriver reviews cover browser automation
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 test → WebDriver → chromedriver → Chrome
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Driver** | Browser binary bridge | “Version must match browser.” |
 | **Locator** | How to find elements | “CSS/xpath; avoid brittle paths.” |

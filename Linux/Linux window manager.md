@@ -5,7 +5,7 @@
 > The window manager controls focus, placement, decorations, and workspaces — the policy layer above the display server.
 
 ```txt
-        Linux window manag ──┬── Interview
+        Linux window manag ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop architecture question: stacking vs tiling, X11 WM as a separate clien…
+## Why It Matters
+- **Key signal:** Desktop architecture question: stacking vs tiling, X11 WM as a separate clien…
 
 ## Sources
 - [i3wm.org](https://i3wm.org/) — overview

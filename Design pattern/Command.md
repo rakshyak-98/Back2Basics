@@ -5,7 +5,7 @@
 > Command encapsulates a request as an object — so you can queue, log, undo, and wire requests to handlers without the invoker knowing operation details.
 
 ```txt
-        Command ──┬── Interview
+        Command ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Command questions encapsulate requests as objects
+## Why It Matters
+- **Key signal:** Command questions encapsulate requests as objects
 
 ## Sources
 - Gamma et al., *Design Patterns* (Command) — deep-dive

@@ -5,7 +5,7 @@
 > An interpreter executes source or bytecode at runtime — trading startup simplicity and portability for lower peak speed than ahead-of-time native binaries.
 
 ```txt
-        Interpreter ──┬── Interview
+        Interpreter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Compiler vs interpreter vs JIT
+## Why It Matters
+- **Key signal:** Compiler vs interpreter vs JIT
 
 ## Sources
 - Aho, Lam, Sethi & Ullman, *Compilers: Principles, Techniques, and Tools* — deep-dive

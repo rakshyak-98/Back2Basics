@@ -5,7 +5,7 @@
 > Change the URI inside Nginx before looking up files or proxying — different from `root`/`alias`/`try_files`, which leave the browser URL alone unless you `return`/`permanent`.
 
 ```txt
-        nginx URL rewrite ──┬── Interview
+        nginx URL rewrite ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers distinguish internal rewrite vs external redirect (`permanent`/`…
+## Why It Matters
+- **Key signal:** Reviewers distinguish internal rewrite vs external redirect (`permanent`/`…
 
 ## Sources
 - [nginx.org — ngx_http_rewrite_module](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) — deep-dive

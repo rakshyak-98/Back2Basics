@@ -5,7 +5,7 @@
 > busctl introspects and calls D-Bus APIs — the same IPC bus systemd, NetworkManager, logind, and desktop services use.
 
 ```txt
-        busctl ──┬── Interview
+        busctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Platform debugging: system vs session bus, introspect-before-call, and when t…
+## Why It Matters
+- **Key signal:** Platform debugging: system vs session bus, introspect-before-call, and when t…
 
 ## Sources
 - [busctl(1)](https://www.freedesktop.org/software/systemd/man/latest/busctl.html) — deep-dive

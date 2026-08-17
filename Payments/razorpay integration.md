@@ -5,7 +5,7 @@
 > Razorpay Standard Checkout: your server creates an Order, the browser opens Checkout with that `order_id`, you verify the payment signature, and webhooks cover closed tabs.
 
 ```txt
-        razorpay integrati ──┬── Interview
+        razorpay integrati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for the Order → Checkout → HMAC signature verify → webhook …
+## Why It Matters
+- **Key signal:** Reviewers look for the Order → Checkout → HMAC signature verify → webhook …
 
 ## Sources
 - [Razorpay — Standard Checkout integration steps](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/) — deep-dive

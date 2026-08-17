@@ -5,7 +5,7 @@
 > InnoDB row-level locks, gap locks, and next-key locks that implement isolation—deadlocks are normal and one transaction is rolled back.
 
 ```txt
-        mysql lock ──┬── Interview
+        mysql lock ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Locking interviews cover record/gap/next-key locks under REPEATABLE READ, `FO…
+## Why It Matters
+- **Key signal:** Locking reviews cover record/gap/next-key locks under REPEATABLE READ, `FO…
 
 ## Sources
 - [MySQL Reference Manual — InnoDB Locking](https://dev.mysql.com/doc/refman/en/innodb-locking.html) — deep-dive

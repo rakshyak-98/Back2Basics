@@ -5,7 +5,7 @@
 > An abstract storage location is any addressable place where bytes live — file, block device, memory-mapped region, or cloud object — without naming the physical medium underneath.
 
 ```txt
-        Abstract storage l ──┬── Interview
+        Abstract storage l ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want you to separate *what the app names* (path, volume, LBA, ha…
+## Why It Matters
+- **Key signal:** Reviewers want you to separate *what the app names* (path, volume, LBA, ha…
 
 ## Sources
 - [Linux kernel docs — Page Cache](https://docs.kernel.org/mm/page_cache.html) — deep-dive

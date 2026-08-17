@@ -5,7 +5,7 @@
 > The display server is the broker between applications and the GPU — it owns input devices, window surfaces, and the path to the framebuffer clients draw into.
 
 ```txt
-        display server ──┬── Interview
+        display server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic systems question: X11 vs Wayland, where the WM sits, and how to tell …
+## Why It Matters
+- **Key signal:** Classic systems question: X11 vs Wayland, where the WM sits, and how to tell …
 
 ## Sources
 - [Wayland (freedesktop.org)](https://wayland.freedesktop.org/) — overview

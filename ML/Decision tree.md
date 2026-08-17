@@ -5,7 +5,7 @@
 > Decision tree — asks yes/no feature questions until a leaf assigns a class or average target value.
 
 ```txt
-        Decision tree ──┬── Interview
+        Decision tree ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use decision trees to check impurity splits, overfit knobs (dept…
+## Why It Matters
+- **Key signal:** Reviewers use decision trees to check impurity splits, overfit knobs (dept…
 
 ## Sources
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview

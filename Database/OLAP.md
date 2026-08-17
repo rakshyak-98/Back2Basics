@@ -5,7 +5,7 @@
 > Online Analytical Processing — large scans and aggregations over historical data where throughput and columnar compression beat single-row latency.
 
 ```txt
-        OLAP ──┬── Interview
+        OLAP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast OLAP with [[OLTP]]: schema shape, storage (row vs colum…
+## Why It Matters
+- **Key signal:** Reviewers contrast OLAP with [[OLTP]]: schema shape, storage (row vs colum…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 3 — deep-dive

@@ -2,10 +2,10 @@
 
 # DSA combinatorics formulas
 
-> High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
+> High-frequency counting formulas for reviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
 ```txt
-        DSA combinatorics  ──┬── Interview
+        DSA combinatorics  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Combinatorics formulas are a speed check
+## Why It Matters
+- **Key signal:** Combinatorics formulas are a speed check
 
 ## Sources
 - [Wikipedia — Combinatorics](https://en.wikipedia.org/wiki/Combinatorics) — overview
@@ -99,7 +99,7 @@ Permutations of n distinct:        n!
 ## Mistakes to Avoid
 - **Mistake:** `n(n+1)/2` is substrings, not subsequences
 - **Mistake:** Duplicate elements
-- **Mistake:** Interview "formula" questions
+- **Mistake:** Review "formula" questions
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Problem has constraint structure — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.

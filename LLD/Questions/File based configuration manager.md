@@ -5,7 +5,7 @@
 > Central loader for system settings from files — typed access, refresh rules, and safe defaults when files are missing or malformed.
 
 ```txt
-        File-based configu ──┬── Interview
+        File-based configu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** LLD interviews probe singleton vs injectability, hot reload vs restart, valid…
+## Why It Matters
+- **Key signal:** LLD reviews probe singleton vs injectability, hot reload vs restart, valid…
 
 ## Sources
 - [12-Factor — Config](https://12factor.net/config/) — overview

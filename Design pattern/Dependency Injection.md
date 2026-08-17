@@ -5,7 +5,7 @@
 > Dependency Injection supplies a component's dependencies from outside rather than letting it construct them — so behavior stays testable and wiring stays explicit.
 
 ```txt
-        Dependency Injecti ──┬── Interview
+        Dependency Injecti ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** DI questions test invert-control
+## Why It Matters
+- **Key signal:** DI questions test invert-control
 
 ## Sources
 - Martin, *Dependency Injection* principles (commonly cited in enterprise patterns) — overview

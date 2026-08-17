@@ -5,7 +5,7 @@
 > Multicast DNS resolves `*.local` hostnames on a link without a central server — printers, Chromecast, and development services use it, but untrusted networks should treat `.local` names as spoofable.
 
 ```txt
-        mDNS ──┬── Interview
+        mDNS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how Bonjour/Avahi find devices without DNS, and why `.local`…
+## Why It Matters
+- **Key signal:** Reviewers ask how Bonjour/Avahi find devices without DNS, and why `.local`…
 
 ## Sources
 - [RFC 6762 — Multicast DNS](https://datatracker.ietf.org/doc/html/rfc6762) — deep-dive

@@ -5,7 +5,7 @@
 > Reserved and unreserved SQL keywords in PostgreSQL — identifiers that need quoting when used as table or column names.
 
 ```txt
-        psql keywords ──┬── Interview
+        psql keywords ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explains mysterious syntax errors around `"user"` tables and teaches identifi…
+## Why It Matters
+- **Key signal:** Explains mysterious syntax errors around `"user"` tables and teaches identifi…
 
 ## Sources
 - [SQL Key Words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html) — overview

@@ -5,7 +5,7 @@
 > Packs files into a portable `.zip` archive — common for sharing; lossy for Unix permissions versus `tar`.
 
 ```txt
-        zip ──┬── Interview
+        zip ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect `-r` for directories, weak zip encryption vs real crypto, and when to …
+## Why It Matters
+- **Key signal:** Expect `-r` for directories, weak zip encryption vs real crypto, and when to …
 
 ## Sources
 - [Info-ZIP zip documentation](http://infozip.sourceforge.net/Zip.html) — overview

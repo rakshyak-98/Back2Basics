@@ -5,7 +5,7 @@
 > Feature importance — "Importance" is not one number — definition depends on method:
 
 ```txt
-        Feature importance ──┬── Interview
+        Feature importance ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Feature importance to check whether you can choose mod…
+## Why It Matters
+- **Key signal:** Reviewers ask about Feature importance to check whether you can choose mod…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

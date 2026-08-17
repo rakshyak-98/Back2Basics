@@ -5,7 +5,7 @@
 > Connection pool for outbound HTTP — keep-alive sockets, max sockets per host, and fewer TCP/TLS handshakes.
 
 ```txt
-        agent (http.Agent) ──┬── Interview
+        agent (http.Agent) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **agent (http.Agent)** to check whether you can explain the …
+## Why It Matters
+- **Key signal:** Reviewers use **agent (http.Agent)** to check whether you can explain the …
 
 ## Sources
 - [Node.js — http.Agent](https://nodejs.org/api/http.html#class-httpagent) — deep-dive

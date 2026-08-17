@@ -5,14 +5,14 @@
 > STS issues temporary security credentials after a principal proves it may assume a role — production AWS access should flow through STS rather than static access keys.
 
 ```txt
-        aws STS (Security  ──┬── Interview
+        aws STS (Security  ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                └── Pitfalls
 ```
 
-## Interview Relevance
-- **Interview probes:** STS interviews cover AssumeRole, temporary credentials, and federation
+## Why It Matters
+- **Key signal:** STS reviews cover AssumeRole, temporary credentials, and federation
 
 ## Sources
 - [AWS STS API Reference](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) — deep-dive

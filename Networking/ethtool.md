@@ -5,7 +5,7 @@
 > ethtool talks to the NIC driver — link speed, offloads, rings, and drop counters live here, not in the routing table.
 
 ```txt
-        ethtool ──┬── Interview
+        ethtool ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to use `ethtool` when `ip link` is UP but throughput …
+## Why It Matters
+- **Key signal:** Reviewers expect you to use `ethtool` when `ip link` is UP but throughput …
 
 ## Sources
 - [ethtool(8) — Linux man page](https://man7.org/linux/man-pages/man8/ethtool.8.html) — deep-dive

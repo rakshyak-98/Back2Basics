@@ -5,7 +5,7 @@
 > Two pointers walk a sequence from ends or in tandem — linear passes instead of nested loops when order helps.
 
 ```txt
-        Two pointer ──┬── Interview
+        Two pointer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Two pointers compress O(n²) scans when order or a monotonic invariant allows
+## Why It Matters
+- **Key signal:** Two pointers compress O(n²) scans when order or a monotonic invariant allows
 
 ## Sources
 - [Wikipedia — Two-pointer technique (algorithmic pattern)](https://en.wikipedia.org/wiki/Two_pointers_technique) — overview
@@ -25,9 +25,9 @@
 L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Opposite ends** | sorted pair/sum | “Shrink from the large side.” |
 | **Same direction** | remove dups / windows | “Read & write pointers.” |

@@ -5,7 +5,7 @@
 > lspci lists PCI devices the kernel sees — vendor/device IDs, topology, and which kernel driver is bound.
 
 ```txt
-        lspci ──┬── Interview
+        lspci ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device presen…
+## Why It Matters
+- **Key signal:** Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device presen…
 
 ## Sources
 - [lspci(8)](https://man7.org/linux/man-pages/man8/lspci.8.html) — deep-dive

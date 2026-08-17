@@ -5,7 +5,7 @@
 > Ship a vertical slice — UI, hooks, API, tests — as a feature module instead of scattering files by technical type only.
 
 ```txt
-        React feature impl ──┬── Interview
+        React feature impl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers like feature-based folders and ask how you keep a feature releas…
+## Why It Matters
+- **Key signal:** Reviewers like feature-based folders and ask how you keep a feature releas…
 
 ## Sources
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — overview

@@ -5,7 +5,7 @@
 > Query language + runtime — client asks for exact fields; one endpoint serves queries, mutations, and (optionally) subscriptions.
 
 ```txt
-        graphql ──┬── Interview
+        graphql ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **graphql** to check whether you can explain the mechanism i…
+## Why It Matters
+- **Key signal:** Reviewers use **graphql** to check whether you can explain the mechanism i…
 
 ## Sources
 - [GraphQL — Learn](https://graphql.org/learn/) — deep-dive

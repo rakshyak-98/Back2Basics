@@ -5,7 +5,7 @@
 > Message broker that speaks AMQP — producers publish to exchanges, which route messages into queues for consumers to process asynchronously.
 
 ```txt
-        RabbitMQ ──┬── Interview
+        RabbitMQ ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use RabbitMQ to check exchange/queue/binding mental models, ackn…
+## Why It Matters
+- **Key signal:** Reviewers use RabbitMQ to check exchange/queue/binding mental models, ackn…
 
 ## Sources
 - [RabbitMQ documentation — AMQP 0-9-1 model](https://www.rabbitmq.com/tutorials/amqp-concepts.html) — deep-dive

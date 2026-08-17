@@ -5,7 +5,7 @@
 > Controlled port and service discovery — map what is listening; authorization and scope come before any scan.
 
 ```txt
-        nmap ──┬── Interview
+        nmap ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Tests whether you understand scan types (SYN vs connect), noisy flags (`-A`, …
+## Why It Matters
+- **Key signal:** Tests whether you understand scan types (SYN vs connect), noisy flags (`-A`, …
 
 ## Sources
 - [Nmap Reference Guide](https://nmap.org/book/man.html) — deep-dive

@@ -5,7 +5,7 @@
 > Public-key cryptography — encrypt or verify with public key; decrypt or sign with private key; solves key distribution at cost of CPU and size limits.
 
 ```txt
-        Asymmetrical encry ──┬── Interview
+        Asymmetrical encry ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Crypto interviews check that you know public-key encrypt/decrypt vs sign/veri…
+## Why It Matters
+- **Key signal:** Crypto reviews check that you know public-key encrypt/decrypt vs sign/veri…
 
 ## Sources
 - [NIST SP 800-57 Part 1 — Key Management](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final) — deep-dive

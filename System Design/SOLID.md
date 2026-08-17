@@ -5,7 +5,7 @@
 > SOLID names five object-oriented design habits that keep modules focused, substitutable, and open to extension without turning every change into a shotgun edit.
 
 ```txt
-        SOLID ──┬── Interview
+        SOLID ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Define each SOLID letter with a one-line example and a violation smell.
+## Why It Matters
+- **Key signal:** Define each SOLID letter with a one-line example and a violation smell.
 
 ## Sources
 - Robert C. Martin, "The Principles of OOD" — [butunclebob.com](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html) — overview

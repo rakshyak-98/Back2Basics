@@ -5,7 +5,7 @@
 > Sliding window — grow/shrink a contiguous range while keeping an invariant (sum, unique chars, etc.).
 
 ```txt
-        Sliding window ──┬── Interview
+        Sliding window ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Sliding window is a high-frequency pattern
+## Why It Matters
+- **Key signal:** Sliding window is a high-frequency pattern
 
 ## Sources
 - [Wikipedia — Sliding window protocol](https://en.wikipedia.org/wiki/Sliding_window_protocol) — overview

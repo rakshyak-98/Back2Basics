@@ -5,7 +5,7 @@
 > WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
 ```txt
-        WebAssembly (Wasm) ──┬── Interview
+        WebAssembly (Wasm) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **WebAssembly (Wasm)** to see if you understand what it do…
+## Why It Matters
+- **Key signal:** Reviewers probe **WebAssembly (Wasm)** to see if you understand what it do…
 
 ## Sources
 - [WebAssembly — Concepts](https://webassembly.org/docs/wasm-or-asmjs/) — overview

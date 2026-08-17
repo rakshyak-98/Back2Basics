@@ -5,7 +5,7 @@
 > Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
 ```txt
-        Session Storage ──┬── Interview
+        Session Storage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Session Storage** to check whether you can explain the mec…
+## Why It Matters
+- **Key signal:** Reviewers use **Session Storage** to check whether you can explain the mec…
 
 ## Sources
 - [MDN — sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) — deep-dive

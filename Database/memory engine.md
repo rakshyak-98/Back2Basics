@@ -5,7 +5,7 @@
 > MySQL `MEMORY` (formerly `HEAP`) storage engine—tables live entirely in RAM with table-level locking and no crash durability.
 
 ```txt
-        memory engine ──┬── Interview
+        memory engine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** MEMORY engine questions check whether you know it is non-durable and table-lo…
+## Why It Matters
+- **Key signal:** MEMORY engine questions check whether you know it is non-durable and table-lo…
 
 ## Sources
 - [MySQL Reference Manual — MEMORY Storage Engine](https://dev.mysql.com/doc/refman/en/memory-storage-engine.html) — deep-dive

@@ -5,7 +5,7 @@
 > LLVM-based C/C++/Objective-C compiler front end — parses your source, emits LLVM IR, then the rest of the toolchain optimizes and codegen’s.
 
 ```txt
-        Clang ──┬── Interview
+        Clang ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast clang vs gcc flags, what a “front end” does vs LLVM mid…
+## Why It Matters
+- **Key signal:** Reviewers contrast clang vs gcc flags, what a “front end” does vs LLVM mid…
 
 ## Sources
 - [Clang — Official documentation](https://clang.llvm.org/docs/index.html) — deep-dive

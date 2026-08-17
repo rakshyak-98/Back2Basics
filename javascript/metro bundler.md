@@ -5,7 +5,7 @@
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
 ```txt
-        Metro Bundler ──┬── Interview
+        Metro Bundler ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Metro Bundler** to see if you understand what it does op…
+## Why It Matters
+- **Key signal:** Reviewers probe **Metro Bundler** to see if you understand what it does op…
 
 ## Sources
 - [Metro — Concepts](https://metrobundler.dev/docs/concepts/) — deep-dive

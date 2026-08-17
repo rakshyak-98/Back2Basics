@@ -5,7 +5,7 @@
 > Next.js is a React framework with file-based routing, server rendering, and a production build — you ship pages, not a blank client shell.
 
 ```txt
-        Next JS ──┬── Interview
+        Next JS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Next.js to test whether you can choose App Router versus Pag…
+## Why It Matters
+- **Key signal:** Reviewers use Next.js to test whether you can choose App Router versus Pag…
 
 ## Sources
 - [Next.js Docs — Getting Started](https://nextjs.org/docs) — overview

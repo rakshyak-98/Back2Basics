@@ -5,7 +5,7 @@
 > Next-generation Node ORM — model schema in `schema.prisma`, generate a type-safe client, and migrate the database from that source of truth.
 
 ```txt
-        Prisma ──┬── Interview
+        Prisma ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask schema → `prisma generate` → client usage, migrate vs push, …
+## Why It Matters
+- **Key signal:** Reviewers ask schema → `prisma generate` → client usage, migrate vs push, …
 
 ## Sources
 - [Prisma — ORM manifesto](https://www.prisma.io/blog/prisma-orm-manifesto) — overview

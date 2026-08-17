@@ -5,7 +5,7 @@
 > Clean Architecture — keep business rules independent of frameworks by pointing all source dependencies inward.
 
 ```txt
-        Clean Architecture ──┬── Interview
+        Clean Architecture ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Clean Architecture interviews test the Dependency Rule
+## Why It Matters
+- **Key signal:** Clean Architecture reviews test the Dependency Rule
 
 ## Sources
 - [Robert C. Martin — Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — deep-dive

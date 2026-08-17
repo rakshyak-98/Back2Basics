@@ -5,7 +5,7 @@
 > Delta file sync over SSH or local — backups and deploys with `-a`, dry-run, and careful trailing slashes.
 
 ```txt
-        rsync ──┬── Interview
+        rsync ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic operations question: trailing-slash semantics, `--delete` danger, and…
+## Why It Matters
+- **Key signal:** Classic operations question: trailing-slash semantics, `--delete` danger, and…
 
 ## Sources
 - [rsync man page](https://download.samba.org/pub/rsync/rsync.1) — deep-dive

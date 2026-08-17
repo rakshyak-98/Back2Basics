@@ -5,7 +5,7 @@
 > Split one MySQL table into segments (RANGE, LIST, HASH, KEY) so retention and pruning stay cheap — still one server, not a shard grid.
 
 ```txt
-        mysql partitioning ──┬── Interview
+        mysql partitioning ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** “Partition or shard?” and “when does pruning fail?” are common prompts
+## Why It Matters
+- **Key signal:** “Partition or shard?” and “when does pruning fail?” are common prompts
 
 ## Sources
 - [MySQL Reference Manual — Partitioning Overview](https://dev.mysql.com/doc/refman/en/partitioning-overview.html) — overview

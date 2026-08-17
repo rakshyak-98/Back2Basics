@@ -5,7 +5,7 @@
 > Standardized boxes-and-lines notation for structure, behavior, and deployment — design reviews and onboarding — **UML 2.x subset for engineers**.
 
 ```txt
-        UML diagram ──┬── Interview
+        UML diagram ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** UML interviews check whether you pick the right diagram for the question
+## Why It Matters
+- **Key signal:** UML reviews check whether you pick the right diagram for the question
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

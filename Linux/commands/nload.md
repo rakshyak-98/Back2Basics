@@ -5,7 +5,7 @@
 > Live per-interface bandwidth graphs from `/proc/net/dev` — “is this NIC saturated?” not “which process?”.
 
 ```txt
-        nload ──┬── Interview
+        nload ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can pick the right granularity for network triage: interface rates …
+## Why It Matters
+- **Key signal:** Shows you can pick the right granularity for network triage: interface rates …
 
 ## Sources
 - [nload on GitHub](https://github.com/rolandviehbeck/nload) — overview

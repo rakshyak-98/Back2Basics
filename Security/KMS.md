@@ -5,7 +5,7 @@
 > Managed cryptographic keys (often HSM-backed) so apps encrypt data without holding long-term master key material.
 
 ```txt
-        KMS (Key Managemen ──┬── Interview
+        KMS (Key Managemen ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Cloud security: envelope encryption, CMK vs data keys, and why apps call KMS …
+## Why It Matters
+- **Key signal:** Cloud security: envelope encryption, CMK vs data keys, and why apps call KMS …
 
 ## Sources
 - [AWS KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/) — deep-dive

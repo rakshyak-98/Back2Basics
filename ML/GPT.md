@@ -5,7 +5,7 @@
 > GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
 ```txt
-        GPT ──┬── Interview
+        GPT ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** GPT questions check transformer next-token prediction, context limits, and ha…
+## Why It Matters
+- **Key signal:** GPT questions check transformer next-token prediction, context limits, and ha…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -26,9 +26,9 @@
 messages[] → API → assistant tokens (+ optional tool_calls)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Tokens** | Chunks of text | “Cost and context are token-based.” |
 | **Context window** | Max tokens in play | “Truncate or summarize history.” |

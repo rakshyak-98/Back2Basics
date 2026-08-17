@@ -5,7 +5,7 @@
 > Strategy defines a family of algorithms, encapsulates each one, and makes them interchangeable — so the client picks behavior at runtime without conditional branches in the hot path.
 
 ```txt
-        Strategy pattern ──┬── Interview
+        Strategy pattern ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Strategy tests swapping algorithms at runtime without if/else forests
+## Why It Matters
+- **Key signal:** Strategy tests swapping algorithms at runtime without if/else forests
 
 ## Sources
 - Gamma et al., *Design Patterns* (Strategy) — deep-dive

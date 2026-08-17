@@ -5,7 +5,7 @@
 > The SOLID diagram is a visual map of the five principles — how single responsibility, open/closed, Liskov substitution, interface segregation, and dependency inversion relate when drawing module boundaries.
 
 ```txt
-        solid diagram ──┬── Interview
+        solid diagram ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Visual map of SOLID — use it to recall dependencies and violation shapes.
+## Why It Matters
+- **Key signal:** Visual map of SOLID — use it to recall dependencies and violation shapes.
 
 ## Sources
 - Robert C. Martin, *Clean Architecture* — concentric circles and dependency rule — overview
@@ -80,7 +80,7 @@ OrderService ──► PaymentGateway (interface)
 - **Mistake:** Optimizing or distributing before measuring the real bottleneck
 
 ## Pros/Cons or Trade-offs
-- **Pro:** Fast recall under interview pressure.
+- **Pro:** Fast recall under review pressure.
 - **Con:** Diagram without examples stays decorative.
 - **Trade-off:** keep diagram lean vs annotating every edge case.
 

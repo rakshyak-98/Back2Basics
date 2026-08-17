@@ -5,7 +5,7 @@
 > `fillRect` paints a filled axis-aligned rectangle on a canvas 2D context (note: often mistyped as fillReact).
 
 ```txt
-        fillReact ──┬── Interview
+        fillReact ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may probe fillReact as tooling or web platform literacy
+## Why It Matters
+- **Key signal:** Reviewers may probe fillReact as tooling or web platform literacy
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 getContext('2d') → fillStyle → fillRect
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Canvas** | Immediate bitmap API | “No retained rect nodes.” |
 | **fill vs stroke** | Interior vs outline | `fillRect` / `strokeRect` |

@@ -5,7 +5,7 @@
 > Every Linux process exits with an 8-bit status (0–255) — shells, systemd, and CI pipelines use it to decide whether a step succeeded.
 
 ```txt
-        Error status code ──┬── Interview
+        Error status code ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Tests whether you read `$?`, interpret signal exits (137 = SIGKILL/OOM), and …
+## Why It Matters
+- **Key signal:** Tests whether you read `$?`, interpret signal exits (137 = SIGKILL/OOM), and …
 
 ## Sources
 - `man 7 signal` — deep-dive

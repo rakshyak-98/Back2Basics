@@ -5,7 +5,7 @@
 > A kernel or application buffer moves through allocate → fill → optionally dirty → flush → reclaim — each step fails differently if the next stage is slower than the producer.
 
 ```txt
-        Buffer lifecycle ──┬── Interview
+        Buffer lifecycle ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Design-review prompt: power loss mid-lifecycle, which layer blocks the produc…
+## Why It Matters
+- **Key signal:** Design-review prompt: power loss mid-lifecycle, which layer blocks the produc…
 
 ## Sources
 - Linux kernel: `mm/page-writeback.c`, block layer writeback — deep-dive

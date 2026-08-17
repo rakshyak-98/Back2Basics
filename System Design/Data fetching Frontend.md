@@ -5,7 +5,7 @@
 > Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
 ```txt
-        Data fetching Fron ──┬── Interview
+        Data fetching Fron ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Query-cache keys, invalidation after mutations, waterfall avoidance, and auth…
+## Why It Matters
+- **Key signal:** Query-cache keys, invalidation after mutations, waterfall avoidance, and auth…
 
 ## Sources
 - TanStack Query / SWR documentation — overview

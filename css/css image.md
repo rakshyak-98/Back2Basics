@@ -5,7 +5,7 @@
 > Percent-sized images inside a clipped parent need explicit width, height, and `object-fit` — otherwise browsers disagree on the containing block and the image stretches or leaks.
 
 ```txt
-        CSS image sizing ( ──┬── Interview
+        CSS image sizing ( ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use clipped-image sizing to check whether you understand replace…
+## Why It Matters
+- **Key signal:** Reviewers use clipped-image sizing to check whether you understand replace…
 
 ## Sources
 - [MDN — `object-fit`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) — deep-dive

@@ -5,7 +5,7 @@
 > Server-to-server HTTP callback when something happens — the receiver must verify, dedupe, and answer fast; it is not a durable message bus.
 
 ```txt
-        Webhook ──┬── Interview
+        Webhook ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about webhooks to test signature verification, idempotency u…
+## Why It Matters
+- **Key signal:** Reviewers ask about webhooks to test signature verification, idempotency u…
 
 ## Sources
 - [Wikipedia — Webhook](https://en.wikipedia.org/wiki/Webhook) — overview

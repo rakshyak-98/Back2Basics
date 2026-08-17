@@ -5,7 +5,7 @@
 > Terraform setup is install the CLI, pin versions, configure providers and auth, optionally remote state, then run the first workflow.
 
 ```txt
-        Terraform setup ──┬── Interview
+        Terraform setup ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask version pins, remote state + locking, and how secrets stay o…
+## Why It Matters
+- **Key signal:** Reviewers ask version pins, remote state + locking, and how secrets stay o…
 
 ## Sources
 - [HashiCorp — Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) — overview

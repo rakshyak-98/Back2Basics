@@ -5,7 +5,7 @@
 > PostgreSQL essentials — roles, databases, connections, and the few `psql` commands you need before tuning queries or replication.
 
 ```txt
-        postgres essential ──┬── Interview
+        postgres essential ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers start Postgres with cluster vs database vs schema, auth (`pg_hba…
+## Why It Matters
+- **Key signal:** Reviewers start Postgres with cluster vs database vs schema, auth (`pg_hba…
 
 ## Sources
 - [PostgreSQL Documentation — Getting Started](https://www.postgresql.org/docs/current/tutorial-start.html) — overview

@@ -5,7 +5,7 @@
 > groupadd creates a Unix group (name + GID) — it does not add members; file permissions and sudo/docker access hang off group membership.
 
 ```txt
-        groupadd ──┬── Interview
+        groupadd ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you know GID vs membership, `-r` system groups, and the classic `usermo…
+## Why It Matters
+- **Key signal:** Shows you know GID vs membership, `-r` system groups, and the classic `usermo…
 
 ## Sources
 - [groupadd(8)](https://man7.org/linux/man-pages/man8/groupadd.8.html) — deep-dive

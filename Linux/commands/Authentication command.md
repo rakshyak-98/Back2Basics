@@ -5,7 +5,7 @@
 > Host and user crypto helpers — ssh-keygen/keyscan/ssh-add for SSH trust; gpg for signing and encrypting.
 
 ```txt
-        Authentication com ──┬── Interview
+        Authentication com ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Separates host-key trust from user auth, and shows safe CI known_hosts practi…
+## Why It Matters
+- **Key signal:** Separates host-key trust from user auth, and shows safe CI known_hosts practi…
 
 ## Sources
 - [ssh-keygen(1)](https://man.openbsd.org/ssh-keygen) — deep-dive

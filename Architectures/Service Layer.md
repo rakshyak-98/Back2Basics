@@ -5,7 +5,7 @@
 > Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
 
 ```txt
-        Service Layer ──┬── Interview
+        Service Layer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Service Layer interviews check where business rules live
+## Why It Matters
+- **Key signal:** Service Layer reviews check where business rules live
 
 ## Sources
 - [Martin Fowler — Service Layer](https://martinfowler.com/eaaCatalog/serviceLayer.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** HTTP / UI → Controller → Service (rules + txn) → Repository → DB
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Service** | Use-case / business logic | “Validation and multi-table rules live here.” |
 | **Transaction boundary** | Begin/commit/rollback scope | “The service owns the unit of work.” |

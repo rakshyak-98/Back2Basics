@@ -5,7 +5,7 @@
 > `mongosh` is the modern MongoDB shell — connect, explore, run scripts against clusters.
 
 ```txt
-        mongosh ──┬── Interview
+        mongosh ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** mongosh interviews check interactive ops
+## Why It Matters
+- **Key signal:** mongosh reviews check interactive ops
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 mongosh "mongodb://…" → use db → helpers / scripts
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **URI** | Connection string | “Includes auth, DB, options.” |
 | **`use`** | Switch database | “Context for `db`.” |

@@ -5,7 +5,7 @@
 > De facto standard — so widely used it behaves like a standard without a formal vote.
 
 ```txt
-        de facto ──┬── Interview
+        de facto ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can separate market habit from ratified specs, and name lock-in / d…
+## Why It Matters
+- **Key signal:** Shows you can separate market habit from ratified specs, and name lock-in / d…
 
 ## Sources
 - [Wikipedia — De facto standard](https://en.wikipedia.org/wiki/De_facto_standard) — overview

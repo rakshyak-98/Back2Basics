@@ -5,7 +5,7 @@
 > A stack trace lists the chain of function calls at a moment — the first map when a program crashes, deadlocks, or logs an exception.
 
 ```txt
-        Stack trace ──┬── Interview
+        Stack trace ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Debugging interviews: read a trace top-to-bottom, know you need symbols, and …
+## Why It Matters
+- **Key signal:** Debugging reviews: read a trace top-to-bottom, know you need symbols, and …
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — core dumps — deep-dive

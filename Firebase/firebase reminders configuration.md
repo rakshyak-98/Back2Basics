@@ -5,7 +5,7 @@
 > Scheduled Cloud Functions query Firestore for upcoming events and send reminders — cron trigger + range query + mail/push transport.
 
 ```txt
-        Firebase reminders ──┬── Interview
+        Firebase reminders ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check idempotent schedules (do not email twice), secret handling…
+## Why It Matters
+- **Key signal:** Reviewers check idempotent schedules (do not email twice), secret handling…
 
 ## Sources
 - [Firebase — Schedule functions](https://firebase.google.com/docs/functions/schedule-functions) — deep-dive

@@ -5,7 +5,7 @@
 > Cloudflare operates a global anycast DNS network as registrar, authoritative DNS host, and public resolver (1.1.1.1) — the orange-cloud proxy adds CDN, DDoS protection, and WAF in front of your origin.
 
 ```txt
-        cloudflare ──┬── Interview
+        cloudflare ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Cloudflare to test proxied vs DNS-only records, apex CNAME f…
+## Why It Matters
+- **Key signal:** Reviewers use Cloudflare to test proxied vs DNS-only records, apex CNAME f…
 
 ## Sources
 - [Cloudflare DNS documentation](https://developers.cloudflare.com/dns/) — deep-dive

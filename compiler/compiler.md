@@ -5,7 +5,7 @@
 > Program that translates source in one language into machine code, bytecode, or another lower form a machine or VM can run.
 
 ```txt
-        Compiler ──┬── Interview
+        Compiler ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the pipeline (lex → parse → IR → optimize → codegen), front…
+## Why It Matters
+- **Key signal:** Reviewers want the pipeline (lex → parse → IR → optimize → codegen), front…
 
 ## Sources
 - [Aho et al. — Compilers: Principles, Techniques, and Tools](https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools) — deep-dive

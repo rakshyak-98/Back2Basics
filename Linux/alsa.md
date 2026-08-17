@@ -5,7 +5,7 @@
 > ALSA (Advanced Linux Sound Architecture) is the kernel sound layer — cards and PCM devices show up as `/dev/snd` and tools like `aplay` / `amixer`.
 
 ```txt
-        alsa ──┬── Interview
+        alsa ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use sound-stack questions to see if you separate kernel drivers …
+## Why It Matters
+- **Key signal:** Reviewers use sound-stack questions to see if you separate kernel drivers …
 
 ## Sources
 - [ALSA project documentation](https://www.alsa-project.org/wiki/Documentation) — overview

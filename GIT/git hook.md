@@ -5,7 +5,7 @@
 > scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
 ```txt
-        Git Hooks ──┬── Interview
+        Git Hooks ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git Hooks` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git Hooks` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

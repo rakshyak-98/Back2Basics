@@ -5,7 +5,7 @@
 > Stable interfaces, clear module boundaries, and short data paths so backend services stay changeable under load and failure.
 
 ```txt
-        Architectural back ──┬── Interview
+        Architectural back ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use backend design principles to see if you can defend modularit…
+## Why It Matters
+- **Key signal:** Reviewers use backend design principles to see if you can defend modularit…
 
 ## Sources
 - [Google SRE — Addressing Cascading Failures](https://sre.google/sre-book/addressing-cascading-failures/) — deep-dive

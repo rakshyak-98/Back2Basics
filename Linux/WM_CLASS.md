@@ -5,7 +5,7 @@
 > WM_CLASS is an X11 property (instance, class) that window managers use to apply rules — placement, workspace, floating, and focus behavior.
 
 ```txt
-        WM_CLASS ──┬── Interview
+        WM_CLASS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop/Linux niche: shows you can debug window rules with `xprop` and that W…
+## Why It Matters
+- **Key signal:** Desktop/Linux niche: shows you can debug window rules with `xprop` and that W…
 
 ## Sources
 - [ICCCM — WM_CLASS](https://tronche.com/gui/x/icccm/sec-4.html#s-4.1.4) — deep-dive

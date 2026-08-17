@@ -5,7 +5,7 @@
 > The legacy `mongo` shell runs JS against the server — prefer [[mongosh]] on modern installs; same admin patterns.
 
 ```txt
-        mongodb shell ──┬── Interview
+        mongodb shell ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Shell literacy covers legacy mongo vs mongosh and administrative recipes.
+## Why It Matters
+- **Key signal:** Shell literacy covers legacy mongo vs mongosh and administrative recipes.
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **`db`** | Current database handle | “`use mydb` switches context.” |
 | **`runCommand`** | Raw command API | “Everything is a command underneath.” |

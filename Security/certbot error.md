@@ -5,7 +5,7 @@
 > Certbot/ACME failures cluster into DNS, HTTP reachability, policy/rate limits, and local web-server misconfiguration.
 
 ```txt
-        Certbot error ──┬── Interview
+        Certbot error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops interviews triage Let's Encrypt failures
+## Why It Matters
+- **Key signal:** Ops reviews triage Let's Encrypt failures
 
 ## Sources
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — overview

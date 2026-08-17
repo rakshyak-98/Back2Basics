@@ -5,7 +5,7 @@
 > Tailwind CSS v4 errors like “Cannot apply unknown utility class” usually mean `@apply` ran in an isolated stylesheet without `@reference` — not that the utility was deleted.
 
 ```txt
-        tailwindcss Error ──┬── Interview
+        tailwindcss Error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use this failure to see if you understand Tailwind v4’s CSS-firs…
+## Why It Matters
+- **Key signal:** Reviewers use this failure to see if you understand Tailwind v4’s CSS-firs…
 
 ## Sources
 - [Tailwind CSS Docs — Functions and directives (`@reference`)](https://tailwindcss.com/docs/functions-and-directives#reference-directive) — deep-dive

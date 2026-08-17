@@ -5,7 +5,7 @@
 > Unions, generics, utility types, and narrowing describe values at compile time — they disappear at runtime, so they guide the checker rather than enforce data on the wire.
 
 ```txt
-        typescript types ──┬── Interview
+        typescript types ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers drill TypeScript types to see if you can narrow unions, use gene…
+## Why It Matters
+- **Key signal:** Reviewers drill TypeScript types to see if you can narrow unions, use gene…
 
 ## Sources
 - [TypeScript Handbook — Everyday Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html) — overview

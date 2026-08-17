@@ -5,7 +5,7 @@
 > LF (`\n`) and CRLF (`\r\n`) are line endings — Unix vs classic Windows; mismatches break scripts and diffs.
 
 ```txt
-        LF and CRLF ──┬── Interview
+        LF and CRLF ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Line-ending interviews cover cross-OS diffs and core.autocrlf
+## Why It Matters
+- **Key signal:** Line-ending reviews cover cross-OS diffs and core.autocrlf
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 LF = \n          CRLF = \r\n
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **LF** | Unix/macOS default | “Shell scripts need LF.” |
 | **CRLF** | Windows default | “Notepad legacy.” |

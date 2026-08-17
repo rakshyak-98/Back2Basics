@@ -5,7 +5,7 @@
 > Chain of Responsibility passes a request along a chain of handlers until one handles it — decoupling sender from receiver and allowing dynamic handler ordering.
 
 ```txt
-        Chain of Responsib ──┬── Interview
+        Chain of Responsib ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Chain of Responsibility probes handler pipelines
+## Why It Matters
+- **Key signal:** Chain of Responsibility probes handler pipelines
 
 ## Sources
 - Gamma et al., *Design Patterns* (Chain of Responsibility) — deep-dive

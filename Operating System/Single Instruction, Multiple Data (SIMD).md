@@ -5,7 +5,7 @@
 > SIMD runs one instruction across a vector of data lanes — SSE, AVX, AVX-512 on x86, NEON on ARM — speeding numeric kernels without extra threads.
 
 ```txt
-        Single Instruction ──┬── Interview
+        Single Instruction ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Performance interviews: data parallelism vs thread parallelism, when auto-vec…
+## Why It Matters
+- **Key signal:** Performance reviews: data parallelism vs thread parallelism, when auto-vec…
 
 ## Sources
 - Intel Intrinsics Guide — deep-dive

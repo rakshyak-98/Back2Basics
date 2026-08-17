@@ -5,7 +5,7 @@
 > GNOME color schemes and accent colors live in GSettings — `gsettings` / `dconf` flip dark/light preference and GTK theme for the desktop session.
 
 ```txt
-        gnome Colorschem ──┬── Interview
+        gnome Colorschem ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Light desktop-ops question: show you can change appearance non-interactively …
+## Why It Matters
+- **Key signal:** Light desktop-ops question: show you can change appearance non-interactively …
 
 ## Sources
 - [GNOME Human Interface Guidelines — appearance](https://developer.gnome.org/hig/) — overview

@@ -5,7 +5,7 @@
 > Row-level actions fired automatically on INSERT/UPDATE/DELETE — set audit columns, cascade logic, or guard invalid transitions inside the same statement transaction.
 
 ```txt
-        mysql triggers ──┬── Interview
+        mysql triggers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want awareness of hidden side effects: triggers complicate migra…
+## Why It Matters
+- **Key signal:** Reviewers want awareness of hidden side effects: triggers complicate migra…
 
 ## Sources
 - [CREATE TRIGGER](https://dev.mysql.com/doc/refman/en/create-trigger.html) — deep-dive

@@ -5,7 +5,7 @@
 > PallyCon (now DoveRunner) is multi-DRM SaaS — your backend mints a signed token so the player can ask for decryption keys.
 
 ```txt
-        Pallycon(DoveRunne ──┬── Interview
+        Pallycon(DoveRunne ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk Pallycon end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk Pallycon end-to-end
 
 ## Sources
 - [Wikipedia — Pallycon](https://en.wikipedia.org/wiki/Pallycon) — overview

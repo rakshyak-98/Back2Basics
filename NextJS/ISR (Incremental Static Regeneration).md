@@ -5,7 +5,7 @@
 > Incremental Static Regeneration regenerates static pages on a timer or on demand after deploy — users get a stale page immediately while a fresh one builds in the background.
 
 ```txt
-        ISR (Incremental S ──┬── Interview
+        ISR (Incremental S ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use ISR to test whether you can explain stale-while-revalidate v…
+## Why It Matters
+- **Key signal:** Reviewers use ISR to test whether you can explain stale-while-revalidate v…
 
 ## Sources
 - [Next.js Docs — Incremental Static Regeneration](https://nextjs.org/docs/app/guides/incremental-static-regeneration) — deep-dive

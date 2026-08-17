@@ -5,7 +5,7 @@
 > Many live channels at once — isolate encode/ingest per channel so one bad feed doesn’t take the fleet.
 
 ```txt
-        When scaling to hu ──┬── Interview
+        When scaling to hu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Multi-channel live scale questions probe isolation
+## Why It Matters
+- **Key signal:** Multi-channel live scale questions probe isolation
 
 ## Sources
 - [AWS — Live streaming](https://aws.amazon.com/media/tech/live-streaming/) — overview
@@ -27,9 +27,9 @@
                  └─ isolate CPU/GPU / limits per channel
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Channel** | One live program | “Own ingest URL and ABR ladder.” |
 | **Noisy neighbor** | One encode starves others | “Cap CPU/GPU per channel.” |

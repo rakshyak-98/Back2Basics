@@ -5,7 +5,7 @@
 > One IdP login unlocks many apps — the Service Provider redirects to the Identity Provider, then back with an assertion or code.
 
 ```txt
-        Single-sign-on (SS ──┬── Interview
+        Single-sign-on (SS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Identity interviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and …
+## Why It Matters
+- **Key signal:** Identity reviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and …
 
 ## Sources
 - [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive

@@ -5,7 +5,7 @@
 > Keyboard maps for modes and navigation — move, jump to definitions, and return via jumplist / tag stack.
 
 ```txt
-        vim keybindings ──┬── Interview
+        vim keybindings ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Signals you can navigate a large codebase in Vim/Neovim under screen share: m…
+## Why It Matters
+- **Key signal:** Signals you can navigate a large codebase in Vim/Neovim under screen share: m…
 
 ## Sources
 - [Neovim — LSP defaults](https://neovim.io/doc/user/lsp.html) — deep-dive

@@ -5,7 +5,7 @@
 > Legacy net-tools view of the kernel [[routing table]] — prefer `ip route` on modern systems.
 
 ```txt
-        route ──┬── Interview
+        route ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you know longest-prefix match, default routes, and that `route` is depr…
+## Why It Matters
+- **Key signal:** Shows you know longest-prefix match, default routes, and that `route` is depr…
 
 ## Sources
 - [man ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive

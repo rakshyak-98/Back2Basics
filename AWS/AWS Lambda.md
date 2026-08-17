@@ -5,13 +5,13 @@
 > Lambda runs your code in response to events without managing servers — cold starts, timeout limits, and IAM execution roles are usually what bite first.
 
 ```txt
-        AWS Lambda ──┬── Interview
+        AWS Lambda ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** Lambda questions probe cold starts, IAM execution roles, concurrency limits, …
+## Why It Matters
+- **Key signal:** Lambda questions probe cold starts, IAM execution roles, concurrency limits, …
 
 ## Sources
 - [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) — deep-dive

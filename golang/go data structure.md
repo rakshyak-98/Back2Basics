@@ -5,7 +5,7 @@
 > Go builtins — arrays (fixed), slices (view+len+cap), maps (hash), structs (records); pick by growth and ownership.
 
 ```txt
-        go data structure ──┬── Interview
+        go data structure ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Slices vs arrays vs maps are classic Go interview landmines
+## Why It Matters
+- **Key signal:** Slices vs arrays vs maps are classic Go review landmines
 
 ## Sources
 - [Go blog — Go Slices: usage and internals](https://go.dev/blog/slices-intro) — deep-dive

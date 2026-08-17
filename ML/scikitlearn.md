@@ -5,7 +5,7 @@
 > scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
 ```txt
-        scikitlearn ──┬── Interview
+        scikitlearn ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** sklearn literacy covers estimators, pipelines, cross-validation, and avoiding…
+## Why It Matters
+- **Key signal:** sklearn literacy covers estimators, pipelines, cross-validation, and avoiding…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Estimator** | Objects with fit | “Classifier/regressor API.” |
 | **Transformer** | fit/transform | “Scaler, encoder.” |

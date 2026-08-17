@@ -5,7 +5,7 @@
 > Reusable composition strategies — compound components, providers, hooks, controlled inputs — chosen for the API you want.
 
 ```txt
-        React design patte ──┬── Interview
+        React design patte ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which pattern fits a use case and what you’d avoid in modern…
+## Why It Matters
+- **Key signal:** Reviewers ask which pattern fits a use case and what you’d avoid in modern…
 
 ## Sources
 - [Context](https://react.dev/learn/passing-data-deeply-with-context) — overview

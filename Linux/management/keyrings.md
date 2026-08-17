@@ -5,7 +5,7 @@
 > APT keyrings hold the OpenPGP keys that verify repository metadata — modern path is `/usr/share/keyrings` + `signed-by=`.
 
 ```txt
-        keyrings ──┬── Interview
+        keyrings ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect deprecation of `apt-key`, per-repo `signed-by`, and how to fix `NO_PUB…
+## Why It Matters
+- **Key signal:** Expect deprecation of `apt-key`, per-repo `signed-by`, and how to fix `NO_PUB…
 
 ## Sources
 - [Debian wiki — SecureApt](https://wiki.debian.org/SecureApt) — deep-dive

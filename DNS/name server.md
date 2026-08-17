@@ -5,7 +5,7 @@
 > A nameserver answers DNS queries for zones it is authoritative for, or recursively resolves names on behalf of clients — confuse the two roles and you will open an open resolver or break delegation.
 
 ```txt
-        name server ──┬── Interview
+        name server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic question: authoritative vs recursive vs stub
+## Why It Matters
+- **Key signal:** Classic question: authoritative vs recursive vs stub
 
 ## Sources
 - [RFC 1034 — Domain concepts and facilities](https://datatracker.ietf.org/doc/html/rfc1034) — deep-dive

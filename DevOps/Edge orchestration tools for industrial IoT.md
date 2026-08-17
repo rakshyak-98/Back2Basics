@@ -5,7 +5,7 @@
 > Deploy, update, and watch container workloads on factory or remote devices that often have weak WAN links and must keep running offline.
 
 ```txt
-        Edge orchestration ──┬── Interview
+        Edge orchestration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about edge orchestration to see whether you understand cloud…
+## Why It Matters
+- **Key signal:** Reviewers ask about edge orchestration to see whether you understand cloud…
 
 ## Sources
 - [KubeEdge documentation](https://kubeedge.io/docs/) — overview

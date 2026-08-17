@@ -5,7 +5,7 @@
 > Linked list — don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 
 ```txt
-        Linked list ──┬── Interview
+        Linked list ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Linked lists test pointer/reference reasoning
+## Why It Matters
+- **Key signal:** Linked lists test pointer/reference reasoning
 
 ## Sources
 - [Wikipedia — Linked list](https://en.wikipedia.org/wiki/Linked_list) — overview

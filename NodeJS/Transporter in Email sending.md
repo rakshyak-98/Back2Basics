@@ -5,7 +5,7 @@
 > Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call transporter.sendMail(mailOptions) per message.
 
 ```txt
-        Nodemailer Transpo ──┬── Interview
+        Nodemailer Transpo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Nodemailer Transporter** to see if you understand what i…
+## Why It Matters
+- **Key signal:** Reviewers probe **Nodemailer Transporter** to see if you understand what i…
 
 ## Sources
 - [Wikipedia — Transporter in Email sending](https://en.wikipedia.org/wiki/Transporter_in_Email_sending) — overview

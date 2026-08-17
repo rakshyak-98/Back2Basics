@@ -5,7 +5,7 @@
 > `child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cluster workers and isolated JS processes; not for arbitrary shell commands.
 
 ```txt
-        fork ──┬── Interview
+        fork ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **fork** to see if you understand what it does operational…
+## Why It Matters
+- **Key signal:** Reviewers probe **fork** to see if you understand what it does operational…
 
 ## Sources
 - [Node.js — child_process.fork](https://nodejs.org/api/child_process.html#child_processforkmodulepath-args-options) — deep-dive

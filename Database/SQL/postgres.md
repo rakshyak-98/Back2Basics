@@ -5,7 +5,7 @@
 > PostgreSQL — open-source object-relational database with strong [[ACID]] defaults, extensible types, and [[MVCC]] concurrency so readers do not block writers.
 
 ```txt
-        postgres ──┬── Interview
+        postgres ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe MVCC (visibility, vacuum), isolation defaults, indexing (`…
+## Why It Matters
+- **Key signal:** Reviewers probe MVCC (visibility, vacuum), isolation defaults, indexing (`…
 
 ## Sources
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/current/) — deep-dive

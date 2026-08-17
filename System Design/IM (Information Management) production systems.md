@@ -5,7 +5,7 @@
 > Broadcast Information Management combines Media Asset Management with workflow orchestration — canonical masters, rights metadata, and frame-accurate lineage feeding playout and over-the-top streaming.
 
 ```txt
-        IM (Information Ma ──┬── Interview
+        IM (Information Ma ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Map MAM/PAM pieces: ingest, metadata, workflow, playout
+## Why It Matters
+- **Key signal:** Map MAM/PAM pieces: ingest, metadata, workflow, playout
 
 ## Sources
 - EBU Core Metadata — broadcast interoperability — overview

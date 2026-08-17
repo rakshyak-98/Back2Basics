@@ -5,7 +5,7 @@
 > Common Node + MySQL disconnect: idle connection killed by server `wait_timeout` — use a pool that replaces dead sockets.
 
 ```txt
-        node error ──┬── Interview
+        node error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node error** to check whether you can explain the mechanis…
+## Why It Matters
+- **Key signal:** Reviewers use **node error** to check whether you can explain the mechanis…
 
 ## Sources
 - [Node.js — Errors](https://nodejs.org/api/errors.html) — deep-dive

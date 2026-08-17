@@ -5,7 +5,7 @@
 > git diff — show unstaged, staged, or commit-to-commit file changes.
 
 ```txt
-        git diff ──┬── Interview
+        git diff ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Diff questions check staged vs unstaged, word-diff, and reading patches in re…
+## Why It Matters
+- **Key signal:** Diff questions check staged vs unstaged, word-diff, and reading patches in re…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

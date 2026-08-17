@@ -5,7 +5,7 @@
 > A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
 
 ```txt
-        bash script ──┬── Interview
+        bash script ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit c…
+## Why It Matters
+- **Key signal:** Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit c…
 
 ## Sources
 - [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) — deep-dive

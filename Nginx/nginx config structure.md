@@ -5,7 +5,7 @@
 > Config tree — `nginx.conf` sets globals; `include` pulls sites, snippets, and params so each app has its own vhost file.
 
 ```txt
-        nginx config struc ──┬── Interview
+        nginx config struc ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you know where to edit (main vs site vs snippet), how Debian `sites-ena…
+## Why It Matters
+- **Key signal:** Shows you know where to edit (main vs site vs snippet), how Debian `sites-ena…
 
 ## Sources
 - [nginx.org — Configuring nginx](https://nginx.org/en/docs/beginners_guide.html) — overview

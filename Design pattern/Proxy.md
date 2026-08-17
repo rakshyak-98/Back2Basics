@@ -5,15 +5,15 @@
 > Proxy provides a stand-in object that controls access to another — lazy loading, remote calls, permissions, or logging without changing the real subject's interface.
 
 ```txt
-        Proxy ──┬── Interview
+        Proxy ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Proxy interviews cover access control, lazy init, and remoting
+## Why It Matters
+- **Key signal:** Proxy reviews cover access control, lazy init, and remoting
 
 ## Sources
 - Gamma et al., *Design Patterns* (Proxy) — deep-dive

@@ -5,7 +5,7 @@
 > Creates an account record — UID, home, shell, groups — usually lower-level than `adduser` on Debian/Ubuntu.
 
 ```txt
-        useradd ──┬── Interview
+        useradd ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect `-m` for home, `--system` for service accounts, and `adduser` vs `user…
+## Why It Matters
+- **Key signal:** Expect `-m` for home, `--system` for service accounts, and `adduser` vs `user…
 
 ## Sources
 - [man useradd](https://man7.org/linux/man-pages/man8/useradd.8.html) — deep-dive

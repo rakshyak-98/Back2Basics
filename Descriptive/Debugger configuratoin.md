@@ -5,7 +5,7 @@
 > Debugger configuration wires your editor to a debug adapter — breakpoints, launch vs attach, and environment.
 
 ```txt
-        Debugger configura ──┬── Interview
+        Debugger configura ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Launch/attach config interviews check env vars, source maps, and unbound brea…
+## Why It Matters
+- **Key signal:** Launch/attach config reviews check env vars, source maps, and unbound brea…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Launch vs attach** | Start process vs join | “Attach to running PID.” |
 | **Breakpoint** | Pause line | “Unbound if sourcemap missing.” |

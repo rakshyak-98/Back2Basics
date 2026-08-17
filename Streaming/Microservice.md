@@ -5,7 +5,7 @@
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
 ```txt
-        Microservice (stre ──┬── Interview
+        Microservice (stre ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Microservice to see if you understand the pipeline rol…
+## Why It Matters
+- **Key signal:** Reviewers ask about Microservice to see if you understand the pipeline rol…
 
 ## Sources
 - [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice) — overview

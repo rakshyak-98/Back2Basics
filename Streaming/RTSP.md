@@ -5,7 +5,7 @@
 > RTSP is a control protocol for on-demand and live media — clients send PLAY/PAUSE over TCP, then receive RTP packets (usually UDP) carrying the actual A/V.
 
 ```txt
-        RTSP (Real Time St ──┬── Interview
+        RTSP (Real Time St ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk RTSP end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk RTSP end-to-end
 
 ## Sources
 - [Wikipedia — RTSP](https://en.wikipedia.org/wiki/RTSP) — overview

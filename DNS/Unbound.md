@@ -5,7 +5,7 @@
 > Unbound is a validating recursive DNS resolver designed for security and performance — run it on servers or laptops to cache queries locally, enforce DNSSEC, and forward or recurse without trusting ISP DNS.
 
 ```txt
-        Unbound ──┬── Interview
+        Unbound ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect Unbound as the validating recursive choice
+## Why It Matters
+- **Key signal:** Reviewers expect Unbound as the validating recursive choice
 
 ## Sources
 - [Unbound documentation](https://unbound.docs.nlnetlabs.nl/) — deep-dive

@@ -5,7 +5,7 @@
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
 ```txt
-        Regression ──┬── Interview
+        Regression ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Regression to check whether you can choose models/metr…
+## Why It Matters
+- **Key signal:** Reviewers ask about Regression to check whether you can choose models/metr…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

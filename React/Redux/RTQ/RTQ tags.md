@@ -5,7 +5,7 @@
 > Cache tags for invalidation — mark entities provided/invalidated so lists refetch correctly.
 
 ```txt
-        RTK Query tags ──┬── Interview
+        RTK Query tags ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [RTK Query tags](https://redux-toolkit.js.org/rtk-query/usage/automated-refetching) — deep-dive

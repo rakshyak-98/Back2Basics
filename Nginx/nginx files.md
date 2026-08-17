@@ -5,7 +5,7 @@
 > Package paths and log rotation — where configs, PIDs, and access/error logs live, and how logrotate signals Nginx to reopen files.
 
 ```txt
-        nginx files ──┬── Interview
+        nginx files ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops interviews ask where to look when “my edit did nothing,” why disks fill f…
+## Why It Matters
+- **Key signal:** Ops reviews ask where to look when “my edit did nothing,” why disks fill f…
 
 ## Sources
 - [nginx.org — Logging](https://nginx.org/en/docs/ngx_core_module.html#error_log) — deep-dive

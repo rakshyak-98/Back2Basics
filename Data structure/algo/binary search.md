@@ -5,7 +5,7 @@
 > Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
 ```txt
-        Binary search ──┬── Interview
+        Binary search ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Binary search interviews fail on boundary conditions
+## Why It Matters
+- **Key signal:** Binary search reviews fail on boundary conditions
 
 ## Sources
 - [Wikipedia — Binary search algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) — overview

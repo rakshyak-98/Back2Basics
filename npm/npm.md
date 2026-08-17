@@ -5,7 +5,7 @@
 > Node’s default package manager — installs dependencies from the registry, writes a lockfile, and runs lifecycle scripts defined in `package.json`.
 
 ```txt
-        npm ──┬── Interview
+        npm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about npm to see whether you understand dependency trees, pe…
+## Why It Matters
+- **Key signal:** Reviewers ask about npm to see whether you understand dependency trees, pe…
 
 ## Sources
 - [npm Docs — About npm](https://docs.npmjs.com/about-npm) — overview

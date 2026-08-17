@@ -5,7 +5,7 @@
 > Task Spooler (`tsp`) queues shell jobs on one machine — simple FIFO/batch without a full scheduler.
 
 ```txt
-        tsp cli ──┬── Interview
+        tsp cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can pick a local batch queue for ad-hoc heavy jobs without pretendi…
+## Why It Matters
+- **Key signal:** Shows you can pick a local batch queue for ad-hoc heavy jobs without pretendi…
 
 ## Sources
 - [Task Spooler home](https://viric.name/soft/ts/) — overview

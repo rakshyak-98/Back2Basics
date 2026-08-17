@@ -5,7 +5,7 @@
 > grep filters lines matching a pattern — first tool for log triage, config audits, and “does this string exist anywhere?”
 
 ```txt
-        grep ──┬── Interview
+        grep ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ri…
+## Why It Matters
+- **Key signal:** Flags matter: `-E` vs `-F`, exit 1 = no match (not error), and when to use ri…
 
 ## Sources
 - [grep(1)](https://man7.org/linux/man-pages/man1/grep.1.html) — deep-dive

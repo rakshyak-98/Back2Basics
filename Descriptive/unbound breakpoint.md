@@ -5,15 +5,15 @@
 > Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
 ```txt
-        Unbound breakpoint ──┬── Interview
+        Unbound breakpoint ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Unbound breakpoint questions diagnose source-map/path mismatches
+## Why It Matters
+- **Key signal:** Unbound breakpoint questions diagnose source-map/path mismatches
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

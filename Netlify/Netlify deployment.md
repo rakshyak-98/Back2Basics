@@ -5,7 +5,7 @@
 > Git-connected Jamstack host — Netlify runs your build command, publishes the output directory to a CDN, and attaches functions/redirects as configured.
 
 ```txt
-        Netlify deployment ──┬── Interview
+        Netlify deployment ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`net…
+## Why It Matters
+- **Key signal:** Reviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`net…
 
 ## Sources
 - [Netlify docs — Deploy](https://docs.netlify.com/site-deploys/overview/) — deep-dive

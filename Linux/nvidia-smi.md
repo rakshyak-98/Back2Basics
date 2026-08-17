@@ -5,7 +5,7 @@
 > Queries NVIDIA GPU driver state — utilization, memory, temperature, and which processes hold the device.
 
 ```txt
-        nvidia-smi ──┬── Interview
+        nvidia-smi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** ML/infra interviews: prove you can read GPU memory pressure, find stuck CUDA …
+## Why It Matters
+- **Key signal:** ML/infra reviews: prove you can read GPU memory pressure, find stuck CUDA …
 
 ## Sources
 - [NVIDIA SMI documentation](https://docs.nvidia.com/deploy/nvidia-smi/) — deep-dive

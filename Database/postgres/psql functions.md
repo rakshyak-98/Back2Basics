@@ -5,7 +5,7 @@
 > PostgreSQL built-in and user-defined functions — scalar, aggregate, window, and procedural languages (PL/pgSQL) callable from [[SQL]].
 
 ```txt
-        psql functions ──┬── Interview
+        psql functions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used …
+## Why It Matters
+- **Key signal:** Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used …
 
 ## Sources
 - [Functions](https://www.postgresql.org/docs/current/functions.html) — overview

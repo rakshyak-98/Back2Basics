@@ -5,7 +5,7 @@
 > A file descriptor is a small non-negative integer naming an open file, socket, pipe, or device — every read, write, and mmap goes through it.
 
 ```txt
-        File descriptors ──┬── Interview
+        File descriptors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk fd table lifetime across `fork`/`exec`, `EMFILE` leaks, `O_NONBLOCK`, an…
+## Why It Matters
+- **Key signal:** Walk fd table lifetime across `fork`/`exec`, `EMFILE` leaks, `O_NONBLOCK`, an…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive

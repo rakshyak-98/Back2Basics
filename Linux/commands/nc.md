@@ -5,7 +5,7 @@
 > nc opens a raw TCP/UDP socket as client or listener — the common ops pattern is a connect probe: did SYN get SYN-ACK?
 
 ```txt
-        nc (netcat) ──┬── Interview
+        nc (netcat) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Reachability triage: `nc -zv`, timeout `-w`, OpenBSD vs GNU flag differences,…
+## Why It Matters
+- **Key signal:** Reachability triage: `nc -zv`, timeout `-w`, OpenBSD vs GNU flag differences,…
 
 ## Sources
 - [nc(1) — OpenBSD](https://man.openbsd.org/nc.1) — deep-dive

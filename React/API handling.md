@@ -5,7 +5,7 @@
 > How React apps call backends — fetch in effects or query libraries, handle loading/error, and keep server data out of UI stores.
 
 ```txt
-        API handling ──┬── Interview
+        API handling ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask where API calls live, how you cancel them, and why duplicati…
+## Why It Matters
+- **Key signal:** Reviewers ask where API calls live, how you cancel them, and why duplicati…
 
 ## Sources
 - [React — Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects) — overview

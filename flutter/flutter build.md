@@ -5,7 +5,7 @@
 > Compile Dart to shippable artifacts — debug uses JIT; profile/release use AOT (`libapp.so`, IPA, or web JS/Wasm).
 
 ```txt
-        Flutter build and  ──┬── Interview
+        Flutter build and  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the debug/profile/release matrix, Android App Bundle vs APK…
+## Why It Matters
+- **Key signal:** Reviewers want the debug/profile/release matrix, Android App Bundle vs APK…
 
 ## Sources
 - [Flutter — Build and release an Android app](https://docs.flutter.dev/deployment/android) — deep-dive

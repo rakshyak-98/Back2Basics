@@ -5,7 +5,7 @@
 > A Dockerfile is a layer recipe: `FROM` a base, `RUN`/`COPY` changes, then `ENTRYPOINT`/`CMD` as the process that runs.
 
 ```txt
-        docker file ──┬── Interview
+        docker file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe layer caching, multi-stage builds, exec versus shell form,…
+## Why It Matters
+- **Key signal:** Reviewers probe layer caching, multi-stage builds, exec versus shell form,…
 
 ## Sources
 - [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — deep-dive

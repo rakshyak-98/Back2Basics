@@ -5,7 +5,7 @@
 > IPFS finds files by content hash (CID), not by server URL — peers share blocks like a P2P CDN.
 
 ```txt
-        IPFS (InterPlaneta ──┬── Interview
+        IPFS (InterPlaneta ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast **content addressing** (CID) with location addressing (…
+## Why It Matters
+- **Key signal:** Reviewers contrast **content addressing** (CID) with location addressing (…
 
 ## Sources
 - [IPFS Docs — Concepts](https://docs.ipfs.tech/concepts/) — deep-dive

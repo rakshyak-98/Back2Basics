@@ -5,7 +5,7 @@
 > Distribution packages ship template and default files under `/usr/share` and related paths — copy or use drop-ins instead of editing vendor copies that upgrades overwrite.
 
 ```txt
-        Linux Templates Di ──┬── Interview
+        Linux Templates Di ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Package-hygiene question: explain `.dpkg-dist` / `.rpmnew`, `/etc/skel`, and …
+## Why It Matters
+- **Key signal:** Package-hygiene question: explain `.dpkg-dist` / `.rpmnew`, `/etc/skel`, and …
 
 ## Sources
 - Debian Policy Manual — conffiles — deep-dive

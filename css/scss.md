@@ -5,7 +5,7 @@
 > SCSS (Sassy CSS) extends CSS with variables, nesting, mixins, and `@use` modules — a build step compiles it to plain CSS the browser understands.
 
 ```txt
-        scss ──┬── Interview
+        scss ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about SCSS to see if you know `@use` versus deprecated `@imp…
+## Why It Matters
+- **Key signal:** Reviewers ask about SCSS to see if you know `@use` versus deprecated `@imp…
 
 ## Sources
 - [Sass Docs — `@use`](https://sass-lang.com/documentation/at-rules/use/) — deep-dive

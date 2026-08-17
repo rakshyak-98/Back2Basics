@@ -5,7 +5,7 @@
 > Compose pure functions and immutable data — minimize shared mutable state so behavior is easier to test, reason about, and parallelize.
 
 ```txt
-        Functional program ──┬── Interview
+        Functional program ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want purity, immutability, higher-order functions, and honest tr…
+## Why It Matters
+- **Key signal:** Reviewers want purity, immutability, higher-order functions, and honest tr…
 
 ## Sources
 - [Wikipedia — Functional programming](https://en.wikipedia.org/wiki/Functional_programming) — overview
@@ -44,7 +44,7 @@ const total = items
 
 ## Mistakes to Avoid
 - **Mistake:** Claiming “we are functional” while mutating global arrays everyw…
-- **Mistake:** Overusing monadic jargon in interviews without concrete examples
+- **Mistake:** Overusing monadic jargon in reviews without concrete examples
 - **Mistake:** Copying huge structures on every update without need
 
 ## Pros/Cons or Trade-offs

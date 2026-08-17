@@ -5,7 +5,7 @@
 > Terminal multiplexer — keep sessions alive, split panes, and reattach from another machine without killing processes.
 
 ```txt
-        tmux ──┬── Interview
+        tmux ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers (ops/SRE) expect session/window/pane model, detach/attach, and w…
+## Why It Matters
+- **Key signal:** Reviewers (ops/SRE) expect session/window/pane model, detach/attach, and w…
 
 ## Sources
 - [tmux man page](https://man.openbsd.org/tmux) — deep-dive

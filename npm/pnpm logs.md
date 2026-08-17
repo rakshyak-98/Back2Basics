@@ -5,7 +5,7 @@
 > Where pnpm writes debug output when an install or command fails — use verbose reporters and redirect stdout when the default log is not enough.
 
 ```txt
-        pnpm logs ──┬── Interview
+        pnpm logs ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers rarely quiz “where is the log file,” but debugging a broken inst…
+## Why It Matters
+- **Key signal:** Reviewers rarely quiz “where is the log file,” but debugging a broken inst…
 
 ## Sources
 - [pnpm CLI — install](https://pnpm.io/cli/install) — overview

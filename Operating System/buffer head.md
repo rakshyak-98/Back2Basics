@@ -5,7 +5,7 @@
 > A buffer head is the kernel’s descriptor linking one logical disk block to a page in the page cache — the legacy bridge between the block layer and memory management.
 
 ```txt
-        Buffer head ──┬── Interview
+        Buffer head ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Kernel interviews: after page-cache merge, buffer heads index slices of cache…
+## Why It Matters
+- **Key signal:** Kernel reviews: after page-cache merge, buffer heads index slices of cache…
 
 ## Sources
 - [Linux kernel docs — Buffer Head API](https://docs.kernel.org/core-api/buffer.html) — deep-dive

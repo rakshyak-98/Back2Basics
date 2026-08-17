@@ -5,7 +5,7 @@
 > Backpressure is the policy when a consumer cannot keep pace with a producer — block, bound the queue, shed load, or reject — so buffers do not exhaust memory and cascade failure.
 
 ```txt
-        backpressure ──┬── Interview
+        backpressure ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Name an explicit overflow policy for every stage
+## Why It Matters
+- **Key signal:** Name an explicit overflow policy for every stage
 
 ## Sources
 - Reactive Streams specification — backpressure contract — deep-dive

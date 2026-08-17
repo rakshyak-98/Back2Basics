@@ -5,7 +5,7 @@
 > How you install, run, upgrade, and supervise a service on a host — packages or images, plus systemd (or another process manager).
 
 ```txt
-        Linux application  ──┬── Interview
+        Linux application  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Lifecycle story: artifact → non-root user → unit with Restart → health check …
+## Why It Matters
+- **Key signal:** Lifecycle story: artifact → non-root user → unit with Restart → health check …
 
 ## Sources
 - [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive

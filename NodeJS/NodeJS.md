@@ -5,7 +5,7 @@
 > JavaScript runtime built on V8 + libuv — single-threaded event loop for I/O, with threadpool/workers for some blocking work.
 
 ```txt
-        NodeJS ──┬── Interview
+        NodeJS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **NodeJS** to check whether you can explain the mechanism in…
+## Why It Matters
+- **Key signal:** Reviewers use **NodeJS** to check whether you can explain the mechanism in…
 
 ## Sources
 - [Node.js — Introduction](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs) — overview

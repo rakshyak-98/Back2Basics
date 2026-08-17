@@ -5,7 +5,7 @@
 > A gateway is the next hop for traffic that isn’t local — usually your router’s LAN IP, or `0.0.0.0/0` in the route table.
 
 ```txt
-        network gateway ──┬── Interview
+        network gateway ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe default routes, the dual meaning of `0.0.0.0`, and how you…
+## Why It Matters
+- **Key signal:** Reviewers probe default routes, the dual meaning of `0.0.0.0`, and how you…
 
 ## Sources
 - [Wikipedia — Gateway (telecommunications)](https://en.wikipedia.org/wiki/Gateway_(telecommunications)) — overview
@@ -23,7 +23,7 @@
 - [RFC 1812 — Requirements for IP Version 4 Routers](https://www.rfc-editor.org/rfc/rfc1812) — overview
 
 ## Key Concepts
-| Word | Plain meaning | Interview phrasing |
+| Word | Plain meaning | Review phrasing |
 |------|---------------|--------------------|
 | **Default gateway** | Router for “everything else” | “Route `0.0.0.0/0` via that IP.” |
 | **`0.0.0.0/0`** | Match any destination | “Default route in the table.” |

@@ -5,7 +5,7 @@
 > CLI for install, scripts, and registry — `--` separates npm’s flags from your script’s flags.
 
 ```txt
-        npm command ──┬── Interview
+        npm command ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **npm command** to check whether you can explain the mechani…
+## Why It Matters
+- **Key signal:** Reviewers use **npm command** to check whether you can explain the mechani…
 
 ## Sources
 - [npm — CLI commands](https://docs.npmjs.com/cli/v10/commands) — deep-dive

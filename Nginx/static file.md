@@ -5,7 +5,7 @@
 > Serve files from disk with `root`/`alias` and `try_files` — check `$uri`, then `$uri/`, then 404 (or SPA/app fallback) without hitting the app.
 
 ```txt
-        static file ──┬── Interview
+        static file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Checks whether you can configure efficient static serving, explain `try_files…
+## Why It Matters
+- **Key signal:** Checks whether you can configure efficient static serving, explain `try_files…
 
 ## Sources
 - [nginx.org — Serving static content](https://nginx.org/en/docs/beginners_guide.html) — overview

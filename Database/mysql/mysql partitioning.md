@@ -5,7 +5,7 @@
 > MySQL-specific partitioning rules — `PARTITION BY`, subpartitions, and the hard requirement that unique indexes include the partition expression columns.
 
 ```txt
-        mysql partitioning ──┬── Interview
+        mysql partitioning ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** The unique-key-includes-partition-columns rule is a frequent gotcha question
+## Why It Matters
+- **Key signal:** The unique-key-includes-partition-columns rule is a frequent gotcha question
 
 ## Sources
 - [Partitioning Types](https://dev.mysql.com/doc/refman/en/partitioning-types.html) — deep-dive

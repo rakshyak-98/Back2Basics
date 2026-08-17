@@ -5,7 +5,7 @@
 > “Discriptors” here means **descriptors** — kernel-managed integer handles (chiefly file descriptors) for open files, sockets, pipes, and epoll instances.
 
 ```txt
-        Discriptors ──┬── Interview
+        Discriptors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing wi…
+## Why It Matters
+- **Key signal:** Same as [[file descriptors]]: fd table, leaks → `EMFILE`, and multiplexing wi…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — file descriptors — deep-dive

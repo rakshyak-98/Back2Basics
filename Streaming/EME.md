@@ -5,7 +5,7 @@
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
 ```txt
-        EME (Encrypted Med ──┬── Interview
+        EME (Encrypted Med ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about EME to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about EME to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — EME](https://en.wikipedia.org/wiki/EME) — overview

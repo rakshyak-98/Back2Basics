@@ -5,7 +5,7 @@
 > Copy or compose behavior into objects/classes — share methods without deep inheritance trees.
 
 ```txt
-        mixin ──┬── Interview
+        mixin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **mixin** to check whether you can explain the mechanism in …
+## Why It Matters
+- **Key signal:** Reviewers use **mixin** to check whether you can explain the mechanism in …
 
 ## Sources
 - [Wikipedia — mixin](https://en.wikipedia.org/wiki/mixin) — overview

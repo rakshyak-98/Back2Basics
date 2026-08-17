@@ -5,7 +5,7 @@
 > A kernel subsystem is a major functional area inside monolithic kernels like Linux — scheduler, MM, VFS, net, block — shared address space with modular boundaries.
 
 ```txt
-        Kernel subsystem ──┬── Interview
+        Kernel subsystem ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Map a syscall to the subsystem it hits (VFS vs net vs block) and name how mod…
+## Why It Matters
+- **Key signal:** Map a syscall to the subsystem it hits (VFS vs net vs block) and name how mod…
 
 ## Sources
 - Robert Love, *Linux Kernel Development* — deep-dive

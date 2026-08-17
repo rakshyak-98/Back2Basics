@@ -5,14 +5,14 @@
 > An ARN is the stable, globally unique identifier AWS uses in IAM policies, CloudTrail logs, and cross-service references — get the partition, service, region, account, and resource path wrong and authorization silently…
 
 ```txt
-        ARN (Amazon Resour ──┬── Interview
+        ARN (Amazon Resour ──┬── Why it matters
                ├── Sources
                ├── Concepts
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** ARN literacy shows you can scope IAM policies precisely
+## Why It Matters
+- **Key signal:** ARN literacy shows you can scope IAM policies precisely
 
 ## Sources
 - [Identify AWS resources using ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) — deep-dive

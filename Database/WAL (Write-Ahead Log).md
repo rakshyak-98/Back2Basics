@@ -5,7 +5,7 @@
 > Append-only log of page changes written to stable storage before the data pages they describe — so a crash can replay committed work and discard incomplete transactions.
 
 ```txt
-        WAL (Write-Ahead L ──┬── Interview
+        WAL (Write-Ahead L ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask why dirty pages can flush after commit, what a checkpoint / …
+## Why It Matters
+- **Key signal:** Reviewers ask why dirty pages can flush after commit, what a checkpoint / …
 
 ## Sources
 - [PostgreSQL Documentation — WAL Introduction](https://www.postgresql.org/docs/current/wal-intro.html) — deep-dive

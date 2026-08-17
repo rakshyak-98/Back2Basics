@@ -5,7 +5,7 @@
 > A quorum is the minimum number of replicas that must participate in a read or write for the operation to count — the lever that trades availability against staleness.
 
 ```txt
-        Quorum ──┬── Interview
+        Quorum ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** State `R + W > N`, give a Dynamo-style example, and distinguish quorum counti…
+## Why It Matters
+- **Key signal:** State `R + W > N`, give a Dynamo-style example, and distinguish quorum counti…
 
 ## Sources
 - Giuseppe DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007) — deep-dive

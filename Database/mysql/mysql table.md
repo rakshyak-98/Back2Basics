@@ -5,7 +5,7 @@
 > InnoDB tables store rows in clustered primary-key order — DDL defines columns, constraints, and indexes that shape every [[mysql query]] plan.
 
 ```txt
-        mysql table ──┬── Interview
+        mysql table ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Clustered primary key design (narrow, monotonic) and the cost of large `ALTER…
+## Why It Matters
+- **Key signal:** Clustered primary key design (narrow, monotonic) and the cost of large `ALTER…
 
 ## Sources
 - [CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html) — overview

@@ -5,7 +5,7 @@
 > One-shot process snapshot — PID, state, TTY, CPU, memory, and command line from `/proc`.
 
 ```txt
-        ps ──┬── Interview
+        ps ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STA…
+## Why It Matters
+- **Key signal:** Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STA…
 
 ## Sources
 - [man ps](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive

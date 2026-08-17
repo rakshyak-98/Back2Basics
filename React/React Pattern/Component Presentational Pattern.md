@@ -5,7 +5,7 @@
 > Dumb UI components receive data and callbacks; containers/hooks own fetching and state.
 
 ```txt
-        Component Presenta ──┬── Interview
+        Component Presenta ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Component Presentational Pattern docs](https://react.dev/learn/thinking-in-react) — deep-dive

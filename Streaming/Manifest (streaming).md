@@ -5,7 +5,7 @@
 > Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
 ```txt
-        Manifest (streamin ──┬── Interview
+        Manifest (streamin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Manifest to see if you understand the pipeline role, f…
+## Why It Matters
+- **Key signal:** Reviewers ask about Manifest to see if you understand the pipeline role, f…
 
 ## Sources
 - [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest) — overview

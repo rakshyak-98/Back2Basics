@@ -5,7 +5,7 @@
 > Extended Berkeley Packet Filter (eBPF) lets verified programs run in the Linux kernel safely — for tracing, networking, security, and cgroup-aware policy without loading a custom kernel module.
 
 ```txt
-        eBPF ──┬── Interview
+        eBPF ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hot SRE / platform topic: explain verifier + JIT, name attach points (tracepo…
+## Why It Matters
+- **Key signal:** Hot SRE / platform topic: explain verifier + JIT, name attach points (tracepo…
 
 ## Sources
 - [BPF Documentation — kernel.org](https://www.kernel.org/doc/html/latest/bpf/index.html) — deep-dive

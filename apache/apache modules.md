@@ -5,7 +5,7 @@
 > Features loaded into httpd — static (compiled in) or shared (`LoadModule`) so you toggle capability without rebuilding Apache.
 
 ```txt
-        Apache modules ──┬── Interview
+        Apache modules ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want MPM choice (event vs prefork), why fewer modules are safer,…
+## Why It Matters
+- **Key signal:** Reviewers want MPM choice (event vs prefork), why fewer modules are safer,…
 
 ## Sources
 - [Apache — Dynamic Shared Object (DSO) Support](https://httpd.apache.org/docs/current/dso.html) — deep-dive

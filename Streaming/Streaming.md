@@ -5,7 +5,7 @@
 > Streaming moves live or file video from ingest to the viewer — package, protect, and play over the network.
 
 ```txt
-        Streaming ──┬── Interview
+        Streaming ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk Streaming end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk Streaming end-to-end
 
 ## Sources
 - [Wikipedia — Streaming](https://en.wikipedia.org/wiki/Streaming) — overview

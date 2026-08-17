@@ -5,7 +5,7 @@
 > date prints or sets the system clock — for scripts you care about format strings, UTC (`-u`), and GNU `-d` relative parsing.
 
 ```txt
-        date ──┬── Interview
+        date ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not…
+## Why It Matters
+- **Key signal:** Scripting staple: epoch vs ISO, TZ pitfalls, and knowing GNU `date -d` is not…
 
 ## Sources
 - [date(1) — GNU coreutils](https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html) — deep-dive

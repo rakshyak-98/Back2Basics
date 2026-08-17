@@ -5,7 +5,7 @@
 > Search Engine Optimization — make pages crawlable, understandable, and eligible to rank (and for rich results) without harming users.
 
 ```txt
-        SEO ──┬── Interview
+        SEO ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Full-stack interviews mix technical SEO with performance: crawl/index basics,…
+## Why It Matters
+- **Key signal:** Full-stack reviews mix technical SEO with performance: crawl/index basics,…
 
 ## Sources
 - [Google — SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) — overview

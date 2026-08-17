@@ -5,7 +5,7 @@
 > Core MySQL ideas—schema as database, storage engines, replication topology, and binary log—that frame every operational decision.
 
 ```txt
-        mysql concepts ──┬── Interview
+        mysql concepts ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Concept questions check MySQL vocabulary: database≡schema, binlog vs redo log…
+## Why It Matters
+- **Key signal:** Concept questions check MySQL vocabulary: database≡schema, binlog vs redo log…
 
 ## Sources
 - [MySQL Reference Manual — Replication](https://dev.mysql.com/doc/refman/en/replication.html) — deep-dive

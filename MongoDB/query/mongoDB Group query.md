@@ -5,7 +5,7 @@
 > `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
 ```txt
-        mongoDB Group quer ──┬── Interview
+        mongoDB Group quer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Group/aggregate interviews check $group stages, accumulators, and memory limi…
+## Why It Matters
+- **Key signal:** Group/aggregate reviews check $group stages, accumulators, and memory limi…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 $match → $group(_id, accumulators) → $sort → $project
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **`_id`** | Group key | “Null = one bucket for all.” |
 | **`$sum` / `$avg`** | Accumulators | “Spend per user.” |

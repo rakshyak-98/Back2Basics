@@ -5,7 +5,7 @@
 > Storage and indexes built for approximate nearest-neighbor search over high-dimensional embeddings — complements, not replaces, the authoritative [[OLTP]] row store.
 
 ```txt
-        Vector database ──┬── Interview
+        Vector database ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how RAG/search fits beside a system of record, ANN index tra…
+## Why It Matters
+- **Key signal:** Reviewers ask how RAG/search fits beside a system of record, ANN index tra…
 
 ## Sources
 - Johnson, J., Douze, M., Jégou, H., "Billion-scale similarity search with GPUs" (FAISS) — deep-dive

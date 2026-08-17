@@ -5,7 +5,7 @@
 > How Vite wires env and config into the client — `import.meta.env` replaces Webpack-style `process.env` in browser code.
 
 ```txt
-        Vite internals ──┬── Interview
+        Vite internals ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask why `process.env.API_URL` is undefined in Vite apps and how …
+## Why It Matters
+- **Key signal:** Reviewers ask why `process.env.API_URL` is undefined in Vite apps and how …
 
 ## Sources
 - [Vite — Env Variables and Modes](https://vitejs.dev/guide/env-and-mode.html) — deep-dive

@@ -5,7 +5,7 @@
 > multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
 ```txt
-        Git Worktree ──┬── Interview
+        Git Worktree ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git Worktree` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git Worktree` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

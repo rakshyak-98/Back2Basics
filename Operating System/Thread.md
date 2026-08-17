@@ -5,7 +5,7 @@
 > A thread is the unit of CPU scheduling inside a [[process]] — own stack and registers, shared address space and file descriptors with siblings.
 
 ```txt
-        Thread ──┬── Interview
+        Thread ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core OS question: process vs thread, what is shared vs private, and how races…
+## Why It Matters
+- **Key signal:** Core OS question: process vs thread, what is shared vs private, and how races…
 
 ## Sources
 - Silberschatz — threads and concurrency — deep-dive

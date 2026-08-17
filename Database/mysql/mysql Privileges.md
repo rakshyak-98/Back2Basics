@@ -5,7 +5,7 @@
 > MySQL privilege model — global, database, table, column, and routine grants checked on each statement so accounts only do what you allow.
 
 ```txt
-        mysql Privileges ──┬── Interview
+        mysql Privileges ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe least-privilege design, `GRANT` levels, and MySQL 8 roles …
+## Why It Matters
+- **Key signal:** Reviewers probe least-privilege design, `GRANT` levels, and MySQL 8 roles …
 
 ## Sources
 - [MySQL Privileges Provided](https://dev.mysql.com/doc/refman/en/privileges-provided.html) — overview

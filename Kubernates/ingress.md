@@ -5,7 +5,7 @@
 > Ingress routes HTTP(S) from the internet to Services by host and path — but only after an Ingress Controller is installed to watch Ingress objects and program the data plane.
 
 ```txt
-        ingress ──┬── Interview
+        ingress ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate Ingress YAML from the controller, expect TLS + IngressC…
+## Why It Matters
+- **Key signal:** Reviewers separate Ingress YAML from the controller, expect TLS + IngressC…
 
 ## Sources
 - [Kubernetes — Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) — deep-dive

@@ -5,7 +5,7 @@
 > Built-in and user-defined SQL functions in MySQL—scalar functions in expressions, aggregate functions in `GROUP BY`, window functions in 8.0+.
 
 ```txt
-        mysql function ──┬── Interview
+        mysql function ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Function questions span built-ins vs UDFs, DETERMINISTIC marking, and window …
+## Why It Matters
+- **Key signal:** Function questions span built-ins vs UDFs, DETERMINISTIC marking, and window …
 
 ## Sources
 - [MySQL Reference Manual — Built-In Function Reference](https://dev.mysql.com/doc/refman/en/built-in-function-reference.html) — overview

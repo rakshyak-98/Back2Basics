@@ -5,7 +5,7 @@
 > Long-lived process accepting client requests — **connection model + state strategy** define scale and failure modes.
 
 ```txt
-        Server ──┬── Interview
+        Server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Connection lifecycle, process model, pooling, and overload behavior of a long…
+## Why It Matters
+- **Key signal:** Connection lifecycle, process model, pooling, and overload behavior of a long…
 
 ## Sources
 - [Wikipedia — server](https://en.wikipedia.org/wiki/server) — overview

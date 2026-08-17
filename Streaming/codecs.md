@@ -5,7 +5,7 @@
 > Codecs — a codec (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at ingest, transcode, and playback — mismatches force expensive
 
 ```txt
-        Codecs ──┬── Interview
+        Codecs ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Codecs to see if you understand the pipeline role, fai…
+## Why It Matters
+- **Key signal:** Reviewers ask about Codecs to see if you understand the pipeline role, fai…
 
 ## Sources
 - [Wikipedia — codecs](https://en.wikipedia.org/wiki/codecs) — overview

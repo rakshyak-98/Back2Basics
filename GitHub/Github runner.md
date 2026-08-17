@@ -5,7 +5,7 @@
 > Machine that executes workflow jobs — ephemeral GitHub-hosted VMs or your own self-hosted agent.
 
 ```txt
-        GitHub Actions run ──┬── Interview
+        GitHub Actions run ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast hosted vs self-hosted (security, VPC access, ops burden…
+## Why It Matters
+- **Key signal:** Reviewers contrast hosted vs self-hosted (security, VPC access, ops burden…
 
 ## Sources
 - [GitHub Docs — About runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) — overview

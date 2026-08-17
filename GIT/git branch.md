@@ -5,7 +5,7 @@
 > movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
 
 ```txt
-        Git branches ──┬── Interview
+        Git branches ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git branches` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git branches` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

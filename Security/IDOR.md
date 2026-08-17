@@ -5,7 +5,7 @@
 > Broken access control — the client picks an object id and the server skips the ownership check after authentication.
 
 ```txt
-        IDOR (Insecure Dir ──┬── Interview
+        IDOR (Insecure Dir ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** AuthZ interviews: IDOR is missing object-level authorization
+## Why It Matters
+- **Key signal:** AuthZ reviews: IDOR is missing object-level authorization
 
 ## Sources
 - [OWASP — Insecure Direct Object Reference](https://owasp.org/www-community/vulnerabilities/Insecure_Direct_Object_Reference) — overview

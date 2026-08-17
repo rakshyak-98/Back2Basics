@@ -5,7 +5,7 @@
 > Turn binary into ASCII text for protocols and configs that dislike raw bytes — encoding, not encryption.
 
 ```txt
-        Base64 ──┬── Interview
+        Base64 ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Quick filter: Base64 is encoding, not encryption
+## Why It Matters
+- **Key signal:** Quick filter: Base64 is encoding, not encryption
 
 ## Sources
 - [RFC 4648 — The Base16, Base32, and Base64 Data Encodings](https://www.rfc-editor.org/rfc/rfc4648) — deep-dive
@@ -35,9 +35,9 @@
 - **Base64 uses:** Base64 uses **64 safe characters**: A–Z, a–z, 0–9, +, / (and = for padding)
 - **Note:** It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** …
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Base64** | This note’s core idea | “I explain Base64 in plain words.” |
 | **idea** | What it is for | “One sentence, no jargon.” |
@@ -62,7 +62,7 @@
 | Secret leak risk | repo scan | Rotate; use secret store |
 
 ## Mistakes to Avoid
-- **Mistake:** Prefer words you can say aloud in an interview
+- **Mistake:** Prefer words you can say aloud in a review
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Safe binary-in-text transport for PEMs, JWTs, and protocols.

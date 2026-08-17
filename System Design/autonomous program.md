@@ -5,7 +5,7 @@
 > Autonomous program — long-running agent that watches inputs, decides, and acts with little human babysitting (jobs, bots, controllers).
 
 ```txt
-        autonomous program ──┬── Interview
+        autonomous program ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Long-running agent loop: observe → decide → act with idempotency and kill swi…
+## Why It Matters
+- **Key signal:** Long-running agent loop: observe → decide → act with idempotency and kill swi…
 
 ## Sources
 - [Wikipedia — autonomous program](https://en.wikipedia.org/wiki/autonomous_program) — overview

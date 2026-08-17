@@ -5,7 +5,7 @@
 > HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
 
 ```txt
-        html ──┬── Interview
+        html ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** HTML interviews check semantics, accessibility, and what belongs in markup ve…
+## Why It Matters
+- **Key signal:** HTML reviews check semantics, accessibility, and what belongs in markup ve…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 HTML → DOM → CSSOM → render
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Semantic tags** | Meaning | “Use `button`, not clickable `div`.” |
 | **DOM** | Live tree | “JS mutates nodes.” |

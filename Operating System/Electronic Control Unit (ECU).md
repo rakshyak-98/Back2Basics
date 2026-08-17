@@ -5,7 +5,7 @@
 > An ECU is an embedded computer that reads sensors and drives actuators in real time — cars, ABS, and industrial controllers often run an RTOS on bare metal or a thin POSIX layer.
 
 ```txt
-        Electronic Control ──┬── Interview
+        Electronic Control ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Useful for embedded / systems roles: contrast deterministic control loops wit…
+## Why It Matters
+- **Key signal:** Useful for embedded / systems roles: contrast deterministic control loops wit…
 
 ## Sources
 - [Wikipedia — Electronic control unit](https://en.wikipedia.org/wiki/Electronic_control_unit) — overview

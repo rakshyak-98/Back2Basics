@@ -5,7 +5,7 @@
 > A stack frame is the memory a function call pushes — return address, saved registers, locals — nested LIFO on the thread stack.
 
 ```txt
-        Stack Frame ──┬── Interview
+        Stack Frame ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Debugging and ABI interviews: explain call/return, frame pointers vs unwind t…
+## Why It Matters
+- **Key signal:** Debugging and ABI reviews: explain call/return, frame pointers vs unwind t…
 
 ## Sources
 - Bryant & O’Hallaron, *Computer Systems* — procedure call convention — deep-dive

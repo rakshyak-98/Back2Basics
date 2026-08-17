@@ -5,7 +5,7 @@
 > A half-open TCP connection has one side believing the session is alive while the other has closed or crashed — load balancers and NAT idle timers are the usual culprits.
 
 ```txt
-        half-open connecti ──┬── Interview
+        half-open connecti ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about half-open connections to see if you distinguish normal…
+## Why It Matters
+- **Key signal:** Reviewers ask about half-open connections to see if you distinguish normal…
 
 ## Sources
 - [RFC 9293 — TCP (connection states)](https://www.rfc-editor.org/rfc/rfc9293) — deep-dive

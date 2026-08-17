@@ -5,7 +5,7 @@
 > Bridge splits a large abstraction from its implementation so both can vary independently — avoiding permanent binding between interface hierarchy and platform hierarchy.
 
 ```txt
-        Bridge ──┬── Interview
+        Bridge ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Bridge tests separating abstraction from implementation so both hierarchies v…
+## Why It Matters
+- **Key signal:** Bridge tests separating abstraction from implementation so both hierarchies v…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Bridge) — deep-dive

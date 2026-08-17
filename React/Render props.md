@@ -5,7 +5,7 @@
 > Component takes a function as children/prop and calls it with state — share behavior before hooks were common.
 
 ```txt
-        Render props ──┬── Interview
+        Render props ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to recognize render props in legacy code and explain …
+## Why It Matters
+- **Key signal:** Reviewers expect you to recognize render props in legacy code and explain …
 
 ## Sources
 - [React Children (related)](https://react.dev/reference/react/Children) — overview

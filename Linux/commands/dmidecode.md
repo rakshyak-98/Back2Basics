@@ -5,7 +5,7 @@
 > dmidecode prints SMBIOS/DMI tables from firmware — vendor, model, serial, slots, and memory layout as the BIOS recorded them.
 
 ```txt
-        dmidecode ──┬── Interview
+        dmidecode ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardware inventory: system serial/model, memory DIMM layout, and knowing firm…
+## Why It Matters
+- **Key signal:** Hardware inventory: system serial/model, memory DIMM layout, and knowing firm…
 
 ## Sources
 - [dmidecode(8)](https://man7.org/linux/man-pages/man8/dmidecode.8.html) — deep-dive

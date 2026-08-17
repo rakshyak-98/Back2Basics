@@ -5,7 +5,7 @@
 > PostgreSQL roles (`CREATE ROLE`) — login users and groups with passwords, connection limits, and membership hierarchies.
 
 ```txt
-        psql user ──┬── Interview
+        psql user ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Postgres treats users and groups as roles
+## Why It Matters
+- **Key signal:** Postgres treats users and groups as roles
 
 ## Sources
 - [Database Roles](https://www.postgresql.org/docs/current/user-manag.html) — overview

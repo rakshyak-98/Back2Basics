@@ -5,7 +5,7 @@
 > OCI (Open Container Initiative) — shared specs for image format and runtime so Docker, containerd, Podman, and CRI-O interoperate; `docker commit` is a practical escape hatch, not the ideal path.
 
 ```txt
-        docker OCI ──┬── Interview
+        docker OCI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want to know that “Docker” sits on OCI image + runtime specs, th…
+## Why It Matters
+- **Key signal:** Reviewers want to know that “Docker” sits on OCI image + runtime specs, th…
 
 ## Sources
 - [Open Container Initiative](https://opencontainers.org/) — overview

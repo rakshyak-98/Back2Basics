@@ -5,7 +5,7 @@
 > Client library for server state — cache, dedupe, refetch, and mutate with one `QueryClient`.
 
 ```txt
-        react-query (TanSt ──┬── Interview
+        react-query (TanSt ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate server state vs client UI state and ask when Context, R…
+## Why It Matters
+- **Key signal:** Reviewers separate server state vs client UI state and ask when Context, R…
 
 ## Sources
 - [Wikipedia — react-query](https://en.wikipedia.org/wiki/react-query) — overview

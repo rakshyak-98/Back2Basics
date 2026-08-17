@@ -5,7 +5,7 @@
 > Frontend layers separate UI, state, and API access — so screens don’t each reinvent fetching and rules.
 
 ```txt
-        frontend layered a ──┬── Interview
+        frontend layered a ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Frontend layering interviews check whether UI, state, and API access stay sep…
+## Why It Matters
+- **Key signal:** Frontend layering reviews check whether UI, state, and API access stay sep…
 
 ## Sources
 - [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview
@@ -26,9 +26,9 @@ Pages/Views → State (hooks/store) → API client → Backend
      ↑ presentational
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Presentational** | Dumb UI | “Props in, events out.” |
 | **Container / hook** | Wiring + fetch | “Owns loading/error.” |

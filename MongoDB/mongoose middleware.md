@@ -5,7 +5,7 @@
 > Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
 ```txt
-        Mongoose middlewar ──┬── Interview
+        Mongoose middlewar ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Mongoose middleware to test MongoDB data modeling and ops ju…
+## Why It Matters
+- **Key signal:** Reviewers use Mongoose middleware to test MongoDB data modeling and ops ju…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

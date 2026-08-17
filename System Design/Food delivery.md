@@ -5,7 +5,7 @@
 > Food-delivery platforms combine geo discovery, transactional ordering, and real-time logistics — separate read-heavy catalog search from write-heavy order state machines with explicit cancellation rules.
 
 ```txt
-        Food delivery ──┬── Interview
+        Food delivery ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic system-design case: geo index, order state machine, courier realtime,…
+## Why It Matters
+- **Key signal:** Classic system-design case: geo index, order state machine, courier realtime,…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications* — overview

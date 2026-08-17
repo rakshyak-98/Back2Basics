@@ -5,7 +5,7 @@
 > Razorpay capture confirms an authorized payment and moves money toward settlement — without capture (when required), an authorization can expire and never pay you.
 
 ```txt
-        payment integratio ──┬── Interview
+        payment integratio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate authorization (hold) from capture (take funds), ask whe…
+## Why It Matters
+- **Key signal:** Reviewers separate authorization (hold) from capture (take funds), ask whe…
 
 ## Sources
 - [Razorpay — Capture payments](https://razorpay.com/docs/payments/payments/capture-settings/) — deep-dive

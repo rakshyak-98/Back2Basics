@@ -5,7 +5,7 @@
 > Written agreement on what to build, for whom, and how you will know it worked — strategy and scope before sprint noise.
 
 ```txt
-        Product Requiremen ──┬── Interview
+        Product Requiremen ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers (PM/eng) look for problem statement, personas, must-haves vs out…
+## Why It Matters
+- **Key signal:** Reviewers (PM/eng) look for problem statement, personas, must-haves vs out…
 
 ## Sources
 - [SVPG — Product requirements](https://www.svpg.com/product-requirements/) — overview

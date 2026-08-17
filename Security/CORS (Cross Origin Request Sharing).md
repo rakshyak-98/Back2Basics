@@ -5,7 +5,7 @@
 > Browser rule: JS on evil.com cannot read api.example.com responses unless that API opts in with CORS headers — curl ignores it.
 
 ```txt
-        CORS (Cross Origin ──┬── Interview
+        CORS (Cross Origin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic frontend/backend interview: CORS is browser-enforced, not server ACL
+## Why It Matters
+- **Key signal:** Classic frontend/backend review: CORS is browser-enforced, not server ACL
 
 ## Sources
 - [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) — overview

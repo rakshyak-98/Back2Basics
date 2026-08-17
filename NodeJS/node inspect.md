@@ -5,7 +5,7 @@
 > Built-in CLI debugger — `node inspect script.js`; step with `n`/`s`/`c`, inspect with `repl`.
 
 ```txt
-        node inspect ──┬── Interview
+        node inspect ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node inspect** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **node inspect** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Debugging](https://nodejs.org/en/learn/getting-started/debugging) — deep-dive

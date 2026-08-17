@@ -5,7 +5,7 @@
 > keyctl manages the Linux kernel key retention service — opaque keys in session/user/process keyrings for NFS, module signing, and OS helpers.
 
 ```txt
-        keyctl ──┬── Interview
+        keyctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Distinguishes kernel keyutils from apt GPG keyrings / GNOME Keyring
+## Why It Matters
+- **Key signal:** Distinguishes kernel keyutils from apt GPG keyrings / GNOME Keyring
 
 ## Sources
 - [keyctl(1)](https://man7.org/linux/man-pages/man1/keyctl.1.html) — deep-dive

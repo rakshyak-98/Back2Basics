@@ -5,7 +5,7 @@
 > The linker combines object files and libraries into one executable or shared object — resolving symbols, assigning addresses, and producing the ELF the kernel `execve` loads.
 
 ```txt
-        Linker ──┬── Interview
+        Linker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Static vs dynamic linking, relocation/PIC, and “undefined reference” vs runti…
+## Why It Matters
+- **Key signal:** Static vs dynamic linking, relocation/PIC, and “undefined reference” vs runti…
 
 ## Sources
 - Levine, *Linkers and Loaders* — deep-dive

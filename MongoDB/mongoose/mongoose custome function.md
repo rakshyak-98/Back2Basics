@@ -5,7 +5,7 @@
 > Custom validators, getters/setters, and schema helpers — teach Mongoose your domain checks.
 
 ```txt
-        mongoose custome f ──┬── Interview
+        mongoose custome f ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Custom functions on schemas check reuse versus keeping domain logic testable …
+## Why It Matters
+- **Key signal:** Custom functions on schemas check reuse versus keeping domain logic testable …
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 set(value) → validate(fn) → save
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **validate** | Sync/async check | “Return false or throw.” |
 | **get/set** | Transform on read/write | “Normalize email toLowerCase.” |

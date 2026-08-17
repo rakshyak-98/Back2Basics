@@ -5,7 +5,7 @@
 > gRPC is a high-performance RPC framework over HTTP/2 with Protocol Buffers — strong typing, streaming, and deadlines make it a common default for service-to-service calls.
 
 ```txt
-        gRPC ──┬── Interview
+        gRPC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers compare gRPC to REST/JSON, expect the four call types, and ask w…
+## Why It Matters
+- **Key signal:** Reviewers compare gRPC to REST/JSON, expect the four call types, and ask w…
 
 ## Sources
 - [gRPC documentation](https://grpc.io/docs/) — deep-dive

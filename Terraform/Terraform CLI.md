@@ -5,7 +5,7 @@
 > Terraform CLI is the day-to-day command surface — init, plan, apply, fmt/validate, logging, provider schema, and careful state surgery.
 
 ```txt
-        Terraform CLI ──┬── Interview
+        Terraform CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treatin…
+## Why It Matters
+- **Key signal:** Reviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treatin…
 
 ## Sources
 - [HashiCorp — Terraform CLI](https://developer.hashicorp.com/terraform/cli) — deep-dive

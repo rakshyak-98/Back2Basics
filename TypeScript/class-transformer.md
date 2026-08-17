@@ -5,7 +5,7 @@
 > NestJS-era library that maps plain JSON to class instances (`plainToInstance`) and back — often paired with `class-validator` for DTO pipelines.
 
 ```txt
-        class-transformer ──┬── Interview
+        class-transformer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about `class-transformer` to see if you know TypeScript type…
+## Why It Matters
+- **Key signal:** Reviewers ask about `class-transformer` to see if you know TypeScript type…
 
 ## Sources
 - [class-transformer README](https://github.com/typestack/class-transformer) — deep-dive

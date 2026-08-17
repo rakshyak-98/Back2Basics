@@ -5,14 +5,14 @@
 > Abstraction hides irrelevant detail behind a simpler model — so callers work with stable concepts (interfaces, APIs) instead of concrete implementation mechanics.
 
 ```txt
-        Abstraction ──┬── Interview
+        Abstraction ──┬── Why it matters
                ├── Sources
                ├── Concepts
                └── Pitfalls
 ```
 
-## Interview Relevance
-- **Interview probes:** Abstraction questions check hiding the right details
+## Why It Matters
+- **Key signal:** Abstraction questions check hiding the right details
 
 ## Sources
 - Gamma et al., *Design Patterns* (introduction to abstraction in OOP) — deep-dive

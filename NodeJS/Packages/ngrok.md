@@ -5,7 +5,7 @@
 > Tunnel localhost to a public HTTPS URL — demo webhooks and mobile clients without deploying.
 
 ```txt
-        ngrok ──┬── Interview
+        ngrok ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **ngrok** to check whether you can explain the mechanism in …
+## Why It Matters
+- **Key signal:** Reviewers use **ngrok** to check whether you can explain the mechanism in …
 
 ## Sources
 - [ngrok — Docs](https://ngrok.com/docs) — deep-dive

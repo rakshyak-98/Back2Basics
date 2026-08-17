@@ -5,7 +5,7 @@
 > Breakpoints and step-through for Node — Inspector protocol via `--inspect` / built-in debugger.
 
 ```txt
-        node debugger ──┬── Interview
+        node debugger ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node debugger** to check whether you can explain the mecha…
+## Why It Matters
+- **Key signal:** Reviewers use **node debugger** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Debugging](https://nodejs.org/en/learn/getting-started/debugging) — deep-dive

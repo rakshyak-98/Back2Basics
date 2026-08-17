@@ -5,7 +5,7 @@
 > CSRF/XSRF — evil.com tricks the browser into sending your bank.com cookies on a forged request; the bank thinks it’s you.
 
 ```txt
-        XSRF (cross-site r ──┬── Interview
+        XSRF (cross-site r ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Browser auth: CSRF abuses ambient cookies
+## Why It Matters
+- **Key signal:** Browser auth: CSRF abuses ambient cookies
 
 ## Sources
 - [OWASP — CSRF](https://owasp.org/www-community/attacks/csrf) — overview

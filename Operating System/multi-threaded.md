@@ -5,7 +5,7 @@
 > A multi-threaded program runs several threads in one process sharing address space and file descriptors — parallelism without [[Inter Process Communication]] for every byte.
 
 ```txt
-        Multi-threaded ──┬── Interview
+        Multi-threaded ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** When threads beat processes, what is shared vs private, and how locks/races s…
+## Why It Matters
+- **Key signal:** When threads beat processes, what is shared vs private, and how locks/races s…
 
 ## Sources
 - Herlihy & Shavit, *The Art of Multiprocessor Programming* — deep-dive

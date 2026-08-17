@@ -5,15 +5,15 @@
 > MongoDB sharding splits a collection across shards by shard key — mongos routes queries using the config servers' chunk map.
 
 ```txt
-        MongoDB sharding ──┬── Interview
+        MongoDB sharding ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask sharding to test shard-key choice, scatter-gather risk, and …
+## Why It Matters
+- **Key signal:** Reviewers ask sharding to test shard-key choice, scatter-gather risk, and …
 
 ## Sources
 - [Sharding — MongoDB Manual](https://www.mongodb.com/docs/manual/sharding/) — deep-dive

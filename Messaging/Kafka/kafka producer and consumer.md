@@ -5,7 +5,7 @@
 > Writers and readers of Kafka topics — producers append records; consumers track offsets and process events, usually inside a consumer group.
 
 ```txt
-        kafka producer and ──┬── Interview
+        kafka producer and ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe acks/`enable.idempotence`, key→partition mapping, consumer…
+## Why It Matters
+- **Key signal:** Reviewers probe acks/`enable.idempotence`, key→partition mapping, consumer…
 
 ## Sources
 - [Kafka docs — Producer configs](https://kafka.apache.org/documentation/#producerconfigs) — deep-dive

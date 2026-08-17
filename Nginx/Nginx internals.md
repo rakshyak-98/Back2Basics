@@ -5,7 +5,7 @@
 > Master manages workers; each worker runs a non-blocking event loop — parse HTTP, run phase handlers, then static / upstream / FastCGI.
 
 ```txt
-        Nginx internals ──┬── Interview
+        Nginx internals ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Deep systems interviews probe event-driven architecture, HTTP phases, upstrea…
+## Why It Matters
+- **Key signal:** Deep systems reviews probe event-driven architecture, HTTP phases, upstrea…
 
 ## Sources
 - [nginx.org — Development guide](https://nginx.org/en/docs/dev/development_guide.html) — deep-dive

@@ -5,7 +5,7 @@
 > Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
 ```txt
-        Ordinal classifica ──┬── Interview
+        Ordinal classifica ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Ordinal classification to check whether you can choose…
+## Why It Matters
+- **Key signal:** Reviewers ask about Ordinal classification to check whether you can choose…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

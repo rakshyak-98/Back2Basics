@@ -5,7 +5,7 @@
 > Node’s observer bus — `emit` named events; listeners run synchronously in registration order.
 
 ```txt
-        EventEmitter ──┬── Interview
+        EventEmitter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **EventEmitter** to see if you understand what it does ope…
+## Why It Matters
+- **Key signal:** Reviewers probe **EventEmitter** to see if you understand what it does ope…
 
 ## Sources
 - [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — deep-dive

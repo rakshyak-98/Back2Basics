@@ -5,7 +5,7 @@
 > A DNS record is a typed tuple (owner name, class, type, TTL, rdata) published in a zone — operations break when TTL, CNAME chains, or apex constraints are wrong.
 
 ```txt
-        dns record ──┬── Interview
+        dns record ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask for record anatomy, CNAME-at-apex rules, and TTL strategy
+## Why It Matters
+- **Key signal:** Reviewers ask for record anatomy, CNAME-at-apex rules, and TTL strategy
 
 ## Sources
 - [RFC 1035 — Resource record definitions](https://datatracker.ietf.org/doc/html/rfc1035#section-3.2) — deep-dive

@@ -5,7 +5,7 @@
 > A thread pool keeps a fixed set of worker threads pulling tasks from a queue — amortizing create/destroy cost and bounding concurrency versus unbounded `pthread_create`.
 
 ```txt
-        Thread pool ──┬── Interview
+        Thread pool ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Pool sizing: ≈ cores for CPU-bound
+## Why It Matters
+- **Key signal:** Pool sizing: ≈ cores for CPU-bound
 
 ## Sources
 - *Java Concurrency in Practice* — thread pool sizing — deep-dive

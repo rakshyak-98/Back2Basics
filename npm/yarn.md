@@ -5,7 +5,7 @@
 > Alternative Node package manager — deterministic installs via a lockfile, with strong workspace support for monorepos (Classic and Berry).
 
 ```txt
-        Yarn ──┬── Interview
+        Yarn ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Yarn to check whether you can explain lockfile discipline, C…
+## Why It Matters
+- **Key signal:** Reviewers use Yarn to check whether you can explain lockfile discipline, C…
 
 ## Sources
 - [Yarn Classic documentation](https://classic.yarnpkg.com/en/docs/) — overview

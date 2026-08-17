@@ -5,7 +5,7 @@
 > Client hits an API gateway, then domain services — sync reads over gRPC where needed, async facts over a bus after local commits.
 
 ```txt
-        Ecommerce platform ──┬── Interview
+        Ecommerce platform ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want clear failure domains (catalog vs money), outbox/idempotenc…
+## Why It Matters
+- **Key signal:** Reviewers want clear failure domains (catalog vs money), outbox/idempotenc…
 
 ## Sources
 - [Kleppmann — Designing Data-Intensive Applications](https://dataintensive.net/) — deep-dive

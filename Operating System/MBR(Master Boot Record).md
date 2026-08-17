@@ -5,7 +5,7 @@
 > Alias for the Master Boot Record — first-sector BIOS boot structure with partition table and 446-byte code field; canonical detail lives in [[MBR]].
 
 ```txt
-        MBR(Master Boot Re ──┬── Interview
+        MBR(Master Boot Re ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Same as [[MBR]]: know LBA 0 is not a file, signature `0xAA55`, and UEFI/GPT r…
+## Why It Matters
+- **Key signal:** Same as [[MBR]]: know LBA 0 is not a file, signature `0xAA55`, and UEFI/GPT r…
 
 ## Sources
 - [Wikipedia — Master boot record](https://en.wikipedia.org/wiki/Master_boot_record) — overview

@@ -5,7 +5,7 @@
 > A mail server stack receives, routes, stores, and delivers email — SMTP between servers, IMAP or POP3 for clients; delivery fails when DNS (MX/SPF/DKIM/DMARC) or TLS policy mismatches receivers.
 
 ```txt
-        mail server ──┬── Interview
+        mail server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to name submission versus relay ports, the MTA/IMAP s…
+## Why It Matters
+- **Key signal:** Reviewers expect you to name submission versus relay ports, the MTA/IMAP s…
 
 ## Sources
 - [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive

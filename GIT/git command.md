@@ -5,7 +5,7 @@
 > When history is wrong — reflog, bisect, and dry-run merge before you force-push.
 
 ```txt
-        Git Commands — Rec ──┬── Interview
+        Git Commands — Rec ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git Commands
+## Why It Matters
+- **Key signal:** Reviewers use `Git Commands
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

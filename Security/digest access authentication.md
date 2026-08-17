@@ -5,7 +5,7 @@
 > Digest auth — browser proves it knows the password by sending a hash (with nonce), not the raw password — still prefer TLS + modern auth.
 
 ```txt
-        digest access auth ──┬── Interview
+        digest access auth ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Legacy auth: Digest avoids sending the raw password but is obsolete for new a…
+## Why It Matters
+- **Key signal:** Legacy auth: Digest avoids sending the raw password but is obsolete for new a…
 
 ## Sources
 - [RFC 7616 — HTTP Digest Access Authentication](https://www.rfc-editor.org/rfc/rfc7616) — deep-dive

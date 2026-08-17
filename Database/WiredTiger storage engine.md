@@ -5,7 +5,7 @@
 > Default MongoDB storage engine since 3.2 — document-level concurrency, compressed cache pages, and checkpoint-plus-journal durability for crash recovery.
 
 ```txt
-        WiredTiger storage ──┬── Interview
+        WiredTiger storage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast WiredTiger with legacy MMAPv1 and with relational buffe…
+## Why It Matters
+- **Key signal:** Reviewers contrast WiredTiger with legacy MMAPv1 and with relational buffe…
 
 ## Sources
 - [MongoDB Documentation — WiredTiger Storage Engine](https://www.mongodb.com/docs/manual/core/wiredtiger/) — deep-dive

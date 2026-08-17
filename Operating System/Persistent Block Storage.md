@@ -5,7 +5,7 @@
 > Persistent block storage survives power-off — HDDs, SSDs, NVMe, SAN LUNs — exposed as numbered sectors or volumes under partitions and file systems.
 
 ```txt
-        Persistent Block S ──┬── Interview
+        Persistent Block S ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect durability questions: what `write` + [[fsync]] guarantee on a block de…
+## Why It Matters
+- **Key signal:** Expect durability questions: what `write` + [[fsync]] guarantee on a block de…
 
 ## Sources
 - [Linux kernel docs — Block layer](https://docs.kernel.org/block/index.html) — deep-dive

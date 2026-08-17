@@ -5,7 +5,7 @@
 > System V init was the classic sequential runlevel boot model — largely replaced by systemd on modern distributions but still referenced in legacy scripts and packaging.
 
 ```txt
-        SYSV (System V) ──┬── Interview
+        SYSV (System V) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and h…
+## Why It Matters
+- **Key signal:** Expect a short map: runlevels → systemd targets, `/etc/init.d` → units, and h…
 
 ## Sources
 - [LSB init scripts](https://refspecs.linuxfoundation.org/lsb.shtml) — overview

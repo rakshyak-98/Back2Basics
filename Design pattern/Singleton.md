@@ -5,7 +5,7 @@
 > A Singleton guarantees one instance of a class and a global access point — useful for scarce resources, but it hides dependencies and complicates testing.
 
 ```txt
-        Singleton ──┬── Interview
+        Singleton ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Singleton is a classic trap question
+## Why It Matters
+- **Key signal:** Singleton is a classic trap question
 
 ## Sources
 - Gamma et al., *Design Patterns* (Singleton) — deep-dive

@@ -5,7 +5,7 @@
 > RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 ```txt
-        RTMP (Real-Time Me ──┬── Interview
+        RTMP (Real-Time Me ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about RTMP to see if you understand the pipeline role, failu…
+## Why It Matters
+- **Key signal:** Reviewers ask about RTMP to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — RTMP](https://en.wikipedia.org/wiki/RTMP) — overview

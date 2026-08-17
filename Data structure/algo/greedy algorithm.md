@@ -5,7 +5,7 @@
 > Locally optimal choice at each step — works when problem has **greedy choice property** and **optimal substructure**; otherwise wrong answer with confidence.
 
 ```txt
-        Greedy algorithm ──┬── Interview
+        Greedy algorithm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Greedy questions test whether you can prove a local choice is safe
+## Why It Matters
+- **Key signal:** Greedy questions test whether you can prove a local choice is safe
 
 ## Sources
 - [Wikipedia — Greedy algorithm](https://en.wikipedia.org/wiki/Greedy_algorithm) — overview
@@ -76,4 +76,4 @@ function minCoins(amount) {
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** Don't greedy 0/1 knapsack or general coin change without proof.
-- **Trade-off:** Don't skip proof in interview — state why greedy safe or pivot to DP.
+- **Trade-off:** Don't skip proof in review — state why greedy safe or pivot to DP.

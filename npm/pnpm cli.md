@@ -5,7 +5,7 @@
 > Fast, disk-efficient Node package manager — hard-links packages from a shared store and blocks unapproved install scripts by default.
 
 ```txt
-        pnpm cli ──┬── Interview
+        pnpm cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about pnpm to probe supply-chain awareness (`approve-builds`…
+## Why It Matters
+- **Key signal:** Reviewers ask about pnpm to probe supply-chain awareness (`approve-builds`…
 
 ## Sources
 - [pnpm — Build settings (`allowBuilds`)](https://pnpm.io/settings/build) — deep-dive

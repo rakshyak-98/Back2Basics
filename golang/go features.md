@@ -5,7 +5,7 @@
 > Go language shape — no class inheritance; embed structs, satisfy interfaces implicitly, maps iterate randomly on purpose.
 
 ```txt
-        go features ──┬── Interview
+        go features ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Language-shape questions (no inheritance, implicit interfaces, random map ran…
+## Why It Matters
+- **Key signal:** Language-shape questions (no inheritance, implicit interfaces, random map ran…
 
 ## Sources
 - [Effective Go](https://go.dev/doc/effective_go) — deep-dive

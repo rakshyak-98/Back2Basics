@@ -5,7 +5,7 @@
 > Directives live in context blocks — inheritance, merge rules, and phase order decide which `location` wins and what runs.
 
 ```txt
-        How Nginx directiv ──┬── Interview
+        How Nginx directiv ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff interviews probe whether you understand *why* a request hit the wrong `…
+## Why It Matters
+- **Key signal:** Staff reviews probe whether you understand *why* a request hit the wrong `…
 
 ## Sources
 - [nginx.org — How nginx processes a request](https://nginx.org/en/docs/http/request_processing.html) — deep-dive

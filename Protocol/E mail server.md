@@ -5,7 +5,7 @@
 > An email server accepts SMTP, stores mailboxes, and serves messages to clients — treat it as a distributed system bounded by DNS authentication and reputation, not just open ports.
 
 ```txt
-        E mail server ──┬── Interview
+        E mail server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate “run Postfix” from running a deliverable mail system: M…
+## Why It Matters
+- **Key signal:** Reviewers separate “run Postfix” from running a deliverable mail system: M…
 
 ## Sources
 - [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive

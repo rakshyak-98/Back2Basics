@@ -5,7 +5,7 @@
 > Distributed ledger guarantees for builders — immutability, consensus, and transparency trade off against latency, cost, and privacy; don't treat "on-chain" as magic persistence.
 
 ```txt
-        Blockchain propert ──┬── Interview
+        Blockchain propert ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Property questions check immutability, transparency, and what blockchain does…
+## Why It Matters
+- **Key signal:** Property questions check immutability, transparency, and what blockchain does…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

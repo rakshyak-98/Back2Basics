@@ -5,7 +5,7 @@
 > Java basics — classes, `javac`/`java`, JVM bytecode, and the usual entrypoint `main`.
 
 ```txt
-        Java Basic ──┬── Interview
+        Java Basic ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may probe Java Basic as tooling or web platform literacy
+## Why It Matters
+- **Key signal:** Reviewers may probe Java Basic as tooling or web platform literacy
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 .java → javac → .class → java Main
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **JVM** | Runtime | “Write once, run on JVM.” |
 | **Bytecode** | Portable instructions | “Not machine code yet.” |

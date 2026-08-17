@@ -5,7 +5,7 @@
 > A cache stores copies of data closer to readers — process memory, Redis, CDN edge — to cut latency and shield the origin from repeated work.
 
 ```txt
-        Cache system ──┬── Interview
+        Cache system ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Cache-aside + invalidation, stampede protection, HTTP cache safety for person…
+## Why It Matters
+- **Key signal:** Cache-aside + invalidation, stampede protection, HTTP cache safety for person…
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — caching — deep-dive

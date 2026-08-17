@@ -5,7 +5,7 @@
 > Running [[SQL]] on MySQL — read `EXPLAIN` plans, bind parameters, and shape predicates so the optimizer can use indexes instead of full scans.
 
 ```txt
-        mysql query ──┬── Interview
+        mysql query ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Almost every backend interview: interpret `EXPLAIN`, avoid functions on index…
+## Why It Matters
+- **Key signal:** Almost every backend review: interpret `EXPLAIN`, avoid functions on index…
 
 ## Sources
 - [EXPLAIN Output](https://dev.mysql.com/doc/refman/en/explain-output.html) — deep-dive

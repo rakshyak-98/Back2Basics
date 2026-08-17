@@ -5,7 +5,7 @@
 > Buffer flags are kernel bitfields on a buffer head that record whether a block is dirty, locked, mapped, or mid-writeback — the block layer’s state machine in compact form.
 
 ```txt
-        Buffer flags ──┬── Interview
+        Buffer flags ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Kernel/filesystem depth: dirty vs uptodate vs locked, and how that relates to…
+## Why It Matters
+- **Key signal:** Kernel/filesystem depth: dirty vs uptodate vs locked, and how that relates to…
 
 ## Sources
 - Linux kernel: `include/linux/buffer_head.h` — deep-dive

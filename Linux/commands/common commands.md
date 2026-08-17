@@ -5,7 +5,7 @@
 > Curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts.
 
 ```txt
-        Common commands —  ──┬── Interview
+        Common commands —  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Not a memorization list
+## Why It Matters
+- **Key signal:** Not a memorization list
 
 ## Sources
 - [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/) — overview

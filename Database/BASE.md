@@ -5,7 +5,7 @@
 > A design stance for large distributed stores—Basically Available, Soft state, Eventually consistent—trading immediate [[ACID]] guarantees for availability and partition tolerance.
 
 ```txt
-        BASE ──┬── Interview
+        BASE ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** BASE tests whether you know CAP-era tradeoffs without treating “eventual cons…
+## Why It Matters
+- **Key signal:** BASE tests whether you know CAP-era tradeoffs without treating “eventual cons…
 
 ## Sources
 - Dan Pritchett, "BASE: An Acid Alternative" (ACM Queue, 2008) — deep-dive

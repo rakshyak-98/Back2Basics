@@ -5,7 +5,7 @@
 > Text-to-diagram DSL for design docs and runbooks — great for **version-controlled architecture**; know rendering and maintenance limits.
 
 ```txt
-        Mermaid (DSL) ──┬── Interview
+        Mermaid (DSL) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Mermaid questions check whether you can diagram flows in docs
+## Why It Matters
+- **Key signal:** Mermaid questions check whether you can diagram flows in docs
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

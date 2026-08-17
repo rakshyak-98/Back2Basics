@@ -5,7 +5,7 @@
 > EFS is a managed, regional NFS file system that multiple EC2 instances mount concurrently — ideal for shared content, not for low-latency database block I/O.
 
 ```txt
-        AWS EFS (Elastic F ──┬── Interview
+        AWS EFS (Elastic F ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** EFS questions contrast shared NFS-style storage with EBS and S3
+## Why It Matters
+- **Key signal:** EFS questions contrast shared NFS-style storage with EBS and S3
 
 ## Sources
 - [Amazon EFS User Guide](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html) — overview

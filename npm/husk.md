@@ -5,7 +5,7 @@
 > Tiny bridge from npm install to Git hooks — installs scripts under `.husky/` so pre-commit and pre-push gates run before code leaves a laptop.
 
 ```txt
-        Husky ──┬── Interview
+        Husky ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Husky to separate *local* quality gates from *remote* …
+## Why It Matters
+- **Key signal:** Reviewers ask about Husky to separate *local* quality gates from *remote* …
 
 ## Sources
 - [Husky documentation](https://typicode.github.io/husky/) — deep-dive

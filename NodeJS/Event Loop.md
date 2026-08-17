@@ -5,7 +5,7 @@
 > Node event loop — one JS thread plus libuv; never block it with heavy sync work.
 
 ```txt
-        Node.js Event Loop ──┬── Interview
+        Node.js Event Loop ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use the event loop to test whether you know Node is one JS threa…
+## Why It Matters
+- **Key signal:** Reviewers use the event loop to test whether you know Node is one JS threa…
 
 ## Sources
 - [Node.js — The Node.js Event Loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick) — deep-dive

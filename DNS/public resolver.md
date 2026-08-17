@@ -5,7 +5,7 @@
 > A public recursive resolver (1.1.1.1, 8.8.8.8, 9.9.9.9) answers DNS queries for anyone on the Internet — use them when your ISP resolver is slow, filtered, or untrusted, understanding they see every name you look up.
 
 ```txt
-        public resolver ──┬── Interview
+        public resolver ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask privacy vs convenience, DoH/DoT, and why corporate split-hor…
+## Why It Matters
+- **Key signal:** Reviewers ask privacy vs convenience, DoH/DoT, and why corporate split-hor…
 
 ## Sources
 - [RFC 8499 — DNS Terminology](https://datatracker.ietf.org/doc/html/rfc8499) — overview

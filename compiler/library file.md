@@ -5,7 +5,7 @@
 > Packaged object code other programs link against — static archives (`.a`) baked in at link time, or shared objects (`.so`/`.dll`) loaded at run time.
 
 ```txt
-        Library file ──┬── Interview
+        Library file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask static vs shared linking, what `PIC` is for, and how `LD_LIB…
+## Why It Matters
+- **Key signal:** Reviewers ask static vs shared linking, what `PIC` is for, and how `LD_LIB…
 
 ## Sources
 - [GNU — Introduction to Archives](https://sourceware.org/binutils/docs/binutils/ar.html) — overview

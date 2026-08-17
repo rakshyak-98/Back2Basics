@@ -5,7 +5,7 @@
 > Pick the channel that matches the job — request/response, push, queue, or peer media — not one protocol for everything.
 
 ```txt
-        Data transfer comm ──┬── Interview
+        Data transfer comm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which channel you would pick (HTTP, WebSocket, queue, WebRTC…
+## Why It Matters
+- **Key signal:** Reviewers ask which channel you would pick (HTTP, WebSocket, queue, WebRTC…
 
 ## Sources
 - [RFC 6455 — The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455) — overview

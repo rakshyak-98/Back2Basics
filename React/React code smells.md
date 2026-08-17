@@ -5,7 +5,7 @@
 > Recurring anti-patterns — prop drilling chaos, effect-as-lifecycle cargo cult, derived state duplication — that signal design debt.
 
 ```txt
-        React code smells ──┬── Interview
+        React code smells ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers drop a smell and ask you to refactor: derived state, effects for…
+## Why It Matters
+- **Key signal:** Reviewers drop a smell and ask you to refactor: derived state, effects for…
 
 ## Sources
 - [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect) — deep-dive

@@ -5,7 +5,7 @@
 > Capture devices → local preview → peer connection — fix constraints before you debug ICE.
 
 ```txt
-        WebRTC Get Started ──┬── Interview
+        WebRTC Get Started ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk WebRTC Get Started Guide end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk WebRTC Get Started Guide end-to-end
 
 ## Sources
 - [Wikipedia — WebRTC Get Started Guide](https://en.wikipedia.org/wiki/WebRTC_Get_Started_Guide) — overview

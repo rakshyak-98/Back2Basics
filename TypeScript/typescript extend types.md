@@ -5,7 +5,7 @@
 > Grow existing shapes with `extends`, intersections (`&`), interface merging, and module augmentation — types compose; they do not replace runtime inheritance.
 
 ```txt
-        typescript extend  ──┬── Interview
+        typescript extend  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you extend types to see if you know interfaces merge but…
+## Why It Matters
+- **Key signal:** Reviewers ask how you extend types to see if you know interfaces merge but…
 
 ## Sources
 - [TypeScript Handbook — Object Types (extending)](https://www.typescriptlang.org/docs/handbook/2/objects.html) — overview

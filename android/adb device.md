@@ -5,7 +5,7 @@
 > Android Debug Bridge talks to phones/emulators — list devices, install APKs, forward ports, and stream logs for development.
 
 ```txt
-        adb device ──┬── Interview
+        adb device ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Mobile interviews expect `adb devices`, authorization prompts, and logcat/`in…
+## Why It Matters
+- **Key signal:** Mobile reviews expect `adb devices`, authorization prompts, and logcat/`in…
 
 ## Sources
 - [Android — adb](https://developer.android.com/tools/adb) — deep-dive

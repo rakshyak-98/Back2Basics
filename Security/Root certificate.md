@@ -5,7 +5,7 @@
 > Self-signed trust anchor at the top of a certificate chain — browsers and OS trust stores decide whether your TLS cert is "valid."
 
 ```txt
-        Root certificate ──┬── Interview
+        Root certificate ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Trust anchors: what a root is, why private CAs need distribution, and risks o…
+## Why It Matters
+- **Key signal:** Trust anchors: what a root is, why private CAs need distribution, and risks o…
 
 ## Sources
 - [RFC 5280 — X.509](https://www.rfc-editor.org/rfc/rfc5280) — deep-dive

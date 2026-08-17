@@ -5,7 +5,7 @@
 > PCI DSS self-assessment when checkout is fully outsourced — the merchant attests a reduced cardholder-data environment using the correct SAQ (often SAQ A / A-EP class).
 
 ```txt
-        SAQ GSS (Self-Asse ──┬── Interview
+        SAQ GSS (Self-Asse ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which SAQ fits hosted redirect versus embedded fields versus…
+## Why It Matters
+- **Key signal:** Reviewers ask which SAQ fits hosted redirect versus embedded fields versus…
 
 ## Sources
 - [PCI SSC — SAQ instructions and guidelines](https://www.pcisecuritystandards.org/document_library/) — deep-dive

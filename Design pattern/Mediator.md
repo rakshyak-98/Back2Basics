@@ -5,7 +5,7 @@
 > Mediator centralizes how a set of objects communicate — so components talk through the mediator instead of forming a web of direct references.
 
 ```txt
-        Mediator ──┬── Interview
+        Mediator ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Mediator reduces chaotic peer-to-peer coupling via a hub
+## Why It Matters
+- **Key signal:** Mediator reduces chaotic peer-to-peer coupling via a hub
 
 ## Sources
 - Gamma et al., *Design Patterns* (Mediator) — deep-dive

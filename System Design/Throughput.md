@@ -5,7 +5,7 @@
 > Throughput is the rate of successful work completed per unit time — requests per second, transactions per second, megabits per second — while error rate and latency remain within service level objectives.
 
 ```txt
-        Throughput ──┬── Interview
+        Throughput ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Distinguish throughput vs latency
+## Why It Matters
+- **Key signal:** Distinguish throughput vs latency
 
 ## Sources
 - Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application — overview

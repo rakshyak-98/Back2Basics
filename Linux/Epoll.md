@@ -5,7 +5,7 @@
 > `epoll` is Linux's scalable I/O readiness API — one thread can watch thousands of sockets without scanning every file descriptor each wait.
 
 ```txt
-        Epoll ──┬── Interview
+        Epoll ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Backend / systems staple: contrast `select`/`poll` O(n) scans with `epoll`'s …
+## Why It Matters
+- **Key signal:** Backend / systems staple: contrast `select`/`poll` O(n) scans with `epoll`'s …
 
 ## Sources
 - `man 7 epoll` — deep-dive

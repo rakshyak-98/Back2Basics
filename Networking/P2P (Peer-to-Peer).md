@@ -5,7 +5,7 @@
 > P2P means peers talk to each other — share load and data without every byte going through your central server.
 
 ```txt
-        P2P (Peer-to-Peer) ──┬── Interview
+        P2P (Peer-to-Peer) ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use P2P to test whether you know signaling vs media path, mesh v…
+## Why It Matters
+- **Key signal:** Reviewers use P2P to test whether you know signaling vs media path, mesh v…
 
 ## Sources
 - [Wikipedia — P2P](https://en.wikipedia.org/wiki/P2P) — overview
@@ -26,7 +26,7 @@
         └──────── signaling / tracker (optional) ─┘
 ```
 
-| Word | Plain meaning | Interview phrasing |
+| Word | Plain meaning | Review phrasing |
 |------|---------------|-------------------|
 | **Peer** | Node that sends and receives | Every peer can upload and download. |
 | **Tracker / signaling** | Helper that introduces peers | We still need a meeting point to find each other. |

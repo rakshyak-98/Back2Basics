@@ -5,7 +5,7 @@
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
 ```txt
-        Re-encoding ──┬── Interview
+        Re-encoding ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Re-encoding to see if you understand the pipeline role…
+## Why It Matters
+- **Key signal:** Reviewers ask about Re-encoding to see if you understand the pipeline role…
 
 ## Sources
 - [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding) — overview

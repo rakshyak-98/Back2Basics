@@ -5,7 +5,7 @@
 > `express-useragent` parses the `User-Agent` header into fields on `req.useragent` — useful for analytics and client quirks, never for security decisions.
 
 ```txt
-        Express-useragent ──┬── Interview
+        Express-useragent ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you treat `User-Agent` as a spoofable hint: fine f…
+## Why It Matters
+- **Key signal:** Reviewers check whether you treat `User-Agent` as a spoofable hint: fine f…
 
 ## Sources
 - [MDN — User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) — overview

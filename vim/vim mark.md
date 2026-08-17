@@ -5,7 +5,7 @@
 > Named cursor bookmarks — jump back to a line or exact position inside a buffer or across files.
 
 ```txt
-        vim mark ──┬── Interview
+        vim mark ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows fluent multi-spot editing: set a mark at a call site, edit a definition…
+## Why It Matters
+- **Key signal:** Shows fluent multi-spot editing: set a mark at a call site, edit a definition…
 
 ## Sources
 - [Vim help — motion.txt (marks)](https://vimhelp.org/motion.txt.html#mark-motions) — deep-dive

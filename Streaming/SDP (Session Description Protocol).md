@@ -5,7 +5,7 @@
 > Text blob that describes a media session — codecs, ports, ICE credentials — swapped as offer/answer before media flows.
 
 ```txt
-        SDP (Session Descr ──┬── Interview
+        SDP (Session Descr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk SDP end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk SDP end-to-end
 
 ## Sources
 - [Wikipedia — SDP](https://en.wikipedia.org/wiki/SDP) — overview
@@ -55,7 +55,7 @@
 - **Note:** Media still needs ICE + DTLS after SDP agrees — SDP alone does not open UDP.
 
 
-- **Core:** When a WebRTC interviewer says SDP, they mean **Session Description Protocol*…
+- **Core:** When a WebRTC reviewer says SDP, they mean **Session Description Protocol*…
 
 ## Technical Details
 ```txt
@@ -124,7 +124,7 @@ POST /whip  Content-Type: application/sdp
 - **Mistake:** **Don’t hand-edit SDP in production**
 - **Mistake:** **Logging full SDP**
 - **Mistake:** **SDP is not the media path**
-- **Mistake:** **Wrong “SDP” in a streaming interview**
+- **Mistake:** **Wrong “SDP” in a streaming review**
 - **Mistake:** **Bundle / mid**
 
 ## Pros/Cons or Trade-offs
@@ -139,6 +139,6 @@ POST /whip  Content-Type: application/sdp
 
 
 ### Use cases
-- When a WebRTC interviewer says SDP, they mean **Session Description Protocol*…
+- When a WebRTC reviewer says SDP, they mean **Session Description Protocol*…
 
 - Used wherever SDP sits in an ingest → package → CDN → player path

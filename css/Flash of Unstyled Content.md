@@ -5,7 +5,7 @@
 > Flash of Unstyled Content is the brief moment unstyled or wrong-theme HTML appears before CSS loads — users see a jump; layout shift metrics suffer.
 
 ```txt
-        Flash of Unstyled  ──┬── Interview
+        Flash of Unstyled  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about FOUC to see if you understand the critical CSS path, t…
+## Why It Matters
+- **Key signal:** Reviewers ask about FOUC to see if you understand the critical CSS path, t…
 
 ## Sources
 - [Wikipedia — Flash of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) — overview

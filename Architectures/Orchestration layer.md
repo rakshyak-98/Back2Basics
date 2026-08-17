@@ -5,7 +5,7 @@
 > Orchestration — a central coordinator drives the workflow; choreography — services react to events with no single brain.
 
 ```txt
-        Orchestration laye ──┬── Interview
+        Orchestration laye ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Orchestration vs choreography is a system-design staple
+## Why It Matters
+- **Key signal:** Orchestration vs choreography is a system-design staple
 
 ## Sources
 - [Microsoft — Choreography vs orchestration](https://learn.microsoft.com/en-us/azure/architecture/patterns/choreography) — overview

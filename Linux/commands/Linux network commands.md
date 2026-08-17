@@ -5,7 +5,7 @@
 > Pocket kit for “is it listening, reachable, or DNS?” — ss/lsof for sockets, nc/tcpdump to probe, dig/resolvectl for names.
 
 ```txt
-        Linux network comm ──┬── Interview
+        Linux network comm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Incident first five minutes: listening ports, route, DNS, and reachability
+## Why It Matters
+- **Key signal:** Incident first five minutes: listening ports, route, DNS, and reachability
 
 ## Sources
 - [ss(8)](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive

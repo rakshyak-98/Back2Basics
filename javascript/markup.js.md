@@ -5,7 +5,7 @@
 > Markup.js — tiny `Mark.up(template, context)` string templates (`{{path}}`, loops, filters); not React/HTML parsing.
 
 ```txt
-        markup.js ──┬── Interview
+        markup.js ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **markup.js** to see if you understand what it does operat…
+## Why It Matters
+- **Key signal:** Reviewers probe **markup.js** to see if you understand what it does operat…
 
 ## Sources
 - [Wikipedia — markup.js](https://en.wikipedia.org/wiki/markup.js) — overview

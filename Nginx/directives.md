@@ -5,7 +5,7 @@
 > Named settings inside Nginx context blocks — `server`, `listen`, `location`, `proxy_pass`, and friends — that decide how each request is handled.
 
 ```txt
-        directives ──┬── Interview
+        directives ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to name the core directives and what each does (virtu…
+## Why It Matters
+- **Key signal:** Reviewers expect you to name the core directives and what each does (virtu…
 
 ## Sources
 - [nginx.org — Alphabetical index of directives](https://nginx.org/en/docs/dirindex.html) — overview

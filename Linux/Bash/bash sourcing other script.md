@@ -5,7 +5,7 @@
 > Sourcing runs another file in the current shell — functions, variables, and cd persist; executing `./script.sh` usually does not.
 
 ```txt
-        Bash sourcing othe ──┬── Interview
+        Bash sourcing othe ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never…
+## Why It Matters
+- **Key signal:** Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never…
 
 ## Sources
 - [Bash Reference — Bourne Shell Builtins (`.` / `source`)](https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html) — deep-dive

@@ -5,7 +5,7 @@
 > OCC (Optimistic Concurrency Control) lets transactions run, then checks for conflict at commit — retry if someone else wrote first.
 
 ```txt
-        OCC ──┬── Interview
+        OCC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** OCC interviews contrast validate-at-commit vs locking
+## Why It Matters
+- **Key signal:** OCC reviews contrast validate-at-commit vs locking
 
 ## Sources
 - [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview
@@ -25,9 +25,9 @@
 - **Note:** read version/etag → compute → commit if version unchanged else retry
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Optimistic** | Don’t lock early | “We detect conflict at commit, not at read.” |
 | **Version / etag** | Token that changes on write | “Compare-and-swap on the version.” |

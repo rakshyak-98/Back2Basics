@@ -5,7 +5,7 @@
 > Churn is a high rate of short-lived TCP connections — each open/close costs handshake, ports, and CPU; idle timeout mismatch makes it worse.
 
 ```txt
-        connection churn ( ──┬── Interview
+        connection churn ( ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use connection churn to test whether you can diagnose TIME_WAIT …
+## Why It Matters
+- **Key signal:** Reviewers use connection churn to test whether you can diagnose TIME_WAIT …
 
 ## Sources
 - [Linux TCP — tcp(7)](https://man7.org/linux/man-pages/man7/tcp.7.html) — deep-dive

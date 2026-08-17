@@ -5,7 +5,7 @@
 > MQTT is a lightweight publish/subscribe protocol for constrained devices and unreliable networks — brokers fan out messages by topic, with QoS levels trading delivery guarantees for overhead.
 
 ```txt
-        MQTT ──┬── Interview
+        MQTT ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HT…
+## Why It Matters
+- **Key signal:** Reviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HT…
 
 ## Sources
 - [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html) — deep-dive

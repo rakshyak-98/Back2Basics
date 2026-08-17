@@ -5,7 +5,7 @@
 > uWSGI — application server/process manager that typically speaks WSGI to Python apps and proxies behind Nginx or another edge server.
 
 ```txt
-        uwsgi ──┬── Interview
+        uwsgi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops/backend interviews still see uWSGI with classic Django/Flask: master-work…
+## Why It Matters
+- **Key signal:** Ops/backend reviews still see uWSGI with classic Django/Flask: master-work…
 
 ## Sources
 - [uWSGI documentation](https://uwsgi-docs.readthedocs.io/en/latest/) — deep-dive

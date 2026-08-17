@@ -5,7 +5,7 @@
 > Register a function for a DOM (or EventTarget) event — `addEventListener` / `removeEventListener` with the same function reference.
 
 ```txt
-        event listener ──┬── Interview
+        event listener ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **event listener** to check whether you can explain the mech…
+## Why It Matters
+- **Key signal:** Reviewers use **event listener** to check whether you can explain the mech…
 
 ## Sources
 - [MDN — addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) — deep-dive

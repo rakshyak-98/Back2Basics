@@ -5,7 +5,7 @@
 > Memory-mapped I/O maps file pages into the process address space so the OS page cache serves database reads and writes—used by MongoDB WiredTiger, LMDB, and some SQLite configurations.
 
 ```txt
-        MMAP ──┬── Interview
+        MMAP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** mmap questions separate OS page-cache designs from explicit buffer-pool engin…
+## Why It Matters
+- **Key signal:** mmap questions separate OS page-cache designs from explicit buffer-pool engin…
 
 ## Sources
 - POSIX `mmap(2)` manual page — deep-dive

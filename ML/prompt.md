@@ -5,7 +5,7 @@
 > A prompt is the input text/messages you send an LLM — instructions plus the user ask.
 
 ```txt
-        prompt ──┬── Interview
+        prompt ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about prompt to check whether you can choose models/metrics …
+## Why It Matters
+- **Key signal:** Reviewers ask about prompt to check whether you can choose models/metrics …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 [system rules] + [context] + [user task] → model → output
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Instruction** | What to do | “Summarize in 3 bullets.” |
 | **Context** | Facts to use | “Paste retrieved docs.” |

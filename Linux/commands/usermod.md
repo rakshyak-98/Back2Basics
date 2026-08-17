@@ -5,7 +5,7 @@
 > Mutates an existing local account — shell, home, groups, lock — in passwd/shadow/group.
 
 ```txt
-        usermod ──┬── Interview
+        usermod ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** The classic trap: `usermod -G` **replaces** supplementary groups
+## Why It Matters
+- **Key signal:** The classic trap: `usermod -G` **replaces** supplementary groups
 
 ## Sources
 - [man usermod](https://man7.org/linux/man-pages/man8/usermod.8.html) — deep-dive

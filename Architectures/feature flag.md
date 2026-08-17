@@ -5,7 +5,7 @@
 > Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
 ```txt
-        feature flag ──┬── Interview
+        feature flag ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Feature flags show release-control maturity
+## Why It Matters
+- **Key signal:** Feature flags show release-control maturity
 
 ## Sources
 - [Martin Fowler — Feature Toggles](https://martinfowler.com/articles/feature-toggles.html) — deep-dive
@@ -27,9 +27,9 @@ Dashboard → Flag service → SDKs (poll/SSE)
                      if (flag) newPath else oldPath
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Flag** | Remote boolean/variant | “Checkout_v2 for 5% of users.” |
 | **Targeting** | Who gets it | “User id, % rollout, plan tier.” |

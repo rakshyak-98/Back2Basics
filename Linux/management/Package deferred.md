@@ -5,7 +5,7 @@
 > Held or pinned packages skip unwanted upgrades — protect production pins, kernels, or a carefully tested version.
 
 ```txt
-        Package deferred ──┬── Interview
+        Package deferred ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** `apt-mark hold` vs preferences pins, reading `apt-cache policy`, and auditing…
+## Why It Matters
+- **Key signal:** `apt-mark hold` vs preferences pins, reading `apt-cache policy`, and auditing…
 
 ## Sources
 - [apt_preferences(5)](https://manpages.debian.org/bookworm/apt/apt_preferences.5.en.html) — deep-dive

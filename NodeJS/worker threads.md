@@ -5,7 +5,7 @@
 > true OS threads inside one Node process for CPU-heavy work — share memory optionally via `SharedArrayBuffer`; don't replace cluster for HTTP scaling.
 
 ```txt
-        Node.js Worker Thr ──┬── Interview
+        Node.js Worker Thr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js Worker Threads** to see if you understand what i…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js Worker Threads** to see if you understand what i…
 
 ## Sources
 - [Node.js — Worker threads](https://nodejs.org/api/worker_threads.html) — deep-dive

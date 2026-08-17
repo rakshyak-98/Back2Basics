@@ -5,7 +5,7 @@
 > Sequelize — Node.js ORM for MySQL, PostgreSQL, and others — maps models to tables with migrations, associations, and driver-level connection pools.
 
 ```txt
-        sequalizer ──┬── Interview
+        sequalizer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** ORM interviews test N+1 awareness, transaction boundaries, and when to drop t…
+## Why It Matters
+- **Key signal:** ORM reviews test N+1 awareness, transaction boundaries, and when to drop t…
 
 ## Sources
 - [Sequelize docs v6](https://sequelize.org/docs/v6/) — overview

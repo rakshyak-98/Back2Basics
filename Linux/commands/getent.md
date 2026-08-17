@@ -5,7 +5,7 @@
 > getent queries Name Service Switch (NSS) databases — the same path login and libc use — so it sees files, SSSD, LDAP, not just `/etc/passwd`.
 
 ```txt
-        getent ──┬── Interview
+        getent ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `d…
+## Why It Matters
+- **Key signal:** Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `d…
 
 ## Sources
 - [getent(1)](https://man7.org/linux/man-pages/man1/getent.1.html) — deep-dive

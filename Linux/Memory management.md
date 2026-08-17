@@ -5,7 +5,7 @@
 > Linux memory management balances anonymous pages, file cache, swap, and cgroup limits — look here when workloads slow down or die with exit 137.
 
 ```txt
-        Memory management ──┬── Interview
+        Memory management ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want `MemAvailable` vs free, page cache reclaimability, overcomm…
+## Why It Matters
+- **Key signal:** Reviewers want `MemAvailable` vs free, page cache reclaimability, overcomm…
 
 ## Sources
 - [Documentation/admin-guide/mm/](https://www.kernel.org/doc/html/latest/admin-guide/mm/index.html) — deep-dive

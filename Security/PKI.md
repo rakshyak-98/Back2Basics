@@ -5,7 +5,7 @@
 > PKI (Public Key Infrastructure) — the factory and phone book for certificates: who issues them, who trusts them, how you revoke them.
 
 ```txt
-        PKI ──┬── Interview
+        PKI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Trust model interviews: roots, intermediates, leaf certs, revocation, and how…
+## Why It Matters
+- **Key signal:** Trust model reviews: roots, intermediates, leaf certs, revocation, and how…
 
 ## Sources
 - [RFC 5280 — Internet X.509 PKI](https://www.rfc-editor.org/rfc/rfc5280) — deep-dive

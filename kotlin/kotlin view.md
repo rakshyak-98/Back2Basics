@@ -5,7 +5,7 @@
 > Generated binding class for an XML layout — type-safe getters for views so you avoid `findViewById` casts and null mistakes.
 
 ```txt
-        Kotlin View Bindin ──┬── Interview
+        Kotlin View Bindin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Android interviews contrast `findViewById`, ButterKnife-era binders, View Bin…
+## Why It Matters
+- **Key signal:** Android reviews contrast `findViewById`, ButterKnife-era binders, View Bin…
 
 ## Sources
 - [Android — View binding](https://developer.android.com/topic/libraries/view-binding) — deep-dive

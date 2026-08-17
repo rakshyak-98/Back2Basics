@@ -5,7 +5,7 @@
 > Object for a future value — pending then fulfilled or rejected; `async/await` is syntax over the same machinery.
 
 ```txt
-        promise ──┬── Interview
+        promise ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **promise** to check whether you can explain the mechanism i…
+## Why It Matters
+- **Key signal:** Reviewers use **promise** to check whether you can explain the mechanism i…
 
 ## Sources
 - [MDN — Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) — deep-dive

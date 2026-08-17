@@ -5,7 +5,7 @@
 > `vite.config.*` controls dev server and build — plugins, aliases, env prefix, and mode-specific options via `defineConfig`.
 
 ```txt
-        Vite config ──┬── Interview
+        Vite config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want `import.meta.env` + `VITE_` prefix, `command === 'serve'|'b…
+## Why It Matters
+- **Key signal:** Reviewers want `import.meta.env` + `VITE_` prefix, `command === 'serve'|'b…
 
 ## Sources
 - [Vite — Configuring Vite](https://vitejs.dev/config/) — deep-dive

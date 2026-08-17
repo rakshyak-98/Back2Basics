@@ -5,7 +5,7 @@
 > Signed blob of claims the client carries — the server verifies the signature instead of looking up a session (until you add revocation).
 
 ```txt
-        JWT ──┬── Interview
+        JWT ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and …
+## Why It Matters
+- **Key signal:** Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and …
 
 ## Sources
 - [RFC 7519 — JSON Web Token](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive
@@ -33,7 +33,7 @@ Client                         Server
   │                    verify sig → accept claims
 ```
 
-| Part | Plain meaning | Say in interview |
+| Part | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Header** | `alg` + `typ` | “Which algorithm signed this?” |
 | **Payload** | Claims (`sub`, `exp`, roles) | “Assertions — trusted only after verify.” |

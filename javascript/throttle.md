@@ -5,7 +5,7 @@
 > Run a function at most once per time window — drop or coalesce extra calls (scroll, resize, mousemove).
 
 ```txt
-        throttle ──┬── Interview
+        throttle ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **throttle** to check whether you can explain the mechanism …
+## Why It Matters
+- **Key signal:** Reviewers use **throttle** to check whether you can explain the mechanism …
 
 ## Sources
 - [CSS-Tricks — Debouncing and Throttling](https://css-tricks.com/debouncing-throttling-explained-examples/) — overview
@@ -53,7 +53,7 @@ window.addEventListener('scroll', throttle(onScroll, 100))
 | Cancel on unmount | Clear timers in React |
 
 ## Mistakes to Avoid
-- **Mistake:** **Throttle ≠ debounce** — interviewers love this distinction
+- **Mistake:** **Throttle ≠ debounce** — reviewers love this distinction
 - **Mistake:** **React** — memoize throttled fn; don’t recreate each render
 - **Mistake:** **UI jank still:** check Window too small / heavy fn
 - **Mistake:** **Missed last event:** check Leading-only throttle

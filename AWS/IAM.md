@@ -5,15 +5,15 @@
 > Identity and Access Management decides which AWS principals can perform which API actions on which resources — an explicit `Deny` always wins over `Allow`.
 
 ```txt
-        IAM ──┬── Interview
+        IAM ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** IAM interviews probe least privilege, identity vs resource policies, role ass…
+## Why It Matters
+- **Key signal:** IAM reviews probe least privilege, identity vs resource policies, role ass…
 
 ## Sources
 - [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) — deep-dive

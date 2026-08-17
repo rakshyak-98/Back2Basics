@@ -5,7 +5,7 @@
 > Eventual consistency means replicas may disagree right after a write, but if updates stop, they converge — availability and latency now, sameness later.
 
 ```txt
-        Eventual consisten ──┬── Interview
+        Eventual consisten ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Define eventual vs strong, name client guarantees (read-your-writes), and pic…
+## Why It Matters
+- **Key signal:** Define eventual vs strong, name client guarantees (read-your-writes), and pic…
 
 ## Sources
 - Werner Vogels, "Eventually Consistent" (ACM Queue, 2008) — overview

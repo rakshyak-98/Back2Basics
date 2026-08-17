@@ -5,7 +5,7 @@
 > The Domain Name System maps human-readable names to records (A, AAAA, CNAME, MX, …) through a distributed, cached hierarchy — when lookups fail, the fault is usually resolver configuration, TTL caching, or a wrong autho…
 
 ```txt
-        DNS ──┬── Interview
+        DNS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk stub → recursive → authoritative, exp…
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk stub → recursive → authoritative, exp…
 
 ## Sources
 - [RFC 1035 — Domain Names](https://datatracker.ietf.org/doc/html/rfc1035) — deep-dive

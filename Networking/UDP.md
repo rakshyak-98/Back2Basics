@@ -5,7 +5,7 @@
 > User Datagram Protocol sends self-contained datagrams with no delivery guarantee — the first pain point is usually application design for loss, reordering, and NAT keepalive.
 
 ```txt
-        UDP ──┬── Interview
+        UDP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use UDP to test whether you know when reliability belongs in the…
+## Why It Matters
+- **Key signal:** Reviewers use UDP to test whether you know when reliability belongs in the…
 
 ## Sources
 - [RFC 768 — User Datagram Protocol](https://www.rfc-editor.org/rfc/rfc768) — deep-dive

@@ -5,7 +5,7 @@
 > node command — node is the V8 runtime entrypoint. It loads your script (CJS or ESM per node package json "type"), applies V8 flags after --
 
 ```txt
-        node command ──┬── Interview
+        node command ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **node command** to see if you understand what it does ope…
+## Why It Matters
+- **Key signal:** Reviewers probe **node command** to see if you understand what it does ope…
 
 ## Sources
 - [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive

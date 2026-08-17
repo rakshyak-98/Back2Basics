@@ -5,7 +5,7 @@
 > Abstract Factory provides an interface for creating **families** of related objects without naming concrete classes — so a UI kit or cloud SDK can swap entire platforms behind one factory.
 
 ```txt
-        Abstract Factory ──┬── Interview
+        Abstract Factory ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Abstract Factory interviews probe creating families of related products witho…
+## Why It Matters
+- **Key signal:** Abstract Factory reviews probe creating families of related products witho…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Abstract Factory) — deep-dive

@@ -5,7 +5,7 @@
 > A stateless service treats each request as independent — context travels with the call (tokens, cursors, headers) so any replica can handle it and restarts do not strand in-memory session maps.
 
 ```txt
-        stateless ──┬── Interview
+        stateless ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Externalize state for horizontal scale
+## Why It Matters
+- **Key signal:** Externalize state for horizontal scale
 
 ## Sources
 - Twelve-Factor App — “VI. Processes” — overview

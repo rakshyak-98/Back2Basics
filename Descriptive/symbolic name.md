@@ -5,7 +5,7 @@
 > Human-readable identifier bound to a program entity — variables, functions, constants — instead of raw literals — **readability + refactor safety**.
 
 ```txt
-        Symbolic name ──┬── Interview
+        Symbolic name ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Symbolic names/linker questions check how names resolve to addresses
+## Why It Matters
+- **Key signal:** Symbolic names/linker questions check how names resolve to addresses
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

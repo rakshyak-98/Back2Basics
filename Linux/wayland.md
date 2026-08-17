@@ -5,7 +5,7 @@
 > Display protocol where clients render locally and hand buffers to a compositor — the modern default on GNOME, KDE, and Sway.
 
 ```txt
-        wayland ──┬── Interview
+        wayland ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Contrast with X11: compositor *is* the display server, no classic `DISPLAY`, …
+## Why It Matters
+- **Key signal:** Contrast with X11: compositor *is* the display server, no classic `DISPLAY`, …
 
 ## Sources
 - [Wayland documentation](https://wayland.freedesktop.org/docs/html/) — deep-dive

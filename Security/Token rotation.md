@@ -5,7 +5,7 @@
 > Expire and replace secrets often so a leak has a short life — especially OAuth refresh tokens with reuse detection.
 
 ```txt
-        Token rotation ──┬── Interview
+        Token rotation ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Session security: short-lived access tokens, refresh rotation, reuse detectio…
+## Why It Matters
+- **Key signal:** Session security: short-lived access tokens, refresh rotation, reuse detectio…
 
 ## Sources
 - [RFC 6819 — OAuth 2.0 Threat Model](https://www.rfc-editor.org/rfc/rfc6819) — deep-dive

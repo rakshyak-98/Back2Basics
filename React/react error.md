@@ -5,7 +5,7 @@
 > React runtime errors you’ll hit in prod — wrong hook counts, hydration mismatches, and security headers that break assets.
 
 ```txt
-        react error (commo ──┬── Interview
+        react error (commo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use react error (common failures) to test whether you can apply …
+## Why It Matters
+- **Key signal:** Reviewers use react error (common failures) to test whether you can apply …
 
 ## Sources
 - [Wikipedia — react error](https://en.wikipedia.org/wiki/react_error) — overview

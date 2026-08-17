@@ -5,7 +5,7 @@
 > Factory Method defines an interface for creating an object, but lets subclasses or registrars decide which concrete type to instantiate — deferring `new` to a dedicated creator.
 
 ```txt
-        Factory Method ──┬── Interview
+        Factory Method ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Factory Method checks deferred instantiation
+## Why It Matters
+- **Key signal:** Factory Method checks deferred instantiation
 
 ## Sources
 - Gamma et al., *Design Patterns* (Factory Method) — deep-dive

@@ -5,7 +5,7 @@
 > A relay server is a middle box both peers dial out to — it forwards bytes when they cannot connect directly through NAT.
 
 ```txt
-        Relay server ──┬── Interview
+        Relay server ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate STUN (discover addresses) from TURN/relay (carry media)…
+## Why It Matters
+- **Key signal:** Reviewers separate STUN (discover addresses) from TURN/relay (carry media)…
 
 ## Sources
 - [RFC 8656 — Traversal Using Relays around NAT (TURN)](https://datatracker.ietf.org/doc/html/rfc8656) — deep-dive

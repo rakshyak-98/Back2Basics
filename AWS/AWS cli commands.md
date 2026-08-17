@@ -5,13 +5,13 @@
 > The AWS CLI maps almost every AWS API to `aws <service> <operation>` — combine `--query`, `--output`, and JMESPath filters to script infrastructure without clicking the console.
 
 ```txt
-        AWS cli commands ──┬── Interview
+        AWS cli commands ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AWS cli commands to see whether you can design and ope…
+## Why It Matters
+- **Key signal:** Reviewers ask about AWS cli commands to see whether you can design and ope…
 
 ## Sources
 - [AWS CLI Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html) — deep-dive

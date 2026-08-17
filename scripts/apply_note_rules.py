@@ -18,7 +18,7 @@ SKIP = {
 }
 
 STANDARD_SECTIONS = {
-    "Interview Relevance",
+    "Why It Matters",
     "Sources",
     "Core Definition",
     "Key Concepts",
@@ -33,7 +33,7 @@ STANDARD_SECTIONS = {
 }
 
 MIND_MAP_ORDER = [
-    "Interview Relevance",
+    "Why It Matters",
     "Sources",
     "Core Definition",
     "Key Concepts",
@@ -46,7 +46,7 @@ MIND_MAP_ORDER = [
 ]
 
 CORNELL_ORDER = [
-    "Interview Relevance",
+    "Why It Matters",
     "Sources",
     "Core Definition",
     "Recall Cues",
@@ -360,8 +360,8 @@ def generate_recall_cues(sections: dict[str, list[str]]) -> list[str]:
     cues: list[str] = []
     seen: set[str] = set()
 
-    ir_text = "\n".join(sections.get("Interview Relevance", [])).strip()
-    if ir_text and not ir_text.startswith("What interviewers probe about"):
+    ir_text = "\n".join(sections.get("Why It Matters", [])).strip()
+    if ir_text and not ir_text.startswith("What reviewers probe about"):
         if re.match(r"^(Pick|Name|Defend|Walk|Clarify|Explain|Describe|Compare)", ir_text):
             cue = f"- {ir_text.rstrip('.')}?"
             if cue not in seen:
@@ -369,7 +369,7 @@ def generate_recall_cues(sections: dict[str, list[str]]) -> list[str]:
                 seen.add(cue)
         else:
             cleaned = re.sub(
-                r"^Interviewers?\s+(probe|ask|want|expect|test)\s+",
+                r"^Reviewers?\s+(probe|ask|want|expect|test)\s+",
                 "",
                 ir_text,
                 flags=re.I,
@@ -379,7 +379,7 @@ def generate_recall_cues(sections: dict[str, list[str]]) -> list[str]:
                 part = part.strip().rstrip(".")
                 if len(part) < 12:
                     continue
-                cue = f"- Why do interviewers care about {part}?"
+                cue = f"- Why does this matter for {part}?"
                 if cue not in seen:
                     cues.append(cue)
                     seen.add(cue)
@@ -442,12 +442,12 @@ def ensure_title_blockquote(preamble: list[str], path: Path) -> list[str]:
     return out
 
 
-def ensure_interview_relevance(title: str, sections: dict[str, list[str]]) -> None:
-    if "Interview Relevance" in sections and is_substantive(sections["Interview Relevance"]):
-        ir_text = "\n".join(sections["Interview Relevance"]).strip()
-        if not ir_text.startswith("What interviewers probe about"):
+def ensure_why_it_matters(title: str, sections: dict[str, list[str]]) -> None:
+    if "Why It Matters" in sections and is_substantive(sections["Why It Matters"]):
+        ir_text = "\n".join(sections["Why It Matters"]).strip()
+        if not ir_text.startswith("What reviewers probe about"):
             return
-    sections["Interview Relevance"] = [
+    sections["Why It Matters"] = [
         f"Definitions, trade-offs, and failure modes for {title}.",
     ]
 
@@ -513,7 +513,7 @@ def transform(content: str, path: Path) -> str | None:
         return None  # stub — handle manually
 
     consolidated = consolidate_sections(sections)
-    ensure_interview_relevance(path.stem, consolidated)
+    ensure_why_it_matters(path.stem, consolidated)
     ensure_sources(path.stem, consolidated)
     dedupe_blockquote_core_definition(preamble, consolidated)
 
@@ -554,7 +554,7 @@ def main() -> None:
             continue
         new = transform(text, path)
         if new is None:
-            if len(text.strip()) < 200 and "## Interview Relevance" not in text:
+            if len(text.strip()) < 200 and "## Why It Matters" not in text:
                 skipped_stub += 1
             else:
                 unchanged += 1

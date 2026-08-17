@@ -5,7 +5,7 @@
 > An ADT describes behavior (ops + rules) — not the concrete bytes in memory.
 
 ```txt
-        ADT (Abstract Data ──┬── Interview
+        ADT (Abstract Data ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** ADTs show you can separate *what* operations mean from *how* they are stored
+## Why It Matters
+- **Key signal:** ADTs show you can separate *what* operations mean from *how* they are stored
 
 ## Sources
 - [Wikipedia — Abstract data type](https://en.wikipedia.org/wiki/Abstract_data_type) — overview
@@ -26,9 +26,9 @@ ADT (what)  →  data structure (how)
 Stack.push/pop  →  array or linked list
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Interface** | Allowed operations | “push/pop/peek only.” |
 | **Invariant** | Must always hold | “LIFO for stack.” |
@@ -45,7 +45,7 @@ Map ADT: get, set, delete, contains
 | Knob | Why it matters |
 |------|----------------|
 | Op set | Wrong ADT = awkward code |
-| Complexity table | Interview + prod choice |
+| Complexity table | Review + prod choice |
 | Thread-safety | Not in classic ADT — add explicitly |
 
 ### Failure signals

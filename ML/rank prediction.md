@@ -5,7 +5,7 @@
 > Rank prediction orders items by relevance — learning-to-rank, not just classify/regress one score in isolation.
 
 ```txt
-        rank prediction ──┬── Interview
+        rank prediction ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about rank prediction to check whether you can choose models…
+## Why It Matters
+- **Key signal:** Reviewers ask about rank prediction to check whether you can choose models…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 query → candidates → score → sort → top-K
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Pointwise** | Predict relevance score | “Regression/classification per item.” |
 | **Pairwise** | Prefer A over B | “Learning-to-rank losses.” |

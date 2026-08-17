@@ -5,7 +5,7 @@
 > Makefile for Go — thin wrapper around `go test`/`go build` so CI and humans share one entrypoint (this note is about Makefiles, not a real build file in the vault).
 
 ```txt
-        Makefile ──┬── Interview
+        Makefile ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you use Make as a thin, portable entrypoint over `…
+## Why It Matters
+- **Key signal:** Reviewers probe whether you use Make as a thin, portable entrypoint over `…
 
 ## Sources
 - [GNU Make manual](https://www.gnu.org/software/make/manual/make.html) — deep-dive

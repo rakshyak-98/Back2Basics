@@ -5,15 +5,15 @@
 > System architecture is the map of boxes and arrows — services, data stores, and failure domains you run in prod.
 
 ```txt
-        System Architectur ──┬── Interview
+        System Architectur ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** System architecture interviews map boxes, arrows, and failure domains
+## Why It Matters
+- **Key signal:** System architecture reviews map boxes, arrows, and failure domains
 
 ## Sources
 - [Google — SRE book](https://sre.google/sre-book/table-of-contents/) — deep-dive

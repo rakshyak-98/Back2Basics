@@ -5,7 +5,7 @@
 > Multiple renditions or simultaneous publish destinations from one source — **ABR ladders + multi-CDN push**, not "many viewers".
 
 ```txt
-        Multi Stream ──┬── Interview
+        Multi Stream ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Multi Stream to see if you understand the pipeline rol…
+## Why It Matters
+- **Key signal:** Reviewers ask about Multi Stream to see if you understand the pipeline rol…
 
 ## Sources
 - [Wikipedia — Multi Stream](https://en.wikipedia.org/wiki/Multi_Stream) — overview

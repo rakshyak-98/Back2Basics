@@ -5,7 +5,7 @@
 > Turn a source tree into an installable distribution — `pyproject.toml` + build backend so others can `pip install` your library.
 
 ```txt
-        create python pack ──┬── Interview
+        create python pack ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Packaging questions separate “scripts in a folder” from shippable libraries: …
+## Why It Matters
+- **Key signal:** Packaging questions separate “scripts in a folder” from shippable libraries: …
 
 ## Sources
 - [Python Packaging User Guide — Packaging Python Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/) — deep-dive

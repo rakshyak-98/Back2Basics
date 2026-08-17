@@ -5,7 +5,7 @@
 > Endianness defines which byte of a multi-byte integer sits at the lowest address — CPU, wire, and file formats must agree or you get silent corruption.
 
 ```txt
-        Endian ──┬── Interview
+        Endian ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Network and binary formats: network byte order is big-endian
+## Why It Matters
+- **Key signal:** Network and binary formats: network byte order is big-endian
 
 ## Sources
 - Stevens, *UNIX Network Programming* — byte ordering — deep-dive

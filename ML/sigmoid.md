@@ -5,7 +5,7 @@
 > Sigmoid — the sigmoid is a smooth S-curve saturating at 0 and 1. In logistic regression:
 
 ```txt
-        Sigmoid ──┬── Interview
+        Sigmoid ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Sigmoid to check whether you can choose models/metrics…
+## Why It Matters
+- **Key signal:** Reviewers ask about Sigmoid to check whether you can choose models/metrics…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

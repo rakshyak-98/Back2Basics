@@ -5,7 +5,7 @@
 > Several hostnames on one Nginx — separate `server` blocks (or SAN/wildcard certs) so `server_name` and TLS pick the right site.
 
 ```txt
-        multi-domain ──┬── Interview
+        multi-domain ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how virtual hosts and SNI work: wrong `default_server`, cert…
+## Why It Matters
+- **Key signal:** Reviewers ask how virtual hosts and SNI work: wrong `default_server`, cert…
 
 ## Sources
 - [nginx.org — Server names](https://nginx.org/en/docs/http/server_names.html) — deep-dive

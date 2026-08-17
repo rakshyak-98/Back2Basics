@@ -5,7 +5,7 @@
 > NIS (Network Information Service) is an old shared directory for users, hosts, and maps — central admin for a LAN, not a streaming protocol.
 
 ```txt
-        Network Informatio ──┬── Interview
+        Network Informatio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk Network Information Service end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk Network Information Service end-to-end
 
 ## Sources
 - [Wikipedia — Network Information Service](https://en.wikipedia.org/wiki/Network_Information_Service) — overview

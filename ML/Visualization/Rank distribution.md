@@ -5,7 +5,7 @@
 > Rank distribution — a ranker should produce a spread of scores so sorting separates good from bad items. Healthy distribution:
 
 ```txt
-        Rank distribution ──┬── Interview
+        Rank distribution ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Rank distribution to check whether you can choose mode…
+## Why It Matters
+- **Key signal:** Reviewers ask about Rank distribution to check whether you can choose mode…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

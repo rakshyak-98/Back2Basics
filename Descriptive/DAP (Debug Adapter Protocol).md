@@ -5,7 +5,7 @@
 > DAP is how editors talk to debuggers — breakpoints, stacks, and variables over a standard protocol (cousin of LSP).
 
 ```txt
-        DAP (Debug Adapter ──┬── Interview
+        DAP (Debug Adapter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** DAP contrasts with LSP
+## Why It Matters
+- **Key signal:** DAP contrasts with LSP
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Adapter** | Protocol translator | “vscode-js-debug speaks DAP.” |
 | **Launch/attach** | Start or join | “Same as debugger config.” |

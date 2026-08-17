@@ -5,7 +5,7 @@
 > APT configuration merges defaults from `/etc/apt/apt.conf` and snippets in `/etc/apt/apt.conf.d/` — proxies, pinning, and download behavior live here.
 
 ```txt
-        apt config ──┬── Interview
+        apt config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows whether you know where Debian/Ubuntu package policy is set (not only `a…
+## Why It Matters
+- **Key signal:** Shows whether you know where Debian/Ubuntu package policy is set (not only `a…
 
 ## Sources
 - `man 5 apt.conf` — deep-dive

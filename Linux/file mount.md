@@ -5,7 +5,7 @@
 > Mounting attaches a filesystem to the directory tree — block devices, network shares, and loop images become accessible paths under a mountpoint.
 
 ```txt
-        file mount ──┬── Interview
+        file mount ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops essential: read `findmnt`/`/proc/mounts`, write a correct `/etc/fstab` li…
+## Why It Matters
+- **Key signal:** Ops essential: read `findmnt`/`/proc/mounts`, write a correct `/etc/fstab` li…
 
 ## Sources
 - `man 8 mount`, `man 5 fstab` — deep-dive

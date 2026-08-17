@@ -5,7 +5,7 @@
 > Shell scripting automates repeatable operator work — compose POSIX/Bash builtins and core utilities with explicit error handling.
 
 ```txt
-        Scripting ──┬── Interview
+        Scripting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows discipline: `set -euo pipefail`, quoting, when to leave Bash for Python…
+## Why It Matters
+- **Key signal:** Shows discipline: `set -euo pipefail`, quoting, when to leave Bash for Python…
 
 ## Sources
 - [Bash Reference Manual — GNU](https://www.gnu.org/software/bash/manual/bash.html) — deep-dive

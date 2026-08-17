@@ -5,7 +5,7 @@
 > MySQL native `JSON` type with binary storage and `JSON` functions—validate on write, query with paths, index via generated columns.
 
 ```txt
-        mysql json ──┬── Interview
+        mysql json ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** JSON-in-MySQL questions test path operators (`->>`), generated-column indexes…
+## Why It Matters
+- **Key signal:** JSON-in-MySQL questions test path operators (`->>`), generated-column indexes…
 
 ## Sources
 - [MySQL Reference Manual — JSON Data Type](https://dev.mysql.com/doc/refman/en/json.html) — deep-dive

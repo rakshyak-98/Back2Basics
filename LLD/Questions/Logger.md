@@ -5,7 +5,7 @@
 > Shared logging module that writes structured records to sinks (file, stdout) with levels, correlation ids, and safe concurrency.
 
 ```txt
-        Logger (LLD) ──┬── Interview
+        Logger (LLD) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect levels, single-writer vs locked multi-writer, rotation, a…
+## Why It Matters
+- **Key signal:** Reviewers expect levels, single-writer vs locked multi-writer, rotation, a…
 
 ## Sources
 - [Unicode TR35 / structured logging practice](https://www.rfc-editor.org/rfc/rfc5424) — overview (syslog model)

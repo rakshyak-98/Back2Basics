@@ -5,7 +5,7 @@
 > Modeling tables, keys, and constraints so the database enforces invariants, queries stay fast, and schema changes remain possible as the product evolves.
 
 ```txt
-        Database design ──┬── Interview
+        Database design ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Design interviews judge whether you start from access patterns, choose keys/c…
+## Why It Matters
+- **Key signal:** Design reviews judge whether you start from access patterns, choose keys/c…
 
 ## Sources
 - Codd, E.F., "A Relational Model of Data for Large Shared Data Banks" (1970) — deep-dive

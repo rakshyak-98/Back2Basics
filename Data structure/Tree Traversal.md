@@ -5,7 +5,7 @@
 > Tree traversal is the ordered visit of every node in a tree — depth-first (pre/in/post-order) or breadth-first (level-order) — each order answers different questions about structure, sorting, or serialization.
 
 ```txt
-        Tree Traversal ──┬── Interview
+        Tree Traversal ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Pick the right traversal for the problem: in-order for BST sorted output, BFS…
+## Why It Matters
+- **Key signal:** Pick the right traversal for the problem: in-order for BST sorted output, BFS…
 
 ## Sources
 - [Wikipedia — Tree traversal](https://en.wikipedia.org/wiki/Tree_traversal) — overview

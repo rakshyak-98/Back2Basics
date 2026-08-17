@@ -5,7 +5,7 @@
 > MPEG-TS packs video, audio, and tables into 188-byte packets — the broadcast-friendly container for IPTV and UDP ingest.
 
 ```txt
-        MPEG-TS ──┬── Interview
+        MPEG-TS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk MPEG-TS end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk MPEG-TS end-to-end
 
 ## Sources
 - [Wikipedia — MPEG-TS](https://en.wikipedia.org/wiki/MPEG-TS) — overview

@@ -5,7 +5,7 @@
 > An address:port pair is one endpoint — local is your socket; peer is the other side.
 
 ```txt
-        address port ──┬── Interview
+        address port ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that you can read `ss` Local vs Peer columns, explain ephe…
+## Why It Matters
+- **Key signal:** Reviewers check that you can read `ss` Local vs Peer columns, explain ephe…
 
 ## Sources
 - [IANA — Service Name and Transport Protocol Port Number Registry](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml) — deep-dive

@@ -5,7 +5,7 @@
 > API contract as machine-readable truth — design, codegen, validation, and breaking-change discipline for service engineers — **OpenAPI 3.x**.
 
 ```txt
-        OpenAPI specificat ──┬── Interview
+        OpenAPI specificat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **OpenAPI specification** to check whether you can explain t…
+## Why It Matters
+- **Key signal:** Reviewers use **OpenAPI specification** to check whether you can explain t…
 
 ## Sources
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) — deep-dive

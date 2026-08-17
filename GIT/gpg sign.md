@@ -5,7 +5,7 @@
 > GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
 ```txt
-        GPG sign (Git comm ──┬── Interview
+        GPG sign (Git comm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency un…
+## Why It Matters
+- **Key signal:** Reviewers use `GPG sign (Git commits & tags)` to check real Git fluency un…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

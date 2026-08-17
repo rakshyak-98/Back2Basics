@@ -5,7 +5,7 @@
 > RTK Query entry — declare endpoints once; get hooks, cache, and invalidation tags.
 
 ```txt
-        Redux createApi ──┬── Interview
+        Redux createApi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux createApi](https://redux-toolkit.js.org/rtk-query/api/createApi) — deep-dive

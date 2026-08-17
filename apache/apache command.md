@@ -5,7 +5,7 @@
 > Distro helpers and `apachectl`/`apache2ctl` — enable modules/sites, configtest, and graceful reload without guessing file paths.
 
 ```txt
-        Apache commands ──┬── Interview
+        Apache commands ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect Debian `a2enmod`/`a2ensite` fluency and the habit of `con…
+## Why It Matters
+- **Key signal:** Reviewers expect Debian `a2enmod`/`a2ensite` fluency and the habit of `con…
 
 ## Sources
 - [Debian Wiki — Apache](https://wiki.debian.org/Apache) — overview

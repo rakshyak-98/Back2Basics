@@ -5,7 +5,7 @@
 > Create via `Set-Cookie`, store in the browser jar, send on matching requests, then expire or delete — session cookies die with the browser session; persistent ones use timers.
 
 ```txt
-        Cookies lifecycle ──┬── Interview
+        Cookies lifecycle ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask when cookies are sent, difference between session vs persist…
+## Why It Matters
+- **Key signal:** Reviewers ask when cookies are sent, difference between session vs persist…
 
 ## Sources
 - [MDN — Using HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) — overview

@@ -5,7 +5,7 @@
 > Tabular data library for Python — load, clean, join, aggregate, and export DataFrames for analysis.
 
 ```txt
-        pandas ──┬── Interview
+        pandas ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Data/backend interviews test vectorized thinking: groupby/merge correctness, …
+## Why It Matters
+- **Key signal:** Data/backend reviews test vectorized thinking: groupby/merge correctness, …
 
 ## Sources
 - [pandas documentation](https://pandas.pydata.org/docs/) — deep-dive

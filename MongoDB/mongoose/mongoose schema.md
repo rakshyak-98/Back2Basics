@@ -5,7 +5,7 @@
 > A Mongoose schema declares paths, types, indexes, and options — the contract for a model.
 
 ```txt
-        mongoose schema ──┬── Interview
+        mongoose schema ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Mongoose schema interviews cover types, required/index, and mismatch with fle…
+## Why It Matters
+- **Key signal:** Mongoose schema reviews cover types, required/index, and mismatch with fle…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 Schema({ email: String, … }) → Model → collection
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Path** | One field definition | “`email: { type: String }`.” |
 | **required / enum** | Built-in validators | “Fail save early.” |

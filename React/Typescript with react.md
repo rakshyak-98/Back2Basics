@@ -5,7 +5,7 @@
 > Type props, hooks, and events so invalid JSX and wrong hook values fail at compile time.
 
 ```txt
-        TypeScript with Re ──┬── Interview
+        TypeScript with Re ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check `PropsWithChildren`, event types, generics on hooks, and h…
+## Why It Matters
+- **Key signal:** Reviewers check `PropsWithChildren`, event types, generics on hooks, and h…
 
 ## Sources
 - [React — TypeScript](https://react.dev/learn/typescript) — deep-dive

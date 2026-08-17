@@ -5,7 +5,7 @@
 > Payment Card Industry Guest Service System (PSI GSS) means the shopper types the card on a PCI-validated provider’s hosted page or iframe — your servers never see PAN, track, or CVV.
 
 ```txt
-        PSI GSS (PCI Guest ──┬── Interview
+        PSI GSS (PCI Guest ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test PCI scoping: when hosted checkout keeps you on a short SAQ,…
+## Why It Matters
+- **Key signal:** Reviewers test PCI scoping: when hosted checkout keeps you on a short SAQ,…
 
 ## Sources
 - [PCI SSC — Document library (SAQ instructions)](https://www.pcisecuritystandards.org/document_library/) — deep-dive

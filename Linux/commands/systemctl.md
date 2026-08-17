@@ -5,7 +5,7 @@
 > Controls systemd units — start/stop/enable/status — the everyday service remote control.
 
 ```txt
-        systemctl ──┬── Interview
+        systemctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic trap: **enable ≠ start**
+## Why It Matters
+- **Key signal:** Classic trap: **enable ≠ start**
 
 ## Sources
 - [systemd.systemctl(1)](https://www.freedesktop.org/software/systemd/man/systemctl.html) — deep-dive

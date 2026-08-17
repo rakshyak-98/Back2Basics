@@ -5,7 +5,7 @@
 > Registered media types are the IANA catalog of `type/subtype` labels — so HTTP, mail, and APIs agree what `application/json` means.
 
 ```txt
-        Registered Media T ──┬── Interview
+        Registered Media T ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe media types to check registry awareness (`vnd.`, `+json` s…
+## Why It Matters
+- **Key signal:** Reviewers probe media types to check registry awareness (`vnd.`, `+json` s…
 
 ## Sources
 - [IANA Media Types Registry](https://www.iana.org/assignments/media-types/media-types.xhtml) — deep-dive

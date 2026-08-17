@@ -5,7 +5,7 @@
 > Virtual hosts, document roots, and runtime user/group — where files are served from and which Linux identity httpd uses.
 
 ```txt
-        Apache configurati ──┬── Interview
+        Apache configurati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask where to set `DocumentRoot`, how `AllowOverride` interacts w…
+## Why It Matters
+- **Key signal:** Reviewers ask where to set `DocumentRoot`, how `AllowOverride` interacts w…
 
 ## Sources
 - [Apache — VirtualHost Examples](https://httpd.apache.org/docs/current/vhosts/examples.html) — deep-dive

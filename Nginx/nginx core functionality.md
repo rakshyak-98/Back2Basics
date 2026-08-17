@@ -5,7 +5,7 @@
 > Event-driven reverse proxy and static server — few workers, many connections; roles include TLS termination, load balancing, and FastCGI.
 
 ```txt
-        nginx core functio ──┬── Interview
+        nginx core functio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the master/worker model, why Nginx scales with events not t…
+## Why It Matters
+- **Key signal:** Reviewers want the master/worker model, why Nginx scales with events not t…
 
 ## Sources
 - [nginx.org — Inside NGINX: How We Designed for Performance & Scale](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/) — overview

@@ -5,7 +5,7 @@
 > Claude is Anthropic’s chat/tool model — same message loop as other LLMs, strict about `tool_use` ↔ `tool_result` pairing.
 
 ```txt
-        claude ai ──┬── Interview
+        claude ai ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about claude ai to check whether you can choose models/metri…
+## Why It Matters
+- **Key signal:** Reviewers ask about claude ai to check whether you can choose models/metri…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** user → assistant (tool_use) → user (tool_result) → assistant (answer)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **tool_use** | Model requests a tool | “Must pair with tool_result.” |
 | **tool_result** | Your execution output | “Same id as tool_use.” |

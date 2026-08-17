@@ -5,13 +5,13 @@
 > The AWS CLI is the command-line client for AWS APIs — install v2, configure credentials through profiles or environment variables, and verify with `sts get-caller-identity`.
 
 ```txt
-        AWS cli installati ──┬── Interview
+        AWS cli installati ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AWS cli installation to see whether you can design and…
+## Why It Matters
+- **Key signal:** Reviewers ask about AWS cli installation to see whether you can design and…
 
 ## Sources
 - [Installing or updating the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) — overview

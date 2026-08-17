@@ -5,7 +5,7 @@
 > Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
 ```txt
-        Network management ──┬── Interview
+        Network management ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Network management to see if you understand the pipeli…
+## Why It Matters
+- **Key signal:** Reviewers ask about Network management to see if you understand the pipeli…
 
 ## Sources
 - [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management) — overview

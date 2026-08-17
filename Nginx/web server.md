@@ -5,7 +5,7 @@
 > HTTP server maps a URL path to a handler — today the path is usually a resource id, not a literal filename on disk.
 
 ```txt
-        web server ──┬── Interview
+        web server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Baseline web interview: how URL paths relate to files, SPA fallback, reverse-…
+## Why It Matters
+- **Key signal:** Baseline web review: how URL paths relate to files, SPA fallback, reverse-…
 
 ## Sources
 - [MDN — What is a web server?](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_web_server) — overview

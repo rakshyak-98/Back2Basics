@@ -5,7 +5,7 @@
 > Splits a pipe — writes the same bytes to a file and still passes them downstream (and to the screen).
 
 ```txt
-        tee ──┬── Interview
+        tee ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic shell footgun: `sudo cmd > /etc/file` fails because the shell opens t…
+## Why It Matters
+- **Key signal:** Classic shell footgun: `sudo cmd > /etc/file` fails because the shell opens t…
 
 ## Sources
 - [man tee](https://man7.org/linux/man-pages/man1/tee.1.html) — deep-dive

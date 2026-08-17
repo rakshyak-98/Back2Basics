@@ -5,7 +5,7 @@
 > Bagged ensemble of decorrelated [[Decision tree]]s — vote (classify) or average (regress) — **Breiman (2001)**; strong default before boosting tuning.
 
 ```txt
-        Random forest ──┬── Interview
+        Random forest ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Random forest interviews check bagging, feature randomness, and bias-variance…
+## Why It Matters
+- **Key signal:** Random forest reviews check bagging, feature randomness, and bias-variance…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

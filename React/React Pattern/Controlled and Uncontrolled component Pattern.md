@@ -5,7 +5,7 @@
 > Controlled inputs take value+onChange from React state; uncontrolled inputs use DOM state via refs.
 
 ```txt
-        Controlled and Unc ──┬── Interview
+        Controlled and Unc ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Controlled and Uncontrolled component Pattern docs](https://react.dev/reference/react-dom/components/input) — deep-dive

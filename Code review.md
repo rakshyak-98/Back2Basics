@@ -5,7 +5,7 @@
 > Code review — a second engineer checks correctness, security, and clarity before a change merges.
 
 ```txt
-        Code review ──┬── Interview
+        Code review ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows engineering culture maturity: what you look for, how you give feedback,…
+## Why It Matters
+- **Key signal:** Shows engineering culture maturity: what you look for, how you give feedback,…
 
 ## Sources
 - [Google Engineering Practices — Code Review](https://google.github.io/eng-practices/review/) — deep-dive

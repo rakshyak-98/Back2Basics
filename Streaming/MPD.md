@@ -5,7 +5,7 @@
 > MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
 ```txt
-        MPD (Media Present ──┬── Interview
+        MPD (Media Present ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about MPD to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about MPD to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — MPD](https://en.wikipedia.org/wiki/MPD) — overview

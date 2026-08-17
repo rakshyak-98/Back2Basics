@@ -5,7 +5,7 @@
 > Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
 ```txt
-        Compliance Reporti ──┬── Interview
+        Compliance Reporti ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Compliance Reporting to Broadcasters to see if you und…
+## Why It Matters
+- **Key signal:** Reviewers ask about Compliance Reporting to Broadcasters to see if you und…
 
 ## Sources
 - [Wikipedia — Compliance Reporting to Broadcasters](https://en.wikipedia.org/wiki/Compliance_Reporting_to_Broadcasters) — overview

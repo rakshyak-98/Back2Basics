@@ -5,15 +5,15 @@
 > Algorithms that assign **discrete class labels** from features — pick by data size, interpretability, imbalance, and latency — **scikit-learn classifier zoo**.
 
 ```txt
-        ML Classifiers ──┬── Interview
+        ML Classifiers ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ML Classifiers to check whether you can choose models/…
+## Why It Matters
+- **Key signal:** Reviewers ask about ML Classifiers to check whether you can choose models/…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

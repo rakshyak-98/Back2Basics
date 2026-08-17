@@ -5,7 +5,7 @@
 > A subdomain is any domain below another in the DNS tree (`api.example.com` under `example.com`) — you delegate it with NS records or manage it in the same zone with individual records.
 
 ```txt
-        Sub Domain ──┬── Interview
+        Sub Domain ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask same-zone records vs NS delegation, wildcard depth, and how …
+## Why It Matters
+- **Key signal:** Reviewers ask same-zone records vs NS delegation, wildcard depth, and how …
 
 ## Sources
 - [RFC 1034 — Domain name space and resource records](https://datatracker.ietf.org/doc/html/rfc1034) — deep-dive

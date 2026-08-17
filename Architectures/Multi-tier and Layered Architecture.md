@@ -5,15 +5,15 @@
 > Tiers are where code runs; layers are how code is organized — keep them separate.
 
 ```txt
-        Multi-tier and Lay ──┬── Interview
+        Multi-tier and Lay ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Tier vs layer confusion is a classic trap
+## Why It Matters
+- **Key signal:** Tier vs layer confusion is a classic trap
 
 ## Sources
 - [Microsoft — Multitier architecture](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier) — overview

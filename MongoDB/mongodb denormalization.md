@@ -5,7 +5,7 @@
 > Denormalization copies data into documents you’ll read together — fewer joins, more update fan-out.
 
 ```txt
-        mongodb denormaliz ──┬── Interview
+        mongodb denormaliz ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Denormalization questions probe embed vs reference trade-offs for read patter…
+## Why It Matters
+- **Key signal:** Denormalization questions probe embed vs reference trade-offs for read patter…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -26,9 +26,9 @@ User.name ──duplicate──► Order.customerName (fast read)
                  ↑ update must sync copies
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Embed** | Nest subdocs | “Comments inside post.” |
 | **Duplicate** | Copy fields | “Store sellerName on listing.” |

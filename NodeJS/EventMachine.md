@@ -5,7 +5,7 @@
 > Ruby’s reactor for non-blocking network I/O — same idea as Node’s event loop: one thread, callbacks on readiness.
 
 ```txt
-        EventMachine ──┬── Interview
+        EventMachine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **EventMachine** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **EventMachine** to check whether you can explain the mechan…
 
 ## Sources
 - [Wikipedia — EventMachine](https://en.wikipedia.org/wiki/EventMachine) — overview

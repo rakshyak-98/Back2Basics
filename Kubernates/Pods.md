@@ -5,7 +5,7 @@
 > A Pod is the smallest schedulable unit in Kubernetes — one or more containers that share network namespace and volumes on one node.
 
 ```txt
-        Pods ──┬── Interview
+        Pods ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that you know Pods are ephemeral (new IP on restart), why …
+## Why It Matters
+- **Key signal:** Reviewers check that you know Pods are ephemeral (new IP on restart), why …
 
 ## Sources
 - [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive

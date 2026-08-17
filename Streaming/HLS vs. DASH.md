@@ -5,7 +5,7 @@
 > HLS and DASH both do ABR over HTTP — pick by device reach, then share segments with CMAF when you need both.
 
 ```txt
-        HLS vs. DASH ──┬── Interview
+        HLS vs. DASH ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk HLS vs. DASH end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk HLS vs. DASH end-to-end
 
 ## Sources
 - [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH) — overview
@@ -77,7 +77,7 @@
 ### Player pick (product sketch)
 
 ```js
-// Interview answer: feature-detect, don’t hard-code one protocol
+// Review answer: feature-detect, don’t hard-code one protocol
 const useHls = supportsNativeHls() || !supportsMseDash()
 load(useHls ? '/master.m3u8' : '/manifest.mpd')
 ```

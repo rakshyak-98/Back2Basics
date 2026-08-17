@@ -5,7 +5,7 @@
 > React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
 ```txt
-        React style inside ──┬── Interview
+        React style inside ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use React style inside component to test whether you can apply t…
+## Why It Matters
+- **Key signal:** Reviewers use React style inside component to test whether you can apply t…
 
 ## Sources
 - [Wikipedia — react style inside component](https://en.wikipedia.org/wiki/react_style_inside_component) — overview

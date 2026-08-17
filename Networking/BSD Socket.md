@@ -5,7 +5,7 @@
 > BSD sockets are the original Berkeley API for network (and Unix-domain) I/O — POSIX standardized the same shape.
 
 ```txt
-        BSD Socket ──┬── Interview
+        BSD Socket ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use “BSD sockets” to check whether you know the classic `socket`…
+## Why It Matters
+- **Key signal:** Reviewers use “BSD sockets” to check whether you know the classic `socket`…
 
 ## Sources
 - [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview

@@ -5,7 +5,7 @@
 > Central brain that sequences tasks and services into a workflow — retries, timeouts, and rollback live in one place (unlike choreography, where peers react to events).
 
 ```txt
-        Orchestration (Dev ──┬── Interview
+        Orchestration (Dev ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask orchestration vs choreography to see if you pick a central w…
+## Why It Matters
+- **Key signal:** Reviewers ask orchestration vs choreography to see if you pick a central w…
 
 ## Sources
 - [Wikipedia — Orchestration (computing)](https://en.wikipedia.org/wiki/Orchestration_(computing)) — overview

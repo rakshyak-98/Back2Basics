@@ -5,7 +5,7 @@
 > An SSH key works only if the server trusts the public key — generating a keypair alone does not grant access.
 
 ```txt
-        ssh-keygen key val ──┬── Interview
+        ssh-keygen key val ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Catches a common ops myth: “I ran ssh-keygen, why can’t I log in?” Validity i…
+## Why It Matters
+- **Key signal:** Catches a common ops myth: “I ran ssh-keygen, why can’t I log in?” Validity i…
 
 ## Sources
 - [OpenSSH manual — ssh-keygen](https://man.openbsd.org/ssh-keygen) — deep-dive

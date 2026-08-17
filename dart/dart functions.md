@@ -5,7 +5,7 @@
 > First-class functions — assign to variables, pass as arguments, return from functions; tear-offs and closures power Flutter callbacks.
 
 ```txt
-        Dart functions ──┬── Interview
+        Dart functions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want first-class functions, optional/named params, tear-offs vs …
+## Why It Matters
+- **Key signal:** Reviewers want first-class functions, optional/named params, tear-offs vs …
 
 ## Sources
 - [Dart — Functions](https://dart.dev/language/functions) — deep-dive

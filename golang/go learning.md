@@ -2,10 +2,10 @@
 
 # go learning
 
-> Go learning path — foundations → concurrency/HTTP → interview drills; use AI as a coach with tight feedback loops, not as a code vending machine.
+> Go learning path — foundations → concurrency/HTTP → review drills; use AI as a coach with tight feedback loops, not as a code vending machine.
 
 ```txt
-        go learning ──┬── Interview
+        go learning ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Learning-path notes signal how you ramp on Go for interviews
+## Why It Matters
+- **Key signal:** Learning-path notes signal how you ramp on Go for reviews
 
 ## Sources
 - [A Tour of Go](https://go.dev/tour/) — overview
@@ -44,14 +44,14 @@ go test ./... -race
 go test -bench=. ./...
 ```
 
-- **Coach prompt skeleton:** teach `TOPIC` for Go backend interviews
+- **Coach prompt skeleton:** teach `TOPIC` for Go backend depth checks
 
 - **Project prompt skeleton:** scaffold REST API (Gin/Echo + Postgres) with gra…
 
 | Knob | Why it matters |
 |------|----------------|
 | 7–10h/week | Consistency > binge |
-| Repo of solutions | Interview evidence |
+| Repo of solutions | Review evidence |
 | Race on concurrent work | Real Go skill |
 
 ### Failure signals
@@ -60,7 +60,7 @@ go test -bench=. ./...
 |---------|-------|-----|
 | Tutorial fog | No projects | Start [[go project]] #1 |
 | Concurrency “magic” | Skipping channels | Build worker pool |
-| Interview freeze | No timed mocks | 60m mock weekly |
+| Review freeze | No timed mocks | 60m mock weekly |
 | AI dependency | Pasting without review | Force line-by-line critique |
 | JS habits in Go | Ignoring errors / classes | Re-read Effective Go |
 

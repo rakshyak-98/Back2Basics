@@ -5,7 +5,7 @@
 > Named shortcuts in `package.json` that run shell commands — the standard entry point for develop, test, lint, and build.
 
 ```txt
-        npm script ──┬── Interview
+        npm script ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about npm scripts to see if you know argument forwarding (`-…
+## Why It Matters
+- **Key signal:** Reviewers ask about npm scripts to see if you know argument forwarding (`-…
 
 ## Sources
 - [npm Docs — scripts](https://docs.npmjs.com/cli/v10/using-npm/scripts) — deep-dive

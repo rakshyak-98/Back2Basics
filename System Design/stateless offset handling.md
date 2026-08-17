@@ -5,7 +5,7 @@
 > Consumer offset handling tracks how far a consumer has read in a partitioned log — "stateless" means progress lives in the broker or coordinator, not in the consumer's local disk, so any group member can resume after re…
 
 ```txt
-        Stateless offset h ──┬── Interview
+        Stateless offset h ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Consumer offsets externalized; commit semantics; exactly-once composition.
+## Why It Matters
+- **Key signal:** Consumer offsets externalized; commit semantics; exactly-once composition.
 
 ## Sources
 - Apache Kafka documentation — consumer groups, offset commit, transactions — overview

@@ -1,8 +1,8 @@
 # Back2Basics
-> Staff-engineer field notes — fast lookup for debug, configs, interviews, and mental models.
+> Staff-engineer field notes — fast lookup for debug, configs, design reviews, and mental models.
 
 
-Staff-engineer **field notes** — fast retrieval for debugging, standard configs, interview prep, and solid mental models.
+Staff-engineer **field notes** — fast retrieval for debugging, standard configs, study prep, and solid mental models.
 
 Not a framework zoo. Not man-page dumps. Notes are written for software engineers under pressure: OS, networking, databases, containers, IaC, security, and the runtimes you ship.
 
@@ -52,4 +52,4 @@ Use [[INDEX]] for on-call routing.
 
 ## Why this exists
 
-Abstractions hide the machine until production fails. These notes dig back to **process tables, sockets, WAL, route tables, cgroups, and failure modes** so you can design, debug, and interview with evidence — not folklore.
+Abstractions hide the machine until production fails. These notes dig back to **process tables, sockets, WAL, route tables, cgroups, and failure modes** so you can design, debug, and review with evidence — not folklore.

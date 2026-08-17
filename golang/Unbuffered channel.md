@@ -5,7 +5,7 @@
 > Unbuffered channel — send and receive happen together; no queue — the handoff *is* the sync point.
 
 ```txt
-        Unbuffered channel ──┬── Interview
+        Unbuffered channel ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Channels are a Go concurrency staple in interviews
+## Why It Matters
+- **Key signal:** Channels are a Go concurrency staple in reviews
 
 ## Sources
 - [Go blog — Share Memory By Communicating](https://go.dev/blog/codelab-share) — overview

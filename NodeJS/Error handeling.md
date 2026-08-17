@@ -5,7 +5,7 @@
 > How Node and Express turn thrown/rejected failures into logged, typed responses — custom `Error` subclasses, `next(err)`, and process-level guards.
 
 ```txt
-        Error handling ──┬── Interview
+        Error handling ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about error handling to see if you separate operational erro…
+## Why It Matters
+- **Key signal:** Reviewers ask about error handling to see if you separate operational erro…
 
 ## Sources
 - [Node.js — Errors](https://nodejs.org/api/errors.html) — deep-dive

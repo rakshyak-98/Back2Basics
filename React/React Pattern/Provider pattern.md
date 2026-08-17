@@ -5,7 +5,7 @@
 > Put a value in Context.Provider so deep children read it without prop drilling.
 
 ```txt
-        Provider pattern ──┬── Interview
+        Provider pattern ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Provider pattern docs](https://react.dev/learn/passing-data-deeply-with-context) — deep-dive

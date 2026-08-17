@@ -5,7 +5,7 @@
 > ip (iproute2) configures links, addresses, routes, and neighbors via netlink — the modern replacement for ifconfig/route.
 
 ```txt
-        ip ──┬── Interview
+        ip ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core networking: `ip route get`, ephemeral vs persisted config, and mapping l…
+## Why It Matters
+- **Key signal:** Core networking: `ip route get`, ephemeral vs persisted config, and mapping l…
 
 ## Sources
 - [ip(8)](https://man7.org/linux/man-pages/man8/ip.8.html) — deep-dive

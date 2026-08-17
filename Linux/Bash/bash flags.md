@@ -5,7 +5,7 @@
 > Bash flags (`set -o` / `bash -e`) change shell behavior — strict mode, debug traces, noclobber, and friends.
 
 ```txt
-        bash flags ──┬── Interview
+        bash flags ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** `set -euo pipefail` is the expected baseline
+## Why It Matters
+- **Key signal:** `set -euo pipefail` is the expected baseline
 
 ## Sources
 - [Bash Reference — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html) — deep-dive

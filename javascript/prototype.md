@@ -5,7 +5,7 @@
 > Objects inherit via a prototype chain — property lookup walks `__proto__` until found or `null`.
 
 ```txt
-        prototype ──┬── Interview
+        prototype ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **prototype** to check whether you can explain the mechanism…
+## Why It Matters
+- **Key signal:** Reviewers use **prototype** to check whether you can explain the mechanism…
 
 ## Sources
 - [MDN — Inheritance and the prototype chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) — deep-dive

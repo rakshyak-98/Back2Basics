@@ -5,7 +5,7 @@
 > Bootloader that loads the kernel and initramfs — edit `/etc/default/grub`, then regenerate; never hand-edit `grub.cfg`.
 
 ```txt
-        GRUB ──┬── Interview
+        GRUB ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Boot recovery literacy: UEFI vs BIOS, `GRUB_CMDLINE_LINUX`, `update-grub`, an…
+## Why It Matters
+- **Key signal:** Boot recovery literacy: UEFI vs BIOS, `GRUB_CMDLINE_LINUX`, `update-grub`, an…
 
 ## Sources
 - [GNU GRUB manual](https://www.gnu.org/software/grub/manual/grub/) — deep-dive

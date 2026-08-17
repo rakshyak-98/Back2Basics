@@ -5,7 +5,7 @@
 > Idempotency key lets a client safely retry a write — same key returns the first result, not a duplicate.
 
 ```txt
-        Idempotent-key ──┬── Interview
+        Idempotent-key ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Idempotency keys are a must for payment/retry design interviews
+## Why It Matters
+- **Key signal:** Idempotency keys are a must for payment/retry design reviews
 
 ## Sources
 - [Stripe — Idempotent requests](https://docs.stripe.com/api/idempotent_requests) — deep-dive
@@ -29,9 +29,9 @@ POST + Idempotency-Key
    └─ seen done → return stored response (no re-create)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Idempotency-Key** | Client retry token | “UUID per checkout attempt.” |
 | **Request hash** | Detect key reuse with new body | “Same key + different payload = 422.” |

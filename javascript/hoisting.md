@@ -5,7 +5,7 @@
 > Declarations are visible in their scope before the line runs — `var`/`function` hoist differently from `let`/`const`.
 
 ```txt
-        hoisting ──┬── Interview
+        hoisting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **hoisting** to check whether you can explain the mechanism …
+## Why It Matters
+- **Key signal:** Reviewers use **hoisting** to check whether you can explain the mechanism …
 
 ## Sources
 - [MDN — Hoisting](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting) — deep-dive

@@ -5,7 +5,7 @@
 > SuperTokens (Node SDK) — superTokens splits auth into a Core service (session store, refresh rotation) and your API (SDK middleware). Sessions live in httpOnly cookies +
 
 ```txt
-        SuperTokens (Node  ──┬── Interview
+        SuperTokens (Node  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **SuperTokens (Node SDK)** to see if you understand what i…
+## Why It Matters
+- **Key signal:** Reviewers probe **SuperTokens (Node SDK)** to see if you understand what i…
 
 ## Sources
 - [SuperTokens — Docs](https://supertokens.com/docs/guides) — deep-dive

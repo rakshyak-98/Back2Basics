@@ -5,7 +5,7 @@
 > awk walks a file line by line — match a pattern, run an action on fields.
 
 ```txt
-        awk ──┬── Interview
+        awk ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic filter question: `$1`/`NF`/`NR`, `-F`, `BEGIN`/`END` aggregates
+## Why It Matters
+- **Key signal:** Classic filter question: `$1`/`NF`/`NR`, `-F`, `BEGIN`/`END` aggregates
 
 ## Sources
 - [GNU awk User’s Guide](https://www.gnu.org/software/gawk/manual/) — deep-dive

@@ -5,7 +5,7 @@
 > Browser refuses to store or send cookies across sites when `Secure`/`SameSite`/domain attributes disagree with how the frontend and API are hosted.
 
 ```txt
-        Cookie errors (cro ──┬── Interview
+        Cookie errors (cro ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers love cross-site cookie debugging: `SameSite=None
+## Why It Matters
+- **Key signal:** Reviewers love cross-site cookie debugging: `SameSite=None
 
 ## Sources
 - [MDN — SameSite cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) — deep-dive

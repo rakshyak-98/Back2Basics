@@ -5,7 +5,7 @@
 > Run JS on extra OS threads inside one process — good for CPU-bound work without blocking the event loop.
 
 ```txt
-        worker (worker thr ──┬── Interview
+        worker (worker thr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **worker (worker threads)** to check whether you can explain…
+## Why It Matters
+- **Key signal:** Reviewers use **worker (worker threads)** to check whether you can explain…
 
 ## Sources
 - [Node.js — Worker threads](https://nodejs.org/api/worker_threads.html) — deep-dive

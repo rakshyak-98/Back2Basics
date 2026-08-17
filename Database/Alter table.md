@@ -5,7 +5,7 @@
 > SQL DDL for changing existing table structure—add/drop columns, constraints, and indexes—with lock and rewrite behavior that can stall production if ignored.
 
 ```txt
-        Alter table ──┬── Interview
+        Alter table ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about `ALTER TABLE` to see whether you know online DDL vs ta…
+## Why It Matters
+- **Key signal:** Reviewers ask about `ALTER TABLE` to see whether you know online DDL vs ta…
 
 ## Sources
 - [PostgreSQL Documentation — ALTER TABLE](https://www.postgresql.org/docs/current/sql-altertable.html) — deep-dive

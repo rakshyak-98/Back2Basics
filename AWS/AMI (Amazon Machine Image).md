@@ -5,13 +5,13 @@
 > An AMI is the template for an EC2 instance — it captures the root volume snapshot, launch permissions, and block device mapping so you can launch identical machines repeatedly.
 
 ```txt
-        AMI (Amazon Machin ──┬── Interview
+        AMI (Amazon Machin ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** AMI questions check golden-image pipelines, region copy, and baking vs bootst…
+## Why It Matters
+- **Key signal:** AMI questions check golden-image pipelines, region copy, and baking vs bootst…
 
 ## Sources
 - [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) — overview

@@ -5,7 +5,7 @@
 > Settings that decide how brokers and clients run — especially KRaft versus ZooKeeper mode, listeners, and advertised addresses that clients actually dial.
 
 ```txt
-        Kafka configuratio ──┬── Interview
+        Kafka configuratio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers and take-home labs often break on *advertised listeners* and “ne…
+## Why It Matters
+- **Key signal:** Reviewers and take-home labs often break on *advertised listeners* and “ne…
 
 ## Sources
 - [Apache Kafka — KRaft](https://kafka.apache.org/43/operations/kraft/) — deep-dive

@@ -5,7 +5,7 @@
 > Once-dominant JavaScript date library — parse, format, and manipulate calendar times (now in maintenance mode; prefer modern alternatives for new code).
 
 ```txt
-        moment ──┬── Interview
+        moment ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Moment to probe mutability pitfalls, timezone mistakes, and …
+## Why It Matters
+- **Key signal:** Reviewers use Moment to probe mutability pitfalls, timezone mistakes, and …
 
 ## Sources
 - [Moment.js documentation](https://momentjs.com/docs/) — deep-dive

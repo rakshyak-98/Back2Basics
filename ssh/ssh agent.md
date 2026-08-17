@@ -5,7 +5,7 @@
 > `ssh-agent` holds decrypted private keys in memory so you type the key passphrase once per session instead of on every SSH connection.
 
 ```txt
-        ssh agent ──┬── Interview
+        ssh agent ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how the agent relates to encrypted-at-rest keys, `IdentityFi…
+## Why It Matters
+- **Key signal:** Reviewers ask how the agent relates to encrypted-at-rest keys, `IdentityFi…
 
 ## Sources
 - [OpenSSH — ssh-agent](https://man.openbsd.org/ssh-agent) — deep-dive

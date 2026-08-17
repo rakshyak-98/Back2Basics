@@ -5,7 +5,7 @@
 > Design patterns — named, reusable object designs; use them only where variation is real.
 
 ```txt
-        Design pattern ──┬── Interview
+        Design pattern ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care less about reciting GoF names and more about *when* you rea…
+## Why It Matters
+- **Key signal:** Reviewers care less about reciting GoF names and more about *when* you rea…
 
 ## Sources
 - [Wikipedia — Software design pattern](https://en.wikipedia.org/wiki/Software_design_pattern) — overview
@@ -58,7 +58,7 @@ Client / REST
 - **Creational:** [[Design pattern/Factory Method]] · [[Design pattern/Creation…
 
 ## Mistakes to Avoid
-- **Mistake:** Applying Singleton or Abstract Factory “because interviews.”
+- **Mistake:** Applying Singleton or Abstract Factory “because reviews.”
 - **Mistake:** Inheritance trees where a Strategy map would do
 - **Mistake:** Naming every class after a pattern when a clear domain name is b…
 

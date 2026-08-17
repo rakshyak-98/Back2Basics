@@ -5,7 +5,7 @@
 > Language behind Flutter (and more) — sound null safety, isolates instead of shared-memory threads, and factories that can return subtypes or cached instances.
 
 ```txt
-        Dart ──┬── Interview
+        Dart ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast Dart null safety with Java, explain isolates vs threads…
+## Why It Matters
+- **Key signal:** Reviewers contrast Dart null safety with Java, explain isolates vs threads…
 
 ## Sources
 - [Dart language tour](https://dart.dev/language) — deep-dive

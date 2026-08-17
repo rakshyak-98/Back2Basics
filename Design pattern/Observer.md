@@ -5,15 +5,15 @@
 > Observer defines a one-to-many dependency — when one object changes state, all dependents are notified and updated automatically.
 
 ```txt
-        Observer ──┬── Interview
+        Observer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask Observer to check event-driven thinking
+## Why It Matters
+- **Key signal:** Reviewers ask Observer to check event-driven thinking
 
 ## Sources
 - Gamma et al., *Design Patterns* (Observer) — deep-dive

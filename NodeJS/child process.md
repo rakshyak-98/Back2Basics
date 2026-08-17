@@ -5,7 +5,7 @@
 > Spawn another OS process from Node — shell out, run binaries, or isolate crashable work. Mind shell injection.
 
 ```txt
-        child process ──┬── Interview
+        child process ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **child process** to check whether you can explain the mecha…
+## Why It Matters
+- **Key signal:** Reviewers use **child process** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Child process](https://nodejs.org/api/child_process.html) — deep-dive

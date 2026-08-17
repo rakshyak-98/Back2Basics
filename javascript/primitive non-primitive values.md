@@ -5,7 +5,7 @@
 > Primitives (number, string, bool, null, undefined, symbol, bigint) are copied by value; objects/arrays/functions are references.
 
 ```txt
-        primitive non-prim ──┬── Interview
+        primitive non-prim ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **primitive non-primitive values** to check whether you can …
+## Why It Matters
+- **Key signal:** Reviewers use **primitive non-primitive values** to check whether you can …
 
 ## Sources
 - [Wikipedia — primitive non-primitive values](https://en.wikipedia.org/wiki/primitive_non-primitive_values) — overview

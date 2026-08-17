@@ -5,7 +5,7 @@
 > Media server that ingests live UDP/SRT/RTMP, packages HLS/DASH, and can encrypt with DRM keys — the packaging edge in front of players.
 
 ```txt
-        flussonic ──┬── Interview
+        flussonic ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk flussonic end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk flussonic end-to-end
 
 ## Sources
 - [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic) — overview

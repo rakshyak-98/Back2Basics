@@ -5,7 +5,7 @@
 > Short hash of a public key or certificate — human-verifiable identity for trust-on-first-use (TOFU) and MITM detection.
 
 ```txt
-        Fingerprint ──┬── Interview
+        Fingerprint ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** SSH/TLS interviews: fingerprints enable TOFU and MITM detection
+## Why It Matters
+- **Key signal:** SSH/TLS reviews: fingerprints enable TOFU and MITM detection
 
 ## Sources
 - [RFC 7469 — Public Key Pinning (historical context)](https://www.rfc-editor.org/rfc/rfc7469) — overview

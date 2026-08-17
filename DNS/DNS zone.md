@@ -5,7 +5,7 @@
 > A DNS zone is the contiguous portion of the DNS tree administered as one unit with a single SOA record — split zones when delegation, compliance, or blast-radius boundaries require it.
 
 ```txt
-        DNS zone ──┬── Interview
+        DNS zone ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want zone vs domain clarity, SOA serial/transfer behavior, and w…
+## Why It Matters
+- **Key signal:** Reviewers want zone vs domain clarity, SOA serial/transfer behavior, and w…
 
 ## Sources
 - [RFC 1035 — Zones and zone transfers](https://datatracker.ietf.org/doc/html/rfc1035) — deep-dive

@@ -5,7 +5,7 @@
 > shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
 ```txt
-        Git aliases ──┬── Interview
+        Git aliases ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git aliases` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git aliases` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

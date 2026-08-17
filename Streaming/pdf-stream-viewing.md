@@ -5,7 +5,7 @@
 > Stream a PDF into the browser — render pages as bytes arrive (PDF.js + HTTP range), don’t wait for the whole file.
 
 ```txt
-        pdf-stream-viewing ──┬── Interview
+        pdf-stream-viewing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk pdf-stream-viewing end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk pdf-stream-viewing end-to-end
 
 ## Sources
 - [Wikipedia — pdf-stream-viewing](https://en.wikipedia.org/wiki/pdf-stream-viewing) — overview

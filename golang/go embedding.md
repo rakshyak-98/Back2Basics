@@ -5,7 +5,7 @@
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
 ```txt
-        Go embedding (stru ──┬── Interview
+        Go embedding (stru ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Embedding vs inheritance is a frequent Go design question
+## Why It Matters
+- **Key signal:** Embedding vs inheritance is a frequent Go design question
 
 ## Sources
 - [Effective Go — Embedding](https://go.dev/doc/effective_go#embedding) — deep-dive

@@ -5,7 +5,7 @@
 > IBM's Algorithm for Recovery and Isolation Exploiting Semantics—industrial-strength WAL recovery using steal/no-force buffer management, redo, and undo phases keyed by Log Sequence Numbers.
 
 ```txt
-        ARIES ──┬── Interview
+        ARIES ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** ARIES shows up when interviewers probe crash recovery depth: Analysis → Redo …
+## Why It Matters
+- **Key signal:** ARIES shows up when reviewers probe crash recovery depth: Analysis → Redo …
 
 ## Sources
 - Mohan et al., "ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks" (1992) — deep-dive

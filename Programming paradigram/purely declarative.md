@@ -5,7 +5,7 @@
 > Describe the desired result, not the step-by-step mutations — the runtime figures out how to reach that state (UI, infra, queries).
 
 ```txt
-        Purely declarative ──┬── Interview
+        Purely declarative ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast imperative loops/mutations with declarative UI (React/F…
+## Why It Matters
+- **Key signal:** Reviewers contrast imperative loops/mutations with declarative UI (React/F…
 
 ## Sources
 - [Wikipedia — Declarative programming](https://en.wikipedia.org/wiki/Declarative_programming) — overview

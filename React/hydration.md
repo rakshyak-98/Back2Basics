@@ -5,7 +5,7 @@
 > Client React attaches listeners to server-rendered HTML — mismatch between server and client markup breaks the page.
 
 ```txt
-        Hydration ──┬── Interview
+        Hydration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the SSR → hydrate story and classic mismatch causes (`Date.…
+## Why It Matters
+- **Key signal:** Reviewers want the SSR → hydrate story and classic mismatch causes (`Date.…
 
 ## Sources
 - [hydrateRoot](https://react.dev/reference/react-dom/client/hydrateRoot) — deep-dive

@@ -5,7 +5,7 @@
 > History API — push/replace URL + state in the session history stack without full reloads (SPA routing).
 
 ```txt
-        JavaScript History ──┬── Interview
+        JavaScript History ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **JavaScript History API** to see if you understand what i…
+## Why It Matters
+- **Key signal:** Reviewers probe **JavaScript History API** to see if you understand what i…
 
 ## Sources
 - [MDN — History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) — deep-dive

@@ -5,7 +5,7 @@
 > Logical network interface (`lo`) whose addresses (`127.0.0.1`, `::1`) route traffic back to the same host — no physical NIC involved.
 
 ```txt
-        Loopback ──┬── Interview
+        Loopback ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers distinguish loopback (interface/addresses) from the `localhost` …
+## Why It Matters
+- **Key signal:** Reviewers distinguish loopback (interface/addresses) from the `localhost` …
 
 ## Sources
 - [RFC 1122 — Requirements for Internet Hosts — Communication Layers](https://www.rfc-editor.org/rfc/rfc1122) — deep-dive

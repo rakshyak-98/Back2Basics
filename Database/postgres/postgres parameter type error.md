@@ -5,7 +5,7 @@
 > `could not determine data type of parameter $N` and related bind mismatches — fix with explicit casts or typed placeholders in prepared statements.
 
 ```txt
-        postgres parameter ──┬── Interview
+        postgres parameter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows debugging skill with prepared statements and ORMs that send untyped `nu…
+## Why It Matters
+- **Key signal:** Shows debugging skill with prepared statements and ORMs that send untyped `nu…
 
 ## Sources
 - [PREPARE](https://www.postgresql.org/docs/current/sql-prepare.html) — deep-dive

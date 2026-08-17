@@ -5,7 +5,7 @@
 > A provider is a plugin that implements create/read/update/delete against an API — Terraform core loads it and reconciles resources; it does not hard-code EC2 or GCE itself.
 
 ```txt
-        terraform provider ──┬── Interview
+        terraform provider ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want version pins, aliases for multi-region/account, schema as t…
+## Why It Matters
+- **Key signal:** Reviewers want version pins, aliases for multi-region/account, schema as t…
 
 ## Sources
 - [HashiCorp — Providers](https://developer.hashicorp.com/terraform/language/providers) — deep-dive

@@ -5,7 +5,7 @@
 > A payment gateway sits between the merchant site or POS and the acquirer — it tokenizes sensitive data, routes to card networks, and returns authorization and capture results.
 
 ```txt
-        Payment gateway ──┬── Interview
+        Payment gateway ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you know gateway versus [[PSP]], PCI scope by inte…
+## Why It Matters
+- **Key signal:** Reviewers check whether you know gateway versus [[PSP]], PCI scope by inte…
 
 ## Sources
 - [Wikipedia — Payment gateway](https://en.wikipedia.org/wiki/Payment_gateway) — overview

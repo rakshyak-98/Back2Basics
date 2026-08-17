@@ -5,7 +5,7 @@
 > Logical partitions extend MBR’s four primary slot limit by nesting partitions inside an extended container — legacy layout largely replaced by GPT on UEFI systems.
 
 ```txt
-        Logical partitions ──┬── Interview
+        Logical partitions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Disk layout history: primary vs extended vs logical, MBR 2 TiB limit, and why…
+## Why It Matters
+- **Key signal:** Disk layout history: primary vs extended vs logical, MBR 2 TiB limit, and why…
 
 ## Sources
 - [Wikipedia — Extended boot record](https://en.wikipedia.org/wiki/Extended_boot_record) — overview

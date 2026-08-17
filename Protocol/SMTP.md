@@ -5,7 +5,7 @@
 > Simple Mail Transfer Protocol moves email between Mail Transfer Agents with text commands over TCP — 587 + STARTTLS for client submission; 25 for server-to-server relay.
 
 ```txt
-        SMTP ──┬── Interview
+        SMTP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe envelope versus headers, submission versus relay ports, an…
+## Why It Matters
+- **Key signal:** Reviewers probe envelope versus headers, submission versus relay ports, an…
 
 ## Sources
 - [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive

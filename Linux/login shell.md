@@ -5,7 +5,7 @@
 > First shell after authentication — loads profile scripts, sets environment, and may start SSH commands or a desktop session.
 
 ```txt
-        login shell ──┬── Interview
+        login shell ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic Bash trap: login vs interactive non-login startup files
+## Why It Matters
+- **Key signal:** Classic Bash trap: login vs interactive non-login startup files
 
 ## Sources
 - [GNU Bash manual — Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) — deep-dive

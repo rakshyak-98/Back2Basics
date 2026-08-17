@@ -5,7 +5,7 @@
 > fsync pushes one file’s dirty cache data toward stable storage — the durability boundary databases rely on after writing a commit record.
 
 ```txt
-        fsync ──┬── Interview
+        fsync ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Durability classic: `write` ≠ durable
+## Why It Matters
+- **Key signal:** Durability classic: `write` ≠ durable
 
 ## Sources
 - Linux `fsync(2)` manual page — deep-dive

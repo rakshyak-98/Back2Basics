@@ -5,7 +5,7 @@
 > Smooth UI motion comes from animating compositor-friendly properties (`transform`, `opacity`) — layout-thrashing width/top updates drop frames.
 
 ```txt
-        Animation ──┬── Interview
+        Animation ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about CSS/JS animation to see if you know the render pipelin…
+## Why It Matters
+- **Key signal:** Reviewers ask about CSS/JS animation to see if you know the render pipelin…
 
 ## Sources
 - [web.dev — Stick to compositor-only properties](https://web.dev/articles/stick-to-compositor-only-properties-and-manage-layer-count) — deep-dive
@@ -24,7 +24,7 @@
 
 ## Key Concepts
 - **Pipeline:** JS → Style → Layout → Paint → Composite
-- **Compositor-friendly:** `transform`, `opacity` (with a layer) → typical interview “GPU-friendly” answ…
+- **Compositor-friendly:** `transform`, `opacity` (with a layer) → typical review “GPU-friendly” answ…
 - **Layout thrash:** interleaved geometry reads (`offsetHeight`) and style writes → forced synchro…
 - **`will-change`:** hints layer promotion → overuse burns GPU memory.
 - **FLIP:** measure First/Last, invert with transform, Play

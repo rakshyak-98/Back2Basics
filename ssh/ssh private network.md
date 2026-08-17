@@ -5,7 +5,7 @@
 > Reach SSH on private (RFC1918) hosts via VPN or a jump host — and firewall port 22 so only trusted private source ranges can connect.
 
 ```txt
-        ssh private networ ──┬── Interview
+        ssh private networ ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that you know private IPs are not internet-routable, and t…
+## Why It Matters
+- **Key signal:** Reviewers check that you know private IPs are not internet-routable, and t…
 
 ## Sources
 - [RFC 1918 — Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918) — overview

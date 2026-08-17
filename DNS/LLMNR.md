@@ -5,7 +5,7 @@
 > Link-Local Multicast Name Resolution lets Windows hosts resolve single-label names on the local subnet without DNS — convenient on LANs, dangerous on coffee-shop Wi-Fi because any peer can answer.
 
 ```txt
-        LLMNR ──┬── Interview
+        LLMNR ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Windows / security interviews ask why LLMNR is disabled in enterprises
+## Why It Matters
+- **Key signal:** Windows / security reviews ask why LLMNR is disabled in enterprises
 
 ## Sources
 - [RFC 4795 — LLMNR](https://datatracker.ietf.org/doc/html/rfc4795) — deep-dive

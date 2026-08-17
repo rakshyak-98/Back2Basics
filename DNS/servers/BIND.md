@@ -5,7 +5,7 @@
 > BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive r…
 
 ```txt
-        BIND ──┬── Interview
+        BIND ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzo…
+## Why It Matters
+- **Key signal:** Reviewers expect zone-file literacy, SOA serial discipline, `named-checkzo…
 
 ## Sources
 - [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/) — deep-dive

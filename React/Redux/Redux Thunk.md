@@ -5,7 +5,7 @@
 > Middleware that lets you dispatch functions for async side effects — foundation under createAsyncThunk.
 
 ```txt
-        Redux Thunk ──┬── Interview
+        Redux Thunk ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux Thunk](https://github.com/reduxjs/redux-thunk) — deep-dive

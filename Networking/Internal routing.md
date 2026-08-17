@@ -5,7 +5,7 @@
 > Internal routing is same-LAN reachability — private IP to private IP with no internet hairpin required.
 
 ```txt
-        Internal routing ──┬── Interview
+        Internal routing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you debug LAN reachability (bind address, subnet/V…
+## Why It Matters
+- **Key signal:** Reviewers check whether you debug LAN reachability (bind address, subnet/V…
 
 ## Sources
 - [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918) — overview
@@ -23,7 +23,7 @@
 - [ip-address(8) — Linux manual page](https://man7.org/linux/man-pages/man8/ip-address.8.html) — deep-dive
 
 ## Key Concepts
-| Word | Plain meaning | Interview phrasing |
+| Word | Plain meaning | Review phrasing |
 |------|---------------|--------------------|
 | **Same L2/L3 segment** | Shared broadcast / subnet | “ARP resolves MAC; IP stays private.” |
 | **Private IP** | RFC1918 address | “`10/8`, `172.16/12`, `192.168/16`.” |

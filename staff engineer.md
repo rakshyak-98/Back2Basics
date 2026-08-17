@@ -5,7 +5,7 @@
 > Staff engineer — technical leadership through scope, influence, and craft — not through managing headcount.
 
 ```txt
-        staff engineer ──┬── Interview
+        staff engineer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** “Staff-plus” interviews probe impact beyond your tickets: how you unblock tea…
+## Why It Matters
+- **Key signal:** “Staff-plus” reviews probe impact beyond your tickets: how you unblock tea…
 
 ## Sources
 - [StaffEng — Staff archetypes](https://staffeng.com/guides/staff-archetypes/) — overview
@@ -32,7 +32,7 @@
 - **Core:** A staff engineer shapes the environment where problems get solved: architectu…
 
 ## Technical Details
-- Interview map (words you can say):
+- Review map (words you can say):
 
 | Signal | What they want | Example |
 |--------|----------------|---------|

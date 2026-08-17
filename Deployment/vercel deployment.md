@@ -5,7 +5,7 @@
 > Git or CLI builds land on a global CDN for static assets plus serverless functions for APIs/SSR — no long-lived Node server by default.
 
 ```txt
-        Vercel deployment ──┬── Interview
+        Vercel deployment ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask SPA refresh 404s (rewrites), preview vs production env vars,…
+## Why It Matters
+- **Key signal:** Reviewers ask SPA refresh 404s (rewrites), preview vs production env vars,…
 
 ## Sources
 - [Vercel — Project configuration](https://vercel.com/docs/project-configuration) — deep-dive

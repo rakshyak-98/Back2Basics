@@ -5,7 +5,7 @@
 > `/// <reference … />` comments pull declaration files or `@types` packages into compilation — legacy wiring; prefer `import` and `tsconfig` `types`/`include`.
 
 ```txt
-        Triple-Slash Direc ──┬── Interview
+        Triple-Slash Direc ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may mention triple-slash directives to see if you know they are …
+## Why It Matters
+- **Key signal:** Reviewers may mention triple-slash directives to see if you know they are …
 
 ## Sources
 - [TypeScript Handbook — Triple-Slash Directives](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html) — deep-dive

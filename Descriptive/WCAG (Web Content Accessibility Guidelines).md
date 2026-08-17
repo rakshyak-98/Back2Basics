@@ -5,7 +5,7 @@
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
 ```txt
-        WCAG (Web Content  ──┬── Interview
+        WCAG (Web Content  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** WCAG interviews probe accessibility levels (A/AA), semantic HTML, and keyboar…
+## Why It Matters
+- **Key signal:** WCAG reviews probe accessibility levels (A/AA), semantic HTML, and keyboar…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

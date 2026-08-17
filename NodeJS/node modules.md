@@ -5,7 +5,7 @@
 > Each file is a module — dependencies resolve at runtime via `require` / `import`, not a C-style linker.
 
 ```txt
-        node modules ──┬── Interview
+        node modules ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node modules** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **node modules** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Modules (CJS)](https://nodejs.org/api/modules.html) — deep-dive

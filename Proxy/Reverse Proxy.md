@@ -5,7 +5,7 @@
 > Server-side proxy that accepts client requests and forwards them to internal backends — TLS termination, routing, and hiding origin servers.
 
 ```txt
-        Reverse Proxy ──┬── Interview
+        Reverse Proxy ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want reverse vs forward proxy, why APIs sit behind Nginx/Enovy, …
+## Why It Matters
+- **Key signal:** Reviewers want reverse vs forward proxy, why APIs sit behind Nginx/Enovy, …
 
 ## Sources
 - [Wikipedia — Reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy) — overview

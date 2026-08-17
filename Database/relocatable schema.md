@@ -5,7 +5,7 @@
 > PostgreSQL pattern: put objects in a schema you can move with `ALTER … SET SCHEMA` — useful for extensions, tenant modules, and portable fixtures.
 
 ```txt
-        relocatable schema ──┬── Interview
+        relocatable schema ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows schema-as-namespace fluency beyond `public`, including search_path pitf…
+## Why It Matters
+- **Key signal:** Shows schema-as-namespace fluency beyond `public`, including search_path pitf…
 
 ## Sources
 - [Schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) — overview

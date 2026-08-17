@@ -5,7 +5,7 @@
 > Team chat that receives HTTP posts from Alertmanager, PagerDuty, or CI so humans can triage — the webhook URL is a secret with channel write access.
 
 ```txt
-        Slack (ops & alert ──┬── Interview
+        Slack (ops & alert ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Slack in ops contexts to see if you separate noisy cha…
+## Why It Matters
+- **Key signal:** Reviewers ask about Slack in ops contexts to see if you separate noisy cha…
 
 ## Sources
 - [Slack API — Incoming webhooks](https://api.slack.com/messaging/webhooks) — overview

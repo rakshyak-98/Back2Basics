@@ -5,7 +5,7 @@
 > An SSH login is a TCP session to port 22 that negotiates crypto, verifies the host, authenticates you (usually with a key), then opens an encrypted shell or command channel.
 
 ```txt
-        ssh login ──┬── Interview
+        ssh login ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers walk the handshake steps and triage `Permission denied (publicke…
+## Why It Matters
+- **Key signal:** Reviewers walk the handshake steps and triage `Permission denied (publicke…
 
 ## Sources
 - [RFC 4253 — SSH Transport Layer Protocol](https://datatracker.ietf.org/doc/html/rfc4253) — deep-dive

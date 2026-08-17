@@ -5,7 +5,7 @@
 > AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
 ```txt
-        AAC (Advanced Audi ──┬── Interview
+        AAC (Advanced Audi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AAC to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about AAC to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — AAC](https://en.wikipedia.org/wiki/AAC) — overview

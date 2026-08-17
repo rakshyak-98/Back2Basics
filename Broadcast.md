@@ -5,7 +5,7 @@
 > Broadcast — one sender; every host in the same Layer-2 broadcast domain receives the frame.
 
 ```txt
-        Broadcast ──┬── Interview
+        Broadcast ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic networking: contrast unicast / broadcast / multicast, why routers sto…
+## Why It Matters
+- **Key signal:** Classic networking: contrast unicast / broadcast / multicast, why routers sto…
 
 ## Sources
 - [Wikipedia — Broadcasting (networking)](https://en.wikipedia.org/wiki/Broadcasting_(networking)) — overview
