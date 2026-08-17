@@ -1,0 +1,1811 @@
+{
+  "note_count": 1111,
+  "folder_cluster_count": 88,
+  "title_similarity_cluster_count": 38,
+  "likely_duplicate_pair_count": 106,
+  "prefix_cluster_count": 63,
+  "topic_cluster_count": 41,
+  "basename_duplicate_count": 7,
+  "hubs": [
+    [
+      "NodeJS",
+      61
+    ],
+    [
+      "react hooks",
+      59
+    ],
+    [
+      "React Architecture",
+      57
+    ],
+    [
+      "React State management",
+      56
+    ],
+    [
+      "HLS",
+      43
+    ],
+    [
+      "TLS (Transport Layer Security)",
+      43
+    ],
+    [
+      "Streaming",
+      42
+    ],
+    [
+      "TCP",
+      37
+    ],
+    [
+      "ACID",
+      36
+    ],
+    [
+      "DASH",
+      35
+    ],
+    [
+      "mysql",
+      33
+    ],
+    [
+      "DNS",
+      31
+    ],
+    [
+      "Configuration",
+      30
+    ],
+    [
+      "process",
+      30
+    ],
+    [
+      "Design pattern",
+      28
+    ],
+    [
+      "webSocket",
+      28
+    ],
+    [
+      "Database",
+      26
+    ],
+    [
+      "UDP",
+      26
+    ],
+    [
+      "WebRTC",
+      26
+    ],
+    [
+      "zustand",
+      26
+    ],
+    [
+      "MongoDB",
+      23
+    ],
+    [
+      "DRM",
+      22
+    ],
+    [
+      "CMAF",
+      22
+    ],
+    [
+      "connection pooling",
+      21
+    ],
+    [
+      "JWT authentication",
+      21
+    ],
+    [
+      "Commands",
+      21
+    ],
+    [
+      "Redux toolkit",
+      21
+    ],
+    [
+      "ingestion",
+      21
+    ],
+    [
+      "ABR",
+      20
+    ],
+    [
+      "expressjs",
+      20
+    ]
+  ],
+  "title_similarity_clusters": [
+    [
+      "Connection Pool",
+      "connection pooling",
+      "mysql connection",
+      "mysql pool connection",
+      "mysql ssl connection"
+    ],
+    [
+      "CLI",
+      "CLI",
+      "cli",
+      "cli"
+    ],
+    [
+      "Command",
+      "Commands",
+      "commands"
+    ],
+    [
+      "AWS EBS(Elastic Block Store)",
+      "EBS (Elastic Block Store)"
+    ],
+    [
+      "ACME server",
+      "name server"
+    ],
+    [
+      "Data structure",
+      "go data structure"
+    ],
+    [
+      "MySQL Error",
+      "SQL error"
+    ],
+    [
+      "SQL normalization",
+      "mysql normalization"
+    ],
+    [
+      "Configuration",
+      "Configuration"
+    ],
+    [
+      "MySQL Engines",
+      "mysql engine"
+    ],
+    [
+      "MySQL Events",
+      "mysql events 1"
+    ],
+    [
+      "MySQL Triggers",
+      "mysql triggers"
+    ],
+    [
+      "mysql Privileges",
+      "psql privileges"
+    ],
+    [
+      "mysql partitioning",
+      "mysql partitioning"
+    ],
+    [
+      "mysql table",
+      "psql table"
+    ],
+    [
+      "mysql",
+      "mysql2"
+    ],
+    [
+      "variable",
+      "variables"
+    ],
+    [
+      "Abstract Factor",
+      "Abstract Factory"
+    ],
+    [
+      "docker OCI",
+      "docker cli"
+    ],
+    [
+      "Python",
+      "Python"
+    ],
+    [
+      "express error handler",
+      "express query handler"
+    ],
+    [
+      "uWebSocket",
+      "webSocket"
+    ],
+    [
+      "Package Manager",
+      "apt package manager"
+    ],
+    [
+      "Linux cgroup",
+      "linux groups"
+    ],
+    [
+      "systemctl",
+      "systemctl"
+    ],
+    [
+      "Linux Key management",
+      "Linux management"
+    ],
+    [
+      "mongoDB Group query",
+      "mongodb lookup query"
+    ],
+    [
+      "network management",
+      "network managmeen"
+    ],
+    [
+      "Next JS",
+      "Next js Build"
+    ],
+    [
+      "Buffers",
+      "buffer"
+    ],
+    [
+      "EventEmitter",
+      "event emitter"
+    ],
+    [
+      "Blocking Vs Non-Blocking",
+      "non-blocking"
+    ],
+    [
+      "E mail server",
+      "mail server"
+    ],
+    [
+      "Data Fetching HOC component",
+      "data fetching component"
+    ],
+    [
+      "Compound Components",
+      "Compound Components 1"
+    ],
+    [
+      "React State management",
+      "React data management"
+    ],
+    [
+      "Asymmetrical Encryption",
+      "symmetrical encryption"
+    ],
+    [
+      "web worker",
+      "web workers"
+    ]
+  ],
+  "likely_duplicate_pairs": [
+    {
+      "a": "Configuration",
+      "b": "Configuration",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Nginx/Configuration.md",
+      "path_b": "Nginx/Configuration.md"
+    },
+    {
+      "a": "MySQL Triggers",
+      "b": "mysql triggers",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Database/mysql/MySQL Triggers.md",
+      "path_b": "Database/mysql/mysql triggers.md"
+    },
+    {
+      "a": "cli",
+      "b": "CLI",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "helm/cli.md",
+      "path_b": "NodeJS/CLI.md"
+    },
+    {
+      "a": "cli",
+      "b": "CLI",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "helm/cli.md",
+      "path_b": "NodeJS/CLI.md"
+    },
+    {
+      "a": "cli",
+      "b": "cli",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "helm/cli.md",
+      "path_b": "helm/cli.md"
+    },
+    {
+      "a": "mysql partitioning",
+      "b": "mysql partitioning",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Database/mysql partitioning.md",
+      "path_b": "Database/mysql partitioning.md"
+    },
+    {
+      "a": "mysql pool connection",
+      "b": "Connection Pool",
+      "score": 1.0,
+      "reason": "tokens",
+      "path_a": "Database/mysql/mysql pool connection.md",
+      "path_b": "LLD/Questions/Connection Pool.md"
+    },
+    {
+      "a": "Python",
+      "b": "Python",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Python/Python.md",
+      "path_b": "Python/Python.md"
+    },
+    {
+      "a": "CLI",
+      "b": "CLI",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "NodeJS/CLI.md",
+      "path_b": "NodeJS/CLI.md"
+    },
+    {
+      "a": "CLI",
+      "b": "cli",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "NodeJS/CLI.md",
+      "path_b": "helm/cli.md"
+    },
+    {
+      "a": "Commands",
+      "b": "commands",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Linux/Commands.md",
+      "path_b": "nvim/commands.md"
+    },
+    {
+      "a": "systemctl",
+      "b": "systemctl",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "Linux/management/systemctl.md",
+      "path_b": "Linux/management/systemctl.md"
+    },
+    {
+      "a": "Next JS",
+      "b": "Next js Build",
+      "score": 1.0,
+      "reason": "tokens",
+      "path_a": "NextJS/Next JS.md",
+      "path_b": "NextJS/Next js Build.md"
+    },
+    {
+      "a": "CLI",
+      "b": "cli",
+      "score": 1.0,
+      "reason": "exact",
+      "path_a": "NodeJS/CLI.md",
+      "path_b": "helm/cli.md"
+    },
+    {
+      "a": "Blocking Vs Non-Blocking",
+      "b": "non-blocking",
+      "score": 1.0,
+      "reason": "tokens",
+      "path_a": "Operating System/Blocking Vs Non-Blocking.md",
+      "path_b": "Operating System/non-blocking.md"
+    },
+    {
+      "a": "Asymmetrical Encryption",
+      "b": "symmetrical encryption",
+      "score": 0.978,
+      "reason": "string",
+      "path_a": "Security/Asymmetrical Encryption.md",
+      "path_b": "Security/symmetrical encryption.md"
+    },
+    {
+      "a": "Abstract Factor",
+      "b": "Abstract Factory",
+      "score": 0.968,
+      "reason": "string",
+      "path_a": "Design pattern/Creation pattern/Abstract Factor.md",
+      "path_b": "Design pattern/Creation pattern/Abstract Factory.md"
+    },
+    {
+      "a": "MySQL Engines",
+      "b": "mysql engine",
+      "score": 0.96,
+      "reason": "string",
+      "path_a": "Database/mysql/MySQL Engines.md",
+      "path_b": "Database/mysql/mysql engine.md"
+    },
+    {
+      "a": "EventEmitter",
+      "b": "event emitter",
+      "score": 0.96,
+      "reason": "string",
+      "path_a": "NodeJS/EventEmitter.md",
+      "path_b": "NodeJS/event emitter.md"
+    },
+    {
+      "a": "web worker",
+      "b": "web workers",
+      "score": 0.952,
+      "reason": "string",
+      "path_a": "javascript/web worker.md",
+      "path_b": "javascript/web workers.md"
+    },
+    {
+      "a": "Compound Components 1",
+      "b": "Compound Components",
+      "score": 0.95,
+      "reason": "string",
+      "path_a": "React/React Pattern/Compound Components 1.md",
+      "path_b": "React/React Pattern/Compound Components.md"
+    },
+    {
+      "a": "uWebSocket",
+      "b": "webSocket",
+      "score": 0.947,
+      "reason": "string",
+      "path_a": "ExpressJS/pacakges/uWebSocket.md",
+      "path_b": "Networking/webSocket.md"
+    },
+    {
+      "a": "SQL normalization",
+      "b": "mysql normalization",
+      "score": 0.944,
+      "reason": "string",
+      "path_a": "Database/SQL normalization.md",
+      "path_b": "Database/mysql/mysql normalization.md"
+    },
+    {
+      "a": "variables",
+      "b": "variable",
+      "score": 0.941,
+      "reason": "string",
+      "path_a": "Database/mysql/variables.md",
+      "path_b": "javascript/variable.md"
+    },
+    {
+      "a": "Command",
+      "b": "Commands",
+      "score": 0.933,
+      "reason": "string",
+      "path_a": "Design pattern/Command.md",
+      "path_b": "Linux/Commands.md"
+    },
+    {
+      "a": "Command",
+      "b": "commands",
+      "score": 0.933,
+      "reason": "string",
+      "path_a": "Design pattern/Command.md",
+      "path_b": "nvim/commands.md"
+    },
+    {
+      "a": "MySQL Events",
+      "b": "mysql events 1",
+      "score": 0.923,
+      "reason": "string",
+      "path_a": "Database/mysql/MySQL Events.md",
+      "path_b": "Database/mysql/mysql events 1.md"
+    },
+    {
+      "a": "Buffers",
+      "b": "buffer",
+      "score": 0.923,
+      "reason": "string",
+      "path_a": "NodeJS/Buffers.md",
+      "path_b": "Operating System/buffer.md"
+    },
+    {
+      "a": "AWS EBS(Elastic Block Store)",
+      "b": "EBS (Elastic Block Store)",
+      "score": 0.92,
+      "reason": "string",
+      "path_a": "AWS/AWS EBS(Elastic Block Store).md",
+      "path_b": "AWS/EBS (Elastic Block Store).md"
+    },
+    {
+      "a": "Data Fetching HOC component",
+      "b": "data fetching component",
+      "score": 0.92,
+      "reason": "string",
+      "path_a": "React/Data Fetching HOC component.md",
+      "path_b": "React/React Pattern/data fetching component.md"
+    },
+    {
+      "a": "linux groups",
+      "b": "Linux cgroup",
+      "score": 0.917,
+      "reason": "string",
+      "path_a": "Linux/commands/linux groups.md",
+      "path_b": "Linux/management/Linux cgroup.md"
+    },
+    {
+      "a": "E mail server",
+      "b": "mail server",
+      "score": 0.917,
+      "reason": "string",
+      "path_a": "Protocol/E mail server.md",
+      "path_b": "Protocol/mail server.md"
+    },
+    {
+      "a": "network managmeen",
+      "b": "network management",
+      "score": 0.914,
+      "reason": "string",
+      "path_a": "Networking/network managmeen.md",
+      "path_b": "Streaming/network management.md"
+    },
+    {
+      "a": "name server",
+      "b": "ACME server",
+      "score": 0.909,
+      "reason": "string",
+      "path_a": "DNS/name server.md",
+      "path_b": "Security/ACME server.md"
+    },
+    {
+      "a": "connection pooling",
+      "b": "Connection Pool",
+      "score": 0.909,
+      "reason": "string",
+      "path_a": "Database/connection pooling.md",
+      "path_b": "LLD/Questions/Connection Pool.md"
+    },
+    {
+      "a": "mysql",
+      "b": "mysql2",
+      "score": 0.909,
+      "reason": "string",
+      "path_a": "Database/mysql/mysql.md",
+      "path_b": "npm/mysql2.md"
+    },
+    {
+      "a": "Data structure",
+      "b": "go data structure",
+      "score": 0.903,
+      "reason": "string",
+      "path_a": "Data structure/Data structure.md",
+      "path_b": "golang/go data structure.md"
+    },
+    {
+      "a": "mysql Privileges",
+      "b": "psql privileges",
+      "score": 0.903,
+      "reason": "string",
+      "path_a": "Database/mysql/mysql Privileges.md",
+      "path_b": "Database/postgres/psql privileges.md"
+    },
+    {
+      "a": "SQL error",
+      "b": "MySQL Error",
+      "score": 0.9,
+      "reason": "string",
+      "path_a": "Database/SQL/SQL error.md",
+      "path_b": "Database/mysql/MySQL Error.md"
+    },
+    {
+      "a": "docker OCI",
+      "b": "docker cli",
+      "score": 0.9,
+      "reason": "string",
+      "path_a": "Docker/docker OCI.md",
+      "path_b": "Docker/docker cli.md"
+    },
+    {
+      "a": "mysql connection",
+      "b": "mysql ssl connection",
+      "score": 0.889,
+      "reason": "string",
+      "path_a": "Database/mysql/mysql connection.md",
+      "path_b": "Database/mysql/mysql ssl connection.md"
+    },
+    {
+      "a": "Linux Key management",
+      "b": "Linux management",
+      "score": 0.889,
+      "reason": "string",
+      "path_a": "Linux/management/Linux Key management.md",
+      "path_b": "Linux/management/Linux management.md"
+    },
+    {
+      "a": "React State management",
+      "b": "React data management",
+      "score": 0.884,
+      "reason": "string",
+      "path_a": "React/React State management.md",
+      "path_b": "React/React data management.md"
+    },
+    {
+      "a": "apt package manager",
+      "b": "Package Manager",
+      "score": 0.882,
+      "reason": "string",
+      "path_a": "Linux/apt package manager.md",
+      "path_b": "Linux/management/Package Manager.md"
+    },
+    {
+      "a": "mysql pool connection",
+      "b": "mysql ssl connection",
+      "score": 0.878,
+      "reason": "token+string",
+      "path_a": "Database/mysql/mysql pool connection.md",
+      "path_b": "Database/mysql/mysql ssl connection.md"
+    },
+    {
+      "a": "mongoDB Group query",
+      "b": "mongodb lookup query",
+      "score": 0.872,
+      "reason": "token+string",
+      "path_a": "MongoDB/query/mongoDB Group query.md",
+      "path_b": "MongoDB/query/mongodb lookup query.md"
+    },
+    {
+      "a": "mysql connection",
+      "b": "mysql pool connection",
+      "score": 0.865,
+      "reason": "token+string",
+      "path_a": "Database/mysql/mysql connection.md",
+      "path_b": "Database/mysql/mysql pool connection.md"
+    },
+    {
+      "a": "mysql table",
+      "b": "psql table",
+      "score": 0.857,
+      "reason": "token+string",
+      "path_a": "Database/mysql/mysql table.md",
+      "path_b": "Database/postgres/psql table.md"
+    },
+    {
+      "a": "express error handler",
+      "b": "express query handler",
+      "score": 0.857,
+      "reason": "token+string",
+      "path_a": "ExpressJS/express error handler.md",
+      "path_b": "ExpressJS/express query handler.md"
+    },
+    {
+      "a": "Encoding",
+      "b": "re-encoding",
+      "score": 0.842,
+      "reason": "token+string",
+      "path_a": "Streaming/Encoding.md",
+      "path_b": "Streaming/re-encoding.md"
+    },
+    {
+      "a": "binary classification",
+      "b": "ordinal classification",
+      "score": 0.837,
+      "reason": "token+string",
+      "path_a": "ML/binary classification.md",
+      "path_b": "ML/ordinal classification.md"
+    },
+    {
+      "a": "Clean Architecture",
+      "b": "React Architecture",
+      "score": 0.833,
+      "reason": "token+string",
+      "path_a": "Architectures/Clean Architecture.md",
+      "path_b": "React/React Architecture.md"
+    },
+    {
+      "a": "mongodb schema",
+      "b": "mongoose schema",
+      "score": 0.828,
+      "reason": "token+string",
+      "path_a": "MongoDB/mongodb schema.md",
+      "path_b": "MongoDB/mongoose/mongoose schema.md"
+    },
+    {
+      "a": "Clean Architecture",
+      "b": "HES Architecture",
+      "score": 0.824,
+      "reason": "token+string",
+      "path_a": "Architectures/Clean Architecture.md",
+      "path_b": "System Design/HES Architecture.md"
+    },
+    {
+      "a": "React Architecture",
+      "b": "HES Architecture",
+      "score": 0.824,
+      "reason": "token+string",
+      "path_a": "React/React Architecture.md",
+      "path_b": "System Design/HES Architecture.md"
+    },
+    {
+      "a": "typescript extend types",
+      "b": "typescript types",
+      "score": 0.821,
+      "reason": "token+string",
+      "path_a": "TypeScript/typescript extend types.md",
+      "path_b": "TypeScript/typescript types.md"
+    },
+    {
+      "a": "Stack Frame",
+      "b": "Stack trace",
+      "score": 0.818,
+      "reason": "token+string",
+      "path_a": "Operating System/Stack Frame.md",
+      "path_b": "Operating System/Stack trace.md"
+    },
+    {
+      "a": "Tree Traversal",
+      "b": "NAT Traversal",
+      "score": 0.815,
+      "reason": "token+string",
+      "path_a": "Data structure/Tree Traversal.md",
+      "path_b": "Networking/NAT Traversal.md"
+    },
+    {
+      "a": "Orchestration layer",
+      "b": "orchestration",
+      "score": 0.812,
+      "reason": "token+string",
+      "path_a": "Architectures/Orchestration layer.md",
+      "path_b": "DevOps/orchestration.md"
+    },
+    {
+      "a": "Redux createApi",
+      "b": "Redux createSlice",
+      "score": 0.812,
+      "reason": "token+string",
+      "path_a": "React/Redux/Redux createApi.md",
+      "path_b": "React/Redux/Redux createSlice.md"
+    },
+    {
+      "a": "System Architecture",
+      "b": "HES Architecture",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Architectures/System Architecture.md",
+      "path_b": "System Design/HES Architecture.md"
+    },
+    {
+      "a": "mysql partitioning",
+      "b": "partitioning",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Database/mysql partitioning.md",
+      "path_b": "Database/mysql/partitioning.md"
+    },
+    {
+      "a": "partitioning",
+      "b": "mysql partitioning",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Database/mysql/partitioning.md",
+      "path_b": "Database/mysql partitioning.md"
+    },
+    {
+      "a": "pre-parser",
+      "b": "pdf parser",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Descriptive/JavaScript/pre-parser.md",
+      "path_b": "Descriptive/pdf parser.md"
+    },
+    {
+      "a": "Design pattern",
+      "b": "React design patterns",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Design pattern.md",
+      "path_b": "React/React design patterns.md"
+    },
+    {
+      "a": "Node events driven",
+      "b": "event-driven",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "NodeJS/Node events driven.md",
+      "path_b": "System Design/event-driven.md"
+    },
+    {
+      "a": "node debugger",
+      "b": "zed debugger",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "NodeJS/node debugger.md",
+      "path_b": "zed/zed debugger.md"
+    },
+    {
+      "a": "Blocking",
+      "b": "non-blocking",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Operating System/Blocking.md",
+      "path_b": "Operating System/non-blocking.md"
+    },
+    {
+      "a": "UEFI (2)",
+      "b": "UEFI",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "Operating System/Boot/UEFI (2).md",
+      "path_b": "Operating System/Boot/UEFI.md"
+    },
+    {
+      "a": "data fetching component",
+      "b": "Data fetching Frontend",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "React/React Pattern/data fetching component.md",
+      "path_b": "System Design/Data fetching Frontend.md"
+    },
+    {
+      "a": "vim keybindings",
+      "b": "zed keybindings",
+      "score": 0.8,
+      "reason": "token+string",
+      "path_a": "vim/vim keybindings.md",
+      "path_b": "zed/zed keybindings.md"
+    },
+    {
+      "a": "psql functions",
+      "b": "Bash functions",
+      "score": 0.786,
+      "reason": "token+string",
+      "path_a": "Database/postgres/psql functions.md",
+      "path_b": "Linux/Bash/Bash functions.md"
+    },
+    {
+      "a": "Bash functions",
+      "b": "dart functions",
+      "score": 0.786,
+      "reason": "token+string",
+      "path_a": "Linux/Bash/Bash functions.md",
+      "path_b": "dart/dart functions.md"
+    },
+    {
+      "a": "Single-threaded",
+      "b": "Single Stream",
+      "score": 0.786,
+      "reason": "token+string",
+      "path_a": "Operating System/Single-threaded.md",
+      "path_b": "Streaming/Single Stream.md"
+    },
+    {
+      "a": "analog interface",
+      "b": "go interface",
+      "score": 0.786,
+      "reason": "token+string",
+      "path_a": "Operating System/analog interface.md",
+      "path_b": "golang/go interface.md"
+    },
+    {
+      "a": "tailwindcss Error",
+      "b": "tailwindcss",
+      "score": 0.786,
+      "reason": "token+string",
+      "path_a": "css/tailwindcss Error.md",
+      "path_b": "css/tailwindcss.md"
+    },
+    {
+      "a": "Github action",
+      "b": "Github cli",
+      "score": 0.783,
+      "reason": "token+string",
+      "path_a": "GitHub/Github action.md",
+      "path_b": "GitHub/Github cli.md"
+    },
+    {
+      "a": "Buffer cache",
+      "b": "buffer head",
+      "score": 0.783,
+      "reason": "token+string",
+      "path_a": "Operating System/Buffer cache.md",
+      "path_b": "Operating System/buffer head.md"
+    },
+    {
+      "a": "Buffers",
+      "b": "vim buffers",
+      "score": 0.778,
+      "reason": "token+string",
+      "path_a": "NodeJS/Buffers.md",
+      "path_b": "vim/vim buffers.md"
+    },
+    {
+      "a": "Concurrent modification",
+      "b": "concurrent connection",
+      "score": 0.773,
+      "reason": "token+string",
+      "path_a": "System Design/Concurrent modification.md",
+      "path_b": "System Design/concurrent connection.md"
+    },
+    {
+      "a": "psql functions",
+      "b": "go functions",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "Database/postgres/psql functions.md",
+      "path_b": "golang/go functions.md"
+    },
+    {
+      "a": "Bash functions",
+      "b": "go functions",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "Linux/Bash/Bash functions.md",
+      "path_b": "golang/go functions.md"
+    },
+    {
+      "a": "IPC namespace",
+      "b": "UTS namespace",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "Operating System/IPC namespace.md",
+      "path_b": "Operating System/UTS namespace.md"
+    },
+    {
+      "a": "Rolling Buffer",
+      "b": "right buffer",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "Operating System/Rolling Buffer.md",
+      "path_b": "Operating System/right buffer.md"
+    },
+    {
+      "a": "multi-threaded",
+      "b": "Multi Stream",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "Operating System/multi-threaded.md",
+      "path_b": "Streaming/Multi Stream.md"
+    },
+    {
+      "a": "Middleware",
+      "b": "redux middleware",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "React/Redux/RTQ/Middleware.md",
+      "path_b": "React/Redux/redux middleware.md"
+    },
+    {
+      "a": "SOLID",
+      "b": "go SOLID",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "System Design/SOLID.md",
+      "path_b": "golang/go SOLID.md"
+    },
+    {
+      "a": "typescript error",
+      "b": "typescript",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "TypeScript/typescript error.md",
+      "path_b": "TypeScript/typescript.md"
+    },
+    {
+      "a": "typescript types",
+      "b": "typescript",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "TypeScript/typescript types.md",
+      "path_b": "TypeScript/typescript.md"
+    },
+    {
+      "a": "dart functions",
+      "b": "go functions",
+      "score": 0.769,
+      "reason": "token+string",
+      "path_a": "dart/dart functions.md",
+      "path_b": "golang/go functions.md"
+    },
+    {
+      "a": "Express middleware",
+      "b": "redux middleware",
+      "score": 0.765,
+      "reason": "token+string",
+      "path_a": "NodeJS/Express middleware.md",
+      "path_b": "React/Redux/redux middleware.md"
+    },
+    {
+      "a": "React Architecture",
+      "b": "redux store architecture",
+      "score": 0.762,
+      "reason": "token+string",
+      "path_a": "React/React Architecture.md",
+      "path_b": "React/Redux/redux store architecture.md"
+    },
+    {
+      "a": "variable file",
+      "b": "variable",
+      "score": 0.762,
+      "reason": "token+string",
+      "path_a": "Terraform/variable file.md",
+      "path_b": "javascript/variable.md"
+    },
+    {
+      "a": "Clean Architecture",
+      "b": "System Architecture",
+      "score": 0.757,
+      "reason": "token+string",
+      "path_a": "Architectures/Clean Architecture.md",
+      "path_b": "Architectures/System Architecture.md"
+    },
+    {
+      "a": "System Architecture",
+      "b": "React Architecture",
+      "score": 0.757,
+      "reason": "token+string",
+      "path_a": "Architectures/System Architecture.md",
+      "path_b": "React/React Architecture.md"
+    },
+    {
+      "a": "Two pointer",
+      "b": "stack pointer",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Data structure/algo/Two pointer.md",
+      "path_b": "Operating System/stack pointer.md"
+    },
+    {
+      "a": "javascript web API",
+      "b": "JavaScript History API",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Descriptive/JavaScript/javascript web API.md",
+      "path_b": "javascript/javascript web api/JavaScript History API.md"
+    },
+    {
+      "a": "UML diagram",
+      "b": "solid diagram",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Descriptive/UML diagram.md",
+      "path_b": "System Design/solid diagram.md"
+    },
+    {
+      "a": "D-Bus",
+      "b": "bus",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "Linux/services/D-Bus.md",
+      "path_b": "Operating System/bus.md"
+    },
+    {
+      "a": "worker",
+      "b": "web worker",
+      "score": 0.75,
+      "reason": "token+string",
+      "path_a": "NodeJS/worker.md",
+      "path_b": "javascript/web worker.md"
+    }
+  ],
+  "topic_clusters": {
+    "docker": [
+      "Docker",
+      "Docker Runtime Security",
+      "Docker compose",
+      "Swarm network",
+      "Terraform docker",
+      "docker OCI",
+      "docker cli",
+      "docker container",
+      "docker file"
+    ],
+    "kubernetes": [
+      "Kubernetes config",
+      "Kubernetes services"
+    ],
+    "kubernates": [
+      "Cilium",
+      "Kubernetes config",
+      "Kubernetes services",
+      "Pods",
+      "ingress",
+      "kubectl",
+      "kubectl pod creation"
+    ],
+    "kubectl": [
+      "kubectl",
+      "kubectl pod creation"
+    ],
+    "pod": [
+      "Pods",
+      "kubectl pod creation"
+    ],
+    "ingress": [
+      "Egress and Ingress",
+      "Nginx ingress",
+      "ingress"
+    ],
+    "helm": [
+      "cli",
+      "helm"
+    ],
+    "terraform": [
+      "Terraform CLI",
+      "Terraform docker",
+      "Terraform setup",
+      "Terraform workflow",
+      "ecommerce-eks-layout",
+      "terraform",
+      "terraform provider",
+      "variable file"
+    ],
+    "nginx": [
+      "Configuration",
+      "How does directive work",
+      "Nginx ingress",
+      "Nginx internals",
+      "URL Rewriting",
+      "directives",
+      "multi-domain",
+      "nginx SPA deployment",
+      "nginx URL rewrite",
+      "nginx auto file configuration",
+      "nginx config structure",
+      "nginx core functionality",
+      "nginx fastcgi",
+      "nginx files",
+      "nginx stream",
+      "nginx using unix socket",
+      "static file",
+      "web server"
+    ],
+    "redis": [
+      "redis installation",
+      "redis-cli"
+    ],
+    "mysql": [
+      "Configuration",
+      "MySQL Engines",
+      "MySQL Error",
+      "MySQL Events",
+      "MySQL Triggers",
+      "MySQL storage",
+      "cli",
+      "covering index",
+      "key Constraint",
+      "mysql",
+      "mysql Privileges",
+      "mysql Programmable SQL",
+      "mysql columns",
+      "mysql concepts",
+      "mysql connection",
+      "mysql data migrations",
+      "mysql data partition",
+      "mysql dump",
+      "mysql engine",
+      "mysql events 1",
+      "mysql function",
+      "mysql index",
+      "mysql json",
+      "mysql lock",
+      "mysql normalization",
+      "mysql partitioning",
+      "mysql partitioning",
+      "mysql pool connection",
+      "mysql query",
+      "mysql ssl connection",
+      "mysql table",
+      "mysql transaction",
+      "mysql triggers",
+      "mysql user",
+      "mysql2",
+      "partitioning",
+      "sequalizer",
+      "show query",
+      "variables"
+    ],
+    "postgres": [
+      "ACL (postgreSQL)",
+      "postgres",
+      "postgres Error",
+      "postgres essential",
+      "postgres parameter type error",
+      "psql database dump",
+      "psql essential",
+      "psql functions",
+      "psql keywords",
+      "psql privileges",
+      "psql table",
+      "psql user"
+    ],
+    "mongo": [
+      "MongoDB",
+      "MongoDB data populate",
+      "MongoDB query validation",
+      "Mongoose plugin",
+      "mognodb indexing",
+      "mongoDB Group query",
+      "mongodb connection",
+      "mongodb denormalization",
+      "mongodb errors",
+      "mongodb lookup query",
+      "mongodb migration",
+      "mongodb model",
+      "mongodb replicaset",
+      "mongodb schema",
+      "mongodb sharding",
+      "mongodb shell",
+      "mongodb view",
+      "mongoose",
+      "mongoose custome function",
+      "mongoose methods",
+      "mongoose middleware",
+      "mongoose schema",
+      "mongosh",
+      "mongosh query",
+      "mongosh user management"
+    ],
+    "jwt": [
+      "JWT",
+      "JWT authentication"
+    ],
+    "ssh": [
+      "SSH",
+      "SSH authentication",
+      "git ssh config",
+      "ssh agent",
+      "ssh allow local system with key",
+      "ssh login",
+      "ssh private network",
+      "ssh-keygen key validity",
+      "sshd config"
+    ],
+    "dns": [
+      "BIND",
+      "CoreDNS",
+      "DNS",
+      "DNS rebinding",
+      "DNS server",
+      "DNS zone",
+      "DSN records",
+      "LLMNR",
+      "PoserDNS",
+      "Sub Domain",
+      "Unbound",
+      "cloudflare",
+      "dns record",
+      "dnsmasq",
+      "mDNS",
+      "name server",
+      "public resolver",
+      "top-level Domain",
+      "unbound variable"
+    ],
+    "http": [
+      "HTTP Strict Transport Security",
+      "HTTP module",
+      "How to attach stream to HTTP handlers",
+      "https"
+    ],
+    "websocket": [
+      "uWebSocket",
+      "webSocket"
+    ],
+    "git": [
+      "Github action",
+      "Github action (2)",
+      "Github cli",
+      "Github cli (2)",
+      "Github runner",
+      "git alias",
+      "git blame",
+      "git branch",
+      "git command",
+      "git commit",
+      "git commit template",
+      "git credential",
+      "git diff",
+      "git error",
+      "git formating",
+      "git guidlines",
+      "git hook",
+      "git logs",
+      "git merge",
+      "git patch files",
+      "git rebase",
+      "git repo config",
+      "git ssh config",
+      "git submodule",
+      "git worktree",
+      "gpg sign"
+    ],
+    "linux": [
+      "APT policy",
+      "Authentication command",
+      "Bash functions",
+      "Bash history",
+      "Bash syntax",
+      "CLI",
+      "Commands",
+      "D-Bus",
+      "ELF (Editabl Linkable File)",
+      "Epoll",
+      "Error status code",
+      "Find command",
+      "LSB (Linux Standard Base)",
+      "Linux",
+      "Linux Key management",
+      "Linux Process Theory",
+      "Linux Templates Directory",
+      "Linux application management",
+      "Linux cgroup",
+      "Linux configuration",
+      "Linux display manager",
+      "Linux file management",
+      "Linux management",
+      "Linux network commands",
+      "Linux out of memory daemon",
+      "Linux process commands",
+      "Linux resource management",
+      "Linux system management",
+      "Linux terminal",
+      "Linux window manager",
+      "Memory management",
+      "NTP sync",
+      "OOM (Linux Out Of Memory)",
+      "Package Manager",
+      "Package deferred",
+      "SSH",
+      "SYSV (System V)",
+      "Scripting",
+      "Service masking",
+      "Services commands",
+      "Setup Non-Login user from Running process",
+      "WM_CLASS",
+      "X Desktop Group",
+      "X window system (X11)",
+      "alsa",
+      "apt config",
+      "apt package manager",
+      "awk",
+      "bash flags",
+      "bash script",
+      "bash sourcing other script",
+      "bluetoothctl",
+      "busctl",
+      "common commands",
+      "compositors",
+      "crontab",
+      "customization",
+      "date",
+      "diff",
+      "dig",
+      "display server",
+      "dmidecode",
+      "eBPF",
+      "editor config",
+      "etc files",
+      "ffmpeg",
+      "ffprobe",
+      "file mount",
+      "fonts commands",
+      "fresh system sudo setup",
+      "fzf",
+      "gdb",
+      "getent",
+      "gnome Colorschem",
+      "gpg",
+      "grep",
+      "groupadd",
+      "grub",
+      "gsetting",
+      "hax dump",
+      "i3 Window Manager Starter Guide",
+      "inittramfs",
+      "ip",
+      "journalctl",
+      "jq",
+      "keyctl",
+      "keyrings",
+      "linux groups",
+      "linux pandirve",
+      "loggging",
+      "login shell",
+      "lsof",
+      "lspci",
+      "media mount as read only",
+      "nc",
+      "netstat",
+      "nload",
+      "nmap",
+      "nvidia-smi",
+      "passwd",
+      "process",
+      "ps",
+      "puTTY",
+      "renice",
+      "route",
+      "rsync",
+      "source list file",
+      "ss",
+      "supervisorctl",
+      "system service unit files",
+      "systemctl",
+      "systemctl",
+      "systemd",
+      "systemd-hostnamed",
+      "tee",
+      "telnet",
+      "terminal config",
+      "terminal emulator",
+      "top",
+      "tsp cli",
+      "ufw",
+      "user management",
+      "useradd",
+      "userdel",
+      "usermod",
+      "visudo",
+      "wayland",
+      "windowing system",
+      "x11",
+      "xrandr",
+      "zip"
+    ],
+    "react": [
+      "API handling",
+      "Component Presentational Pattern",
+      "Composite pattern",
+      "Compound Components",
+      "Compound Components 1",
+      "Controlled and Uncontrolled component Pattern",
+      "Data Fetching HOC component",
+      "Framer motion",
+      "Higher order Component (HOCs)",
+      "Immutability in Redux",
+      "Managing complex component structure",
+      "Middleware",
+      "Optimizing performance",
+      "Provider pattern",
+      "RSC (React Server Component boundaries)",
+      "RTQ Toolkit",
+      "RTQ store",
+      "RTQ tags",
+      "React Application Architecture for Production",
+      "React Architecture",
+      "React State management",
+      "React build",
+      "React code smells",
+      "React data management",
+      "React depth map",
+      "React design patterns",
+      "React feature implementations",
+      "React pattern categorisation",
+      "React project config",
+      "Redux",
+      "Redux Error",
+      "Redux State sync with localstorage",
+      "Redux Thunk",
+      "Redux concept and data flow",
+      "Redux createApi",
+      "Redux createAsyncThunk",
+      "Redux createSlice",
+      "Redux toolkit",
+      "Render props",
+      "Separate functional logic from persentation components",
+      "Stack from scratch",
+      "Summary pattern",
+      "Typescript with react",
+      "ad hoc system",
+      "data fetching component",
+      "fillReact",
+      "flux",
+      "formik",
+      "hydration",
+      "re-export file",
+      "react cache",
+      "react error",
+      "react hooks",
+      "react routes",
+      "react style inside component",
+      "react useEffect",
+      "react-query",
+      "redux compose",
+      "redux middleware",
+      "redux persist",
+      "redux reducers",
+      "redux store architecture",
+      "redux toolkit features",
+      "useRef",
+      "zustand"
+    ],
+    "nextjs": [
+      "ISR (Incremental Static Regeneration)",
+      "Next JS",
+      "Next js Build",
+      "NextJS Config",
+      "NextJS Deployment",
+      "NextJS Error",
+      "NextJS navigation"
+    ],
+    "node": [
+      "Ajv (Another JSON validator)",
+      "Buffers",
+      "CLI",
+      "Error handeling",
+      "Event Loop",
+      "EventEmitter",
+      "EventMachine",
+      "Express middleware",
+      "HTTP module",
+      "Node events driven",
+      "Node.js run as a non-privileged user",
+      "Node.js security flaws in architecture",
+      "NodeJS",
+      "Optimization",
+      "REPL",
+      "Runtime Errors",
+      "Stream",
+      "Stream Events",
+      "SuperTokens",
+      "Transporter in Email sending",
+      "Transporters",
+      "agent",
+      "async utils",
+      "child process",
+      "clustering",
+      "event emitter",
+      "expressjs",
+      "file",
+      "fork",
+      "graphql",
+      "inputs",
+      "ngrok",
+      "node command",
+      "node debugger",
+      "node environment configuration",
+      "node error",
+      "node fs",
+      "node inspect",
+      "node modules",
+      "node package json",
+      "node serverless",
+      "node-convict",
+      "node-cron",
+      "normalizer",
+      "npm command",
+      "npm packages",
+      "nvm",
+      "open api specification",
+      "pipe",
+      "spawn",
+      "stream error",
+      "worker",
+      "worker threads"
+    ],
+    "express": [
+      "Express HPP",
+      "Express middleware",
+      "Express-useragent",
+      "Socket IO",
+      "express build",
+      "express concepts",
+      "express error handler",
+      "express query handler",
+      "expressjs",
+      "graphql-yoga",
+      "regular expression",
+      "uWebSocket"
+    ],
+    "vim": [
+      "commands",
+      "ed",
+      "netrw file explorer",
+      "nvim setup",
+      "vim buffers",
+      "vim commands",
+      "vim config",
+      "vim keybindings",
+      "vim mark"
+    ],
+    "nvim": [
+      "commands",
+      "nvim setup"
+    ],
+    "aws": [
+      "AMI (Amazon Machine Image)",
+      "ARN (Amazon Resource Name)",
+      "AWS",
+      "AWS Billing and cost management",
+      "AWS EBS(Elastic Block Store)",
+      "AWS EC2",
+      "AWS ECR",
+      "AWS EFS (Elastic File System)",
+      "AWS Lambda",
+      "AWS Networking",
+      "AWS cli commands",
+      "AWS cli installation",
+      "EBS (Elastic Block Store)",
+      "Elastic IP",
+      "How to connect Godaddy domain with AWS EC2 instance",
+      "IAM",
+      "Node.js security flaws in architecture",
+      "Route53",
+      "Security group",
+      "aws STS (Security Token Service)",
+      "aws host website"
+    ],
+    "security": [
+      "ACME server",
+      "Asymmetrical Encryption",
+      "Authentication terms",
+      "Base64",
+      "CORS (Cross Origin Request Sharing)",
+      "DER",
+      "Docker Runtime Security",
+      "HMAC (Hash based Message Authentication Codes)",
+      "HTTP Strict Transport Security",
+      "IDOR",
+      "JWT",
+      "JWT authentication",
+      "KMS",
+      "Node.js security flaws in architecture",
+      "PKI",
+      "Preprocessor",
+      "RSA",
+      "Root certificate",
+      "SOP (Same-Origin Policy)",
+      "STUN (Session Traversal Utilities for NAT)",
+      "Securing a hash key authentication",
+      "Security group",
+      "TLS (Transport Layer Security)",
+      "TOTP (Time based One Time Password)",
+      "TURN server (Traversal Using Relays around NAT)",
+      "Token rotation",
+      "XSRF (cross-site request forgery)",
+      "aws STS (Security Token Service)",
+      "certbot (letsencrypt)",
+      "certbot error",
+      "code signing",
+      "content security policy",
+      "cross-site scripting",
+      "digest access authentication",
+      "fingerprint",
+      "https",
+      "openssl",
+      "read pem file",
+      "response header",
+      "single-sign-on (SSO)",
+      "symmetrical encryption",
+      "white-label auth-url",
+      "yashcrypt"
+    ],
+    "auth": [
+      "Authentication command",
+      "Authentication terms",
+      "Authentication web application",
+      "HMAC (Hash based Message Authentication Codes)",
+      "JWT authentication",
+      "SSH authentication",
+      "Securing a hash key authentication",
+      "digest access authentication",
+      "white-label auth-url"
+    ],
+    "cert": [
+      "Root certificate",
+      "certbot (letsencrypt)",
+      "certbot error"
+    ],
+    "kafka": [
+      "Kafka broker",
+      "Kafka configuration",
+      "Kafka distributed event streaming",
+      "Zookeeper",
+      "kafka",
+      "kafka producer and consumer"
+    ],
+    "pm2": [
+      "ecosystem",
+      "pm2"
+    ],
+    "vite": [
+      "vite config",
+      "vite error",
+      "vite internal"
+    ],
+    "typescript": [
+      "Triple-Slash Directives",
+      "Typescript with react",
+      "ambient modules",
+      "class-transformer",
+      "tsconfig",
+      "typescript",
+      "typescript error",
+      "typescript extend types",
+      "typescript types"
+    ],
+    "python": [
+      "ASGI",
+      "GIL (Global interpreter lock)",
+      "Python",
+      "Python",
+      "create python package from source",
+      "pandas",
+      "uwsgi",
+      "wheel"
+    ],
+    "golang": [
+      "Makefile",
+      "Unbuffered channel",
+      "go",
+      "go SOLID",
+      "go build",
+      "go callstack",
+      "go cli",
+      "go data structure",
+      "go debugging",
+      "go embedding",
+      "go error",
+      "go features",
+      "go functions",
+      "go interface",
+      "go learning",
+      "go package",
+      "go project",
+      "go strings",
+      "go-routines",
+      "golang"
+    ],
+    "php": [
+      "PHP-FPM",
+      "php",
+      "php error",
+      "pma token"
+    ],
+    "firebase": [
+      "FCM Token (Firebase Cloud Messaging Token)",
+      "Firebase messaging",
+      "Multicast delivery",
+      "firebase reminders configuration"
+    ],
+    "design pattern": [
+      "Abstract Factor",
+      "Abstract Factory",
+      "Abstraction",
+      "Adapter",
+      "Bridge",
+      "Builder",
+      "Chain of Responsibility",
+      "Command",
+      "Decorator",
+      "Dependency Injection",
+      "Design pattern",
+      "Facade",
+      "Factory Method",
+      "Mediator",
+      "Memento",
+      "OOPS",
+      "Observer",
+      "Private Properties and Methods",
+      "Proxy",
+      "React design patterns",
+      "Singleton",
+      "State",
+      "Static Members",
+      "Strategy pattern",
+      "Template Method",
+      "method shadowing"
+    ],
+    "proxy": [
+      "Proxy",
+      "Reverse Proxy"
+    ],
+    "cgroup": [
+      "Linux cgroup",
+      "cgroup (Control Group)"
+    ]
+  }
+}

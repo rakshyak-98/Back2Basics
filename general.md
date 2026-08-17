@@ -46,6 +46,7 @@ Symptom / design question
 |------|-------|
 | Symptom → note | [[INDEX]] |
 | How to write notes | [[AGENT_NOTE_RULES]] |
+| Similar / duplicate clusters | [[Similar Notes — Cluster Map]] |
 | Vault overview | [[README]] |
 | Staff skill model | [[staff engineer]] |
 | Agent / cloud editing | [[AGENTS.md]] |

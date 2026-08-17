@@ -100,3 +100,9 @@
 1. Fill if on-call relevant (symptoms in the on-call table above).
 2. Merge duplicates into one canonical note; leave a stub redirect with `→ [[Canonical]]`.
 3. Delete only if the title has no engineering value (prefer redirect).
+
+---
+
+## Related-note clusters
+
+For folder groups, naming families, link hubs, and likely duplicate pairs across the vault, see [[Similar Notes — Cluster Map]].
