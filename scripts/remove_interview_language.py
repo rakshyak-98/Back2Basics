@@ -10,7 +10,6 @@ VAULT = Path(__file__).resolve().parent.parent
 
 SKIP = {
     "AGENTS.md",
-    "AGENT_NOTE_RULES.md",
     "README.md",
     "INDEX.md",
     "WORKLOG.md",

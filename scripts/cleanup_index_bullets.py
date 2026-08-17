@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 VAULT = Path(__file__).resolve().parent.parent
-SKIP = {"AGENTS.md", "AGENT_NOTE_RULES.md", "README.md", "INDEX.md"}
+SKIP = {"AGENTS.md", "README.md", "INDEX.md"}
 
 BLOCK_RE = re.compile(
     r"\n---\n+(?:- \[\[#.*?\]\]\n)+\n*",

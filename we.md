@@ -1,4 +1,4 @@
-[[staff engineer]] [[general]] [[INDEX]] [[AGENT_NOTE_RULES]] [[README]]
+[[staff engineer]] [[general]] [[INDEX]] [[README]]
 
 # we
 
@@ -18,7 +18,6 @@
 - **Key signal:** Culture questions (“how do you share knowledge?”) map here: durable notes bea…
 
 ## Sources
-- Vault: [[AGENT_NOTE_RULES]] — deep-dive
 - Vault: [[staff engineer]] — overview
 - [Google SRE — Knowledge sharing themes](https://sre.google/sre-book/table-of-contents/) — overview
 
@@ -26,7 +25,6 @@
 - **Force multiplication:** One clear note saves N future engineers N minutes each.
 - **Pressure-ready:** Prefer checks, commands, and failure modes over essay history.
 - **Networked knowledge:** Wikilinks and hubs ([[INDEX]], [[general]]) over isolated dumps.
-- **Craft bar:** Mind Map or Cornell shape for leaf topics ([[AGENT_NOTE_RULES]]).
 
 
 - **Core:** **we** marks the intent of Back2Basics: operational field notes for a team
@@ -35,7 +33,6 @@
 | Need | Open |
 |------|------|
 | Symptom under pressure | [[INDEX]] |
-| How notes are written | [[AGENT_NOTE_RULES]] |
 | Domain navigation | [[general]] |
 | Staff-level expectations | [[staff engineer]] |
 | Vault overview | [[README]] |

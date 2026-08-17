@@ -22,14 +22,11 @@ Non-obvious things worth knowing:
   other with Obsidian `[[wikilinks]]` (and `[[target|alias]]`). The intended
   viewer is the Obsidian desktop app; any Markdown editor also works.
 - **Navigation entry points:** `README.md` (overview), `INDEX.md` (symptom→note
-  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — Mind Map or
-  Cornell shape; omit empty sections; hubs/meta excluded).
-- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Choose
-  Mind Map (associative) or Cornell (sequential) shape for leaf notes; omit
-  empty sections. Research
-  authoritative sources (RFCs, official docs, university materials, Wikipedia
-  cross-checked with primaries). Do not add strategy labels or HTML tags inside
-  notes.
+  routing map).
+- **Creating or updating notes:** Research authoritative sources (RFCs, official
+  docs, university materials, Wikipedia cross-checked with primaries). Use clear
+  language, `[[wikilinks]]` to related notes, and omit empty sections. Do not
+  add strategy labels or HTML tags inside notes.
 - **Validating the vault:** the meaningful integrity check is whether
   `[[wikilinks]]` resolve to existing notes. A quick way to preview rendered
   notes with working wikilink navigation in a browser is to serve the vault with
@@ -38,6 +35,3 @@ Non-obvious things worth knowing:
   Note: a portion of wikilinks are intentionally unresolved (folder names rather
   than notes, and topics still being expanded), so 100% resolution is not
   expected.
-- **Bulk Mind Map rewrite:** `python3 scripts/rewrite_mindmap_notes.py` applies
-  the Mind Map shape (center, ASCII branch map, 4–7 primary sections, keyword
-  branches) to all leaf notes. Redirect stubs are skipped.
