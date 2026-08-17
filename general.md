@@ -1,4 +1,4 @@
-[[INDEX]] [[AGENT_NOTE_RULES]] [[README]] [[staff engineer]] [[we]] [[AGENTS.md]]
+[[INDEX]] [[README]] [[staff engineer]] [[we]] [[AGENTS.md]]
 
 # general
 
@@ -18,13 +18,11 @@
 - **Key signal:** Not a classic review topic
 
 ## Sources
-- Vault: [[AGENT_NOTE_RULES]] — deep-dive (note shape)
 - Vault: [[README]] — overview
 - Vault: [[AGENTS.md]] — overview (agent editing guide)
 
 ## Key Concepts
 - **Symptom routing:** Start at [[INDEX]], not random folder browsing.
-- **Leaf shape:** Mind Map or Cornell shape when the note is a focused topic ([[AGENT_NOTE_RULE…
 - **Hubs:** Domain roots route to leaves; avoid duplicating deep content here.
 - **Mission:** Force-multiply under incident pressure ([[we]], [[staff engineer]]).
 
