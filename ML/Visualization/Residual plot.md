@@ -1,4 +1,4 @@
-[[regression]] [[Visualization/predicated vs actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
+[[regression]] [[Visualization/predicted vs actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
 
 # Residual plot
 
@@ -85,7 +85,7 @@ print(f"Outlier count: {outliers.sum()}")
 | Periodic pattern | Seasonality missing | Time features; SARIMA / separate model |
 | Mean residual ≠ 0 | Systematic bias | Intercept issue; recalibrate |
 
-Pair with [[Visualization/predicated vs actual plot]] for full picture.
+Pair with [[Visualization/predicted vs actual plot]] for full picture.
 
 ---
 
@@ -109,4 +109,4 @@ Pair with [[Visualization/predicated vs actual plot]] for full picture.
 
 ## Related
 
-[[Visualization/predicated vs actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]
+[[Visualization/predicted vs actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]

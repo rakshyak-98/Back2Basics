@@ -126,7 +126,7 @@ this will provide you with the service state, the `cgroup` hierarchy, and the fi
 ```bash
 sudo systemctl is-active application.service; # stdout the state is active or inactive
 sudo systemctl is-enabled application.service; # stdout the state is enable or disable
-# this will active if it is running properly or failed if an error occured. if the unit was
+# this will activate if it is running properly or failed if an error occurred. if the unit was
 # intentionally stopped, it may return unknown or inactive.
 sudo systemctl is-failed application.service 
 ```

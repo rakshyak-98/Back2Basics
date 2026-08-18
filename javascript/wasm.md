@@ -1,4 +1,4 @@
-[[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetrical Encryption]] [[NodeJS]]
+[[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetric Encryption]] [[NodeJS]]
 
 # WebAssembly (Wasm)
 
@@ -83,7 +83,7 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 ## Gotchas
 
 > [!WARNING]
-> **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]).
+> **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetric Encryption]]).
 
 > [!WARNING]
 > **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.

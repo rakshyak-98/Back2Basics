@@ -5,7 +5,7 @@
 
 `tsBuildInfoFile`: option in the `tsconfig.json` file
 - specifies the location where TypeScript should store incremental compilation information.
-- these files helps typescript speed up subsequent compilations by storing information about the previous compilations.
+- these files help TypeScript speed up subsequent compilations by storing information about previous compilations.
 - the `tsBuildInfoFile` option allows you to specify the path where this incremental compilation information should be stored.
 
 > [!INFO] by compilation information is stored in a file named `.tsbuildinfo` in the same directory as the `tsconfig.json` file.

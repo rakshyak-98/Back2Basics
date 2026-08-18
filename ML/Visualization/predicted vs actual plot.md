@@ -83,8 +83,6 @@ Always pair with [[Visualization/Residual plot]] — actual vs predicted hides s
 > [!WARNING]
 > **Outliers compress the cloud** — use log axes or hexbin; don't overfit 3 points.
 
-> [!WARNING]
-> **Filename typo:** this note is `predicated vs actual plot.md` in the vault — link as `[[Visualization/predicated vs actual plot]]`.
 
 ---
 

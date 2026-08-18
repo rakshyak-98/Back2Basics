@@ -65,7 +65,7 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 | Predictions outside bounds | Unbounded linear head | Clip; beta regression; classify buckets |
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
-Use [[Visualization/Residual plot]] and [[Visualization/predicated vs actual plot]] after every serious regression build.
+Use [[Visualization/Residual plot]] and [[Visualization/predicted vs actual plot]] after every serious regression build.
 
 ---
 

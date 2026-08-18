@@ -84,7 +84,7 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 ## When NOT to use
 
 - **Binary classification without ranking** — [[binary classification]] metrics.
-- **Continuous score prediction** — [[regression]] + [[Visualization/predicated vs actual plot]].
+- **Continuous score prediction** — [[regression]] + [[Visualization/predicted vs actual plot]].
 - **Uniform relevance only** — [[Mean Average Precision (MAP)]] may be simpler to explain.
 
 ---

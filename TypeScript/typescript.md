@@ -28,7 +28,7 @@ const person: MyType = {
 
 the `node_modules/.tmp` directory is used to store temporary files generated during the build process.
 
-### How does typescript identifies types declarations
+### How TypeScript identifies type declarations
 ```shell
 tsc --traceResolution; # see how TypeScript resolves types.
 tsc --explainFiles; # see which files TypeScript includes in the compilation.

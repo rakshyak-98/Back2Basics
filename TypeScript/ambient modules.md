@@ -1,4 +1,4 @@
-- in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
+- In TypeScript, a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
 - particularly useful for integrating third-party libraries that do not have TypeScript definitions or were not originally written in TypeScript.
 - also know as declarative modules, enable you to describe the shape and structure of an external module.
 
@@ -13,7 +13,7 @@ declare moudle `example-module` {
 
 ##### Using ambient module
 ```typescript
-import { exmapleFunction, exampleVariable } from 'exmaple-module';
+import { exmapleFunction, exampleVariable } from 'example-module';
 
 cosnt result = exampleFunction('test');
 console.log(exampleVariable)

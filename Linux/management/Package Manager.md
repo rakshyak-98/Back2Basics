@@ -49,8 +49,8 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades;
 ```bash
 Hit: # comparing metadata with remote site.
 Get: # fetching new, improved version from remote site.
-Ign: # a non-critical error occured.
-Err: # a critical error occured.
+Ign: # a non-critical error occurred.
+Err: # a critical error occurred.
 ```
 
 when `apt-get update` is verifies if the same update indexes need downloading, if not it does not download the same updated indexes again.

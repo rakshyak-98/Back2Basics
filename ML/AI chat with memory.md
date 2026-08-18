@@ -1,4 +1,4 @@
-[[GPT]] [[prompt]] [[prompt enginerring]] [[scikitlearn]]
+[[GPT]] [[prompt]] [[prompt engineering]] [[scikitlearn]]
 
 # AI chat with memory
 
@@ -101,4 +101,4 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 ## Related
 
-[[GPT]] · [[prompt enginerring]] · [[ANN]] · [[data preprocessing]]
+[[GPT]] · [[prompt engineering]] · [[ANN]] · [[data preprocessing]]

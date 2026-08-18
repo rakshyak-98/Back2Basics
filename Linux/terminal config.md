@@ -12,7 +12,7 @@ gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 ```
 
 
-enable disable shell behaviour options
+enable or disable shell behaviour options
 
 ```bash
 set -o vi;

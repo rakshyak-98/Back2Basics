@@ -60,7 +60,7 @@ When we aim to **predict the rank of a student based on their NEET marks** we ar
 #### Reference
 [error in rank predictor model](https://www.youtube.com/watch?v=5ZtCh0k9jd0)
 [document to understand information retrievalz](https://web.stanford.edu/class/cs276/handouts/lecture14-learning-ranking.pdf)
-[research paper](https://www.ijraset.com/best-journal/student-performace-pediction-using-ml-and-ai)
+[research paper](https://www.ijraset.com/best-journal/student-performance-prediction-using-ml-and-ai)
 [research paper](https://link.springer.com/article/10.1007/s10462-022-10155-y)
 [article](https://www.ai.codersarts.com/post/predicting-entrance-exam-ranks-and-college-admissions-with-machine-learning)
 [article](https://indiaai.gov.in/article/ai-can-now-predict-a-student-s-grade-without-an-exam)

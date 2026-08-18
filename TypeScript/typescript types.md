@@ -61,7 +61,7 @@ function getLength<T extends {length: number}>(args: T) : number {
 	return arr.length;
 }
 ```
-- here `T` is constrained to types that have a `length` property. This prevents passing types that don't have `lenght` like `number`.
+- here `T` is constrained to types that have a `length` property. This prevents passing types that don't have `length` like `number`.
 
 ```ts
 interface Animal {

@@ -1,4 +1,4 @@
-[[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetrical encryption]]
+[[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetric encryption]]
 
 # HMAC
 
@@ -22,7 +22,7 @@ Properties:
 
 Used in: JWT `HS256`, webhook signatures (Stripe, GitHub), API request signing, TLS 1.2 PRF building blocks.
 
-Contrast **[[Asymmetrical Encryption]]** signatures — public verify, private sign; no shared secret distribution problem at scale.
+Contrast **[[Asymmetric Encryption]]** signatures — public verify, private sign; no shared secret distribution problem at scale.
 
 ---
 

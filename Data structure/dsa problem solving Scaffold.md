@@ -16,7 +16,7 @@
 - Analyse: Time Complexity? Space Complexity? Why is it brute force?
 - Questions: This anchors your logic - optimise later, but prove you can solve it first.
 
-## Optimise step by step (Derive Batter Logic)
+## Optimise step by step (Derive Better Logic)
 
 - Identify bottlenecks in brute force. Where can you reduce redundency?
 - Brainstorm patters: Sorting? Hashing? Two Pointers? Divide and conquer? Dynamic programming? Greedy?
