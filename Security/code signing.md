@@ -1,4 +1,4 @@
-[[Asymmetrical Encryption]] [[PKI]] [[Root certificate]] [[openssl]]
+[[Asymmetric Encryption]] [[PKI]] [[Root certificate]] [[openssl]]
 
 # Code signing
 
@@ -93,4 +93,4 @@ Internal-only scripts between trusted admins may use **checksum in git** instead
 
 ## Related
 
-[[Asymmetrical Encryption]] [[PKI]] [[Root certificate]] [[fingerprint]] [[DER]]
+[[Asymmetric Encryption]] [[PKI]] [[Root certificate]] [[fingerprint]] [[DER]]

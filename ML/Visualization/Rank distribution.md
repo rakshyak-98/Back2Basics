@@ -1,4 +1,4 @@
-[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicted vs actual plot]]
 
 # Rank distribution
 
@@ -101,4 +101,4 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ## Related
 
-[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated vs actual plot]] · [[rank prediction]]
+[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicted vs actual plot]] · [[rank prediction]]

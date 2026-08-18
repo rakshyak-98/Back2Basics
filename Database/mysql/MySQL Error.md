@@ -14,7 +14,7 @@ ERROR 1045 (28000): Access denied for user 'root'@'_gateway' (using password: YE
 
 
 > Why "\_gateway" appears ?
-> Most cloud providers put a NAT gateway or proxy in front of your connection. From MySQL server's point of view the connection is comming from a host literally called  `_gateway`
+> Most cloud providers put a NAT gateway or proxy in front of your connection. From MySQL server's point of view the connection is coming from a host literally called  `_gateway`
 
 > Solution
 > - create a user that is allowed from anywhere

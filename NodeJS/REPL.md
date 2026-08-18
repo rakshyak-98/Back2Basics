@@ -29,7 +29,7 @@ pathTOFileURL(__filename).href;
 > - you won't get the current `command's virtula file` because REPL isn't a real file.
 
 ```mjs
-// exmaple.mjs
+// example.mjs
 
 console.log(import.meta.url);
 ```

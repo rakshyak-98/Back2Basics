@@ -41,4 +41,9 @@ Playback
 ```
 
 ## Multi-DRM
-Multi-DRM is a infrastructural design pattern leveraging Common Encryption (CENC, ISOn/IEC23001-7) to decouple media payload encryption from the key management system (KMS) and license delivery mechanisms. It allows a single encrypted media asset (packaged via MPEG-DASH or HLS) to be consumed across disparate proprietary Content Decryption Modules (CDMs) specially Google Widevine, Microsoft PlayReady, and Apple FairPlay.
+
+**Multi-DRM** means one encrypted video file can play on different DRM systems (Widevine, PlayReady, FairPlay).
+
+- Uses **Common Encryption (CENC)** — same encrypted video, different license servers.
+- Packaged as DASH or HLS.
+- Each browser/device uses its own **CDM** (Content Decryption Module) to get keys and decrypt.

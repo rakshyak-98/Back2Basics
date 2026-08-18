@@ -47,17 +47,17 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades;
 |**Purpose**|Intended usage by user|Support/requirement for other packages|
 
 ```bash
-Hit: # comparing metadata with remote site.
-Get: # fetching new, improved version from remote site.
-Ign: # a non-critical error occured.
-Err: # a critical error occured.
+Hit: # local package index matches remote — no download.
+Get: # remote has updates — downloading new index.
+Ign: # non-critical error while checking (often safe to ignore).
+Err: # critical error — fix before installing.
 ```
 
-when `apt-get update` is verifies if the same update indexes need downloading, if not it does not download the same updated indexes again.
+When `apt-get update` runs, it skips downloads if the local index is already up to date.
 
-- `Hit` - means apt checked the timestamps on package list ( `Release` or `InRelease` file), those match and there are no changes (compare with `/var/lib/apt/lists` ).
-- `Ign` - means there are no changes in the `pdiff` index file (in-release file), it wont bother downloading it again, Ignore.
-- `Get` - means apt checked the timestamps on package list, there were changes and will be downloaded.
+- **Hit** — timestamps match `/var/lib/apt/lists`; nothing to fetch.
+- **Ign** — pdiff/index unchanged; ignored.
+- **Get** — remote changed; new lists downloaded.
 
 ### standard output
 

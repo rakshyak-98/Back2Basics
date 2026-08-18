@@ -2,13 +2,18 @@
 
 # Regression
 
-> Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
+> Predict a **number** (price, latency, demand). Fit a model, check errors with residual plots.
 
 ---
 
 ## Mental model
 
-Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
+**Target is continuous** (a real number). The model outputs **ŷ = f(x)**.
+
+Common loss functions:
+- **MSE (L2)** — penalizes large errors heavily
+- **MAE (L1)** — more robust to outliers
+- **Huber** — mix of both
 
 ```txt
 Linear:     ŷ = β₀ + β₁x₁ + … + βₚxₚ
@@ -16,7 +21,7 @@ Polynomial: add xᵢ², xᵢxⱼ → [[Model/Polynomial regression]]
 Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 ```
 
-**Explanatory vs predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
+**Explain vs predict:** Linear models are easy to explain; tree/boosting models often predict better but are harder to interpret.
 
 | Variant | Use when |
 |---------|----------|
@@ -65,7 +70,7 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 | Predictions outside bounds | Unbounded linear head | Clip; beta regression; classify buckets |
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
-Use [[Visualization/Residual plot]] and [[Visualization/predicated vs actual plot]] after every serious regression build.
+Use [[Visualization/Residual plot]] and [[Visualization/predicted vs actual plot]] after every serious regression build.
 
 ---
 

@@ -1,20 +1,21 @@
-- in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
-- particularly useful for integrating third-party libraries that do not have TypeScript definitions or were not originally written in TypeScript.
-- also know as declarative modules, enable you to describe the shape and structure of an external module.
+- In TypeScript, you can describe the shape of a JavaScript library without writing its code.
+- Useful when a library has no `@types` package or was written in plain JS.
+- Also called **declaration modules** — you only declare types, not implementations.
 
-#### How to declare an Ambient Module
-- to declare an ambient module you use the `declare module` syntax followed by the module name.
+#### How to declare an ambient module
+
+Use `declare module` plus the module name:
+
 ```typescript
-declare moudle `example-module` {
+declare module `example-module` {
 	export function exampleFunction(param: string): number;
 	export const exampleVariable: string;
 }
 ```
 
-##### Using ambient module
 ```typescript
-import { exmapleFunction, exampleVariable } from 'exmaple-module';
+import { exampleFunction, exampleVariable } from 'example-module';
 
-cosnt result = exampleFunction('test');
+const result = exampleFunction('test');
 console.log(exampleVariable)
 ```

@@ -1,4 +1,4 @@
-[[Asymmetrical Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
+[[Asymmetric Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
 
 # RSA
 
@@ -96,4 +96,4 @@ Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** o
 
 ## Related
 
-[[Asymmetrical Encryption]] [[PKI]] [[DER]] [[read pem file]] [[Root certificate]] [[JWT authentication]]
+[[Asymmetric Encryption]] [[PKI]] [[DER]] [[read pem file]] [[Root certificate]] [[JWT authentication]]

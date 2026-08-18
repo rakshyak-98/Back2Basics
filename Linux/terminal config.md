@@ -2,7 +2,7 @@
 **List installed fonts**
 
 ```bash
-fc-list :spacing=100 family; # instal installed fonts
+fc-list :spacing=100 family; # list installed fonts
 ```
 
 using gsetting
@@ -12,7 +12,7 @@ gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 ```
 
 
-enable disable shell behaviour options
+Turn shell options on or off:
 
 ```bash
 set -o vi;

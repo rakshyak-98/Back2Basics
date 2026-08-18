@@ -35,7 +35,7 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 
 ## Pre-render Error with NextJS
 ```txt
-Error occured prerendering path /menu-items.
+Error occurred prerendering path /menu-items.
 ```
 [NextJS prerender-error](https://nextjs.org/docs/messages/prerender-error)
 

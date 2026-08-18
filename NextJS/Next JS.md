@@ -56,7 +56,7 @@ export default function Page() {
 | `query`    | `{id: "10", sort: "asc"}` | extracted query parameters as an object.               |
 #### Map an incoming request path with `rewrites`
 - `rewrites` allow you to map an incoming request path to a different destination path.
-- `rewriets` act as a URL prozy and mask the destination path.
+- `rewrites` act as a URL proxy and mask the destination path.
 
 > [!NOTE] `rewrites` are applied to client-side routing, a `<Link href="/about">` will have the rewrite.
 

@@ -1,14 +1,18 @@
 ### Types
-- Can define global level types, without importing them and still use them in your code.
+
+- You can define global types once and use them anywhere without importing.
+
 #### Global types
-> [!NOTE]
-> `declare` is specific to TypeScript only
+
+> [!NOTE] `declare` is TypeScript-only — it does not emit JavaScript.
+
 ```typescript
 declare type MyType = {
 	name: string;
 	age: number
 }
 ```
+
 ```typescript
 const person: MyType = {
 	name: "john",
@@ -17,22 +21,26 @@ const person: MyType = {
 ```
 
 #### Ambient Modules
-- 
+
+- See [[ambient modules]] for typing third-party JS libraries.
 
 ## Namespaces
-- used to organize and share code across multiple files.
-- allow you to group related functionality into a single unit and prevent naming conflicts.
+
+- Group related code across files.
+- Avoid name clashes between modules.
 
 ## Compilation
-- TypeScript can perform incremental compilation, which means it only re-compiles files that have change since the last compilation.
 
-the `node_modules/.tmp` directory is used to store temporary files generated during the build process.
+- TypeScript can **incrementally compile** — only recompile files that changed since the last run.
 
-### How does typescript identifies types declarations
+The `node_modules/.tmp` folder holds temporary build files.
+
+### How TypeScript finds type declarations
+
 ```shell
-tsc --traceResolution; # see how TypeScript resolves types.
-tsc --explainFiles; # see which files TypeScript includes in the compilation.
-tsc --showConfig; # to check type roots.
+tsc --traceResolution; # show how types are resolved
+tsc --explainFiles;    # list every file in the compile
+tsc --showConfig;      # print effective tsconfig
 ```
 
 ```json
@@ -42,18 +50,22 @@ tsc --showConfig; # to check type roots.
 	}
 }
 ```
-- Enable verbose logging in `tsconfig.json`.
+
+- Turn on verbose resolution logs in `tsconfig.json`.
 
 ### Reference directives
+
 [triple-slash directives](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html)
+
 ```ts
 /// <reference types="..." />
 ```
-- used to include type definitions from external declaration files.
-- they ensure that TypeScript correctly resolves types from the specified pacakges.
+
+- Pull in types from another declaration file.
+- Helps TypeScript find types from external packages.
 
 > [!INFO] `dom.iterables`
-> - By default, some DOM collections (like `NodeList`) do not support iteration methods like `forEach` `map` or `spread syntax`. Enabling `dom.iterable` allow you to use these methods safely.
+> - Some DOM lists (e.g. `NodeList`) need `dom.iterable` in `lib` before you can use `forEach`, spread, etc.
 
 ```ts
 // tsconfig.json

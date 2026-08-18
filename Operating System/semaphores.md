@@ -1,18 +1,16 @@
-- synchronisation mechanism for managing access to shared resources by multiple threads or processes in concurrent systems (threads/processes).
-- act as a signaling system to prevent race conditions and ensure that data is not corrupted when multiple parts of a program run at the same time.
+- A way for threads/processes to share a resource safely without corrupting data.
+- Uses a counter and atomic `wait()` / `signal()` calls.
+- Stops **race conditions** and enforces **mutual exclusion** when needed.
 
 > [!INFO]
-> - integer variable used as a signal mechanism
-> - Controlled by atomic operations `wait()` and `signal()`
-> - Prevents race conditions, ensures mutual exclusion (mutex) or process coordination.
+> - Counter starts at N (permits available).
+> - `wait()` — take a permit; block if counter is 0.
+> - `signal()` — return a permit; wake a waiting thread.
 
-- a semaphore is a variable or [[ADT (Abstract Data Type)]] 
-- used to *control access* to a common resource by multiple threads and avoid [[critical sections]] problems in a concurrent system such as a multitasking operating system.
+- A semaphore is a variable or [[ADT (Abstract Data Type)]] that limits how many threads can use a resource at once.
 
-> The Guard -> Before a process can use a shared resource (like a specific block of memory, a file, or a hardware driver), it must perform a `wait()` (or `P`) operation on the semaphore.
-> - If the counter is is > 0, the process "takes" a permit and proceeds.
-> - If the counter is 0, the process is forced to "sleep" (block) until another process finishes and calls `signal()` or `V`.
-> The Signal -> once finished, the process calls `signal()` to release the permit, potentially waking up another process waiting in line.
+> **Before use:** call `wait()`. If counter > 0, take a permit and continue. If 0, block until someone calls `signal()`.
+> **After use:** call `signal()` to release the permit and wake a waiter.
 
 ### Binary semaphores
 - used to implement locks

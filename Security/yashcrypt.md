@@ -1,4 +1,4 @@
-[[symmetrical encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]]
+[[symmetric encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]]
 
 # yescrypt (yashcrypt)
 

@@ -85,4 +85,4 @@ map_score = np.mean([
 
 ## Related
 
-[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicted vs actual plot]]
