@@ -1,59 +1,68 @@
-## When to use:
-- Controlled: When you need to *respond to changes immediately* (form validation, conditional rendering).
-- Uncontrolled: When you don't need to track every input change.
+[[React Pattern]] [[useRef]] [[react hooks]]
 
-This pattern helps manage form element, input validation, and UI integrations, providing flexibility for managing state externally or letting the component handle its own state.
+# Controlled and Uncontrolled component Pattern
 
-### Controlled Component
-- the component value is always synchronised with the state.
+> Controlled: React state is the source of truth for the input. Uncontrolled: the DOM holds the value; you read it via ref when needed.
 
-```js
-import { useState } from 'react';
+## Mental model
 
-const ControlledInput = () => {
-  const [value, setValue] = useState('');
+**Say it in one breath:** Controlled = `value` + `onChange` every keystroke. Uncontrolled = `defaultValue` + reference/`FormData` on submit.
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  return (
-    <div>
-      <label>Enter your name: </label>
-      <input
-        type="text"
-        value={value}
-        onChange={handleChange}
-      />
-      <p>Your input: {value}</p>
-    </div>
-  );
-};
-export default ControlledInput;
+```txt
+Controlled:   state ──value──► <input> ──onChange──► setState
+Uncontrolled: defaultValue ► <input> … later ref.current.value
 ```
 
-#### Uncontrolled Component
-- the input manages its own state internally, and React doesn't directly control it.
+### Interview map (words you can say)
 
-```jsx
-import { useRef } from 'react';
+| Word | Plain meaning | Say in interview |
 
-const UncontrolledInput = () => {
-  const inputRef = useRef();
+| **Controlled** | React owns the value | “Validate and disable as they type.” |
+| --- | --- | --- |
+| **Uncontrolled** | DOM owns the value | “Simple forms; less re-render.” |
+| **defaultValue** | Initial only | “Changing it later won’t update the input.” |
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Input value: ${inputRef.current.value}`);
-  };
+## Standard config / commands
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>Enter your name: </label>
-      <input type="text" ref={inputRef} />
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
+```tsx
+// Controlled
+const [name, setName] = useState('')
+<input value={name} onChange={(e) => setName(e.target.value)} />
 
-export default UncontrolledInput;
+// Uncontrolled
+const ref = useRef<HTMLInputElement>(null)
+<input defaultValue="Ada" ref={ref} />
+// submit: ref.current?.value
 ```
+
+| Use when | Pattern |
+| --- | --- |
+| Live validation / dependent fields | Controlled |
+| File inputs / little React involvement | Uncontrolled |
+| Design system form libs | Often controlled under the hood |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Input won’t type | `value` set, no `onChange` | Add handler or drop `value` |
+| Cursor jumps | Recreating value oddly | Keep string state; don’t reset each render |
+| `defaultValue` ignored later | Expected controlled updates | Switch to `value` |
+| Switching modes mid-life | Warned by React | Pick one; remount with `key` |
+
+## Gotchas
+
+> [!WARNING]
+> **Don’t mix `value` and `defaultValue`** — React warns; pick a mode.
+
+> [!WARNING]
+> **File inputs are uncontrolled** — you cannot set `value` for security reasons.
+
+## When NOT to use
+
+- **Fully controlled everything in a 40-field form** — consider form libs + uncontrolled fields where fine.
+- **Uncontrolled when parent must sync** — need controlled.
+
+## Related
+
+[[useRef]] [[React Pattern/Component Presentational Pattern]]

@@ -2,11 +2,11 @@
 
 # Webhook
 
-> One-line: server-to-server HTTP callback on events — receiver must verify, dedupe, and respond fast — **not** a reliable message bus.
+> server-to-server HTTP callback on events — receiver must verify, dedupe, and respond fast — **not** a reliable message bus.
 
 ## Mental model
 
-Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick** (ack, then process async).
+**Say it in one breath:** Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick**.
 
 ```
 Publisher                    Your service
@@ -18,7 +18,7 @@ Publisher                    Your service
     ◄─────────────────────────┤ (exponential backoff, hours)
 ```
 
-Contrasts with polling: lower latency, higher ops burden (public URL, signature crypto, replay handling).
+Contrasts with polling: lower latency, higher operations burden (public URL, signature crypto, replay handling).
 
 ## Standard config / commands
 
@@ -93,7 +93,7 @@ curl -i -X POST https://api.example.com/webhooks/github \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No events arriving | Publisher dashboard delivery log | URL wrong; tunnel expired; DNS/firewall |
 | All return 401/403 | Signature secret mismatch | Update secret; ensure raw body for HMAC |
 | `400 invalid signature` | JSON parser ran before verify | Use `express.raw()` on webhook route only |
@@ -113,7 +113,7 @@ curl -i -X POST https://api.example.com/webhooks/github \
 > **Never expose webhook routes without auth** — obscurity URLs get scanned. Signature verification is mandatory.
 
 - **Replay attacks:** include timestamp tolerance (Stripe `t=` prefix) or nonce store for custom HMAC.
-- **GitHub:** `X-Hub-Signature-256` on raw body; `application/json` vs `application/x-www-form-urlencoded` for some hooks.
+- **GitHub:** `X-Hub-Signature-256` on raw body; `application/json` versus `application/x-www-form-urlencoded` for some hooks.
 - **Load balancer idle timeout** < long processing → LB 504 while worker still runs — async pattern fixes this.
 - **Testing:** use provider CLI (`stripe listen --forward-to`) instead of disabling verification.
 

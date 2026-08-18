@@ -2,11 +2,11 @@
 
 # Git Merge
 
-> One-line: combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
+> combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
 ## Mental model
 
-Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.
+**Say it in one breath:** Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.
 
 ```
       o---o---o  feature
@@ -18,8 +18,6 @@ o---o---o---o  main
 
 **Fast-forward:** main simply moves to feature tip — no merge commit (linear history).
 **Merge commit:** `--no-ff` preserves branch topology — preferred for release merges.
-
----
 
 ## Standard config / commands
 
@@ -66,7 +64,7 @@ git merge --abort
 ### Merge strategies
 
 | Strategy | When |
-|----------|------|
+| --- | --- |
 | `recursive` (default) | Two branches, one merge base |
 | `ours` | Keep our tree entirely — rare, release branch tricks |
 | `theirs` | Take their tree (subtree merge contexts) |
@@ -85,12 +83,10 @@ git diff target-branch...source-branch
 git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Unexpected conflict on "same" file | Both sides edited same lines since base | Manual resolve; consider `git rerere` if repeats |
 | Merge commit on simple feature | Default FF disabled or branch diverged | `git merge --ff-only` in CI to enforce linear |
 | Lost changes after merge | `git log --merges -p` | `git revert -m 1 <merge-sha>` to revert merge commit |
@@ -102,8 +98,6 @@ git merge-tree $(git merge-base target-branch source-branch) target-branch sourc
 ```bash
 git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 ```
-
----
 
 ## Gotchas
 
@@ -119,14 +113,10 @@ git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 > [!WARNING]
 > **Renames:** Git detects renames heuristically; `-X patience` helps on big diffs.
 
----
-
 ## When NOT to use
 
 - **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
 - **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
-
----
 
 ## Related
 

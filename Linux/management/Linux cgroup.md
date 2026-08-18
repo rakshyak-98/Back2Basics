@@ -2,7 +2,7 @@
 
 # Linux cgroups
 
-> One-line: kernel resource envelopes for processes — v2 unified hierarchy is what Docker/K8s use for CPU, memory, and I/O limits.
+> Linux cgroups — cgroups (control groups) group processes and apply limits/priorities. Modern distros mount cgroup v2 unified at /sys/fs/cgroup.
 
 ## Mental model
 
@@ -19,7 +19,16 @@
 
 v1 (legacy): separate hierarchies per controller (`memory`, `cpuacct`, …). v2: one tree, all controllers.
 
----
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **cgroup** | Kernel resource control groups | “cgroups cap CPU/mem per service or container.” |
+| --- | --- | --- |
+| **v1 vs v2** | Hierarchy models | “v2 is unified; prefer it on modern kernels.” |
+| **memory.max** | Hard memory cap | “Hit max → OOM in that cgroup.” |
+| **CPUQuota** | systemd CPU % limit | “CPUQuota=200% = two cores worth.” |
+| **slice** | systemd grouping | “Services hang under slices for shared limits.” |
 
 ## Standard config / commands
 
@@ -42,12 +51,10 @@ systemctl status user.slice
 systemd-run --scope -p MemoryMax=512M stress-ng --vm 1 --vm-bytes 600M
 ```
 
----
-
 ## cgroup v2 — memory (containers)
 
 | File | Meaning |
-|------|---------|
+| --- | --- |
 | `memory.max` | Hard cap (bytes); OOM kill in cgroup |
 | `memory.high` | Throttle/reclaim pressure before max |
 | `memory.current` | Usage now |
@@ -95,12 +102,10 @@ resources:
 
 Pod OOMKilled → hit `memory.limit`; check `kubectl describe pod` → `Last State: Terminated, Reason: OOMKilled`.
 
----
-
 ## cgroup v2 — CPU
 
 | File | Meaning |
-|------|---------|
+| --- | --- |
 | `cpu.max` | `quota period` — e.g. `50000 100000` = 50% of one CPU |
 | `cpu.weight` | Relative share (1–10000, default 100) |
 | `cpuset.cpus` | Pin to CPU list |
@@ -115,24 +120,21 @@ Docker: `--cpus=0.5` or `--cpu-shares=512` (legacy mapping).
 
 Kubernetes CPU limit: **throttled**, not killed — unlike memory.
 
----
-
 ## Other controllers (brief)
 
 | Controller | v2 knob | Use |
-|------------|---------|-----|
+
 | `pids.max` | max processes in cgroup | fork bombs |
+| --- | --- | --- |
 | `io.max` | per-device BPS/IOPS | noisy neighbor disk |
 | `rdma` | RDMA device limits | HPC |
 
 v1 names still appear in old docs: `cpuacct`, `blkio`, `net_cls`.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Container exits 137 | `dmesg`; cgroup OOM | Raise `memory.max` or fix leak |
 | App slow, CPU low | CPU throttling | `cat cpu.max`; raise quota or optimize |
 | Host fine, container dies | Limit too low vs JVM/Node heap | Set `-Xmx` / `--max-old-space-size` **below** cgroup limit (~75%) |
@@ -146,9 +148,7 @@ cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.current
 cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.max
 ```
 
-Path varies by distro (cgroup driver: systemd vs cgroupfs).
-
----
+Path varies by distro (cgroup driver: systemd versus cgroupfs).
 
 ## Gotchas
 
@@ -167,14 +167,10 @@ Path varies by distro (cgroup driver: systemd vs cgroupfs).
 > [!WARNING]
 > **`memory.high` vs `memory.max`** — high causes reclaim pressure; max kills. Use high for soft SLO.
 
----
-
 ## When NOT to use
 
 - **Bare-metal tuning without measurement** — wrong `cpu.max` hides bottlenecks; profile first.
 - **Replacing ulimits entirely** — RLIMIT_NOFILE etc. still matter alongside cgroups.
-
----
 
 ## Related
 

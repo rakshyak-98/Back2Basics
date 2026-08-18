@@ -2,7 +2,7 @@
 
 # Code Coverage
 
-> Percentage of source lines/branches executed by tests — guide, not quality proof — **Istanbul/nyc + CI gates**.
+> Code Coverage — coverage tools instrument code (counters at branches/lines), run tests, report what executed.
 
 ## Mental model
 
@@ -15,7 +15,7 @@ Source → instrument → run test suite → coverage report (% lines/branches/f
 High coverage ≠ correct behavior — it shows **what ran**, not **what was asserted**.
 
 | Metric | Meaning |
-|--------|---------|
+| --- | --- |
 | **Line** | Line entered at least once |
 | **Branch** | Both outcomes of if/switch taken |
 | **Function** | Function invoked |
@@ -76,7 +76,7 @@ npx stryker run   # mutates code; tests should fail — finds weak assertions
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Coverage dropped in PR | Diff coverage | Add tests for changed lines |
 | 100% line, bugs ship | Assertions weak | Mutation testing; review test quality |
 | Flaky coverage % | Non-deterministic branches | Stabilize tests; seed RNG |
@@ -96,7 +96,7 @@ npx stryker run   # mutates code; tests should fail — finds weak assertions
 ## When NOT to use
 
 - Don't block merge on 95% global threshold for legacy codebase — ratchet gradually.
-- Don't measure coverage on config-only or infra repos — meaningless signal.
+- Don't measure coverage on configuration-only or infra repos — meaningless signal.
 
 ## Related
 

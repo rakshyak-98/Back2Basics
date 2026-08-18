@@ -1,17 +1,66 @@
+[[javascript]] [[throttle]] [[Callback]]
 
-> [!INFO] if an event listener is added without a reference, it cannot be removed using `removeEventListener()`.
-> - the reason is that `removeEventListener()` requires the exact function reference, which is missing in anonymous functions.
+# event listener
 
-**Internal behavior**
-- Event system stores listeners in array-like list per event type
-- On event dispatch: it iterates the list in registration order
-- No guarantee about async timing, but order is deterministic
-- `stopPropagation()` stops bubbling to other elements, not sibling listeners on same element
-- Removing: `removeEventListener` requires same function reference.
+> Register a function for a DOM (or EventTarget) event — `addEventListener` / `removeEventListener` with the same function reference.
+
+## Mental model
+
+**Say it in one breath:** Target receives events; listeners run in registration order (capture then bubble phases). Remove with the **same** function reference.
+
+```txt
+capture ↓ … target … ↑ bubble
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **capture** | Downward phase | “`{ capture: true }`.” |
+| --- | --- | --- |
+| **bubble** | Upward (default) | “Most click handlers.” |
+| **once** | Auto-remove | “`{ once: true }`.” |
+| **passive** | Can’t preventDefault | “Scroll perf on touch.” |
+
+## Standard config / commands
+
+```js
+const onClick = (e) => console.log(e.target)
+el.addEventListener('click', onClick)
+el.removeEventListener('click', onClick)
+
+el.addEventListener('touchstart', onTouch, { passive: true })
+```
+
+| Knob | Why it matters |
+
+| Same ref to remove | Inline arrows can’t remove |
+| --- | --- |
+| `AbortSignal` | `addEventListener(..., { signal })` batch cancel |
+| Delegation | Listen on parent for dynamic kids |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Can’t remove listener | New function each time | Store named fn / AbortSignal |
+| preventDefault ignored | Passive listener | Drop `passive` |
+| Handler fires twice | React + DOM / double bind | Bind once; check Strict Mode |
+| Memory leak | Never removed | Cleanup on unmount |
+
+## Gotchas
 
 > [!WARNING]
-> If a listener calls `stopImmediatePropagation()`, no further listeners on the same element will run
+> **Anonymous functions** — `removeEventListener` won’t match a new arrow.
 
-> [!INFO]
-> For multiple `click` listeners on the same element, JavaScript does not overwrite previous ones.
-> They are pushed into an internal *event listener list* and executed in the order they were registered (FIFO).
+> [!WARNING]
+> **Passive scroll listeners** — browsers may force passive; design accordingly.
+
+## When NOT to use
+
+- **React synthetic events** — prefer JSX `onClick` unless integrating non-React libs.
+- **High-frequency raw handlers** — throttle/raf.
+
+## Related
+
+[[throttle]] [[Callback]] [[dataTransfer]]

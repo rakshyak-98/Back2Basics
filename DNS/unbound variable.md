@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Default bash expands unset vars to empty string — silent bugs (`rm -rf $DIR/` with empty DIR). **`set -u`** (or `set -o nounset`) aborts on unbound expansion. Often paired with **`set -e`** (errexit) and **`set -o pipefail`** in strict scripts. Not the Unbound DNS resolver — that's [[DNS]] infrastructure software.
+Default bash expands unset variables to empty string — silent bugs (`rm -rf $DIR/` with empty DIR). **`set -u`** (or `set -o nounset`) aborts on unbound expansion. Often paired with **`set -e`** (errexit) and **`set -o pipefail`** in strict scripts. Not the Unbound DNS resolver — that's [[DNS]] infrastructure software.
 
 ```bash
 # default: echo $myvar  → empty line, exit 0
@@ -50,7 +50,7 @@ set -u
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `unbound variable` on start | Line number in trace | `set -x`; assign var or use `${var:-}` |
 | Works interactively, fails in CI | CI omits env | Export required env in workflow |
 | `$1` empty in script | No args passed | `:${1:?usage: $0 file}` |
@@ -69,7 +69,7 @@ set -u
 ## When NOT to use
 
 - Don't enable `set -u` in ad-hoc interactive shells unless you enjoy surprise exits.
-- Don't use empty default `:-` to hide missing required config — fail loud with `:?` for secrets/paths.
+- Don't use empty default `:-` to hide missing required configuration — fail loud with `:?` for secrets/paths.
 
 ## Related
 

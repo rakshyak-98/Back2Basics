@@ -1,25 +1,75 @@
-### User proper module augmentation
-- create a file named `express.d.ts` in the root of your project or inside a `@types` folder.
+[[TypeScript]] [[typescript types]] [[typescript]]
+
+# typescript extend types
+
+> Extending types — `extends`, intersection (`&`), interface merging, and module augmentation to grow existing shapes.
+
+## Mental model
+
+**Say it in one breath:** Interfaces can `extends` and merge by name. Type aliases use `&` / mapped types. Augment third-party modules with `declare module` carefully.
+
+```txt
+interface A { x: number }
+interface A { y: string }  // merges → {x,y}
+
+type C = A & { z: boolean }
+```
+
+| Mechanism | Effect |
+| --- | --- |
+| `interface extends` | Inheritance-like |
+| Intersection `&` | Combine aliases |
+| Declaration merge | Same name stacks |
+| Module augmentation | Patch lib types |
+
+## Standard config / commands
 
 ```ts
-declare module "express" {
-	interface Response {
-		success: (data: any) => void;
-	}
+interface Animal { name: string }
+interface Dog extends Animal { bark(): void }
+
+type WithId<T> = T & { id: string }
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    userId?: string
+  }
 }
 ```
-> [!INFO] typescript treats this as a new module declaration, not an augmentation.
-- it replaces Express types instead of extending them.
-- As a result `Request`, `NextFunction`, etc., are no longer available when you try to import them.
 
-```ts
-import "express";
+| Knob | Why it matters |
 
-declare module "express" {
-	interface Response {
-		success: (data: any) => void;
-	}
-}
-```
-- `import "express"` Ensures that existing express types (`Request`, `Response`, etc.) are available.
-	- extend only what you need `Response.success`, without losing anything.
+| Merge conflicts | Identical incompatible fields error |
+| --- | --- |
+| `extends` constraint | Generic bounds |
+| Augmentation scope | Must be module (import/export) |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Subsequent property declarations… | Merge clash | Rename / compatible types |
+| Augmentation ignored | Script vs module | Add `export {}` |
+| Excess fields lost | Widened too early | `extends` + generics |
+| Circular extends | A↔B | Break with indirection |
+
+## Gotchas
+
+> [!WARNING]
+> **`type` aliases don’t merge** — only interfaces.
+
+> [!WARNING]
+> **Augmenting libs** — version upgrades can break your patches.
+
+> [!WARNING]
+> **Intersection of conflicting props** — can become `never`.
+
+## When NOT to use
+
+- **Open-ended monkey patches** — wrap instead.
+- **Deep extends chains** — compose smaller types.
+- **Replacing runtime class inheritance** — types ≠ runtime.
+
+## Related
+
+[[typescript types]] [[ambient modules]] [[Triple-Slash Directives]]

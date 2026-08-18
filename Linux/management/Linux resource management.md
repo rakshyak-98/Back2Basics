@@ -1,69 +1,69 @@
-### Managed Out-of-Memory
-The path `/run/systemd/io.system.ManagedOOM` Memory management feature provided by `systemd`
-- Purpose is a control interface used by `systemd-oomd`, a system service responsible for monitoring and managing system memory pressure.
-- it is part of the linux `cgroups` (control groups) infrastructure that allows tracking and limiting resources usage.
-- helps avoid system instability during out-of-memory conditions by identifying and killing processes consuming excessive memory. It operates based on policies and resource pressure thresholds.
-```shell
-systemctl status systemd-oomd; # out of memory demon
-journalctl -u systemd-oomd;
+[[management]] [[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]]
+
+# Linux resource management
+
+> Resource management caps CPU, memory, I/O, and PIDs so one tenant can’t sink the host — niceness is soft; cgroups are hard.
+
+## Mental model
+
+**Say it in one breath:** nice/ionice hint the schedulers; cgroups/`systemd` quotas enforce; measure with `pressure` and `systemd-cgtop`.
+
+```txt
+soft: nice / ionice
+hard: MemoryMax= CPUQuota= IOWeight= TasksMax=
+observe: PSI /proc/pressure + systemd-cgtop
 ```
-- config: `/etc/systemd/oomd.conf`
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **cgroup** | Accounting + limits | “Containers are cgroups + namespaces.” |
+| --- | --- | --- |
+| **CPUQuota** | Percent of one CPU | “200% ≈ two cores.” |
+| **MemoryMax** | Hard RAM cap | “Hit → cgroup OOM.” |
+| **PSI** | Pressure stall info | “Early warning before OOM.” |
+| **nice** | Soft CPU priority | “Won’t cap a runaway alone.” |
+
+## Standard config / commands
 
 ```bash
-pmap -x $(pidof <process name>)
+systemctl set-property myapp.service MemoryMax=1G CPUQuota=100%
+systemctl show myapp.service -p MemoryMax,CPUQuota
+systemd-cgtop
+cat /proc/pressure/memory
+renice -n 10 -p PID
+ionice -c 3 -p PID
 ```
-Here is a list of essential command-line interface (CLI) commands for monitoring performance on Linux operating systems:
 
-### 1. **top**
-Displays real-time information about running processes, including CPU and memory usage. It updates continuously, allowing administrators to monitor system performance dynamically.
+| Knob | Why it matters |
 
-### 2. **htop**
-An enhanced version of `top`, providing a more user-friendly interface with color-coded output. It allows for easier sorting and filtering of processes.
+| `MemoryHigh` vs `Max` | Throttle vs kill |
+| --- | --- |
+| slice hierarchy | Shared budgets |
 
-### 3. **vmstat**
-Reports on system memory, processes, and CPU activity. It provides snapshots of various statistics, helping to identify resource constraints over time.
+## Triage (when things break)
 
-### 4. **free**
-Displays memory usage, showing total, used, and available memory, including swap space. Useful for quickly assessing memory status.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Throttled CPU | CPUQuota | Raise quota or fix hot loop |
+| OOMKill in container | MemoryMax | Raise limit / fix leak |
+| Disk latency spike | Heavy writer | ionice / IOWeight |
+| Fork bomb | TasksMax | Set TasksMax; find spawner |
 
-### 5. **iostat**
-Monitors disk input/output statistics and CPU utilization. It helps identify disk performance issues and throughput.
+## Gotchas
 
-### 6. **netstat**
-Shows network connections, routing tables, and interface statistics. It is useful for diagnosing network-related issues.
+> [!WARNING]
+> **Limits without metrics** — you only learn in outages; watch PSI/cgtop.
 
-### 7. **iftop**
-Monitors network traffic in real-time, displaying bandwidth usage per connection. It helps identify bandwidth-hungry applications.
+> [!WARNING]
+> **JVM/Go heaps vs cgroup** — apps must honor container memory, not host RAM.
 
-### 8. **sar**
-Collects and reports system activity information over time, covering CPU, memory, and I/O statistics. It is useful for historical performance analysis.
+## When NOT to use
 
-### 9. **dstat**
-Combines the functionality of various monitoring tools, providing real-time performance monitoring of CPU, disk, network, and other resources.
+- **Latency-critical lone tenants** — over-limit can hurt; size the machine instead.
+- **Trying to “fix” leaks with nice** — won’t reclaim RSS.
 
-### 10. **mpstat**
-Displays CPU usage statistics, allowing for monitoring of individual CPU cores.
+## Related
 
-### 11. **atop**
-Shows resource utilization by process, user, and CPU usage history, providing a comprehensive view of system performance.
-
-### 12. **pidstat**
-Reports statistics for individual processes, including CPU, memory, and I/O usage.
-
-### 13. **lsof**
-Lists open files and the processes that opened them, which is useful for diagnosing file system issues.
-
-### 14. **tcpdump**
-Captures and analyzes network packets, useful for network troubleshooting and analysis.
-
-### 15. **strace**
-Traces system calls and signals for a running process, helpful for debugging and performance tuning.
-
-Citations:
-[1] https://www.tecmint.com/command-line-tools-to-monitor-linux-performance/
-[2] https://www.geeksforgeeks.org/linux-system-monitoring-commands-and-tools/
-[3] https://www.linuxteck.com/linux-system-monitoring-command-cheat-sheet/
-[4] https://www.linkedin.com/advice/0/what-best-linux-system-performance-commands
-[5] https://www.fosslinux.com/112297/linux-performance-commands-for-system-administrators.htm
-[6] https://gcore.com/learning/linux-system-monitoring-command-line/
-[7] https://www.site24x7.com/learn/linux/monitor-linux-server-performance.htmel
+[[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]] [[systemd]]

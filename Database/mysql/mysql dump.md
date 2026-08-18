@@ -2,7 +2,7 @@
 
 # mysqldump
 
-> One-line: logical backup/export of schema and/or data — primary disaster-recovery baseline; know flags for schema-only, routines, triggers, and restore pitfalls.
+> mysqldump — ──► .sql file ──► mysql < file (restore)
 
 ## Mental model
 
@@ -74,7 +74,7 @@ docker exec mysql_container mysqldump -u root -psecret --all-databases > all.sql
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Dump locks writes | Missing `--single-transaction` on InnoDB | Add flag; use `--lock-tables=false` with care |
 | Restore fails on TRIGGER | Definer user missing | Create users first; `--force` only in dev |
 | Huge dump slow | Full table scan | mydumper parallel; exclude log tables |

@@ -1,12 +1,41 @@
+[[Kubernates]]
+
+# You are essentially reading from or writing to etcd through the kubernetes API server.
+
+> You are essentially reading from or writing to etcd through the kubernetes API server. — etcd — highly reliable, distributed key-value store that serves as…
+
+## Mental model
+
+**Say it in one breath:** You are essentially reading from or writing to etcd through the kubernetes API server. — etcd — highly reliable, distributed key-value store that serves as…
+
 etcd -> highly reliable, distributed key-value store that serves as the central data store and brain of Kubernetes.
 - highly-available key-value database designed specifically for distributed systems. It stores all critical configuration data, metadata, and the current state of the Kubernetes cluster.
 
-> [!INFO]
-> Kubernetes uses etcd as its _primary backing store_. Everything in Kubernetes is stored in etcd, including
-> - cluster state, Service discovery information, Cluster configuration, Resource metadata and status, API objects.
+## Standard config / commands
 
 ```bash
-# You are essentially reading from or writing to etcd through the kubernetes API server.
-kubectl get pods
-kubectl apply -f deployment.yaml
+kubectl config view
+kubectl config use-context prod
+kubectl config set-context --current --namespace=team-a
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| wrong cluster targeted | current context | `kubectl config current-context`; switch context |
+| certificate expired | client cert on kubeconfig | Refresh credentials; `kubeadm` or cloud IAM |
+| namespace not found | typo; context default namespace | `kubectl get ns`; set `-n` explicitly |
+
+## Gotchas
+
+> [!WARNING]
+> `~/.kube/config` merges multiple clusters — **context** picks cluster + user + default namespace.
+
+## When NOT to use
+
+- Do not commit kubeconfig with embedded credentials to git.
+
+## Related
+
+[[Kubernates]]

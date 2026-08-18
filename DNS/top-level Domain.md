@@ -2,7 +2,7 @@
 
 # Top-Level Domain (TLD)
 
-> **Rightmost DNS label** in a name (`example.com` → TLD is `com`) — delegated by root, operated by registry, sold by registrars. Matters for DNSSEC, resolver behavior, and policy (who can register what).
+> TLD (top-level domain) — rightmost DNS label (`com`, `org`) under the root.
 
 ## Mental model
 
@@ -14,14 +14,14 @@ The DNS tree is hierarchical: **root (`.`)** → **TLD** (`.com`, `.org`, `.uk`)
                   └── NS glue at parent points to authoritative servers
 ```
 
-**gTLD** (`.com`, `.dev`) vs **ccTLD** (`.uk`, `.de`) — ccTLD often has residency/eligibility rules. **Public suffix** list defines cookie/site boundaries (`co.uk` is suffix, not registrable `uk` alone).
+**gTLD** (`.com`, `.dev`) versus **ccTLD** (`.uk`, `.de`) — ccTLD often has residency/eligibility rules. **Public suffix** list defines cookie/site boundaries (`co.uk` is suffix, not registrable `uk` alone).
 
 ## Standard config / commands
 
 ### Delegation (what actually makes a TLD "work" for you)
 
 | Step | Action | Where |
-|------|--------|-------|
+| --- | --- | --- |
 | Register | Buy `example.com` | Registrar |
 | Host DNS | Create zone; get NS records | Route53, Cloudflare, BIND |
 | Delegate | Set NS at registrar → zone NS | Registrar panel |
@@ -52,7 +52,7 @@ whois example.com | grep -i 'Name Server\|Registrar'
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Domain "not found" / NXDOMAIN | Registration expired; wrong TLD spelling | Renew; verify WHOIS |
 | Partial global resolution | NS mismatch at registrar vs zone | Align NS; wait TTL (up to 48h) |
 | `com` works, `co.uk` cookie weird | Public suffix rules | Set `Domain=` cookie per eTLD+1 rules |
@@ -77,7 +77,7 @@ whois example.com | grep -i 'Name Server\|Registrar'
 ## When NOT to use
 
 - **Debating TLD for infra** — pick one registered domain; use subdomains for envs (`staging.example.com`).
-- **Deep TLD policy research in ops runbooks** — registrar support for disputes; ops cares about NS and TTL.
+- **Deep TLD policy research in operations runbooks** — registrar support for disputes; operations cares about NS and TTL.
 
 ## Related
 

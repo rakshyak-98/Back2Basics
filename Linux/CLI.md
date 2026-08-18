@@ -2,7 +2,7 @@
 
 # CLI
 
-> One-line: the Linux **command-line interface** — compose small tools via pipes, redirect streams, and automate with shell; the operator's primary debugger. **Kernighan & Pike, POSIX shell**.
+> CLI — everything is a file descriptor: stdin (0), stdout (1), stderr (2). Programs read stdin, write stdout, errors to stderr. The shell connects them with pipes (|)
 
 ## Mental model
 
@@ -15,7 +15,7 @@ Keyboard ──stdin──► command ──stdout──► pipe ──► next 
 ```
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | Exit code | 0 = success; non-zero = failure (`$?`) |
 | Pipe | stdout of left → stdin of right |
 | `2>&1` | Merge stderr into stdout |
@@ -28,6 +28,17 @@ Keyboard ──stdin──► command ──stdout──► pipe ──► next 
 ```
 symptom ──► ss/journalctl/ps ──► grep/awk ──► fix ──► re-check
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **shell** | User ↔ kernel via commands | “CLI is the ops API of Linux.” |
+| --- | --- | --- |
+| **stdin/stdout/stderr** | Three streams | “2>&1 merges errors into out.” |
+| **pipeline** | cmd | cmd | “Small tools compose.” |
+| **exit status** | 0 success | “Scripts must check failures.” |
+| **man / --help** | Docs on box | “man 5 for file formats.” |
 
 ## Standard config / commands
 
@@ -102,7 +113,7 @@ help cd                      # shell builtins
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Command not found" | `which cmd`; `$PATH` | Install package; fix PATH in profile |
 | Permission denied | `ls -l`; `id` | `chmod`/`chown`; run as correct user; not `chmod 777` |
 | Pipe silently empty | Left command failed (`set -o pipefail`) | Check `$?` per stage |
@@ -128,7 +139,7 @@ help cd                      # shell builtins
 
 - **Heavy data transformation at scale** → Python/awk scripts, DB, dedicated tools.
 - **GUI-only tasks** → desktop settings (unless [[gsetting]] / D-Bus).
-- **Immutable infra** → config management API, not manual SSH edits (still CLI, different workflow).
+- **Immutable infra** → configuration management API, not manual SSH edits (still CLI, different workflow).
 
 ## Related
 

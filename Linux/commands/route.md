@@ -2,7 +2,7 @@
 
 # route
 
-> One-line: legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk, Linux Programming Interface**.
+> legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk
 
 ## Mental model
 
@@ -18,18 +18,30 @@ The kernel holds one or more **routing tables** (main table by default). Each ro
 ```
 
 | Tool | Package | Status on modern distros |
-|------|---------|--------------------------|
+
 | `route`, `netstat`, `ifconfig` | net-tools | Deprecated; may be absent |
+| --- | --- | --- |
 | `ip`, `ss` | iproute2 | Default; full feature set |
 
 **Translation cheat sheet:**
 
 | net-tools | iproute2 |
-|-----------|----------|
+| --- | --- |
 | `route -n` | `ip route show` |
 | `route add default gw 192.168.1.1` | `ip route add default via 192.168.1.1` |
 | `route add -net 10.0.0.0/8 gw 10.0.0.1` | `ip route add 10.0.0.0/8 via 10.0.0.1` |
 | `route del default` | `ip route del default` |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **route / ip route** | Where packets go | “Prefer ip route on modern Linux.” |
+| --- | --- | --- |
+| **default** | 0.0.0.0/0 gateway | “No default = no internet.” |
+| **metric** | Route preference | “Lower metric wins.” |
+| **on-link** | No gateway needed | “Direct L2 on that iface.” |
+| **policy routing** | Rules by mark/src | “ip rule + multiple tables.” |
 
 ## Standard config / commands
 
@@ -69,12 +81,12 @@ route add default gw 192.168.1.1      # ephemeral — lost on reboot
 route add -net 172.16.0.0/12 gw 10.0.0.254
 ```
 
-Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-init — not bare CLI on production hosts unless you know they won't reboot.
+Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-initialize — not bare CLI on production hosts unless you know they won't reboot.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Network is unreachable" | `ip route show`; `ip route get <dst>` | Add default route or more-specific route |
 | Wrong interface used | `ip route get <dst>` | Fix metric; remove conflicting route; check PBR (`ip rule`) |
 | Route vanishes after reboot | Was CLI-only | Add to Netplan/NM/systemd-networkd config |

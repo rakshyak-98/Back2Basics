@@ -2,11 +2,11 @@
 
 # Node.js CLI
 
-> One-line: run scripts, eval snippets, and switch users/environments from the shell — know when `node` vs `npm run` vs `npx` applies.
+> Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PATH to local node_modules/.bin and injects npm lifecycle env. npx runs package
 
 ## Mental model
 
-The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle env. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
 
 ```
 Developer shell          CI / systemd
@@ -71,7 +71,7 @@ node --trace-warnings server.js
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `command not found: node` | PATH; nvm not loaded | Absolute path; source nvm in shell profile |
 | Wrong Node version | `node -v` vs engines | `nvm use`; align Docker/CI |
 | Module not found ESM/CJS | `"type":"module"` in package.json | Use `.mjs` or `"type":"module"` consistently |

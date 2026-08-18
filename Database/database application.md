@@ -2,7 +2,7 @@
 
 # Database application (app ↔ DB layer)
 
-> **Programs that issue queries and enforce data rules** — ORM, query builder, repository layer, transactions, and connection lifecycle. The "application" in "database application" is your service code, not the RDBMS binary.
+> Database application — app code that queries data and enforces business rules.
 
 ## Mental model
 
@@ -21,8 +21,9 @@ Separate **read models** ([[OLAP]], replicas) from **write path** when analytics
 ### Layering (typical)
 
 | Layer | Responsibility |
-|-------|----------------|
+
 | Handler/controller | Auth, HTTP, validation |
+| --- | --- |
 | Service | Use cases, transaction scope |
 | Repository/DAO | Queries only; no HTTP types |
 | Migration | Schema version ([[migration]]) |
@@ -55,7 +56,7 @@ Align `max` with DB `max_connections / app_instances` ([[connection pooling]]).
 
 - **Eager load** associations needed in list endpoints — avoid N+1.
 - **Pagination**: keyset (`WHERE id > ? ORDER BY id LIMIT`) over `OFFSET` on huge tables.
-- **Migrations own schema** — not `sync()` in prod (Sequelize/TypeORM).
+- **Migrations own schema** — not `sync()` in production (Sequelize/TypeORM).
 
 ### Read vs write routing
 
@@ -70,7 +71,7 @@ Replica lag → stale reads; never read-your-writes on replica for UX-critical p
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Pool timeout waiting connection | Pool size; slow queries holding conn | Increase pool slightly; fix slow SQL; set statement timeout |
 | Random 500 after deploy | Migration not run; code expects new column | Run [[migration]] before app rollout |
 | Data partial update | Missing transaction wrapper | Wrap multi-step updates in one txn |
@@ -96,7 +97,7 @@ Replica lag → stale reads; never read-your-writes on replica for UX-critical p
 
 - **Fat models with HTTP and SQL mixed** — splits testability and encourages circular imports.
 - **Database as message queue** — use proper broker; SKIP LOCKED patterns are last resort.
-- **Cross-DB joins in app** — integrate at service layer or warehouse.
+- **Cross-DB joins in application** — integrate at service layer or warehouse.
 
 ## Related
 

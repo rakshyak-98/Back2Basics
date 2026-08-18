@@ -4,8 +4,6 @@
 
 > How staff teams ship safely — release trains, feature flags, rollback criteria — **operational maturity, not semver trivia**.
 
----
-
 ## Mental model
 
 A **release cycle** is the contract between engineering and customers for **when** change arrives, **how much** risk is bundled, and **what happens** when it fails.
@@ -22,15 +20,13 @@ Feature branches ──► trunk/main (continuous integration)
 ```
 
 | Mechanism | Purpose |
-|-----------|---------|
+| --- | --- |
 | **Release train** | Fixed cadence (e.g. Tue deploy) — predictable ops load |
 | **Feature flag** | Decouple deploy from exposure — kill switch without rollback |
 | **Rollback** | Revert artifact or flip flag — time-bound decision |
 | **Change advisory** | High-risk windows blocked (Black Friday, fiscal close) |
 
-**Deploy ≠ release:** code can sit in prod behind a flag at 0% until product turns it on.
-
----
+**Deploy ≠ release:** code can sit in production behind a flag at 0% until product turns it on.
 
 ## Standard config / commands
 
@@ -96,12 +92,10 @@ git push origin v2026.07.22
 # CI builds immutable artifact from tag SHA
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Bad deploy, metrics red | Rollback criteria met? | Revert deployment / previous artifact ([[spinnaker]], Argo, k8s rollout undo) |
 | Bad deploy, metrics OK | Feature flag? | Disable flag first — faster than rollback |
 | Rollback fails | DB migration irreversible | Forward fix; restore from backup only if data corrupt |
@@ -114,8 +108,6 @@ kubectl rollout undo deployment/api -n prod
 # or
 git revert <commit> && redeploy
 ```
-
----
 
 ## Gotchas
 
@@ -134,16 +126,12 @@ git revert <commit> && redeploy
 > [!WARNING]
 > **Skipping staging** — train exists to batch risk, not eliminate staging.
 
----
-
 ## When NOT to use
 
 - **Early startup (<10 engineers)** — continuous deploy + flags may beat heavy train process.
-- **Regulated freeze windows** — train still runs internally; prod promote waits.
+- **Regulated freeze windows** — train still runs internally; production promote waits.
 - **Feature flags for every bugfix** — overhead; simple fixes go straight out with monitoring.
-
----
 
 ## Related
 
-[[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
+[[ecommerce-cicd-environments]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]

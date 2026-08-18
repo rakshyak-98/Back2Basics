@@ -2,9 +2,7 @@
 
 # SIP (Session Initiation Protocol)
 
-> VoIP/media signaling — REGISTER, INVITE, RTP path setup, NAT debugging for streaming engineers — **RFC 3261 ops view**.
-
----
+> SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
 ## Mental model
 
@@ -23,7 +21,7 @@ Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
 ```
 
 | Message | Role |
-|---------|------|
+| --- | --- |
 | **REGISTER** | Bind AOR (`sip:user@domain`) to contact URI (IP:port) |
 | **INVITE** | Start session; body carries **SDP** (codecs, ports) |
 | **ACK** | Confirm 200 OK to INVITE |
@@ -31,8 +29,6 @@ Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
 | **OPTIONS** | Capability ping |
 
 **SDP offer/answer** lists `m=audio PORT RTP/AVP` — if NAT wrong, signaling succeeds but **one-way audio** (classic production bug).
-
----
 
 ## Standard config / commands
 
@@ -72,7 +68,7 @@ Enable **SIP decoding** + **RTP stream analysis** (Telephony → RTP streams).
 ### NAT traversal toolkit
 
 | Mechanism | Fixes |
-|-----------|-------|
+| --- | --- |
 | **STUN** | Client learns public IP:port |
 | **TURN** | Media relay when direct RTP blocked |
 | **ICE** | Candidate pairing (WebRTC) |
@@ -85,12 +81,10 @@ Contact header must reflect reachable address:
 SDP c= line must match RTP port forwarding / media relay
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Registers but no audio | RTP flow in Wireshark | NAT: fix Contact/SDP; enable TURN/media relay |
 | One-way audio | Compare both directions RTP | Firewall UDP range; asymmetric NAT |
 | 408 / timeout | Routing DNS SRV `_sip._udp.domain` | DNS [[DNS]] SRV/A; firewall 5060 UDP/TCP |
@@ -104,8 +98,6 @@ SDP c= line must match RTP port forwarding / media relay
 # Asterisk default rtp.conf: 10000-20000/udp
 ss -ulnp | grep -E '5060|10000'
 ```
-
----
 
 ## Gotchas
 
@@ -124,15 +116,11 @@ ss -ulnp | grep -E '5060|10000'
 > [!WARNING]
 > **Registration expiry** — NAT binding dies before re-REGISTER; shorten expiry or keepalive OPTIONS.
 
----
-
 ## When NOT to use
 
 - **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
 - **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
 - **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
-
----
 
 ## Related
 

@@ -24,7 +24,7 @@ Developed by W3C **WAI** (Web Accessibility Initiative) — referenced by ADA, E
 ### Level summary (what teams actually ship)
 
 | Level | Examples |
-|-------|----------|
+| --- | --- |
 | **A** | Alt text for images; form labels; no keyboard traps |
 | **AA** | Contrast ≥ 4.5:1 body text; resize 200%; focus visible; skip links |
 | **AAA** | Contrast 7:1; sign language for all video — rare full-site |
@@ -71,7 +71,7 @@ npx axe https://localhost:3000 --exit
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Audit fails contrast | Brand colors | Adjust palette or use AA exceptions (large text 3:1) |
 | Keyboard can't reach control | `tabindex`, CSS `display:none` on focusable | Native `<button>`; visible `:focus-visible` |
 | Screen reader silent on update | No live region | `aria-live="polite"` on status toast |

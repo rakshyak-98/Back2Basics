@@ -2,11 +2,11 @@
 
 # node-convict
 
-> One-line: schema-validated config with env/JSON/file layering — fail fast at boot when a knob is missing or wrong type.
+> node-convict — loads config from defaults → file → environment variables → CLI args (order configurable). Each key has a schema: type, format, default, env var
 
 ## Mental model
 
-[node-convict](https://github.com/mozilla/node-convict) loads config from **defaults → file → environment variables → CLI args** (order configurable). Each key has a schema: type, format, default, env var name, doc string.
+[node-convict](https://github.com/mozilla/node-convict) loads configuration from **defaults → file → environment variables → CLI arguments** (order configurable). Each key has a schema: type, format, default, environment variable name, document string.
 
 ```
 defaults (in code)
@@ -18,7 +18,7 @@ process.env (DATABASE_URL, PORT, …)
 app.config.get('server.port')  → typed, validated
 ```
 
-Validation runs at startup — misconfigured deploy crashes immediately instead of corrupting prod data silently.
+Validation runs at startup — misconfigured deploy crashes immediately instead of corrupting production data silently.
 
 ## Standard config / commands
 
@@ -94,7 +94,7 @@ console.log(config.toString()); // document all keys + env vars for runbooks
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | App exits at boot with validation error | Stack trace names key | Set env var or fix JSON; check `format` enum |
 | Wrong value in prod | `config.getProperties()` log (redact sensitive) | Env var overrides file; check K8s secret mount |
 | `undefined` after load | Typo in nested path | Use dot path exactly as schema |
@@ -114,8 +114,8 @@ console.log(config.toString()); // document all keys + env vars for runbooks
 
 ## When NOT to use
 
-- **12-factor only env, no files** — lighter libs (`envalid`, `zod` + dotenv) may suffice.
-- **Dynamic config from control plane** — need polling/consul/etcd, not static convict load-once.
+- **12-factor only environment, no files** — lighter libs (`envalid`, `zod` + dotenv) may suffice.
+- **Dynamic configuration from control plane** — need polling/consul/etcd, not static convict load-once.
 - **Secrets rotation mid-process** — convict won't reload; use secret manager SDK.
 
 ## Related

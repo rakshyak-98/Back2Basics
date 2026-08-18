@@ -2,7 +2,7 @@
 
 # IDOR (Insecure Direct Object Reference)
 
-> **Authorization bug**: client supplies object id (URL/body); server checks authentication but **not ownership** — attacker swaps id and reads/writes someone else's data. Includes auto-increment enumeration.
+> IDOR (Insecure Direct Object Reference) — IDOR is a broken access control pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any
 
 ## Mental model
 
@@ -33,8 +33,9 @@ if not invoice:
 ### Checklist for APIs
 
 | Control | Implementation |
-|---------|----------------|
+
 | AuthZ on every object read/write | Policy: `resource.owner_id == user.id` or RBAC/ABAC |
+| --- | --- |
 | Indirect references | Opaque tokens mapping to internal id server-side |
 | Tenant isolation | `tenant_id` in **every** query (row-level) |
 | Mass assignment | Don't bind `user_id` from client body on create |
@@ -59,7 +60,7 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Bug bounty "access other user's order" | Handler fetches by id only | Add ownership predicate; integration test |
 | "Random UUID still leaked" | BOLA in microservice trust | Service-to-service authz; don't trust caller's user id header without signature |
 | Admin panel sees all (by design?) | Missing role check on `/admin/*` | Separate admin role + audit log |

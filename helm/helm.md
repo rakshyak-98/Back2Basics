@@ -1,34 +1,46 @@
+[[helm]]
+
+# helm
+
+> helm — the kind field is not part of the basic required fields, but it can be added to specify the type of chart. The kind field should
+
+## Mental model
+
+**Say it in one breath:** helm — the kind field is not part of the basic required fields, but it can be added to specify the type of chart. The kind field should
+
 ```bash
 helm list
-helm get values 
-
+helm get values
 ```
-
 - The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
 
-## Deployment
+## Standard config / commands
 
-Helm is package manager for kubernetes.
-- tool to install, upgrade, and manage complex applications on Kubernetes (like the Nginx Ingress Controller). Instead of manually applying many YAML files, Helm uses a pre-packaged bundle called a Chart.
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-release bitnami/nginx
+helm upgrade my-release bitnami/nginx -f values.yaml
+helm rollback my-release 1
+```
 
-Chart -> contains all the necessary Deployment, Services, ConfigMaps, RBAC roles, etc. in one place.
+## Triage (when things break)
 
-### Deploy controller
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Pending install forever | CRD missing; webhook timeout | `kubectl get events`; install CRDs first |
+| Wrong chart version | repo not updated | `helm repo update`; pin version in install |
+| Values ignored | wrong file; subchart key | `helm get values`; nest under chart name for subcharts |
+| Release exists cannot install | name collision | `helm uninstall` or choose new release name |
 
-installing and running the actual software (application) that will implement and enforce your ingress rules.
+## Gotchas
 
-> [!NOTE]
-> You can create hundreds of Ingress YAML files, but nothing will work until you deploy the ingress controller.
+> [!WARNING]
+> Helm stores release state in cluster **Secrets** — protect etcd backups.
 
-### What happens when you deploy the controller
+## When NOT to use
 
-When you deploy the Nginx Ingress Controller, Kubernetes creates the following:
-	- a deployment (one or more pods) running the NGINX web server.
-	- A service (NodePort or LoadBalancer) to expose the controller.
-	- RBAC permissions, ConfigMaps, and other supporting resources.
-	- The controller starts watching all ingress resources in the cluster.
+- Do not hand-edit rendered manifests in the cluster — change values and upgrade.
 
-Once deployed, the controller automatically:
-	- reads your YAML file.
-	- Configure NGINX accordingly
-	- Routes external traffic to your backend service (`/v1` `/v2` etc.).
+## Related
+
+[[helm]]

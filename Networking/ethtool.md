@@ -2,9 +2,7 @@
 
 # ethtool
 
-> NIC driver ioctl tool — inspect link state, speed/duplex, ring sizes, offload features, and driver stats at the hardware edge.
-
----
+> ethtool — talks to the NIC driver, not just the kernel routing stack:
 
 ## Mental model
 
@@ -17,8 +15,6 @@ ethtool ──► driver ──► NIC firmware / PHY
 ```
 
 Use when `ip link` shows UP but performance is wrong — cable/negotiation/offload issues live here, not in [[route]] tables.
-
----
 
 ## Standard config / commands
 
@@ -52,20 +48,16 @@ ethtool -k eth0
 sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 ```
 
-**Why `-S` stats:** `rx_missed_errors`, `rx_dropped` distinguish **NIC overflow** vs kernel backlog ([[ss]]).
-
----
+**Why `-S` stats:** `rx_missed_errors`, `rx_dropped` distinguish **NIC overflow** versus kernel backlog ([[ss]]).
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Link up, slow throughput | `Speed`, `Duplex`; `LnkSta` via lspci | Fix cable/SFP; match autoneg; replace optics |
 | Packet loss at high PPS | `ethtool -S` drops | Increase rings; coalesce tuning; faster CPU |
 | TCP checksum errors | `rx_errors`; `-k` offloads | Disable bad offload; update driver |
 | Changes vanish on reboot | No persist rule | NM dispatcher script or systemd unit |
-
----
 
 ## Gotchas
 
@@ -78,13 +70,9 @@ sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 > [!WARNING]
 > **Autoneg off wrong speed** — silent errors or half-duplex disaster.
 
----
-
 ## When NOT to use
 
 Don't tune ring buffers before confirming **application and kernel** aren't the bottleneck (`ss -ti`, CPU softirq). ethtool is layer 1–2, not routing.
-
----
 
 ## Related
 

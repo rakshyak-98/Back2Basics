@@ -17,7 +17,7 @@ Route /^\/users\/(\d+)$/ → full RegExp route — YOU own anchors ^ $
 ```
 
 Two modes:
-1. **String routes** — `:param`, optional `?`, custom `(regex)` per param, `*` splat (Express 4.x).
+1. **String routes** — `:param`, optional `?`, custom `(regex)` per parameter, `*` splat (Express 4.x).
 2. **RegExp routes** — `app.get(/^\/foo\/bar$/, ...)` — entire pattern must match path (query string excluded).
 
 ## Standard config / commands
@@ -88,7 +88,7 @@ app.get('/search/:q([^/]{1,100})', handler);
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Route never matches | Missing anchors on RegExp route; typo in param regex | Add `^...$`; test with `req.path` logging |
 | Wrong handler runs | Route order — `/:id` before `/new` | Register static paths first |
 | `:id` eats too much | Greedy `.+` in custom regex | Restrict charset: `[^/]+` or `(\\d+)` |

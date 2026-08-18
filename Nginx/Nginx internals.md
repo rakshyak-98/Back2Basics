@@ -2,14 +2,13 @@
 
 # Nginx internals
 
-> Event-driven master/worker proxy — how requests flow through phases, upstream pools, and the filesystem — **nginx.org dev docs** + production 502 debugging.
-
----
+> Nginx internals — worker 1 worker 2 worker N (non-root, event loop each)
 
 ## Mental model
 
+**Say it in one breath:** Master (root) reads configuration and owns listen sockets; workers handle connections with an event loop.
+
 ```txt
-                    master (root, reads config)
                          │
            ┌─────────────┼─────────────┐
            ▼             ▼             ▼
@@ -22,21 +21,19 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
 
 **One worker per core** (typical) — each runs **non-blocking event loop** ([[Epoll]] on Linux). No thread-per-request; high concurrency with fixed memory.
 
-**Master:** bind ports, read config, manage workers. **Workers:** handle connections. `reload` = graceful config swap without dropping established connections (mostly).
+**Master:** bind ports, read configuration, manage workers. **Workers:** handle connections. `reload` = graceful configuration swap without dropping established connections (mostly).
 
 **Key subsystems:**
 
 | Subsystem | Role |
-|-----------|------|
+| --- | --- |
 | `ngx_http_core_module` | Request struct, phases, variables |
 | `ngx_http_upstream` | Backend connection, retries, keepalive pool |
 | `ngx_http_proxy_module` | Reverse proxy headers, buffering |
 | `ngx_stream_*` | L4 TCP/UDP proxy |
 | `ngx_event` | accept, read/write timers |
 
-**Request phases (HTTP):** post-read → server rewrite → find config → rewrite → pre-access → access → content → log. Modules hook phases (auth, rate limit, `try_files`, `proxy_pass`).
-
----
+**Request phases (HTTP):** post-read → server rewrite → find configuration → rewrite → pre-access → access → content → log. Modules hook phases (authentication, rate limit, `try_files`, `proxy_pass`).
 
 ## Standard config / commands
 
@@ -114,12 +111,10 @@ proxy_next_upstream error timeout http_502 http_503;
 proxy_next_upstream_tries 2;
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 502 Bad Gateway | `error.log` upstream connect/refused | App down; wrong socket; `proxy_pass` URL typo |
 | 504 Gateway Timeout | `upstream timed out` | ↑ read timeout; fix slow app; DB lock |
 | 499 (client closed) | User/aborted; LB idle | Harmless spike; check client timeouts |
@@ -130,8 +125,6 @@ proxy_next_upstream_tries 2;
 | Uneven CPU | 1 hot worker | `reuseport` on listen; check long-lived connections |
 | Upstream connection churn | No keepalive | Enable upstream keepalive + HTTP/1.1 |
 | SSL handshake CPU hot | All on workers | Session cache; TLS termination at LB |
-
----
 
 ## Gotchas
 
@@ -150,15 +143,11 @@ proxy_next_upstream_tries 2;
 > [!WARNING]
 > **Worker_connections vs system ulimit** — bump `worker_rlimit_nofile` **and** `/etc/security/limits.conf`.
 
----
-
 ## When NOT to use
 
-- **Application business logic** — nginx is proxy/static; use app server for code execution.
-- **Complex auth without modules** — OpenResty/lua or delegate to auth service.
+- **Application business logic** — nginx is proxy/static; use application server for code execution.
+- **Complex authentication without modules** — OpenResty/lua or delegate to authentication service.
 - **Long-lived bidirectional gRPC without HTTP/2 tuning** — verify grpc module settings or use dedicated proxy.
-
----
 
 ## Related
 

@@ -2,11 +2,11 @@
 
 # Payment gateway
 
-> Merchant-facing HTTP/API front door to payment networks — authorizes and captures without merchant touching card rails directly — **e-commerce integration model**.
+> Payment gateway — a payment gateway sits between merchant site/POS and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.
 
 ## Mental model
 
-A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.
+**Say it in one breath:** A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns authentication/capture result.
 
 ```
 Shopper → Merchant site → Payment Gateway → Acquirer → Card networks → Issuer
@@ -15,8 +15,9 @@ Shopper → Merchant site → Payment Gateway → Acquirer → Card networks →
 ```
 
 | Property | Typical behavior |
-|----------|------------------|
+
 | **Not in money flow** | Settles via acquirer; gateway is software layer |
+| --- | --- |
 | **Connection** | Merchant server or browser plugin to gateway API |
 | **Methods** | Cards, wallets, BNPL, bank debits (region-dependent) |
 
@@ -27,8 +28,9 @@ Gateway ≠ [[Payments/PSP]] entirely — PSP may own gateway + processing + mer
 ### Integration patterns
 
 | Pattern | PCI impact | Control |
-|---------|------------|---------|
+
 | **Hosted checkout** (redirect) | Lowest — SAQ A | Less UX control |
+| --- | --- | --- |
 | **Embedded iframe** (Fields) | Low — SAQ A-EP | Branded-ish UX |
 | **Direct API** (server-side PAN) | High — SAQ D | Full control — avoid |
 
@@ -62,7 +64,7 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Auth succeeds, order not created | Missing webhook handler | Idempotent webhook + retry |
 | Decline spike | AVS/CVV rules, fraud filters | Gateway dashboard risk settings |
 | Currency mismatch | Minor units vs major | Pass cents; ISO 4217 code |
@@ -74,9 +76,9 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 > [!WARNING]
 > **Client-side success redirect ≠ paid** — always confirm via server-side API or signed webhook.
 
-- **3DS / SCA** — auth may require redirect; handle `requires_action` states.
-- **Partial capture** — auth amount may exceed shipped total; void unused auth.
-- **MOTO vs e-commerce** — different interchange and fraud rules.
+- **3DS / SCA** — authentication may require redirect; handle `requires_action` states.
+- **Partial capture** — authentication amount may exceed shipped total; void unused authentication.
+- **MOTO versus e-commerce** — different interchange and fraud rules.
 
 ## When NOT to use
 

@@ -2,7 +2,7 @@
 
 # QUIC
 
-> UDP-based transport with built-in TLS 1.3, multiplexing, and faster handshakes — **HTTP/3 foundation**.
+> QUIC — (Quick UDP Internet Connections) moves transport into user space over UDP, integrating encryption and stream multiplexing. Designed to fix TCP head-of-line blocking and slow
 
 ## Mental model
 
@@ -22,8 +22,9 @@ HTTP/3
 ```
 
 | vs [[Networking/TCP]] + TLS + HTTP/2 | QUIC |
-|--------------------------------------|------|
+
 | 3-way TCP + TLS handshakes | Often 0-RTT / 1-RTT combined |
+| --- | --- |
 | One lost packet blocks all streams | Independent streams per connection |
 | OS kernel TCP | Userspace implementations (Chrome, nginx quic) |
 
@@ -73,7 +74,7 @@ tc qdisc add dev eth0 root netem loss 1%
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Never see h3 | UDP 443 blocked | Open firewall; CDN QUIC toggle |
 | Falls back to HTTP/2 | Alt-Svc missing/expired | Add `Alt-Svc` header; cert valid |
 | 0-RTT replay concerns | Idempotent GET only | Disable 0-RTT for non-idempotent routes |
@@ -85,13 +86,13 @@ tc qdisc add dev eth0 root netem loss 1%
 > [!WARNING]
 > **Middleboxes that block UDP** — corporate networks may force HTTP/2 fallback; always serve h2/h1 too.
 
-- **0-RTT data** — replay attack surface; disable for auth-changing POST.
+- **0-RTT data** — replay attack surface; disable for authentication-changing POST.
 - **Load balancer stickiness** — QUIC connection != TCP connection; use compatible LB (CDN).
 - **Debugging** — `tcpdump` shows encrypted UDP; use qlog / Chrome net-internals.
 
 ## When NOT to use
 
-- Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler ops.
+- Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler operations.
 - Legacy clients only — maintain dual stack until analytics show negligible h3 need.
 
 ## Related

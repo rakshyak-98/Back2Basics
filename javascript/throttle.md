@@ -1,26 +1,72 @@
-- control the rate of data transfer to prevent congestion, ensure fair resource distribution, and maintain Quality of Service (QoS).
+[[javascript]] [[event listener]] [[promise]]
 
-### Throttling algorithms
-#### [[Token bucket]]
-- allows burst of traffic while enforcing an average rate limit.
-- Tokens are added to a bucket at a fixed rate; packets can be sent only if there are enough tokens.
-- Efficient for controlling bursty traffic.
-#### Leaky bucket
-- Converts variables traffic into a steady flow.
-- Packets enter a queue (bucket) and leave at a constant rate.
-- Prevents congestion but may drop excess packets if the bucket overflows.
-#### Rate-based throttling (fixed rate limiting)
-- strictly limits traffic to a predefined rate (e.g., Mbps).
-- simple but can lead to inefficient bandwidth utilization.
-#### Random Early Detection (RED)
-- Proactively drop packets based on queue length and probability to prevent congestion.
+# throttle
 
-> [!INFO] (RED) Random Early Detection is used in TCP congestion control.
+> Run a function at most once per time window — drop or coalesce extra calls (scroll, resize, mousemove).
 
-#### Explicit Congestion Notification (ECN)
-- Marks packets instead of dropping them to signal congestion to the sender.
-- works with TCP to reduce congestion without packet loss.
+## Mental model
 
-#### TCP flow control & Congestion Control (e.g., TCP Reno, Cubic)
-- Adjusts sending rate dynamically based on network feedback (ACKs, dropped packets).
-- Ensures fair bandwidth sharing.
+**Say it in one breath:** Throttle = rate limit. Debounce = wait until quiet. Don’t confuse them.
+
+```txt
+events: |||||│|||| → throttle → |    |    |
+debounce waits for silence then fires once
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **throttle** | Max frequency | “Fire regularly while active.” |
+| --- | --- | --- |
+| **debounce** | After pause | “Search box after typing stops.” |
+| **leading/trailing** | Edge of window | “Fire immediately and/or at end.” |
+
+## Standard config / commands
+
+```js
+function throttle(fn, ms) {
+  let last = 0
+  return (...args) => {
+    const now = Date.now()
+    if (now - last >= ms) {
+      last = now
+      fn(...args)
+    }
+  }
+}
+window.addEventListener('scroll', throttle(onScroll, 100))
+```
+
+| Knob | Why it matters |
+
+| `requestAnimationFrame` | Visual updates synced to paint |
+| --- | --- |
+| Libraries (lodash) | Leading/trailing options |
+| Cancel on unmount | Clear timers in React |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| UI jank still | Window too small / heavy fn | Raise ms; lighten handler |
+| Missed last event | Leading-only throttle | Add trailing call |
+| Used debounce for scroll | Wrong tool | Throttle scroll; debounce input |
+| Stale `this` | Lost context | Arrow or bind |
+
+## Gotchas
+
+> [!WARNING]
+> **Throttle ≠ debounce** — interviewers love this distinction.
+
+> [!WARNING]
+> **React** — memoize throttled fn; don’t recreate each render.
+
+## When NOT to use
+
+- **Rare clicks** — no need.
+- **Must process every event** — queue instead of drop.
+
+## Related
+
+[[event listener]] [[web worker]] [[Optimizing performance]]

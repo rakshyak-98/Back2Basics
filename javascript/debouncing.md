@@ -4,8 +4,6 @@
 
 > Delay function execution until **input stops** for N ms — coalesce burst calls into one — **UI search, resize, autocomplete**.
 
----
-
 ## Mental model
 
 Each invocation **resets a timer**. Only after `delay` ms of silence does `func` run with the **latest** arguments.
@@ -17,15 +15,14 @@ keystroke h → reset timer 300ms
 (stop)      → fire search("teh")
 ```
 
-vs [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
+versus [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
 
 | Use debounce | Use throttle |
-|--------------|--------------|
+
 | Search input | Scroll handler |
+| --- | --- |
 | Window resize layout | Button spam guard (sometimes) |
 | Auto-save draft | Live progress bar |
-
----
 
 ## Standard config / commands
 
@@ -68,19 +65,15 @@ useEffect(() => () => debouncedSearch.cancel?.(), [debouncedSearch]); // if usin
 
 Search box: **300 ms** typical; resize: **150–250 ms**.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Never fires | Delay too long | Reduce ms; add leading edge |
 | Fires too often | Debounce not applied | Wrap stable function ref (`useMemo`) |
 | Stale closure | Old state in handler | Pass refs or recreate debounce on deps |
 | Memory leak on unmount | Pending timer | `clearTimeout` in cleanup |
 | First keystroke lag | Trailing-only | `leading: true` for instant first char |
-
----
 
 ## Gotchas
 
@@ -90,15 +83,11 @@ Search box: **300 ms** typical; resize: **150–250 ms**.
 > [!WARNING]
 > **Debounce submit** — user expects immediate click; debounce input only, not form submit.
 
----
-
 ## When NOT to use
 
 - **Must execute every event** — gaming input, drawing apps — use throttle or raw handler.
 - **Server-side rate limiting substitute** — debounce is client UX only; enforce limits on API.
 - **Critical safety actions** — e-stop, payment confirm — never debounce.
-
----
 
 ## Related
 

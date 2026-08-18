@@ -50,7 +50,7 @@ function minCoins(amount) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong on hidden tests | Counterexample | Switch to DP; prove greedy first |
 | TLE | Wrong sort key | Greedy usually O(n log n); avoid nested scan |
 | Suboptimal path | Graph negative edges | Dijkstra fails — Bellman-Ford |

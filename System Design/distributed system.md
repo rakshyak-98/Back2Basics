@@ -1,67 +1,63 @@
-Where data must survive even when nodes fail. This is a classic distributed systems problem, and it's solved through a combination of replication, consensus, and durable storage strategies.
+[[System Design]] [[Quorum]] [[Raft]] [[Distributed computing]] [[Eventual consistency]]
 
-> [!INFO]
-> Never let a single node be the only owner of any place of data.
+# distributed system
 
-### Replication
+> Distributed system — multiple machines coordinate over the network; design for partial failure, replication, and clocks that lie.
 
-- Every piece of data is copied to multiple nodes (replicas). If one node dies, other still have the data
-	- Synchronous replication -> A write is only acknowledged after all replicas confirm they've written it. Zero data loss, but higher latency.
-	- Asynchronous replication -> A write is acknowledged after just the primary writes it, and replicas catch up later. Faster, but if the primary dies before replication completes, you lose that data.
+## Mental model
 
+**Say it in one breath:** Data must survive node loss via replication; coordination (leader/quorum) decides truth; networks delay and partition.
 
-> [!NOTE]
-> For zero data loss, you want synchronous replication
+```txt
+Client → LB → Service replicas → Replicated store
+                      ↘ events / queues ↙
+```
 
-#### Write Quorums (W + R > N)
+| Problem | Toolkit |
+| --- | --- |
+| Durability | Replicated log, fsync policy |
+| Consistency | Quorum / consensus ([[Raft]]) |
+| Availability | Redundancy, failover |
+| Latency | Caching, locality |
 
-This is the formula behind systems like Cassandra, DynamoDB, and Riak.
+## Standard config / commands
 
-- **N** = total replicas
-- **W** = how many nodes must confirm a write
-- **R** = how many nodes must respond to a read
+```txt
+Checklist
+[ ] Failure domains (AZ/region)
+[ ] Replication factor + ack policy
+[ ] Idempotent consumers
+[ ] Timeouts + retries with jitter
+[ ] Backups / restore drill
+```
 
-If **W + R > N**, you're guaranteed to always read the latest write.
+## Triage (when things break)
 
-Example with N=3: if W=2 and R=2, even if one node is dead, your reads/writes still work and data is safe.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Split answers | Stale replica / no quorum | Tune R/W; fence leaders |
+| Cascading outage | Retry storm | Circuit break; bulkhead |
+| Data loss after crash | Ack before durable | Sync commit; fix W |
+| Partition “both sides write” | No leader election | Consensus or CRDT/strategy |
+| Clock-skew auth | NTP | Sync time; prefer monotonic ids |
 
+## Gotchas
 
-#### Consensus Protocols (Raft / Paxos)
+> [!WARNING]
+> **Network is not reliable** — timeouts are part of the API.
 
-For strong consistency (not just availability), you need all nodes to _agree_ on the state of data. This is what consensus protocols solve.
+> [!WARNING]
+> **Exactly-once is usually at-least-once + idempotency**.
 
-**Raft** is the more approachable one:
+> [!WARNING]
+> **More replicas ≠ always safer** — ops complexity and lag grow.
 
-- One node is elected **leader**
-- All writes go through the leader
-- The leader replicates the write to followers before acknowledging success
-- If the leader dies, followers elect a new one — and no committed data is lost
+## When NOT to use
 
-Used by: `etcd`, `CockroachDB`, `TiKV`, `Consul`.
+- **Single-box fits SLO** — don’t distribute for fashion.
+- **Strong multi-row transactions across services** — rethink boundaries.
+- **Team can’t operate it** — complexity kills.
 
-#### Write-Ahead Log (WAL)
+## Related
 
-Before data is written to the actual storage, it's first appended to a log on disk. If a node crashes mid-write, on recovery it replays the log to restore state.
-
-This guarantees **no partial writes** are silently lost.
-
-#### Persistent, Durable Storage
-
-RAM is volatile -> if a node dies, RAM is gone. So any data that must survive node failure needs to be on disk (or SSD), ideally with `fsync` to ensure the OS actually flushes it to hardware.
-
-### What happens when Nodes Die One by One?
-
-With proper replication (say N=3, W=2)
-- 1 node dies -> system keeps working, data intact (2 replicas remain).
-- 2 nodes die -> system may become unavailable (can't reach quorum), but data is not lost, the surviving node still has it.
-- All 3 die simultaneously -> data loss is possible if some writes hadn't fully replicated yet.
-
-> [!NOTE]
-> So the guarantee is -> you can lose up to N-W nodes without losing data, Beyond that, you're trading availability.
-
-### CAP Theorem Reminder
-
-In distributed systems, when nodes fail (partition), you must choose:
-- CP (Consistency + Partition tolerance) -> System may go unavailable but data is never lost or stale, Raft-based systems do this.
-- AP (Availability + Partition tolerance) -> System stays up but might return stale data.
-
+[[Distributed computing]] [[Raft]] [[Quorum]] [[Eventual consistency]] [[backpressure]]

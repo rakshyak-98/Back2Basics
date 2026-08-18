@@ -4,8 +4,6 @@
 
 > Self-signed trust anchor at the top of a certificate chain — browsers and OS trust stores decide whether your TLS cert is "valid."
 
----
-
 ## Mental model
 
 **PKI chain**:
@@ -22,8 +20,6 @@ Root CA (self-signed, in trust store)
 - **Not** served by your web server in normal TLS (you send leaf + intermediates)
 
 Trust stores: Mozilla/Apple/Microsoft/Google bundles on devices. Private roots (corp) require **manual install** on clients.
-
----
 
 ## Standard config / commands
 
@@ -58,19 +54,15 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 
 **Why intermediate exists:** compromise of intermediate doesn't burn root; root stays offline.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Untrusted cert in browser | Missing intermediate | Use `fullchain.pem`; fix nginx `ssl_certificate` |
 | Corp laptop only fails | Private root not installed | Deploy MDM trust profile |
 | Android old devices fail | Expired cross-sign | Update chain; use compatible CA |
 | `certificate has expired` on root | Ancient client trust store | Client update; interim cert reissue |
 | Pinning failure | Pin changed on root rotation | Update pins before CA migration |
-
----
 
 ## Gotchas
 
@@ -86,13 +78,9 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 > [!WARNING]
 > **CT logs** — public CAs log issued certs; private roots don't — internal names still sensitive.
 
----
-
 ## When NOT to use
 
 Don't create a **private root CA** unless you can **distribute trust** to all clients (MDM, mTLS fleet). Public sites use public CAs ([[certbot (letsencrypt)]]).
-
----
 
 ## Related
 

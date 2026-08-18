@@ -2,7 +2,7 @@
 
 # nmap
 
-> One-line: **controlled port and service discovery** — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is a career event.
+> controlled port and service discovery — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is
 
 ## Mental model
 
@@ -16,13 +16,24 @@ Your host ──SYN scan──► target:port
 ```
 
 | Scan type | Flag | Notes |
-|-----------|------|-------|
+| --- | --- | --- |
 | TCP SYN (stealth-ish) | `-sS` | Needs root/CAP_NET_RAW |
 | TCP connect | `-sT` | Unprivileged; full handshake |
 | Version detect | `-sV` | Slower; more packets |
 | Default scripts | `-sC` | Safe-ish defaults with `-sV` |
 | All ports | `-p-` | Slow; use in maintenance window |
 | Fast top ports | `-F` | Top 100; good first pass |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **nmap** | Port / host scanner | “nmap -sV host for service versions.” |
+| --- | --- | --- |
+| **-sS / -sT** | SYN vs connect | “SYN needs root; connect doesn’t.” |
+| **-p** | Port list | “-p 22,80,443 or -p-.” |
+| **-Pn** | Skip ping | “When ICMP blocked.” |
+| **legal** | Only authorized nets | “Scanning without OK is an incident.” |
 
 ## Standard config / commands
 
@@ -56,7 +67,7 @@ nmap -oA /tmp/scan-hostname -sV -p 1-1024 hostname
 ndiff scan1.xml scan2.xml
 ```
 
-**Don't on prod without approval:**
+**Don't on production without approval:**
 
 ```bash
 nmap -A -T4 target    # -A = OS detect + version + scripts + traceroute — noisy
@@ -66,7 +77,7 @@ nmap --script=vuln    # intrusive; change state on fragile services
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | All ports filtered | Wrong IP; cloud SG | Verify target; scan from allowed jump host |
 | Shows open, app unreachable | App on other IP; bind 127.0.0.1 | `ss -lntp`; fix listen address |
 | `-sS` requires root | Capability | `sudo` or use `-sT` |
@@ -88,9 +99,9 @@ nmap --script=vuln    # intrusive; change state on fragile services
 
 ## When NOT to use
 
-- **App-layer health** — use HTTP checks, synthetic monitoring, not port open alone.
+- **application-layer health** — use HTTP checks, synthetic monitoring, not port open alone.
 - **Continuous monitoring** — use dedicated CMDB/service discovery, not cron nmap of /16.
-- **Local "what port is my app on"** — [[ss]] `-lntp` is instant and non-invasive.
+- **Local "what port is my application on"** — [[ss]] `-lntp` is instant and non-invasive.
 
 ## Related
 

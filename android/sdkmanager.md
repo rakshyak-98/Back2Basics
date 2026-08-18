@@ -4,8 +4,6 @@
 
 > Android SDK command-line package manager — install platforms, build-tools, NDK in **headless CI** without Android Studio.
 
----
-
 ## Mental model
 
 ```txt
@@ -26,8 +24,6 @@ $ANDROID_HOME/
 ```
 
 **Gradle** consumes `compileSdk`, `buildToolsVersion`, NDK version from `build.gradle` — CI must pre-install matching packages or builds fail before compile.
-
----
 
 ## Standard config / commands
 
@@ -97,20 +93,16 @@ RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Failed to install ... license not accepted` | `licenses/` dir | `yes \| sdkmanager --licenses` |
 | `SDK location not found` | `ANDROID_HOME`, `local.properties` | Set env; `sdk.dir=` in local.properties |
 | Gradle: compileSdk not found | `--list_installed` | Install matching `platforms;android-XX` |
 | NDK build fails version mismatch | `ndkVersion` in Gradle vs installed | `sdkmanager --install "ndk;..."` exact version |
 | `Warning: Still waiting for package manager` | Stale lock / parallel jobs | Single sdkmanager process; clear `.android` locks |
 | Network fail in CI | Proxy / Google repo | Mirror or cache SDK tarball; retry with timeout |
-
----
 
 ## Gotchas
 
@@ -126,15 +118,11 @@ RUN yes | sdkmanager --licenses && \
 > [!WARNING]
 > **Huge SDK footprint** — cache `$ANDROID_HOME` in CI; don't re-download platforms every job.
 
----
-
 ## When NOT to use
 
-- **Local dev with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
+- **Local development with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
 - **iOS builds** — Xcode / `xcodebuild`, not sdkmanager.
 - **Installing arbitrary APKs on device** — `adb install`, not sdkmanager.
-
----
 
 ## Related
 

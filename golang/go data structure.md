@@ -1,84 +1,76 @@
-### Binary tree
-- data structure where underneath each node there exist _at most_ two other nodes.
-- the node can be connected to one, two, or no other nodes.
- 
- depth of tree -> also called height of a tree, is defined as the longest path from the root to a node, wheres the **depth of a node ** is the number of edges from the node to the root of the tree.
- 
-a leaf -> is a node with no children.
+[[golang]] [[go features]] [[array]]
 
-a balanced tree -> when the longest length from the root node to a leaf is at most one more than the shortest such length.
+# go data structure
 
-> [!INFO] balancing a tree might be a difficult and slow operation
-> - so it is better to keep your tree balanced from the beginning rather than trying to balance it after you have created it.
+> Go builtins — arrays (fixed), slices (view+len+cap), maps (hash), structs (records); pick by growth and ownership.
 
-> [!INFO] Advantages of binary tree
-> - if the tree is not balanced, then the performance of the tree will be unpredictable.
-> - used for represent hierarchical data, trees are extensively used when the compiler of a programming language parses a computer program.
-> - putting an element into the correct place keeps them ordered. However, deleting an element from a tree is not always trivial because of the way that trees are constructed.
-- if a binary tree is balanced, its search, insert, and delete operations take about `log(n)` steps, where `n` is the total number of elements that the tree holds.
-- disadvantage of binary trees is that the shape of the tree depends on the order in which its elements were inserted.
+## Mental model
 
-#### Implementing a binary tree
-```go
-package main
+**Say it in one breath:** Slice header = pointer+len+cap into an array. Append may reallocate. Maps are reference types; never assume range order. Structs group fields; copy is shallow.
 
-import (
-	"fmt"
-	"time"
-)
-
-// defination of the node of the tree
-type Tree struct {
-	Left *Tree
-	Value int
-	Right *Tree
-}
-
-func traverse(t *Tree) {
-	if t == nil {
-		return
-	}
-	traverse(t.Left)
-	fmt.Print(t.Value, " ")
-	traverse(t.Right)
-}
-
-func create(n int) *Tree {
-	var t *Tree
-	rand.Seed(time.Now().Unix())
-	for i := 0; i < 2*n; i+=1 {
-		temp := rand.Intn(n * 2)
-		t = insert(t, temp)
-	}
-	return t
-}
-
-func insert(t *Tree, v int) *Tree {
-	// checks wheater we are dealing with an empty tree or not
-	if t === nil {
-		return &Tree(nil, v, nil) // if it is an empty tree, then the new node will be the root of the tree.
-	}
-
-	// check wheather the value to insert already exists in the binary tree or not.
-	if v === t.Value {
-		t.Left = insert(t.Left, v)
-		return t
-	}
-	
-	/*
-	 weather the value you are trying to insert will go on the left or right of the node.
-	*/
-	
-	if v < t.Value {
-		t.Left = insert(t.Left, v)
-		return t
-	}
-	
-	t.Right = insert(t.Right, v)
-	return t
-}
-
+```txt
+slice:  ptr ──► [........] array
+        len
+        cap
 ```
 
-> [!INFO] Searching in binary tree
-> when searching for an element on a binary tree, you check whether the value of the element that you are looking for is bigger or smaller than the value of the current node and use that decision to choose which part of the tree you will go down next.
+| Type | When |
+| --- | --- |
+| Array `[N]T` | Fixed size known |
+| Slice `[]T` | Growable sequences |
+| Map `map[K]V` | Key lookup |
+| Struct | Typed records |
+
+## Standard config / commands
+
+```go
+s := make([]int, 0, 64)
+s = append(s, 1, 2)
+t := append([]int(nil), s...) // copy
+
+m := map[string]int{"a": 1}
+v, ok := m["a"]
+
+type User struct {
+  ID   string `json:"id"`
+  Name string `json:"name"`
+}
+```
+
+| Knob | Why it matters |
+
+| `make([], 0, cap)` | Fewer allocs |
+| --- | --- |
+| `copy` / clone | Avoid alias bugs |
+| Map key constraints | Comparable types only |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Unexpected shared mutation | Slice alias | Copy before mutate |
+| Append overwrote other slice | Shared array | Full copy / force new cap |
+| `assignment to entry in nil map` | Nil map | `make(map[…]…)` |
+| Slow append in loop | Cap 0 growth | Preallocate |
+| JSON empty vs null | Pointer fields | Use pointers / omitempty care |
+
+## Gotchas
+
+> [!WARNING]
+> **Subslice shares backing array** — mutating one can change another.
+
+> [!WARNING]
+> **Nil vs empty slice** — both `len 0`; JSON encodes differently sometimes.
+
+> [!WARNING]
+> **Map not concurrency-safe** — mutex or `sync.Map` with eyes open.
+
+## When NOT to use
+
+- **Map as ordered list** — keep a slice of keys.
+- **Giant arrays on stack** — heap/`make`.
+- **Linked lists by default** — slices usually win in Go.
+
+## Related
+
+[[go features]] [[Unbuffered channel]] [[array]] [[Sorting algorithm]]

@@ -2,7 +2,7 @@
 
 # telnet
 
-> One-line: **cleartext TCP client** — still the fastest manual probe for "does this port accept connections and speak text?" Mail debugging and legacy gear; never for secrets on untrusted networks.
+> cleartext TCP client — still the fastest manual probe for "does this port accept connections and speak text?" Mail debugging and legacy gear; never for secrets
 
 ## Mental model
 
@@ -14,11 +14,22 @@ telnet web 80   →  GET / HTTP/1.0  →  headers back
 ```
 
 | Tool | Use when |
-|------|----------|
+| --- | --- |
 | `telnet host port` | Interactive text protocol |
 | `nc -zv host port` | Open/closed only |
 | `openssl s_client -connect host:465` | TLS from the start (SMTPS, HTTPS debug) |
 | `curl -v telnet://host:80` | HTTP with less typing |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **telnet** | Raw TCP client | “telnet host 25 to talk SMTP by hand.” |
+| --- | --- | --- |
+| **banner grab** | See service hello | “Quick sanity, not a scanner.” |
+| **escape** | Ctrl-]  | “Quit stuck sessions.” |
+| **TLS** | Not encrypted | “Use openssl s_client for TLS.” |
+| **nc vs telnet** | Modern alternative | “Prefer nc for scripting.” |
 
 ## Standard config / commands
 
@@ -69,7 +80,7 @@ sudo nmap -p 25,587,465 localhost
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Connection refused` | `ss -lntp` on server | Service down; wrong port; not listening on interface |
 | Hangs | Firewall DROP | [[nc]] with `-w 3`; fix SG/iptables path |
 | Connect then close | TLS-only port | Use `openssl s_client` on 465/993/443 |
@@ -90,7 +101,7 @@ sudo nmap -p 25,587,465 localhost
 
 ## When NOT to use
 
-- **Remote admin** — use [[SSH]]; telnetd on servers should be absent/disabled.
+- **Remote administrator** — use [[SSH]]; telnetd on servers should be absent/disabled.
 - **Encrypted service validation** — openssl/curl, not cleartext telnet.
 - **Automated monitoring** — use health checks; telnet scripts are brittle.
 

@@ -2,7 +2,7 @@
 
 # EventEmitter
 
-> One-line: pub/sub inside a Node process — decouple producers from listeners; foundation of streams, HTTP, and most core APIs.
+> EventEmitter — └── emit('data', chunk) ──────►│──► on('data') handler 1 │
 
 ## Mental model
 
@@ -86,7 +86,7 @@ emitter.on('error', (err) => console.error(err));
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `MaxListenersExceededWarning` | `emitter.listenerCount('event')` | Fix leak; `removeListener`; or raise `setMaxListeners` after root-cause fix |
 | Memory grows over days | Heap snapshot; count listeners on long-lived sockets | Remove listeners on `close`; use `once`; destroy streams |
 | Handler never runs | Wrong event name typo | Log `emitter.eventNames()` |
@@ -112,7 +112,7 @@ emitter.on('error', (err) => console.error(err));
 
 - **Cross-process messaging** — use [[child process]] IPC, Redis pub/sub, or a message broker.
 - **Request/response with one caller** — Promises/async functions are clearer than emit/wait hacks.
-- **Global event bus for all app state** — becomes undebuggable; prefer explicit DI or state store.
+- **Global event bus for all application state** — becomes undebuggable; prefer explicit DI or state store.
 
 ## Related
 

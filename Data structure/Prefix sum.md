@@ -76,7 +76,7 @@ function subarraySum(nums, k) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Off-by-one on range | 0-index vs 1-index; inclusive bounds | Use `P[r] - P[l-1]` with `l=0` base case |
 | Integer overflow | Large sums in JS BigInt / other langs | Use BigInt or modulo if problem requires |
 | Wrong subarray count | Missing initial `{0:1}` in hash map | Empty prefix represents sum before index 0 |

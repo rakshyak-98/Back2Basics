@@ -2,9 +2,7 @@
 
 # MPD (Media Presentation Description)
 
-> DASH manifest XML — **ISO/IEC 23009-1** index for adaptive HTTP streaming; player reads this before any segment.
-
----
+> MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
 ## Mental model
 
@@ -21,7 +19,7 @@ GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
 ```
 
 | Element | Purpose |
-|---------|---------|
+| --- | --- |
 | **Period** | Time window (live sliding or VoD full) |
 | **AdaptationSet** | Group of same content type (video H.264) |
 | **Representation** | One ladder rung (`bandwidth`, `width`, `codecs`) |
@@ -29,8 +27,6 @@ GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
 | **ContentProtection** | [[DRM]] PSSH / license hints for [[EME]] |
 
 **Static MPD** (VoD): full timeline known. **Dynamic MPD** (live): `type="dynamic"`, `availabilityStartTime`, `minimumUpdatePeriod`, `timeShiftBufferDepth`.
-
----
 
 ## Standard config / commands
 
@@ -73,7 +69,7 @@ GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
 ```
 
 | Attribute | Why |
-|-----------|-----|
+| --- | --- |
 | `minimumUpdatePeriod` | How often player re-fetches MPD |
 | `suggestedPresentationDelay` | Live edge offset from availability |
 | `timeShiftBufferDepth` | DVR window |
@@ -98,12 +94,10 @@ mpd-parser-cli manifest.mpd   # @streaming/mpd-parser npm, if available
 
 Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD `initialization`.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Player 404 segments | `$Number$` base URL wrong | `BaseURL` element; CDN path prefix |
 | Live drift / buffer grow | `publishTime` stale | Packager must refresh dynamic MPD |
 | ABR always lowest | `bandwidth` too high vs actual | Match encoded bitrates ([[bitrate streaming]]) |
@@ -111,8 +105,6 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 | DRM session fail | Missing PSSH in init | Re-pack with CENC; verify [[EME]] |
 | Period gap at splice | Multi-period VoD | `#EXT-X-DISCONTINUITY` equivalent — `Period@start` |
 | MPD parse error | XML namespace | Valid `xmlns`; escape special chars |
-
----
 
 ## Gotchas
 
@@ -128,15 +120,11 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 > [!WARNING]
 > **Segment timeline `@timescale`** — off-by-one timescale bugs → micro-stutter every N segments.
 
----
-
 ## When NOT to use
 
 - **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
 - **Sub-second live** — DASH segment model adds latency; LL-HLS or WebRTC.
 - **Raw TS progressive** — use HLS TS manifests instead.
-
----
 
 ## Related
 

@@ -1,8 +1,8 @@
-[[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]]
+[[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
 
 # IAM
 
-> **Who can do what to which resource** — users, groups, roles, policies, permission boundaries, and SCPs (org level). **AWS IAM best practices** + audit findings from over-privileged CI roles.
+> IAM — users, roles, and policies that decide who can call which AWS APIs.
 
 ## Mental model
 
@@ -14,7 +14,7 @@ Request ──► AuthN (who) ──► IAM policy eval ──► Allow/Deny ─
                 └── SCP (org max)    └── resource policy (S3/KMS/Lambda)
 ```
 
-**Deny always wins.** Permission boundary caps what a role/user can ever receive even if admin attaches `AdministratorAccess`.
+**Deny always wins.** Permission boundary caps what a role/user can ever receive even if administrator attaches `AdministratorAccess`.
 
 ## Standard config / commands
 
@@ -50,7 +50,7 @@ aws iam simulate-principal-policy \
 ### Audit tooling (built-in)
 
 | Tool | Scope | Use |
-|------|-------|-----|
+| --- | --- | --- |
 | **Credentials Report** | Account — all users, key age, MFA | Quarterly key rotation audit |
 | **Access Advisor** | Per user/role — last used services | Right-size policies; remove stale grants |
 | **Access Analyzer** | External access paths | Find public S3, cross-account trust |
@@ -67,7 +67,7 @@ aws iam generate-credential-report && aws iam get-credential-report --query 'Con
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `AccessDenied` despite "Admin" | SCP? Permission boundary? Session policy? | Org SCP; boundary; explicit Deny in policy |
 | CI deploy role stopped working | OIDC trust repo branch; role session name | Fix IdP condition keys |
 | Cross-account S3/KMS fail after role fix | **Resource policy** on bucket/key | Add `Principal` for role ARN |
@@ -97,4 +97,4 @@ aws iam generate-credential-report && aws iam get-credential-report --query 'Con
 
 ## Related
 
-[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS ECR]]
+[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]

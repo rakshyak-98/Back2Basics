@@ -2,9 +2,7 @@
 
 # Rolling buffer
 
-> Fixed-capacity circular queue — new writes advance the head and overwrite the oldest slot; bounded memory for streams without realloc/GC churn.
-
----
+> Rolling buffer — also called ring buffer or circular buffer. One contiguous array + read/write indices modulo capacity:
 
 ## Mental model
 
@@ -27,8 +25,6 @@ Use cases:
 - IPC between threads ([[atomic ring buffer]] for lock-free)
 
 **Policy when full:** overwrite (lossy telemetry), block producer, or drop newest — pick explicitly.
-
----
 
 ## Standard config / commands
 
@@ -63,18 +59,14 @@ perf record -e syscalls:sys_enter_write -a sleep 1
 
 **Why static allocation:** predictable latency in embedded/real-time — avoids allocator locks and fragmentation under load.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Corrupt data | TOCTOU head/tail race | Mutex or [[atomic ring buffer]] with memory barriers |
 | Lost events | Overwrite policy | Increase capacity; back-pressure producer |
 | Deadlock | Block when full + consumer stuck | Timeouts; separate drop metric |
 | Off-by-one full/empty | `(head+1)%N == tail` vs count | Unit test boundary; use sentinel slot |
-
----
 
 ## Gotchas
 
@@ -87,13 +79,9 @@ perf record -e syscalls:sys_enter_write -a sleep 1
 > [!WARNING]
 > **"Rolling" in logs often means time window**, not strict ring — clarify retention policy.
 
----
-
 ## When NOT to use
 
 If you need **unbounded history** or random access by key, use a deque + disk spill, not a ring. Rings fit **streaming FIFO** with known max lag.
-
----
 
 ## Related
 

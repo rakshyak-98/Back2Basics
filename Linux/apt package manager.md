@@ -1,72 +1,111 @@
-- Advance packing tool
-```bash
-apt install iputils-ping;
-apt install dnsutils; # nslookup command packages
-apt install iproute2; # ip command packages
-apt-get install procps htop; # ps and top command packages.
-apt install net-tools; # netstat etc.
-apt install telnet;
+[[Linux]] [[apt configuration]] [[APT policy]] [[gpg]]
 
-apt-get install build-essential; # install C in system and gcc
+# apt package manager
 
-apt-get install lvm2; # logical volume packages, pvdisplay.
-apt-cache search; # search the cache in the system with package name.
-apt-get show package_name; # search without internet connection, from the cache.
+> apt installs and upgrades `.deb` software from repositories — resolve deps, fetch, unpack, configure.
+
+## Mental model
+
+**Say it in one breath:** `update` refreshes index metadata; `install`/`upgrade` change packages; `dpkg` is the lower-level unpacker apt drives.
+
+```txt
+sources + keyrings ──► apt update ──► lists in /var/lib/apt
+                              ↓
+                     apt install/upgrade
+                              ↓
+                          dpkg configure
+                              ↓
+                     /var/log/dpkg.log
 ```
 
-> [!NOTE]
-> `apt list | grep <package name>` means that the package is available in the Ubuntu repositories, but it does not mean it's installed on your system.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **`apt update`** | Refresh package lists | “Doesn’t upgrade software — only the catalog.” |
+| --- | --- | --- |
+| **`apt upgrade` vs `full-upgrade`** | Safe vs allow removals | “full-upgrade may remove packages to satisfy deps.” |
+| **Candidate** | Version that would install | “See [[APT policy]].” |
+| **Hold** | Block automatic upgrade | “`apt-mark hold` for pinned production packages.” |
+| **`apt-get -f install`** | Fix broken deps | “When dpkg is half-configured.” |
+
+## Standard config / commands
 
 ```bash
-dpkg -l | grep <package name>;
-apt list --installed | grep <package name>;
+sudo apt update
+sudo apt install curl jq htop
+sudo apt upgrade
+sudo apt full-upgrade              # distro upgrades / tough deps
+
+apt show nginx
+apt search dnsutils
+apt depends nginx
+apt list --installed | grep nginx
+dpkg -l | grep nginx
+
+# Common tool metapackages
+sudo apt install iproute2          # ip, ss
+sudo apt install dnsutils          # dig, nslookup
+sudo apt install net-tools         # netstat (legacy)
+sudo apt install build-essential   # gcc, make
+sudo apt install --reinstall pkg   # replace corrupted files
 ```
+
+Third-party repository sketch (Docker-style):
 
 ```bash
-apt-cache rdepends <pkg name>;
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt update
 ```
 
-## Inspect package details 
+## Holds, marks, and logs
 
 ```bash
-apt-mark showmanual;
-apt-mark showauto;
-apt-mark showhold;
+apt-mark showmanual
+apt-mark showauto
+apt-mark showhold
+sudo apt-mark hold nginx
+sudo apt-mark unhold nginx
+
+# Reverse depends
+apt-cache rdepends nginx
+
+# What actually happened
+less /var/log/dpkg.log
+less /var/log/apt/history.log
 ```
 
-```bash
-# list manually installed packages
-comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-```
+## Triage (when things break)
 
-#### basic packages
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `404 Not Found` on update | Wrong codename / stale list | Fix [[apt config]] sources; `apt update` |
+| `NO_PUBKEY` / signature | Missing keyring | Dearmor key + `signed-by=` ([[gpg]]) |
+| Held back packages | `apt-mark showhold`; phasing | Unhold or wait; check policy |
+| Broken half-install | `dpkg -l \| grep ^..r` | `sudo apt -f install`; `dpkg --configure -a` |
+| “Package available but not installed” | `apt list` vs `dpkg -l` | `apt list` ≠ installed — use `--installed` |
 
-```bash
-apt install shadow; # include useradd ... packages.
-```
-see the package log file `/var/log/dpkg.log`
+## Gotchas
 
-```bash
-apt show <package name>
-apt search <package name> # 
-apt depends <package name>
-apt-cache pkgnames; # list all the installed packages in system.
-apt-get install -f; # fix broken package.
+> [!WARNING]
+> **`apt list \| grep foo` shows availability, not install state** — use `dpkg -l` or `apt list --installed`.
 
-apt list --upgradable --all-versions;
-apt-mark unhold [package name];
+> [!WARNING]
+> **Unattended upgrades + holds** — document why a package is held or the next person will force it.
 
+> [!WARNING]
+> **Mixing random PPAs** — dependency hell; prefer official pockets + rare signed vendors.
 
-# download the gpg public key
-curl -fsSL <https://download.docker.com/linux/ubuntu/gpg> | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-# sign and update the sourc list
-echo \\
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] <https://download.docker.com/linux/ubuntu> \\
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \\
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
+## When NOT to use
 
-Held packages - refers to packages in a package management system (apt) that have been marked as being held back and will not be upgraded or installed automatically.
+- **Language application deps inside a project** — npm/pip/cargo with lockfiles; system packages for *system* tools.
+- **Immutable images** — bake packages in the image build; don’t `apt upgrade` live pets without policy.
+- **RPM distros** — dnf/yum.
 
-- happen for conflicts with other packages, or package being considered too risky to upgrade.
-- can check which packages are being held back by running the command
+## Related
+
+[[apt configuration]] [[APT policy]] [[gpg]] [[Package Manager]] [[Linux]]

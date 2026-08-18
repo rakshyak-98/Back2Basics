@@ -4,8 +4,6 @@
 
 > **Runtime implementation** of missing APIs on old engines — no syntax transform — fills the gap so **calling** `Array.prototype.at` works — **MDN + core-js**.
 
----
-
 ## Mental model
 
 Two compatibility layers:
@@ -15,7 +13,7 @@ Syntax (optional chaining, class fields)  → transpiler ([[SWC]], Babel)
 APIs (Promise.finally, structuredClone)   → polyfill script
 ```
 
-Polyfill = shim that mimics spec behavior if `if (!Feature) { implement }`.
+Polyfill = shim that mimics specification behavior if `if (!Feature) { implement }`.
 
 ```txt
 Transpile:  ?.  →  long helper code (syntax)
@@ -23,8 +21,6 @@ Polyfill:   Promise.allSettled  →  function added to prototype (API)
 ```
 
 Ship polyfills only for **browsers you support** — unnecessary bytes on modern-only stacks.
-
----
 
 ## Standard config / commands
 
@@ -70,19 +66,15 @@ if (!globalThis.structuredClone) {
 }
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `X is not a function` on old Safari | Missing polyfill | Add core-js module or manual shim |
 | Polyfill but still syntax error | Need transpile not polyfill | [[SWC]]/`target` in tsconfig |
 | Double polyfill conflict | Two libs patch same API | One provider (core-js) |
 | Bundle huge | Import entire stable | Use `core-js/features/promise` only |
 | Subtle spec mismatch | Hand-rolled shim incomplete | Use tested polyfill lib |
-
----
 
 ## Gotchas
 
@@ -92,15 +84,11 @@ if (!globalThis.structuredClone) {
 > [!WARNING]
 > **Mutating prototypes** — can break if non-writable; order matters (load polyfills first).
 
----
-
 ## When NOT to use
 
 - **Internal apps on latest Chrome only** — drop polyfills; set browserslist accordingly.
 - **Node LTS with native API** — use `engines` in package.json instead.
 - **Syntax features** — always transpile; don't "polyfill" classes with Function constructor hacks.
-
----
 
 ## Related
 

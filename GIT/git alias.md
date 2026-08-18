@@ -2,11 +2,11 @@
 
 # Git aliases
 
-> One-line: shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
+> shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
 ## Mental model
 
-Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
+**Say it in one breath:** Git aliases live in configuration (`~/.gitconfig` or repository `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
 
 ```
 git st  →  alias.st = status -sb
@@ -66,7 +66,7 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Alias not found | Scope (global vs local) | `git config --list --show-origin \| grep alias` |
 | `ignoredtop` typo fails | Wrong alias name | `git config --get alias.ignoredtop` |
 | Shell alias no args | Missing `$@` | Use `!f() { ...; }; f'` pattern for args |
@@ -86,9 +86,9 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 
 ## When NOT to use
 
-- **Complex multi-step automation** — shell script in repo `scripts/` with tests.
+- **Complex multi-step automation** — shell script in repository `scripts/` with tests.
 - **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
 
 ## Related
 
-[[git command]] [[git logs]] [[git formating]] [[git branch]]
+[[git command]] [[git logs]] [[git formatting]] [[git branch]]

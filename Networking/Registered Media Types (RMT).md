@@ -2,9 +2,7 @@
 
 # Registered Media Types (RMT)
 
-> IANA-maintained identifiers for content formats — HTTP `Content-Type` / `Accept` values that tell clients how to parse the body.
-
----
+> Registered Media Types (RMT) — media types (MIME types) are type/subtype plus optional parameters:
 
 ## Mental model
 
@@ -23,8 +21,6 @@ Structure:
 Registered in **IANA media types registry**. Browsers, APIs, and CDNs branch on this — wrong type → download instead of render, JSON parse errors, XSS via `text/html` mislabel.
 
 Canonical deep dive: **[[mime type]]**.
-
----
 
 ## Standard config / commands
 
@@ -62,18 +58,14 @@ X-Content-Type-Options: nosniff
 
 **Why `charset=utf-8`:** avoids mojibake on non-ASCII JSON/text; required for proper caching in some CDNs.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Browser downloads file instead of showing | `application/octet-stream` | Fix `mime.types` mapping; explicit header |
 | JSON.parse fails in browser | HTML error page with `text/html` | Read body; fix 502 page content-type |
 | CORS preflight oddities | Custom media types trigger preflight | Use standard types; document custom |
 | Android WebView blank | Missing charset | Add `; charset=utf-8` |
-
----
 
 ## Gotchas
 
@@ -86,13 +78,9 @@ X-Content-Type-Options: nosniff
 > [!WARNING]
 > **Trusting client `Content-Type` alone** — validate magic bytes for uploads; don't execute as script.
 
----
-
 ## When NOT to use
 
 Don't invent `application/x-myformat` without vendor tree (`vnd.`) if you need interoperability — register or document clearly.
-
----
 
 ## Related
 

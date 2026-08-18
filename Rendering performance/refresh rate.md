@@ -16,15 +16,16 @@ Browser target: complete JS + layout + paint within ~10 ms (60 Hz)
                  leaves headroom for compositor + system
 ```
 
-Device refresh is constant; **app frame rate varies** — animation smooth only if work fits budget.
+Device refresh is constant; **application frame rate varies** — animation smooth only if work fits budget.
 
 ## Standard config / commands
 
 ### Frame budget math
 
 | Refresh rate | Frame period | Practical JS budget |
-|--------------|--------------|---------------------|
+
 | 60 Hz | 16.67 ms | ~10 ms |
+| --- | --- | --- |
 | 90 Hz | 11.1 ms | ~6–7 ms |
 | 120 Hz | 8.33 ms | ~5 ms |
 
@@ -62,7 +63,7 @@ if (window.screen?.refreshRate) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Visible stutter in animation | Long tasks > frame period | Split work; compositor-only props |
 | 30 FPS on 120 Hz panel | Every other frame missed | Profile; reduce paint cost |
 | rAF runs but nothing moves | Logic bug vs display | Verify transform updates |

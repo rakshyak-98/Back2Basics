@@ -2,9 +2,7 @@
 
 # Predicted vs actual plot
 
-> Scatter of **y_true vs ŷ** — quick visual for calibration, bias, and heteroscedasticity — standard regression QA.
-
----
+> Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
 ## Mental model
 
@@ -22,15 +20,14 @@ Perfect predictions lie on the diagonal **y = x**:
 Patterns tell stories:
 
 | Pattern | Likely issue |
-|---------|--------------|
+
 | Points fan out | Variance grows with y (heteroscedasticity) |
+| --- | --- |
 | Systematic curve below diagonal | Model underfits nonlinearity |
 | Horizontal band at cap | Target clipped; model hits ceiling |
 | Clusters off diagonal | Missing segment feature or wrong model per segment |
 
 For **ranking** models, same plot compares predicted scores to graded relevance — use alongside [[Mean Average Precision (MAP)]].
-
----
 
 ## Standard config / commands
 
@@ -62,21 +59,17 @@ plt.plot(lims, lims, "r--")
 
 ### Residual companion
 
-Always pair with [[Visualization/Residual plot]] — actual vs predicted hides structure in errors when scale is large.
-
----
+Always pair with [[Visualization/Residual plot]] — actual versus predicted hides structure in errors when scale is large.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Tight cloud but bad business metric | Wrong aggregate metric | Segment plot by cohort |
 | S-curve off diagonal | Log/normal target | Log transform; [[Model/Polynomial regression]] |
 | Vertical stripe at one y | Class imbalance bucket | Classification not regression |
 | Predictions constant | Dead model / leakage removed | Baseline check |
 | Rank plot flat | Scores uncalibrated | Calibrate; check [[Visualization/Rank distribution]] |
-
----
 
 ## Gotchas
 
@@ -84,17 +77,13 @@ Always pair with [[Visualization/Residual plot]] — actual vs predicted hides s
 > **Outliers compress the cloud** — use log axes or hexbin; don't overfit 3 points.
 
 > [!WARNING]
-> **Filename typo:** this note is `predicated vs actual plot.md` in the vault — link as `[[Visualization/predicated vs actual plot]]`.
-
----
+> **Filename typo:** this note is `predicted vs actual plot.md` in the vault — link as `[[Visualization/predicted vs actual plot]]`.
 
 ## When NOT to use
 
-- **Classification** — confusion matrix / ROC, not y vs ŷ scatter.
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
 - **High-dimensional output** — per-target subplots or aggregate metrics.
 - **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
-
----
 
 ## Related
 

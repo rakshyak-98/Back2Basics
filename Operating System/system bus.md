@@ -2,9 +2,7 @@
 
 # System bus
 
-> High-speed interconnect between CPU, memory, and I/O — defines bandwidth and latency ceilings for the whole machine.
-
----
+> System bus — the system bus is the plumbing that moves addresses, data, and control between major components:
 
 ## Mental model
 
@@ -27,9 +25,7 @@ Historical **shared parallel bus** (FSB) is largely replaced by **point-to-point
 - **DMI** — CPU to PCH
 - **PCIe** — CPU/root complex to peripherals
 
-**Effective bandwidth** is always less than line rate — protocol overhead, contention, NUMA remote memory, and small I/O ops matter more than peak Gbps on the spec sheet.
-
----
+**Effective bandwidth** is always less than line rate — protocol overhead, contention, NUMA remote memory, and small I/O operations matter more than peak Gbps on the specification sheet.
 
 ## Standard config / commands
 
@@ -55,20 +51,16 @@ sudo lspci -s 0000:01:00.0 -vv | grep LnkSta
 mbw -n 10 256
 ```
 
-**Why NUMA matters:** on multi-socket boxes, memory attached to another socket crosses the **inter-socket bus** — 2–3× latency vs local.
-
----
+**Why NUMA matters:** on multi-socket boxes, memory attached to another socket crosses the **inter-socket bus** — 2–3× latency versus local.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NVMe/NIC below rated speed | `LnkSta` degraded (Gen1 x1) | Reseat card; BIOS ASPM settings; cable |
 | High latency on multi-socket DB | `numastat`; allocation on wrong node | `numactl --interleave` or bind process to node with memory |
 | PCIe errors in dmesg | `dmesg \| grep -i aer` | Faulty hardware; firmware; reduce overclock |
 | Memory bandwidth saturated | `perf stat -e cycles,mem_load_uops` | Fewer copies; NUMA-local buffers; faster RAM channels |
-
----
 
 ## Gotchas
 
@@ -81,13 +73,9 @@ mbw -n 10 256
 > [!WARNING]
 > **C-state / ASPM** can downshift link width for power — adds wake latency for bursty workloads.
 
----
-
 ## When NOT to use
 
 Don't architect around "buy a faster bus" without profiling — often the fix is **fewer crossings** (copy elimination, batching, local NUMA node) not faster hardware.
-
----
 
 ## Related
 

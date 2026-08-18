@@ -2,7 +2,7 @@
 
 # ALTER TABLE
 
-> One-line: evolve schema in place — adds cost (locks, rebuilds); plan online DDL, batch alters, and rollback via migrations.
+> evolve schema in place — adds cost (locks, rebuilds); plan online DDL, batch alters, and rollback via migrations.
 
 ## Mental model
 
@@ -15,7 +15,7 @@ ALTER types (MySQL InnoDB, simplified)
 └── Copy / rebuild                (change PK, reorder columns — table lock risk)
 ```
 
-Always run through **versioned migrations** ([[database migration]]), test **down** path, and measure on prod-sized snapshot first.
+Always run through **versioned migrations** ([[database migration]]), test **down** path, and measure on production-sized snapshot first.
 
 ## Standard config / commands
 
@@ -66,7 +66,7 @@ ALTER TABLE users ALTER COLUMN email SET NOT NULL; -- may require validation sca
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Migration hangs hours | `SHOW PROCESSLIST`; `performance_schema` | Wait or kill; use online schema tool |
 | Replication lag spike | DDL on primary | Run off-peak; use parallel replica tools; throttle |
 | `Lock wait timeout` | Blocking metadata lock | Find blocker; schedule maintenance window |
@@ -90,7 +90,7 @@ ALTER TABLE users ALTER COLUMN email SET NOT NULL; -- may require validation sca
 
 ## When NOT to use
 
-- **Renaming column + app deploy atomically** — use expand-contract: add new col → dual-write → backfill → switch → drop old.
+- **Renaming column + application deploy atomically** — use expand-contract: add new col → dual-write → backfill → switch → drop old.
 - **Massive data rewrite** — `UPDATE` in batches or ETL job, not one ALTER trick.
 
 ## Related

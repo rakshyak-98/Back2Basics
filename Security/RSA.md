@@ -2,9 +2,7 @@
 
 # RSA
 
-> Widely deployed public-key algorithm — encrypt small secrets, TLS handshakes, and digital signatures; being supplemented by ECC/Ed25519 for performance.
-
----
+> RSA — uses math on large composites (factorization hardness):
 
 ## Mental model
 
@@ -16,17 +14,15 @@ Encrypt: ciphertext = plaintext^e mod n   (small messages only)
 Sign: signature = hash^d mod n            (with PKCS#1 v1.5 or PSS padding)
 ```
 
-Roles in prod:
-- **TLS cert keys** (RSA 2048/4096) — declining vs ECDSA
+Roles in production:
+- **TLS cert keys** (RSA 2048/4096) — declining versus ECDSA
 - **Legacy JWT RS256**
 - **Key encapsulation** — wrap AES key (RSA-OAEP)
 
 Limits:
-- **Slow** vs ECDSA/Ed25519 at sign/verify
+- **Slow** versus ECDSA/Ed25519 at sign/verify
 - **Size** — 2048-bit keys, ciphertext max ~190 bytes for OAEP-SHA256
 - **Padding critical** — raw RSA malleable
-
----
 
 ## Standard config / commands
 
@@ -62,18 +58,14 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 
 **Why OAEP/PSS:** PKCS#1 v1.5 padding classes of attacks in old implementations — OAEP for encrypt, PSS for sign.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | TLS RSA handshake slow | CPU bound | Enable ECDHE + ECDSA cert; session resumption |
 | `data too large for key size` | Plain RSA encrypt | Hybrid encrypt AES key only |
 | Verification fail cross-lang | Padding mode mismatch | Standardize PSS/OAEP params |
 | Weak key detected | <2048 bits | Regenerate; HSM stored keys |
-
----
 
 ## Gotchas
 
@@ -86,13 +78,9 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 > [!WARNING]
 > **Quantum threat** — plan migration timelines (PQ hybrids emerging); RSA not long-term for new 10y secrets.
 
----
-
 ## When NOT to use
 
 Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** or Ed25519 certs. RSA for legacy interop only.
-
----
 
 ## Related
 

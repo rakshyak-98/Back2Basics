@@ -88,7 +88,7 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `play()` rejected / autoplay blocked | Was `play()` called outside click/tap handler? | Call `play()` synchronously inside user event; mute for autoplay fallback |
 | `window.open` returns `null` | Popup blocker; lost activation after `await` | Open window sync in handler; use `<a target="_blank">` |
 | Clipboard write fails | No permission + no user gesture | Trigger from `click`; use `navigator.permissions.query` |

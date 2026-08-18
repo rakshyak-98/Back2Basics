@@ -2,7 +2,7 @@
 
 # SOCKS (Socket Secure)
 
-> One-line: client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — debug egress and bypass paths — **RFC 1928**.
+> client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — debug egress and bypass paths — **RFC 1928**.
 
 ## Mental model
 
@@ -14,7 +14,7 @@ App ──SOCKS handshake──► Proxy (:1080) ──TCP connect──► targ
 ```
 
 | Version | Features |
-|---------|----------|
+| --- | --- |
 | **SOCKS4** | TCP only, no auth, no hostname (IPv4 only) |
 | **SOCKS5** | TCP + UDP, username/password or GSSAPI, IPv4/IPv6/domain |
 
@@ -60,7 +60,7 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Connection refused` to SOCKS port | `ss -tlnp`; SSH `-D` running? | Start tunnel; open firewall to jump host |
 | Works for IP, fails for hostname | SOCKS4 vs SOCKS5; DNS local vs remote | Use `socks5h://` (remote resolve) not `socks5://` |
 | Auth failure | Username/password required | `curl -U user:pass --socks5-hostname ...` |

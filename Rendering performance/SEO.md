@@ -74,7 +74,7 @@ References:
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Pages not indexed | Search Console coverage | robots/noindex; canonical to wrong URL |
 | Duplicate titles | CMS defaults | Unique `<title>` per URL |
 | Soft 404 | Thin content + 200 | Real content or 404 status |
@@ -88,12 +88,12 @@ References:
 > **`noindex` in staging** leaking to prod via env mistake — instant de-indexing.
 
 - **Canonical to homepage** on all pages — common SPA bug; each URL needs self-canonical unless duplicate.
-- **Infinite faceted URLs** — crawl budget waste; `noindex` or consolidate params.
+- **Infinite faceted URLs** — crawl budget waste; `noindex` or consolidate parameters.
 - **AI-generated thin pages** — quality beats volume; manual review for E-E-A-T.
 
 ## When NOT to use
 
-- Don't SEO spam internal tools behind auth — `noindex` and save effort.
+- Don't SEO spam internal tools behind authentication — `noindex` and save effort.
 - Keyword stuffing — hurts readability and can trigger quality demotion.
 
 ## Related

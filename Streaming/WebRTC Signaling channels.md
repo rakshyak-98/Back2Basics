@@ -2,13 +2,11 @@
 
 # WebRTC Signaling channels
 
-> Out-of-band exchange of SDP + ICE candidates — **no media on signaling**; required before peer connection.
-
----
+> Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
 ## Mental model
 
-**WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted app logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
+**WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted application logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
 
 ```txt
 Browser A                    Signaling server                 Browser B
@@ -20,14 +18,12 @@ Browser A                    Signaling server                 Browser B
 ```
 
 | Message | Contents | Direction |
-|---------|----------|-----------|
+| --- | --- | --- |
 | **Offer/Answer** | Codecs, ICE ufrag/pwd, DTLS fingerprint | A ↔ B via server |
 | **ICE candidate** | Host/srflx/relay IP:port | Trickle ICE — incremental |
 | **Renegotiation** | New offer (add track, simulcast) | Same channel |
 
 Media never touches signaling server in pure P2P — **SFU** (Janus, mediasoup, LiveKit) terminates media; signaling still sets up session.
-
----
 
 ## Standard config / commands
 
@@ -96,12 +92,10 @@ chrome://webrtc-internals — signaling state machine timeline
 Server logs: join/leave, failed JSON parse, unauthorized room
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stuck "connecting" | ICE failed in internals | Add TURN; corporate UDP block |
 | One-way audio/video | SDP direction / addTrack order | Renegotiate; verify sendrecv |
 | Works same network only | Host candidates only | STUN srflx; deploy TURN |
@@ -109,8 +103,6 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 | Duplicate answers | Glare (both offer) | Polite/impolite peer pattern |
 | DataChannel dead, media OK | Separate negotiation | CreateDataChannel before offer or renegotiate |
 | High connect latency | Trickle ICE disabled | Enable trickle; don't wait full gather |
-
----
 
 ## Gotchas
 
@@ -129,15 +121,11 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 > [!WARNING]
 > **[[SCTP (Stream Control Transmission Protocol)]] setup** — DataChannel requires signaling-complete PeerConnection first.
 
----
-
 ## When NOT to use
 
 - **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
 - **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
-- **Unauthenticated public rooms** — toll fraud / scraping; always auth.
-
----
+- **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
 
 ## Related
 

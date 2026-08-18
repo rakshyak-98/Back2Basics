@@ -1,69 +1,78 @@
+[[Redux]] [[Redux/Redux createApi]] [[Redux/RTQ Toolkit]]
 
-## Store
+# RTQ store
 
-### attach api react query slice (`createApi`)
+> Wire RTK Query into the Redux store — mount reducer + middleware, then `setupListeners`.
+
+## Mental model
+
+**Say it in one breath:** Each `createApi` owns a `reducerPath` slice and middleware for cache, invalidation, and refetch. `setupListeners` turns on focus/reconnect/polling helpers.
+
+```txt
+createApi → reducerPath + middleware
+configureStore concatenates middleware
+setupListeners(dispatch) → focus / reconnect / poll
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **reducerPath** | Where cache lives in state | “`state.productApi.queries`.” |
+| --- | --- | --- |
+| **api.middleware** | Cache + lifecycle | “Must `.concat(api.middleware)`.” |
+| **setupListeners** | Window/network hooks | “Polling and refetch-on-focus need it.” |
+
+## Standard config / commands
 
 ```ts
-import { configureStore } from '@reduxjs/toolkit';
-import { productApi } from './apiSlice';
-import { setupListeners } from "@reduxjs/toolkit/query";
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { productApi } from './apiSlice'
 
 export const store = configureStore({
-  reducer: {
-    [productApi.reducerPath]: productApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productApi.middleware),
-});
-
-setupLinsteners(store.dispatch);
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
-```
-> [!NOTE] You must concat api middleware to `getDefaultMiddleware()` _because RTK Query requires additional middleware for caching, invalidation, and background refetching._
-
-> [!INFO]
-> `setupLinsteners(store.dispatch);` -> if you're using RTK Query and want polling, auto-refetch on tab focus, or reconnection handling to work automatically -> you need this line.
-> - it attaches several global event listeners to the store's dispatch pipeline. These listeners react to certain actions and automatically trigger useful side-effects.
-
-### Config when you want Maximum Control
-
-```jsx
-export const store = configureStore({
-	reducer: rootReducer, // or combineReducers({...})
-	
-	middleware: (getDefaultMiddleware) => [
-		...getDefaultMiddleware({
-		}),
-		customMiddlewareA,
-		customMiddlewareB,
-	]
+  reducer: { [productApi.reducerPath]: productApi.reducer },
+  middleware: (gDM) => gDM().concat(productApi.middleware),
 })
-```
+setupListeners(store.dispatch)
 
-
-### What `setupLinsteners(store.dispatch);` actually does
-
-|Behavior|What happens without `setupListeners`|What happens with `setupListeners`|Why most people need it|
-|---|---|---|---|
-|**Automatic refetch on focus**|Nothing|Refetches all active queries when window gets focus|Very useful in tabs / multi-window apps|
-|**Automatic refetch on network reconnect**|Nothing|Refetches when navigator.onLine becomes true again|Handles spotty Wi-Fi, airplane mode, etc.|
-|**Automatic refetch on mount / argument change**|Works, but only basic cases|More consistent timing & conditions|Usually not the main reason|
-|**Polling** (when `pollingInterval` is set)|Polling does **not** start|Starts/stops polling automatically|Critical if you use polling anywhere|
-|**Cache entry lifecycle events**|Some internal cleanup may be delayed|Cache entries are garbage-collected more reliably|Helps prevent memory leaks in long-running apps|
-
-> [!NOTE] Most common reasons people notice it's missing
-> - They turned on `pollingInterval: 3000` in some endpoint
-> - They switch browser tabs or disconnect/reconnect internet. Data stays stale, no automatic background refresh.
-
-### Can you turn some behavior off
-
-```jsx
+// optional: dial behaviors
 setupListeners(store.dispatch, {
-  refetchOnFocus: false,          // default = true
-  refetchOnReconnect: false,      // default = true
-  refetchOnMountOrArgChange: true // default = false (more aggressive)
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
 })
 ```
+
+| Knob | Why it matters |
+
+| Multiple APIs | Mount each `reducerPath` + concat each middleware |
+| --- | --- |
+| Skip `setupListeners` | Polling / focus refetch won’t run |
+| `ApiProvider` | Only if you have **no** Redux store |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Hooks throw / cache missing | Reducer not mounted | Add `[api.reducerPath]: api.reducer` |
+| Mutations hang / no invalidation | Middleware missing | `.concat(api.middleware)` |
+| Polling never starts | No `setupListeners` | Call with `store.dispatch` |
+| Stale after tab focus | `refetchOnFocus: false` | Enable in setup or endpoint |
+| Typo `setupLinsteners` | Misspelled import call | `setupListeners` |
+
+## Gotchas
+
+> [!WARNING]
+> **Cache is in-memory** — full page refresh clears it unless you add persistence.
+
+> [!WARNING]
+> **Don’t replace default middleware with a bare array** — spread/concat so thunk + checks stay.
+
+## When NOT to use
+
+- **No Redux yet, one API** — `ApiProvider` is enough for demos; real apps still want one store.
+- **Non-HTTP local UI state** — plain slices, not RTK Query.
+
+## Related
+
+[[Redux/Redux createApi]] [[Redux/RTQ Toolkit]] [[Redux/RTQ/Middleware]] [[Redux toolkit]]

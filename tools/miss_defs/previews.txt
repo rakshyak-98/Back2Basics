@@ -1,0 +1,3312 @@
+===== AGENTS.md =====
+# AGENTS.md
+## Cursor Cloud specific instructions
+This repository (`Back2Basics`) is a **documentation/knowledge-base vault**, not a
+runnable software product. It is an [Obsidian](https://obsidian.md) vault of
+staff-engineer field notes: ~1000+ Markdown (`.md`) files plus a handful of
+Obsidian `.canvas` files, organized into topic folders (Linux, Networking,
+Docker, Kubernetes, Database, Security, React, NodeJS, etc.).
+Non-obvious things worth knowing:
+- **There is no build/run/test/lint toolchain.** No `package.json`, `Makefile`,
+  `Dockerfile`, lockfiles, or CI config exist. `golang/Makefile.md` is a *note
+  about* Makefiles, not a real build file. The update script is intentionally a
+  no-op (`true`) — there are no dependencies to install.
+- **`.gitignore` only ignores `.obsidian`** (th
+
+===== AWS.md =====
+
+
+===== AWS/AMI (Amazon Machine Image).md =====
+is a pre-configured template that contains everything needed to launch an EC2 instance, including:
+- OS, Application Server and dependencies.
+- EBS volume Snapshots (Root volume + additional storage if needed).
+> [!INFO] Features of API
+> - When you start an [[AWS EC2]] instance, you must select an AMI as the base image.
+> - you can create your own API by customizing an existing EC2 instance and saving it as a image.
+> - AWS Marketplace API -> Pre-configures images with commercial software (e.g., WordPress, Jenkins).
+> - AMI are ties to specific AWS region but can be copied to other regions.
+> - AMI use [[EBS (Elastic Block Store)]] snapshots to store the root volume.
+
+===== AWS/AWS EFS (Elastic File System).md =====
+AWS Elastic File System (EFS) is a fully managed, scalable, and serverless file storage solution designed for Linux-based workloads in AWS.
+- it provides share access to files across multiple EC2 instances, containers, and on-premises servers.
+> [!INFO] Features of AWS EFS
+> - automatically grows and shrinks based on the amount of stored data.
+> - no need to manage file servers.
+> - stores data across multiple availability Zones.
+> - can be accessed from any available zone in a region.
+> - work like any traditional linux file system.
+> - support [[NFS (Network File System)]] v4 protocol.
+
+===== AWS/AWS cli commands.md =====
+```bash
+aws configure
+aws sts get-caller-identity
+aws sts get-caller-identity --query Account --output text; # get only specific fields
+```
+```bash
+aws iam delete-access-key --access-key-id <access key id>;
+```
+### Query
+```shell
+aws ec2 describe-regions --query "Regions[].RegionName";
+```
+### IAM
+```bash
+aws iam list-users;
+aws iam list-users --query "Users[].UserName";
+aws iam list-attached-user-policies --user-name <your-username>; 
+```
+```bash
+aws iam get-user
+
+===== AWS/AWS cli installation.md =====
+## Installation aws cli
+[aws cli installation linux](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+```shell
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+- setup autocomplete
+```shell
+sudo apt install -y bash-completion;
+complete -C "$(command -v aws_completer)" aws; 
+echo 'complete -C "$(command -v aws_completer)" aws' >> ~/.bashrc
+```
+```shell
+aws configure; # start configuring access key, secret, region
+```
+- output format to one of the following json, table, text, yaml
+```shell
+aws configure get output;
+aws configure set output table;
+
+===== AWS/EBS (Elastic Block Store).md =====
+**EBS** in AWS stands for **Elastic Block Store**.
+- **Purpose**: It provides persistent block storage for EC2 instances.
+- **Use**: It stores data such as file systems, databases, or application data.
+- **Scalability**: EBS volumes can be dynamically resized, and you can attach them to EC2 instances.
+- **Types**: Includes SSD-backed (General Purpose, Provisioned IOPS) and HDD-backed (Throughput Optimized, Cold) options.
+### Advantages:
+- Persistent data storage.
+- Scalability and flexibility in size.
+- High performance and low latency.
+### Disadvantages:
+- Cost varies based on usage and storage.
+- Requires careful management of backups and snapshots to prevent data loss.
+> [!INFO] Create retention rule for EBS volumes 
+> - [AWS Recycle bin](https://ap-south-1.console.aws.amazon.com/rbin/h
+
+===== AWS/aws host website.md =====
+```bash
+aws s3 website s3://$BUCKET --index-document index.html --error-document error.html	
+```
+- turns a normal s3 bucket into a static website.
+|Part|Meaning|
+|---|---|
+|`aws s3 website`|“Hey S3, I want website hosting mode”|
+|`s3://$BUCKET`|The bucket you are configuring (e.g., s3://my-free-website-1736438210)|
+|`--index-document index.html`|When someone visits the root URL[](http://bucket.s3-website...), **automatically show index.html**|
+|`--error-document error.html`|If a page is not found (404), show error.html instead of the ugly default XML error|
+
+===== Architectures/H3 (Hexagonal Hierarchical Spatial Index).md =====
+- **H3** is an open-source spatial indexing system developed by Uber, designed to **partition Earth into a uniform hexagonal grid hierarchy**, enabling fast geospatial analytics and location-based data aggregation [h3geo.org+13Uber+13Uber+13](https://www.uber.com/en-BG/blog/h3/?utm_source=chatgpt.com).
+- It provides a **discrete global grid system** (DGGS) that supports multi-resolution indexing from **resolution 0 (coarse) to 15 (fine)**, with each resolution subdividing parent cells into child cells (approx. 7 children per parent) [Uber+4t1nak.github.io+4Reddit+4](https://t1nak.github.io/blog/2020/h3intro/?utm_source=chatgpt.com).
+## Why Hexagons?
+- **Equidistant neighbors**: All six neighbors of any hexagon are equidistant—simplifying spatial computations and reducing directional bias c
+
+===== Architectures/Idempotent-key.md =====
+Idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique key to detect and reject/duplicate repeat attempts.
+**Problem it solves**
+A client sends `POST /orders` to create a resource. The request succeeds server-side, but the response is lost (network drop, timeout). The client retries the same POST. Without protection, this creates a second, duplicate resource — a data integrity violation.
+> [!NOTE]
+> The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
+## Mechanism
+1. Client generates a unique key (typically a UUID) per logical o
+
+===== Architectures/Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User.md =====
+## Executive Summary
+Streaming 1M+ concurrent users across multiple live TV channels requires a distributed edge-caching model that offloads compute-heavy operations (ingest, encoding, packaging) to centralized origin infrastructure while distributing bandwidth delivery across a global Content Delivery Network (CDN). The architecture prioritizes:
+- **Resilience**: Redundant ingest paths and failover mechanisms
+- **Scale**: Origin shield layer to prevent origin exhaustion
+- **Efficiency**: 99%+ CDN cache hit ratio via segment reuse
+- **QoE**: Adaptive bitrate streaming to heterogeneous clients
+---
+## Architecture Layers
+### Layer 1: Contribution (Broadcast Ingest)
+**Components**: Satellite feeds, fiber uplinks, on-premise hardware encoders
+**Protocol Stack**:
+- SRT (Secure Reliable Transpor
+
+===== Architectures/Service Layer.md =====
+[[Multi-tier and Layered Architecture]] [[presentation layer]]
+A **Service Layer** is a design pattern used in software architecture to act as an intermediary between the [[presentation layer]] (UI/API controllers) and the [[Data access Layer]] (repositories/databases).
+- Encapsulate business logic, ensuring that your application follow the **Separation of Concerns** principle. Instead of controllers dealing with complex calculations, data validation, and transaction management, they simply delegate those tasks to the Service layer.
+**Core Responsibilities**
+- Business Logic Encapsulation -> Contains the core rules of your application (e.g., "Calculate interest", "check inventory before purchase", "generate invoice").
+- Transaction Management -> Manages database transactions (begin, commit
+
+===== Architectures/System Architecture.md =====
+> [!NOTE] Please stop using builder patterns for JavaScript SDK
+## Modular architecture
+- Components and plugins are separate modules that need to be explicitly registered before they can be used.
+- the modular architecture allows for better tree-shaking (dead code elimination ) by bundlers like Web-pack.
+- By only importing and registering the components you need, you can reduce the final bundle size.
+### Reduce Bundles size
+#### modular architecture ref 
+- [valibot](https://www.builder.io/blog/valibot-bundle-size)
+- [Jared Palmer bachelor's thesis](https://valibot.dev/thesis.pdf)
+- [Dropbox article](https://dropbox.tech/frontend/how-we-reduced-the-size-of-our-javascript-bundles-by-33-percent)
+- [Strategies of crafting High-performance web apps](https://dev.to/codebeast/strategies-for-cra
+
+===== Architectures/When scaling to hundreds of concurrent channels.md =====
+| **Resource Type** | **Bottleneck Point**        | **Scaling Consideration**                                                                                                                                                          |
+| ----------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CPU/Kernel**    | Interrupt Handling          | High packet rates for 300 channels can trigger excessive CPU interrupts. Use **RSS (Receive Side Scaling)** and **IRQ Affinity** to pin network traffic to specific CPU cores.     |
+| **GPU/ASIC**      | Hardware Encoder Throughput | Each of the 300 channels requires a slice of the 
+
+===== Architectures/database/MVCC.md =====
+Instead of locking or rolling back on concurrent read/writes, MVCC treats the database as an append-only structure where each mutation creates a new tuple version.
+- Implementation Mechanics: Each row contains hidden metadata (e.g., in PostgreSQL: `xmin` for creation transaction ID, `xmax` for deletion/update transaction ID). Transactions use snapshot isolation, reading the state of the database committed at the time the transaction began, governed by active transaction id arrays.
+- Storage layout & Garbage Collection: Requires aggressive background garbage collection to reclaim storage from obsolete row versions (e.g, PostgreSQL `VACUUM`, MySQL/InnoDB undo Logs).
+- Performance Profile: Reads never block writes, writes never block reads. However, it incurs significant I/O amplification and
+
+===== Architectures/database/OCC.md =====
+[[Concurrency]] [[Database]]
+OCC (Optimistic Concurrency Control) -> executes transactions across three strictly ordered phases without acquiring exclusive or shared locks on the underlying data records.
+Read Phase (Workspace Allocation) -> The transaction reads data from the shared database into a private memory workspace. All state mutations (inserts, updates, deletes) are applied to this local context. The system tracks a Read Set (records read, including their versions/timestamps) and a Write Set (records modified).
+Validation Phase (Conflict Detection) -> Prior to commit, the transaction manager verifies that no other committed transaction has mutated the records in the current transaction's Read Set.
+- Backward validation: Checks if the Read Set intersects with the Write Sets of tran
+
+===== Architectures/feature flag.md =====
+instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
+```js
+if(featureFlags.isEnabled('new-checkout')){
+	showNewCheckout();
+} else {
+	showOldCheckout();
+}
+```
+- The flag's value is controlled externally through a dashboard, API, or configuration service, not hardcoded in source code.
+```
+┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  Dashboard  │────>│  Flag Service    │────>│  Database   │
+│  (Web UI)   │     │  (API Server)    │     │  (Postgres) │
+└─────────────┘     └──────────────────┘     └─────────────┘
+                              │
+                       ┌──────┴──────┐
+                       │             │
+                  SSE/Polling    REST API
+                       │             
+
+===== Architectures/frontend layered architecture.md =====
+[[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]]
+```text
+project-root/
+├── public/                # Static assets (e.g., index.html, favicon)
+├── src/
+│   ├── presentation/      # UI components and views
+│   │   ├── components/    # Reusable UI elements (e.g., Button, Modal)
+│   │   ├── pages/         # Page-level views (e.g., HomePage, LoginPage)
+│   │   ├── layouts/       # Shared layouts (e.g., MainLayout with header/footer)
+│   │   └── styles/        # Global styles, themes (e.g., CSS modules, Tailwind config)
+│   ├── application/       # App orchestration
+│   │   ├── state/         # State management (e.g., Redux store, Vuex, or Context API)
+│   │   ├── routes/        # Routing configuration (e.g., React Router setup)
+│   │   ├── hooks/         # Custom
+
+===== Architectures/presentation layer.md =====
+[[Multi-tier and Layered Architecture]] [[Service Layer]]
+> [!NOTE]
+> In a well architected application, the **Presentation Layer** should never communicate directly with the [[Data access Layer]]. Doing so creates tight coupling, making your code fragile and difficult to test.
+- The Presentation Layer should interact exclusively with [[Service Layer]]
+**The Recommended Flow of Communication**
+- To achieve a clean, maintainable architecture, data flow should follow a strict hierarchy:
+**Presentation Layer** -> Receives the user request (HTTP POST, UI button Click).
+**Service Layer** -> Executes the business logic (validation, calculation, orchestrating multiple data sources).
+Data Access Layer -> Performs the raw CRUD operations on the database.
+### Why the Presentation Layer talks only to
+
+===== Broadcast.md =====
+Broadcast = One sender -> All devices in the same broadcast domain (LAN).
+```txt
+        Sender
+           |
+   -----------------
+   |   |   |   |   |
+  PC1 PC2 PC3 PC4 PC5
+```
+- Every device receives the packet, even if it doesn't need it.
+Characteristics
+- Sent to every host in the subnet.
+- Routers do not forward broadcast packets by default.
+- Increase unnecessary network traffic.
+> [!INFO]
+> Routers generally do not forward broadcasts, so the request would never reach an Internet server.
+
+===== CDM (Content Decryption Module).md =====
+[[DRM]]
+CDM (Content Decryption Module) -> is the secure software (or hardware-baked component) responsible for decrypting DRM-protected media during playback
+```txt
+Encrypted Video
+       |
+       v
+ Media Player
+       |
+       v
+     CDM  <------ License Server
+       |             ^
+       |             |
+       +---- Uses decryption keys
+       |
+       v
+Decrypted frames (inside secure environment)
+       |
+       v
+Video Decoder -> Display
+```
+
+===== Code review.md =====
+## Good practice
+- input normalization (trim + lowercase)
+- Separate helper for directory existence check
+- Rich returned object with metadata
+- Propagating original error via `cause` + context properties.
+- `stdio: "inherit"` -> useful for seeing real-time output during debugging
+- Warning instead of crash on `chmod` failure
+## Security Risk – Path Traversal Vulnerability (Critical)
+```
+const templateDir = path.resolve(__dirname, "app-builds", templateName);
+```
+**Problem**: templateName comes from the user / caller / external input.
+If someone passes:
+- templateName = "../../../../etc/passwd"
+- templateName = "../../secrets"
+- templateName = "..%2F..%2F..%2F"
+→ path.resolve() will happily climb out of your project root and give access to **any file on the filesystem** the Node.js process
+
+===== Common Naming terms.md =====
+Daemon: Used for background processes that run continuously.
+Monitor: Used for agents that monitor system states or resources.
+Service: For system services or processes.
+Task: Represents a unit of work or a scheduled task.
+Process: Indicates a running task or purpose.
+Handler: For handling specific actions or events.
+Controller: Manages or controls specific operations.
+Manager: Manages resources or tasks.
+Agent: Represents a software agent or autonomous entity.
+Proxy: Represents an intermediary or agent that forwards requests.
+Monitor: For agents that observe network traffic or performance.
+Router: Agents that handle routing or path selection in networks.
+Firewall: Represents network security agents.
+Sensor: For monitoring network conditions or status.
+Controller: Used for managing network
+
+===== DNS/DNS server.md =====
+(Domain Name System server) is like the internet's phone book.
+When you type a website name such a google.com your computer doesn't actually use that name to find the website. It needs the website's numerical IP address, such as `142.250.xxx.xxx`
+- Instead of running an HTTP server, it runs DNS server software.
+- Instead of listening on port 80 or 443, it listen on 53
+A DNS server store DNS records
+```txt
+example.com
+A Record
+---------
+example.com → 203.0.113.5
+AAAA Record
+------------
+example.com → 2001:db8::1
+MX Record
+----------
+example.com → mail.example.com
+CNAME
+-------
+www.example.com → example.com
+```
+
+===== DNS/LLMNR.md =====
+Linked-Local Multicast Name Resolution
+is a protocol used for local network name resolution when DNS is unavailable. 
+### How it works
+- devices broadcast queries on the local network.
+- other devices respond if they recognize the name.
+- used for resolving hostnames without a DNS server.
+### Why it's disabled `-LLMNR` in your system?
+- security risk: Vulnerable to spoofing attacks.
+- Unnecessary: if you have a working DNS server.
+- Performance: reduces network traffic.
+### Why docker networks are not resolving DNS?
+by default, Docker container use the host's DNS settings unless overridden.
+if containers can't resolve domain names, possible reasons are:
+- Docker daemon not configured for DNS
+- Custom docker network without a DNS server.
+- Host's `/etc/resolv.conf` is misconfigured.
+- Firew
+
+===== DNS/Sub Domain.md =====
+user enters a subdomain in browser
+## DNS record
+| Type    | Name               | Purpose                                                        |
+| ------- | ------------------ | -------------------------------------------------------------- |
+| `A`     | Address            | Maps hostname → **IPv4** address                               |
+| `AAAA`  | IPv6 Address       | Maps hostname → **IPv6** address                               |
+| `CNAME` | Canonical Name     | Points a domain → another domain (alias).                      |
+| `MX`    | Mail Exchange      | specifies **mail server(s)** responsible for receiving emails. |
+| `NS`    | Name Server        | Points to authoritative DNS servers for the domain.           |
+| `SOA`   | Start of Authority | Metadata: primary NS, admin email
+
+===== DNS/Unbound.md =====
+Unbound is an open-source recursive DNS resolver developed by NLnet Labs. It performs _recursive resolution_, _DNSSEC validation_, and _DNS caching_, allowing it to resolve domain names directly from the DNS hierarchy rather than relying on an upstream public resolver. It is widely used by network administrators, privacy-conscious users, ISPs, and infrastructure providers because of its focus on security, performance, and standards compliance. ([NLnet Labs](https://www.nlnetlabs.nl/projects/unbound/about/?utm_source=chatgpt.com "Unbound - About"))
+### Core Capabilities
+Unbound's primary role is to act as a **validating recursive resolver**. When a client requests a domain name, Unbound can query the DNS root servers, top-level domain servers, and authoritative servers directly to obtain an
+
+===== DNS/name server.md =====
+A Name Server is a DNS server that stores and serves authoritative DNS records for a domain.
+- responsible for resolving domain names into IP addresses and routing clients to the correct DNS zone.
+> [!INFO]
+> NS records in DNS specify which servers are authoritative for a domain.
+> delegates control of a domain (or subdomain) to a specific DNS providers.
+```txt
+example.com.    3600   IN   NS   ns1.dns-provider.com.
+example.com.    3600   IN   NS   ns2.dns-provider.com.
+```
+```bash
+dig +short NS example.com; # check NS records
+nslookup -type=NS example.com;
+```
+
+===== DNS/public resolver.md =====
+### **1. Public resolver’s job**
+Public resolvers (like `8.8.8.8` or `1.1.1.1`) **don’t store domain → IP mappings permanently**.  
+They act as **recursive resolvers**, meaning:
+- They fetch the correct IP from the authoritative source on your behalf.
+- They **cache** the answer temporarily (based on TTL).
+---
+### **2. Step-by-step resolution flow**
+When you query `dig @8.8.8.8 example.com`, Google DNS performs this chain:
+1. **Check local cache**
+    - If already cached and TTL not expired → return instantly.
+2. **If not cached → recursive lookup begins:**  
+    a. Ask **root DNS servers** → “who handles `.com` TLD?”  
+    b. `.com` TLD servers respond with NS (nameserver) for `example.com` (e.g. `ns1.examplehost.com`).  
+    c. Public resolver then asks that **authoritative nameserver** 
+
+===== DNS/servers/CoreDNS.md =====
+CoreDNS is an open-source DNS server written in Go and designed around a highly modular plugin architecture. It is best known as the default DNS service for Kubernetes clusters and has become a core component of many cloud-native environments because of its flexibility, extensibility, and service-discovery capabilities. ([CoreDNS](https://coredns.io/?utm_source=chatgpt.com "CoreDNS: DNS and Service Discovery"))
+### Key Capabilities
+CoreDNS is built by chaining plugins together, with each plugin providing a specific DNS-related function such as caching, forwarding, logging, metrics collection, service discovery, or custom record generation. This architecture allows operators to assemble a DNS server tailored to their environment rather than relying on a fixed feature set. ([GitHub](https://
+
+===== DNS/servers/DSN records.md =====
+DNS records are entries in a DNS database that tell the internet how to route traffic for a domain.
+```txt
+example.com
+├── A      -> 192.168.1.10
+├── AAAA   -> 2001:db8::1
+├── MX     -> mail.example.com
+├── NS     -> ns1.example.com
+├── TXT    -> "v=spf1 ..."
+├── CNAME  -> example.com
+└── SRV    -> server.example.com:8080
+```
+## Records
+A Record (Address) -> Map a domain to an IPv4 address. Used for APIs Any IPv4 service
+AAA (IPv6 address) -> Map domain to IPv6
+CNAME (Canonical Name) -> Create an alias to another hostname. Used for `www` CDN endpoints, Aliases
+MX (Mail Exchange) -> tells the internet which mail server is responsible for receiving emails for a domain. Without an MX record, other mail servers don't know where to deliver email.
+NS (Name Server) -> Specify which DNS servers ar
+
+===== DNS/servers/PoserDNS.md =====
+PowerDNS is an open-source DNS server platform designed for high-performance, scalable DNS infrastructure. Rather than combining all DNS functions into a single daemon, it separates authoritative DNS, recursive resolution, and traffic distribution into specialized components. It is widely used by hosting providers, ISPs, cloud platforms, and enterprises that require flexible DNS architectures. ([PowerDNS Documentation](https://doc.powerdns.com/?utm_source=chatgpt.com "PowerDNS Documentation"))
+### Core Components
+### Architecture and Design
+A distinguishing feature of _PowerDNS_ is its modular architecture. The **Authoritative Server** answers queries for domains it manages, while the **Recursor** performs recursive lookups on behalf of clients. The optional **dnsdist** layer sits in front
+
+===== DNS/servers/dnsmasq.md =====
+dnsmasq is a lightweight network service that combines **DNS forwarding**, **DNS caching**, **DHCP**, and **TFTP** functionality into a single, compact application. It is widely used on home routers, embedded devices, virtual machines, containers, and small networks because it is easy to configure while providing reliable core network services.
+### What it does
+**dnsmasq** acts as a local DNS resolver that forwards queries to upstream DNS servers while caching responses to improve performance and reduce external lookups. It can also assign IP addresses through **DHCP**, provide host name resolution for local devices, and optionally serve files over **TFTP** for network boot environments.
+Its combination of services makes it particularly well suited for:
+- Home and small office networks
+- D
+
+===== Data structure/ADT (Abstract Data Type).md =====
+- A data structure by its behavior rather than its implementation.
+- it specifies the operations that can be performed on the data and the rules for those operations, without dictating how the data is stored or how the operations are implemented.
+### Key Characteristics of ADTs
+- Encapsulation -> ADTs hide the internal representation and only expose operations.
+- Abstraction -> Users interact with the ADT without knowing its underlying implementation. 
+- Well-defined Operations -> ADTs specify a set of operations, such as insert, delete, search etc.
+
+===== Data structure/DSA algorithms.md =====
+- time complexity grows linearly with two independent factors, multiply them to get the overall time complexity.
+independent factors -> if you have two independent parts (outer loop and inner loop) of an algorithm, and each part has a linear time complexity, you multiply their complexity.
+### Linear growth
+if you you increase the input size by a factor, the execution time increases by the same factor.
+Example -> you have an array of size N, and for each element in the array, you need to perform an operation that takes K steps. That's N operations, and each of those N operations takes K steps. The total number of steps is then `N * K`.
+### LPS Array (in KMP) Longest Prefix Suffix
+for each position `i` in the patterns, `LPS[i]` stores the length of the longest proper prefix that is also a su
+
+===== Data structure/Data structure.md =====
+> [!INFO] 
+  Algorithm complexity
+> - mostly has to do with the number of times the algorithm needs to access its input data to do its job. 
+- an `O(n)` algorithm, which needs to access its input only once.
+Pattern recognition practice
+- What type of problem is this? (counting, finding, max/min, searching).
+- Have I seen something similar before?
+- What data structure naturally fits this problem?
+Break the problem into constraints -> Every problem has constraints that defines the answer.
+- What is limiting the result?
+- What is the ceilling (maximum possible)?
+- What is the floor (minimum required)?
+Think in terms of What you're Optimizing
+(this builds the habit of seeing the mathematical relationship behind a problem)
+- Am I maximizing or minimizing something?
+- What variables affect the 
+
+===== Data structure/Questions.md =====
+[169 majority-element](https://leetcode.com/problems/majority-element/)
+- pair different elements and discard them.
+- only the majority element can remain at the end, because it's more frequent than all others combined.
+- Boyer-Moore Majority Vote Algorithm.
+---
+[3494 Find the Minimum Amount of Time to Brew Potions](https://leetcode.com/problems/find-the-minimum-amount-of-time-to-brew-potions)
+---
+[977 Squares of sorted array](https://leetcode.com/problems/squares-of-a-sorted-array/description/)
+- fill backward(end), two pointers start and end.
+- if array is not sorted two pointers approach breaks - because it assumes order around 0.
+---
+[118 Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/)
+---
+[2273 Find Resultant Array After Removing Anagrams](https://leetcode.com/prob
+
+===== Data structure/Sorting algorithm.md =====
+### 1. **Bubble Sort**
+```javascript
+function bubbleSort(arr) {
+  const n = arr.length;
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // Swap elements
+      }
+    }
+  }
+  return arr;
+}
+console.log(bubbleSort([...largeArray]));
+```
+**Time Complexity:** O(n²)  
+**Example Output:** `[2, 3, 6, 7, 9, 12, 15, 24, 27, ...]`
+### 2. **Selection Sort**
+```javascript
+function selectionSort(arr) {
+
+===== Data structure/algo/Two pointer.md =====
+Pointer = movable reference to a position in a data structure. A void revisiting elements.
+> Instead of looking at values directly, think:
+> I have one or more fingers pointing at locations, and I move those fingers according to rules".
+- Each step resolves one conflict (too big / too small) deterministically.
+- Eliminates dominated states: once a pointer moves, all skipped states are provably invalid.
+> Monotonic property -> A property is monotonic if it changes in only one direction (once it increases, it never decreases or vice versa).
+- this enables one-way decisions.
+**When it fails**
+- array is not sorted.
+- Unsorted data with no monotonic rule.
+- Global constraints needing lookahead.
+- Multiple independent conditions.
+**Edge cases**
+- Equal values → non-strict monotonically.
+- Float
+
+===== Data structure/array.md =====
+- Why zero-based indexing -> primarily due to memory efficiency and pointer arithmetic in lower level implementation like C, which influenced most modern languages.
+Offset from Base Address -> Arrays are stored in contiguous memory blocks. The first element is the array's base address (offset 0). To access the i-th element, the compiler simply computes `base + i * element_size` no subtraction needed.
+> [!NOTE]
+> A 1-based index require `base + (i - 1) * element_size`, adding an unnecessary operation that slows things down, especially in loops or large-scale access.
+
+===== Data structure/dsa intuition.md =====
+A computer, however is a state machine, it has no intuition and cannot "look ahead". It only knows the exact values of its variables at time `t`, and that strict rules to get to time `t + 1`.
+Before touching a keyboard, strip away the "story" of the problem.
+- identify the raw input and output: "I am given an array of unsorted integers, and I need to return a single integer"
+- Note the constraints: Are there negative numbers? Can the array be empty? Is time complexity strictly bounded by O(N)?
+- Write out a manual example: Create an edge-case example that wasn't provided in the prompt, if you can't solve it on paper, you cannot code it.
+Brute Froce
+- The brute force solution reveals the core logic and guarantees you actually understand the problem. It also sets a safety net.
+There are usua
+
+===== Data structure/dsa modular arithmetics.md =====
+- modular arithmetic is often called "Clock Arithmetic". Think of a clock: if it 10:00 and you add 5 hours, it becomes 3:00, not 15:00. This is because a clock works in Modulo 12.
+- The cycle -> imagine a circle with 5 points (0, 1, 2, 3, 4) if you take 17 steps around that circle, you land on 2.
+	- in DSA we use this to keep numbers within a certain range (like hash tables) or to check for patterns without dealing with massive integers.
+> [!INFO]
+> Every number greater than 1 is either a prime or can be made by multiplying primes together (e.g., 12 = 2 x 2 x 3).
+## Euclid's Algorithm 
+- Instead of subtracting 18 from 28 repeatedly (which is slow), the modulo operator `%` jumps to the reminder, performing multiple "subtractions" in one step.
+> [!NOTE]
+> Forgetting that `GCD(0, 0)` is mathe
+
+===== Data structure/dsa problem solving Scaffold.md =====
+## Read and Restate the problem (Understand Precisely)
+- Read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes, value ranges)?
+- Restate it in your own words, as simply as possible. This exposes misunderstandings.
+- Question: Why? Vague understanding leads to broken logic. Force yourself to articulate in clearly.
+## Examples and Edge Cases (Build Intuition)
+- Pick 2-3 small, concrete examples. Work them out manually on paper (or mentally, but describe it). What happens step by step?
+- Identify edge cases: Empty input? Maximum/minimum values? Duplicates? Sorted/unsorted?
+- Question: Derive patterns here. What repeats? What breaks naive assumptions?
+## Brute Force Approach (Start Simple)
+- Outline the simples
+
+===== DevOps/Architectural backend design principles.md =====
+- standardize the interface for backend for communicating with other services.
+	- similar system across all other different system to ease implementation error handling.
+- Designing to decouple service with less efforts.
+- Keeping thing up to date.
+Modularity -> braking down components to solve problem
+Interface -> define system communication methods.
+Data flow -> describes hoe information routes through the system.
+> [!NOTE]
+> Standardizing communication methods across system, ensuring consistent error handling, choosing performant communication protocols, and minimizing the number of jumps data must take between components.
+
+===== DevOps/Edge orchestration tools for industrial IoT.md =====
+- Edge orchestration coordinates AI models, applications, and resources across distributed edge devices, enabling dynamic deployment, updates, monitoring, and scaling in real-time without central cloud dependency.
+- It automates model selection based on device capabilities, handless hierarchical processing (local for speed, aggregated for complexity), and supports collaborative intelligence where edges share insights securely. In industrial IoT, this manages unstable networks, containerized workloads, and fleets for predicitve maintenance or quality control, bridging legacy systems with modern DevOps.
+### Tools for Industrial IoT
+- Avassa - Centralizes management of thousands of edge sites with container orchestration zero-touch updates, and multi-tenancy for factories; strong demand from 
+
+===== Docker/Swarm network.md =====
+A swarm network refers to a decentralized, [[P2P (Peer-to-Peer)]] network architecture where devices (or nodes) collaborate to achieve a common goal.
+ Swarm networks are commonly associated with distributed systems, file sharing, and blockchain technologies. They often operate in untrusted environments, meaning that the node may not always be trustworthy.
+## Example of Swarm network
+1. BitTorrent: A file-sharing protocol where files are broken into small pieces and shared across a swarm of peers.
+2. Swarm in Blockchain: Some blockchain projects, like Swarm (a decentralized storage system), use the term "swarm" to describe a network of nodes storing data collectively.
+
+===== Docker/docker container.md =====
+```bash
+docker run [OPTIONS] image_name[:tag];
+```
+```bash
+docker run hello-world;
+docker run -it --rm ubuntu bash; # interactive terminal, remove when stopped
+docker run -d --name my-nginx -p 8080:80 nginx:latest;
+docker run -d -e MYSQL_ROOT_PASSWORD=secret123 --name mydb mysql:8.0;
+```
+```bash
+docker run -it -v $(pwd):/app python:3.11 bash; # Mount current directory into container
+```
+```bash
+docker create --name my-container -p 9000:80 nginx; # Create container (but don't start it).
+docker start my-container;
+docker start -ai my-container; # start and attach terminal
+```
+## Snap shot a container
+```bash
+# Basic (recommended)
+
+===== Docker/docker file.md =====
+To run a specific command on container restart, you should configure the `ENTRYPOINT` or `CMD` block in the `Dockerfile`
+- `ENTRYPOINT` : used to define the main command or process that always runs in the container. It cannot be overridden at runtime unless specifically done with `docker run --entrypoint`
+- `CMD` : Used to provide default arguments to the `ENTRYPOINT` or to specify the command if no `ENTRYPOINT` is defined. Can be overridden at runtime with `docker urn <image> <command>`
+## Docker layered filesystem
+- Docker uses a layered filesystem (also called Union Filesystem or UnionFS) to store images and containers in a very efficient, smart way. This is one of the core reasons Docker is fast, lightweight, and save disk space.
+ > [!NOTE]
+ > Every like in your Dockerfile creates a ne
+
+===== Errors/Python.md =====
+### `StaleElementReferenceError`
+The `StaleElementReferenceError` occurs when the web element you are trying to interact with is no longer present in the DOM, or the reference to it is no longer valid (e.g., the DOM has been refreshed or changed).
+This can happen when navigating through different pages or elements within a page (such as opening new folders in Google Drive) because the previously found element is no longer available
+> [!INFO] The **stale element reference** error is a [WebDriver error](https://developer.mozilla.org/en-US/docs/Web/WebDriver/Errors) that occurs because the referenced [web element](https://developer.mozilla.org/en-US/docs/Web/WebDriver/WebElement "This is a link to an unwritten page") is no longer attached to the [DOM](https://developer.mozilla.org/en-US/docs/
+
+===== ExpressJS/Express-useragent.md =====
+is a middleware for Express JS that parses user-agent strings from incoming HTTP requests.
+- it helps identify details about the client making the request
+```js
+import express from 'express';
+import useragent from 'express-useragent';
+const app = express();
+app.use(useragent.express()); // Middleware to parse user-agent
+app.get('/', (req, res) => {
+    res.json({
+        browser: req.useragent.browser,
+        version: req.useragent.version,
+        os: req.useragent.os,
+        platform: req.useragent.platform,
+        isMobile: req.useragent.isMobile,
+        isDesktop: req.useragent.isDesktop,
+    });
+});
+app.listen(3000, () => console.log('Server running on port 3000'));
+```
+
+===== ExpressJS/express build.md =====
+```js
+const esbuild = require("esbuild");
+esbuild.build({
+  entryPoints: ["index.js"],
+  bundle: true,
+  platform: "node",
+  external: [
+    // NEVER bundle these
+    "bcrypt",
+    "cookie-parser",
+    "cors",
+    "dotenv",
+    "express",
+    "express-mysql-session",
+    "express-session",
+    "mysql2",
+    "nodemailer",
+    "nodemon",
+    "prettier"
+  ],
+
+===== ExpressJS/express concepts.md =====
+## Express.js v5 — Full Feature Reference
+[[ETAG or IF MATCH]]
+> Latest version: **5.2.1** | Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+---
+### 1. Application Setup — `express()`
+```js
+import express from 'express'  // ESM (now clean in v5)
+// const express = require('express') // CommonJS still works
+const app = express()
+// Global app settings
+app.set('view engine', 'ejs')       // template engine
+app.set('views', './views')          // views directory
+app.set('trust proxy', 1)            // trust first proxy (for req.ip behind nginx)
+app.set('case sensitive routing', false) // /Foo and /foo treated as same
+app.set('strict routing', false)     // /foo and /foo/ treated as same
+app.get('settin
+
+===== ExpressJS/express query handler.md =====
+| Method                                    | Why it matters                                    |
+| ----------------------------------------- | ------------------------------------------------- |
+| Middleware for Query parsing & validation | Keeps the handler clean and reusable<br>          |
+| Caching (Redis)                           | Reduces database load for repeated queries        |
+| Dynamic Filtering and Sorting             | Allow flexible queries without hard-coding fields |
+| Pagination Support                        | Handler large datasets efficiently                |
+| Error Handling Midddleware                | Standardizes error responses                      |
+### Middleware query parse and validator 
+```js
+const { query, validationResult } = require("express-validation");
+
+===== ExpressJS/pacakges/Express HPP.md =====
+- HPP (HTTP Parameter Pollution)
+is an attack technique where an attacker injects multiple parameters with the same name in an HTTP request to manipulate backed logic.
+```txt
+GET /api/user?id=123&id=456
+```
+`hpp` is a middleware in Express JS that prevents HTTP Parameter Pollution by allowing only the first occurrence of a parameter in a request.
+```js
+import express from "express";
+import hpp from "hpp";
+const app = express();
+// Apply HPP middleware
+app.use(hpp());
+app.get("/api/user", (req, res) => {
+  res.send(`User ID: ${req.query.id}`);
+});
+app.listen(3000, () => console.log("Server running on port 3000"));
+```
+
+===== ExpressJS/pacakges/Socket IO.md =====
+# Why it is http:// Instead of ws:// in the Web Socket server setup?
+- WebSocket start as an HTTP request and then upgrade to the WebSocket protocol.
+- The client sends an HTTP request and then upgrade to the WebSocket protocol.
+- The client sends an HTTP handshake request `Upgrade: websocket` header.
+- The server responds with `101` Switching Protocols, establishing a WebSocket connection.
+> [!INFO] A pure WebSocket server can only handle WebSocket connections. Using an HTTP server allows us to support both WebSocket and REST API endpoints in a single applicatoin.
+> [!INFO] Using http as the base server ensures that express (which handles routes, authentication, and middleware) can still manage requests before the WebSocket upgrade happens.
+if we start a raw WebSocket server `ws://`, we l
+
+===== ExpressJS/pacakges/graphql-yoga.md =====
+[graphql-yoga](https://github.com/dotansimha/graphql-yoga/tree/HEAD/packages/graphql-yoga)
+[graphql-tag](https://www.npmjs.com/package/graphql-tag)
+```shell
+npm install graphql-yoga graphql
+```
+### Create graphql server
+```js
+const express = require("express");
+const { createYoga } = require("graphql-yoga");
+const { createSchema } = require("graphql-yoga");
+const cors = require("cors");
+const app = express();
+app.use(cors()); // Enable CORS
+// 1️⃣ Define the GraphQL schema
+const typeDefs = `
+  type Query {
+    hello: String
+  }
+`;
+// 2️⃣ Define the resolver functions
+
+===== ExpressJS/pacakges/uWebSocket.md =====
+used for real-time applications that require efficient networking, such as chat applications, trading platforms, multiplayer games.
+- fast due to its efficient event loop and memory management.
+- popular alternative to frameworks like [[Socket IO]]
+- support secure WebSocket connections (`wss://`) with SSL/TLS
+```shell
+npm install uWebSockets.js
+```
+```js
+const uWS = require('uWebSockets.js');
+uWS.App().ws('/*', {
+  open: (ws) => {
+    console.log('A client connected!');
+  },
+  message: (ws, message, isBinary) => {
+    ws.send(message, isBinary);
+  },
+  close: (ws, code, message) => {
+    console.log('A client disconnected');
+  }
+}).listen(9001, (token) => {
+
+===== Feature implementation/Bar code generate feature.md =====
+```shell
+npm install express bwip-js
+```
+```js
+const express = require('express');
+const bwipjs = require('bwip-js');
+const app = express();
+app.get("/barcode", (req, res) => {
+	cosnt {code} = req.query;
+	bwipjs.toBuffer({
+		bcid: 'code128', // Barcode type
+		text: code,
+		scale: 3,
+		height: 10,
+		includetext: true,
+		textalign: 'center',
+	}, (err, png) => {
+		if(err){
+			return res.status(500).send('Error generating barcode');
+		}
+
+===== Feature implementation/Manage cart with session id.md =====
+### Folder and File Structure for a Shopping Cart with Session Management:
+Here’s how you can structure your project:
+#### **Backend (Node.js / Express)**
+```plaintext
+/backend
+├── controllers
+│   ├── cartController.js       # Handle cart actions (add, remove, view)
+│   └── authController.js       # Handle login, registration, authentication
+├── models
+│   ├── Cart.js                 # Cart model (session storage)
+│   ├── User.js                 # User model (for registered users)
+├── routes
+│   ├── cartRoutes.js           # Cart routes (POST for adding/removing, GET for view)
+│   └── authRoutes.js           # Authentication routes (POST for login)
+├── sessions
+│   └── sessionManager.js       # Handle session storage and expiration
+├── utils
+│   └── sessionUtils.js         # Utilities to c
+
+===== Feature implementation/Push notification integration.md =====
+APNs certificate is Apple's way of authenticating your backend server to send push notification to ISO devices.
+- It proves to Apple that your server is legitimate and authorized to send notification for your app. Without it, Apple won't deliver your push notification.
+> [!INFO]
+> You don't directly handle the certificate in your Flutter code
+> - Firebase Cloud Messaging (FCM) handles IOS certificates for you behind the scenes.
+> - Is using APNs directly, your backend engineer manages the certificate and authentication.
+> [!WARNING]
+> `google-service.json` -> is Firebase's Android config file. It tells your app which Firebase project it belongs to and wires up Google Services at build time. Required for push notification service.
+- Without `google-service.json` `Firebase.initializeApp()` u
+
+===== Firebase/Firebase messaging.md =====
+[Firebase Multicast Message](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
+## Multicast Message
+> [!INFO] A single `MulticastMessage` may contain up to 500 registration tokens.
+## FirebaseMessagingError: tokens list must not contain more than 500 items
+### Explanation:  
+The current code has a logic flaw: it limits the token list to 500 (`slice(0, 500)`) but does not handle tokens **beyond 500** or split them into multiple batches. This still causes issues when the total number of tokens exceeds 500.  
+To handle the error, modify the `pushNotification` function to:  
+1. **Batch Tokens into Chunks of 500**  
+2. **Send Notifications Iteratively for Each Batch**  
+3. **Handle Token Errors Gracefully**  
+---
+### Updated Code wit
+
+===== Firebase/Multicast delivery.md =====
+[`sendEachForMulticast(MulticastMessage message)`](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))
+Multicast delivery in [[FCM Token (Firebase Cloud Messaging Token)]] refers to the ability to send a single message to multiple devices by providing multiple FCM registration tokens in one API call.
+- this is useful for targeting a specific set to devices without creating a topic or group.
+## How multicast delivery work in FCM?
+Input: You supply a list of device registration tokens (up to 500 tokens in one request)
+
+===== Firebase/firebase reminders configuration.md =====
+```sh
+npm install firebase-admin firebase-functions nodemailer
+```
+```js
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const nodemailer = require("nodemailer");
+admin.initializeApp();
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "your-email@gmail.com",
+    pass: "your-email-password",
+  },
+});
+exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(async () => {
+  const now = new Date();
+  const upcomingTime = new Date(now.getTime() + 30 * 60 * 1000); // 30 minutes later
+  const snapshot = await admin.firestore().collection("classes")
+    .where("startTime", ">=", now.toISOString())
+
+===== GIT/git commit template.md =====
+**Git config to use custom commit template**
+```bash
+git config --global commit.template ~/.config/git/commit-template
+```
+```text
+<type>(<scope>): <short summary 50-72 chars>
+<body - optional>
+Explain **why** this change + **context** if needed (especially for tricky parts)
+BREAKING CHANGE: <description if any>   ← only when really breaking
+Resolves: #123
+See also: #456
+```
+- feat        → new feature
+- fix         → bug fix
+- docs        → documentation only
+- style       → formatting, missing semicolons, etc (no code change)
+- refactor    → code change that neither fixes bug nor adds feature
+- perf        → performance improvement
+- test        → adding or correcting tests
+- build       → build system, CI, external dependencies
+
+===== GIT/git commit.md =====
+## Inspect commit
+```bash
+git show --stat <commit-hash>;
+git show --name-only <commit-hash>;
+git show --no-patch <commit-hash>;
+``` > [!INFO]
+> patch -> a patch is a text-based representation of changes (diffs) between files, usually between commits or working states. It's used to share, review, or apply changes.
+```bash
+git format-path -1 <commit-hash>; # create patch
+git apply --check <patch-file>; # dry run before applying.
+#  - you can apply or import it into another repo or branch.
+git apply <patch-file>; # apply the changes to your working directory.
+# - you still need to commit manually.
+git am <patch-file>; # apply and create original commit.
+```
+### Heads
+used to refer to order commits relative to your current `HEAD` position. While they often point to the exact same commit in a s
+
+===== GIT/git diff.md =====
+```bash
+git diff --name-only;
+git diff --cached --name-only;
+git diff main.. --name-only;
+git diff --name-status;
+```
+- compare file in different brach
+```bash
+git diff branch1 branch2 -- <file path>;
+```
+```bash
+git diff --stat
+git diff --shortstat
+```
+```bash
+git diff --cached;
+git diff --staged;
+git diff HEAD;
+git diff HEAD~1 HEAD;
+git diff main...HEAD;
+
+===== GIT/git error.md =====
+### Git permission denied error
+> [!NOTE]
+> - Local Directory Permissions -> if you attempt to clone into a directory where your user does not have write permissions (for example /var/www/html) git cannot create the working directory or files, resulting in a "Permission denied" error.
+`drwxr-xr-x  2 root  root   4096 Jul  3 18:35 test/`
+```bash
+cd test;
+gh repo clone Raksyak-MST/backend
+fatal: could not create work tree dir 'backend': Permission denied
+exit status 128
+```
+> [!NOTE]
+> - Remote repository Access Rights -> if you do not have the required permissions to access the remote repository (such as trying to clone a private repository without being a collaborator or team member) Git will deny access.
+> [!NOTE]
+> - Mixing `sudo` and non-sudo commands -> using sudo with git command can 
+
+===== GIT/git guidlines.md =====
+```vbnet
+feat: add new inventory endpoint
+fix: correct inventory route response
+docs: update inventory API documentation
+refactor: improve inventory route structure
+test: add inventory route tests
+```
+```vbnet
+feat: add GET /inventory pagination support
+feat: implement inventory search endpoint
+fix: handle empty inventory response
+perf: optimize inventory query performance
+security: add authentication to inventory routes
+```
+```vbnet
+<type>: <subject>
+[optional body]
+[optional footer]
+Example:
+feat: add inventory filtering endpoint
+
+===== GIT/git repo config.md =====
+```shell
+gpg --full-generate-key; # generate gpg key
+gpg --list-secret-keys --keyid-format=long;
+gpg --armor --export <your email>; # export your public key
+```
+```shell
+git config --get commit.gpgsign;
+git log --show-signature;
+```
+#### Configure git to use GPG key
+```shell
+git config user.signingkey <gpg key>;
+git config commit.gpgsign true; # enable auto-sign
+git config tag.gpgsign; # enable auto sign for tags
+```
+```shell
+git commit -S -m <commit message>; # if auto-sign is not eanble
+```
+#### SSH
+```shell
+
+===== GIT/git ssh config.md =====
+> [!NOTE]
+>  if `~/.ssh/config` have permission other then 600 it will give 
+```text
+Bad owner or permissions on /home/mihir/.ssh/config 
+```
+```bash
+man 5 ssh_config
+```
+### Relation Between `Host github-personal` and `git@github-personal`
+1. **Host Entry in `~/.ssh/config`**:  
+   - The `Host github-personal` in your SSH config file acts as an alias for connecting to GitHub.  
+   - It defines a set of configurations (like `HostName`, `IdentityFile`, etc.) that SSH will use whenever the alias `github-personal` is referenced.  
+2. **Usage in Git Commands**:  
+   - When you use `git@github-personal` in Git commands, it tells Git to connect via SSH using the `Host` alias defined in the config file.
+   - SSH replaces `github-personal` with the corresponding configuration, such as:  
+     - `H
+
+===== GitHub/Github action (2).md =====
+→ [[Github action]]
+
+===== GitHub/Github cli (2).md =====
+→ [[Github cli]]
+
+===== Kubernates/Kubernetes config.md =====
+etcd -> highly reliable, distributed key-value store that serves as the central data store and brain of Kubernetes.
+- highly-available key-value database designed specifically for distributed systems. It stores all critical configuration data, metadata, and the current state of the Kubernetes cluster.
+> [!INFO]
+> Kubernetes uses etcd as its _primary backing store_. Everything in Kubernetes is stored in etcd, including
+> - cluster state, Service discovery information, Cluster configuration, Resource metadata and status, API objects.
+```bash
+# You are essentially reading from or writing to etcd through the kubernetes API server.
+kubectl get pods
+kubectl apply -f deployment.yaml
+```
+
+===== Kubernates/Kubernetes services.md =====
+in Kubernetes, a service is a method for exposing a network application that is running as one or more [[Pods]] in your cluster.
+A Service is an abstraction that defines a logical set of [[Pods]] and a policy to access them.
+- It enables seamless communication between different parts of an application and external clients by providing a stable endpoint, even as the underlying Pods may change.
+- Service decouple the frontend from backend Pods, ensuring consistent access despite Pod restarts or scaling operations
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+   app.kubernetes.io/name: MyApp
+  ports:
+   - port: 80
+  # By default and for convenience, the `targetPort` is set to
+  # the same value as the `port` field.
+   targetPort: 80
+   # 
+
+===== LLD/Questions/Connection Pool.md =====
+## Problem Statement
+You are tasked with designing a connection pool for a database management module of a complex software application. The connection pool is responsible for managing database connections efficiently to avoid unnecessary overhead and ensure optimal resource usage. To prevent multiple instances of the connection pool manager and ensure thread-safe access to connections, you need to implement the Singleton design pattern along with the connection pool management functionality.
+## Assignment
+Your task is to implement the `ConnectionPool` interface that follows the Singleton design pattern to manage a pool of database connections.
+### Part 1: Implementing Singleton and Connection Pool
+1. **Implement the Singleton design pattern**: Create a class that implements the `Connectio
+
+===== LLD/Questions/File based configuration manager.md =====
+## Problem Statement
+You are tasked with creating a system-wide configuration manager for a complex software suite. The configuration manager is responsible for managing various configuration settings that affect the behavior and appearance of the software. To prevent multiple instances of the configuration manager, which could lead to inconsistencies and potential resource conflicts, you need to implement a design pattern that ensures the configuration manager is a singleton object.
+## Assignment
+You are required to extend an abstract class `FileBasedConfigurationManager` to implement the Singleton design pattern and create a configuration manager class. The abstract class provides a foundation for managing configuration settings using a file-based approach.
+### Part 1: Implementing Singl
+
+===== LLD/Questions/Logger.md =====
+## Problem Statement
+You are tasked with developing a logging module for a complex software application. The logging module needs to maintain a single log file throughout the application's execution to avoid file access conflicts and ensure consistency. To prevent multiple instances of the logging module and ensure thread-safe access to the log file, you need to implement the Singleton design pattern along with the logging functionality.
+## Assignment
+Your task is to complete the implementation of the `Logger` interface that follows the Singleton design pattern to manage logging operations and maintain a single log file.
+### Part 1: Implementing Singleton and Logger
+1. **Implement the Singleton design pattern**: There is a class `LoggerImpl` that implements the `Logger` interface. Implemen
+
+===== Linux.md =====
+
+
+===== ML/GPT.md =====
+- GUID Partition Table
+- Globally Unique Identifiers, Each partition in a GPT scheme is assigned a unique identifier, which helps in managing and recognizing partitions across different systems and operating environments.
+- partitioning scheme that addresses the limitations of the older Master Boot Record system.
+- GPT is integral to the [[OS Boot/UEFI]] standard, replacing the traditional BIOS.
+- GPT can handle drives larger than 2 terabytes supporting sizes up to 9.4 zettabytes due to its use of 64-bit logical block addressing.
+> [!INFO] [[MBR]] is limited to a maximum of 2TB.
+- GPT allows for a significantly higher number of partitions. While MBR limits users to four primary partitions (or up to 26 if using extended partitions).
+> [!INFO] GPT support up to 128 partitions without the nee
+
+===== ML/Perceptron.md =====
+- simplest type of neural network
+- used for binary classification
+- finding an appropriate learning rate requires some experimentation. 
+	- If the learning rate is too large, the algorithm will overshoot the global loss minimum.
+	- If the learning rate is too small, the algorithm will require more epochs until convergence, which can make the learning slow—especially for large datasets.
+> [!INFO] perceptron algorithm never converges on datasets that aren’t perfectly linearly separable
+A **perceptron** is the simplest type of artificial neural network used for binary classification tasks. It is the fundamental building block for more complex neural networks and operates similarly to a neuron in the brain. Here's a brief overview:
+### Key Points:
+1. **Structure**:
+   - **Input Layer**: The p
+
+===== ML/Visualization/data visualization.md =====
+# Histogram
+- displays the frequency distribution of a dataset
+- best for showing how data is spread across intervals (bins)
+```python
+import matplotlib.pyplot as plt
+plt.hist(data, bins=20, alpha=0.7)
+plt.title('Data distribution (Histogram)')
+plt.xlabel('Data values')
+plt.ylabel('Frequency')
+plt.show()
+```
+## Density Plot (KDE- Kernel Density Estimate)
+- A smoothed curve representing the distribution of data, which is similar to a smoothed histogram.
+- better for showing data distribution in a more continuous and smooth way, ideal for visualizing probability distributions.
+```python
+import seaborn as sns
+sns.kdeplot(data)
+plt.title('Data distribution (Density Plot)')
+plt.xlabel('Data values')
+plt.show()
+
+===== ML/claude ai.md =====
+```text
+Error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_018XLoNZDysSCZitFpMk8qf3. Each `tool_use` block must have a corresponding `tool_result` block in the next message."},"request_id":"req_011CYYJdG5Hrm8eASvwh19fo"}
+```
+- it means claude returned a `tool_use` block but your code didn't send back a `tool_result` for it.
+---
+```text
+Error: 429 {"type":"error","error":{"type":"rate_limit_error","message":"This request would exceed your organization's rate limit of 10,000 input tokens per minute (org: 8bdf8921-d1f0-461a-aa8c-83ebf25f39ae, model: claude-opus-4-5-20251101). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers f
+
+===== ML/model tranning.md =====
+## Evaluation
+- accuracy, precision, recall, F1 score, mean squared error.
+### How to check if the model is under fitted or over-fitted?
+- use k-fold cross-validation to evaluate model performance. If the model's performance varies significantly across different folds, it may indicate instability and potential over-fiting.
+- use regularization techniques (like L1 or L2) to control model complexity. A decrease in performance with increase regularization can suggest over-fitting.
+### F1 score
+- is a metric used to evaluate the performance of a classification model.
+- useful in situation where you need to find a balance between precision and recall, especially in case with imbalanced datsets.
+## Test size
+- `test_size` parameter determines the proportion of the dataset to include in the test 
+
+===== ML/prompt enginerring.md =====
+is the process of writing effective instructions for a model such that it consistently generates content that meets your requirements. Because the content generate from a model is nondeterministic, prompting to get your desired output is a mix of art and science. However, you can apply techniques and best practices to get good results consistently.
+Context, Task, Constraints, and Persona
+## LLM
+LLM are pattern predictors that generate one token at a time. They predict the next most likely token based on the input provided. The generation happens token by token with no planning ahead, meaning LLMs only think while they are typing. They will most often predict the next most likely token, but sometimes may predict other likely tokens instead.
+LLM -> have a cut off date.
+- Deterministic system
+
+===== ML/prompt.md =====
+```text
+Got it, Rakshyak.
+From now on in every conversation we have:
+- I’m acting as your **senior developer mentor** (experienced backend/full-stack engineer, 10+ years building & reviewing production systems)
+- My goal is to help you grow toward **strong senior IC level** (deep technical ownership, clean & secure code, good system thinking, debugging & architecture skills)
+- I’ll give **honest, direct feedback** — sometimes strict when I see anti-patterns or security holes, sometimes encouraging when I see real progress
+- I’ll try to explain **why** I recommend something (not just “do this”), so you build intuition
+- I’ll point out patterns that scale to big systems / teams / high traffic (things useful at product companies in Bengaluru like Flipkart, Swiggy, Razorpay, PhonePe, etc.)
+- W
+
+===== ML/rank prediction.md =====
+- rank prediction involves predicting a continuous output or an ordinal label
+- To handle this, you would typically use a **neural network with multiple layers**
+- predicting ranks is harder as the score distribution may be dense at certain ranges, leading to prediction uncertainties
+- often, non-linear relationships where small score improvements at the top can lead to significant rank jumps
+- In some cases, ranks might be divided into categories (e.g., top 1%, top 5%, etc.), making it a classification problem
+- rank prediction is a classification problem
+- for rank prediction the **Predicted vs Actual** plot will show how close the predicted ranks are to the actual ranks, giving a visual check of accuracy.
+- combining multiple exam scores into a single composite score
+When we aim to **pr
+
+===== ML/scikitlearn.md =====
+Learning algorithms for classification
+- data shuffling is important (do prior of split)
+- feature scaling for optimal performance 
+## How does regression model perform in rank prediction?
+## why we have to calculate sample mean and standard deviation?
+## What is multiclass classification?
+## what are the step before doing perceptron?
+## what is **one-versus-rest** (**OvR**)?
+## How to find where does a model start to capture over-fit data sets on test and generalized data set?
+## How to find ranking loss?
+## What is the difference between regression and classification?
+### sample mean
+### standard deviation
+#### Gradient descent
+### Adaline
+#### Dimensionality Reduction
+#### Vector array
+#### Supervised learning data sets
+#### Hyperparameter Tuning
+#### linear activation function
+
+===== Message Broker.md =====
+
+
+===== Messaging/Kafka/Kafka broker.md =====
+A broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
+| feature              | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| Message storage      | Stores messages in topics and partitions.                         |
+| Message routing      | Distributes messages from producers to consuers.                  |
+| partition Management | handles partition assignments and replications.                   |
+| Load balancing       | Spreads workload across multiple brokers in a kafka cluster.      |
+| Replication          | Ensures fault tolerance by duplicating partitions across brokers. |
+### Why i
+
+===== Messaging/Kafka/Kafka configuration.md =====
+```txt
+kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of the modes is configured.
+```
+- Zookeeper mode -> Traditional mode with a zookeeper cluster managing brokers.
+- KRaft mode -> Newer mode where kafka manages metadata internally.
+```shell
+docker run -d --name kafka-server -p 9092:9092 --hostname kafka-server \ 
+	--network app-tier \ 
+	-e KAFKA_CFG_NODE_ID=0 \
+	-e KAFKA_CFG_PROCESS_ROLES=controller,broker \
+	-e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 \
+	-e KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+	-e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.1.10:9092 \ # use host ip (local maching not docker container)
+	-e KAFKA_CFG_CONTROLLER_QUORUM_VOT
+
+===== Messaging/Kafka/Kafka distributed event streaming.md =====
+Kafka is a distributed event streaming platform used for real-time data processing. 
+- it helps microservices communicate asynchronously by sending and receiving messages efficiently.
+### How kafka works
+kafka consist of four main components
+| Component | Description                                                    |
+| --------- | -------------------------------------------------------------- |
+| Producer  | sends message (events) to kafka topics.                        |
+| Topic     | A category where message are stored. Example `cart.item.added` |
+| Broker    | Kafka servers that manage topics and messages.                 |
+| Consumer  | Listens to topics and process messages.                        |
+
+===== Messaging/Kafka/Zookeeper.md =====
+is a [[distributed coordination service]] used by kafka to manage metadata, leader election, and synchronization across brokers.
+| Function                 | Description                                                     |
+| ------------------------ | --------------------------------------------------------------- |
+| Broker management        | Keeps track of active Kafka brokers.                            |
+| Leader election          | Determines which broker is the leader for a partition.          |
+| Topic metadata           | Stores partition details and configurations.                    |
+| Consumer offsets         | Tracks the last read message for consumers (in older versions). |
+| Distributed coordination | Ensures synchronized updates across kafka brokers.<br>          |
+### Ho
+
+===== Messaging/Kafka/kafka producer and consumer.md =====
+A kafka producer is a component responsible for sending messages (events) to Kafka topics.
+- used to notify other microservices (e.g., Inventory, Order, and Discount services).
+Decouples services -> ensure [[event-driven]] architecture, reducing direct dependencies between services.
+Asynchronous processing -> improves performance by processing cart updates in the background.
+### Why disconnect is called each time?
+In, Kafka, the `disconnect` is called each time a producer is instantiated and sends a message if a new connection is created and closed immediately rather than being 
+#### Short lived producer
+- if the kafka producer is instantiated inside a function and not reused, it will create a new connection each time a message is sent.
+```js
+const {Kafka} = require("kafkajs");
+const kafka
+
+===== Messaging/Kafka/kafka.md =====
+- event streaming platform designed to handle real-time data feeds.
+- used for building data pipelines, stream analytics, and integration across systems.
+- Scale horizontally by distributing data across multiple brokers.
+- producer and consumers are independent, allowing system flexibility.
+**Producers**: Send data (message) to Kafka topics.
+**Consumers**: Read data from topics.
+**Topics**: Logical storage units to organize message. Each topic can have multiple partitions for parallelism.
+**Brokers**: Kafka servers managing storage and distribution of topics.
+**ZooKeeper (or Kafka Raft)**: Coordinates brokers and maintains cluster metadata.
+### kafka docker contianer
+
+===== Messaging/RabbitMQ.md =====
+## Configuration
+They will be **loaded in alphabetical order**. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the order, or make sure a "defaults file" is always loaded first, regardless of how many extra files are generated at deployment time:
+```bash
+# => -r--r--r--  1 rabbitmq  rabbitmq    87B Mar 21 19:50 00-defaults.conf
+# => -r--r--r--  1 rabbitmq  rabbitmq   4.6K Mar 21 19:52 10-main.conf
+# => -r--r--r--  1 rabbitmq  rabbitmq   1.6K Mar 21 19:52 20-tls.conf
+# => -r--r--r--  1 rabbitmq  rabbitmq   1.6K Mar 21 19:52 30-federation.conf
+```
+## Exchange
+- it routes messages to the correct queues based on certain rules, called bindings.
+different types of exchanges have different routing strategies
+1. Direct exchange : routes messages with
+
+===== Messaging/SSE (Server-Sent Events).md =====
+- uni directional push from server to browser over HTTP.
+- server pushes events -> client auto-receives over single long-lived connection.
+> [!INFO] Built in browser support : `EventSource` API
+- Browser -> opens persistent HTTP connection
+- backend -> writes to it using `text/event-stream`
+- One way communication (server -> client only).
+- Uses standard HTTP.
+- Browser automatically reconnects if connection drops.
+- Data format: `text/event-stream`.
+- Lightweight compared to WebSockets when only server updates are needed.
+| Feature        | SSE             | WebSocket                        |
+| -------------- | --------------- | -------------------------------- |
+| Direction      | Server → Client | Bidirectional                    |
+| Protocol       | HTTP            | WebSocket         
+
+===== Messaging/Web hooks.md =====
+[[webhook]] [[HTTP module]] [[JWT authentication]]
+# Web hooks
+→ See **[[webhook]]** (canonical note).
+This page is a redirect alias for plural search / legacy links.
+
+===== MongoDB/MongoDB data populate.md =====
+## Populating faker data using `faker-js`
+```ts
+import mongoose from "mongoose";
+import { faker } from "@faker-js/faker";
+// MongoDB connection
+mongoose.connect("mongodb://127.0.0.1:27017/your_db_name", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+// Define Product Schema
+const productSchema = new mongoose.Schema({
+  id: { type: String, required: true },
+  productId: { type: String, default: null },
+  image: { type: String, required: true },
+  title: { type: String, required: true },
+  price: { type: Number, required: true },
+  originalPrice: { type: Number, required: true },
+  rating: { type: Number, required: true },
+  category: { type: String, default: null },
+  productType: { type: String, enum: ["class", "product"], default: "product" },
+
+===== MongoDB/MongoDB query validation.md =====
+### **1. Using `explain()` Method**
+The `explain()` method provides detailed insights into query execution, including index usage, scanned documents, and execution time.
+#### Modes of `explain()`:
+1. **Query Planner**: Shows the query plan MongoDB considered.
+2. **Execution Stats**: Provides detailed statistics about the execution.
+3. **All Plans Execution**: Shows stats for all considered query plans.
+#### Example:
+```javascript
+db.collection.find({ fieldName: "value" }).explain("executionStats");
+```
+#### Key Metrics:
+- **`nReturned`**: Number of documents returned by the query.
+- **`totalKeysExamined`**: Number of index keys scanned.
+- **`totalDocsExamined`**: Number of documents scanned.
+- **`executionTimeMillis`**: Total time taken by the query (in milliseconds).
+- **`indexName`**: In
+
+===== MongoDB/mognodb indexing.md =====
+1. **Single Field Index**:
+   - Indexes created on a single field of a document.
+   - Example: Creating an index on the `name` field.
+   ```javascript
+   db.collection.createIndex({ name: 1 });
+   ```
+2. **Compound Index**:
+   - Indexes created on multiple fields of a document.
+   - Useful for queries that filter on multiple fields.
+   - Example: Creating an index on the `name` and `age` fields.
+   ```javascript
+   db.collection.createIndex({ name: 1, age: -1 });
+   ```
+3. **Geospatial Index**:
+   - Indexes created on fields that store geospatial data.
+   - Supports queries for location-based data, such as finding documents within a certain radius.
+   - Example: Creating a 2dsphere index for GeoJSON data.
+   ```javascript
+   db.collection.createIndex({ location: "2dsphere" });
+   ```
+
+===== MongoDB/mongodb denormalization.md =====
+### **Choosing the Right Solution**  
+The choice of design pattern depends on:  
+1. **Access patterns**: How the data is read and written.  
+2. **Scalability needs**: Whether horizontal scaling is a priority.  
+3. **Data size and structure**: Document size limits and data relationships.  
+4. **Flexibility**: Requirements for frequent schema changes.  
+---
+### 1. **Embedding (Denormalization)**  
+- **Description**:  
+  Store related data in a single document.  
+  Example: Embed `order` and `items` into one document.  
+  ```json
+  {
+    "order_id": 1,
+    "customer": { "name": "Alice", "email": "alice@example.com" },
+    "items": [
+      { "product": "Laptop", "quantity": 1 },
+      { "product": "Mouse", "quantity": 2 }
+    ]
+  }
+
+===== MongoDB/mongodb migration.md =====
+1. **Manual Migrations**:
+- Write scripts to update documents to the new schema.
+- Use the MongoDB shell or a programming language driver to iterate over documents and apply changes.
+- Example:
+```js
+db.collection.find().forEach(function(doc) {
+    // Modify the document schema
+    doc.newField = doc.oldField;
+    delete doc.oldField;
+    // Save the updated document
+    db.collection.save(doc);
+});
+```
+2. **Using a Migration Tool**:
+   - Use tools like `migrate-mongo`, `MongoBee`, or `Mongock` to manage migrations.
+   - These tools provide a structured way to define and apply migrations, similar to migration tools in SQL databases.
+
+===== MongoDB/mongodb schema.md =====
+1. **Dynamic Schema**: MongoDB does not enforce a fixed schema at the database level. This means you can add or remove fields from documents without affecting other documents in the collection. This flexibility is useful for applications that evolve over time.
+2. **Schema Validation**: While MongoDB is schema-less by default, you can enforce schema validation rules using JSON Schema. This allows you to define required fields, data types, and other constraints to ensure data integrity.
+3. **Aggregation Framework**: MongoDB's aggregation framework allows for complex data processing and transformation operations, similar to SQL's GROUP BY and JOIN operations.
+4. **Sharding and Replication**: MongoDB supports horizontal scaling through sharding and high availability through replication. Proper
+
+===== MongoDB/mongodb shell.md =====
+[mongodb shell run Command](https://www.mongodb.com/docs/manual/reference/method/db.runCommand/)
+```shell
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "email", "age"],
+      properties: {
+        name: { bsonType: "string", description: "must be a string" },
+        email: { bsonType: "string", pattern: "^.+@.+$", description: "must be an email" },
+        age: { bsonType: "int", minimum: 0, description: "must be a positive integer" }
+      }
+    }
+  }
+})
+```
+### Create transaction
+```js
+session = db.getMongo().startSession();
+sessionDb = session.getDatabase("test");
+
+===== MongoDB/mongodb view.md =====
+> [!INFO] Views reflect changes made to the underlying collection.
+- the view is defined using an aggregation pipeline for flexible transformations. 
+- avoids repeating aggregation logic for recurring queries.
+### Limitations
+- No indexing views cannot have indexes. Queries on views depend on the indexes of the source collection.
+- read-only you can't update data through views.
+- Complex pipelines in views may slow down queries.
+```js
+db.createView(
+	"orderSummaryView",
+	"orders",
+	[
+		{$group: {_id: "$customerId", totalSpent: {$sum: "$amount" }}},
+		{$sort: {totalSpend: -1}}
+	]
+)
+```
+- use indexes on the source collection to optimize view performance.
+- limit the complexity of aggregation pipelines to avoid performance degradation.
+- user views for read-heavy workloads where dynamic updat
+
+===== MongoDB/mongoose/mongoose custome function.md =====
+## Create custom function in mongoose schema
+#### Instance method ( Custom method for a single document)
+- use `schema.methods` to define methods for individual documents.
+```js
+const mongoose = require("mongoose");
+const userSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String,
+    role: { type: String, enum: ["admin", "manager", "auditor"], required: true }
+});
+// Custom method for checking role
+userSchema.methods.isAdmin = function () {
+    return this.role === "admin";
+};
+const User = mongoose.model("User", userSchema);
+const user = new User({ username: "Alice", role: "admin" });
+console.log(user.isAdmin()); // true
+```
+#### Static methods ( Custom methods for the model )
+
+===== MongoDB/mongoose/mongoose methods.md =====
+`lean()` 
+Avoid the overhead of Mongoose wrapper functions and features.
+- used in Mongoose ORM to optimize performance for read-heavy opeartions.
+- can not use methods like `.save()` or `.validate()` on lean query results.
+- read-only use, not suitable for operations requiring updates or additional mongoose methods.
+> [!NOTE] as `populate()` normally returns Mongoose documents. When combined with `lean()`, it ensures even the populated fields are returned as plain JavaScript objects.
+### Validate schema
+```js
+const validateDoc = new ApplicationSchema(
+	{
+		student: new Types.ObjectId(studentId),
+		status,
+	},
+	{ new: true }
+);
+console.log(validateDoc);
+await validateDoc.validate({ pathsToSkip: ["program"] });
+const application = await ApplicationSchema.updateOne(
+	{
+		_id: new Types.Objec
+
+===== MongoDB/mongoose/mongoose schema.md =====
+## How to extend schema
+### Using `discriminator()` allow multiple model types withing a single collection
+- Example Base `User` Schema with `Admin` and `Manager` Variants 
+```js
+const mongoose = require("mongoose");
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    role: { type: String, required: true, enum: ["admin", "manager"] }
+});
+// Base Model
+const User = mongoose.model("User", userSchema);
+// Admin Schema (inherits User)
+const Admin = User.discriminator("Admin", new mongoose.Schema({
+    adminLevel: Number
+}));
+// Manager Schema (inherits User)
+const Manager = User.discriminator("Manager", new mongoose.Schema({
+    department: String
+}));
+
+===== MongoDB/mongoose/mongoose.md =====
+### What happens when you interact with MongoDB through mongoose
+- mongoose interprets the connection string and manages how to communicate with the database.
+### Parsing the connection string
+- When you call `mongoose.connect`, Mongoose parses the provided MongoDB connection string. The connection string typically looks like this
+```txt
+mongodb://username:password@host:port/database
+```
+### Create a connection
+- after parsing the connection string, Mongoose creates a connection instance using the MongoDB NodeJS driver.
+- this involves:
+	-  a TCP
+### mongoose virtuals
+- mongoDB itself does not have the concept of virtuals. Virtual properties are a mongoose-only feature, implemented at the application level, not at the database level.
+#### Why mongoDB does not have virtuals
+- mongoDB stores
+
+===== MongoDB/mongosh query.md =====
+### search query
+```js
+{ $regex: search, $options: "i" }
+```
+### Find the type reference 
+```js
+const mongoose = require('mongoose');
+// Replace 'YourModel' with your Mongoose model
+YourModel.find({ category: { $type: 'objectId' } })
+YourModel.find({
+  category: { 
+    $type: 'objectId'  // Matches fields of type ObjectId
+  },
+  $expr: { 
+    $not: { $isArray: "$category" }  // Ensures category is not an array
+  }
+})
+```
+### `$expr`
+To fetch documents where the `reportingManager` field contains more than one `ObjectId`, you can use the `$expr` operator to check the length of the array. Here's the query:
+
+===== MongoDB/mongosh user management.md =====
+```js
+use admin;
+db.getRoles({showBuiltinRoles: true, showPrivileges: true});
+db.runCommand({ connectionStatus: 1 }); // details about the authenticated user for the current session
+db.createUser({
+  user: "myUser",
+  pwd: "myPassword",
+  roles: [
+    { role: "readWrite", db: "myDatabase" },
+    { role: "dbAdmin", db: "myDatabase" }
+  ]
+});
+```
+```js
+db.getUsers(); // view users;
+db.updateUser("myUser", {
+	roles: [{role: "dbAdmin", db: "testDB"}]
+})
+db.deleteUser("myUser"); // remove user from current database;
+db.changeUserPassword("myUser", "newPassword");
+
+===== MongoDB/mongosh.md =====
+[mongodb aggregation](https://www.mongodb.com/docs/v4.4/reference/operator/aggregation/cond/)
+> [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users. 
+> [!WARNING] In **`mongosh`**, there is no direct `populate` function like in **Mongoose**.
+```js
+{ $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
+```
+```js
+{ $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
+```
+```js
+db.collection.aggregate([{ $project: {name: 1, age: 1, _id: 0}}])
+db.collection.aggregate([
+	{ $group: { _id: "$category", total: {$sum: "$price"}}}
+])
+db.collection.aggregate([{ $sort: {age: -1}}])
+db.collection.aggregate([{ $match: { status: "active" }}]
+
+===== MongoDB/query/mongoDB Group query.md =====
+### Grouping related fields
+```js
+{
+	$group: {
+		_id: "$student",
+		programs: { $addToSet: "$result" },
+		totalFees: { $sum: "$result.applicationFee" },
+		quantity: { $count: {} },
+	},
+},
+```
+#### Group on two keys
+```shell
+[
+  {
+    "$group": {
+      "_id": {
+        "student": "$student",
+        "otherKey": "$someOtherField"
+      },
+
+===== MongoDB/query/mongodb lookup query.md =====
+> [!INFO] `preserveNullAndEmptyArrays` in `$unwind`
+> - is optional parameter is MongoDB's `$unwind` stage.
+> - it controls whether documents that have `null` or empty arrays in the specified field should be preserved or removed from the aggregation result.
+```js
+[
+    // Join orders with users based on userId field
+    {
+        $lookup: {
+            from: 'users',          // Reference to the 'users' collection
+            localField: 'userId',   // Field in 'orders' collection
+            foreignField: '_id',    // Field in 'users' collection
+            as: 'userDetails'       // The result will be an array in this field
+        }
+    },
+    // Project the data, renaming the 'userDetails' array fields
+    {
+        $project: {
+            orderId: 1,
+            amount: 1,
+           
+
+===== Multicast.md =====
+[[IGMP]] [[IPTV]] [[PIM]]
+Multicast = one sender -> Selected group of receivers.
+```txt
+          Sender
+             |
+        Multicast Group
+             |
+      -----------------
+      |       |       |
+     PC2     PC4     PC5
+```
+- Only devices that join the multicast group receive the traffic.
+```txt 224.0.0.0 -> 239.255.255.255
+```
+Uses -> IPTV, Live video streaming, Stock market feeds, video conferencing, online gaming updates.
+Characteristics
+- Efficient bandwidth usage.
+- One packet transmitted, replicated only where needed.
+- Receivers join using IGMP (Internet Group Management Protocol).
+- Routers use multicast routing protocols (e.g, PIM)
+
+===== NextJS/Next JS.md =====
+> [!INFO] In NextJS, when using `next/router`, the query parameters might be undefined on the first render because NextJS initially renders the page on the server (or statically), and _the query values are only available after hydration on the client.
+### Image
+```txt
+Error: Invalid src prop [(https://picsum.photos/seed/DUeHUGir/1880/2247)](https://picsum.photos/seed/DUeHUGir/1880/2247) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js` See more info: [https://nextjs.org/docs/messages/next-image-unconfigured-host](https://nextjs.org/docs/messages/next-image-unconfigured-host)
+```
+- NextJS restricts external image resources for `next/image` by default. You need to allow `hostname` in your `next.config.js` file.
+#### Allow External images in `ne
+
+===== NextJS/Next js Build.md =====
+> [!WARNING]
+> The next js build process, when converting to static files, bakes in environment variables, meaning it cannot read `process.env` at runtime.
+- the compiler literally replaces the text `process.env.API_URL` with the actual string value
+- When you run a Node.js server, the environment variables live in the server's RAM. When you serve static files via Nginx, the code is running in the **user's browser RAM**. Since the user's browser has no access to your server's terminal or PM2 variables.
+## Generate Static files
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+	output: "export",
+  poweredByHeader: false,
+  images: {
+    // domains: ["theoterra.com"],
+    remotePatterns: [
+      {
+        hostname: "theoterra.com",
+        pathname: "**"
+      }
+    ]
+  }
+}
+
+===== NextJS/NextJS Config.md =====
+# How to set global package which is been fetched at the client side
+```js
+```
+```js
+const nextConfig = {
+  images: {
+    domains: ["example.com"]
+  } }
+```
+```js
+const nextConfig = {
+	images: {
+    remotePatterns: [
+      { hostname: "example.com" },
+    ],
+  },
+}
+```
+### Enable client side source map
+```js
+
+===== NextJS/NextJS Deployment.md =====
+> [!NOTE]
+> No, NextJS cannot be deployed like a plan React (CRA) project with a static `index.html`
+### Static HTML Export
+[static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
+> [!INFO] You can use [`next export`](https://nextjs.org/docs/advanced-features/static-html-export) to generate a completely static site, if *you have no need for any of the dynamic features that Next.js offers.*
+>[!INFO] Since Next.js supports this static export, it can be deployed and hosted on any web server that can serve HTML/CSS/JS static assets.
+```txt
+✓ Collecting page data
+```
+- Executes `getStaticProps()` or `getServerSideProps()` of reach route.
+- collect data needed for reading pages.
+```txt
+✓ Generating static pages (5/5)
+```
+- NextJS rendered 5 pages into stat
+
+===== Nginx/Nginx ingress.md =====
+Acts as a load balancer and [[Reverse Proxy]] for kubernetes cluster.
+Nginx ingress is a ingress controller for Kubernetes that manages external access to services running in a kubernetes cluster. 
+- enables secure and scalable HTTP(S) traffic routing to Kubernetes workloads. 
+- rate limiting, IP whitelisting, and custom error page.
+Load Balancing: Distributes traffic across multiple back-end pods to ensure reliability and scalability
+SSL/TLS Termination: Handles HTTPS traffic by terminating SSL connections at the ingress layer.
+Host-Based Routing: Routes requests based on URL paths or hostnames.
+Authentication: Supports basic authentication, JWT, and OAuth2 integration.
+### Example nginx ingress config file
+```yaml
+apiVersion: networking.k8s.io/v1 # must be appropriate version 
+kind: Ingr
+
+===== Nginx/URL Rewriting.md =====
+URL rewriting is a technique used by web servers (like Apache, Nginx, IIS, etc.) or web frameworks to **transform a "pretty" or user-friendly URL into a different internal URL** that the server actually uses to locate and serve the correct file, script, or content.
+### Why is it used?
+Most modern web applications (especially single-page applications or framework-based sites like React, Angular, Vue, Laravel, Next.js, etc.)
+- do **not** have real physical files or folders for every URL path. Instead, they use **client-side routing** or **server-side routing** that points many (or all) URLs to a single entry point (e.g., index.html or app.php).
+To make this work without breaking when users refresh the page or visit a deep link directly, the server uses **URL rewriting** to redirect all reque
+
+===== Nginx/directives.md =====
+server ->  defines a **virtual server**
+- group all config block for a domain/port.
+listen -> defines which IP/PORT this server listens on.
+server_name ->
+- is how Nginx decides which `server {...}` block should handle an incoming request.
+root -> sets the base directory for serving static files.
+index -> defines the default file to serve when a directory is requested.
+location -> defines how to handle requests for a path
+proxy_pass -> forwards requests to another server (reverse proxy).
+proxy_set_header -> passes extra headers to the backend.
+- Often used for `Host` `X-Real-IP` `X-Forward-For`
+error_page -> defines a custom page for specific error codes.
+- example `error_page 404 /custom_404.html;`
+upstream -> defines a group of backend servers for load balancing.
+gzip & gzip_types -> ena
+
+===== Nginx/nginx URL rewrite.md =====
+|Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
+|---|---|---|---|
+|`root /var/www/html;`|Physical folder|unchanged|`/var/www/html/blog/post1.html`|
+|`alias`|Replace entire path|unchanged|something else|
+|`try_files`|“Look here, then here, then fallback”|unchanged|multiple places|
+|`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
+|`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
+## Client side routers
+> [!INFO]
+> most of the time you only need `try_files`
+> `rewrite` is only for 'I really want to change the visible URL'
+```nginx
+location / {
+    root /var/www/myapp;           # → looks in /var/www/myapp
+    try_files $uri $uri/ /index.html;   # ← THIS IS THE ONLY LINE YOU NEED
+}
+```
+```nginx
+loc
+
+===== Nginx/nginx core functionality.md =====
+`accept_mutex`
+When `accept_mutex` disabled
+- All workers processes get simultaneously notified about a new incoming connection.
+- the race to call `accept()` on the shared listen socket.
+- Only one of them actually gets the connection.
+- The others get `EAGAIN` (or similar) and go back to sleep.
+This is called **thundering herd** problem (or wake-up storm).
+## What really happens step by step (when accept_mutex is off)
+1. A new client connects → kernel puts the connection into the listen queue
+2. Kernel sends a signal / wakes up **all** worker processes that are currently doing epoll_wait() (or equivalent) on the listen socket
+3. All (e.g. 8–32) workers wake up **at almost the same time**
+4. All workers call accept() on the same listen socket in a race
+5. **Only one** worker succeeds and 
+
+===== Nginx/nginx fastcgi.md =====
+[fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
+if you want nginx to handle other languages, you have two main routes.
+> [!NOTE]
+> - Each language needs its own backend -> nginx does not interpret code.
+> - PHP works because of PHP-FPM `php_fastcgi`. For others, you need a similar FastCGI handler or an HTTP reverse proxy.
+> [!INFO]
+> You can run multiple handlers at once and let Nginx route based on file extensions or URL path.
+## Use the language's own FastCGI handler
+```nginx
+location ~ \.py$ {
+	fastcgi_pass unix:/run/uwsgi/python.sock;
+	include fastcgi_params;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
+```
+```bash
+uwsgi --socket /run/uwsgi/python.sock --plugin python --wsgi-file app.py;
+```
+## Reverse proxy 
+
+===== Nginx/static file.md =====
+### Nginx static file serving rule for a location
+```nginx
+location / {
+    try_files $uri $uri/ =404;
+}
+```
+`try_files` -> checks the filesystem for one or more paths in order.
+`$uri` -> the exact file path from the request e.g. `/index.html` -> `/var/www/global/index.html`
+`$uri/` -> the same but as a directory path e.g. `/docs/` if this exists, nginx can serve `index.html` from inside it (depending on your `index` directive).
+`=404` -> if neither a matching file nor a matching directory exists, return HTTP 404 immediately (instead of falling back to a PHP handler).
+**What it means in practice**
+- If `/style.css` exists in your `root` → serve it.
+- If `/blog/` exists as a directory and contains an `index.html` → serve that.
+- If neither exists → return `404 Not Found`.
+- It **avoids unne
+
+===== Payments/Payment break down json.md =====
+```json
+{
+  "data": {
+    "createReservation": {
+      "data": {
+        "digitalPayment": null,
+        "enroll": {
+          "hhonorsNumber": null,
+          "resourceAlreadyExists": true
+        },
+        "mfa": null,
+        "sca": null,
+        "reservation": {
+          "addOnsResModifyEligible": false,
+          "confNumber": "54129806",
+          "arrivalDate": "2025-04-27",
+          "departureDate": "2025-04-30",
+          "cancelEligible": true,
+          "modifyEligible": true,
+          "cxlNumber": null,
+
+===== Payments/Payment integration Strip.md =====
+```ts
+  const handleCheckout = async () => {
+    Swal.fire({
+      title: 'Redirecting to Payment',
+      text: 'You will be redirected to the payment page. Do you want to proceed?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, proceed',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setIsLoading(true)
+        try {
+          const token = localStorage.getItem('user')
+          // console.log('token=====>', token) // Example of retrieving the token
+          const { results, status } = await change(
+            'applications/checkout-session',
+            {
+              method: 'POST',
+              body: {}, // Pass an empty body if no other data is required
+
+===== Payments/payment integration razorpay.md =====
+## Payment Capture in Razorpay
+**Definition**:  
+Payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that the authorized amount is deducted from the customer's account and transferred to the merchant's account.
+---
+### Key Points:
+1. **Authorization & Capture Flow**:
+    - **Authorization**: The payment amount is blocked on the customer's card or bank account.
+    - **Capture**: The merchant confirms the payment, ensuring the amount is actually debited.
+2. **Automatic vs Manual Capture**:
+    - **Automatic**: Payments are captured automatically upon successful authorization.
+    - **Manual**: Merchants can capture payments later through the Razorpay dashboard or API.
+3. **Time Limit**:
+    - Payments must be captured with
+
+===== Payments/razorpay integration.md =====
+### **The High-Level Architecture Flow**
+1. **User clicks "Pay"** on the Frontend.
+2. **Frontend calls Backend** to create a new "Order".
+3. **Backend calls Razorpay API** to generate a unique `order_id`, saves it to your database as "Pending", and sends it back to the Frontend.
+4. **Frontend opens Razorpay Checkout** using that `order_id`.
+5. **User completes payment** via the Razorpay UI.
+6. **Razorpay sends success tokens** back to the Frontend.
+7. **Frontend sends those tokens to Backend** for verification.
+8. **Backend verifies the cryptographic signature** to ensure the payment is genuine, then updates the database to "Paid".
+9. **(Safety Net) Razorpay Webhook fires** to your Backend in case the user closed their browser before Step 7.
+### Workflow
+1. **Customer Places an Order**
+- C
+
+===== Prisma/Prisma.md =====
+[Prisma doc Manifesto](https://www.prisma.io/blog/prisma-orm-manifesto?ref=dailydev)
+The Prisma client is generated as a set of TypeScript or JavaScript files and is located in the `node_modules` directory.
+- Default location `./node_modules/@prisma/client` this folder contains the generated code that Prisma uses to interact with the database.
+- You do not directly edit this files; they are managed by Prisma
+```shell
+npx prisma generate; # generat the prisma client
+```
+- Read the `schema.prisma` file.
+- Regenerate the Prisma Client files.
+> [!INFO] Prisma uses generated internal files to map your high-level API calls into SQL queries.
+## Customizing the Output Directory
+- You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
+```js
+```
+```ts
+Withoug
+
+===== Projects/Project Assignment.md =====
+# BOOKISH BUDDIES
+|Action|Type|Information|Frequency|Priority|
+|---|---|---|---|---|
+|Create classes|write|teacher, subject|4-5 per day|High|
+|View classes|read|subject id, teacher profile|1000 per day|High|
+|View comments|read|teacher id, comment|5 per day|low|
+|Create comment|write|teacher id, student id, comment|5-10 per day|low|
+|Create Student profile|write|username, password||High|
+|Book class 3|write|teacher id, subject id|3 per day|low|
+# MEDIAL SDE REMOTE ASSIGNMENT 
+## **Assignment: Dynamic Post Page with OG Image Generation**
+Objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the post content.
+Requirements:
+1. Post Page:
+    - Develop a simple post page using React or Vue.js.
+    - Include fields for title, con
+
+===== Projects/online business PRD.md =====
+Absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover strategy, product, and execution details you can hand to engineers, designers, and stakeholders.
+---
+# Product Requirements Document (PRD)
+## CityDress AI
+An online service that generates hyper-customized women's dresses aligned to user preferences and a specific exciting moment. Availability is restricted to the user’s current city (detected via GPS/IP). The platform combines AI-driven design, city-limited inventory and delivery, real-time try-on, and local pickup to deliver a seamless, location-aware shopping experience.
+---
+## 1) Product Overview
+- **Problem Statement:** Women seeking a perfect dress for a specific moment (party, date, wedding, vacation, etc.) struggle to find something that matches exact prefe
+
+===== Proxy/Reverse Proxy.md =====
+A reverse proxy is used by the server-side to accept request from clients on behalf of the actual server, hiding the server's identity. The response from the back-end server is sent back to the client through the reverse proxy.
+A reverse proxy is used by the server to handle incoming traffic from multiple clients and distribute it to the back-end servers.
+- it is typically used to protect the actual server's infrastructure and load balance traffic.
+> [!INFO] Reverse proxies can keep a [cache](https://en.wikipedia.org/wiki/Cache_(computing)) of static content, which further reduces the load on these internal servers and the internal network.
+
+===== Python/ASGI.md =====
+Asynchronous Server Gateway Interface (ASGI)
+web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
+- built as a successor to the Web Server Gateway Interface ([[WSGI]]). Superset of WSGI.
+- WSGI provide a standard for synchronous Python application, ASGI porvides one for both asynchronous and synchronous applications, with a WSGI backwards-compatibility implementation and multiple servers and application frameworks.
+- allowing WSGI applications to be run inside ASGI servers through a translation wrapper (provided in the asgiref library).
+>[!NOTE] WSGI
+>A thread pool can be used to run the synchronous WSGI applications away from the async event loop
+>
+
+===== Python/GIL (Global interpreter lock).md =====
+[GIL](https://en.wikipedia.org/wiki/Global_interpreter_lock](https://en.wikipedia.org/wiki/Global_interpreter_lock)
+**Global interpreter lock** : A global interpreter lock is a mechanism used in computer-language interpreters to synchronise the execution of threads so that only one native thread (pre process) can execute one thread to execute at a time, even if run on a multi-core processor.
+- application running on implementations with a GIL can be designed to use separate processes to achieve full parallelism, as each process has its own interpreter and in turn has its own GIL.
+- otherwise the GIL can be a significant barrier to parallelism.
+
+===== Python/Python.md =====
+# Python
+- ref
+	[https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/](https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/)
+	[https://docs.python.org/3/library/inspect.html#module-inspect](https://docs.python.org/3/library/inspect.html#module-inspect)
+	[https://docs.python.org/3/glossary.html](https://docs.python.org/3/glossary.html)
+	[https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf](https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf)
+```bash
+python3 -m pdb <"python file to debug">;
+```
+- dashes are illegal in Python identifiers
+- The `sys.path` list contains all the directories that Python will search for modules when you try to import them.
+## Python ver
+
+===== Python/create python package from source.md =====
+# Python Package Setup
+This guide explains how to turn the `python/` folder into an installable package for use in other projects.
+The sample code under `python/src/` is currently a flat set of scripts. To reuse it as a library, follow the steps below.
+---
+## Target Layout
+```
+python/
+├── pyproject.toml
+├── README.md
+├── package-setup-readme.md
+├── examples/
+│ └── app_sample.py
+└── src/
+└── doverunner_cpix/
+├── __init__.py
+├── cpix_client.py
+├── content_packaging_data.py
+├── drm_type.py
+├── encryption_scheme.py
+├── exceptions.py
+
+===== Python/uwsgi.md =====
+# User web server gateway interface 
+```bash
+uwsgi --ini uwsgi.ini
+```
+uWSGI acts as a bridge between your web application and the web server (like Nginx or Apache). It takes care of communication, request handling, and process management.
+- You configure uWSGI using a configuration file (often named `uwsgi.ini`). This file contains settings like the application entry point, the number of worker processes, and more.
+- uWSGI operates using a master-worker model. The master process manages the worker processes that actually handle incoming requests. Each worker is essentially an instance of your application.
+
+===== README.md =====
+# Back2Basics
+Staff-engineer **field notes** — fast retrieval for debugging, standard configs, and solid mental models.
+Not a framework zoo. Not man-page dumps. Notes are written for software engineers under pressure: OS, networking, databases, containers, IaC, security, and the runtimes you ship.
+---
+## Start here
+| Need | Open |
+|------|------|
+| How notes are structured | [[NOTES_STANDARD]] |
+| Symptom → note map | [[INDEX]] |
+| Staff-level skill model | [[staff engineer]] |
+---
+## What good looks like
+Every note should answer under ~2 minutes:
+1. **What is this?** (mental model)
+2. **How do I configure it correctly?** (standard config / commands)
+3. **How do I debug it when it breaks?** (triage table)
+4. **What bites people in production?** (gotchas)
+Templates already in the vault: [[T
+
+===== RTQ/RTQ Concepts.md =====
+## Redux Toolkit (RTK) — Full Feature Reference
+### 1. `configureStore()`
+Wraps `createStore` to provide simplified configuration with good defaults — automatically combines slice reducers, adds middleware, includes `redux-thunk` by default, and enables the Redux DevTools Extension.
+```js
+import { configureStore } from '@reduxjs/toolkit'
+const store = configureStore({
+  reducer: {
+    // your slice reducers go here
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(/* custom middleware */),  // extend defaults
+  preloadedState: {},     // optional initial state (for SSR / hydration)
+  enhancers: (getDefaultEnhancers) =>
+    getDefaultEnhancers().concat(/* custom enhancers */),
+  devTools: true,         // auto-disabled in production
+})
+```
+---
+### 2. `cre
+
+===== RTQ/matcher.md =====
+In Redux Toolkit, multiple matchers for the same event **do run sequentially**, but splitting them into separate matchers here provides **no benefit** because:
+1. Both matchers react to the **same event**
+2. They don't depend on each other's result
+3. There's no side effect or ordering logic between them
+The sequential execution only matters when the **second matcher depends on state changed by the first**, for example:
+```js
+// This makes sense split — second reads what first wrote
+.addMatcher(event, (state, action) => {
+  state.locations = action.payload?.data;        // sets locations
+})
+.addMatcher(event, (state, action) => {
+  state.selectedHotel = state.locations?.[0];    // reads locations ← depends on above
+})
+```
+But in your code both matchers read directly from `action.payload`, 
+
+===== Rendering performance/composite.md =====
+Compositing is where the painted parts of the page are put together for displaying on screen.
+since the part of the page were potentially drawn onto multiple layers, they need to be applied to the screen in the correct order.
+- especially important for elements that overlap another.
+#### factors affect page performance:
+1. number of compositor layers to need to be managed.
+2. the properties that you use for animations.
+- Stick to transform and opacity changes for your animations.
+- promote moving elements with `will-change` or `translateZ`.
+- avoid overusing promotion rules; layers requires memory and management.
+
+===== Rendering performance/critical rendering path.md =====
+- is a crucial sequence of steps that web browsers follow to convert HTML, CSS and JavaScript into a visual representation on the screen.
+### Pipeline
+1. Document Object Model Construction
+	1. the browser receives the HTML document and begins parsing it to create the DOM, a tree structure that represents the document's content and structure.
+	2. this process involves converting bytes to characters, identifying tokens, and building nodes incrementally as HTML is received.
+2. CSS Object Model (CSSOM) Construction
+	1. after constructing the DOM, the browser processes CSS files to create the CSSOM.
+	2. this model represents the styles associated with the element with the element in the DOM, allowing the browser to understand how to style the content.
+3. Render Tree Creation
+	1. browser combine
+
+===== TypeScript/Triple-Slash Directives.md =====
+are single-line comments containing a single XML tag.
+- the contents of the comment are used as [[compiler directives]].
+> [!NOTE] Triple-Slash Directives are only valid at the top of their containing file.
+- also serve as a method to order the output when using `out` or `outFile`.
+	- files are emitted to the output file location in the same order as the input after preprocessing pass
+> [!INFO] an easy way to think of triple-slash-reference-types directive are as an `import` for declaration packages.
+
+===== TypeScript/ambient modules.md =====
+- in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
+- particularly useful for integrating third-party libraries that do not have TypeScript definitions or were not originally written in TypeScript.
+- also know as declarative modules, enable you to describe the shape and structure of an external module.
+#### How to declare an Ambient Module
+- to declare an ambient module you use the `declare module` syntax followed by the module name.
+```typescript
+declare moudle `example-module` {
+	export function exampleFunction(param: string): number;
+	export const exampleVariable: string;
+}
+```
+##### Using ambient module
+```typescript
+import { exmapleFunction, exampleVariable } from 'exmaple-module';
+cosnt result 
+
+===== TypeScript/class-transformer.md =====
+[install](https://www.npmjs.com/package/class-transformer)
+```ts
+import { plainToInstance, Exclude, Expose } from "class-transformer";
+class UserDTO {
+    @Expose() id: string;
+    @Expose() name: string;
+    @Expose() email: string;
+    @Exclude() password: string; // Exclude password from response
+    constructor(partial: Partial<UserDTO>) {
+        Object.assign(this, partial);
+    }
+}
+// Express Route using class-transformer
+app.get("/users/:id", async (req, res) => {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    const serializedUser = plainToInstance(UserDTO, user.toObject());
+    res.json(serializedUser);
+});
+```
+
+===== TypeScript/tsconfig.md =====
+#### change the lib compiler
+> to change the `lib` compiler, update the `tsconfig.json` file. The `lib` option specifies a list of built-in TypeScript library files to include in the compilation.
+### ts config not able to detect `types` modules
+> if already have the `@types` package installed in your `node_modules`, but TypeScript is still unable to find them, you might need to add a `typeRoot` or `types` field in you `tsconfig.node.json` to explicitly specify where TypeScript should look for type definitions.
+`tsBuildInfoFile`: option in the `tsconfig.json` file
+- specifies the location where TypeScript should store incremental compilation information.
+- these files helps typescript speed up subsequent compilations by storing information about the previous compilations.
+- the `tsBuildInfo
+
+===== TypeScript/typescript error.md =====
+## Augmentations for the global scope can only be directly nested in external modules or ambient module declarations.
+The error can be fixed by adding the `export {}` statement at the end of the file. This turns the file into a module, which is required for global augmentations in TypeScript.
+> [!NOTE] TypeScript allows global augmentations in modules. The empty export doesn't affect runtime behavior
+> [!INFO] **"no overlap"** message in the error means that TypeScript is telling you these two types **do not share any common values** and thus, the comparison is likely incorrect.
+### All declaration must have identical modifiers Error
+- might have missed the `typeof` keyword and directly used the property when creating a generic type.
+
+===== TypeScript/typescript extend types.md =====
+### User proper module augmentation
+- create a file named `express.d.ts` in the root of your project or inside a `@types` folder.
+```ts
+declare module "express" {
+	interface Response {
+		success: (data: any) => void;
+	}
+}
+```
+> [!INFO] typescript treats this as a new module declaration, not an augmentation.
+- it replaces Express types instead of extending them.
+- As a result `Request`, `NextFunction`, etc., are no longer available when you try to import them.
+```ts
+import "express";
+declare module "express" {
+	interface Response {
+		success: (data: any) => void;
+	}
+}
+```
+
+===== TypeScript/typescript types.md =====
+```ts
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
+```
+```ts
+type CountryPopulation = Record<string, number>;
+```
+- `Record` utility type in TypeScript create an object type with specified keys and value types.
+- `K extends keyof any` means K can be any valid object property key type (string, number, or symbol)
+- `T` is the type of values that will be stored.
+- `[P in K]` uses a mapped type to iterate over all possible values of K
+The result is an object type where every key from K maps to a value of type T
+> [!INFO] we can assign default type parameter
+```ts
+interface Response<ResBody = any>
+```
+## declare keyword
+- it is used to tell the compiler that a variable or property exists but is defined elsewhere.
+### Typescript name-space definition
+- specify `.d.ts` file l
+
+===== TypeScript/typescript.md =====
+### Types
+- Can define global level types, without importing them and still use them in your code.
+#### Global types
+> [!NOTE]
+> `declare` is specific to TypeScript only
+```typescript
+declare type MyType = {
+	name: string;
+	age: number
+}
+```
+```typescript
+const person: MyType = {
+	name: "john",
+	age: 32
+}
+```
+#### Ambient Modules
+- 
+## Namespaces
+
+===== Useful prompt for learning with AI chat.md =====
+**_What are the most important facts, dates, or formulas related to (topic)? Help me create a memorization technique to remember them easily.”_**
+- helpful approach is to develop mnemonics, which are mental shortcuts that associate new information with existing knowledge, making it easier to retain.
+**_Use your knowledge of (topic) to solve a real-world problem. Explain your thought process and share your solution._**
+**_Compare and contrast (concept 1) and (concept 2) to better understand their similarities and differences. Use examples to illustrate your points._**
+**_I made a mistake while practicing (skill). [Describe the mistake if you can]. Can you explain what went wrong and how I can avoid making the same mistake in the future?_**
+
+===== WORKLOG.md =====
+# Work Log — DRM Streaming Demo
+**Project:** Browser DRM playback demo (streaming origin + Widevine + license server)  
+**Period:** June 2026
+---
+## Brief introduction
+I built a demo for playing **DRM-protected streams** in the browser. The system connects a **streaming media server** (origin), a **multi-DRM license provider** (Widevine), an **HTML5 adaptive player**, and a **Node.js/Express** backend.
+The Node server has two responsibilities: **generate license tokens** for Widevine playback, and **reverse-proxy the streaming origin** under a local path so the browser can load manifests and segments from the same origin without CORS issues. A simple web UI lets you choose stream name and protocol (DASH/HLS) and play encrypted content in a Widevine-capable browser.
+---
+## What I created
+| 
+
+===== android/adb device.md =====
+## Setup Unauthorized device
+```bash
+adb devices;
+adb logcat; # view logs
+```
+```bash
+lsusb; # find vendor iD
+```
+```text
+Bus 002 Device 005: ID 04e8:6860 Samsung Electronics
+```
+- `04e8` vendor id
+```bash
+sudo vi /etc/udev/rules.d/51-android.rules;
+```
+```text
+SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", MODE="0666", GROUP="plugdev"
+```
+- replace the vendor id
+```bash
+
+===== apache/CGI.md =====
+Common Gateway Interface -> is a standard protocol that allows a web server to interact with external programs (called CGI scripts or programs) to generate dynamic content, rather than just serving static files.
+Process per request -> Each CGI invocation spawns a new process, which is resource-intensive (slow for high traffic). This is why modern alternatives like FastCGI, mod_php, or application servers (Node.js) are preferred.
+> [!INFO]
+> CGI was foundational for early dynamic web sites in the 1990s but is rarely used for new projects due to performance overhead.
+
+===== apache/apache command.md =====
+```bash
+sudo a2enmod rewrite;
+```
+- enables the Apache module named `mod_rewrite`.
+- `mod_rewrite` is a built-in Apache module that allows rewriting requested URLs on the fly.
+- it commonly used to convert clean URLs like `/blog/post-title` into actual internal file paths like `index.php?post=post-title`.
+- it was likely disabled by default on your system, which is common for Apache installs.
+> [!INFO]
+> Internally this command add a symbolic like for `rewrite.load` from `/etc/apache2/mods-available` into `/etc/apache2/mods-enabled/`. This tells Apache to load the `rewrite_module` at runtime.
+> [!WARNING]
+>  Without both steps, rewrite rules in `.htaccess` would not work and URLs like `/login` or `/user/123` would return `Not Found` unless the file physically existed.
+
+===== apache/apache configurations.md =====
+```bash
+sudo a2enmod rewrite;
+sudo systemctl restart apache2;
+```
+```bash
+cat /etc/apache2/envvars; # see here for apache group and user.
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+```
+> [!NOTE] 
+> change the user and group of the files so `apache2` can access those files. Otherwise you will get permission error.
+```bash
+sudo chown -R www-data:www-data /path/to/folder
+sudo chmod -R 755 /path/to/folder
+sudo chown -R www-data:www-data /var/lib/php/sessions
+sudo chown -R www-data:www-data /var/www/html/your-project-folder
+```
+> [!NOTE]
+> On Ubuntu, www-data is the default user and group for web services like Apache and PHP-FPM, making it a convention for web-related file ownership.
+> [!NOTE]
+
+===== apache/fastCGI servers.md =====
+Fast Common Gateway Interface -> binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way for web servers to interface with external applications for generating dynamic content.
+- Process that handles dynamic content generation (like php, python etc.) and communicates with web servers (like Nginx) via the FastCGI protocol.
+> [!NOTE]
+> FastCGI runs the application as [[persistent processes]] (often called workers or daemons) separate from the web server. These processes stay alive and handle multiple requests over time.
+> The web server communicates with the fastCGI application via a persistent connection (usually TCP socket or Unix domain socket), using a binary protocol for efficiency.
+> [!INFO]
+> - web servers like Nginx cannot interpret 
+
+===== compiler/clang.md =====
+- is a compiler front-end for the C, C++, Objective-C and Objective C++ programming languages.
+- it is part of the LLVM (Low-Level Virtual Machine) project and is designed to offer fast compilation.
+- Clang can also be used as a drop-in replacement for GCC (GNU Compiler Collection).
+> [!INFO] clang is used if **Firefox build toolchain*** because of compatibility with advanced static analysis and debugging tools.
+> [!INFO] clang provides clear and more human-readable error messages compared to other compilers, especially in C++ projects.
+## In firefox
+**Static analysis tools** help identify potential issues in the Firefox codebase before they become runtime bugs.
+**Clang Static analyzer** tool helps to catch memory leaks, uninitialized variables, and other errors that may be hard to spot du
+
+===== compiler/object code.md =====
+ is a product of a [[compiler]].
+ - sequence of statements or instructions in a computer language.
+ - a portion of machine code that has not yet been linked into a complete program.
+ - require a [[linker]] to link with other modules.
+### Overview
+Typically, an object file can contain three kinds of symbols:
+- defined "external" symbols, sometimes called "public" or "entry" symbols, which allow to be called by other modules
+- undefined "external" symbols, which reference other modules where these symbols are defined.
+- local symbols, used internally within the object file to facilitate relocation.
+>[!INFO] linker use offset or placeholders in object code to connect everything together.
+>[!INFO] where machine code is binary code that can be executed directly by the CPU, object code has the j
+
+===== cookies/cookies configuration.md =====
+[cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cookie)
+```shell
+HTTP/1.0 200 OK
+Content-type: text/html
+Set-Cookie: theme=light
+Set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2024 10:18:14 GMT
+httpOnly
+```
+> [!INFO]
+> `httpOnly` attribute forbids any JavaScript access to the cookie. We can't see such a cookie or manipulate it using `document.cookie`
+> [!NOTE] 
+> Cookies have several attribute, many of which are important and should be set.
+```js
+document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
+```
+> [!WARNING] 
+> By default, if a cookie doesn't have one of these attributes, it disappears when the browser/tab is closed (max-age, expires).
+> Such cookies are called **session cookies**
+#### Authentication cookies
+- the cookie sho
+
+===== cookies/cookies lifecycle.md =====
+**Cookies types**
+- Session -> deleted when tab/session ends
+- Persistent -> stored until expiration
+- Host-only -> not shared with subdomains
+**Storage rules**
+- Stored per domain + path scope
+- Public suffix protection (cannot set `.com` etc)
+- Attributes control visibility/security
+`Path` -> Which routes auto-send this cookie
+`Domain` -> Which subdomains can access it
+`Max-Age/Expires` -> Defines **persistence**
+`HttpOnly` -> JavaScript **cannot** read it
+`Secure` -> Only over **HTTPS**
+`SameSite` -> Controls cross-site sending
+`Priority` -> Browser eviction order
+**Automatic sending in requests**
+- Browser checks domain + path + security flag
+- If matched -> adds to `Cookie:` request header
+`SameSite=Lax/strict` -> blocks many cross-site sends (CSRF defence).
+`HttpOnly` -> protects fro
+
+===== core fundemental.md =====
+# 🧠 40-Year Core Computer Science Knowledge Checklist
+## ✅ 1. Algorithms & Data Structures
+- [ ] Sorting, searching, hashing (merge sort, quicksort, binary search)
+- [ ] Graph algorithms (BFS, DFS, Dijkstra, Kruskal, Prim, Bellman-Ford, A*)
+- [ ] Dynamic programming & greedy paradigms
+- [ ] Trie, Segment tree, Fenwick tree, Union-find (DSU)
+- [ ] Suffix arrays, KMP, Rabin-Karp
+- [ ] Complexity analysis: time, space, Big-O, amortized
+- [ ] Randomized & approximation algorithms
+## ✅ 2. Computer Architecture
+- [ ] Number systems, binary arithmetic, floating point
+- [ ] CPU internals: registers, cache, pipelining, superscalar
+- [ ] Memory hierarchy: SRAM, DRAM, paging, segmentation
+- [ ] Instruction Set Architectures (RISC, CISC)
+- [ ] GPU, SIMD, vectorization
+- [ ] Performance bottlenecks (Am
+
+===== css/CSS property.md =====
+- If you change the `<p>` element’s `display` property to `inline`, the `::first-letter` pseudo-element **will not work** because `::first-letter` only applies to block-level elements.
+### Multipline ellipsis
+```css
+h1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;      /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+```
+## at-rules
+- they are not style selectors, but directives that control how CSS is parsed and applied.
+```css
+@import "file.css"; /* bring external css */
+@media (max-width: 768px) {}; /* apply rules under conditions */
+@font-face {}; /* define custom fonts */
+@keyframe fade {}; /* define animations */
+@supports; /* feature queries (if browser supports property) */
+@layer; /* define cascade layers (CSS Cascade Lev
+
+===== css/tailwindcss Error.md =====
+`[plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class `w-3`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive`
+> [!INFO]
+> [reference directive](https://tailwindcss.com/docs/functions-and-directives#reference-directive)
+```css
+@reference "tailwindcss";
+```
+- include this directive in the `style.module.css` file
+- `tailwindcss` -> because you are using the default theme with no customisation, you can import `tailwindcss` directly
+
+===== dart/dart.md =====
+`factory ApiRoomDate.fromJson(...)`
+- Factory -> Unlike a normal constructor, a `factory` constructor can return an existing instance or even a subclass. In this context, it's used to return a fully populated `ApiRoomData` object after processing the JSON.
+- Map<String, dynamic>  -> This represents the structure of a standard JSON object (keys are Strings, values can by anything)
+## Factory constructor
+- is a specialized constructor that doesn't always create a new instance of its own class.
+- while a generative constructor (the standard one) always creates a new object and initializes its fields, a factory constructor gives you more control over the instantiation process.
+
+===== flutter/Flutter app icon change.md =====
+Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).
+## Prerequisites
+- Flutter SDK installed and working
+- Source image: `WasteManagement.png` at the repo root (`EquipTrack/WasteManagement.png`)
+- Recommended: square PNG, ideally **1024x1024** (minimum **512x512**)
+## Scope
+This procedure updates launcher icons for:
+- Android
+- iOS
+- Web (PWA icons)
+- Windows
+- macOS
+Optional follow-ups cover login screen branding and web manifest theme colors.
+## Step 1: Place the source icon in the Flutter project
+```bash
+cd WasteManagement
+mkdir -p assets/icon
+cp ../WasteManagement.png assets/icon/app_icon.png
+```
+Use the filename `app_icon.png` to match the EquipTrack-app convention.
+
+===== flutter/flutter cli.md =====
+AOT (Ahead-of-Time Compilation)
+```bash
+flutter bash-completion;
+flutter create <DIRECTORY>; # Creates a new project
+flutter install -d <DEVICE ID>; # Install flutter app on an attached device.
+flutter logs; # SHow log output fo running flutter apps.
+```
+```bash
+flutter run; # Users JIT (Just-In-Time) compilation
+flutter attach -d <DEVICE ID>;
+```
+## Channel
+A channel is a release stream of the Flutter SDK. Each channel receives updates at different speeds and stability levels.
+> [!INFO]
+> Flutter channels are official Flutter SDK repository.
+```bash
+flutter channel; # list channel
+flutter channel beta; # switch channel
+```
+
+===== flutter/flutter debugging.md =====
+### Process description
+| Process           | Purpose                                           |
+| ----------------- | ------------------------------------------------- |
+| `dart:dartdev_ao` | Dart CLI launcher (`dart` command infrastructure) |
+| `dart:flutter_to` | Flutter tool (`flutter run`, `flutter build`)     |
+| `adb`             | Android Debug Bridge command                      |
+| `dart:dartdev_ao` | Another Dart CLI helper process                   |
+| `adb`             | Another ADB invocation                            |
+| `dart:frontend_s` | Dart frontend server (compiler)                   |
+
+===== flutter/flutter error.md =====
+```text
+Try `flutter pub outdated` for more information.
+Launching lib/main.dart on motorola edge 50 fusion in debug mode...
+FAILURE: Build failed with an exception.
+* What went wrong:
+Value '/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home' given for org.gradle.java.home Gradle property is invalid (Java home supplied is invalid)
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+Running Gradle task 'assembleDebug'...                           1,099ms
+```
+- installed at macOS location `/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home`
+- you are on linux ubuntu, Gradle cannot start JVM
+Why people add this:
+- mu
+
+===== flutter/flutter widget.md =====
+If `MaterialPageRoute` took a direct widget instance instead of a builder, you would have to create that screen's widget in memory before you even navigated to it.
+By using `builder`, you are essentially giving Flutter a "recipe" rather than the "backed cake". Flutter will hold onto that recipe and only execute it (build the widget) at the exact moment the user navigates to that route.
+The `builder` function provides a `BuildContext`
+```dart
+builder: (BuildContext context) => MyNewScreen(),
+```
+- every widget in Flutter need a `BuildContext` to know where it lives in the overall Widget tree. The context provide by the `builder` is the context of the new route, not the screen you are leaving.
+- Because the `builder` is a function executed at runtime, it allows you to pass dynamic arguments 
+
+===== golang.md =====
+
+
+===== golang/Makefile.md =====
+`.PHONY` is used in a Makefile to declare phony targets.
+- phony targets are not actual files but are names for commands that should always be executed when specified.
+- this helps avoid conflicts with files that have the same name as the target.
+> [!INFO] the `.PHONY` is simply marks the listed targets as phony, meaning they are not actual files and should always be executed when invoked.
+```
+.PHONY: all build run clean
+all: bulid
+build:
+	go build -o p2p-client cmd/main.go
+run build:
+	./p2p-client
+clean:
+	rm -rf p2p-client
+```
+- This ensures that these targets are always executed when invoked, regardless of whether files with the same names exist in the directory.
+> [!INFO] is makefile, targets are often name of files that the Makefile will generate or update.
+```
+output.txt: input.txt
+	c
+
+===== golang/Unbuffered channel.md =====
+An unbuffered channel in Go is a type of channel that does not store any data. It only allows communication between two go-routines when both are ready to send and receive a message at the same time. This ensures that the sender and receiver are synchronized during the communication.
+- No Buffer: The channel has no capacity to hold values; messages are passed directly between the sender and receiver.
+- Synchronization: The sender will block (wait) until the receiver is ready to receive the value, and vise versa.
+
+===== golang/go callstack.md =====
+class stack unwinding -> walking backward through the chain of function calls, exiting one function at a time until reaching the top.
+"During each exit, Go runs any `defer` statements"
+When `panci()` happens, Go does not immediately destroy a function. Before removing a function from the call stack, Go checks.
+"Does this function have any `defer` statements? If yes, execute them first."
+```go
+panic
+↓
+for every function being removed from stack:
+    run deferred functions
+    remove function from stack
+```
+
+===== golang/go cli.md =====
+```shell
+go mod init <domain name/username/module name>;
+go mod tidy;
+go mod verify;
+go get <package>;
+go run <file.go>;
+go build;
+go install;
+```
+```shell
+go mod edit --replace example.com/module=../module; # Replace a module with local version
+```
+```shell
+go clean -cache;
+go list -m all; # list dependencies
+go get -u ./..; # upgrade dependencies
+go doc <package>;
+```
+#### Using `pmap` (Memory Map of the Process)
+- run your go program and capture its memory map
+
+===== golang/go data structure.md =====
+### Binary tree
+- data structure where underneath each node there exist _at most_ two other nodes.
+- the node can be connected to one, two, or no other nodes.
+ depth of tree -> also called height of a tree, is defined as the longest path from the root to a node, wheres the **depth of a node ** is the number of edges from the node to the root of the tree.
+a leaf -> is a node with no children.
+a balanced tree -> when the longest length from the root node to a leaf is at most one more than the shortest such length.
+> [!INFO] balancing a tree might be a difficult and slow operation
+> - so it is better to keep your tree balanced from the beginning rather than trying to balance it after you have created it.
+> [!INFO] Advantages of binary tree
+> - if the tree is not balanced, then the performance
+
+===== golang/go debugging.md =====
+### setup debugger
+- prerequisite
+	- install Delve debugger for golang
+```bash
+go install github.com/go-delve/delve/cmd/dlv@latest
+```
+```bash
+cat go.mod; # check for module: "module github.com/username/myproject"
+# project name is myproject
+```
+> [!NOTE] The `+incompatible` suffix in the version string indicates that the package does not use Go modules and does not have a `go.mod` file in its repository.
+- - `+incompatible` suffix to indicate this incompatibility.
+- This does not affect the functionality of the package itself; it just serves as a warning that the package may not fully support module semantics.
+> [!NOTE] include debugging symbols in the binary. These symbols provide essential information to the debugger about the structure and flow of your code. Without these symbols, the 
+
+===== golang/go error.md =====
+```txt
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x18 pc=0x47a79c]
+goroutine 1 [running]:
+main.main()
+	/home/mihir/GitHub/Practice/lab/go-lang/main.go:14 +0x1c
+exit status 2
+```
+- This means you program tried to call a method or access memory through a `nil` reference.
+
+===== golang/go features.md =====
+> [!NOTE]
+> - Go intentionally makes iteration order unpredictable. To prevent developers from accidentally relying on map iteration order.
+> - Go doesn't have class inheritance.
+### Struct embedding (closest to `extends`)
+```go
+type Animal struct {}
+func (a *Animal) Eat() {
+	fmt.Println("Eating")
+}
+type Cat struct {
+	Animal
+}
+// Override methods. This is method shadowing
+func (c *Cat) Eat() {
+	fmt.Println("Cat eating")
+}
+func main(){
+	cat := Cat{}
+	cat.Eat()
+}
+
+===== golang/go functions.md =====
+```go
+func add(a int, b int) int {
+	return a+b;
+}
+func getDetails() (string, int) {
+	// Multiple Return values: Can return multiple values;
+	return "Alice", 25
+}
+func getStatus() (status string, code int) {
+	// Named Return Values
+	// Return values are named, and you can return them without explicitly using return.
+	status = "Success"
+	code = 200
+	return
+}
+func sum(nums, ...int) int {
+	// Functions that accept a variable number of arguments.
+	total := 0
+	for _,num := range nums {
+		total += num
+
+===== golang/go interface.md =====
+> Go employs **structural subtyping** (implicit interface satisfaction) rather than nominal subtyping (explicit `implements` declarations). This design decision optimizes for dependency management, package decoupling, and retroactive abstraction at the compiler level.
+### Orthogonal Dependency Graphs (Decoupling)
+Explicit implementations (e.g., `class A implements B`) force the package defining the concrete struct to import the package defining the interface. This creates rigid dependency chains and increases the risk of circular dependencies.
+implicit interface invert this relationship : the consumer defines the interface based on the behavior it requires, and the producer remains completely unaware of the interface. The packages remain strictly orthogonal.
+
+===== golang/go learning.md =====
+Here is a detailed series of **copy-paste ready prompts** you can feed sequentially to any AI agent (like me, Claude, or ChatGPT) over the next 6 months. Each prompt is self-contained, builds on prior ones, and turns the AI into your personal Go interview coach.
+**Instructions for use:**
+- Run prompts in order, one session per topic/project/mock.
+- After each AI response, paste your code/answers back with: _"Here is my attempt. Review it line-by-line, score 1-10, suggest idiomatic improvements, and give me the next exercise."_
+- Aim for 7-10 hours/week: 60% coding, 30% Q&A drills, 10% review.
+- Track progress in a GitHub repo with weekly commits.
+---
+## 🎯 **PHASE 1: FOUNDATIONS (Months 1-2)**
+## **Prompt 1.1: Create your personalized Go roadmap**
+text
+`I have 6 months to prepare for Go bac
+
+===== golang/go package.md =====
+a go package is a go source file that begins with the `package` keyword followed by the name of the package.
+> [!INFO] Apart from the packages of the go standard library, there exist external packages that can be imported using their full address and that should be downloaded before their first use.
+- each file start with a `package` declaration.
+- `go.mod` it is used as the base path for imports within the module.
+- A package is a collection of Go course files in the same directory that are compiled together.
+- the import path is the unique identifier for a package. It is typically the directory path relative to the `GOPATH` or module root.
+> [!NOTE] Each directory of your project determines the package structure. Each directory corresponds to a package.
+> [!INFO] the visibility of (varia
+
+===== golang/go project.md =====
+# Go Backend Projects: Brief Specifications
+## **Beginner (Syntax, Structs, Testing)**
+## **1. CLI Todo App**
+text
+`- Add/list/delete/complete todos   - Persist to JSON file - Flag parsing (go flags) - Input validation, pretty table output - 100% unit tests`
+**Files**: `main.go`, `todo.go`, `store.go`, `cmd/*.go`
+## **2. URL Shortener CLI**
+text
+`- Shorten/expand URLs (base62 encoding) - In-memory LRU cache (100 entries) - Validate URLs, collision handling - Stats: total short/expand calls - Benchmark encoding`
+**Files**: `main.go`, `shortener.go`, `lru.go`
+## **3. File Stats Analyzer**
+text
+`- Scan directory recursively - Concurrent file scanning (10 goroutines) - Stats: files by type/size/age - JSON/CSV output - Graceful shutdown (SIGINT)`
+**Files**: `main.go`, `scanner.go`, `stats.go`
+#
+
+===== golang/go-routines.md =====
+- A go-routine is a lightweight, concurrent thread of execution in Go.
+	- go-routines are much lighter than operating system threads. They use very little memory (typically 2KB per go-routine)
+- Managed by go runtime and are cheaper in terms of memory and resources allocation compared to threads in other programming languages.
+## How Go-routines work
+1. create a go-routine by using `go` keyword followed by a function call. This create a new concurrent task running alongside the current go-routine.
+```go
+go func() {
+	for event := range events {
+		fmt.Printf("received: %v\n", event)
+	}
+}
+```
+
+===== golang/go.md =====
+`package main` tells the Go compiler: "The package is the entry point of an executable program". Without this Go treats the code as a reusable library/package.
+`go mod init example.com/myapp` -> it is a globally unique identifier for you go project. Identify your module uniquely. Without a unique path collision occurs
+```txt
+github.com/alice/utils
+github.com/bib/utils
+```
+- Go resolves imports relative to the module path.
+> [!WARNING]
+> every `.go` file must declare a package, and all `.go` files in the same directory (except tests) must belong to the same package.
+```txt
+project/
+├── main.go         -> package main
+├── user/
+│   ├── user.go     -> package user
+│   └── helper.go   -> package user
+└── auth/
+    └── auth.go     -> package auth
+```
+- but Go does __not require the package name
+
+===== helm/cli.md =====
+```bash
+helm repo add <namespace> <url> <flag>;
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+help repo udpate;
+help search repo nginx;
+help search repo ingress;
+```
+```bash
+helm install my-ingress ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.service.type=NodePort
+```
+```bash
+helm list -A;
+helm status my-ingress -n ingress-nginx;
+helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx;
+helm uninstall my-ingress -n ingress-nginx;
+```
+
+===== helm/helm.md =====
+```bash
+helm list
+helm get values 
+```
+- The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
+## Deployment
+Helm is package manager for kubernetes.
+- tool to install, upgrade, and manage complex applications on Kubernetes (like the Nginx Ingress Controller). Instead of manually applying many YAML files, Helm uses a pre-packaged bundle called a Chart.
+Chart -> contains all the necessary Deployment, Services, ConfigMaps, RBAC roles, etc. in one place.
+### Deploy controller
+installing and running the actual software (application) that will implement and enforce your ingress rules.
+> [!NOTE]
+> You c
+
+===== interview.md =====
+# JavaScript
+```js
+Object.getPrototypeOf(value).constructor.name; // Get type of any value
+```
+# SQL
+What is functional dependency means ?
+- value can be determined by the value of another attribute.
+- refers to the relationship between attributes (columns) within a relation (table).
+# Indexing
+- single-level index
+- multilevel indexes
+	- B+ tree have become a commonly accepted default structure for generating indexes on demand in most relational DBMS.
+- logical indexes
+- bitmap indexes
+- popular indexing scheme called [[ISAM]] (indexed sequential access method).
+- only create index for performance critical queries.
+
+===== kotlin/kotlin data flow.md =====
+`by` lets one object handle that logic of property on behalf of another object.
+```kotlin
+class User {
+	val name: String
+	get() {
+		// custom logic
+	}
+}
+```
+- you can move that logic into a separate reusable class and delegate to it.
+**Without delegation**
+```kotlin
+class User {
+	private var _config: Config? = null_
+	val config: Config
+		get() {
+			if (_config == null){
+				_config = loadConfig()
+			}
+			return _config!!
+
+===== kotlin/kotlin view.md =====
+`binding` is a ViewBinding object that provides type-safe access to UI element from your layout XML file.
+> [!INFO]
+> Instead of using `findViewById()`, you use `binding.viewName` to access views
+```kotlin
+val progressBar = findViewById<ProgressBar>(R.id.progressBar);
+progressBar.visibility = View.GONE
+binding.progressBar.visibility = View.GONE; // Direct access
+```
+### Recycler View
+A Recycler View is a container that displays a list of items on the screen efficiently. It `recycles` views as you scroll.
+
+===== npm/moment.md =====
+**Parsing**
+```js
+moment("2026-03-24")                    // parse from string
+moment(new Date())                      // parse from JS Date
+moment("2026-03-24", "YYYY-MM-DD")      // parse with explicit format (safer)
+```
+**Formatting**
+```js
+moment().format("YYYY-MM-DD")           // "2026-03-24"
+moment().format("MMMM DD")             // "March 24"
+```
+**Manipulation**
+```js
+moment().add(1, "days")                 // tomorrow
+moment().subtract(1, "days")           // yesterday
+moment().add(1, "months")              // next month
+```
+**Comparison**
+```js
+moment(a).isSame(moment(b), "day")      // same day check
+
+===== npm/mysql2.md =====
+> [!NOTE]
+> - in the `mysql2` package when you run DDL statements the response is a `RequestHeader`, not rows.
+## Create Pool connection
+```js
+const pool = mysql.createPool({
+  port: process.env.DB_PORT,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000,
+  idleTimeout: 60000,
+  enableKeepAlive: true
+});
+```
+## Connection shutdown
+```js
+
+===== npm/npm error.md =====
+```text
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+```
+- `baseline-browser-mapping` -> This package maintains a mapping of browser versions that support features in the Web Platform Baseline.
+---
+```text
+FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+```
+```bash
+NODE_OPTIONS="--max-old-space-size=4096" npm run build
+```
+Because **Node.js intentionally limits the amount of memory (heap) a JavaScript process can use**.
+Without a limit, a buggy application could consume all available RAM and make the entire system unstable.
+### What happens internally
+```text
+npm run build
+       ↓
+npm starts Node.js
+       ↓
+Node starts V8 (JavaScript
+
+===== npm/npm.md =====
+```bash
+npm root -g; # get the global npm node_modules location 
+```
+### peer dependency conflict during the `npm install` process
+`npm warn ERESOLVE overriding peer dependency`
+- it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual versions being installed.
+##### how to resolve
+```shell
+npm info <package> peerDependencies; # view peer dependencies
+npm install <package>; # install compatible peer dependencies
+npm install --legacy-peer-deps; # force install peer dependencies
+```
+```shell
+ => ERROR [frontend 5/6] COPY . .                                                                           21.5s 
+------                                                                                           
+
+===== npm/pnpm cli.md =====
+`pnpm approve-builds` -> is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
+```bash
+```
+- there is supply-chain security risk.
+Some npm packages execute scripts automatically during installation.
+- `esbuild` needs to download a platform-specific binary during `postinstall`.
+- instead of blindly executing it, `pnpm` may block it and ask for approval.
+`pnpm approve-build` -> it opens interactive prompt to approve packages that are allowed to execute build/ install scripts. After approval, `pnpm` records the decision in your project configuration.
+
+===== npm/pnpm logs.md =====
+### **Location of PNPM Logs**
+PNPM, like npm, stores logs when commands fail or require debug information.
+---
+### 1. **Default PNPM Log Location**
+PNPM logs are stored under the cache directory:
+[]()- **Path**:
+    ```
+    ~/.local/share/pnpm/store/v3/tmp
+    ```
+    - **For Linux/Mac**: `/home/username/.local/share/pnpm/store/v3/tmp/`
+    - **For Windows**: `C:\Users\username\AppData\Local\pnpm\store\v3\tmp\`
+---
+### 2. **Generate Logs in Verbose Mode**
+PNPM does not always generate detailed logs unless requested. Use `--reporter ndjson` or `--loglevel` options for debug logs.
+- **Run a PNPM Command with Debug Logs**:
+    ```bash
+    pnpm install --loglevel debug
+    ```
+    - It outputs detailed logs directly in the terminal.
+---
+
+===== npm/zod.md =====
+Making field options
+```js
+cosnt schema = z.object({
+	descriptino: z.string().max(500).optionl(),
+	images: z.array(z.string()).url().optionl();
+	starRating: z.number().int().min(1).max(5).optionl(),
+})
+```
+Default values
+```js
+const schema = z.object({
+	role: z.enum(["admin", "user", "guest"]).default("guest"),
+	theme: z.enum(["light", "dark"]).default("guest").optional().default("light"),
+})
+```
+`superRefine` and `refine`
+```js
+const authSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8).optional(),
+
+===== nvim/commands.md =====
+[[vim keybindings]] [[nvim setup]]
+```bash
+:Lazy update
+:echo stdpath('config');
+:echo stdpath('data'); #/usr/share directory
+:message; # view the log file ~/.local/state/nvim.log
+:lua =package.path; # print the current loaded path string
+:options; # per instance options setup
+```
+```lua
+print(vim.inspect(package.loaded['sg.nvim']));
+```
+```nvim
+vim.opt.rtp:prepend(lazypath)
+```
+- `prepend` method is used to add a new directory to the beginning of the runtime path.
+> [!NOTE] `rtp` stands for runtime path. The runtime path is a list of directories that Neovim searches when looking for files, plugins and configurations.
+- the runtime path determines where Neovim looks for its resources, such as plugins, syntax files, and other configuration files.
+### Treesitter
+#### Error is decoration prov
+
+===== nvim/nvim setup.md =====
+[[vim keybindings]] [[Descriptive/LSP]]
+```bash
+apt update neovim;
+nvim --version;
+```
+install `lazy.nvim` plugin manager
+```bash
+git clone https://github.com/folke/lazy.nvim.git \  
+~/.local/share/nvim/lazy/lazy.nvim
+```
+Create config directory
+```bash
+mkdir -p ~/.config/nvim/lua/plugins
+```
+```lua ~/.config/nvim/init.lua
+vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
+require("lazy").setup({
+  {
+    "ldelossa/nvim-ide",
+    dependencies = {
+
+===== open standard.md =====
+[rfc](https://datatracker.ietf.org/doc/html/rfc7519)
+## JSON Web Token (JWT)
+- URL-safe means of representing claims to be transferred between two parties.
+- the claims in a JWT are encoded as a JSON object that is used as the payload of a JSON Web Signature (JWS) structure or as the plain-text of  a JSON Web Encryption (JWE) structure.
+- these enable the claims to be digitally signed or integrity protected with a Message Authentication Code (MAX) and/or encrypted.
+### JWT claims
+- JWT claims Set represents a JSON object whose members are the claims conveyed by the JWT.
+- The Claim Names within a JWT Claims Set must be unique.
+- JWT parsers must either reject JWTs with duplicate Claims Names or use a JSON parser that returns only the lexically last duplicate member name, as specified in [h
+
+===== pm2/pm2.md =====
+> [!INFO]
+> pm2 runs as a non-root user (e.g., ubuntu, deploy, or your app user).
+```sh
+pm2 start npm --name <app name> -- start
+pm2 save; # synchronized with saved list.
+pm2 resurrect; # restore saved processes.
+pm2 show <process id>; # view the details of the process.
+pm2 env <process id>; # show all environment variabel of process id.
+```
+```sh
+pm2 delete <app name | id | all>;
+```
+`fastchi_pass` -> 
+```txt
+[PM2][WARN] Current process list is not synchronized with saved list. App booking-engine-app differs. Type 'pm2 save' to synchronize.
+```
+- this warning means `pm2` processes are not synced with saved list. If you reboot or use `pm2 resurrect` only the saved list is restored.
+- `pm2` keeps 2 versions of your process list
+	- current running process
+	- saved process list `~/.pm2/dump.p
+
+===== ssh-keygen key validity.md =====
+Whether a key is valid is determined by the server's configuration (e.g., whether the public key is present in `~/..ssh/authorized_keys`), not by the key itself.
+`-V` option only applies when signing or inspecting certificates, not when generating key.
+
+===== ssh/SSH authentication.md =====
+#### The verification process involves:
+- **Decrypting** the signed challenge with the public key.
+- Checking if the result matches the original challenge sent by the server.
+- If the signature matches, it proves the client has the corresponding private key
+### How Key Authentication Works in SSH (Verification of Signature by Server)
+SSH key-based authentication is built on **public-key cryptography**, which allows for secure, passwordless authentication. The core idea is that the client proves its identity to the server by signing a challenge with its private key, and the server verifies the signature using the client's public key.
+Here’s how the **key authentication process** works step-by-step:
+---
+## Step-by-Step Breakdown
+1. **Key Pair Generation**:  
+   - The client generates a **pub
+
+===== ssh/ssh agent.md =====
+use `ssh-agent` to hold your keys in memory. This prevents the need to type the passphrase repeatedly while keeping the key encrypted on the disk.
+> [!INFO]
+> `ssh-agent` is a background program that holds your decrypted private SSH keys in memory so you don't have to type your passphrase (or password) every single time you `git push` `ssh` `scp` etc.
+- acts as a key manager for [[SSH]] authentication.
+- stores private keys in memory
+- provide a form of [[single-sign-on (SSO)]] experience, where you can connect to multiple servers using the same authentication session
+### Key features
+- **Key Storage**: It holds private keys and their associated passphrases, enabling seamless authentication without manual entry each time
+- **Background Process**: Typically runs in the background, initiated
+
+===== ssh/ssh private network.md =====
+```bash
+ip addr show | grep inet
+```
+**Remove any wide-open ssh rule** 
+```bash
+sudo ufw delete allow 22;
+sudo ufw delete allow ssh;
+sudo ufw delete allow OpenSSH;
+```
+**Allow SSH only from your private network**
+```bash
+sudo ufw allow from 192.168.1.0/24 to any port 22 proto http
+```
+```bash
+sudo ufw allow from 192.168.1.0/24 to any port ssh
+sudo ufw allow from 192.168.1.0/24 port 22 proto tcp
+```
+**Reload `ufw`**
+```bash
+sudo ufw reload; # reload
+
+===== staff engineer.md =====
+As a Staff Engineer with 30 years in the industry, I have seen technologies rise and fall, but the path to the "Staff-plus" level remains anchored in one truth: **Your value is no longer measured by your output, but by your impact on the output of others.**
+To reach this level as a self-taught programmer, you must move from being a "solver of problems" to a "shaper of the environment" where problems get solved.
+## 1. The Staff Engineer Knowledge Matrix
+A Staff Engineer must possess a "T-shaped" depth in technical skills and a "comb-shaped" breadth in organizational context.
+|**Category**|**Must-Have Knowledge**|**Why It Matters**|
+|---|---|---|
+|**System Architecture**|Distributed systems, CAP theorem, eventual consistency, and microservices vs. monolith trade-offs.|You aren't just buildin
+
+===== tmux/tmux.md =====
+- Session → multiple windows
+- Window → full screen workspace
+- Pane → splits inside window
+```bash
+tmux ls; // list session
+tmux attach -t <name>; // attach previous session from outside of tmux
+```
+```bash
+ctrl+b z; # Toggle focus on pane
+ctrl+<space>; # Toggle pane layout
+```
+## Window
+```text
+C-b c // new window
+C-b n // next window
+C-b p // previous window
+C-b <number> // jump to window
+C-b , // rename window
+C-b & // kill window
+```
+
+===== vim/ed.md =====
+| Command      | Description           |
+| ------------ | --------------------- |
+| `e filename` | Open file for editing |
+| `w`          | Write changes to file |
+| `w filename` | Write to new file     |
+| `q`          | Quit                  |
+| `q!`         | Quit without saving   |
+| Command | Description                  |
+| ------- | ---------------------------- |
+| `1`     | Go to first line             |
+| `$`     | Go to last line              |
+| `.`     | Current line                 |
+| `n`     | Show line number and content |
+| Command | Description                            |
+| ------- | -------------------------------------- |
+| `a`     | Append after current line (`.` to end) |
+| `i`     | Insert before current line             |
+| `c`     | Change current line            
+
+===== vim/vim commands.md =====
+[[vim keybindings]] [[vim buffers]]
+```bash
+vim -R ; # start vim in Read-only mode.
+```
+```bash
+:g/TODO/d; # delete all lines containing work TODO
+```
+```vim
+Ctrl-a (increment number under cursor)
+Ctrl-x (decrement number under cursor)
+```
+```vim
+q: (open command history)
+@: (repeat last command)
+```
+### yank
+```vim
+"ay (yank into register 'a')
+"ap (paste from register 'a')
+```
+
+===== vim/vim config.md =====
+```bash
+# enable vim in terminal
+```
+```bash
+set clipboard=unnamedplus
+set expandtab
+set shiftwidth=4 # indentation commands >>, << shift by 4 spaces.
+set tabstop=4 # pressing <Tab> inserts 2 spaces because of expandtab.
+set expandtab # tabs are converted to spaces.
+```
+- Even with `xclip` installed, there is one major thing you have to check
+`+clipboard` check 
+```bash
+vim --version | grep clipboard;
+# - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`
+```
+- fix you need to install the enhanced version of vim
+```bash
+sudo apt install vim-gtk3; # this provide the liberary hooks for xclip
+```
+
+===== vim/vim mark.md =====
+> [!INFO]
+> The next time you want to edit your .vimrc, just press `'V` to open it. This assumes that you have kept the default ['viminfo'](http://vimdoc.sourceforge.net/cgi-bin/help?tag=%27viminfo%27) behavior, so that uppercase marks are all remembered in the [viminfo-file](http://vimdoc.sourceforge.net/cgi-bin/help?tag=viminfo-file) between Vim sessions.
+| Command     | Description                                                       |
+| ----------- | ----------------------------------------------------------------- |
+| `ma`        | set mark **a** at current cursor location                         |
+| `'a`        | jump to line of mark **a** (first non-blank character in line)    |
+| `` `a ``    | jump to position (line and column) of mark **a**                  |
+| `d'a`       | dele
+
+===== vite/vite config.md =====
+```bash
+vite --config my-config.js;
+```
+> [!NOTE]
+> Environment Variables _are_ automatically loaded later and exposed to application code via `import.meta.env` (with the default `VITE_` prefix filter)
+## ModuleRunner
+- A module runner is instantiated in the target runtime.
+- In dev mode, vite serves modules directly (ESM in browser). But Sometimes you need to execute a module inside Node:
+	- Server Side Rendering (SSR).
+	- Testing (Vitest).
+	- Running plugins that need evaluation.
+The ModuleRunner provides this execution environment.
+> [!NOTE]
+> module runner doesn't support CJS in config files, but external CJS packages should work as usual.
+```js
+/** @type {import('vite').UserConfig} */
+export default {
+	// ...
+}
+```
+
+===== vite/vite error.md =====
+The issue is now 100% clear: **you are running npm run build**, which executes `npx vite build`, but **`npx` is still trying to use the broken `./node_modules/.bin/vite` script that has no execute permission**.
+This is the classic “Permission denied” bug that hits almost everyone at least once (especially on WSL, Git-cloned repos, or when node_modules was copied from another machine).
+### Exact Diagnosis from Your Output
+```text
+> npx vite build
+sh: 1: vite: Permission denied
+```
+> [!INFO]
+> `npx` found vite inside ./node_modules/.bin/, but that file is not marked executable (`-rw-r--r--` instead of `-rwxr-xr-x`).
+
+===== vite/vite internal.md =====
+### Environment variable
+```js
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
+```
+- you can not directly use `process.env` like in Webpack setup. Instead vite uses `import.meta.env` to access environment variables.
+### Conditional config
+```js
+export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+  if (command === 'serve') {
+    return {
+      // dev specific config
+    }
+  } else {
+    // command === 'build'
+    return {
+      // build specific config
+    }
+  }
+})
+
+===== zed/zed debugger.md =====
+```text
+Console is in 'commands' mode, prefix expressions with '?'.
+Tried to launch debugger with: {
+  "request": "attach",
+  "name": "Attach New Session Setup",
+  "pid": 32126,
+  "cwd": "/home/mihir/GitHub/hotelApp_Flutter_Frontend"
+}
+error: Could not attach: The current value of ptrace_scope is 1, which can cause ptrace to fail to attach to a running process. To fix this, run:
+	sudo sysctl -w kernel.yama.ptrace_scope=0
+For more information, see: https://www.kernel.org/doc/Documentation/security/Yama.txt.
+```
+- The debugger is trying to attach to an already running process using Linux's `ptrace()` system call
+
+===== zed/zed keybindings.md =====
+[[zed config]] [[Descriptive/vscode]]
+# Zed keybindings
+## Completions & inline ghost text
+| Action | Linux / Windows | macOS |
+|--------|-----------------|-------|
+| Accept edit prediction (ghost text) | `tab` (no menu) · `alt-l` · `alt-tab` | `tab` · `alt-tab` |
+| Accept next word of prediction | `alt-k` | `ctrl-cmd-right` |
+| Accept next line of prediction | `alt-j` | `ctrl-cmd-down` |
+| Show / cycle edit prediction | `alt-\` · `alt-tab` / `alt-shift-tab` | `alt-tab` / `alt-shift-tab` |
+| Toggle edit predictions (buffer) | `ctrl-shift-e` | `ctrl-cmd-e` |
+| LSP completion menu | `ctrl-space` | `ctrl-space` |
+| Accept LSP menu item | `tab tab` | `tab tab` |
+| Dismiss menu / prediction | `escape` | `escape` |
+When the LSP popup and a ghost prediction conflict, **hold `alt`** to preview inl

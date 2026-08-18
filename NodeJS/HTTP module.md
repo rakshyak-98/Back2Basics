@@ -1,68 +1,72 @@
-## Use case for `http.createServer(app)`
+[[NodeJS]] [[expressjs]] [[Stream]]
 
-- this approach is useful in scenarios where you need more control over the HTTP server beyond what `app.linsten(port)` provides in Express.
+# HTTP module
 
-## Enabling WebSockets
+> Node’s built-in `http`/`https` servers and clients — Express sits on top; use raw server when you need the `Server` handle (WS, dual HTTP/HTTPS, graceful shutdown).
 
-- `http.createServer(app)` allows integrating WebSockets for real-time communication.
+## Mental model
 
-```js
-import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
+**Say it in one breath:** `http.createServer(handler)` returns a `Server` you `listen` on. Pass an Express `app` as the handler when you need Socket.IO or custom lifecycle beyond `app.listen`.
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server); // Attach WebSockets to the HTTP server
-
-io.on('connection', (socket) => {
-    console.log('A user connected');
-    socket.on('message', (msg) => io.emit('message', msg)); // Broadcast messages
-});
-
-server.listen(3000, () => console.log('Server running on port 3000'));
-
+```txt
+http.Server → 'request' (req, res)
+            → upgrade (WebSocket)
 ```
 
-## Handling Both HTTP & HTTPS Requests
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **IncomingMessage** | req stream | “Headers + readable body.” |
+| --- | --- | --- |
+| **ServerResponse** | res writable | “`writeHead` / `end`.” |
+| **createServer(app)** | Express as handler | “Same app; you own the Server object.” |
+
+## Standard config / commands
 
 ```js
-import express from 'express';
-import http from 'http';
-import https from 'https';
-import fs from 'fs';
+import http from 'node:http'
+import express from 'express'
 
-const app = express();
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer(
-    { key: fs.readFileSync('key.pem'), cert: fs.readFileSync('cert.pem') },
-    app
-);
+const app = express()
+const server = http.createServer(app)
+server.listen(3000)
 
-httpServer.listen(80, () => console.log('HTTP Server running on port 80'));
-httpsServer.listen(443, () => console.log('HTTPS Server running on port 443'));
-
-```
-
-## Graceful shutdown
-
-- when shutting down a server (e.g., during deployments or errors), you may need to properly close connections before exiting
-
-```js
-import express from 'express';
-import http from 'http';
-
-const app = express();
-const server = http.createServer(app);
-
-server.listen(3000, () => console.log('Server started on port 3000'));
-
+// Graceful shutdown
 process.on('SIGTERM', () => {
-    console.log('Shutting down gracefully...');
-    server.close(() => {
-        console.log('All connections closed. Exiting.');
-        process.exit(0);
-    });
-});
-
+  server.close(() => process.exit(0))
+})
 ```
+
+| Knob | Why it matters |
+
+| `server.timeout` | Drop slow sockets |
+| --- | --- |
+| `keepAliveTimeout` | Interact with LBs correctly |
+| `http.request` / `fetch` | Outbound calls |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Can’t attach WebSocket | Used only `app.listen` without server | `createServer(app)` then IO(server) |
+| Connections hang on deploy | No `server.close` | Drain on SIGTERM |
+| Header too large | Default limits | Raise `maxHeaderSize` if needed |
+| Body never read | Forgot consume stream | Read/pipe or reject |
+
+## Gotchas
+
+> [!WARNING]
+> **Must consume or destroy request bodies** — unused bodies can pin sockets.
+
+> [!WARNING]
+> **HTTP vs HTTPS** — TLS needs `https.createServer(options, app)`.
+
+## When NOT to use
+
+- **Simple apps happy with `app.listen`** — fine until you need the Server.
+- **Prefer frameworks’ abstractions** unless you need low-level control.
+
+## Related
+
+[[expressjs]] [[Express middleware]] [[Stream]]

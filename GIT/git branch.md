@@ -2,11 +2,11 @@
 
 # Git branches
 
-> One-line: movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
+> movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
 
 ## Mental model
 
-A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched remote state — local `main` tracks them via upstream config.
+**Say it in one breath:** A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched.
 
 ```
 origin/main ──► commit C
@@ -16,7 +16,7 @@ local main ───► commit C (tracking origin/main)
 feature ──────► commit D (ahead 2)
 ```
 
-Creating a branch is instant (new ref). **Merging/rebasing** moves history; deleting branch removes ref only, not commits until GC.
+Creating a branch is instant (new reference). **Merging/rebasing** moves history; deleting branch removes reference only, not commits until GC.
 
 ## Standard config / commands
 
@@ -78,7 +78,7 @@ git branch -m old-name new-name
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ahead/behind` confusion | `git fetch`; `git status -sb` | Pull/rebase; push if ahead |
 | Push rejected non-ff | Remote has new commits | `git pull --rebase` then push |
 | Wrong branch deployed | CI branch filter | Protect main; tag releases |

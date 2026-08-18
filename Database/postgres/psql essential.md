@@ -1,74 +1,106 @@
-```sql
-\c database_name -- connect to database;
-\l -- list all databases
-\conninfo -- show current connection info
+[[postgres]] [[connection pooling]] [[ACID]]
+
+# psql essential
+
+> `psql` is Postgres’s CLI — connect, inspect, change schema, and manage roles without leaving the terminal.
+
+## Mental model
+
+**Say it in one breath:** Backslash commands (`\c`, `\dt`, `\d`) are `psql` meta-commands; SQL is for data and DDL — know which is which.
+
+```txt
+psql
+  \c db          → switch database
+  \dt / \d t     → list / describe
+  SQL            → SELECT / DDL / GRANT
 ```
 
-### Tables
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **`\c`** | Connect to another DB | “Same session tool; new database context.” |
+| --- | --- | --- |
+| **`\d` / `\d+`** | Describe table (+ storage) | “Columns, indexes, FKs in one shot.” |
+| **TRUNCATE** | Empty table fast | “Resets identity depending on options; DDL-ish locks.” |
+| **GRANT chain** | CONNECT → USAGE → table privs | “Missing schema USAGE looks like ‘no tables’.” |
+| **REASSIGN / DROP OWNED** | Move or drop role objects | “Required before DROP USER.” |
+| **pg_terminate_backend** | Kill a session | “Drop user only after clearing backends.” |
+
+## Standard config / commands
 
 ```sql
-\dt -- list all tables;
-\d table_name -- Describe table structure
-\d+ table_name -- Detailed table info (with storage)
+\conninfo
+\c database_name
+\l
+\dt
+\d table_name
+\d+ table_name
 ```
 
 ```sql
-CREATE TABLE table_name (); -- create table;
-DROP TABLE table_name; -- delete table;
-ALTER TABLE table_name ADD COLUMN col_name TYPE;
-ALTER TABLE table_name DROP COLUMN col_name;
-TRUNCATE table_name; -- delete all rows (faster than delete)
-
+CREATE TABLE t (id bigserial PRIMARY KEY, name text);
+ALTER TABLE t ADD COLUMN col int;
+ALTER TABLE t DROP COLUMN col;
+TRUNCATE t;
 ```
-
-```sql
-SELECT * FROM table_name; 
-SELECT col1, col2 FROM table_name WHERE condition;
-INSERT INTO table_name (col1, col2) VALUES (val1, val2);
-UPDATE table_name SET col1=val1 WHERE id = 1;
-
-```
-
-
-### Create user
 
 ```sql
 CREATE USER wateradmin WITH PASSWORD 'secure_password';
-
--- Connect permission
 GRANT CONNECT ON DATABASE your_database TO wateradmin;
+GRANT USAGE, CREATE ON SCHEMA public TO wateradmin;
+-- then GRANT SELECT,INSERT,... ON tables / DEFAULT PRIVILEGES as needed
 
--- Usage on public schema
-GRANT USAGE ON SCHEMA public TO wateradmin;
-
--- Create tables in schema
-GRANT CREATE ON SCHEMA public TO wateradmin;
-
--- Use all objects in schema
-GRANT USAGE ON SCHEMA public TO wateradmin;
+ALTER USER wateradmin WITH PASSWORD 'new_password';
+ALTER USER wateradmin VALID UNTIL 'infinity';
 ```
 
-```sql
-ALTER USER <user> WITH PASSWORD <new password>;
-ALTER USER wateradmin WITH PASSWORD 'new_password' VALID UNTIL '2025-12-31';
-ALTER USER wateradmin WITH VALID UNTIL 'infinity';
-```
-
-### Drop user
+Drop user safely:
 
 ```sql
--- Kill active connections
-SELECT pg_terminate_backend(pid) 
-FROM pg_stat_activity 
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
 WHERE usename = 'wateradmin' AND pid <> pg_backend_pid();
 
--- Reassign owned objects
 REASSIGN OWNED BY wateradmin TO postgres;
-
--- Drop owned objects
 DROP OWNED BY wateradmin;
-
--- Delete user
 DROP USER IF EXISTS wateradmin;
-
 ```
+
+| Knob | Why it matters |
+
+| Meta vs SQL | `\dt` won’t work in JDBC |
+| --- | --- |
+| Schema USAGE | Without it, `\dt` looks empty |
+| Terminate backends | DROP USER fails if sessions remain |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `\dt` empty but tables exist | `search_path` / USAGE | `\dn+`; GRANT USAGE ON SCHEMA |
+| DROP USER fails | `pg_stat_activity` | Terminate; REASSIGN/DROP OWNED |
+| Password auth fails | `pg_hba.conf` | Fix auth method for that host |
+| Can’t connect to DB | CONNECT privilege | GRANT CONNECT ON DATABASE |
+| Truncate blocked | Locks / FKs | Truncate children or CASCADE carefully |
+
+## Gotchas
+
+> [!WARNING]
+> **Backslash commands are not SQL** — they won’t run via app drivers.
+
+> [!WARNING]
+> **DROP USER without REASSIGN/DROP OWNED** — fails if the role owns objects.
+
+> [!WARNING]
+> **TRUNCATE vs DELETE** — TRUNCATE is faster but takes stronger locks and interacts with FKs differently.
+
+## When NOT to use
+
+- **application runtime data access** — use a driver + pool, not shelling out to `psql`.
+- **Killing backends casually in production** — can abort in-flight txns; coordinate first.
+- **Granting CREATE on `public` to every application role** — tighten schema ownership in shared clusters.
+
+## Related
+
+[[postgres]] [[connection pooling]] [[psql user acl]] [[psql table]] [[psql database dump]] [[ACID]] [[Database mistakes]]

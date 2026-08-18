@@ -2,9 +2,7 @@
 
 # Feature importance
 
-> Quantify which inputs drive predictions — impurity/Gain (trees), coefficients (linear), SHAP (model-agnostic) — **interpretability vs correctness tradeoffs**.
-
----
+> Feature importance — "Importance" is not one number — definition depends on method:
 
 ## Mental model
 
@@ -20,12 +18,10 @@ Linear |β|              → only if features scaled comparably
 Use importance for **debugging and prioritization**, not legal causality without domain review.
 
 | Method | Pros | Cons |
-|--------|------|------|
+| --- | --- | --- |
 | `feature_importances_` (RF/GBDT) | Built-in | Correlated features split credit |
 | `permutation_importance` | Any estimator | Slow; needs val set |
 | SHAP | Consistent local/global | Compute; approximate on large data |
-
----
 
 ## Standard config / commands
 
@@ -66,19 +62,15 @@ shap.summary_plot(shap_values, X_sample, feature_names=feature_names)
 
 Fit importance on **validation** data the model didn't train on.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | One-hot column tops chart | Cardinality bias | Group categories; permutation/SHAP |
 | Importance contradicts domain | Leakage feature | Audit pipeline; drop suspect cols |
 | SHAP slow | Full dataset | Sample 1k–5k rows |
 | All near zero | Wrong scoring metric | Match business metric in permutation |
 | Train vs val importance differs | Overfit | Compare on held-out only |
-
----
 
 ## Gotchas
 
@@ -88,15 +80,11 @@ Fit importance on **validation** data the model didn't train on.
 > [!WARNING]
 > **Correlated features** — importance splits between twins; joint removal test beats per-feature rank.
 
----
-
 ## When NOT to use
 
 - **Regulatory causal claims** — importance ≠ causal effect; run proper experiments.
 - **Production monitoring** — track **feature distribution drift**, not static importance charts.
 - **Deep vision/NLP** — use saliency/attention/LLM explainers, not tabular impurity.
-
----
 
 ## Related
 

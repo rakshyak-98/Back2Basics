@@ -2,7 +2,7 @@
 
 # OOM (Linux Out Of Memory)
 
-> One-line: when the kernel **cannot reclaim enough RAM**, it kills processes to keep the system alive — global OOM killer, cgroup limits, or `systemd-oomd`. **Kerrisk + container on-call.**
+> OOM kills a process when the kernel cannot free enough memory after reclaim — not when `free` simply looks low.
 
 ## Mental model
 
@@ -18,11 +18,23 @@ malloc/page fault ──► reclaim (cache, swap) ──► still fail?
 ```
 
 | Mechanism | Scope | Chooses victim by |
-|-----------|-------|-------------------|
+
 | Global OOM killer | Whole machine | `oom_score` / `oom_score_adj`, memory footprint, child tree |
+| --- | --- | --- |
 | cgroup v2 `memory.max` | Cgroup (container/pod) | First process in cgroup over limit — often PID 1 in container |
 | `systemd-oomd` | Managed cgroups | Memory pressure metrics → kills cgroup ([[Linux out of memory daemon]]) |
 | `memory.high` (v2) | Throttle before hard kill | Slows allocator; may avoid OOM if tuned |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **OOM killer** | Kernel picks a victim under memory pressure | “OOM isn’t free=0 — reclaim failed.” |
+| --- | --- | --- |
+| **oom_score_adj** | Bias who dies (-1000..1000) | “Protect sshd/etcd with negative adj.” |
+| **memory.max** | cgroup hard limit | “Container OOM is exit 137, not host panic.” |
+| **systemd-oomd** | Pressure-based kill | “oomd kills earlier than global OOM.” |
+| **MemAvailable** | Usable RAM estimate | “Trust MemAvailable, not free.” |
 
 ## Standard config / commands
 
@@ -62,8 +74,9 @@ systemctl show myservice -p OOMScoreAdjust,MemoryMax,MemoryHigh
 **Kubernetes / container interaction:**
 
 | Layer | What kills you |
-|-------|----------------|
+
 | Pod `memory.limits` | cgroup `memory.max` → **OOMKill** in container (often exit 137) |
+| --- | --- |
 | Node pressure | kubelet eviction → pod delete before kernel OOM |
 | Node kernel OOM | Random host process — **never rely on this for isolation** |
 | JVM / Go heap | In-container OOM before cgroup if heap > limit misconfigured |
@@ -80,12 +93,12 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 2. **`oom_score_adj`** — protect infra daemons; never set database to -1000 on shared nodes without understanding swapless starvation.
 3. **Swap** — delays global OOM; can hide pressure (latency cliff). Containers often run swapless by design.
 4. **`memory.high` + pressure** — throttle before kill (v2 + systemd-oomd).
-5. **App fixes** — leaks, unbounded caches, fork bombs.
+5. **application fixes** — leaks, unbounded caches, fork bombs.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Process vanished, exit 137 | `dmesg`; `kubectl describe pod` | Raise limit or reduce working set; fix leak |
 | Host sluggish then random deaths | `dmesg oom-kill`; `ps aux --sort=-%mem \| head` | Kill/runaway consumer; add RAM; tune services |
 | Container dies, node “fine” | `memory.events` oom_kill in pod cgroup | JVM `-XX:MaxRAMPercentage`; app cache caps |
@@ -97,11 +110,11 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 **Incident playbook (first 10 minutes):**
 
 1. **Confirm OOM** — `dmesg -T | tail -100`, not just “process gone”.
-2. **Identify victim + constraint** — global vs cgroup (`oom-kill:constraint=...` in dmesg).
+2. **Identify victim + constraint** — global versus cgroup (`oom-kill:constraint=...` in dmesg).
 3. **Find hog** — `ps -eo pid,user,rss,cmd --sort=-rss | head -20`.
 4. **Stabilize** — restart victim with limit; optionally `echo 3 > /proc/sys/vm/drop_caches` **only** if you know cache pressure (never substitute for fixing hog).
 5. **Protect blast radius** — `MemoryMax` on slice; move critical workloads; adjust `oom_score_adj`.
-6. **Post-incident** — graph RSS vs limit; enable OOM metrics (cAdvisor, node_exporter `node_vmstat_oom_kill`).
+6. **Post-incident** — graph RSS versus limit; enable OOM metrics (cAdvisor, node_exporter `node_vmstat_oom_kill`).
 
 ## Gotchas
 
@@ -118,7 +131,7 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 
 ## When NOT to use
 
-- **“Just add swap” as sole fix for prod OOM** — swaps latency for survival; databases and latency-sensitive services suffer.
+- **“Just add swap” as sole fix for production OOM** — swaps latency for survival; databases and latency-sensitive services suffer.
 - **Disabling OOM killer** — `panic_on_oom=2` panics host; `oom_kill_allocating_task` is niche — understand before tuning.
 - **Treating `free -m` zero as emergency** — Linux uses RAM for cache; watch `MemAvailable`.
 

@@ -1,21 +1,63 @@
-A **distributed system** is a system whose components are located on different network computers, which communicate and coordinate their actions by passing messages to one another.
-significant challenges:
-1. maintaining concurrency of components
-2. overcoming the [lack of a global clock](#Clock Synchronization)
+[[System Design]] [[distributed system]] [[marshalling]] [[race condition]]
 
-## Clock synchronization
-is a topic of computer science and engineering that aims to coordinate otherwise independent clocks.
-- real clocks will differ after some amount to time due to clock drift.
-> [!Note] clock drift random number
-> Computer clock drift can be utilized to build random number generators. These can however be exploited by timing attacks.
+# Distributed computing
 
-## Clock drift
-- clock does not run at exactly the same rate as a reference clock.
-- gradually desynchronises from other clock.
-- computer requires some synchronization mechanism for any high-speed communication.
+> Distributed computing — split a job across networked machines; pay for coordination, partial failure, and serialization.
 
-# Reference
-- [clock drift](https://en.wikipedia.org/wiki/Clock_drift)
-- [clock synchronization](https://en.wikipedia.org/wiki/Clock_synchronization)
-- [distributed computing](https://en.wikipedia.org/wiki/Distributed_computing)
-- 
+## Mental model
+
+**Say it in one breath:** Many computers pass messages to finish one workload (map-reduce, microservices, HPC). Hard parts: failures mid-job, skew, and “what time is it?”
+
+```txt
+Coordinator → tasks → workers → results → reduce
+                 ↘ retry failed tasks ↙
+```
+
+| Challenge | Mitigation |
+
+| Node death | Restart tasks; checkpoint |
+| --- | --- |
+| Stragglers | Speculative execution |
+| Data gravity | Move compute to data |
+| Schema drift | Versioned [[marshalling]] |
+
+## Standard config / commands
+
+```txt
+# Job shape
+1. Partition input
+2. Pure tasks (idempotent)
+3. Deterministic combine when possible
+4. Persist checkpoints
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Job hangs 99% | Straggler worker | Speculative task; kill slow node |
+| Duplicate outputs | At-least-once retry | Idempotent writes; dedupe keys |
+| OOM on worker | Skewed partition | Rebalance keys; memory limits |
+| Wrong results rare | Non-determinism / race | Pure functions; seed RNG |
+| Coord SPOF | Single master | HA coordinator / queue |
+
+## Gotchas
+
+> [!WARNING]
+> **Shared mutable NFS “coordination”** — races and locks; prefer explicit consensus/queue.
+
+> [!WARNING]
+> **Assuming identical clocks** — use logical time / job epochs.
+
+> [!WARNING]
+> **Chatty fine-grained RPC** — overhead eats speedup (Amdahl).
+
+## When NOT to use
+
+- **CPU-bound tiny jobs** — single machine faster.
+- **Strong interactive latency** — distribution adds hops.
+- **Unpartitionable state** — fix data model first.
+
+## Related
+
+[[distributed system]] [[Raft]] [[marshalling]] [[Throughput]] [[race condition]]

@@ -2,9 +2,7 @@
 
 # Non-blocking I/O
 
-> Syscall returns immediately with data, partial data, or `EAGAIN`/`EWOULDBLOCK` — caller polls or uses an event loop — **Stevens**.
-
----
+> Non-blocking I/O — blocking: read(fd) sleeps until data arrives — thread tied up, scheduler switches away.
 
 ## Mental model
 
@@ -17,7 +15,7 @@ blocking thread:  read() ──sleep──► data ──► return
 non-blocking:     read() ──► EAGAIN ──► epoll_wait ──► read() ──► data
 ```
 
-**Level-triggered vs edge-triggered (epoll):**
+**Level-triggered versus edge-triggered (epoll):**
 - **LT (default):** fd stays "ready" until you drain — forgiving.
 - **ET:** notify once on transition — must read until `EAGAIN` or miss events.
 
@@ -25,13 +23,11 @@ non-blocking:     read() ──► EAGAIN ──► epoll_wait ──► read() 
 
 **Service stack mapping:**
 | Runtime | Reactor |
-|---------|---------|
+| --- | --- |
 | Node.js | libuv → epoll/kqueue |
 | Go net | netpoller + epoll |
 | Java NIO | Selector / epoll (Linux) |
 | nginx | epoll edge-triggered |
-
----
 
 ## Standard config / commands
 
@@ -75,20 +71,16 @@ ss -tn state syn-recv   # backlog building if accept not keeping up
 - **Node:** pause/resume on streams; limit concurrent in-flight requests.
 - **Go:** bounded channels; `http.Server` timeouts; `SetReadDeadline`.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | CPU 100%, low throughput | `strace` spam on EAGAIN tight loop | Fix busy-loop; use epoll/select; sleep/yield only as last resort |
 | Connections stall silently | ET epoll, partial read | Read until EAGAIN on ET; or switch LT |
 | Spurious wakeups / missed events | Edge-trigger without drain | Drain fd completely each wake |
 | Latency under load | Event loop blocked on sync fs/CPU | Offload sync work to thread pool; see [[Blocking Vs Non-Blocking]] |
 | `EMFILE` on accept burst | `accept` + slow fd handling | Accept queue + close excess; raise limits [[file descriptors]] |
 | Works with curl, fails under load | Single-threaded loop starved | Scale workers; SO_REUSEPORT; profile event loop |
-
----
 
 ## Gotchas
 
@@ -109,15 +101,11 @@ ss -tn state syn-recv   # backlog building if accept not keeping up
 
 **Containers:** CFS shares one event-loop thread easily starved if another container hogs CPU — p99 latency, not correctness bug.
 
----
-
 ## When NOT to use
 
 - Simple CLI tools and batch jobs — blocking I/O + threads is fine.
 - CPU-bound parallel work — threads/processes beat manual non-blocking complexity.
 - When library already provides async API (don't rewrite epoll by hand unless you must).
-
----
 
 ## Related
 

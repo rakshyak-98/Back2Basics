@@ -2,9 +2,7 @@
 
 # RTMP (Real-Time Messaging Protocol)
 
-> TCP-based live publish protocol — **ingest workhorse**, phased out for **viewer playback** in favor of [[HLS]]/[[DASH]].
-
----
+> RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 ## Mental model
 
@@ -19,14 +17,12 @@ OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 ```
 
 | Variant | Port | Notes |
-|---------|------|-------|
+| --- | --- | --- |
 | **RTMP** | 1935 | Cleartext — blocked on some networks |
 | **RTMPS** | 443 (often) | TLS wrapper — prefer prod |
 | **RTMPT** | 80 | Tunnel — legacy fallback |
 
 **Publish** (one-to-one to origin) differs from **playback** (many-to-one HTTP) — don't expose RTMP URLs to end users.
-
----
 
 ## Standard config / commands
 
@@ -41,7 +37,7 @@ ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30 \
 ```
 
 | Knob | Why |
-|------|-----|
+| --- | --- |
 | `-f flv` | RTMP carries FLV container |
 | `-re` | Real-time pacing |
 | CBR + GOP | Stable ingest ([[Encoding]]) |
@@ -86,12 +82,10 @@ ffprobe -v error -show_streams rtmp://ingest/live/key
 timeout 10 ffplay rtmp://ingest/live/key
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Connection refused | `nc -zv host 1935` | Security group; RTMPS on 443 |
 | Auth failed | Ingest logs; on_publish HTTP | Key rotation; callback timeout |
 | Connect then idle drop | `idle_streams` / firewall NAT | Publisher stopped; TCP keepalive |
@@ -100,15 +94,13 @@ timeout 10 ffplay rtmp://ingest/live/key
 | Buffer growth ingest | Publisher faster than real-time | Missing `-re`; CBR exceed |
 | SSL handshake fail | RTMPS cert chain | Full chain; SNI match |
 
----
-
 ## Gotchas
 
 > [!WARNING]
 > **RTMP URL to viewers** — security risk + no browser support; always HTTP manifests outbound.
 
 > [!WARNING]
-> **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; SRT may be better for lossy uplinks.
+> **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; [[SRT]] may be better for lossy uplinks.
 
 > [!WARNING]
 > **Stream key = password** — anyone with key can hijack channel.
@@ -119,16 +111,12 @@ timeout 10 ffplay rtmp://ingest/live/key
 > [!WARNING]
 > **Reconnect without discontinuity tag** — packager must emit `#EXT-X-DISCONTINUITY` on publisher reconnect.
 
----
-
 ## When NOT to use
 
 - **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
 - **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
-- **Multi-tenant open ingest without auth** — bot publish / abuse.
-
----
+- **Multi-tenant open ingest without authentication** — bot publish / abuse.
 
 ## Related
 
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[network management]] [[How to attach stream to HTTP handlers]]
+[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[SRT]] [[RTSP]] [[network management]] [[How to attach stream to HTTP handlers]]

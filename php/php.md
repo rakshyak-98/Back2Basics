@@ -29,7 +29,7 @@ php composer.phar install --no-dev --optimize-autoloader
 ### Key paths
 
 | Path | Purpose |
-|------|---------|
+| --- | --- |
 | `/etc/php/8.2/fpm/php.ini` | FPM php.ini |
 | `/etc/php/8.2/cli/php.ini` | CLI (cron/composer) |
 | `/etc/php/8.2/fpm/pool.d/www.conf` | FPM pool |
@@ -49,7 +49,7 @@ memory_limit = 256M
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Extension missing | `php -m` | `apt install php8.2-<ext>`; restart FPM |
 | CLI vs FPM different behavior | Compare `php -i` vs FPM | Align ini files |
 | Composer memory exhausted | `memory_limit` | `COMPOSER_MEMORY_LIMIT=-1 composer install` |
@@ -66,7 +66,7 @@ memory_limit = 256M
 
 ## When NOT to use
 
-- Don't use built-in PHP dev server (`php -S`) in production — no FPM isolation or robustness.
+- Don't use built-in PHP development server (`php -S`) in production — no FPM isolation or robustness.
 - Don't install every extension "just in case" — attack surface and memory.
 
 ## Related

@@ -4,8 +4,6 @@
 
 > Connectionless datagram protocol — send without handshake; no delivery, ordering, or congestion guarantees; app owns reliability if needed.
 
----
-
 ## Mental model
 
 **UDP** trades TCP's session state for **minimal overhead**:
@@ -19,14 +17,12 @@ Header: ports + length + checksum (optional on IPv4). Each `sendto` is independe
 
 Fit when:
 - **Latency > reliability** — VoIP, gaming, live video
-- **App-layer retries OK** — DNS, QUIC (over UDP), custom RPC
+- **application-layer retries OK** — DNS, QUIC (over UDP), custom RPC
 - **Broadcast/multicast** patterns (limited on modern internet)
 
 Poor fit when:
 - Large file transfer without custom protocol
 - Need ordered byte stream through NAT middleboxes without ALG
-
----
 
 ## Standard config / commands
 
@@ -64,18 +60,14 @@ sudo ufw allow 51820/udp   # WireGuard example
 
 **Why DNS uses UDP:** single request/response fits one datagram; truncates to TCP if answer too large.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Works TCP, fails UDP | Firewall/NACL UDP blocked | Open UDP port; stateless rules both directions |
 | Packet loss | `iperf3 -u`; switch counters | Reduce rate; fix QoS; MTU/fragmentation |
 | Intermittent DNS | MTU black hole | Enable TCP fallback; fix PMTUD |
 | NAT binding expires | Idle UDP mapping timeout | Keepalive packets; switch to TCP/TLS |
-
----
 
 ## Gotchas
 
@@ -88,13 +80,9 @@ sudo ufw allow 51820/udp   # WireGuard example
 > [!WARNING]
 > **"Connected" UDP** (`connect()`) filters ICMP errors — still not reliable delivery.
 
----
-
 ## When NOT to use
 
 Default to **TCP or TLS** for general API traffic unless you measure need for UDP (QUIC, RTP, DNS). Building reliable UDP ≈ reinventing TCP poorly.
-
----
 
 ## Related
 

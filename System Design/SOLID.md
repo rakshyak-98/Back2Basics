@@ -1,36 +1,78 @@
-### Program to an Interface, not an Implementation
+[[System Design]] [[DRY]] [[GRASP]] [[solid diagram]]
 
-> Program to an interface, not an implementation. Depend on abstractions, not on concrete classes
+# SOLID
 
-A `Cat` that can eat any food is more flexible than one that can eat just "sausages". You still feed the first cat with sausages because they are a subset of of "any food"; however, you can extend that cat's menu with any other food.
+> SOLID — five OOP habits: one reason to change, extend without edit, subtypes safe, small interfaces, depend on abstractions.
 
-> [!NOTE]
-> - to make two classes collaborate, you can start by making one of them dependent on the other.
+## Mental model
 
-#### Setup collaboration between objects
+**Say it in one breath:** Program to interfaces; prefer composition; keep classes focused so a change in billing doesn’t break shipping.
 
-- Determine what exactly one object needs from the other: Which methods does it execute?
-- Describe these methods in a new interface or abstract class.
-- Make the class that is a dependency implement this interface.
-- Now make the second class dependent on this interface rather than on the concrete class. You still can make it work with objects of the original class, but the connection is now much more flexible.
-### Favor Composition Over Inheritance
+| Letter | Rule | Plain |
+| --- | --- | --- |
+| **S** | Single Responsibility | One actor/reason to change |
+| **O** | Open/Closed | Extend via new types, don’t hack old ones |
+| **L** | Liskov Substitution | Subtype usable wherever parent is |
+| **I** | Interface Segregation | No fat interfaces clients half-implement |
+| **D** | Dependency Inversion | High-level depends on abstractions |
 
-- A subclass can't reduce the interface of the super-class. You have to implement all abstract methods of the parent class even if you won't be using them.
-- When overriding methods you need to make sure that the new behavior is compatible with the base one. It's important because object of the subclass may be passed by to any code that expects objects of the super-class and you don't want that code to break.
-- Inheritance breaks encapsulation of the super-class because the internal details of the parent class become available to the subclass. There might be an opposite situation when a programmer makes a superclass aware of some details of subclasses for the sake of making future extension easier.
-- subclass are tightly coupled to superclasses. Any change in a superclass may break the functionality of subclasses.
-- Trying to reuse code through inheritance can lead to creating parallel inheritance hierarchies. Inheritance usually takes place in a single dimension. But whenever there are two or more dimensions, you have to create lots of class combinations, bloating the class hierarchy to a ridiculous size.
+```txt
+OrderService → (interface) PaymentGateway
+                    ↑
+              StripeGateway / FakeGateway
+```
 
-### Single responsibility
-- each class should have only one responsibility and one reason to change.
-- the SRP says to separate the code that different actors depend on.
-- aims to separate behaviors so that if bugs arise as a result of your change, it won't affect other unrelated behaviors.
-### Open close
-- open for extension and close of modification
-- we should be able to change the class as per business requirements without breaking the code.
-- abstraction is used to implement open to extension and closed to modification.
-- abstraction feature tells the compiler that class is a blueprint and incomplete class (do not have body of function).
-- extend a class's behavior without changing the existing behavior of that class. This is to avoid causing bugs wherever the class is being used.
-### Liskov substitution
-### Interface segregation
-### Dependency inversion
+## Standard config / commands
+
+```ts
+interface PaymentGateway {
+  charge(cents: number, customerId: string): Promise<string>
+}
+
+class OrderService {
+  constructor(private payments: PaymentGateway) {}
+  async checkout(order: Order) {
+    return this.payments.charge(order.total, order.customerId)
+  }
+}
+```
+
+| Smell | SOLID hint |
+
+| God class | Split S |
+| --- | --- |
+| `switch` on type forever | O — strategy/plugins |
+| Override breaks callers | L |
+| Empty methods “not supported” | I |
+| `new Stripe()` deep inside | D — inject |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Change A breaks B | Shared class two reasons | Split responsibilities |
+| Can’t add vendor without edits | Hard-coded concrete | Interface + new impl |
+| Tests need real Stripe | No seam | Inject fake gateway |
+| Subclass throws `NotImplemented` | ISP/LSP violation | Narrow interfaces |
+| Parallel inheritance explosion | Composition needed | Strategy/decorator |
+
+## Gotchas
+
+> [!WARNING]
+> **Interface soup** — DIP ≠ one-interface-per-function; keep meaningful ports.
+
+> [!WARNING]
+> **OCP dogma** — sometimes editing is cheaper than endless extension points.
+
+> [!WARNING]
+> **Anemic “SOLID” layers** — ceremony without boundaries still couples via DB.
+
+## When NOT to use
+
+- **Scripts and glue** — YAGNI over SOLID theater.
+- **Performance-critical inner loops** — indirection has cost; measure.
+- **Functional cores** — apply the ideas, not Java ceremony.
+
+## Related
+
+[[DRY]] [[GRASP]] [[solid diagram]] [[API design]]

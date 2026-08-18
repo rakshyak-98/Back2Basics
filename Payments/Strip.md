@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw PAN never touches your disk if integrated correctly.
+**Say it in one breath:** Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw.
 
 ```
 Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe API
@@ -15,7 +15,7 @@ Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe AP
 ```
 
 | Product | Use |
-|---------|------|
+| --- | --- |
 | **Checkout** | Hosted payment page — smallest PCI scope |
 | **Payment Intents** | Custom UI + SCA (3DS) |
 | **Connect** | Marketplace split payouts |
@@ -83,7 +83,7 @@ await stripe.paymentIntents.create(params, {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `card_declined` | Radar rules / insufficient funds | Dashboard logs; test cards in test mode |
 | Webhook 400 | Raw body parsed as JSON | Use `express.raw` on webhook route only |
 | Double charge | Retry without idempotency key | Same key per logical operation |
@@ -98,7 +98,7 @@ await stripe.paymentIntents.create(params, {
 
 - **Webhook order not guaranteed** — design idempotent handlers; store event IDs.
 - **Amount in cents** — off-by-100 bugs are common.
-- **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering auth.
+- **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering authentication.
 - **Connect** — platform liability for negative balances; read reserves docs.
 
 ## When NOT to use

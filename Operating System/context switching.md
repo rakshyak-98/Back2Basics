@@ -4,8 +4,6 @@
 
 > Save running thread's CPU state, restore another's, resume execution — **scheduler tax on throughput and tail latency**.
 
----
-
 ## Mental model
 
 A **context switch** happens when the CPU stops running thread A and runs thread B:
@@ -32,11 +30,9 @@ Thread A running on CPU 2
 - Time slice expired (CFS `sched_latency`).
 - Blocking syscall (`read`, `mutex`, `futex`).
 - Voluntary yield / `sched_yield`.
-- Preemption of long-running kernel work (config dependent).
+- Preemption of long-running kernel work (configuration dependent).
 
 **SMT ([[SMT threads]]):** two logical CPUs share one core — switching between siblings is cheaper than cross-core, but still contends execution units.
-
----
 
 ## Standard config / commands
 
@@ -60,8 +56,9 @@ perf sched latency
 ### Reduce unnecessary switches (design level)
 
 | Pattern | Switch pressure |
-|---------|-----------------|
+
 | Thread per request × 10k RPS | High — prefer pool [[thread pool]] |
+| --- | --- |
 | Blocking I/O on thread pool | Blocks worker → switch → wake |
 | Event loop + non-blocking [[non-blocking]] | Low switches, few threads |
 | Spin + mutex contention | Switches + wasted CPU |
@@ -76,16 +73,14 @@ cat /sys/fs/cgroup/.../cpu.max
 
 **Node:** single main thread — low **thread** switching; still kernel switches for async I/O completion.
 
-**Go:** GOMAXPROCS threads vs goroutines — M:N scheduler multiplexes many goroutines onto fewer OS threads.
+**Go:** GOMAXPROCS threads versus goroutines — M:N scheduler multiplexes many goroutines onto fewer OS threads.
 
 **Java:** massive thread pools (Tomcat 500 threads) → measurable `cs` in `vmstat` under load.
-
----
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Throughput drops as threads ↑ | `pidstat -w`; `perf stat cs` | Reduce threads; pool size ≈ cores × (1–2); profile locks |
 | p99 latency spikes, moderate CPU | run queue; `perf sched latency` | Fewer runnable threads; fix lock contention; faster I/O |
 | `cs` rate explodes | `vmstat 1` | Stop busy-wait; fix thundering herd on wake |
@@ -93,8 +88,6 @@ cat /sys/fs/cgroup/.../cpu.max
 | Container throttled | cgroup `cpu.stat` nr_throttled | Raise quota or reduce work; bursts cause switch storms |
 | After deploy, worse latency | more threads in new version | Diff pool settings; compare `pidstat -w` |
 | High involuntary switches | CPU oversubscription | Reduce competing pods; right-size VM |
-
----
 
 ## Gotchas
 
@@ -115,14 +108,10 @@ cat /sys/fs/cgroup/.../cpu.max
 
 **Cloud steal time:** hypervisor preempts your vCPU — looks like involuntary switches in guest; fix is bigger instance or dedicated host.
 
----
-
 ## When NOT to use
 
 - Don't pin every thread to cores "for performance" without measurement — often hurts scheduler load balance.
 - Don't confuse **goroutine/co-routine** scheduling with OS context switch — profile the right layer.
-
----
 
 ## Related
 

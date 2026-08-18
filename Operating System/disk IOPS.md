@@ -2,9 +2,7 @@
 
 # Disk IOPS
 
-> Input/output operations per second — counts discrete read/write ops, not bytes; the limit that crushes random-workload databases before bandwidth caps.
-
----
+> Disk IOPS — IOPS = completed I/O operations per second (reads + writes, often reported separately). Distinct from throughput (MB/s):
 
 ## Mental model
 
@@ -17,17 +15,16 @@ Random 4 KiB read      →  many ops, IOPS-bound (latency × queue depth)
 
 Rough ceiling (order of magnitude):
 | Media | Random 4K IOPS (single device) |
-|-------|-------------------------------|
+
 | HDD | 100–200 |
+| --- | --- |
 | SATA SSD | 10k–90k |
 | NVMe | 100k–1M+ |
 | EBS gp3 | provisioned IOPS (3k–16k+ per volume) |
 
-Queue depth (`nr_requests`, app concurrency) multiplies effective IOPS until device or CPU saturates.
+Queue depth (`nr_requests`, application concurrency) multiplies effective IOPS until device or CPU saturates.
 
 **Service impact:** Postgres/MySQL with fsync-heavy commits, etcd, and metrics backends hit **IOPS and latency** before raw bandwidth.
-
----
 
 ## Standard config / commands
 
@@ -44,7 +41,7 @@ pidstat -d 1 -p PID
 ### Cloud dashboards
 
 | Provider | Metrics |
-|----------|---------|
+| --- | --- |
 | AWS RDS/EBS | `ReadIOPS`, `WriteIOPS`, `VolumeQueueLength` |
 | Azure | Disk IOPS consumed % |
 | GCP | `disk/read_ops_count`, `write_ops_count` |
@@ -58,18 +55,14 @@ pidstat -d 1 -p $(pidof postgres)
 
 **Why `await` matters:** high IOPS with rising `await` means queueing — users see tail latency, not average throughput.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | DB slow commits | `iostat await`; fsync rate | Faster disk; group commit; reduce fsync frequency (risk tradeoff) |
 | EBS throttling | Cloud `VolumeQueueLength`, burst balance | Provision IOPS; gp3 IOPS/throughput knobs |
 | High IOPS, low useful work | Small random reads | [[Buffer cache]] hit ratio; index tuning; larger page cache |
 | SSD wear / latency creep | SMART, `nvme smart-log` | Replace drive; spread writes |
-
----
 
 ## Gotchas
 
@@ -82,13 +75,9 @@ pidstat -d 1 -p $(pidof postgres)
 > [!WARNING]
 > **IOPS without block size** is ambiguous — always note IO size (4K vs 128K).
 
----
-
 ## When NOT to use
 
 Don't size purely on IOPS if workload is **sequential streaming** (video, bulk ETL) — size on **throughput** (MB/s) instead.
-
----
 
 ## Related
 

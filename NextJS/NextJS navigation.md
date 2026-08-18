@@ -2,11 +2,11 @@
 
 # Next.js navigation
 
-> Client-side routing in the App/Pages router — when to use `Link`, `router`, or a real new tab.
+> Next.js navigation — next.js intercepts in-app navigation to avoid full page reloads. App Router uses next/navigation (useRouter, redirect, Link). Pages Router uses next/router. Opening a new
 
 ## Mental model
 
-Next.js intercepts in-app navigation to avoid full page reloads. **App Router** uses `next/navigation` (`useRouter`, `redirect`, `Link`). **Pages Router** uses `next/router`. Opening a new browser tab/window is **not** SPA navigation — use `<a target="_blank">` or `window.open`, not `router.push`.
+Next.js intercepts in-application navigation to avoid full page reloads. **application Router** uses `next/navigation` (`useRouter`, `redirect`, `Link`). **Pages Router** uses `next/router`. Opening a new browser tab/window is **not** SPA navigation — use `<a target="_blank">` or `window.open`, not `router.push`.
 
 ```
 Same tab in-app  → <Link href="..."> or router.push('/path')
@@ -64,7 +64,7 @@ router.push('/about');
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `router.push` doesn't open tab | API design | Use `<a target="_blank">` |
 | State lost on navigate | Full remount | Lift state to URL/searchParams or store |
 | Back button weird | Shallow routing misuse | App Router: use `router.replace` intentionally |

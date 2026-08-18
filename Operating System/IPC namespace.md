@@ -4,8 +4,6 @@
 
 > Isolates System V IPC and POSIX message queues — processes in different IPC namespaces cannot see each other's semaphores, shared memory segments, or mq.
 
----
-
 ## Mental model
 
 Linux **IPC namespace** scopes legacy **SysV IPC** (`shmget`, `semget`, `msgget`) and **POSIX mqueues** (`mq_open`):
@@ -23,8 +21,6 @@ Does **not** isolate:
 - **Files** on shared mounts
 
 Docker default creates private IPC ns; **`--ipc=host`** shares host SysV — breaks isolation but needed for some legacy SHM apps (Chrome, old DB tooling).
-
----
 
 ## Standard config / commands
 
@@ -64,18 +60,14 @@ mqstat  # if util-linux built with mq support
 
 **Why isolation matters:** multi-tenant hosts — leftover SysV keys (`0x00001234`) collide across tenants without namespace separation.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Invalid argument` on shmget in container | IPC ns + size limits | Increase `shmmax`; `--ipc=host` only if justified |
 | Orphan ipcs after crash | `ipcs -m` | Cleanup script; use POSIX `shm_unlink` |
 | App works on host, fails in K8s | Expects host SHM | Redesign with memfd/socket; or hostIPC (risk) |
 | Key collision | Fixed IPC key in code | Generate unique keys; use `IPC_PRIVATE` |
-
----
 
 ## Gotchas
 
@@ -88,13 +80,9 @@ mqstat  # if util-linux built with mq support
 > [!WARNING]
 > **Not all IPC is in IPC ns** — [[shared memory]] via `mmap` of same file works across ns if path shared.
 
----
-
 ## When NOT to use
 
 Greenfield services should prefer **sockets**, **gRPC**, or **memfd** over SysV IPC — IPC namespace exists mainly for legacy compatibility and container isolation.
-
----
 
 ## Related
 

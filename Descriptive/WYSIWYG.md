@@ -79,7 +79,7 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 ### Storage format choice
 
 | Format | Pros | Cons |
-|--------|------|------|
+| --- | --- | --- |
 | HTML | Universal render | Messy; needs sanitizer |
 | JSON (PM/Slate) | Structured, diffable | Custom renderer required |
 | Markdown | Portable | Loses complex layout |
@@ -98,7 +98,7 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Published page ≠ editor | Different CSS | Share typography stylesheet; preview route |
 | XSS alert / script execution | Raw `{@html}` / `dangerouslySetInnerHTML` | DOMPurify; CSP `script-src` |
 | Paste from Word breaks layout | Inline styles in paste | Strip styles on paste; `pasteRules` |

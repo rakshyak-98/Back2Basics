@@ -1,94 +1,70 @@
-[mongodb aggregation](https://www.mongodb.com/docs/v4.4/reference/operator/aggregation/cond/)
+[[MongoDB]] [[mongosh query]] [[mongosh user management]] [[mongodb shell]]
 
-> [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users. 
+# mongosh
 
-> [!WARNING] In **`mongosh`**, there is no direct `populate` function like in **Mongoose**.
+> `mongosh` is the modern MongoDB shell — connect, explore, run scripts against clusters.
 
-```js
-{ $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
+## Mental model
+
+**Say it in one breath:** REPL + scripting host that speaks the driver protocol; prefer it over legacy `mongo`.
+
+```txt
+mongosh "mongodb://…" → use db → helpers / scripts
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **URI** | Connection string | “Includes auth, DB, options.” |
+| --- | --- | --- |
+| **`use`** | Switch database | “Context for `db`.” |
+| **`.mjs` scripts** | Automate admin | “Non-interactive CI.” |
+| **config** | Snippets / history | “Editor integration.” |
+
+## Standard config / commands
+
+```bash
+mongosh "mongodb://user:pass@localhost:27017/app?authSource=admin"
+mongosh --file migrate.js
 ```
 
 ```js
-{ $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
+show dbs
+use app
+db.stats()
+db.users.find().limit(5)
 ```
 
-```js
-db.collection.aggregate([{ $project: {name: 1, age: 1, _id: 0}}])
-db.collection.aggregate([
-	{ $group: { _id: "$category", total: {$sum: "$price"}}}
-])
-db.collection.aggregate([{ $sort: {age: -1}}])
-db.collection.aggregate([{ $match: { status: "active" }}])
-db.orders.aggregate([
-	{
-		$lookup: {
-			from: "customers",
-			localField: "customerId",
-			foreignField: "_id",
-			as: "customerDetails"
-		}
-	}
-])
-db.collection.aggregate([
-	{ $addFields: { totalPrice: { $multiply: ["$price", "$quantity"]}}}
-])
-db.collection.aggregate([{ $unwind: "$items" }])
-```
+| Knob | Why it matters |
 
-```js
-db.collection.aggregate([{ $search: {text: { query: "mongodb", path: "title" }}}])
-```
+| `authSource` | Where the user lives |
+| --- | --- |
+| `--quiet` | Clean script output |
+| Read preference | Secondary reads for heavy ad-hoc |
 
-```js
-// Handling Dates
-db.collection.aggregate([
-	{ $project: {formatDate: {$dateToString: {format: "%Y-%m-%d", date: "$createdAt" }}}}
-])
-```
+## Triage (when things break)
 
-```js
-db.collection.aggregate([
-	{
-		$project: {
-			priceCategory: {
-				$cond: {if : {$gt: ["$price", 100]}, then: "High", else: "Low" }
-			}
-		}
-	}
-])
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Auth failed | URI / authSource | Fix user DB and roles |
+| TLS errors | CA / allowInvalid | Fix certs; don’t disable in prod |
+| Command unknown | old mongosh | Upgrade |
+| Slow shell queries | no index / huge result | Limit + index |
 
-```js
-db.collection.aggregate([{ $skip: 10 }, { $limit: 5 }])
-```
+## Gotchas
 
-```js
-// data sampling Randomly select documents
-db.collection.aggregate([{ $sample: { size: 3 }}])
-```
+> [!WARNING]
+> **Paste passwords in shell history** — use config/env / prompting.
 
-```js
-// $merge Write aggregation result into a collection.
-db.collection.aggregate([
-	{ $group: { _id: "$category", total: { $sum: "$price" }}},
-	{ $merge: "summary" }
-])
-```
+> [!WARNING]
+> **Running on primary by habit** — heavy analytics can hurt writes.
 
-```js
-// Run multiple aggregations in parallel
-db.collection.aggregate([
-	{
-		$facet: {
-			ageStats: [{ $group: {_id: null, avgAge: { $avg: "$age" }}}],
-			locationCounts: [{ $group: {_id: "$location", count: { $sum: 1 }}}]
-		}
-	}
-])
-```
+## When NOT to use
 
-```js
-db.collection.aggregate([
-	{$project: {nameUpperCase: {$toUpper: "$name" }}}
-])
-```
+- **Application runtime** — use the official driver.
+- **Complex application logic** — keep business code out of shell scripts.
+
+## Related
+
+[[mongosh query]] [[mongosh user management]] [[mongodb shell]]

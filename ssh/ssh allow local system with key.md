@@ -2,18 +2,19 @@
 
 # ssh allow local system with key
 
-> Key-based SSH login for local or remote users — `authorized_keys`, strict permissions, optional `from=`/`command=` restrictions, `sshd_config` allowlists.
+> ssh allow local system with key — client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
 
 ## Mental model
 
+**Say it in one breath:** Client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
+
 ```
-Client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
                                               │
                                               ├── pubkey auth OK → shell / forced command
                                               └── AllowUsers / Match rules
 ```
 
-**Pubkey auth** trusts **possession of private key** + **server's authorized_keys list**. Password auth is separate — disable in prod after keys work.
+**Pubkey authentication** trusts **possession of private key** + **server's authorized_keys list**. Password authentication is separate — disable in production after keys work.
 
 ```
 ~/.ssh/authorized_keys   permissions 600
@@ -64,7 +65,7 @@ restrict,port-forwarding ssh-ed25519 AAAA... tunnel-user
 ```
 
 | Option | Effect |
-|--------|--------|
+| --- | --- |
 | `from="CIDR"` | Accept key only from source IPs/hostnames |
 | `command="…"` | Force command; no shell (git deploy, rsync) |
 | `no-port-forwarding` | Block `-L/-R/-D` |
@@ -72,6 +73,8 @@ restrict,port-forwarding ssh-ed25519 AAAA... tunnel-user
 | `environment="VAR=val"` | Set env (often disabled in sshd_config) |
 
 ### sshd_config — allow specific users
+
+→ Full directive reference: [[sshd configuration]]
 
 ```ini
 # /etc/ssh/sshd_config — validate with sudo sshd -t after edit
@@ -94,8 +97,8 @@ sudo sshd -t && sudo systemctl reload sshd   # never restart blindly on remote b
 
 ### AllowUsers vs AllowGroups
 
-- **AllowUsers** — if set, *only* listed users may SSH (others rejected before auth completes messaging).
-- Omit AllowUsers = any local user with valid auth method allowed (subject to PermitRootLogin etc.).
+- **AllowUsers** — if set, *only* listed users may SSH (others rejected before authentication completes messaging).
+- Omit AllowUsers = any local user with valid authentication method allowed (subject to PermitRootLogin etc.).
 
 ### Local system login (`127.0.0.1`)
 
@@ -112,7 +115,7 @@ Loopback test validates sshd + keys without network/firewall variables.
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Permission denied (publickey)` | `ssh -vvv` client; server auth log | Key not in authorized_keys; wrong user; wrong key file |
 | Still asks password | `PasswordAuthentication yes` fallback | Install key; set PasswordAuthentication no after |
 | `Authentication refused: bad ownership` | `namei -l ~/.ssh` | chmod 700 ~/.ssh; 600 authorized_keys; fix home perms |
@@ -144,8 +147,8 @@ Common log lines:
 > [!WARNING]
 > **World-readable authorized_keys or home** — sshd ignores keys silently (secure default).
 
-- **Cloud images** — default user (`ubuntu`, `ec2-user`) with cloud-init injected key; manual keys additive.
-- **Duplicate keys / paste corruption** — line break mid-key breaks auth; one line per key.
+- **Cloud images** — default user (`ubuntu`, `ec2-user`) with cloud-initialize injected key; manual keys additive.
+- **Duplicate keys / paste corruption** — line break mid-key breaks authentication; one line per key.
 - **`ssh-copy-id`** — convenient but verify permissions after; overwrites doesn't merge carefully.
 - **SELinux** — `restorecon -Rv ~/.ssh` if context wrong on RHEL.
 - **ForceCommand + SFTP** — use `internal-sftp` subsystem pattern for chrooted SFTP, not random shell script.

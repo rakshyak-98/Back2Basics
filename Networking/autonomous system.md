@@ -2,9 +2,7 @@
 
 # Autonomous system
 
-> A network (or set of prefixes) under one administrative routing policy, identified globally by an **ASN** — the unit BGP uses to exchange reachability.
-
----
+> Autonomous system — an Autonomous System (AS) is how the Internet names who owns which IP blocks at the routing layer:
 
 ## Mental model
 
@@ -22,8 +20,6 @@ Key ideas:
 - **Single AS** can span many physical sites if one coherent policy
 
 **Service impact:** multi-homing, cloud egress, and DDoS scrubbing all manipulate **which AS path** traffic takes.
-
----
 
 ## Standard config / commands
 
@@ -54,18 +50,14 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 
 **Why filters matter:** announcing someone else's prefix = **BGP hijack** — upstreams should reject via RPKI/IRR.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Prefix unreachable from some regions | `bgp.tools` path view | Missing announcement; over-specific filter |
 | Traffic via wrong ISP | AS path length / prepends | Tune local-pref; fix export policy |
 | RPKI INVALID | `rpki-validator` | Fix ROA max-length and origin ASN |
 | ASN not in global table | Registration not complete | Complete RIR SWIP; wait propagation |
-
----
 
 ## Gotchas
 
@@ -78,13 +70,9 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 > [!WARNING]
 > **Cloud default ASN** — peering policy differs from your corporate ASN.
 
----
-
 ## When NOT to use
 
 Don't run BGP at the edge without **filtering, RPKI, and on-call** — default static routes or provider BGP are enough for single-homed sites.
-
----
 
 ## Related
 

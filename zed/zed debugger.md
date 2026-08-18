@@ -1,3 +1,13 @@
+[[zed]]
+
+# zed debugger
+
+> zed debugger — console is in 'commands' mode, prefix expressions with '?'.
+
+## Mental model
+
+**Say it in one breath:** zed debugger — console is in 'commands' mode, prefix expressions with '?'.
+
 ```text
 Console is in 'commands' mode, prefix expressions with '?'.
 Tried to launch debugger with: {
@@ -11,3 +21,7 @@ error: Could not attach: The current value of ptrace_scope is 1, which can cause
 For more information, see: https://www.kernel.org/doc/Documentation/security/Yama.txt.
 ```
 - The debugger is trying to attach to an already running process using Linux's `ptrace()` system call
+
+## Related
+
+[[zed]]

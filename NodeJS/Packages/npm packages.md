@@ -1,88 +1,76 @@
-> [!INFO] 
-> extraneous -> A package is installed in `node_modules` but not listed in `dependencies` or `devDependencies` in `package.json`.
+[[NodeJS]] [[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]]
 
-- [lodash](https://www.npmjs.com/package/lodash) - JavaScript utility library
-- [mathjs](https://mathjs.org/)
-- [vercel/ms](https://github.com/vercel/ms) use this package to easily convert time formats to milliseconds
-- [express-validator]()
-- [express-]
-- [compression]
-- [express-async-erros]
-- [express-rate-limit]
-- [express-session]
-- [express-slow-down]
-- [helmet]
-- [http-graceful-shutdown]
-- [http-status-code]
-- [hpp](https://www.npmjs.com/package/hpp/v/0.1.2) -> middleware to **protect against HTTP Parameter Pollution attacks**
-- [multer]
-- [nocache]
-- [swagger-u-express]
-- [nodemailer]
-- [cors](https://www.npmjs.com/package/cors)
-- [file-type](https://www.npmjs.com/package/file-type) -> For detecting binary-based file formats, not text-based formats.
-- [got]() - HTTP request library for NodeJS, alternative to axios and Node's built-in `http` module, provider stream support
-- [uWebSocket](https://github.com/uNetworking/uWebSockets) -> low-latency [[WebSocket]] and HTTP server library written c++
-- [class-transformer](https://www.npmjs.com/package/class-transformer) -> if you're using typeScript, this package is used for serializing and transforming objects.
-- [node-cron](https://www.npmjs.com/package/node-cron) -> 
-	- `node-cron` schedules tasks in-memory within the NodeJS process - not at the OS level.
+# npm packages
 
-## yup
+> Field shortlist of common Node libs — what each is for and the footguns that show up in prod.
+
+## Mental model
+
+**Say it in one breath:** Prefer small, maintained packages with clear jobs — validation, security headers, uploads, HTTP clients — and declare them in `package.json` (extraneous = installed but undeclared).
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **extraneous** | In node_modules, not in package.json | “CI should fail or prune these.” |
+| --- | --- | --- |
+| **helmet / hpp** | Security middleware | “Headers + parameter pollution.” |
+| **multer** | multipart uploads | “Field name must match client FormData.” |
+
+## Standard config / commands
+
+| Package | Job |
+| --- | --- |
+| **helmet** | Secure HTTP headers |
+| **cors** | Browser cross-origin policy |
+| **express-rate-limit** | Basic abuse throttle |
+| **compression** | gzip responses |
+| **multer** | multipart file upload |
+| **nodemailer** | SMTP send |
+| **got** / undici | HTTP client |
+| **yup** / [[Packages/Ajv (Another JSON validator)\|Ajv]] | Input validation |
+| **ms** | Parse durations to ms |
+| **file-type** | Sniff binary types |
+| **hpp** | HTTP parameter pollution |
+| **[[Packages/node-cron\|node-cron]]** | In-process schedules |
+
 ```js
-import * as yup from 'yup';
-
-const schema = yup.object({
-  guestDetails: yup.array().of(yup.object()).required(),
-  personalDetails: yup.object({
-    FirstName: yup.string().required(),
-    LastName: yup.string().required(),
-    Email: yup.string().email().required(),
-    Mobile: yup.string().required(),
-    Address: yup.string().required(),
-    Country: yup.string().required(),
-    State: yup.string().required(),
-    Zipcode: yup.string().required(),
-    Comment: yup.string().nullable(),
-  }).required(),
-});
-
-```
-
-```json
-{
-	guestDetails: [],
-	personalDetails: {
-		FirstName: "",
-		LastName: "",
-		Email: "",
-		Mobile: "",
-		Address: "",
-		Country: "",
-		State: "",
-		Zipcode: "",
-		Comment: "",
-	},
+origin: (origin, cb) => {
+  const allowed = ['https://mydomain.com']
+  if (!origin || allowed.includes(origin)) return cb(null, true)
+  cb(new Error('Not allowed by CORS'))
 }
 ```
 
-## CORS
-```js
-origin: (origin, callback) => {
-  const allowed = ["https://mydomain.com"];
-  if (allowed.includes(origin)) return callback(null, true);
-  return callback(new Error("Not allowed by CORS"));
-}
+| multer API | Client FormData |
 
-```
+| `single('file')` | `append('file', file)` |
+| --- | --- |
+| `array('files', 5)` | multiple `append('files', …)` |
+| `fields([{ name: 'avatar' }])` | matching keys |
 
-## multer
+## Triage (when things break)
 
-> [!NOTE]
-> This must be set by the browser or client when uploading files. If you're using `fetch`, do **not manually** set `Content-Type` when using `FormData` — let the browser do it.
-> - The key must match the name you defined in `multer.single()` or `multer.array()`.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| CORS fail | Origin + credentials | Exact origin list; no `*` with cookies |
+| multer empty | Field name / Content-Type | Match names; don’t set CT manually with FormData |
+| extraneous noise | `npm ls` | Add dep or remove install |
+| Rate limit false positives | Shared IP behind LB | Trust proxy; key by user |
 
-| Backend (`multer`)                                        | Frontend Requirement                         |
-| --------------------------------------------------------- | -------------------------------------------- |
-| `upload.single('file')`                                   | `formData.append('file', file)`              |
-| `upload.array('files', 5)`                                | `formData.append('files', file1)` (multiple) |
-| `upload.fields([{ name: 'avatar' }, { name: 'resume' }])` | Use matching keys for each                   |
+## Gotchas
+
+> [!WARNING]
+> **Don’t set `Content-Type` on FormData fetch** — boundary breaks; browser sets it.
+
+> [!WARNING]
+> **node-cron in many replicas** — jobs fire N times; see [[Packages/node-cron]].
+
+## When NOT to use
+
+- **Replacing platform features** — prefer CDN/WAF rate limits when you have them.
+- **Unmaintained utils** — check last publish before adding lodash-sized deps for one helper.
+
+## Related
+
+[[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]] [[Transporter in Email sending]]

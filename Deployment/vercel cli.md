@@ -1,12 +1,12 @@
-[[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
 
 # Vercel CLI
 
-> Link local project, preview deploy, and promote to production without leaving the terminal.
+> Vercel CLI — link, preview-deploy, and promote a project from the terminal.
 
 ## Mental model
 
-`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). Env vars pulled from dashboard or `vercel env pull`.
+`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
 
 ```
 local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
@@ -58,7 +58,7 @@ vercel logs <deployment-url>
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong project linked | `.vercel/project.json` | `vercel link` again |
 | Env missing in build | Dashboard vs preview/prod | `vercel env pull`; scope vars |
 | `vercel dev` ≠ prod | Edge vs Node runtime | Test preview deploy |
@@ -77,9 +77,9 @@ vercel logs <deployment-url>
 
 ## When NOT to use
 
-- Don't use CLI prod deploy without CI checks — wire Git integration + required checks.
+- Don't use CLI production deploy without CI checks — wire Git integration + required checks.
 - Don't commit `.vercel` with tokens — only project ids; secrets stay in dashboard.
 
 ## Related
 
-[[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]

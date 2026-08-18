@@ -1,4 +1,4 @@
-[[System Design/HES Architecture]] [[Design pattern]] [[Architectures/DSL (Domain Specific Language)]] [[Projects/marketplace app]]
+[[System Design/HES Architecture]] [[Design pattern]] [[Architectures/DSL (Domain Specific Language)]] [[Projects/marketplace application]]
 
 # UML diagram
 
@@ -20,7 +20,7 @@ UML is a **visual DSL** for software design. Use a **small subset** in practice:
 ```
 
 | Diagram | Answers |
-|---------|---------|
+| --- | --- |
 | **Class** | Types, fields, relationships |
 | **Sequence** | Message order over time |
 | **Component** | Modules / services |
@@ -31,7 +31,7 @@ UML is a **visual DSL** for software design. Use a **small subset** in practice:
 ### Class diagram notation
 
 | Symbol | Meaning |
-|--------|---------|
+| --- | --- |
 | `+` | public attribute or operation |
 | `-` | private |
 | `#` | protected |
@@ -50,7 +50,7 @@ UML is a **visual DSL** for software design. Use a **small subset** in practice:
 ### Relationships (pick one correctly)
 
 | Type | Meaning | Arrow |
-|------|---------|-------|
+| --- | --- | --- |
 | **Association** | Uses / knows | solid line |
 | **Inheritance (Generalization)** | is-a | hollow triangle ▷ |
 | **Realization** | implements interface | dashed ▷ |
@@ -82,7 +82,7 @@ sequenceDiagram
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Diagram disagrees with code | Drift | Regenerate from code or mark "aspirational" |
 | Every class on one sheet | Unreadable | Layer diagrams: domain / infra / deploy |
 | Wrong arrow type | Relationship semantics | Composition vs aggregation vs dependency |

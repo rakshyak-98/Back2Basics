@@ -2,7 +2,7 @@
 
 # rsync
 
-> One-line: **delta file sync over SSH or local** — production backups and deploys with `-a`, dry-run, and explicit trailing slashes. The trailing slash rule causes more outages than rsync bugs.
+> delta file sync over SSH or local — production backups and deploys with `-a`, dry-run, and explicit trailing slashes. The trailing slash rule causes more outages
 
 ## Mental model
 
@@ -14,16 +14,32 @@ src   dest/   → creates dest/src/ (whole dir)
 --delete      → dest files not in src are REMOVED (mirror)
 ```
 
-| Flag | Meaning |
-|------|---------|
-| `-a` | Archive (rlptgoD) — preserve metadata |
-| `-v` | Verbose |
-| `-z` | Compress over network |
-| `-n` | Dry run — **always first on prod** |
-| `-c` | Checksum compare (ignore mtime) |
-| `-H` | Hard links (backup fidelity) |
-| `--delete` | Delete extraneous dest files |
-| `-e ssh` | Remote shell (custom key/port) |
+| Flag       | Meaning                               |
+| --- | --- |
+| 
+--- | 
+
+-- |
+| `-a`       | Archive (rlptgoD) — preserve metadata |
+| --- | --- |
+| `-v`       | Verbose                               |
+| `-z`       | Compress over network                 |
+| `-n`       | Dry run — **always first on prod**    |
+| `-c`       | Checksum compare (ignore mtime)       |
+| `-H`       | Hard links (backup fidelity)          |
+| `--delete` | Delete extraneous dest files          |
+| `-e ssh`   | Remote shell (custom key/port)        |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **-a** | Archive mode — preserve meta | “Always -a for backups unless you know why not.” |
+| --- | --- | --- |
+| **trailing /** | Contents vs directory | “Slash on src means contents into dest.” |
+| **--delete** | Mirror — remove extras | “--delete with wrong paths wipes prod.” |
+| **-n** | Dry run | “Always dry-run on production first.” |
+| **-e ssh** | Remote over SSH | “rsync over SSH is the boring deploy path.” |
 
 ## Standard config / commands
 
@@ -74,7 +90,7 @@ rsync -avP src/ dest/   # -P = --partial --progress
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Empty dest after sync | Trailing slash mistake | `src/` vs `src`; re-run with correct path |
 | Deleted prod files | `--delete` wrong direction | Restore from backup; **dest is receiver** — read command twice |
 | Permission denied | UID mismatch; `-a` as non-root | `--rsync-path="sudo rsync"` or align ownership |
@@ -91,7 +107,7 @@ rsync -avP src/ dest/   # -P = --partial --progress
 > [!WARNING]
 > **NFS + `-a`** — permission mapping lies across UID domains. Use `--numeric-ids` or consistent UID/GID maps.
 
-- **Running rsync while app writes** — inconsistent backup; quiesce DB ([[WAL (Write-Ahead Log)]] snapshot) or use filesystem snapshot + rsync snapshot mount.
+- **Running rsync while application writes** — inconsistent backup; quiesce DB ([[WAL (Write-Ahead Log)]] snapshot) or use filesystem snapshot + rsync snapshot mount.
 - **Cron without `-n` review** — typo in path deletes at 3am.
 - **`-z` on LAN** — CPU cost; often slower on 10G local.
 

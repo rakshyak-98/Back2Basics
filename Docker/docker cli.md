@@ -4,8 +4,6 @@
 
 > Day-one Docker CLI for build, run, debug, and cleanup — **Docker docs** + on-call triage when containers misbehave.
 
----
-
 ## Mental model
 
 ```txt
@@ -20,8 +18,6 @@ Dockerfile → docker build → image (layers, immutable)
 
 **Networking:** default bridge; user-defined networks for DNS between containers. **Volumes** persist past container delete; bind mounts tie to host path.
 
----
-
 ## Standard config / commands
 
 ### Validate Dockerfile
@@ -32,7 +28,7 @@ docker buildx build --check .             # dry parse without full build
 docker run --rm -i hadolint/hadolint < Dockerfile   # lint (not "urn")
 ```
 
-Common lint failures: missing `.dockerignore`, `latest` tag in prod, root user, unpinned base image.
+Common lint failures: missing `.dockerignore`, `latest` tag in production, root user, unpinned base image.
 
 ### Build
 
@@ -85,7 +81,7 @@ docker volume ls
 docker volume inspect mydata
 ```
 
-**Ephemeral vs persistent:** container writable layer dies with `docker rm`; volumes and bind mounts survive.
+**Ephemeral versus persistent:** container writable layer dies with `docker rm`; volumes and bind mounts survive.
 
 ### Image transfer
 
@@ -114,12 +110,10 @@ docker system prune -a             # all unused images — aggressive
 docker system prune -a --volumes   # includes unused volumes — data loss risk
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Cannot connect to Docker daemon` | `systemctl status docker` | Start daemon; user in `docker` group; `DOCKER_HOST` |
 | Build fails COPY missing file | Context vs `.dockerignore` | Fix path; adjust ignore; `docker build --progress=plain` |
 | Container exits immediately | `docker logs`; exit code | Fix CMD; run interactively; check arch mismatch |
@@ -130,8 +124,6 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 | Permission denied on bind mount | UID mismatch | Run as user; fix host perms; named volume |
 | `no space left on device` during build | Layer cache | Prune; multi-stage build; smaller base |
 | Network alias not resolving | Same user-defined network? | `docker network connect`; use service name in compose |
-
----
 
 ## Gotchas
 
@@ -150,15 +142,11 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 > [!WARNING]
 > **Bind mount overwrites image files** — empty host dir hides image content at mount point.
 
----
-
 ## When NOT to use
 
-- **Production orchestration at scale** — [[Docker compose]] for dev; Kubernetes/systemd for prod HA.
+- **Production orchestration at scale** — [[Docker compose]] for development; Kubernetes/systemd for production HA.
 - **Rootful Docker for untrusted code** — use rootless mode or sandbox ([[Docker Runtime Security]]).
 - **Long-term log storage** — ship to journal/Loki; `docker logs` rotates with container.
-
----
 
 ## Related
 

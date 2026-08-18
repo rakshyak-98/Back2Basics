@@ -2,7 +2,7 @@
 
 # Web Workers
 
-> Run JavaScript off the main thread so UI stays responsive during CPU-heavy work — **HTML Living Standard / WHATWG**.
+> Web Workers — the browser's main thread owns the DOM, layout, paint, and the Event Loop. A Web Worker is a separate JS execution context with
 
 ## Mental model
 
@@ -86,7 +86,7 @@ See [[content security policy]].
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Worker never starts | DevTools → Console for CSP / MIME errors | Serve `.js` as `application/javascript`; fix `worker-src` |
 | `postMessage` throws or hangs | Object contains functions, DOM nodes, or circular refs | Send plain data; use transfer list for buffers |
 | Worker works locally, fails in prod | Bundler inlines worker path wrong | Use `new URL('./worker.js', import.meta.url)` or bundler worker plugin |

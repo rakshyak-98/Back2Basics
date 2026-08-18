@@ -4,9 +4,9 @@
 
 > Commands & debugging — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler) + HashiCorp CLI reference.
 
-Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
+## Mental model
 
----
+Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
 
 ## Everyday commands
 
@@ -24,8 +24,6 @@ terraform console             # REPL for expressions
 
 Brikman tip: run `fmt` + `validate` in CI before plan.
 
----
-
 ## Init flags
 
 ```shell
@@ -37,8 +35,6 @@ terraform init -backend=false           # skip backend (rare / tooling)
 ```
 
 Backend living in [[Terraform setup]].
-
----
 
 ## Plan / apply flags
 
@@ -53,8 +49,6 @@ terraform plan -target=aws_instance.web # surgical; avoid habitually (Brikman)
 
 Variable sources: [[variable file]]
 
----
-
 ## Logging (provider troubleshooting)
 
 ```shell
@@ -64,7 +58,7 @@ TF_LOG_PATH=./terraform.log terraform apply
 ```
 
 | Level | When |
-|-------|------|
+| --- | --- |
 | `ERROR` | Failures only |
 | `WARN` | Unusual but continuing |
 | `INFO` | High-level steps |
@@ -72,8 +66,6 @@ TF_LOG_PATH=./terraform.log terraform apply
 | `TRACE` | Very noisy |
 
 Shows how core talks to [[terraform provider]] plugins.
-
----
 
 ## Provider / schema inspection
 
@@ -93,9 +85,7 @@ terraform providers schema -json \
   | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas["aws_instance"]'
 ```
 
-Use schema to learn required args without guessing (Winkler: schema is the contract).
-
----
+Use schema to learn required arguments without guessing (Winkler: schema is the contract).
 
 ## State subcommands (careful)
 
@@ -111,29 +101,39 @@ terraform state pull            # dump remote state to stdout
 
 Workflow context: [[Terraform workflow]]
 
----
-
 ## Useful env vars
 
 | Var | Role |
-|-----|------|
+| --- | --- |
 | `TF_LOG` / `TF_LOG_PATH` | Logging |
 | `TF_VAR_name` | Set variable `name` |
 | `TF_DATA_DIR` | Override `.terraform` dir |
 | `TF_CLI_ARGS_plan` | Extra default args for a subcommand |
 
----
-
 ## First-time failure checklist
 
 1. No `.tf` files? → create `main.tf` ([[Terraform setup]])
 2. Provider download fail? → `TF_LOG=DEBUG terraform init`
-3. Auth errors? → cloud credentials ([[terraform provider]])
+3. authentication errors? → cloud credentials ([[terraform provider]])
 4. Wrong region/project? → provider block + [[variable file]]
-
----
 
 ## Book takeaways
 
-- **Brikman**: automate fmt/validate/plan in CI; treat state commands as ops tools
+- **Brikman**: automate fmt/validate/plan in CI; treat state commands as operations tools
 - **Winkler**: schema + graph explain *why* a plan looks that way — use CLI to inspect both
+
+## Gotchas
+
+> [!WARNING]
+> **`terraform state` is sharp** — prefer import/moved blocks in code; state surgery is last resort with backups.
+
+> [!WARNING]
+> **TRACE logs leak secrets** — never leave `TF_LOG=TRACE` on in CI artifacts.
+
+## When NOT to use
+
+- **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
+
+## Related
+
+[[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]

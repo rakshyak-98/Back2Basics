@@ -2,9 +2,7 @@
 
 # fsync
 
-> Force dirty data (and often metadata) for a file from kernel buffers to stable storage — **Stevens / Kleppmann**.
-
----
+> fsync — write() returning success means data reached kernel page cache, not necessarily the physical medium. fsync(fd) (or fdatasync, sync_file_range) is the contract boundary: "make this
 
 ## Mental model
 
@@ -24,19 +22,18 @@ app write() ──► user buffer ──► copy_to_user ──► page cache (d
 - Disk/NVMe **write cache** (enabled by default on many drives).
 - **RAID controller** BBU cache.
 - **NFS** — server may ack before platter (see gotchas).
-- **VM hypervisor** — flush semantics depend on cache mode (`writethrough` vs `writeback`).
+- **VM hypervisor** — flush semantics depend on cache mode (`writethrough` versus `writeback`).
 
 **DB mental model:** PostgreSQL `COMMIT` → WAL `fsync` before ack; SQLite `PRAGMA synchronous`; RocksDB `SyncWal`. Application `fsync` on a data file without WAL ordering is usually wrong — see [[WAL (Write-Ahead Log)]].
-
----
 
 ## Standard config / commands
 
 ### Syscall variants (Linux)
 
 | Call | Flushes | Typical use |
-|------|---------|-------------|
+
 | `fsync(fd)` | Data + enough metadata (size, mtime) | Default durability promise |
+| --- | --- | --- |
 | `fdatasync(fd)` | Data only (metadata later if not needed for read) | Slightly cheaper when inode attrs can lag |
 | `sync()` | **Global** — all dirty buffers | Shutdown scripts; avoid in hot paths |
 | `sync_file_range()` | Byte range, nuanced ordering | Custom DB engines; read man page carefully |
@@ -75,22 +72,18 @@ if (fsync(fd) == -1) { /* handle — disk full, EIO, NFS stale */ }
 
 **Go:** `file.Sync()` → `fsync`. **Java:** `FileChannel.force(true)`. **Node:** `fs.fsync(fd, cb)` — `fs.writeFile` does **not** fsync by default.
 
-**Postgres (operator view):** `synchronous_commit=on` (default) fsyncs WAL each commit; `off` trades durability for speed. `full_page_writes` + WAL is why random data-page fsync on crash recovery differs from app-level file fsync.
-
----
+**Postgres (operator view):** `synchronous_commit=on` (default) fsyncs WAL each commit; `off` trades durability for speed. `full_page_writes` + WAL is why random data-page fsync on crash recovery differs from application-level file fsync.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Commit latency p99 spikes | `strace -T -e fsync`; `iostat -x`; disk queue depth | Faster disk; group commits; `synchronous_commit=remote_apply`/off (accept risk); tune checkpointing |
 | "Saved" file lost after crash | App only `write()`, no fsync; container ephemerality | fsync on critical paths; durable volume; WAL pattern for DBs |
 | fsync fast on laptop, slow in prod | NFS? network storage? cloud volume type | Local SSD/NVMe; `fio`; check NFS mount options; avoid EBS stutter |
 | Database corrupt after power loss | FS mount options; `synchronous_commit`; RAID cache | Journaling FS; BBU-backed RAID; restore from backup |
 | Disk busy, low throughput | `iotop -o`; writeback storm | Spread fsync (batch commits); `ionice`; separate WAL volume |
 | fsync returns 0 but data missing | NFS client cache; replica lag | `sync` mount; direct-attached storage; verify cloud SLA |
-
----
 
 ## Gotchas
 
@@ -111,15 +104,11 @@ if (fsync(fd) == -1) { /* handle — disk full, EIO, NFS stale */ }
 
 **ext4/xfs:** generally sane fsync; **btrfs/zfs:** COW can amplify write amplification on fsync-heavy workloads.
 
----
-
 ## When NOT to use
 
 - Don't `fsync` every row insert on a high-QPS path — batch, WAL, or accept bounded loss with explicit product decision.
 - Don't call global `sync()` in application hot loops — freezes the whole machine's writeback.
 - Don't assume `O_DIRECT` removes need for fsync when durability matters.
-
----
 
 ## Related
 

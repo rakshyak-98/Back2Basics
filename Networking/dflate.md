@@ -4,8 +4,6 @@
 
 > Lossless compression combining LZ77 dictionary matching + Huffman coding — raw DEFLATE is the payload inside gzip and zlib wrappers.
 
----
-
 ## Mental model
 
 **DEFLATE** (RFC 1951) is the **algorithm**; **gzip** (RFC 1952) and **zlib** (RFC 1950) are **container formats** around it:
@@ -24,8 +22,6 @@ Properties:
 - **Streaming** — compress chunk-by-chunk for HTTP
 
 **Service impact:** `gzip` on JSON/API saves bandwidth; CPU on small responses can **increase** latency — compress above ~1–2 KiB typically.
-
----
 
 ## Standard config / commands
 
@@ -64,18 +60,14 @@ app.use(compression({ threshold: 1024 }));
 
 **Why `gzip_min_length`:** compressing 200-byte 404 costs CPU for negligible bytes saved.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Garbled response body | Double gzip; wrong Content-Encoding | One layer only; proxy decompress/recompress |
 | `ERR_CONTENT_DECODING_FAILED` | Truncated stream | Proxy buffer limits; disable gzip on broken path |
 | High CPU | gzip level 9 on hot path | Lower level; offload to CDN; use zstd at edge |
 | Android okhttp issues | Missing `Accept-Encoding` | Client must decode or disable gzip |
-
----
 
 ## Gotchas
 
@@ -88,13 +80,9 @@ app.use(compression({ threshold: 1024 }));
 > [!WARNING]
 > **Precompressed static assets** — serve `.br`/`.gz` with correct headers; don't gzip twice.
 
----
-
 ## When NOT to use
 
 Skip compression for **already compressed** media (JPEG, PNG, video) and **TLS 1.3 0-RTT** sensitive paths where timing matters more than bytes.
-
----
 
 ## Related
 

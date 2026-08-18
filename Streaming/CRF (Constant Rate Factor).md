@@ -2,9 +2,7 @@
 
 # CRF (Constant Rate Factor)
 
-> Quality-target video encode — **x264/x265/VP9/AV1** trade bits for consistent visual quality per scene.
-
----
+> CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
 ## Mental model
 
@@ -20,14 +18,13 @@ Manifest BANDWIDTH ──► must use measured peak / capped maxrate for ABR
 ```
 
 | Mode | Use when | Predictability |
-|------|----------|----------------|
+
 | **CRF** | VoD file size flexible | Quality stable, size varies |
+| --- | --- | --- |
 | **CBR** | Live uplink / broadcast cap | Bitrate stable, quality varies |
 | **VBR + maxrate** | Hybrid VoD ladder | Cap worst-case CDN cost |
 
 CRF is **single-pass friendly** for VoD; live ABR ladders usually use **CBR or capped VBR** ([[bitrate streaming]]).
-
----
 
 ## Standard config / commands
 
@@ -39,7 +36,7 @@ ffmpeg -i input.mp4 -c:v libx264 -preset slow -crf 20 \
 ```
 
 | Knob | Why |
-|------|-----|
+| --- | --- |
 | `-crf 20` | High VoD quality; 23 for web default |
 | `-preset slow` | Better compression efficiency; `veryfast` for drafts |
 | `-pix_fmt yuv420p` | Player compatibility |
@@ -78,20 +75,16 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 # Or peak over segments for HLS
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | File huge vs expectation | CRF too low; action movie | Raise CRF 1–2; or tighten `-maxrate` |
 | Blocky on motion | CRF too high | Lower CRF; slower preset |
 | Ladder top rung exceeds CDN budget | Uncapped CRF per rung | Add `-maxrate`/`-bufsize` per rung |
 | ABR never switches up | Manifest BANDWIDTH too high | Measure encoded output; fix master playlist |
 | Inconsistent rung quality | Same CRF at different resolutions | Per-rung CRF offset (+2 for 720p, +4 for 480p) |
 | Live attempt with CRF | Uplink spikes | Switch to CBR for live ([[RTMP]] ingest) |
-
----
 
 ## Gotchas
 
@@ -107,15 +100,11 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 > [!WARNING]
 > **Statistical multiplexing** — broadcast statmux needs CBR; CRF incompatible with shared pool.
 
----
-
 ## When NOT to use
 
 - **Contractual max bitrate (broadcast)** — use CBR.
 - **Live with fixed uplink** — CBR or capped VBR; CRF can spike and drop frames.
 - **ABR manifest without maxrate** — player bandwidth math breaks on variable peaks.
-
----
 
 ## Related
 

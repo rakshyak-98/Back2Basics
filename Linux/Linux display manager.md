@@ -2,7 +2,7 @@
 
 # Linux display manager
 
-> One-line: **Login greeter that starts your graphical session** — picks X11 vs Wayland and launches i3/GNOME/KDE. Breaks here looks like "boot loops to black screen" before any app runs.
+> Linux display manager — the display manager (DM) runs as root early in boot, shows login UI, authenticates via PAM, then execs user session (startx, gnome-session
 
 ## Mental model
 
@@ -14,13 +14,24 @@ boot → systemd graphical.target → gdm/lightdm/sddm
 ```
 
 | DM | Common on | Notes |
-|----|-----------|-------|
+| --- | --- | --- |
 | GDM | GNOME default | Tight GNOME integration |
 | LightDM | Ubuntu variants, i3 installs | Greeters: gtk, webkit |
 | SDDM | KDE | Plasma default |
 | none + startx | Minimal | Manual `startx` after tty login |
 
 **Not a display server** — DM *starts* the session that talks to Xorg/Wayland compositor ([[display server]]).
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **DM** | Login greeter + session start | “gdm/sddm/lightdm start your desktop.” |
+| --- | --- | --- |
+| **X / Wayland session** | Display server choice | “DM picks session from .desktop.” |
+| **autologin** | Skip greeter | “Useful for kiosks; bad for laptops.” |
+| **startx** | Manual X start | “No DM — just startx.” |
+| **systemd user** | Session bus | “DM starts user systemd + D-Bus.” |
 
 ## Standard config / commands
 
@@ -64,7 +75,7 @@ chmod +x ~/.xsession
 # LightDM: choose "i3" or "default xsession" in greeter session menu
 ```
 
-**Force X11 vs Wayland (GNOME greeter):** gear icon → "GNOME on Xorg" vs "GNOME".
+**Force X11 versus Wayland (GNOME greeter):** gear icon → "GNOME on Xorg" versus "GNOME".
 
 **Disable DM for headless server:**
 
@@ -76,7 +87,7 @@ sudo systemctl disable gdm3
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Boot to black screen | TTY Ctrl+Alt+F3; journal | `journalctl -u gdm3`; GPU driver |
 | Login loop | `~/.xsession-errors` | Fix exec line; shell must not exit |
 | Wrong DE started | Session file; greeter choice | `~/.xsession`; update-alternatives |
@@ -99,7 +110,7 @@ cat ~/.xsession-errors
 > [!WARNING]
 > **Editing default-display-manager without disable/enable** — two DMs fighting for VT — flicker, lockout.
 
-- **Auto-login** — convenience vs physical security; LightDM `autologin-user=` in config drop-in.
+- **Auto-login** — convenience versus physical security; LightDM `autologin-user=` in configuration drop-in.
 - **Remote servers** — DM wastes RAM; use multi-user.target.
 
 ## When NOT to use

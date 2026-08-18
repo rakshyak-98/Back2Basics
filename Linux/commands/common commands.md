@@ -2,11 +2,22 @@
 
 # Common commands — daily ops cheat sheet
 
-> One-line: **curated shell one-liners with interpretation** — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
+> curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
 
 ## Mental model
 
 These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
+| --- | --- | --- |
+| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
+| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
+| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
+| **ps / top** | Processes | “ps aux | grep then kill.” |
 
 ## Standard config / commands
 
@@ -78,7 +89,7 @@ id; groups; whoami                    # Effective user + supplementary groups
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "No space left on device" | `df -h`; `du -sh /*` | `find` large files; rotate logs; expand volume |
 | Can't delete file | `lsof +D .` | Stop process holding FD; not a chmod issue |
 | grep too slow / wrong hits | `--include`, `--exclude-dir` | Narrow path; use `rg` |
@@ -94,11 +105,11 @@ id; groups; whoami                    # Effective user + supplementary groups
 > **`grep -R` on /** — IO storm. Scope to `/var/log`, app dir, or use `-m 1` to cap matches.
 
 - **`cd -` in scripts** — `$OLDPWD` is shell state; don't rely on it in non-interactive cron without explicit cd.
-- **`du` vs `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
+- **`du` versus `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
 
 ## When NOT to use
 
-- **Production config changes** — use config management + review, not ad-hoc one-liners from this sheet.
+- **Production configuration changes** — use configuration management + review, not ad-hoc one-liners from this sheet.
 - **Security audit** — need dedicated tools ([[nmap]], [[ss]], policy scanners), not find/grep alone.
 
 ## Related

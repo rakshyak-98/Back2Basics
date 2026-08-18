@@ -2,9 +2,7 @@
 
 # Redux Error (common fixes)
 
-> Recurring Redux / RTK / Immer failures in dev and prod — MapSet, serializable checks, mutations — **Redux Toolkit docs + Immer**.
-
----
+> Redux Error (common fixes) — state tree → plain objects/arrays (serializable)
 
 ## Mental model
 
@@ -17,8 +15,6 @@ Middleware dev → catches mutations + non-serializable values
 ```
 
 Errors usually mean you violated one of those rules or forgot an Immer plugin.
-
----
 
 ## Standard config / commands
 
@@ -80,19 +76,15 @@ See [[Redux/Immutability in Redux]].
 
 Ensure [[Redux/redux persist]] whitelist excludes non-serializable slices; call `enableMapSet` before rehydrate if using Map.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | MapSet Immer error | Map/Set in slice | `enableMapSet()` or plain object |
 | Console serializable flood | RTK Query meta | Ignore paths or strip in transform |
 | State unchanged after dispatch | Mutated nested object outside Immer | Return new object or use createSlice |
 | DevTools empty actions | Middleware stripped | Don't disable default middleware |
 | Infinite loop dispatch | Middleware dispatching same action | Guard conditions in middleware |
-
----
 
 ## Gotchas
 
@@ -102,14 +94,10 @@ Ensure [[Redux/redux persist]] whitelist excludes non-serializable slices; call 
 > [!WARNING]
 > **Storing fetch `Response` in state** — store parsed JSON only.
 
----
-
 ## When NOT to use
 
 - **Bypassing Immer with deep clone everywhere** — use `createSlice` correctly instead.
 - **Map/Set for convenience** — normalized `{ byId, allIds }` pattern scales better with RTK.
-
----
 
 ## Related
 

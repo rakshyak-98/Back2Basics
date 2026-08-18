@@ -1,10 +1,8 @@
-[[regression]] [[Visualization/predicated vs actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
+[[regression]] [[Visualization/predicated versus actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
 
 # Residual plot
 
-> Plot **residual (y − ŷ) vs ŷ** (or vs feature) — primary diagnostic for regression misspecification — **ESL / regression diagnostics**.
-
----
+> Residual plot — residuals should look like random noise around zero:
 
 ## Mental model
 
@@ -22,15 +20,14 @@ Residual
 Structured patterns mean the model missed something:
 
 | Pattern | Interpretation |
-|---------|----------------|
+
 | U-shape vs ŷ | Nonlinearity → [[Model/Polynomial regression]] or trees |
+| --- | --- |
 | Funnel (spread grows) | Heteroscedasticity → log y, weighted LS |
 | Stripes / bands | Wrong family (classification labels as regression) |
 | Trend vs feature | Missing interaction or wrong transform |
 
 For **ordinal** models, off-by-k errors show as discrete bands — consider [[ordinal classification]] metrics too.
-
----
 
 ## Standard config / commands
 
@@ -73,21 +70,17 @@ outliers = np.abs(std_res) > 3
 print(f"Outlier count: {outliers.sum()}")
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | U-curve | Linearity assumption | Add squared term or [[Gradient boosting]] |
 | Funnel | Variance scales with y | `log1p(y)`; heteroscedastic models |
 | Few huge residuals | Bad rows / leakage | Inspect outliers; data QA |
 | Periodic pattern | Seasonality missing | Time features; SARIMA / separate model |
 | Mean residual ≠ 0 | Systematic bias | Intercept issue; recalibrate |
 
-Pair with [[Visualization/predicated vs actual plot]] for full picture.
-
----
+Pair with [[Visualization/predicated versus actual plot]] for full picture.
 
 ## Gotchas
 
@@ -97,16 +90,12 @@ Pair with [[Visualization/predicated vs actual plot]] for full picture.
 > [!WARNING]
 > **Outliers drive visual scale** — plot standardized residuals or use robust regression.
 
----
-
 ## When NOT to use
 
 - **Classification** — use calibration curves / confusion matrix.
 - **Huge datasets** — subsample scatter; use binned residual plots.
 - **Ranking-only goals** — [[Normalized Discounted Cumulative Gain (NDCG)]] on ranked lists.
 
----
-
 ## Related
 
-[[Visualization/predicated vs actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]
+[[Visualization/predicated versus actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]

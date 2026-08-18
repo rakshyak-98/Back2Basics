@@ -4,8 +4,6 @@
 
 > BSD-origin API (`socket`, `bind`, `listen`, `connect`, `send`, `recv`) — the POSIX façade for Internet and Unix domain communication.
 
----
-
 ## Mental model
 
 **Berkeley sockets** are the **C ABI** most languages wrap:
@@ -21,8 +19,6 @@ socket(domain, type, protocol)
 File-descriptor shaped — fits `select`/`poll`/`epoll` ([[file descriptors]]). Kernel holds connection state; userspace sees fd + syscalls.
 
 Also see [[POSIX Socket]] for portable behavior details and [[BSD Socket]] if present as sibling note.
-
----
 
 ## Standard config / commands
 
@@ -59,18 +55,14 @@ ss -tin 'sport = :8080'
 
 **Why `SO_REUSEADDR`:** faster restart after crash/TIME-WAIT; **TCP_NODELAY:** disable Nagle for latency-sensitive RPC.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `EADDRINUSE` | `ss -tlnp \| grep PORT` | `SO_REUSEADDR`; kill stale holder; change port |
 | Hang on connect | `ss -tan`; firewall | Security group; SYN dropped → timeout |
 | `ECONNRESET` | Peer closed; TLS mismatch | App logs; tcpdump |
 | Accept queue overflow | `ss -lnt` Send-Q vs `somaxconn` | Raise `net.core.somaxconn`; tune backlog |
-
----
 
 ## Gotchas
 
@@ -83,13 +75,9 @@ ss -tin 'sport = :8080'
 > [!WARNING]
 > **FD leaks** — every `accept` needs `close` on all paths.
 
----
-
 ## When NOT to use
 
 For same-host IPC only, **Unix domain sockets** avoid IP stack overhead. For HTTP/gRPC, use libraries — don't hand-roll protocol on bare sockets unless necessary.
-
----
 
 ## Related
 

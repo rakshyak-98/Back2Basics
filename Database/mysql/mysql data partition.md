@@ -2,7 +2,7 @@
 
 # MySQL table partitioning
 
-> Split one logical table into physical partitions (by RANGE/LIST/HASH/KEY) — prune scans on time/tenant keys; **not** a substitute for indexing or sharding.
+> MySQL table partitioning — partitioning divides rows by a partition key expression. Optimizer partition pruning skips irrelevant partitions on queries that constrain the key.
 
 ## Mental model
 
@@ -95,7 +95,7 @@ WHERE order_date BETWEEN '2025-06-01' AND '2025-06-30';
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Full table scan all partitions | WHERE missing partition key | Add key to query; fix app filters |
 | Cannot add PRIMARY KEY | PK doesn't include partition expr | Redesign PK `(id, order_date)` |
 | ALTER to partition fails | Existing table | Create new partitioned table + migrate |

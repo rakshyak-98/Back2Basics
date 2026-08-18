@@ -2,11 +2,11 @@
 
 # ELF (Executable and Linkable Format)
 
-> One-line: the standard **binary object format** for executables, shared libraries, and relocatable objects on Linux — what `file`, the dynamic linker, and debuggers consume. **System V ABI / gABI**.
+> ELF (Executable and Linkable Format) — source.c ──compile──► .o (relocatable ELF)
 
 ## Mental model
 
-Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel exec's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.
+Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel execute's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.
 
 ```
 source.c ──compile──► .o (relocatable ELF)
@@ -17,13 +17,25 @@ execve ──► kernel maps PT_LOAD segments ──► ld.so ──► main()
 ```
 
 | Type | `file` output | Role |
-|------|---------------|------|
+
 | ET_EXEC / PIE | executable | Run directly |
+| --- | --- | --- |
 | ET_DYN | shared object | `.so` library |
 | ET_REL | relocatable | `.o` before link |
 | Core dump | ELF core | Post-mortem in [[gdb]] |
 
 Key concepts: **symbols** (functions/variables), **relocations** (addresses fixed at link/load), **SONAME** (`libcurl.so.4`).
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ELF** | Linux binary format | “Executables and .so share ELF.” |
+| --- | --- | --- |
+| **PT_INTERP** | Dynamic linker path | “Wrong interpreter = won’t start.” |
+| **readelf / objdump** | Inspect | “readelf -d for needed libs.” |
+| **ldd** | Shared lib deps | “Never ldd untrusted binaries.” |
+| **RPATH / RUNPATH** | Embedded lib search | “Overrides vs LD_LIBRARY_PATH.” |
 
 ## Standard config / commands
 
@@ -68,7 +80,7 @@ readelf -s hello | grep main
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `No such file or directory` running binary | Wrong architecture or missing interpreter | `file bin`; `readelf -l \| grep interpreter`; install correct arch / libc |
 | `error while loading shared libraries` | Missing .so | `ldd ./app`; install package; `LD_LIBRARY_PATH` (dev only) |
 | Wrong library version picked | Search order | `LD_DEBUG=libs ./app`; fix `rpath` at link; `ldconfig` |
@@ -94,7 +106,7 @@ readelf -s hello | grep main
 
 - **Scripts** (#!) — kernel executes interpreter, not ELF of script itself.
 - **Java/.NET/JVM bytecode** — different format; only the JVM/runtime is ELF.
-- **Static analysis of app logic** → source + tests, not ELF headers alone.
+- **Static analysis of application logic** → source + tests, not ELF headers alone.
 
 ## Related
 

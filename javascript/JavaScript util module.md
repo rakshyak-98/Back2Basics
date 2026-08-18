@@ -2,9 +2,7 @@
 
 # JavaScript util module (Node.js)
 
-> Node **`node:util`** helpers — `promisify`, `inspect`, `types`, deprecation — bridge callback APIs to async/await — **Node.js docs**.
-
----
+> JavaScript util module (Node.js) — legacy Node core APIs are callback-last (err, result) =>. util.promisify wraps them into Promises for async/await composition with promise chains.
 
 ## Mental model
 
@@ -17,14 +15,12 @@ fs.readFile(path, cb)  →  promisify(fs.readFile)(path)  →  Promise<Buffer>
 Modern Node exposes **`fs/promises`** natively — prefer those over promisify for built-ins.
 
 | API | Use |
-|-----|-----|
+| --- | --- |
 | `promisify(fn)` | Callback → Promise |
 | `promisify.custom` | Native promise impl on fn |
 | `inspect(obj, { depth })` | Safe logging |
 | `types.isPromise(v)` | Duck typing |
 | `deprecate(fn, msg)` | Library warnings |
-
----
 
 ## Standard config / commands
 
@@ -62,19 +58,15 @@ import { callbackify } from "node:util";
 const readCb = callbackify(async () => readFileP("x"));
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ERR_INVALID_ARG_TYPE` | Promisified non-callback fn | Function must be last-arg callback style |
 | Hangs forever | Callback never called | Fix underlying API; add timeout wrapper |
 | Double resolve | Callback called twice | Bug in wrapped lib — don't promisify broken cb |
 | Lost `this` | Method promisify | `promisify(mod.method.bind(mod))` |
 | Typo `require('utils')` | Wrong package name | `node:util` not npm `utils` |
-
----
 
 ## Gotchas
 
@@ -84,15 +76,11 @@ const readCb = callbackify(async () => readFileP("x"));
 > [!WARNING]
 > **Browser bundle** — `node:util` doesn't ship to client; use fetch/ Web APIs instead.
 
----
-
 ## When NOT to use
 
 - **New code with native promise APIs** — `fs/promises`, `dns/promises`.
-- **Browser / Deno client** — no Node util module.
+- **Browser / Deno client** — no Node utility module.
 - **EventEmitter → Promise** — `events.once(emitter, 'event')` (Node 15+).
-
----
 
 ## Related
 

@@ -1,4 +1,4 @@
-[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]]
+[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]] [[AWS Lambda]]
 
 # ARN (Amazon Resource Name)
 
@@ -22,8 +22,9 @@ Some services use **path-style** resources (`role/Team/App`), others **ARN gener
 ### Common ARN shapes
 
 | Service | Example ARN | Notes |
-|---------|-------------|-------|
+
 | IAM user | `arn:aws:iam::123456789012:user/john` | No region |
+| --- | --- | --- |
 | IAM role | `arn:aws:iam::123456789012:role/AppRole` | Used in trust + PassRole |
 | EC2 instance | `arn:aws:ec2:us-east-1:123456789012:instance/i-0abc` | Region required |
 | S3 object | `arn:aws:s3:::my-bucket/path/file.txt` | Bucket name in resource |
@@ -60,7 +61,7 @@ aws iam get-role --role-name AppRole --query 'Role.Arn'
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Policy "looks right" but Deny | Wrong account id in ARN | Copy ARN from `describe-*` API |
 | Cross-region copy/snapshot fail | Source/dest ARNs region mismatch | Use region-local ARNs |
 | KMS `InvalidArnException` | Key ARN vs alias (`alias/xxx`) | Use key id ARN in key policies |

@@ -2,7 +2,7 @@
 
 # SMTP
 
-> One-line: push protocol for MTA-to-MTA mail relay — submission on 587/TLS, legacy 25, implicit TLS 465 — **RFC 5321**.
+> SMTP — command/response between mail agents. Submission (client → MSA, port 587) differs from relay (MTA → MTA, port 25). Delivery authenticity is enforced separately via
 
 ## Mental model
 
@@ -15,8 +15,9 @@ MUA ──587/TLS──► MSA/MTA ──25──► recipient MTA ──► MDA
 ```
 
 | Command | Purpose | Typical response |
-|---------|---------|------------------|
+
 | EHLO/HELO | Identify client | 250 extensions |
+| --- | --- | --- |
 | MAIL FROM | Envelope sender (bounce address) | 250 |
 | RCPT TO | Envelope recipient | 250 / 550 |
 | DATA | Headers + body (`.` ends) | 354 → 250 |
@@ -50,8 +51,9 @@ dig +short _dmarc.example.com TXT             # DMARC
 ### SPF / DKIM / DMARC quick reference
 
 | Mechanism | What it proves | Record location |
-|-----------|----------------|-----------------|
+
 | **SPF** | Sending IP authorized for domain | TXT at `@` |
+| --- | --- | --- |
 | **DKIM** | Message signed; private key on MTA | TXT at `selector._domainkey` |
 | **DMARC** | Policy for SPF/DKIM alignment + reporting | TXT at `_dmarc` |
 
@@ -62,7 +64,7 @@ Example DMARC: `v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com; adkim=s; a
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Mail lands in spam | `Authentication-Results` header; mail-tester.com | Fix SPF/DKIM/DMARC alignment; warm IP; reverse PTR |
 | `550 5.7.1 SPF fail` | `dig TXT example.com`; sending IP | Add IP/include to SPF; avoid `-all` until complete |
 | `550 5.7.1 DKIM fail` | Selector TXT; signed headers | Re-sign with correct selector; clock skew on signer |
@@ -99,14 +101,14 @@ dig +short 113.0.0.203.zen.spamhaus.org   # reverse IP octets for some RBLs
 > [!WARNING]
 > **Forwarding breaks SPF** — forwarded mail fails SPF at final recipient; DKIM often survives if not rewritten.
 
-- **Envelope vs header From** — DMARC checks alignment on visible From domain.
+- **Envelope versus header From** — DMARC checks alignment on visible From domain.
 - **Multiple DKIM selectors** during key rotation — publish both public keys until old mail expires.
 - **Port 25 blocked on AWS/GCP default** — use submission API (SES) or request removal.
 - **Greylisting** causes first delivery delay 5–15 min — normal, not always fixable.
 
 ## When NOT to use
 
-- App transactional at scale → provider API (SES, Postmark) beats self-hosted MTA ops.
+- application transactional at scale → provider API (SES, Postmark) beats self-hosted MTA operations.
 - Internal alerts only → Slack/webhook may beat email deliverability fight.
 
 ## Related

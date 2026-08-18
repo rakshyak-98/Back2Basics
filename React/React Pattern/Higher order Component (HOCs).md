@@ -1,51 +1,69 @@
-A Higher-Order component (HOC) is a function that takes a component and returns a new enhanced component.
+[[React Pattern]] [[Render props]] [[react hooks]]
 
-#### Adding authentication to a shopping cart
-- want to restrict access to the shopping cart unless the user is logged in.
+# Higher order Component (HOCs)
 
-> [!INFO] Instead of adding authentication logic in every component, we create an HOC that wraps any component that requires authentication.
+> Function that takes a component and returns a wrapped one — share cross-cutting behavior (auth, logging) without copying it.
 
-```js
-import { useState, useEffect } from "react";
+## Mental model
 
-const withAuth = (WrappedComponent) => {
-  return (props) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
+**Say it in one breath:** `withX(Comp) => EnhancedComp`. Props flow through the wrapper; today hooks usually replace HOCs for application code.
 
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token); // Convert token to boolean
-      setLoading(false);
-    }, []);
-
-    if (loading) return <p>Loading...</p>; // Prevents flicker during hydration
-    return isAuthenticated ? <WrappedComponent {...props} /> : <p>Please log in to continue.</p>;
-  };
-};
-
-export default withAuth;
-
-```
-- this function takes a component (`WrappedComponent`) and returns a new component.
-- if the user is authenticated, it renders the original component.
-- Otherwise, it shows a login message.
-
-```js
-const ShoppingCart = () => {
-  return <h2>Your Shopping Cart Items</h2>;
-};
+```txt
+withAuth(Cart) → checks token → renders Cart or login wall
 ```
 
-```js
-const ProtectedCart = withAuth(ShoppingCart);
-const App = () => {
-  return (
-    <div>
-      <h1>Welcome to the Store</h1>
-      <ProtectedCart />
-    </div>
-  );
-};
-export default App;
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **HOC** | Component factory | “Reuse behavior by wrapping.” |
+| --- | --- | --- |
+| **Prop collision** | Wrapper and child share names | “Namespace injected props.” |
+| **vs hooks** | Compose functions vs wrap trees | “Hooks compose cleaner in modern React.” |
+
+## Standard config / commands
+
+```tsx
+function withAuth<P extends object>(Wrapped: React.ComponentType<P>) {
+  return function WithAuth(props: P) {
+    const token = localStorage.getItem('token')
+    if (!token) return <p>Please log in</p>
+    return <Wrapped {...props} />
+  }
+}
+
+export default withAuth(Cart)
 ```
+
+| Knob | Why it matters |
+
+| Pass-through props | Spread `...props` to the wrapped component |
+| --- | --- |
+| `displayName` | `WithAuth(Cart)` helps DevTools |
+| Static hoist | Copy statics if the child has them |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Missing props on child | Forgot spread | `{...props}` |
+| ref doesn’t reach | Function wrapper | `forwardRef` through HOC |
+| Double wrappers hell | Nested withX(withY(…)) | Prefer hooks/composition |
+| Props overwritten | Same prop names | Prefix (`authUser`) |
+
+## Gotchas
+
+> [!WARNING]
+> **HOCs hide the tree** — debugging wrapped stacks is harder than a `useAuth()` call.
+
+> [!WARNING]
+> **Don’t put hooks in the HOC factory body** — only inside the returned component.
+
+## When NOT to use
+
+- **New feature work** — custom hooks + providers first.
+- **One-off UI** — just write the check inline or in a layout.
+
+## Related
+
+[[Render props]] [[react hooks]] [[React Pattern/Provider pattern]]

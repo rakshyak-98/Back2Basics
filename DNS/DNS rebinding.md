@@ -2,7 +2,7 @@
 
 # DNS rebinding
 
-> One-line: attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
+> attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
 
 ## Mental model
 
@@ -19,7 +19,7 @@ Browser loads attacker page from `evil.example` (legitimate origin at load time)
 > [!INFO]
 > [[SOP (Same-Origin Policy)]] compares origin **names**, not resolved IPs. DNS rebinding exploits the gap between DNS name and routing target.
 
-Targets: admin panels on `127.0.0.1`, Redis/Memcached without auth, cloud metadata (`169.254.169.254`), internal REST APIs, WebSocket servers bound `0.0.0.0`.
+Targets: administrator panels on `127.0.0.1`, Redis/Memcached without authentication, cloud metadata (`169.254.169.254`), internal REST APIs, WebSocket servers bound `0.0.0.0`.
 
 ## Standard config / commands
 
@@ -80,14 +80,14 @@ iptables -A INPUT -p tcp --dport 8080 -s 10.0.0.0/8 -j ACCEPT
 iptables -A INPUT -p tcp --dport 8080 -j DROP
 ```
 
-**7. mTLS / auth on every internal API** — rebinding without credentials yields nothing.
+**7. mTLS / authentication on every internal API** — rebinding without credentials yields nothing.
 
-**8. Disable unnecessary HTTP servers** on dev machines; don't run `kubectl proxy` / Docker API exposed.
+**8. Disable unnecessary HTTP servers** on development machines; don't run `kubectl proxy` / Docker API exposed.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Internal API hit from "external" referer | Access logs show Host=public name, src=127.0.0.1 | Host allowlist; bind service to internal IP only |
 | Metadata stolen from browser chain | IMDS hop limit, metadata service v2 | AWS IMDSv2 required + hop limit 1; firewall 169.254.169.254 from containers |
 | Redis/Mongo "random" commands | `MONITOR`; bind address | `bind 127.0.0.1`; require AUTH; SG restrict port |

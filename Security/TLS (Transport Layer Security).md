@@ -2,7 +2,7 @@
 
 # TLS (Transport Layer Security)
 
-> One-line: encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
+> encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
 
 ## Mental model
 
@@ -20,8 +20,6 @@ Client                         Server
 **Certificate** binds public key to DNS name (SAN). **Private key** stays on server (or HSM). **Chain** = leaf + intermediates; clients trust via OS/browser CA store.
 
 SSL is obsolete terminology — say TLS 1.2/1.3.
-
----
 
 ## Standard config / commands
 
@@ -57,7 +55,7 @@ server {
 }
 ```
 
-App behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
+application behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
 
 ### Let's Encrypt (certbot)
 
@@ -83,12 +81,10 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
   -subj "/CN=localhost"
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `SSL certificate problem: unable to get local issuer` | Missing intermediate in `fullchain.pem` | Use `fullchain.pem` not `cert.pem` only |
 | Browser "not secure" / name mismatch | SAN vs hostname | Reissue cert with correct `-d` names |
 | `ERR_SSL_VERSION_OR_CIPHER_MISMATCH` | Old client vs TLS 1.3-only | Enable TLSv1.2 temporarily; fix client |
@@ -96,8 +92,6 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 | Mixed content warnings | HTTP assets on HTTPS page | Upgrade URLs or CSP upgrade-insecure-requests |
 | Works in browser, fails in app | Custom CA not trusted | Add CA to trust store or use public CA |
 | Handshake OK, then 502 | Backend issue, not TLS | See [[Configuration]] 502 playbook |
-
----
 
 ## Gotchas
 
@@ -116,14 +110,10 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 > [!WARNING]
 > **Certificate transparency + short lifetimes** — Let's Encrypt 90 days; automate renew or pager at T-30.
 
----
-
 ## When NOT to use
 
 - **TLS inside trusted VPC for every microservice hop** — mTLS/service mesh when policy requires; otherwise edge termination + private network is common.
 - **Self-signed in production public sites** — users can't trust; use public CA.
-
----
 
 ## Related
 

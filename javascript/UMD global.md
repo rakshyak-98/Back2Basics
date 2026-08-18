@@ -1,41 +1,69 @@
-- Universal Module Definition
+[[javascript]] [[AMD module]] [[IIFC]] [[node modules]]
 
-> [!NOTE]
-> - wrapper pattern that make a JS module run in any environment
+# UMD global
 
-**Why UMD exists?**
-- Before ESM existed, browsers didn't support imports.
-- libraries needed one build that 'universally' works.
+> Universal Module Definition — one file that works as AMD, CommonJS, or a browser global.
 
-- it aims to make module compatible with different module systems, including AMD, CommonJS, and global variables.
-- pattern that allows JavaScript modules to be used in different environment, including the browser as a global variable.
-- in context of UMD global it refer to a module that's made available as a global variable when the script is loaded in a browser environment that doesn't support module systems.
+## Mental model
 
-```javascript
-window.MyLibrary
+**Say it in one breath:** Wrapper detects the environment and exports accordingly — `module.exports`, `define`, or `root.MyLib = …`.
+
+```txt
+(typeof exports…) ? CJS
+: (typeof define=== 'function' && define.amd) ? AMD
+: root.Lib = factory()
 ```
 
-> [!NOTE] UMD is more about creating a wrapper that makes modules work across different environments, which may or may not have a `require` function depending on the specific environment.
- 
- > [!INFO]
- > - `require("lib")` → Node reads file from disk instantly (fast, local).
- > - Browser `require("lib")` → would need to fetch over network (slow, unpredictable).
- > - If browser blocked JS execution until the file finished downloading → **UI freeze**, no rendering, no input, “browser hung”. Because of this, browsers **refused** to implement CJS semantics.
+### Interview map (words you can say)
 
-### Therefore
+| Word | Plain meaning | Say in interview |
 
-- Node → can use sync loader (filesystem).
-- Browser → must use async loader (network).
-- CJS → incompatible with async.
-- Browser → needed a _new_ module system → ECMAScript Modules (ESM). 
+| **UMD** | Multi-loader wrapper | “One artifact, many loaders.” |
+| --- | --- | --- |
+| **global** | `window.Lib` | “Script-tag fallback.” |
+| **factory** | Build the export | “Shared body for all targets.” |
 
-### ESM is async for this reason
-- `import` triggers async loading of modules.
-- Dependency graph is resolved before execution.
-- Browser never blocks the UI thread waiting for network.
+## Standard config / commands
 
-**Statically analysed** -> A parser can determine (just by reading the code, not executing it)
-- what modules you import
-- what exports you provide
-- the full dependency graph
-- which function/variables are used/unused.
+```js
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory()
+  else if (typeof define === 'function' && define.amd) define([], factory)
+  else root.MyLib = factory()
+})(typeof self !== 'undefined' ? self : this, function () {
+  return { version: '1.0.0' }
+})
+```
+
+| Knob | Why it matters |
+
+| Bundler `umd` target | Rollup/webpack library mode |
+| --- | --- |
+| Global name | Avoid collisions |
+| ESM dual publish | Modern packages prefer `exports` map |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `MyLib is not defined` | Wrong global name / defer | Match script order; check name |
+| Broken in bundler | Treated as ESM wrongly | Set correct module type |
+| Duplicate globals | Two UMD copies | Dedupe; peer deps |
+| SSR `window` missing | Used window directly | Use `self`/root param |
+
+## Gotchas
+
+> [!WARNING]
+> **UMD isn’t ESM** — named exports / tree-shaking suffer; publish ESM when you can.
+
+> [!WARNING]
+> **Global pollution** — choose unique names.
+
+## When NOT to use
+
+- **application code** — use ESM modules.
+- **New libraries** — dual ESM/CJS via `package.json` `exports` beats hand UMD.
+
+## Related
+
+[[AMD module]] [[IIFC]] [[node modules]]

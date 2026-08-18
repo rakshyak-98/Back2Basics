@@ -1,4 +1,4 @@
-[[netrw file explorer]] [[Linux/CLI]]
+[[netrw file explorer]] [[vim keybindings]] [[Linux/CLI]]
 
 # Vim buffers
 
@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Opening a file loads a **buffer** (text + metadata). Buffers can be hidden (not shown in a window) or active (displayed). Windows are views onto buffers; one buffer can appear in multiple windows. Unsaved changes live in the buffer until `:w` or `:wa`.
+**Say it in one breath:** Opening a file loads a **buffer** (text + metadata). Buffers can be hidden (not shown in a window) or active (displayed). Windows are views onto buffers; one buffer.
 
 ```
 :edit a.txt  → buffer #1
@@ -42,7 +42,7 @@ nnoremap <leader>b :ls<CR>:b
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Can't switch buffer (unsaved) | `:set hidden?` | `:set hidden` or `:w` first |
 | `:bd` refuses | Modified flag | `:w` or `:bd!` |
 | Buffer list huge | `:ls` | `:bd` unused; `:bufdo bd` (careful) |
@@ -65,4 +65,4 @@ nnoremap <leader>b :ls<CR>:b
 
 ## Related
 
-[[netrw file explorer]] [[Linux/CLI]] [[editor config]]
+[[netrw file explorer]] [[Linux/CLI]] [[editor configuration]]

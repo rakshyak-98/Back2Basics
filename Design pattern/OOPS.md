@@ -1,94 +1,62 @@
-##### Constructors
-- special type of member function.
-- initialize an object.
-- block of memory created when the constructor of a function is invoked.
+[[Design pattern]] [[Design pattern/Singleton]] [[Design pattern/Private Properties and Methods]]
 
-##### default constructor
-- no return type
-- no input argument.
+# OOPS
 
-### UML diagram
-Unified Modeling Language
-- DIPD - **Design Implementations Process Design**
-	D - consists of classes, interfaces
-	implementations - 
-	Process -
-	Design -
+> Object-oriented programming groups data and behavior in classes — constructors allocate instances, visibility controls access, and UML documents structure.
 
-- `+` public
-- `-` private
-- `#` protacted 
+## Mental model
 
-| ClassName | Employee |
-| ----------- | ----------- |
-| Class attribute | Name GroupId |
-| Class operations | `getAdd()`, `getSet()` |
+**Say it in one breath:** A class bundles state (fields) and behavior (methods); a constructor runs when you create an instance and initializes memory for that object.
 
-- visual the system
-- documentation
-1. timing
-2. relationships
-3. diagrams 
+### Constructors
 
-#### things
-| Structural | Behavioral | Grouping |
-| ------------- | ---------- | ---------- |
-| static part of model | Dynamic part of UML model | Grouping elements of UML model together |
-| | passing message from one class to another | gathering structure and behavioral thing |
-- class, interface 
-- interaction 
-- package
+- Special member functions that **initialize** an object when `new` (or equivalent) runs.
+- A **default constructor** takes no arguments and sets sensible initial state.
 
-#### Relationships
-1. dependency: change in one element affects the other  ---->
-2. association : set of links connecting other. <--- ----->
-3. genarilized : connect spaclized element with general element. ====>
+### UML (Unified Modeling Language)
 
-#### Realization
-- a relationship in which two elements are connected where one element is responsible which is not implemented yet, and another element implements it.
+Visual notation for classes, relationships, and behavior.
 
-### Object diagram
-- is a instance of a class diagram.
-- represent instance of class diagram.
-- static view of system at moment at a particular moment.
+| Symbol | Visibility |
 
-### State diagram
-- also known as behavioral diagram.
-- moment in the life-cycle of an object.
-- event : trigger where it jumps from one stat to another.
-- Final state : flow stop here.
-- Decision box : what to do next (diverge path).
+| `+` | public |
+| --- | --- |
+| `-` | private |
+| `#` | protected |
 
-### Activity
-- dynamic aspects of a system. 
-- Flow of the system from one activity to another.
-- activity - to describe the dynamic aspects of a system.
-- flow of system from one activity to another activity.
-- represent in rounded rectangle rounded cornors.
+| UML element | Role |
 
-#### User cases
-- Modelling workflow.
-- Modelling business requirements.
-- high level understanding of system.
-- business requirements.
+| Structural | Static parts — classes, interfaces |
+| --- | --- |
+| Behavioral | Dynamic parts — messages, sequences |
+| Grouping | Packages that group related elements |
 
-### Sequence diagram (Behavioral)
-- flow of messages in a system (also called as event diagram). 
-- represent in different formats
-	- lifeline (no overlap) : runs from top to bottom and they signify the presence of object.
-	- Actor : role played by an entity that interacts with subject.
-	- Activation bar : thin rectangle on the lifeline time period in which an operation has been performed.
-	- messages : it depicts the interaction between objects and is represented by an arrow.
+## Standard config / commands
 
-### messages
-- synchronous - waits for the reply of a receive so as to carry forward the interaction.
-- Asynchronous - It doesn't wait for the reply to come.
-- Return - flow from receive to the caller.
-- self - message of same lifeline has been invoked.
-- start - it describes the target has been instantiated.
-- destroy - depicts a request to destroy lifecycle of a target.
+```text
+ClassName
 
-#### pros of a Sequence diagram
-- explores real time application.
-- depicts message flow between object.
-- easy to generate and maintain.
+- privateField: Type
++ publicMethod(): ReturnType
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Uninitialized fields | Constructor path | Ensure all fields set in constructor |
+| Subclass cannot access member | Visibility | Widen to `protected` or expose getter |
+| Diagram out of sync with code | UML vs implementation | Regenerate or drop stale diagrams |
+
+## Gotchas
+
+> [!WARNING]
+> **Inheritance depth** — deep hierarchies are hard to change; favor composition.
+
+## When NOT to use
+
+- **Data-only pipelines** — plain functions and records may be simpler than class trees.
+
+## Related
+
+[[Design pattern]] [[Design pattern/Singleton]] [[Descriptive/UML diagram]]

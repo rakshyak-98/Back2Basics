@@ -1,294 +1,86 @@
-Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+[[Redux]] [[Redux/RTQ Toolkit]] [[Redux/RTQ/RTQ store]]
 
-> [!INFO] `ApiProvider`
-> Can be used as a `Provider` if you **do not already have a Redux store**.
-> [ApiProvider](https://redux-toolkit.js.org/rtk-query/api/ApiProvider)
-> 
-```jsx
-import * as React from 'react';
-import { ApiProvider } from '@reduxjs/toolkit/query/react';
-import { Pokemon } from './features/Pokemon';
+# Redux createApi
 
-function App() {
-  return (
-    <ApiProvider api={api}>
-      <Pokemon />
-    </ApiProvider>
-  );
-}
+> Define endpoints once — RTK Query builds reducer, middleware, cache keys, and React hooks.
+
+## Mental model
+
+**Say it in one breath:** `createApi` describes how to talk to your backend. Queries cache by endpoint+arguments; mutations invalidate tags so lists refetch. Hooks are React sugar over the same API slice.
+
+```txt
+createApi({ baseQuery, tagTypes, endpoints })
+  → api.reducer + api.middleware
+  → useXQuery / useYMutation
+  → providesTags / invalidatesTags
 ```
 
-### Setup base URL
+### Interview map (words you can say)
 
-> [!NOTE] `fetchBaseQuery`
-> By default, `fetchBaseQuery` assumes that every request you make will be `json`, so in those cases all you have to do is set the `url` and pass a `body` object when appropriate.
-> [parsing response](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#parsing-a-response)
-> [adding custom timeout](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#adding-a-custom-timeout-to-requests)
+| Word | Plain meaning | Say in interview |
 
-> [!WARNING]
-> by default `fetchBaseQuery` does not send cookies (neither session cookies nore `httpOnly` cookies). This is intentional, the default `credentials` setting is `same-origin`.
+| **fetchBaseQuery** | Thin fetch wrapper | “Set `baseUrl` + `credentials`.” |
+| --- | --- | --- |
+| **providesTags** | Mark cached data | “This list is `Users`.” |
+| **invalidatesTags** | Bust related cache | “POST then refetch list.” |
+| **ApiProvider** | Mini store for demos | “Use real store in apps.” |
+| **Lazy query** | Fetch on demand | “`useLazyGetXQuery`.” |
+
+## Standard config / commands
 
 ```ts
-import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-interface CartState {
-  items: CartItem[];
-  totalAmount: number;
-}
-
-const initialState: CartState = {
-  items: [],
-  totalAmount: 0,
-};
-
 export const cartApi = createApi({
-  reducerPath: 'cartApi', // this determines where the API data is stored in Redux.
+  reducerPath: 'cartApi',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
-    credentials: "include" // need to setup explicitly  to include cookies in every request
+    credentials: 'include', // cookies off by default (same-origin)
   }),
-	tagTypes: ['Users'] // Define a tag for cache nivalidation.
+  tagTypes: ['Cart'],
   endpoints: (builder) => ({
     fetchCart: builder.query<CartItem[], void>({
       query: () => '/cart',
-			providesTags: ['Users'], // This marks tha data with the "Users" tag
+      providesTags: ['Cart'],
     }),
     addItem: builder.mutation<CartItem, CartItem>({
-      query: (item) => ({
-        url: '/cart',
-        method: 'POST',
-        body: item,
-      }),
-			invalidatesTags: ['Users'] // this invalidates "Users" tag, triggering a refresh of getUsers.
-    }),
-    removeItem: builder.mutation<void, string>({
-      query: (id) => ({
-        url: `/cart/${id}`,
-        method: 'DELETE',
-      }),
+      query: (item) => ({ url: '/cart', method: 'POST', body: item }),
+      invalidatesTags: ['Cart'],
     }),
   }),
-});
-
-const cartSlice = createSlice({
-  name: 'cart',
-  initialState,
-  reducers: {
-    updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
-      const item = state.items.find(item => item.id === action.payload.id);
-      if (item) {
-        state.totalAmount += (action.payload.quantity - item.quantity) * item.price;
-        item.quantity = action.payload.quantity;
-      }
-    },
-    clearCart: (state) => {
-      state.items = [];
-      state.totalAmount = 0;
-    },
-  },
-});
-
-// [ for api slice ]
-export const { useFetchCartQuery, useAddItemMutation, useRemoveItemMutation } = cartApi;
-
-// [ for state slice ]
-export const { updateQuantity, clearCart } = cartSlice.actions;
-export default cartSlice.reducer;
-
-```
-
-## Lazy query and Normal query hooks
-
-> [!INFO]
-> - `useLazy...Query` hook exists so you can control exactly when the request is sent. In RTK Query there are two kinds of generated hooks for every query endpoint
-
-|Hook|When does it fetch?|Typical use-case|Loading state available immediately?|
-|---|---|---|---|
-|`useGetAllHotelsQuery()`|**automatically** when the component mounts|“Show this list as soon as the page loads”|Yes|
-|`useLazyGetAllHotelsQuery()`|**only when you call the trigger function**|“Fetch only after user clicks a button / tab / search / opens modal / etc.”|No (until you trigger)|
-
-### Normal query hook
-
--> featches immediately when component mounts.
--> good for data that should always be visible.
-
-```jsx
-
-function HotelList(){
-	const { data, isLoading, error } = useGetAllHotelsQuery();
-	
-	if(loading) return <Loading />
-	if(error) return <Error />
-	return (
-		<ul>
-			{data?.map(hotel => <li key={hotel.id}>{hotel.name}</li>)}
-		</ul>
-	)
-}
-```
-
-### Lazy query hook
-
-```jsx
-function SearchHotel() {
-	const [trigger, { data, isLoading, isUninitialized, error }] = useLazyGetAllHotelsQuery();
-	
-	const handleSearch = () => {
-		trigger(); // Only now the request is sent.
-	}
-	
-	return (
-		<div>
-			<button>
-				{isLoading ? "Searching..." : "Load all hotels" }
-			</button>
-			{isUninitialized && <p>Click to load</p>}
-			{isLoading && <p>Loading...</p>}
-			{error && <Error />}
-			{data && (
-				<ul>
-					{data.map(hotel => <li key={hotel.id}>{hotel.name}</li>)}
-				</ul>
-			)}
-		</div>
-	)
-	
-}
-```
-
-### Difference Between Action and Reducer in Redux
-
-| **Aspect**       | **Action**                                                                    | **Reducer**                                                              |
-| ---------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **Definition**   | An object that describes **what** happened.                                   | A function that specifies **how** the state changes based on the action. |
-| **Purpose**      | Represents an **intention** to change the state.                              | Handles the **actual state update** based on the action type.            |
-| **Content**      | Contains a `type` (mandatory) and an optional `payload` with additional data. | Takes the current state and an action, returns the new state.            |
-| **Example**      | `{ type: 'INCREMENT', payload: 1 }`                                           | `(state, action) => { return { count: state.count + 1 } }`               |
-| **Usage**        | Created and dispatched to trigger state changes.                              | Listens for actions and updates the state accordingly.                   |
-| **Side Effects** | None, just describes an event.                                                | Pure function: must not have side effects.                               |
-
----
-
-### Example
-
-1. **Action:**
-```javascript
-// Action object
-const incrementAction = { type: 'INCREMENT', payload: 1 };
-```
-
-2. **Reducer:**
-```javascript
-// Reducer function
-const counterReducer = (state = { count: 0 }, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { count: state.count + action.payload };
-    default:
-      return state;
-  }
-};
-```
-
-**Explanation:**
-- The **action** describes **what** happened (`INCREMENT` by `1`).
-- The **reducer** handles **how** the state is updated (increments `count` by `1`).
-
----
-
-### Summary
-- **Actions** are "messages" that carry information about an event.
-- **Reducers** define the logic to update the state based on the action type.
-
-### Manually refresh query
-
-```jsx
-import { useGetUserQuery, useCreateUserMutation } from "./api"
-
-const AddUser = () => {
-	const { refresh } = useGetUserQuey();
-	const [ createUser ] = useCreateUserMutation();
-
-	const handleAddUser = async () => {
-		await createUser({ name: 'New User' })
-		refresh();
-	}
-
-	return <button onClick={handleAddUser}>Add User</button>;
-}
-```
-
-#### Auto invalidate cache
-
-```jsx
-endPoints: (builder) => ({
-	createUser: builder.mutation<User, Partial<User>>({
-		query: (newUser) => ({
-			url: 'users',
-			method: "POST",
-			body: newUser,
-		}),
-		invalidatesTags: ['Users'],
-	}),
-	getUsres: builder.query<User[], void>({
-		query: () => 'users',
-		providesTags: ['Users'],
-	})
 })
-
+export const { useFetchCartQuery, useAddItemMutation } = cartApi
 ```
-- Now, after `createUser()` RTK Query automatically refetches `getUsers` keeping the store updated.
 
-##### manually accessing API data from Redux
-```jsx
-import { useSelector } from "react-redux";
-import { api } from "./api";
+| Knob | Why it matters |
 
-const users = useSelector((state) => api.endpoints.getUsers.select(state)?.data);
-```
-- every call to `select(state)` returns a new function/object unless wrapped in `useMemo`.
-- can cause unnecessary re-render.
-- `.data` only gives the final value. You lose `isLoading` `isError` `status` etc. which RTK Query provides.
+| `credentials: 'include'` | Send cookies cross-site/same-site as needed |
+| --- | --- |
+| `tagTypes` | Required before provide/invalidate |
+| Lazy vs auto | Mount-time vs button-click fetch |
+| `transformResponse` | Shape before cache |
 
-### Browser will not re-request same API call if all below are true
-### Server-side HTTP caching in enabled
-- if server sends cacheable header like
+## Triage (when things break)
 
-```txt
-Cache-Control: public, max-age=600
-ETag: "xyz123"
-```
-- browser skips network request (if `max-age` still valid)
-- Or sends conditional `if-none-match` with `ETag` -> gets `304 Not Modified`
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Cookies missing | Default credentials | Set `credentials: 'include'` |
+| List stale after POST | No tags | `providesTags` / `invalidatesTags` |
+| Hook undefined | Wrong import path | `@reduxjs/toolkit/query/react` |
+| Duplicate requests | New args object each render | Stabilize args / serialize |
+| Browser shows cached 200 | HTTP cache vs RTKQ | Different layers — check Network |
 
-### Same method + same URL + same headers
-- must be a Get request (POST / PUT are not cached by default)
-- full request must match, including query params
+## Gotchas
 
-### No cache bypass flags
-- Request isn't sent with
-	- `cache: 'no-store'`
-	- `Pragma: no-cache` or `Cache-Control: no-cache` (forces re-validation)
-- User didn't force refresh `ctrl + shift + R` or `comd + shift + R`
+> [!WARNING]
+> **`ApiProvider` + existing Provider** — don’t nest two Redux stores; mount the api on your store.
 
-### No interceptors / Proxies / Service workers
-- no service worker intercepting the call and rerouting it
-- no browser extension modifying request behavior 
+> [!WARNING]
+> **Cache dies on full reload** — memory only unless you persist.
 
+## When NOT to use
 
-### Real check
-- open network tab
-- reload page
-- status column:
-	- `200 (from cache)` -> browser cached
-	- `304 Not Modified` -> conditional cache used
-	- `200` -> full fetch
+- **Non-cached RPC fire-and-forget** — plain thunk may be simpler.
+- **GraphQL-heavy Apollo shops** — don’t run two caches without need.
 
-### Transform response from API slice
+## Related
+
+[[Redux/RTQ Toolkit]] [[Redux/RTQ/RTQ store]] [[Redux/RTQ/RTQ tags]] [[Redux/Redux createAsyncThunk]]

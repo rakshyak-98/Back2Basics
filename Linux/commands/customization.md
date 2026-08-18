@@ -2,7 +2,7 @@
 
 # GNOME customization (extensions CLI)
 
-> One-line: **`gnome-extensions`** — install, enable, and reset Shell extensions without hunting UUIDs in the GUI. Break/fix cycle when desktop behavior changes after upgrade.
+> GNOME customization (extensions CLI) — extension .zip → gnome-extensions install → enable → Shell reload (sometimes logout)
 
 ## Mental model
 
@@ -14,11 +14,22 @@ gnome-extensions list → UUID → info / disable / reset
 ```
 
 | Command | Effect |
-|---------|--------|
+| --- | --- |
 | `list` | Installed + enabled state |
 | `enable/disable` | Toggle without removing files |
 | `reset` | Restore extension default settings |
 | `install` | From local zip (must be compatible Shell version) |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **dotfiles** | Shell/editor config | “Keep in git; symlink in.” |
+| --- | --- | --- |
+| **.bashrc vs .profile** | Interactive vs login | “Know which shell sources what.” |
+| **alias** | Shortcuts | “alias rm='rm -i' for safety.” |
+| **PS1** | Prompt | “Show git branch / exit code.” |
+| **XDG dirs** | Config locations | “Prefer ~/.config.” |
 
 ## Standard config / commands
 
@@ -51,7 +62,7 @@ sudo apt install gnome-shell-extension-manager
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Extension won't enable | `gnome-extensions info UUID` | Incompatible Shell version; update or disable |
 | Shell crashes on login | Recovery mode; `disable` all | Remove last installed extension dir |
 | Settings revert | `reset` vs manual dconf | Conflicting extension; check `dconf dump /` |
@@ -64,7 +75,7 @@ sudo apt install gnome-shell-extension-manager
 > **Wayland + XWayland extensions** — some patches (window rules) behave differently than on pure X11. Test after [[wayland]] migration.
 
 - **`gnome-extensions install` needs login session** — use `sudo -u desktopuser` with `DBUS_SESSION_BUS_ADDRESS` if automating (fragile).
-- **System extensions vs user** — `-system` flag for packaged extensions; don't mix install paths.
+- **System extensions versus user** — `-system` flag for packaged extensions; don't mix install paths.
 - **Extension "reset"** — clears extension prefs, not Shell core settings.
 
 ## When NOT to use

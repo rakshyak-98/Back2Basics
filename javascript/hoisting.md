@@ -1,9 +1,65 @@
-**hoisting** means that **variable and function declarations are moved to the top of the code** before it runs. This lets you use them before they are actually written in the code.
+[[javascript]] [[prototype]] [[IIFC]]
 
-JavaScript enables  you to have multiple var statements anywhere in a function
-- variable act as they were declared at the top of there containing scope during the compile phase.
-- these make possible usage of variable and function before they are declared.
-- only variable declaration is hoisted not initialization.
-- `const` it is not accurate to say that `const` does not allow hoisting; rather it behaves differently than `var` and `let` due to its initialization requirement and the presence of the temporal dead zone.
+# hoisting
 
-> [!NOTE] in case of `const` behavior is slightly different, the declaration of a `const` variable is hoisted to the top of its block scope. However `const` variable must be initialized at the time of declaration. if you try to access a `const` variable before its declaration, it will result in `ReferenceError`.
+> Declarations are visible in their scope before the line runs — `var`/`function` hoist differently from `let`/`const`.
+
+## Mental model
+
+**Say it in one breath:** `function` declarations hoist fully; `var` hoists as `undefined`; `let`/`const` hoist to TDZ until initialized — access throws.
+
+```txt
+console.log(a) // undefined with var; TDZ ReferenceError with let
+var a = 1
+let b = 2
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+| --- | --- | --- |
+| **TDZ** | Temporal dead zone | “Binding exists but unread until init.” |
+| **function decl** | Hoisted body | “Can call above definition.” |
+| **function expr** | Not hoisted as fn | “`const f = () =>` is TDZ like const.” |
+
+## Standard config / commands
+
+```js
+// Prefer
+const x = 1
+function f() {}
+// Avoid relying on var hoisting
+```
+
+| Form | Before init |
+| --- | --- |
+| `var` | `undefined` |
+| `let`/`const` | TDZ error |
+| `function foo(){}` | Callable |
+| `const foo = function(){}` | TDZ |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `undefined` unexpectedly | `var` use-before-assign | Use `let`/`const`; reorder |
+| ReferenceError TDZ | `let` before line | Move declaration up |
+| Not a function | Called const fn before init | Reorder |
+| Duplicate decl errors | Redeclare `let` | One binding |
+
+## Gotchas
+
+> [!WARNING]
+> **`var` in loops with async** — classic closure bug; use `let`.
+
+> [!WARNING]
+> **Class declarations** — also TDZ until evaluated.
+
+## When NOT to use
+
+- **Designing APIs around hoisting** — write top-down clarity instead.
+- **`var` in new code** — prefer `let`/`const`.
+
+## Related
+
+[[prototype]] [[IIFC]] [[self-defining functions]]

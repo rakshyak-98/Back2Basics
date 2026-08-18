@@ -4,8 +4,6 @@
 
 > CPU vector instructions that process many data lanes per cycle — **when it matters for SE work**, not microarchitecture textbooks.
 
----
-
 ## Mental model
 
 **SIMD** (SSE/AVX on x86, NEON on ARM) applies one instruction to a **vector register** (e.g. 8× `float32` or 32× `uint8`) in parallel. The CPU still runs one thread; parallelism is **data-parallel within a core**, not multi-core.
@@ -16,16 +14,15 @@ SIMD:   load 256-bit chunks → vpadd → store   →  N/8 adds (ideal)
 ```
 
 | Where SEs feel it | Why |
-|-------------------|-----|
+
 | **Hashing / crypto** | SHA, AES-NI, BLAKE3 — GB/s vs MB/s |
+| --- | --- |
 | **Codecs** | H.264/HEVC/AV1 decode, [[NVENC]] — hand-written SIMD kernels |
 | **JSON / parsing** | simdjson-style — scan 64 bytes at a time for structural chars |
 | **Compression** | zstd, snappy — memcmp-style hot loops |
 | **Image/audio DSP** | Resample, color convert — obvious vector wins |
 
 **You rarely write SIMD** — libraries (OpenSSL, ffmpeg, zlib-ng, Rust `std::simd`) already did. Your job: **pick the build**, **enable CPU features**, **avoid scalar fallbacks in hot paths**.
-
----
 
 ## Standard config / commands
 
@@ -66,19 +63,15 @@ perf record -g ./your_binary && perf report | head
 4. Don't assume: measure — memory bandwidth often caps before SIMD
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 10× slower on one machine | `lscpu` flags; illegal instruction crash | Rebuild for baseline CPU; illegal insn = AVX2 binary on old host |
 | `SIGILL` on startup | Core dump; objdump `-m` | `-march=x86-64-v2` or runtime CPU detection |
 | Encoder CPU at 100%, GPU idle | ffmpeg `-hwaccel`; NVENC available? | Enable hardware path; SIMD CPU encode is expected slow at 4K |
 | Parser slower after deploy | New dependency dropped simdjson | Pin library; verify feature flags |
 | Identical code, different perf | Thermal throttle; single-channel RAM | Hardware; not SIMD issue |
-
----
 
 ## Gotchas
 
@@ -97,15 +90,11 @@ perf record -g ./your_binary && perf report | head
 > [!WARNING]
 **Don't hand-roll SIMD** unless you're on a team owning a codec/parser — maintenance and correctness (especially signed overflow) are brutal.
 
----
-
 ## When NOT to use
 
 - **I/O-bound services** — DB wait dominates; SIMD irrelevant.
 - **Business logic / CRUD** — optimize queries and caching first.
 - **Small payloads** — vector setup overhead loses below ~few KB per operation.
-
----
 
 ## Related
 

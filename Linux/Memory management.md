@@ -2,7 +2,7 @@
 
 # Linux Memory Management
 
-> One-line: virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
+> virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
 
 ## Mental model
 
@@ -22,7 +22,16 @@ Each process sees a **virtual address space** (heap, mmap, stack). Physical RAM 
 
 **RSS** (resident set) ≈ RAM actually used by process. **VSZ** ≈ virtual size (often much larger).
 
----
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **RSS** | Resident set — RAM pages held | “RSS is what’s in RAM now.” |
+| --- | --- | --- |
+| **page cache** | File data cached in RAM | “Cache looks ‘used’ but is reclaimable.” |
+| **swap** | Overflow to disk | “Swap thrash feels like freeze.” |
+| **anon vs file** | Heap vs mmap files | “Anon pressure is the scary kind.” |
+| **vm.swappiness** | Swap aggressiveness | “Lower = prefer reclaim cache first.” |
 
 ## Standard config / commands
 
@@ -86,26 +95,23 @@ echo -17 | sudo tee /proc/PID/oom_score_adj   # protect critical daemon (careful
 
 See [[OOM (Linux Out Of Memory)]] and [[Linux cgroup]] for container limits.
 
----
-
 ## Single-thread vs multi-thread stacks
 
 | Aspect | Single-thread | Multi-thread |
-|--------|---------------|--------------|
+
 | Stacks | One | One per thread |
+| --- | --- | --- |
 | Heap | Process-wide | Shared across threads |
 | Isolation | Stack overflow kills process | One thread stack overflow can corrupt process |
 | Memory overhead | Lower | +(~MB × thread count) for stacks |
 | Communication | N/A | Shared heap — needs sync ([[mutexes]]) |
 
-Stack ops are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
-
----
+Stack operations are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Process killed, no app log | `dmesg`, `journalctl -k` OOM | Reduce memory; cgroup limit; fix leak; add RAM |
 | Slow before kill | Rising RSS in `top`; swap in | Memory leak profiling; restart policy |
 | `Cannot allocate memory` but free shows GB | cgroup limit; `vm.overcommit`; max map count | `cat memory.max`; `sysctl vm.overcommit_memory` |
@@ -118,8 +124,6 @@ Stack ops are fast (LIFO, compiler-managed). Thread stacks are allocated at thre
 while sleep 5; do ps -o rss= -p PID; done
 valgrind --tool=massif ./app    # dev only
 ```
-
----
 
 ## Gotchas
 
@@ -138,14 +142,10 @@ valgrind --tool=massif ./app    # dev only
 > [!WARNING]
 > **THP (transparent huge pages)** — sometimes hurts latency on DB workloads; distro-dependent tuning.
 
----
-
 ## When NOT to use
 
 - **Disabling OOM killer globally** — masks problems; tune per-service with cgroups instead.
 - **Setting unlimited stack on all threads** — multi-GB virtual waste and mask recursion bugs.
-
----
 
 ## Related
 

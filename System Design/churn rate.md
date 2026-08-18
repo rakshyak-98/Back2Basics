@@ -2,9 +2,7 @@
 
 # Churn rate
 
-> Percent of customers/users lost in a period — **retention KPI**, drives infra downsizing and revenue models.
-
----
+> Churn rate — (attrition) measures how many customers stop paying or actively leave in a time window, expressed as a percentage of the starting cohort. It
 
 ## Mental model
 
@@ -19,15 +17,14 @@ Revenue churn may differ if downgrades count separately
 ```
 
 | Metric | Formula (monthly) | Notes |
-|--------|-------------------|-------|
+
 | **Customer churn** | `(lost customers / start customers) × 100` | SaaS standard |
+| --- | --- | --- |
 | **Revenue churn** | `(MRR lost / start MRR) × 100` | Includes downgrade |
 | **Net revenue churn** | Includes expansion | Can be negative (good) |
 | **Logo vs dollar** | Enterprise vs SMB mix | One whale ≠ many logos |
 
-Distinguish **voluntary** (cancel button) vs **involuntary** (failed payment) — fix paths differ.
-
----
+Distinguish **voluntary** (cancel button) versus **involuntary** (failed payment) — fix paths differ.
 
 ## Standard config / commands
 
@@ -81,20 +78,16 @@ Churn by plan / channel / tenure bucket
 Reactivation rate (win-back campaigns)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Churn spike post deploy | Release correlation | Rollback; feature flag |
 | Involuntary churn up | Payment gateway errors | Update cards; retry rules |
 | Enterprise logos leave | Support tickets | CSM review; SLA breach |
 | Metric disagrees finance | Definition drift | Align cancel date vs end-of-period |
 | "Churn" from duplicate accounts | Bad dedupe | One user = one subscriber ID |
 | Low churn but revenue down | Downgrades not counted | Track revenue churn separately |
-
----
 
 ## Gotchas
 
@@ -113,15 +106,11 @@ Reactivation rate (win-back campaigns)
 > [!WARNING]
 > **Seasonal events** — compare YoY not MoM for retail streaming.
 
----
-
 ## When NOT to use
 
 - **Pre-PMF startup** — sample too small; focus qualitative exit interviews.
 - **Single metric for eng SLOs** — churn is business KPI, not p99 latency substitute.
 - **Blame eng for all churn** — content, pricing, support dominate in media SaaS.
-
----
 
 ## Related
 

@@ -6,7 +6,7 @@
 
 ## Mental model
 
-netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to go up a directory, `%` to create file, `d` to bookmark. It respects `netrw_liststyle` (thin/thick/long/tree).
+**Say it in one breath:** netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to.
 
 ## Standard config / commands
 
@@ -22,7 +22,7 @@ netrw is a Vim plugin (loaded by default) that renders directory listings in a b
 ### Navigation keys (default)
 
 | Key | Action |
-|-----|--------|
+| --- | --- |
 | Enter | Open file / enter dir |
 | `-` | Up one directory |
 | `%` | New file |
@@ -50,7 +50,7 @@ let g:netrw_winsize = 25         " Vex width %
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `:Explore` does nothing / error | `echo g:loaded_netrw` | Re-enable netrw; check plugin manager didn't block it |
 | Slow on remote dirs | SSHFS / NFS latency | Use `ranger`/`lf` in terminal split instead |
 | Wrong cwd | `:pwd` | `:cd /path` then `:Explore` |

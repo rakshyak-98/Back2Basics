@@ -1,8 +1,8 @@
 [[half-open connections]] [[Epoll]] [[ss]] [[TCP]]
 
-# connection churn (connection chrun)
+# connection churn (connection churn)
 
-> Filename typo: **chrun** → **churn**. TCP/HTTP connection lifecycle storms: keepalives, LB idle timeouts, client pools, `TIME_WAIT` — the usual “works then exhausts ports or CPU” failure.
+> connection churn (connection churn) — churn = high rate of short-lived TCP connections (HTTP/1.0-style close per request, health checks, misconfigured pools) or idle timeout mismatch (LB
 
 ## Mental model
 
@@ -18,7 +18,7 @@ Client                    Load balancer              Server
 ```
 
 | Pattern | Cost |
-|---------|------|
+| --- | --- |
 | New TCP per HTTP request | SYN handshake + TLS (if HTTPS) every time |
 | LB idle < app keepalive | Ghost requests, 502s, RST storms |
 | No connection reuse | Ephemeral port / `TIME_WAIT` exhaustion |
@@ -64,7 +64,7 @@ sysctl net.ipv4.tcp_fin_timeout       # default 60 — how long FIN-WAIT-2 etc
 **HTTP keepalive headers:**
 
 | Layer | Knob |
-|-------|------|
+| --- | --- |
 | HTTP/1.1 | Default persistent unless `Connection: close` |
 | Client (axios/fetch agent) | `keepAlive: true`, maxSockets pool |
 | nginx → client | `keepalive_timeout 65;` |
@@ -74,7 +74,7 @@ sysctl net.ipv4.tcp_fin_timeout       # default 60 — how long FIN-WAIT-2 etc
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `EADDRNOTAVAIL` / can't connect out | `ss -tan state time-wait \| wc -l`; port range | Enable keepalive + reuse; fix pool; widen `ip_local_port_range` (band-aid) |
 | 502 after idle period | LB access logs; `ss -ti` timers | Raise `keepAliveTimeout` above LB; enable HTTP keepalive |
 | SYN flood appearance, low traffic | Health check interval; `ss -tan state syn-recv` | Reduce check frequency; use HTTP keepalive to backend |
@@ -108,9 +108,9 @@ ss -tan state time-wait | wc -l
 
 ## When NOT to use
 
-- **Long-lived WebSocket/gRPC streams** — churn doc is wrong frame; debug read idle and proxy timeouts instead.
+- **Long-lived WebSocket/gRPC streams** — churn document is wrong frame; debug read idle and proxy timeouts instead.
 - **UDP “connections”** — no TIME_WAIT; different tools (`ss -u`).
-- **Tuning `fin_timeout` to 5** globally — can break legit slow closes; fix app reuse first.
+- **Tuning `fin_timeout` to 5** globally — can break legit slow closes; fix application reuse first.
 
 ## Related
 

@@ -9,8 +9,9 @@
 **Compile time** = while compiler/transpiler/build tool runs. **Runtime** = while program executes. Decisions at compile time are fixed (types, const generics, `#ifdef`); runtime handles user input, network, dynamic dispatch (virtual methods, `interface{}`, reflection).
 
 | Aspect | Compile time | Runtime |
-|--------|--------------|---------|
+
 | Errors | Syntax, types, missing imports | Null deref, timeout, logic bugs |
+| --- | --- | --- |
 | Cost | Paid once per build | Paid every execution |
 | Knowledge | Source + declared types | Live data, env, I/O |
 
@@ -54,7 +55,7 @@ const enum Dir { Up, Down }
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Build fails CI, passes locally | Toolchain version | Pin Node/Go/Rust in CI |
 | Slow builds | Incremental broken | Cache artifacts; split modules |
 | Type error cascade | One root error | Fix first error; rerun |

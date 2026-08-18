@@ -2,9 +2,7 @@
 
 # Analog interface
 
-> Connection that carries continuously varying signals (voltage, current, pressure) — contrast with digital discrete levels (0/1).
-
----
+> Analog interface — real world Analog front-end Digital domain
 
 ## Mental model
 
@@ -19,14 +17,12 @@ radio carrier →     mixer / IF strip    →     demod → bits
 ```
 
 Engineering concerns:
-- **SNR** — noise floor vs signal
+- **SNR** — noise floor versus signal
 - **Bandwidth** — Nyquist: sample ≥ 2× highest frequency
 - **Linearity** — gain errors across range
 - **Ground loops** — shared return paths inject hum
 
 Embedded / SBC paths: GPIO is **digital**; ADC pins (e.g. `/sys/bus/iio`) read **analog** after on-chip ADC.
-
----
 
 ## Standard config / commands
 
@@ -54,20 +50,16 @@ arecord -D hw:0,0 -f S16_LE -r 44100 -c 2 test.wav
 # Check: clipping, DC offset, ringing on lines
 ```
 
-**Why differential pairs:** USB Ethernet, audio balanced XLR reject common-mode noise vs single-ended GPIO-adjacent wiring.
-
----
+**Why differential pairs:** USB Ethernet, audio balanced XLR reject common-mode noise versus single-ended GPIO-adjacent wiring.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Noisy sensor readings | ADC reference voltage; long wire antenna | Shielding; ferrite; hardware filter; oversample + median |
 | Saturated / flat signal | Input exceeds Vref | Attenuator; gain stage; different range |
 | 50/60 Hz hum | Ground loop | Star ground; isolation amp; USB isolator |
 | Audio crackle on SBC | CPU EMI on analog rail | Separate analog supply; ferrite on mic line |
-
----
 
 ## Gotchas
 
@@ -80,13 +72,9 @@ arecord -D hw:0,0 -f S16_LE -r 44100 -c 2 test.wav
 > [!WARNING]
 > **"Digital sensor" often has analog front-end** — I2C temperature chip still analog die inside.
 
----
-
 ## When NOT to use
 
 Don't run long analog runs next to switching power supplies or motor drivers — convert to digital **close to the sensor** (local ADC, CAN, I2C) and run digital back to the host.
-
----
 
 ## Related
 

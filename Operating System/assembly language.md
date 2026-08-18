@@ -4,8 +4,6 @@
 
 > Human-readable mnemonics for machine instructions — one step above binary, one step below high-level languages; ISA-specific.
 
----
-
 ## Mental model
 
 **Assembly** maps 1:1 (or close) to **opcodes** the CPU decodes. The assembler (`as`) produces object files; the **linker** resolves symbols.
@@ -16,15 +14,13 @@ C source  ──compiler──►  asm  ──assembler──►  .o  ──link
                               └── inline asm, hand-tuned hot paths
 ```
 
-Each **ISA** (x86-64, ARM64, RISC-V) has its own syntax (AT&T vs Intel for x86). Registers, calling conventions, and stack layout are part of the language contract ([[Stack Frame]]).
+Each **ISA** (x86-64, ARM64, RISC-V) has its own syntax (AT&T versus Intel for x86). Registers, calling conventions, and stack layout are part of the language contract ([[Stack Frame]]).
 
 Use assembly when you need:
 - Boot / bring-up / kernels
 - SIMD intrinsics wrappers
 - Exploit mitigations review (ROP gadgets)
 - Last-mile optimization (rare — profile first)
-
----
 
 ## Standard config / commands
 
@@ -68,18 +64,14 @@ gdb ./a.out
 
 **Why `-fno-omit-frame-pointer`:** preserves [[Stack Frame]] chain for profilers.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `SIGILL` illegal instruction | CPU features (AVX-512 on old CPU) | `-march=x86-64-v2` baseline; runtime CPU dispatch |
 | Wrong results after inline asm | Clobber list wrong, memory order | Use compiler intrinsics instead; read ABI docs |
 | Link errors `undefined reference` | Missing `.global`; C name mangling | `extern "C"`; correct symbol visibility |
 | ROP / security audit findings | Gadgets in executable segments | `-Wl,-z,relro,-z,now`; CET where available |
-
----
 
 ## Gotchas
 
@@ -92,13 +84,9 @@ gdb ./a.out
 > [!WARNING]
 > **Micro-architecture matters** — instruction latency/throughput tables change per CPU generation; "fast" asm from 2010 may lose to `-O3` today.
 
----
-
 ## When NOT to use
 
 Default to C/Rust/Go with intrinsics. Hand-written asm increases maintenance cost and blocks compiler optimizations across function boundaries.
-
----
 
 ## Related
 

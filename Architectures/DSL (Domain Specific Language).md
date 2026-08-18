@@ -16,7 +16,7 @@ General-purpose (Java, Python)     DSL (SQL, Makefile, GraphQL schema)
 ```
 
 | Type | Example | Hosted in |
-|------|---------|-----------|
+| --- | --- | --- |
 | **External DSL** | SQL, Regex | Own parser |
 | **Internal DSL** | Fluent API in Ruby | Host language syntax |
 | **Declarative config** | [[Terraform/variable file]] HCL, K8s YAML | Engine interprets |
@@ -79,7 +79,7 @@ See [[Descriptive/Mermaid (DSL)]].
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Users hate syntax | Wrong abstraction level | Narrow vocabulary; better errors |
 | DSL bugs opaque | No source locations in errors | ANTLR/pest with line numbers |
 | Security hole in interpreter | Turing-complete user scripts | Sandbox; cap loops; no file IO |
@@ -97,7 +97,7 @@ See [[Descriptive/Mermaid (DSL)]].
 
 ## When NOT to use
 
-- One-off 10-line config — JSON/YAML enough.
+- One-off 10-line configuration — JSON/YAML enough.
 - Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
 
 ## Related

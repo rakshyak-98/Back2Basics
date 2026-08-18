@@ -1,70 +1,42 @@
-## Inspect commit
-```bash
-git show --stat <commit-hash>;
-git show --name-only <commit-hash>;
-git show --no-patch <commit-hash>;
-``` > [!INFO]
-> patch -> a patch is a text-based representation of changes (diffs) between files, usually between commits or working states. It's used to share, review, or apply changes.
-```bash
-git format-path -1 <commit-hash>; # create patch
+[[GIT]]
 
-git apply --check <patch-file>; # dry run before applying.
-#  - you can apply or import it into another repo or branch.
-git apply <patch-file>; # apply the changes to your working directory.
-# - you still need to commit manually.
+# git commit
 
-git am <patch-file>; # apply and create original commit.
-```
+> git commit — snapshot of the index; the unit of Git history.
 
-### Heads
+## Mental model
 
-used to refer to order commits relative to your current `HEAD` position. While they often point to the exact same commit in a simple, linear history, they behave very differently when you encounter **merge commits**.
-- `HEAD~1` -> (Ancestor Chains) used to go back a specific number of generations along the first-parent history. 
-	- `HEAD~1` means the immediate parent of `HEAD`.
-	- `HEAD~1` means the grandparent (the parent of the parent) of `HEAD` and so on.
-- `HEAD^1` -> (Specific Parents) Most commits have only one parent, but a merge commit has two or more parents. Goes to the tip of the merged branch.
-	- When you need to inspect the code that was brought into your branch via a merge.
+**Say it in one breath:** git commit — snapshot of the index; the unit of Git history.
+
+## Standard config / commands
 
 ```bash
-
+git add file.txt
+git commit -m "describe the change"
+git commit --amend --no-edit          # add to last commit, keep message
+git commit --amend -m "new message"
+git status
+git diff --cached                   # what will be committed
 ```
 
-## Add notes to the commit
-```bash
-git notes add -m 'Message';
-git notes remove <commit-hash>;
+## Triage (when things break)
 
-git push origin refs/notes/* ; #pushes updated notes state (including removal);
-git notes show [<commit>]; # show the commit notes;
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Nothing to commit | `git status`; unstaged changes | `git add` first |
+| Commit rejected (hook) | `.git/hooks/pre-commit` output | Fix hook failure or `--no-verify` only if policy allows |
+| Wrong files committed | `git show --stat HEAD` | `git reset --soft HEAD~1` then re-stage |
+| Author/email wrong | `git config user.name`; `git config user.email` | Set locally or globally before commit |
 
-```bash
-git fetch origin refs/notes/*:refs/notes/*; # fetch remotes notes explicitly.
+## Gotchas
 
-git log origin/your-branch -1 --format=%H; # Get latest commit of remote branch.
-git log origin/your-branch --show-notes;
-```
+> [!WARNING]
+> **Commit only stages what you added** — `git commit` does not pick up unstaged edits.
 
-### interactive patch mode
+## When NOT to use
 
-```bash
-git add -p <file>;
+- Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
 
-git add -p; ## Entire repo
-git reset -p; # Unstage hunks
-```
+## Related
 
-```text
-Stage this hunk [y,n,q,a,d,s,e,?]?
-- `y` → stage this hunk
-- `n` → skip
-- `a` → stage this + all remaining
-- `d` → skip this + all remaining
-- `q` → quit
-
-### Hunk manipulation (important)
-
-- `s` → split hunk into smaller parts
-- `e` → manually edit patch (fine-grained control)
-
-```
+[[GIT]]

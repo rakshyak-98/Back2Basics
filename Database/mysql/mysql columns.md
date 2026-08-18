@@ -2,7 +2,7 @@
 
 # MySQL columns
 
-> One-line: column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
+> column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
 
 ## Mental model
 
@@ -16,7 +16,7 @@ Logical table
 └── metadata JSON
 ```
 
-App migrations should match ORM models; production alters go through [[database migration]] with expand-contract for zero-downtime.
+application migrations should match ORM models; production alters go through [[database migration]] with expand-contract for zero-downtime.
 
 ## Standard config / commands
 
@@ -72,7 +72,7 @@ ALTER TABLE big_table
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | MODIFY widens type fails | Data truncation | Clean bad rows first; staged migration |
 | Implicit default NULL added | Missing NOT NULL on add | Explicit NULL/NOT NULL in ALTER |
 | App breaks after rename | Deploy order | Expand-contract: add new → migrate → drop old |

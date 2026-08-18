@@ -1,8 +1,8 @@
-[[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace app]]
+[[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace application]]
 
 # Command pattern
 
-> Encapsulate an action as an object — invoker, undo, queue, and log requests — **GoF + UI/action systems**.
+> Command pattern — client ──creates──► Command ──passed to──► Invoker ──calls──► Receiver
 
 ## Mental model
 
@@ -13,7 +13,7 @@ Client ──creates──► Command ──passed to──► Invoker ──cal
 ```
 
 | Role | Example |
-|------|---------|
+| --- | --- |
 | **Command** | `TurnOnCommand` |
 | **Receiver** | `Bulb` (does real work) |
 | **Invoker** | `RemoteController` |
@@ -77,7 +77,7 @@ function undo() { history.pop()?.undo(); }
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Undo inconsistent state | Command not reversible | Store before-snapshot or inverse op |
 | Memory leak in history | Unbounded stack | Cap size or persist to disk |
 | Duplicate execution | Retry without idempotency | Idempotent command IDs |
@@ -96,7 +96,7 @@ function undo() { history.pop()?.undo(); }
 ## When NOT to use
 
 - Simple one-shot function call with no undo/queue/logging — YAGNI.
-- Entire app as Command objects — prefer plain functions until undo/queue appears.
+- Entire application as Command objects — prefer plain functions until undo/queue appears.
 
 ## Related
 

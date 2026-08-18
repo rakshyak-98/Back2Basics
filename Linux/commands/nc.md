@@ -2,22 +2,42 @@
 
 # nc (netcat)
 
-> One-line: **Swiss-army TCP/UDP socket tool** — prove connectivity, banner-grab, and one-shot port checks faster than full scans. Not a replacement for proper TLS or auth testing.
+> nc (netcat) — nc opens a raw socket (client or listener). For ops, the common pattern is connect probe: did SYN get SYN-ACK (port open) or
 
 ## Mental model
 
-`nc` opens a **raw socket** (client or listener). For ops, the common pattern is **connect probe**: did SYN get SYN-ACK (port open) or RST/timeout (closed/filtered)? OpenBSD netcat (`nc`) and nmap's `ncat` differ in flags — know which is installed.
+`nc` opens a **raw socket** (client or listener). For operations, the common pattern is **connect probe**: did SYN get SYN-ACK (port open) or RST/timeout (closed/filtered)? OpenBSD netcat (`nc`) and nmap's `ncat` differ in flags — know which is installed.
 
 ```
 Client: nc -zv host 443  →  SYN → SYN-ACK = open
 Listener: nc -lk 8080    →  accept connections (debug/mock server)
 ```
 
-| Variant | `-z` scan | `-l` listen | Notes |
-|---------|-----------|-------------|-------|
-| OpenBSD `nc` | yes | `-l` | Common on Debian/Ubuntu |
-| GNU netcat | `-z` | `-l -p PORT` | `-p` required on listen |
-| `ncat` (nmap) | `-z` | `-l` | `--ssl`, `--proxy |
+| Variant       | `-z` scan | `-l` listen  | Notes                   |
+| --- | --- | --- | --- |
+| 
+
+- | 
+-- | 
+
+ | 
+
+-- |
+| OpenBSD `nc`  | yes       | `-l`         | Common on Debian/Ubuntu |
+| --- | --- | --- | --- |
+| GNU netcat    | `-z`      | `-l -p PORT` | `-p` required on listen |
+| `ncat` (nmap) | `-z`      | `-l`         | `--ssl`, `--proxy       |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **nc / ncat** | TCP/UDP swiss army | “nc -vz host port = reachability.” |
+| --- | --- | --- |
+| **-l** | Listen | “nc -l -p 9999 for quick sink.” |
+| **-z** | Scan only | “No data — just connect test.” |
+| **UDP** | -u flag | “UDP ‘success’ is weaker than TCP.” |
+| **timeout** | Hang prevention | “nc -w 3 for scripts.” |
 
 ## Standard config / commands
 
@@ -72,7 +92,7 @@ ss -lntp | grep :8080    # Is anything actually listening locally?
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Connection refused` | Service down or wrong port | `ss -lntp`; start unit; fix bind address |
 | Hangs then timeout | Firewall DROP | Trace path; security group; `-w` |
 | `nc -zv` open but app fails | TLS/HTTP layer | Use `openssl s_client`, curl — nc is TCP only |
@@ -88,7 +108,7 @@ ss -lntp | grep :8080    # Is anything actually listening locally?
 > **Open vs reachable** — `nc -zv` proves TCP handshake, not valid TLS cert or HTTP 200.
 
 - **IPv6** — `-6` flag; `nc -zv [::1] 22` for local v6.
-- **Script portability** — GNU vs OpenBSD flag differences break CI; prefer `timeout 3 bash -c '</dev/tcp/host/port'` for bash-only checks.
+- **Script portability** — GNU versus OpenBSD flag differences break CI; prefer `timeout 3 bash -c '</dev/tcp/host/port'` for bash-only checks.
 - **IDS noise** — rapid `nc` scans trigger alerts; use [[nmap]] with policy approval internally.
 
 ## When NOT to use

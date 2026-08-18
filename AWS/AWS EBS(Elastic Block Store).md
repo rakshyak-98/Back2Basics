@@ -47,7 +47,7 @@ sudo resize2fs /dev/nvme0n1p1   # ext4
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Data gone after terminate | Delete on termination = true | Restore from snapshot; fix mapping before next terminate |
 | Volume won't attach | AZ mismatch | Volume and instance same AZ (or detach/move) |
 | Full disk | `df -h` | Extend volume + filesystem; don't just restart |

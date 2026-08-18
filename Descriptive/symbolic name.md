@@ -17,7 +17,7 @@ vs magic:   if (attempt > 3) …   // what is 3?
 ```
 
 | Kind | Example | Why |
-|------|---------|-----|
+| --- | --- | --- |
 | **Constant** | `const RED = '#FF0000'` | Named color tokens |
 | **Variable** | `let connectionCount = 0` | Mutable state |
 | **Function** | `function parseInvoice()` | Named behavior |
@@ -69,7 +69,7 @@ const ID_BY_ROLE = Object.fromEntries(
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong value, hard to trace | Magic number/string | Extract named constant |
 | Rename broke runtime | Stringly-typed keys | Use constants or TS enums |
 | Duplicate symbol names | Shadowing in nested scope | Rename or narrow block |

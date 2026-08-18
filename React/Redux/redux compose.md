@@ -4,8 +4,6 @@
 
 > **Right-to-left** function composition — chain store enhancers (`applyMiddleware`, DevTools) into one `createStore` argument — **Redux core API**.
 
----
-
 ## Mental model
 
 ```txt
@@ -22,12 +20,10 @@ enhancer = compose(applyMiddleware(thunk), devToolsExtension())
 Modern apps use **`configureStore`** from RTK ([[Redux toolkit]]) which applies middleware + DevTools internally — raw `compose` appears in legacy tutorials and custom store setup.
 
 | Piece | Role |
-|-------|------|
+| --- | --- |
 | `applyMiddleware` | Inserts middleware chain |
 | DevTools extension | Time-travel debug wrapper |
 | `compose` | Combines enhancers right → left |
-
----
 
 ## Standard config / commands
 
@@ -58,21 +54,17 @@ export const store = configureStore({
 });
 ```
 
-RTK's `getDefaultMiddleware` already includes thunk + invariant checks in dev.
-
----
+RTK's `getDefaultMiddleware` already includes thunk + invariant checks in development.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | DevTools not connected | Wrong compose enhancer | Use `__REDUX_DEVTOOLS_EXTENSION_COMPOSE__` |
 | Middleware never runs | Order in compose | Middleware enhancer innermost (applied last in chain) |
 | `undefined is not a function` | compose on non-enhancers | Each arg must be `(createStore) => (reducer, pre) => store` |
 | Double middleware | compose + configureStore | Pick RTK only |
 | Prod bundle includes DevTools | Guard with NODE_ENV | `devTools: false` in prod |
-
----
 
 ## Gotchas
 
@@ -82,14 +74,10 @@ RTK's `getDefaultMiddleware` already includes thunk + invariant checks in dev.
 > [!WARNING]
 > **`compose` from Redux vs lodash/fp** — same name, different imports; use Redux's for enhancers.
 
----
-
 ## When NOT to use
 
 - **New greenfield apps** — `configureStore` handles composition.
 - **Non-Redux function piping** — use plain functions or `pipe` utilities elsewhere.
-
----
 
 ## Related
 

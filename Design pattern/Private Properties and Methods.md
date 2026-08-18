@@ -1,48 +1,70 @@
+[[Design pattern]] [[Design pattern/OOPS]]
+
+# Private Properties and Methods
+
+> Private members hide internal state; privileged methods are public functions that close over private variables in JavaScript's closure model.
+
+## Mental model
+
+**Say it in one breath:** Without native `private` in older JavaScript, use closures so only exposed methods can read or write hidden fields.
+
 ```javascript
-function Gadget(){
-	this.name = "iPod";
-	this.stretch = function(){
-		return "iPad"; 
-	}
+function Gadget() {
+  this.name = "iPod";
+  this.stretch = function () {
+    return "iPad";
+  };
 }
-
-var toy  = new Gadget();
-toy.stretch(); // stretch() is public
-```
->[!INFO] doesn't have special syntax for private members. You can implement them using closure.
-``` javascript
-function Gadget(){
-	var name = "iPod";
-	this.getName = function(){
-		return name;	
-	}
-}
-
 var toy = new Gadget();
-toy.name; // undefined
-toy.getName(); // iPod
+toy.stretch(); // public method
 ```
-#### Privileged Methods
-- just a name given to the public methods that have access to the private member.
->[!WARNING] When you're directly returning a private variable from a privileged method this variable happens to be an object or array, then outside code can modify the private variable because it's passed by reference.
-- solve this by returning a new object containing only some of the data that could be interesting to the consumer of the object.
-#### Object Literals and Privacy
-```javascript
-let myObj = (() => {
-	let name = "my, oh my"
-	myObj = {
-		getName: () => {
-			return name;
-		}
-	}
-})
 
-myObj.getName(); // "my, oh my"
+```javascript
+function Gadget() {
+  var name = "iPod";
+  this.getName = function () {
+    return name;
+  };
+}
+var toy = new Gadget();
+toy.name;      // undefined — private
+toy.getName(); // "iPod"
 ```
-#### Prototypes and Privacy
->[!INFO]] drawback of the private member when used with constructors is that they are recreated every time the constructor is invoked to create a new object.
-- add common properties and methods to the prototype property of the constructor.
-- this way the common parts are shared among all the instances created with the same constructor.
-#### Private Static Members
-- shared by all the objects created with the same constructor function.
-- not accessible outside the constructor.
+
+### Privileged methods
+
+Public methods that access private members through closure.
+
+> [!WARNING]
+> Returning a private object or array by reference lets callers mutate internal state — return copies or frozen snapshots instead.
+
+## Standard config / commands
+
+```javascript
+// Modern JS — native private fields
+class Account {
+  #balance = 0;
+  deposit(amount) { this.#balance += amount; }
+}
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| External code mutates internal array | Return by reference | Return `[...arr]` or `Object.freeze` |
+| `undefined` on "private" field | Field on `this` | Use closure or `#` private fields |
+| Subclass cannot access parent private | Language rules | Use `protected` or explicit getters |
+
+## Gotchas
+
+> [!WARNING]
+> **Closure per instance** — each object carries its own function copies; fine for small objects, costly at scale.
+
+## When NOT to use
+
+- **Over-hiding in simple data objects** — plain properties plus conventions may suffice.
+
+## Related
+
+[[Design pattern/OOPS]] [[Design pattern/Singleton]] [[Design pattern/Static Members]]

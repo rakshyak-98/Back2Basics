@@ -1,62 +1,73 @@
-```txt
-TypeError: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received type number (137)
-    at new NodeError (node:internal/errors:405:5)
-    at _write (node:internal/streams/writable:315:13)
-    at WriteStream.Writable.write (node:internal/streams/writable:337:10)
-    at pumpToNode (node:internal/streams/pipeline:136:21)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-[ERROR] 13:58:25 TypeError: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received type number (137)
-```
+[[NodeJS]] [[Stream]] [[Stream/pipe]] [[Stream Events]] [[Buffers]]
 
- the error occurs because `Readable.from(file.buffer)` is incorrect. The `file.buffer` is already a `Buffer`, and `Readable.from` expects an array of buffers or strings.
+# stream error
 
+> Stream failures — wrong chunk types, missing `pipeline` callback, and unclean destroy; handle `error` or use `stream/promises`.
+
+## Mental model
+
+**Say it in one breath:** Writable wants string/Buffer/Uint8Array (unless `objectMode`). Callback-style `pipeline` needs a final function; promise API does not.
 
 ```txt
-> pipeline( fs.createReadStream(file), zlib.createGzip(), fs.createWriteStream(file.concat(".gz")));
-Uncaught: TypeError [ERR_INVALID_ARG_TYPE]: The "streams[stream.length - 1]" property must be of type function. Received an instance of WriteStream at popCallback (node:internal/streams/pipeline:73:3) at pipeline (node:internal/streams/pipeline:181:37) { code: 'ERR_INVALID_ARG_TYPE' }
+bad: Readable.from(alreadyBuffer) mistyped / number chunk
+bad: pipeline(a,b,ws) without callback → treats WriteStream as fn
+good: pipeline from 'stream/promises' or callback last
 ```
-- Error happens because `stream.pipeline()` without Promise wrapper, which is required in its native form.
 
-> [!NOTE]
-> Stream pipeline expects a callback or you need to **promisify** it.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ERR_INVALID_ARG_TYPE** | Wrong pipeline args | “Forgot callback or used wrong import.” |
+| --- | --- | --- |
+| **chunk type** | Must be Buffer/string | “Don’t write raw numbers.” |
+| **destroy** | Tear down on error | “pipeline does this for you.” |
+
+## Standard config / commands
+
 ```js
-const { pipeline } = require('stream');
-const fs = require('fs');
-const zlib = require('zlib');
+import { pipeline } from 'node:stream/promises'
+import fs from 'node:fs'
+import zlib from 'node:zlib'
 
-pipeline(
+await pipeline(
   fs.createReadStream(file),
   zlib.createGzip(),
   fs.createWriteStream(file + '.gz'),
-  (err) => {
-    if (err) {
-      console.error('Pipeline failed:', err);
-    } else {
-      console.log('Pipeline succeeded.');
-    }
-  }
-);
+)
 
+// Already a Buffer — don’t wrap wrong:
+// Readable.from([file.buffer]) or PassThrough end(buffer)
 ```
 
-```js
-const { pipeline } = require('stream');
-const { promisify } = require('util');
-const fs = require('fs');
-const zlib = require('zlib');
+| Knob | Why it matters |
 
-const pipelineAsync = promisify(pipeline); // promisify
+| `stream/promises` | No callback footgun |
+| --- | --- |
+| `objectMode` | Allow non-Buffer chunks |
+| `error` listeners | Required if not using pipeline |
 
-await pipelineAsync(
-  fs.createReadStream(file),
-  zlib.createGzip(),
-  fs.createWriteStream(file + '.gz')
-);
+## Triage (when things break)
 
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| chunk must be string/Buffer | Wrote number/object | Buffer/string or `objectMode` |
+| streams[last] must be function | Callback `pipeline` sans cb | Add cb or use promises API |
+| Socket left open | Raw `pipe` + error | `pipeline` |
+| Readable.from(Buffer) odd | API expects iterable | `Readable.from([buf])` or `.end(buf)` |
 
-> [!INFO]
-> the last argument of `pipeline()` must be a function (callback) if not promisified. If you omit it, Node tries to treat your last stream as a callback, causing:
-```txt
-Uncaught: TypeError [ERR_INVALID_ARG_TYPE]: The "streams[stream.length - 1]" property must be of type function. Received an instance of WriteStream at popCallback
-```
+## Gotchas
+
+> [!WARNING]
+> **Two `pipeline` APIs** — `require('stream').pipeline` needs callback; `stream/promises` returns a Promise.
+
+> [!WARNING]
+> **Unhandled `error`** — can abort the process.
+
+## When NOT to use
+
+- **Happy-path only demos** — still add error paths before production.
+
+## Related
+
+[[Stream]] [[Stream/pipe]] [[Stream Events]] [[Buffers]]

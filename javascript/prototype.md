@@ -1,15 +1,68 @@
-- prototype property points to constructor property of the function you create and not to the build-in `Object()`.
-- A *prototype* is an object and every function you create automatically gets a prototype property.
-- prototype-based inheritance, objects can inherit properties and methods from other objects.
-> [!NOTE] Prototype is an object (not a class or anything special) and every function has a prototype property.
+[[javascript]] [[hoisting]] [[mixin]]
 
-### The difference between `prototype` and `__proto__`
+# prototype
 
-| Feature            | `prototype`                                                          | `__proto__`                                                                      |
-| ------------------ | -------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| What it belongs to | A function (constructor function or class)                           | An object (instance of a constructor)                                            |
-| Purpose            | The blueprint that instance inherit from                             | A reference to the object's prototype (inherited from constructor's `prototype`) |
-| Type               | A prototype of constructor functions                                 | A property of objects                                                            |
-| Usage              | Defines what will be inherited by instances                          | Points to the prototype object from which the object inherits                    |
-| Accessed on        | Constructor function (`function Foo() {}`)                           | Any JavaScript object `obj.__proto__`                                            |
-| Relationship       | `constructorFunction.prototype` becomes the `__proto__` of instances | `obj.__proto__ === Constructor.prototype`                                        |
+> Objects inherit via a prototype chain — property lookup walks `__proto__` until found or `null`.
+
+## Mental model
+
+**Say it in one breath:** `obj.foo` checks own props, then `Object.getPrototypeOf(obj)`, and so on. `class` syntax is sugar over constructor + `.prototype`.
+
+```txt
+instance → C.prototype → Object.prototype → null
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **own vs inherited** | On object vs chain | “`hasOwnProperty` / `Object.hasOwn`.” |
+| --- | --- | --- |
+| **prototype** | Shared methods object | “One function, many instances.” |
+| **[[Prototype]]** | Internal link | “Not the same as `.prototype` on functions.” |
+
+## Standard config / commands
+
+```js
+function Dog(name) { this.name = name }
+Dog.prototype.bark = function () { return 'woof' }
+const d = new Dog('Rex')
+
+class Cat {
+  meow() { return 'mew' }
+}
+Object.getPrototypeOf(d) === Dog.prototype
+```
+
+| Knob | Why it matters |
+
+| `Object.create(proto)` | Pure delegation |
+| --- | --- |
+| `Object.setPrototypeOf` | Slow/mutable — avoid hot paths |
+| `static` | On constructor, not instances |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| method undefined | Forgot `prototype` / `new` | Use `new` or class |
+| Unexpected shared state | Mutable value on prototype | Put state on `this` |
+| Broken instanceof | Wrong prototype | Fix inheritance link |
+| Perf weirdness | Mutating [[Prototype]] | Create with right proto once |
+
+## Gotchas
+
+> [!WARNING]
+> **`obj.__proto__`** — legacy accessor; prefer `Object.getPrototypeOf`.
+
+> [!WARNING]
+> **Arrays/objects as prototype props** — shared across instances.
+
+## When NOT to use
+
+- **Deep classic OOP trees** — prefer composition.
+- **Changing proto at runtime** — engines deoptimize.
+
+## Related
+
+[[hoisting]] [[mixin]] [[Classes]]

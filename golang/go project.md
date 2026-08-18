@@ -1,90 +1,83 @@
-# Go Backend Projects: Brief Specifications
+[[golang]] [[go learning]] [[go]] [[go-routines]]
 
-## **Beginner (Syntax, Structs, Testing)**
+# go project
 
-## **1. CLI Todo App**
+> Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
-text
+## Mental model
 
-`- Add/list/delete/complete todos   - Persist to JSON file - Flag parsing (go flags) - Input validation, pretty table output - 100% unit tests`
+**Say it in one breath:** One project at a time with README “why”, table-driven tests, and graceful shutdown. Prefer boring stdlib until the project forces a library.
 
-**Files**: `main.go`, `todo.go`, `store.go`, `cmd/*.go`
+```txt
+CLI → REST+DB → WS/gateway → KV/gRPC
+```
 
-## **2. URL Shortener CLI**
+| Level | Focus |
+| --- | --- |
+| Beginner | Structs, files, flags, tests |
+| Intermediate | HTTP, SQL, auth, concurrency |
+| Advanced | gRPC, multi-service, durability |
 
-text
+## Standard config / commands
 
-`- Shorten/expand URLs (base62 encoding) - In-memory LRU cache (100 entries) - Validate URLs, collision handling - Stats: total short/expand calls - Benchmark encoding`
+```bash
+go mod init github.com/you/proj
+mkdir -p cmd/app internal
+go test ./... -race
+docker compose up -d # when Postgres required
+```
 
-**Files**: `main.go`, `shortener.go`, `lru.go`
+| Knob | Why it matters |
 
-## **3. File Stats Analyzer**
+| `internal/` | Keep API surface small |
+| --- | --- |
+| Context on servers | Cancel on SIGINT |
+| Idempotent writes | Booking/payment style tasks |
 
-text
+## Project ladder
 
-`- Scan directory recursively - Concurrent file scanning (10 goroutines) - Stats: files by type/size/age - JSON/CSV output - Graceful shutdown (SIGINT)`
+| # | Project | Must include |
 
-**Files**: `main.go`, `scanner.go`, `stats.go`
+| 1 | CLI todo | JSON persist, flags, table output, unit tests |
+| --- | --- | --- |
+| 2 | URL shortener CLI | base62, LRU, benchmarks |
+| 3 | File stats | Concurrent walk, SIGINT shutdown, JSON/CSV |
+| 4 | REST tasks API | CRUD filters, JWT, Postgres, integration tests |
+| 5 | Chat server | Rooms, broadcast, rate limit |
+| 6 | API gateway | Auth + rate limit + proxy |
+| 7 | KV store | gRPC, replication or Raft-lite |
+| 8 | Booking service | Idempotent book, services split |
+| 9 | Log aggregator | Ingest + query + backpressure |
 
-## **Intermediate (APIs, DB, Concurrency)**
+**Production checklist (all):** structured logs, `-race` clean, health endpoint, configuration via environment, README with failure modes.
 
-## **4. REST Task API** (Gin + PostgreSQL)
+## Triage (when things break)
 
-text
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Scope creep | Feature list grows | Cut to table above |
+| Untestable main | Logic in `main` | Move to `internal` |
+| Flaky concurrent tests | Timing asserts | Channels/`sync` + race |
+| DB tests fragile | Shared DB | Testcontainers / tx rollback |
+| “Done” without README | No decisions recorded | Write why section |
 
-`Endpoints: - POST/GET/PUT/DELETE /tasks - GET /tasks?user_id=123&status=done&limit=20 - POST /auth/login (JWT)`
+## Gotchas
 
-**Tech**: Gin, GORM, PostgreSQL, JWT middleware, Docker  
-**Tests**: Integration + unit (80% coverage)
+> [!WARNING]
+> **Framework shopping** — finish one stdlib HTTP service first.
 
-## **5. Chat Server** (WebSockets)
+> [!WARNING]
+> **Skipping graceful shutdown** — leaks in WS/chat projects.
 
-text
+> [!WARNING]
+> **No idempotency on book/pay** — instant production bug.
 
-`- Join/leave rooms - Send/receive messages (broadcast) - Message history (100 latest) - Rate limiting per user`
+## When NOT to use
 
-**Tech**: gorilla/websocket, channels + mutex, Redis (optional)
+- **Resume spam of 9 half-apps** — ship 3 polished ones.
+- **Rewriting Kubernetes for learning** — too wide.
+- **Copying entire starter kits** — you won’t learn.
 
-## **6. Rate Limited API Gateway**
+## Related
 
-text
-
-`- Proxy to backend services - Token bucket (100 req/min per IP) - Metrics endpoint (/metrics) - Graceful shutdown`
-
-**Tech**: http.Client, Redis, Prometheus metrics
-
-## **Advanced (Distributed Systems)**
-
-## **7. Distributed KV Store** (gRPC)
-
-text
-
-`- Put/Get/Delete keys (TTL support) - Leader election (Raft/etcd) - 3-node cluster (Docker Compose) - List keys, consistent reads`
-
-**Tech**: gRPC, Raft, boltdb
-
-## **8. Hotel Booking Service** (Microservices)
-
-text
-
-`Services: rooms, bookings, notifications - Saga pattern for distributed transactions - Kafka events - PostgreSQL + Redis cache`
-
-**Tech**: Docker Compose, Kafka, gRPC/REST
-
-## **9. Log Aggregator**
-
-text
-
-`- Tail multiple log files - Parse JSON logs, extract metrics - Buffer → HTTP sink (batch upload) - Retry failed uploads`
-
-**Tech**: fsnotify, buffered channels, gzip compression
-
----
-
-## **Production Checklist** (All Projects)
-
-text
-
-`✅ Docker + docker-compose ✅ 80%+ test coverage (go test ./...) ✅ Graceful shutdown (context) ✅ Config via env vars ✅ README: build/run/benchmark ✅ GitHub Actions CI ✅ Architecture diagram (mermaid)`
-
-**Start order**: 1→9. Each takes 4-12 hours. Deploy to Fly.io. Perfect interview portfolio!
+[[go learning]] [[go cli]] [[go-routines]] [[gRPC]]

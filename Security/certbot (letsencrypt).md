@@ -1,67 +1,105 @@
+[[Security]] [[ACME server]] [[TLS (Transport Layer Security)]] [[certbot error]] [[https]]
 
-- Default config and log files path
-- Main debug log: `/var/log/letsencrypt/letsencrypt.log`
-- Global level conf: `/etc/letsencrypt/cli.ini`
-- User level conf `~/.config/letsencrypt/cli.ini`
+# certbot (letsencrypt)
 
-> [!NOTE]
-> You cannot get a public trusted certificate (from Let's Encrypt ACME server).
-> - use `staging` environment
+> Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
-```bash
-sudo certbot certonly \
-  --staging \
-  --standalone \
-  -d testhotel1.example.com \
-  -d testhotel5.example.com \
-  --email your@email.com \
-  --agree-tos \
-  --non-interactive   # optional, if you want to skip prompts
+## Mental model
+
+**Say it in one breath:** Certbot talks to an [[ACME server]], completes HTTP-01 or DNS-01, writes certs under `/etc/letsencrypt/live/<name>/`, and a timer runs `certbot renew`.
+
+```txt
+certbot ──ACME──► Let's Encrypt
+   │                  │
+   │◄── challenge ────┤
+   │ serve token :80 or TXT DNS
+   │◄── leaf + chain ─┤
+   └── fullchain.pem + privkey.pem → nginx/apache
 ```
-- `--standalone` -> Certbot starts its own temporary web server on port 80 (make sure nothing else is using 80).
+
+| Path | Role |
+| --- | --- |
+| `/var/log/letsencrypt/letsencrypt.log` | Debug log |
+| `/etc/letsencrypt/cli.ini` | Global config |
+| `~/.config/letsencrypt/cli.ini` | Per-user config |
+| `/etc/letsencrypt/live/…/fullchain.pem` | What TLS servers should use |
+
+Use **`--staging`** while debugging — avoids production rate limits; staging certs are untrusted.
+
+## Standard config / commands
 
 ```bash
 certbot plugins
-certbot certificates;
+certbot certificates
 sudo apt install certbot python3-certbot-nginx
+
+# Issue + rewrite nginx
+sudo certbot --nginx -d example.com -d www.example.com
+
+# Cert only
+sudo certbot certonly --nginx -d example.com
+
+# Standalone (temp server on :80 — nothing else bound)
+sudo certbot certonly --staging --standalone \
+  -d testhotel1.example.com --email you@example.com --agree-tos --non-interactive
 ```
 
-```bash
-sudo certbot --nginx -d example.com -d www.example.com; # Get certificate + auto-configure nginx
-sudo certbot --apache -d example.com -d www.example.com;
-```
-
-```bash
-sudo certbot certonly --nginx -d example.com; # Get certificate only (no auto-config).
-```
+| Plugin | When |
+| --- | --- |
+| `--nginx` / `--apache` | Autoconfigure vhost |
+| `--webroot -w` | Existing server already serves docroot |
+| `--standalone` | No web server, or stop it briefly |
+| `--dns-<provider>` | Wildcards / blocked port 80 |
 
 ## Renew certificate
 
 ```bash
-sudo certbot renew; # Renew all certificate
-sudo certbot renew --dry-run;
-```
-
-```bash
-sudo certbot renew --deploy-hook "systemctl reload nginx";
-sudo certbot renew --quiet; # For cron
+sudo certbot renew
+sudo certbot renew --dry-run
+sudo certbot renew --deploy-hook "systemctl reload nginx"
+sudo certbot renew --quiet   # cron/systemd timer
 ```
 
 ## Webroot
 
-- `certbot` needs to prove to let's Encrypt that you really control the domain you're requesting a certificate for.
-
-The `--webroot` plugin is the mechanism that tells `certbot`:
-> “Please write those challenge files into this folder on disk → my already-running web server (Apache, Nginx, Caddy, lighttpd, IIS, etc.) will automatically serve them at the correct URL.”
-- You specify the folder with `-w` / `--webroot-path`
+Writes challenge files into your docroot so the running server serves them:
 
 ```bash
-sudo certbot certonly \
-	--webroot \
-  -w /var/www/html          # ← DocumentRoot or public folder
-  -d example.com -d www.example.com
+sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
 ```
 
 ## HTTP-01 Challenge
 
-- HTTP-01 is the most common ACME challenge for domain validation in Certbot. It proves you control a domain by serving a specific token file (your domain name `-d` and port 80)
+Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Connection timeout from LE | Port 80/firewall/SG | Open 80 from internet; fix NAT |
+| `404` on challenge | Wrong webroot / nginx location | Align `-w` with served path; allow `/.well-known/` |
+| Rate limited | Too many failed prod attempts | Use `--staging`; wait; see [[certbot error]] |
+| Renew dry-run fails | Auth path changed | Fix plugin config before expiry |
+| nginx still old cert | Wrong `ssl_certificate` path | Point to `live/…/fullchain.pem`; reload |
+| Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
+
+## Gotchas
+
+> [!WARNING]
+> **Staging certs look “broken” in browsers** — expected; switch off `--staging` for real trust.
+
+> [!WARNING]
+> **Standalone steals :80** — fails if nginx already listens; use webroot or stop nginx briefly.
+
+> [!WARNING]
+> **IPv6 AAAA wrong** — LE may prefer v6; align A/AAAA or remove bad AAAA.
+
+## When NOT to use
+
+- **Internal-only hostnames** — public LE can’t validate private DNS; use private CA / step-ca.
+- **Devices without inbound 80/DNS API** — pre-provision or use DNS-01 with automation.
+- **One-hour lab on localhost** — `mkcert` / self-signed OpenSSL is faster.
+
+## Related
+
+[[ACME server]] [[certbot error]] [[TLS (Transport Layer Security)]] [[https]] [[openssl]] [[PKI]]

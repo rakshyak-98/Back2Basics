@@ -2,11 +2,11 @@
 
 # PSI GSS (PCI Guest Service System)
 
-> PCI SSC program: outsource entire payment page/checkout to qualified provider — dramatically shrink merchant PCI scope — **PCI DSS SAQ selection**.
+> PSI GSS (PCI Guest Service System) — PSI GSS (Payment Card Industry Guest Service System) describes when a merchant uses a third-party hosted checkout such that
 
 ## Mental model
 
-**PSI GSS** (Payment Card Industry **Guest Service System**) describes when a merchant uses a **third-party hosted** checkout such that **cardholder data never enters merchant systems**.
+**Say it in one breath:** **PSI GSS** (Payment Card Industry **Guest Service System**) describes when a merchant uses a **third-party hosted** checkout such that **cardholder data never enters merchant systems**.
 
 ```
 Shopper enters card ──► Hosted payment page (PSP) ──► networks
@@ -61,7 +61,7 @@ res.redirect(session.url);
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | QSA rejects SAQ A claim | PAN passed through merchant API | Move to hosted fields |
 | Card data in application logs | Debug logging body | Redact; structured logging policy |
 | Analytics pixel on checkout page | Third-party script access | Remove from hosted page or use redirect |
@@ -74,7 +74,7 @@ res.redirect(session.url);
 > **One misconfigured API route** that accepts raw card JSON expands scope to full SAQ D instantly.
 
 - **Mail-order / phone** MOTO flows are separate scope — not GSS.
-- **Staff "keying in"** card on merchant admin panel = CHD on your systems.
+- **Staff "keying in"** card on merchant administrator panel = CHD on your systems.
 - **Provider change** — revalidate AOC and SAQ type annually and on vendor switch.
 
 ## When NOT to use

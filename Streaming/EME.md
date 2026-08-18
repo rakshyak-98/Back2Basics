@@ -4,8 +4,6 @@
 
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
----
-
 ## Mental model
 
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
@@ -20,17 +18,21 @@ Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
          License server ([[DRM]] KMS — Pallycon, EZDRM, etc.)
 ```
 
-| Piece | Role |
-|-------|------|
-| **EME** | API surface in browser |
-| **CDM** | Proprietary decrypt (Widevine L1/L3, etc.) |
-| **CENC** | Common encryption format in [[CMAF]]/fMP4 |
-| **License server** | Validates entitlement; returns keys |
-| **MSE** | Feeds encrypted segments to CDM |
+| Piece              | Role                                       |
+| --- | --- |
+| 
+
+---- | 
+
+ |
+| **EME**            | API surface in browser                     |
+| --- | --- |
+| **CDM**            | Proprietary decrypt (Widevine L1/L3, etc.) |
+| **CENC**           | Common encryption format in [[CMAF]]/fMP4  |
+| **License server** | Validates entitlement; returns keys        |
+| **MSE**            | Feeds encrypted segments to CDM            |
 
 EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-AES / fMP4 `sinf`/`schi` boxes wrap the same keys for Apple.
-
----
 
 ## Standard config / commands
 
@@ -92,12 +94,10 @@ License server CORS must allow player origin
 Mixed content blocked — manifest + segments + license all TLS
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Unsupported keySystem` | Browser/OS; L1 vs L3 | Test Chrome+Android; provide clear fallback message |
 | License 403 | Token expired; wrong content ID | Align asset ID with KMS; refresh auth JWT |
 | Video black, no error | MSE codec vs EME policy | Match `codecs` in MSE to encrypted track |
@@ -105,8 +105,6 @@ Mixed content blocked — manifest + segments + license all TLS
 | Chrome works, TV fails | Widevine L3 only on TV | Device allowlist; H.264 baseline rung |
 | `DOMException` key session | Init data / PSSH mismatch | Regenerate PSSH at packager; verify [[MPD]] |
 | CORS on license | Preflight blocked | `Access-Control-Allow-Origin` on license endpoint |
-
----
 
 ## Gotchas
 
@@ -125,16 +123,12 @@ Mixed content blocked — manifest + segments + license all TLS
 > [!WARNING]
 > **HLS FairPlay ≠ Widevine MPD** — multi-DRM still needs **two manifest paths**, one segment set ([[CMAF]]).
 
----
-
 ## When NOT to use
 
 - **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
 - **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
-- **Internal corp streams** — tokenized URLs + TLS often enough; EME ops cost unjustified.
-
----
+- **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
 
 ## Related
 
-[[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]
+[[DRM]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]

@@ -2,9 +2,7 @@
 
 # Securing a hash key authentication
 
-> Operational playbook for shared MAC/API secrets — generate strong material, store safely, rotate, and detect compromise.
-
----
+> Securing a hash key authentication — hash-key authentication = server and client share a secret used to compute HMAC (Hash based Message Authentication Codes) or compare
 
 ## Mental model
 
@@ -16,13 +14,11 @@ Server:  recompute with stored secret → timing-safe equal?
 ```
 
 Threat model:
-- **Leak** via git, logs, env dump, support ticket
+- **Leak** via git, logs, environment dump, support ticket
 - **Offline brute force** if secret weak or fast hash (MD5)
 - **Replay** if no timestamp/nonce in signed payload
 
 Security = **key hygiene** + **transport** + **verification discipline**.
-
----
 
 ## Standard config / commands
 
@@ -78,19 +74,15 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 
 **Why KMS:** audit trail, IAM access, automatic rotation hooks — not grep-able in `.env` backups.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Auth fail after deploy | Wrong secret version in pod | Sync secret mount; rollout restart |
 | Intermittent 401 | Load balancer dual secrets | Sticky validation or complete rotation |
 | Secret in logs | Debug logging request headers | Redact `Authorization`; structured logging filters |
 | Suspected leak | Unusual IPs; spike in usage | Rotate immediately; invalidate old key |
 | Timing attacks | Non-constant compare | `crypto.timingSafeEqual` |
-
----
 
 ## Gotchas
 
@@ -106,13 +98,9 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 > [!WARNING]
 > **Query string signing** — URLs logged everywhere; prefer headers or POST body.
 
----
-
 ## When NOT to use
 
 Shared MAC keys **don't scale** to untrusted third-party integrators — use OAuth/mTLS or asymmetric webhook signatures per consumer.
-
----
 
 ## Related
 

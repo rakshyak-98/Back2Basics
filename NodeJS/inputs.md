@@ -2,7 +2,7 @@
 
 # Node.js stdin / readline inputs
 
-> One-line: read interactive CLI input line-by-line via `readline` — wrap stdin/stdout; handle SIGINT and backpressure for REPL-style tools.
+> Node.js stdin / readline inputs — CLI tools get input from process.stdin (readable stream) and write to process.stdout. The readline module provides an Interface that emits
 
 ## Mental model
 
@@ -14,7 +14,7 @@ Keyboard / pipe ──► stdin ──► readline Interface ──► 'line' ev
 prompt ───────────────────────┴──► stdout
 ```
 
-For password input, use `readline` with muted output or a dedicated package. For one-shot args, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
+For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
 
 ## Standard config / commands
 
@@ -82,7 +82,7 @@ process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Prompt never appears | stdin not TTY | Check `process.stdin.isTTY`; support argv fallback |
 | Double echo | Raw mode + readline | Don't mix; pick one API |
 | Script hangs at end | Interface not closed | `rl.close()` in finally |

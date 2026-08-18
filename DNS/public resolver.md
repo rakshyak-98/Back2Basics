@@ -1,84 +1,68 @@
+[[DNS]]
+
+# public resolver
+
+> public resolver — s (like 8.8.8.8 or 1.1.1.1) don’t store domain → IP mappings permanently.
+
+## Mental model
+
+**Say it in one breath:** public resolver — I can explain the job, the configuration, and the top failure without jargon.
+
 ### **1. Public resolver’s job**
-
-Public resolvers (like `8.8.8.8` or `1.1.1.1`) **don’t store domain → IP mappings permanently**.  
+Public resolvers (like `8.8.8.8` or `1.1.1.1`) **don’t store domain → IP mappings permanently**.
 They act as **recursive resolvers**, meaning:
-
 - They fetch the correct IP from the authoritative source on your behalf.
-    
 - They **cache** the answer temporarily (based on TTL).
-    
-
----
-
 ### **2. Step-by-step resolution flow**
-
 When you query `dig @8.8.8.8 example.com`, Google DNS performs this chain:
-
 1. **Check local cache**
-    
     - If already cached and TTL not expired → return instantly.
-        
-2. **If not cached → recursive lookup begins:**  
-    a. Ask **root DNS servers** → “who handles `.com` TLD?”  
-    b. `.com` TLD servers respond with NS (nameserver) for `example.com` (e.g. `ns1.examplehost.com`).  
-    c. Public resolver then asks that **authoritative nameserver** for `example.com` → “what is its A record?”  
+2. **If not cached → recursive lookup begins:**
+    a. Ask **root DNS servers** → “who handles `.com` TLD?”
+    b. `.com` TLD servers respond with NS (nameserver) for `example.com` (e.g. `ns1.examplehost.com`).
+    c. Public resolver then asks that **authoritative nameserver** for `example.com` → “what is its A record?”
     d. Authoritative server replies: `example.com → 93.184.216.34`.
-    
 3. **Public resolver caches this** for the TTL (say, 3600s).
-    
 4. **Public resolver sends result back** to your machine.
-    
-
----
-
 ### **3. Next requests**
-
-When anyone else asks the same resolver for `example.com` within that TTL window,  
+When anyone else asks the same resolver for `example.com` within that TTL window,
 it returns the **cached IP**, avoiding the full lookup chain.
+### **4. Sum
 
----
+### Interview map (words you can say)
 
-### **4. Summary logic**
+| Word | Plain meaning | Say in interview |
 
-```
-User query → Public Resolver
-   ↓
-Cache hit? yes → return
-        no → ask Root → TLD → Authoritative
-   ↓
-Store in cache (TTL)
-   ↓
-Return IP
-```
+| **public resolver** | This note’s core idea | “I explain public resolver in plain words.” |
+| --- | --- | --- |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
 
----
+## Standard config / commands
 
-### **5. Key separation**
-
-- **Authoritative servers** = “source of truth” (where domain owner defines A/CNAME/MX records).
-- **Public resolvers** = “smart cache middlemen” that find and remember answers.
----
-
-
-## Trace the full DNS resolution path from your cli
-
-**Run a full trace**
 ```bash
-dig +trace <domain>;
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-## Classic DNS propagation/resolver difference issue
+## Triage (when things break)
 
-`nslookup <domain> <public dns server>` -> NXDOMAIN
-google public DNS (`8.8.8.8`) does not yet have the record cached or the record hasn't propagated to it.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Apply/deploy fail | plan / events | Fix IAM or syntax |
+| TLS/DNS wrong | dig / openssl | Fix records and certs |
+| Secret leak risk | repo scan | Rotate; use secret store |
 
-`nslookup <domain> 1.1.1.1` -> resolves correctly
-	- Cloudflare DNS `1.1.1.1` has already received the update record.
+## Gotchas
 
-> [!INFO]
-> - DNS changes propagate asynchronously
-> - Each resolver caches records based on TTL.
-> - Some resolvers query authoritative servers sooner than other.
-> - NXDOMAIN on 8.8.8.8 means either
-> 	- Had cached an old non-existent state (before the A record was added), or
-> 	- Hasn't queried the authoritative nameservers yet.
+> [!WARNING]
+> Prefer words you can say aloud in an interview.
+
+## When NOT to use
+
+- Skip when a simpler existing approach already fits.
+
+## Related
+
+[[DNS]]

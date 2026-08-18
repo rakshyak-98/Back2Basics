@@ -2,9 +2,7 @@
 
 # Marshalling
 
-> Convert in-memory structures ↔ wire/storage bytes across process boundaries — **schema + version discipline** prevent silent corruption.
-
----
+> Marshalling — (synonymous with serialization in most teams) transforms runtime objects into bytes for network, disk, or IPC, and unmarshals back on the receiver. Boundaries: different
 
 ## Mental model
 
@@ -17,15 +15,14 @@ Process A: object ──marshal──► bytes ──TCP/HTTP──► bytes ─
 ```
 
 | Format | Schema | Human-readable | Typical use |
-|--------|--------|----------------|-------------|
+
 | **JSON** | Informal / OpenAPI | Yes | Public REST [[API design]] |
+| --- | --- | --- | --- |
 | **Protobuf** | `.proto` strict | No | gRPC internal |
 | **Avro** | ID registry | No | Kafka events |
 | **MessagePack** | Informal | No | Compact JSON-like |
 
 **Endianness, field order, nullable fields, enum evolution** — bugs appear **only cross-process** ([[race condition]] with bytes).
-
----
 
 ## Standard config / commands
 
@@ -81,12 +78,10 @@ Unmarshal → validate (types, ranges) → domain logic
 Never trust unmarshaled input without validation
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Garbled strings | UTF-8 vs Latin-1 | Enforce UTF-8; Content-Type charset |
 | Works Java, fails Go | JSON field casing | Tag conventions; shared OpenAPI |
 | Old client crash on deploy | New required field | Optional fields + defaults |
@@ -94,8 +89,6 @@ Never trust unmarshaled input without validation
 | Huge payloads | Marshal entire graph | DTO projection; pagination |
 | Kafka poison message | Bad Avro schema ID | Schema registry; DLQ |
 | Endian binary bug | Raw struct pack | Use protobuf, not manual pack |
-
----
 
 ## Gotchas
 
@@ -114,15 +107,11 @@ Never trust unmarshaled input without validation
 > [!WARNING]
 > **[[DRY]] generated DTOs** — hand-editing generated marshal code gets overwritten.
 
----
-
 ## When NOT to use
 
 - **Same process, same language** — pass object references; no marshal.
-- **Shared memory ring buffer** — fixed binary layout OK with strict schema doc.
+- **Shared memory ring buffer** — fixed binary layout OK with strict schema document.
 - **JSON for high-frequency numeric telemetry** — protobuf/MessagePack bandwidth.
-
----
 
 ## Related
 

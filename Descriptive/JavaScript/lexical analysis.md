@@ -1,4 +1,4 @@
-[[Descriptive/JavaScript/Lexical Grammer]] [[javascript]] [[compiler/library file]] [[NodeJS/node command]]
+[[Descriptive/JavaScript/Lexical Grammar]] [[javascript]] [[compiler/library file]] [[NodeJS/node command]]
 
 # Lexical analysis
 
@@ -19,8 +19,9 @@ VariableDeclaration …
 ```
 
 | Token class | Examples |
-|-------------|----------|
+
 | **Keyword** | `const`, `async`, `class` |
+| --- | --- |
 | **Identifier** | `foo`, `_private`, `$` |
 | **Punctuator** | `{`, `}`, `=>`, `?.` |
 | **String / Template** | `'a'`, `` `hi ${x}` `` |
@@ -63,7 +64,7 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Unexpected token` | Invalid char or future syntax | Match engine version; transpile |
 | ASI surprise | newline after `return`, `throw`, `()` | Use semicolons or format with Prettier |
 | Template literal parse error | Unclosed `` ` `` or `${` | Balance braces inside `${}` |
@@ -75,7 +76,7 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 > [!WARNING]
 > **HTML `<script>`** parsing can treat `<!--` or `-->` as comment start in legacy browsers — avoid those sequences inside scripts in HTML.
 
-- **Strict mode** reserved words (`let`, `yield`) tokenize differently in sloppy vs module code.
+- **Strict mode** reserved words (`let`, `yield`) tokenize differently in sloppy versus module code.
 - **JSON is not JS lexically** — no comments, trailing commas, unquoted keys.
 - **Minifiers** rename identifiers but must preserve token boundaries — broken source maps show lexical phase errors as wrong lines.
 
@@ -86,4 +87,4 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 
 ## Related
 
-[[Descriptive/JavaScript/Lexical Grammer]] [[Descriptive/JavaScript/execution context]] [[javascript]] [[compiler/library file]]
+[[Descriptive/JavaScript/Lexical Grammar]] [[Descriptive/JavaScript/execution context]] [[javascript]] [[compiler/library file]]

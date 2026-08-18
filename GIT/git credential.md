@@ -1,71 +1,59 @@
-### reset the credential manager
+[[GIT]]
 
+# 1. When git runs a command like `git push` it internally calls.
+
+> 1. When git runs a command like `git push` it internally calls. — create auth token from GitHub personal access token
+
+## Mental model
+
+**Say it in one breath:** 1. When git runs a command like `git push` it internally calls. — create authentication token from GitHub personal access token
+
+### reset the credential manager
 ```bash
 git config --global --unset credentila.*; # remove the set credential helper
 git clone <https remote repo url>;
 git pull; # git will ask the username and auth token.
-
 ```
-- create auth token from [GitHub personal access token](https://github.com/settings/tokens)
-- paste the auth token password.
-
+- create authentication token from [GitHub personal access token](https://github.com/settings/tokens)
+- paste the authentication token password.
 ```bash
 git config --global credential.helper cache;
-
 ```
 - the `cache` helper stores credentials in memory only, not on disk.
 - Git spawn the credentials cache daemon in the background.
 - it keeps the credentials in RAM for 15 minutes by default.
 - no file is written.
 - once expired or system restarts -> the data is gone.
-
 ```bash
-# After login, run to view the saved credentials
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
-
 ```
 
-> [!INFO]
-> When accessing `https://github.com`, ask the GitHub CLI (gh) to provide credentials.
-
-> [!INFO]
-> credential.helper -> controls how Git remembers (or not) those credentials.
-> `store` -> stores them permanently in `~/.git-credentials` in plain text.
-> `gpt` -> Encrypts credentials with GPG (custom setup).
-
-> [!NOTE]
-> git doesn't allow direct removal of just one value from a __multi-value section__ like this
-
-```ini
-[credential "https://github.com"]
-helper = 
-helper = !/usr/bin/gh auth git-credential
-```
-
-- remove the full section
-```bash
-git config --global --remove-section credential."https://github.com";
-
-```
-
-- Re-add only the correct value
-```bash
-git config --global credential."https://github.com".helper '!/usr/bin/gh auth git-credential'
-
-```
-
-### Pre-host credential control 
-
-- only affects `https://github.com`. All other Git Hosts (e.g., GitLab, Bitbucket) still use default helper (like `cache` or `store`).
+## Standard config / commands
 
 ```bash
-# 1. When git runs a command like `git push` it internally calls.
-git credential fill;
-
+git config --global credential.helper cache
+git config --global --unset credential.helper
+git credential reject   # paste host=... protocol=https
 ```
-- and because of your config, Git delegates that to `credential.helper`
 
-```bash
-/usr/bin/gh auth git-credential;
+## Triage (when things break)
 
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Repeated password prompts | Helper not configured | Set `credential.helper` or use SSH remote |
+| Stored wrong password | Cached credentials | `git credential reject`; clear OS keychain entry |
+| Token works in browser not git | Using account password not PAT | Create personal access token; use as password |
+| HTTPS 401 after password change | Stale cache | Unset helper cache; re-authenticate |
+
+## Gotchas
+
+> [!WARNING]
+> Git credential helpers store secrets on disk or in the OS keychain — lock your workstation.
+
+## When NOT to use
+
+- Do not embed tokens in remote URLs committed to the repository.
+
+## Related
+
+[[GIT]]

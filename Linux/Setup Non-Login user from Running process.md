@@ -1,115 +1,80 @@
-## Using pm2
+[[Linux]] [[useradd]] [[passwd]] [[login shell]] [[process]]
+
+# Setup Non-Login user from Running process
+
+> Turn a long-running process’s identity into a proper system user — stable UID, nologin shell, owned files — without leaving orphan UIDs.
+
+## Mental model
+
+**Say it in one breath:** note UID/files of the process → create matching system user → `chown` → restart under that user (systemd `User=`).
+
+```txt
+PID ──► uid/gid, cwd, open files
+  │
+  ├─ useradd --system --uid N --home … --shell nologin
+  ├─ chown -R user:group data/
+  └─ systemd User= / restart
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **system user** | Low UID, no login | “`--system` + `nologin`.” |
+| --- | --- | --- |
+| **UID match** | Keep numeric owner | “Avoid mass chown when possible.” |
+| **nologin** | Block interactive shell | “SSH keys alone aren’t enough if shell is nologin.” |
+| **User=** | systemd drop privilege | “Service runs as that user.” |
+| **orphan UID** | Files with deleted user | “`find -nouser` after mistakes.” |
+
+## Standard config / commands
 
 ```bash
-sudo pm2 start /path/to/your/app.js --name myapp --user nodeuser;
-sudo pm2 save;
-sudo pm2 startup;
+pid=1234
+ps -o user,uid,gid,cmd -p "$pid"
+sudo ls -l /proc/$pid/cwd /proc/$pid/fd | head
+
+sudo useradd --system --uid 12345 --home /var/lib/myapp \
+  --shell /usr/sbin/nologin myapp
+sudo mkdir -p /var/lib/myapp
+sudo chown -R myapp:myapp /var/lib/myapp
+
+# systemd drop-in
+# [Service]
+# User=myapp
+# Group=myapp
+sudo systemctl daemon-reload
+sudo systemctl restart myapp
 ```
 
-> [!NOTE] 
-> - Need root or sudo access to perform these steps.
+| Knob | Why it matters |
 
-**Create new user (with Login Disable)**
-- system-like user (e.g, named `nodeuser`) -> prevents SSH/shell access while still allowing the user to run processes.
-- Create user **without home directory**
-- Set the shell to `/usr/sbin/nologin` or `/bin/false`
+| Fixed UID | Match existing file owners |
+| --- | --- |
+| Home path | State directory, not `/home` |
 
-```bash
-sudo useradd -r -s /usr/sbin/nologin nodeuser;
-```
-- `-r` create a system user (UID below 1000)
+## Triage (when things break)
 
-If you need a home directory for NodeJS files/logs
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Permission denied after switch | Paths still root-owned | `chown` data + logs + sockets |
+| useradd UID in use | `getent passwd` | Pick free UID or keep old |
+| Service starts as root | Unit missing User= | Drop-in + restart |
+| Can’t debug interactively | nologin | `sudo -u myapp` with explicit shell |
 
-```bash
-sudo useradd -m -r -s /usr/sbin/nologin nodeuser;
-```
+## Gotchas
 
-Verify the user
+> [!WARNING]
+> **Changing UID under a live process** is messy — stop, chown, start.
 
-```bash
-id nodeuser;
-```
+> [!WARNING]
+> **Shared UIDs across hosts** — pick a reserved range and document it.
 
-Test login prevention
+## When NOT to use
 
-```bash
-su - nodeuser;
-```
+- **One-off root cron** — fix the job instead of inventing a user.
+- **Containers** — use image USER + K8s runAsUser, not host useradd.
 
-**Run node process as the user**
+## Related
 
-Run NodeJS with user (Temporary, for Testing)
-
-```bash
-sudo su -s /bin/bash - nodeuser -c "node /path/to/your/app.js"
-```
-
-- `su` -> `nodeuser`: Switches to the user.
-- `-s` -> `/bin/bash`: Temporarily overrides the nologin shell to allow command execution (but still no interactive login).
-- `-c` -> "node ...": Runs the command as the user.
-
-## Persistent Run (using system service)
-
-- create `systemd` service file to run the Node process as `nodeuser` automatically on boot.
-
-```bash
-sudo touch /etc/systemd/system/my-node-app.service;
-```
-
-```text
-[Unit]
-Description=My Node.js Application
-After=network.target
-
-[Service]
-User=nodeuser
-Group=nodeuser
-WorkingDirectory=/path/to/your/app-directory
-ExecStart=/usr/bin/node /path/to/your/app.js
-Restart=always
-Environment=NODE_ENV=production
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## Grant Passwordless `sudo` for specific commands
-
-find full path
-
-```bash
-which nginx;
-which systemctl;
-```
-
-Edit sudoers safely with `visudo` 
-- create file at `/etc/sudoers.d/<file>`;
-
-```bash
-nodeuser ALL=(ALL) NOPASSWD: /usr/sbin/nginx -t
-nodeuser ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart nginx
-```
-
-- save and exit. Test as `nodeuser` (using `su`)
-
-```bash
-sudo su -s /bin/bash - nodeuser -c "sudo nginx -t"
-```
-- should run without password.
-
-
-## Additional Security passwrod (optional)
-
-```bash
-sudo passwd -l nodeuser; # Locks any password (though none was set).
-```
-
-Permissions for Node app. Ensure file/directories are owned by `nodeuser`
-
-```bash
-sudo chown -R nodeuser:nodeuser /path/to/your/app-directory;
-```
-
-> [!INFO]
-> Why this setup?: The user runs processes (like Node) but can't log in or escalate beyond the allowed commands. Ideal for automated scripts or services needing limited privileged actions (e.g., a Node app reloading Nginx).
+[[useradd]] [[usermod]] [[passwd]] [[system service unit files]] [[process]]

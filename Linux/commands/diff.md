@@ -2,7 +2,7 @@
 
 # diff
 
-> One-line: **line and tree comparison** — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
+> line and tree comparison — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
 
 ## Mental model
 
@@ -15,11 +15,22 @@ rsync -avnc          → checksum-level dry-run (heavier, authoritative for sync
 ```
 
 | Mode | Command | When |
-|------|---------|------|
+| --- | --- | --- |
 | Quick dir sameness | `diff -rq dir1 dir2` | Pre/post deploy sanity |
 | Readable patch | `diff -u old new` | Review before apply |
 | Side-by-side | `diff -y file1 file2` | Human scan |
 | Binary | `diff -q a.bin b.bin` | Don't dump hex to terminal |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **diff** | Compare files | “diff -u old new for patches.” |
+| --- | --- | --- |
+| **-u** | Unified format | “What git shows.” |
+| **diff -r** | Recursive dirs | “Compare trees before sync.” |
+| **patch** | Apply diff | “patch -p1 < fix.diff.” |
+| **exit 1** | Differences found | “Not always an error in CI.” |
 
 ## Standard config / commands
 
@@ -57,7 +68,7 @@ fi
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `diff -rq` silent but apps behave differently | Symlinks, permissions, xattrs | `diff -rqN` or `rsync -avnc`; compare `stat` |
 | Huge diff noise | CRLF vs LF | `dos2unix`; `diff -u --strip-trailing-cr` |
 | "Only in dir1" spam | Extra files in deploy | `--exclude` patterns; clean staging dir |

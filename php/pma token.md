@@ -6,7 +6,7 @@
 
 ## Mental model
 
-On login, phpMyAdmin stores `$_SESSION['PMA_token']` (name may vary by version). Every mutating form includes this token. Server compares submitted token to session; mismatch → rejected. Token rotates on login/session regenerate. It's **session CSRF protection**, not API auth.
+On login, phpMyAdmin stores `$_SESSION['PMA_token']` (name may vary by version). Every mutating form includes this token. Server compares submitted token to session; mismatch → rejected. Token rotates on login/session regenerate. It's **session CSRF protection**, not API authentication.
 
 ## Standard config / commands
 
@@ -38,7 +38,7 @@ fastcgi_param HTTPS on;       ; if behind TLS terminator
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Token mismatch" after idle | Session expired | Re-login; increase `session.gc_maxlifetime` |
 | Works on HTTP, fails on HTTPS | `cookie_secure` | Enable HTTPS end-to-end or fix proxy headers |
 | Random logouts | Multiple FPM nodes, file sessions | Centralize sessions (Redis) |
@@ -54,8 +54,8 @@ fastcgi_param HTTPS on;       ; if behind TLS terminator
 
 ## When NOT to use
 
-- Don't disable CSRF checks to "fix" integration — fix session/URL config instead.
-- Don't use phpMyAdmin as your app's database API — it's an admin UI only.
+- Don't disable CSRF checks to "fix" integration — fix session/URL configuration instead.
+- Don't use phpMyAdmin as your application's database API — it's an administrator UI only.
 
 ## Related
 

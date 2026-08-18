@@ -1,6 +1,6 @@
 [[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/Mermaid (DSL)]]
 
-# Lexical Grammer
+# Lexical Grammar
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
@@ -18,14 +18,14 @@ Source text
 Key lexical rules engineers hit daily:
 
 | Rule | Effect |
-|------|--------|
+| --- | --- |
 | **InputElement** | Token, comment, or whitespace |
 | **LineTerminator** | Triggers ASI between statements |
 | **StringLiteral** | `'`, `"`, or template `` ` `` |
 | **NumericLiteral** | Decimal, hex `0x`, binary `0b`, BigInt `n` |
 | **RegularExpressionLiteral** | Context-sensitive — parser disambiguates `/` |
 
-Grammar is **not** context-free for regex vs divide — parser uses lookahead.
+Grammar is **not** context-free for regex versus divide — parser uses lookahead.
 
 ## Standard config / commands
 
@@ -63,7 +63,7 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Parse error on valid-looking code | Stage-3 syntax, old target | Update `ecmaVersion` / TS `target` |
 | Regex literal fails | Flags or unescaped `/` | `new RegExp('pattern', 'u')` |
 | Illegal return outside function | Script vs module top-level | Wrap in function or use module |
@@ -81,7 +81,7 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 
 ## When NOT to use
 
-- Memorizing full ECMA BNF — use linter/parser errors and spec sections when debugging edge cases only.
+- Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
 
 ## Related
 

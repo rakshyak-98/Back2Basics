@@ -2,9 +2,7 @@
 
 # connection pooling
 
-> Reuse open DB connections instead of TCP+auth per request — cuts latency and protects the server from connection storms — **HikariCP / PgBouncer docs** + Kleppmann.
-
----
+> connection pooling — without pool: Request → connect → auth → query → disconnect (expensive)
 
 ## Mental model
 
@@ -13,7 +11,7 @@ Without pool:  Request → connect → auth → query → disconnect   (expensiv
 With pool:     Request → borrow conn → query → return conn       (amortized)
 ```
 
-Each DB connection consumes **RAM on server** (Postgres ~5–10MB each) and **FDs** on both sides. Spawning 500 app threads ≠ 500 DB connections — pool caps concurrency to what DB tolerates.
+Each DB connection consumes **RAM on server** (Postgres ~5–10MB each) and **FDs** on both sides. Spawning 500 application threads ≠ 500 DB connections — pool caps concurrency to what DB tolerates.
 
 ```txt
          ┌─────────────┐
@@ -23,12 +21,10 @@ App ───► │ Pool (app   │ ───► Postgres (max_connections = 10
 ```
 
 **Pool types:**
-- **Client-side** (HikariCP, pgxpool, SQLAlchemy) — inside app process
-- **Server-side** (PgBouncer, RDS Proxy, ProxySQL) — shared across many app instances
+- **Client-side** (HikariCP, pgxpool, SQLAlchemy) — inside application process
+- **Server-side** (PgBouncer, RDS Proxy, ProxySQL) — shared across many application instances
 
-**Transaction vs session pooling:** session mode safe for prepared statements/temp tables; transaction mode higher density but breaks session-scoped features.
-
----
+**Transaction versus session pooling:** session mode safe for prepared statements/temporary tables; transaction mode higher density but breaks session-scoped features.
 
 ## Standard config / commands
 
@@ -83,7 +79,7 @@ default_pool_size = 25
 listen_port = 6432
 ```
 
-App connects to `6432`, not direct Postgres `5432`.
+application connects to `6432`, not direct Postgres `5432`.
 
 ### Verify pool health
 
@@ -106,12 +102,10 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
   OR use session pooling for ORMs heavy on prepares
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `too many connections` | `pg_stat_activity` count | Lower pool max; add PgBouncer; scale read replicas |
 | Requests hang then timeout | Pool exhausted (all in use) | ↑ pool slightly; fix slow queries; leak detection |
 | Connection leak after deploy | Missing `release()` / try-finally | Enable leak detection; audit ORM session lifecycle |
@@ -120,8 +114,6 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
 | Works single pod, fails scaled | Each pod × pool_max | Aggregate math; central PgBouncer |
 | Prepared statement errors via PgBouncer | pool_mode=transaction | Session mode or disable prepares |
 | RDS Proxy auth errors | IAM token expiry | Refresh token; check proxy config |
-
----
 
 ## Gotchas
 
@@ -140,15 +132,11 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
 > [!WARNING]
 > **Read replica routing** — pool must separate writer/reader endpoints; sticky txn on primary.
 
----
-
 ## When NOT to use
 
 - **Single-threaded CLI cron** — one connection per job is fine.
 - **Embedded SQLite** — file lock model; pooling in-process only (still useful for ORM).
 - **Bypass pool for COPY/bulk load** — dedicated session with raised timeouts.
-
----
 
 ## Related
 

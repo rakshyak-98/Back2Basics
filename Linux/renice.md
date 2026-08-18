@@ -2,7 +2,7 @@
 
 # renice
 
-> One-line: **Adjust CPU scheduling priority of running processes** — give batch jobs less CPU or unstick a critical worker without reboot. Nice only affects **CPU**; not I/O, not memory, not realtime.
+> renice — change CPU priority of a running process without restarting it.
 
 ## Mental model
 
@@ -15,12 +15,24 @@ nice -n 19 cpu_hog    →  start heavy job deprioritized
 ```
 
 | Range | Who can set | Effect |
-|-------|-------------|--------|
+
 | -20 to -1 | root (CAP_SYS_NICE) | Higher CPU priority |
+| --- | --- | --- |
 | 0 | default | Normal |
 | 1 to 19 | any user (own processes) | Lower CPU priority |
 
 **Separate knobs:** `ionice` for disk; `chrt` for realtime scheduling; cgroups for hard limits ([[Linux cgroup]]).
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **nice** | CPU priority hint (-20..19) | “Lower nice = more CPU when contended.” |
+| --- | --- | --- |
+| **renice** | Change running process | “renice existing; nice at launch.” |
+| **ionice** | Disk I/O priority | “CPU nice won’t fix disk thrash.” |
+| **CAP_SYS_NICE** | Need root for negative nice | “Only root can raise priority.” |
+| **cgroup** | Hard limits vs nice hints | “Nice is soft; CPUQuota is hard.” |
 
 ## Standard config / commands
 
@@ -61,7 +73,7 @@ sudo systemctl restart app
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | renice: permission denied | Target PID owner; negative nice | Use sudo; only root lowers nice |
 | No perceived effect | I/O bound not CPU | Check `iostat`, `ionice`; not CPU scheduler |
 | System still sluggish | Memory pressure | [[OOM (Linux Out Of Memory)]]; renice won't free RAM |

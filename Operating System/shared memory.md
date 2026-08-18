@@ -4,11 +4,9 @@
 
 > Mapped RAM visible to multiple processes — fastest IPC when you accept explicit synchronization and lifetime rules.
 
----
-
 ## Mental model
 
-**Shared memory** maps the same physical pages into multiple address spaces. After setup, reads/writes are normal memory ops — **no kernel copy per access** (unlike pipe/socket).
+**Shared memory** maps the same physical pages into multiple address spaces. After setup, reads/writes are normal memory operations — **no kernel copy per access** (unlike pipe/socket).
 
 ```txt
 Process A                Process B
@@ -27,8 +25,6 @@ API families:
 - **memfd** + pass fd via `SCM_RIGHTS` socket
 
 **No implicit locking** — concurrent writers require [[mutexes]], atomics, or ring buffers ([[atomic ring buffer]]).
-
----
 
 ## Standard config / commands
 
@@ -66,18 +62,14 @@ cat /proc/sys/kernel/shmmni
 
 **Why `0600` on `shm_open`:** world-readable shared memory leaks cross-user data on multi-tenant hosts.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Random corruption | Missing lock; struct padding races | Mutex or lock-free ring; align structs; `volatile` is not a lock |
 | `EINVAL` on shmat | Size mismatch; destroyed segment | Recreate with agreed size; lifecycle protocol |
 | Leaked SysV segments after crash | `ipcs -m` | `ipcrm`; use POSIX names + `shm_unlink` on shutdown |
 | Container can't see host shm | [[IPC namespace]] isolation | `--ipc=host` (careful) or named volume/socket design |
-
----
 
 ## Gotchas
 
@@ -90,13 +82,9 @@ cat /proc/sys/kernel/shmmni
 > [!WARNING]
 > **Orphan segments** persist until reboot or explicit destroy — long-running servers leak `ipcs` entries without cleanup handlers.
 
----
-
 ## When NOT to use
 
 Prefer **message passing** (socket, pipe) when you need clear ownership boundaries, cross-machine IPC, or untrusted peers. Shared memory shines for **high-throughput same-machine** data (video frames, ring buffers, DB buffer pools).
-
----
 
 ## Related
 

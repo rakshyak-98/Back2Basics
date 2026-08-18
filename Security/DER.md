@@ -4,8 +4,6 @@
 
 > Distinguished Encoding Rules — canonical binary ASN.1 encoding for X.509 certs, keys, and CSRs; PEM is Base64-wrapped DER with headers.
 
----
-
 ## Mental model
 
 ```txt
@@ -14,7 +12,9 @@ Logical cert (ASN.1 structure)
         ▼ DER encode (binary, canonical)
    cert.der
         │
-        ▼ Base64 + -----BEGIN CERTIFICATE----- 
+        ▼ Base64 + 
+BEGIN CERTIFICATE
+ 
    cert.pem  (human portable)
 ```
 
@@ -25,12 +25,10 @@ Logical cert (ASN.1 structure)
 
 Formats engineers confuse:
 | Format | Encoding |
-|--------|----------|
+| --- | --- |
 | **DER** | Binary ASN.1 |
 | **PEM** | Base64 DER + labels |
 | **PKCS#12 (.p12)** | Encrypted bundle of key+cert |
-
----
 
 ## Standard config / commands
 
@@ -63,18 +61,14 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 
 **Why DER in Java/Android:** `CertificateFactory.generateCertificate(InputStream)` expects DER by default.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `unable to load certificate` | File is PEM with `.der` name | Convert or fix `-inform pem` |
 | `bad decrypt` on PKCS#8 | Encrypted PEM vs raw DER | Provide passphrase; export unencrypted for HSM import (careful) |
 | Signature verify fail | Re-encoded PEM altered whitespace | Sign/compare DER bytes |
 | Java keystore import fail | Wrong format | `keytool -importcert -file cert.der` |
-
----
 
 ## Gotchas
 
@@ -87,13 +81,9 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 > [!WARNING]
 > **Copy/paste corruption** — PEM needs exact line wraps; use files not Slack.
 
----
-
 ## When NOT to use
 
 Humans editing certs → **PEM**. Wire protocols and some embedded parsers → **DER**. Don't hand-edit DER bytes.
-
----
 
 ## Related
 

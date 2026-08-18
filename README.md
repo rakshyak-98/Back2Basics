@@ -1,20 +1,17 @@
 # Back2Basics
+> Staff-engineer field notes — fast lookup for debug, configs, and mental models.
 
 Staff-engineer **field notes** — fast retrieval for debugging, standard configs, and solid mental models.
 
 Not a framework zoo. Not man-page dumps. Notes are written for software engineers under pressure: OS, networking, databases, containers, IaC, security, and the runtimes you ship.
 
----
-
 ## Start here
 
 | Need | Open |
-|------|------|
+| --- | --- |
 | How notes are structured | [[NOTES_STANDARD]] |
 | Symptom → note map | [[INDEX]] |
 | Staff-level skill model | [[staff engineer]] |
-
----
 
 ## What good looks like
 
@@ -27,15 +24,11 @@ Every note should answer under ~2 minutes:
 
 Templates already in the vault: [[Terraform workflow]], [[gRPC]], [[Configuration]] (Nginx), [[file descriptors]], [[ss]].
 
----
-
 ## Domains
 
 Linux · Operating System · Networking · DNS · Docker · Kubernetes · Terraform · Nginx · Database · Redis · Security · ssh · Protocol · GIT · NodeJS · Streaming · System Design · …
 
 Use [[INDEX]] for on-call routing.
-
----
 
 ## Contributing to this vault
 
@@ -44,8 +37,6 @@ Use [[INDEX]] for on-call routing.
 3. Merge duplicates with a redirect (`→ [[Canonical]]`).
 4. Strip wiki/ChatGPT citation spam; keep book/source attributions that are real (Kleppmann, Kerrisk, Brikman, Stevens, Burns).
 5. Link siblings with Obsidian `[[wikilinks]]`.
-
----
 
 ## Why this exists
 

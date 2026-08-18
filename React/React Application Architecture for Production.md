@@ -1,24 +1,90 @@
-## Allow multiple rendering strategies
-- Being able to use multiple rendering strategies is probably the main reason why we want to use NextJS
-### NextJS
-- it allows us to define the behavior of page rendering at the page level 
-- means we can define how we want to render each page individually 
-- support multiple rendering strategies
-### `src` folder structure
-- components: all shared components that are used across the entire application
-- config: application configuration files
-- features: different feature-based things. should contain specific code for a given feature.
-	- api: API request declarations and API hooks related to a specific feature. Makes our API layer and UI layer separate and reusable
-	- components: contains all components that are scoped to a specific feature.
-	- types: type definitions to a specific feature.
-	- `index.ts` entry point of every feature. It should only export things that should be public for other parts of the application.
-- layouts: different layout of pages
-- lib: configuration for different libraries
-- pages: application pages
-- providers: all application providers
-- stores: contains all global state stores that are used in the application
-- testing: test related mocks, helpers, utilities, and configurations.
-- types: base typescript type definitions that are used across the application
-- utils: contains all shared utility functions
+[[React]] [[RSC (React Server Component boundaries)]] [[React Architecture]]
 
-> [!NOTE] we can combine all the application providers in `providers` and export a single application provider with we can wrap `App.tsx`
+# React Application Architecture for Production
+
+> Structure a production React/Next app — feature folders, providers, and pick render strategy per page.
+
+## Mental model
+
+**Say it in one breath:** Next.js wins when each route can choose SSR/SSG/CSR/RSC independently. Keep shared UI in `components`, domain in `features`, and wire one application-level provider tree.
+
+```txt
+pages/app (render strategy)
+  → features/* (api, components, types, public index)
+  → providers (one AppProvider)
+  → lib / stores / utils
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Feature folder** | Vertical slice | “API + UI colocated; export only public surface.” |
+| --- | --- | --- |
+| **Render strategy** | Per-page SSR/SSG/CSR | “Why teams pick Next.” |
+| **providers/** | Compose contexts | “One wrapper in root layout.” |
+
+## Standard config / commands
+
+```txt
+src/
+  components/     # shared UI
+  config/
+  features/
+    booking/
+      api/
+      components/
+      types/
+      index.ts    # public exports only
+  layouts/
+  lib/
+  providers/      # → AppProvider
+  stores/
+  testing/
+  types/
+  utils/
+```
+
+```tsx
+// providers/index.tsx
+export function AppProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={qc}>
+      <ThemeProvider>{children}</ThemeProvider>
+    </QueryClientProvider>
+  )
+}
+```
+
+| Knob | Why it matters |
+
+| `features/*/index.ts` | Prevents deep imports across features |
+| --- | --- |
+| `api/` inside feature | Keeps UI ↔ network boundary clear |
+| Page-level render mode | Mix marketing SSG + app SSR |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Circular imports | Feature A imports B internals | Export via `index.ts` only |
+| Provider order bugs | Auth under Query | Nest: theme → query → auth |
+| Huge shared `components/` | Feature UI leaked up | Move into `features/x/components` |
+| Wrong cache/SSR mix | Page used client fetch only | Align with Next render mode |
+
+## Gotchas
+
+> [!WARNING]
+> **“Everything in components/” becomes a junk drawer** — feature-scope first.
+
+> [!WARNING]
+> **Multiple Providers without a single AppProvider** — root layout becomes unreadable.
+
+## When NOT to use
+
+- **Tiny marketing site** — flat folders beat ceremony.
+- **No SSR needs** — Vite SPA may be enough; don’t force Next.
+
+## Related
+
+[[React Architecture]] [[RSC (React Server Component boundaries)]] [[React project configuration]] [[Managing complex component structure]]

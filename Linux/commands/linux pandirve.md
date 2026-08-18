@@ -2,7 +2,7 @@
 
 # USB pendrive (removable media)
 
-> One-line: **USB flash drive** prep — partition, FAT/exfat format, safe mount/unmount. Filename was a typo (`pandirve`); not pandoc. **Classic ops task on bare-metal and air-gapped hosts.**
+> USB pendrive (removable media) — USB block device appears as /dev/sdX (whole disk) and /dev/sdX1 (first partition). Kernel + udev may auto-mount under /media/$USER/. Manual workflow
 
 ## Mental model
 
@@ -13,13 +13,25 @@ lsblk ──► /dev/sdb1 ──► mkfs.vfat ──► mount ──► cp data 
 ```
 
 | Filesystem | Use case |
-|------------|----------|
+
 | `vfat` (FAT32) | UEFI ESP, max compatibility; 4GB file limit |
+| --- | --- |
 | `exfat` | Large files; Windows/macOS/Linux with exfat-fuse |
 | `ext4` | Linux-only; permissions preserved |
 
 > [!WARNING]
 > **Triple-check device node** — `mkfs` on `/dev/sdb` vs `/dev/sdb1` wipes wrong scope. Use `lsblk`, by-id paths in scripts.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **pandoc** | Doc converter | “Markdown → PDF/DOCX/HTML.” |
+| --- | --- | --- |
+| **from / to** | -f -t formats | “Explicit -f/-t beats guessing.” |
+| **filters** | Lua/JSON transforms | “Filters reshape AST.” |
+| **citeproc** | Citations | “Bibliography via --citeproc.” |
+| **templates** | Output chrome | “--template for branded PDF.” |
 
 ## Standard config / commands
 
@@ -67,7 +79,7 @@ blkid /dev/sdb1
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `target is busy` on umount | Open file or cwd on mount | `fuser -mv /mnt/usb`; `cd /`; close apps |
 | Device not appearing | USB port/cable | `dmesg \| tail`; try another port; `lsusb` |
 | Read-only mount | Filesystem errors | `dmesg`; `fsck.vfat /dev/sdb1`; replace failing stick |

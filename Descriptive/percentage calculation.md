@@ -28,8 +28,9 @@ Whole  = Part / (Rate / 100)
 ### Quick mental table (anchor on 10%)
 
 | % | Trick | Example on 240 |
-|---|-------|----------------|
+
 | 5% | 10% ÷ 2 | 12 |
+| --- | --- | --- |
 | 15% | 10% + 5% | 36 |
 | 20% | 10% × 2 | 48 |
 | 30% | 10% × 3 | 72 |
@@ -71,7 +72,7 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Off-by-one cent | Float `0.1 + 0.2` | Integer cents or `decimal.js` |
 | Wrong baseline in change % | Denominator | Use old value for growth; specify clearly in dashboards |
 | Percentages sum to 99.9% | Rounding per row | Round last row to 100% or use largest remainder |

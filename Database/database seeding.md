@@ -6,7 +6,7 @@
 
 ## Mental model
 
-**Migrations** change structure; **seeds** insert rows. Seeds run in **known order**, ideally **idempotent** (safe to re-run in dev/CI). Prod seeds = small, static reference data (roles, countries); **never** fake PII at scale in prod.
+**Migrations** change structure; **seeds** insert rows. Seeds run in **known order**, ideally **idempotent** (safe to re-run in development/CI). production seeds = small, static reference data (roles, countries); **never** fake PII at scale in production.
 
 ```
 migrate up ──► schema ready ──► seed (ordered scripts) ──► app can boot
@@ -69,12 +69,13 @@ await prisma.role.upsert({
 ### Prod vs dev separation
 
 | Env | Seed content |
-|-----|--------------|
+
 | dev/CI | Users, sample orders, feature flags |
+| --- | --- |
 | staging | Anonymized subset or synthetic |
 | prod | Reference tables only; via reviewed migration or one-off job |
 
-Use env guard:
+Use environment guard:
 ```javascript
 if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_PROD_SEED) {
   throw new Error('Refusing prod seed');
@@ -84,7 +85,7 @@ if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_PROD_SEED) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Duplicate key on seed re-run | Non-idempotent inserts | Upsert / ON CONFLICT |
 | FK violation during seed | Order wrong (parent after child) | Number seeds; disable FK checks only in dev if must |
 | Empty dev DB after clone | Seeds not run in onboarding doc | Document `migrate && seed` in README |
@@ -109,7 +110,7 @@ if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_PROD_SEED) {
 ## When NOT to use
 
 - **Schema changes** — use [[migration]].
-- **Restoring prod after incident** — PITR/backup restore, not seed script.
+- **Restoring production after incident** — PITR/backup restore, not seed script.
 - **Analytics sample data at scale** — ETL to [[OLAP]] warehouse, not OLTP seed.
 
 ## Related

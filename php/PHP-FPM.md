@@ -2,9 +2,7 @@
 
 # PHP-FPM
 
-> FastCGI Process Manager: the worker pool between Nginx/Apache and PHP — **production default for PHP on Linux**.
-
----
+> PHP-FPM — client ──► Nginx ──► [FPM master] ──► worker pool ──► PHP script ──► DB
 
 ## Mental model
 
@@ -18,15 +16,13 @@ Client ──► Nginx ──► [FPM master] ──► worker pool ──► PH
 ```
 
 | Component | Role |
-|-----------|------|
+| --- | --- |
 | **Master** | Reads config, manages workers, never serves requests |
 | **Worker** | Executes `index.php`; dies after `pm.max_requests` (leak mitigation) |
 | **Pool** | Named section in `www.conf` — one pool per app or socket |
 | **Slowlog** | Stack trace when request exceeds `request_slowlog_timeout` |
 
 **502 Bad Gateway** almost always means Nginx could not get a valid FastCGI response — not a PHP syntax error (those are usually 500 from FPM).
-
----
 
 ## Standard config / commands
 
@@ -90,7 +86,7 @@ location = /fpm-status {
 ### pm modes
 
 | Mode | Behavior | When |
-|------|----------|------|
+| --- | --- | --- |
 | **dynamic** | Keeps spare workers between min/max | General web — default |
 | **static** | Fixed `pm.max_children` always running | Predictable load, latency-sensitive |
 | **ondemand** | Spawns on request, idle timeout kill | Low-traffic / dev — cold-start latency |
@@ -113,12 +109,10 @@ ls -la /run/php/php8.3-fpm.sock
 # Expected: srw-rw---- www-data www-data
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | **502** on all PHP routes | `ls -la /run/php/*.sock`; `systemctl status php-fpm` | FPM down; socket path mismatch vs Nginx `fastcgi_pass` |
 | **502** intermittent | `curl fpm-status`; check `listen queue` | Pool exhausted — raise `pm.max_children` or fix slow queries |
 | **502** after deploy | Nginx error log: `connect() to unix:... failed (13: Permission denied)` | `listen.owner/group/mode` — Nginx user must be in socket group |
@@ -134,8 +128,6 @@ sudo tail -f /var/log/nginx/error.log | grep -i fastcgi
 # FPM side
 sudo journalctl -u php8.3-fpm -f
 ```
-
----
 
 ## Gotchas
 
@@ -154,15 +146,11 @@ sudo journalctl -u php8.3-fpm -f
 > [!WARNING]
 > **TCP `127.0.0.1:9000`** — works but adds overhead; Unix socket is same-host best practice. If TCP, ensure not bound `0.0.0.0`.
 
----
-
 ## When NOT to use
 
 - **CLI/cron scripts** — invoke `php` directly, not FPM.
 - **Long-lived WebSockets in PHP** — wrong tool; use Node/Go or a dedicated WS gateway.
-- **ondemand in prod** — first-request latency after idle spikes; use dynamic.
-
----
+- **ondemand in production** — first-request latency after idle spikes; use dynamic.
 
 ## Related
 

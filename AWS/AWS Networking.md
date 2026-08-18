@@ -2,7 +2,7 @@
 
 # AWS Networking
 
-> VPC + subnets + routing + SG/NACL — the **network shell** every AWS service lives in. **AWS Well-Architected (Reliability/Security)** + on-call VPC debug muscle memory.
+> AWS Networking — internet ──► IGW ──► public subnet (ALB, bastion)
 
 ## Mental model
 
@@ -21,7 +21,7 @@ Default VPC works for labs; production uses explicit CIDR planning, separate pub
 ### VPC layout (typical prod)
 
 | Tier | Subnet | Route | Attach |
-|------|--------|-------|--------|
+| --- | --- | --- | --- |
 | Public | `10.0.1.0/24` (AZ-a), `10.0.2.0/24` (AZ-b) | `0.0.0.0/0` → IGW | ALB, NAT GW |
 | Private app | `10.0.10.0/24`, `10.0.11.0/24` | `0.0.0.0/0` → NAT GW | EC2, ECS, Lambda (VPC) |
 | Private data | `10.0.20.0/24`, `10.0.21.0/24` | local only | RDS, ElastiCache |
@@ -52,7 +52,7 @@ aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protoc
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | EC2 has no public IP but "should" | Subnet auto-assign public IP; IGW attached to VPC | Enable auto-assign or attach EIP; verify public subnet route to IGW |
 | Private instance can't reach internet | NAT GW in public subnet? Route `0.0.0.0/0` → NAT on **private** RT? | Fix route table association; NAT GW must sit in public subnet with IGW route |
 | Works instance-to-instance in same SG, fails cross-SG | [[Security group]] inbound/outbound rules | Add SG-to-SG rule (reference SG id, not CIDR) on **both** sides if needed |
@@ -78,10 +78,10 @@ aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protoc
 ## When NOT to use
 
 - **Default VPC for production** — no blast-radius separation, CIDR collisions when peering.
-- **Public IPs on app/database tiers** — use ALB + private subnets; bastion or SSM Session Manager for admin.
+- **Public IPs on application/database tiers** — use ALB + private subnets; bastion or SSM Session Manager for administrator.
 - **NACL micromanagement** — start with SG-only; add NACLs for explicit deny (compliance) or subnet-level guardrails.
-- **One NAT GW for multi-AZ prod HA** — AZ failure kills all private egress.
+- **One NAT GW for multi-AZ production HA** — AZ failure kills all private egress.
 
 ## Related
 
-[[Route53]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]
+[[Route53]] · [[Elastic IP]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]

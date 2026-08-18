@@ -2,7 +2,7 @@
 
 # Static members (class-level state and methods)
 
-> Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and hidden global state.
+> Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and
 
 ## Mental model
 
@@ -63,7 +63,7 @@ public static User fromJson(String json) { ... }
 ### When static is appropriate
 
 | Use | Example |
-|-----|---------|
+| --- | --- |
 | Constants | `HTTP_OK = 200` |
 | Pure utilities | `Math.max`, `Objects.requireNonNull` |
 | Factory on type | `MyType.parse(String)` |
@@ -72,8 +72,9 @@ public static User fromJson(String json) { ... }
 ### When instance is better
 
 | Avoid static | Prefer |
-|--------------|--------|
+
 | Mutable global counters | Injected service / DI bean |
+| --- | --- |
 | Unit test doubles | Interface + instance mock |
 | Per-request state | Request-scoped object |
 
@@ -87,7 +88,7 @@ public static User fromJson(String json) { ... }
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `NullPointerException` on static call | Uninitialized static in cycle | Fix class init order; lazy holder idiom |
 | Tests flaky order-dependent | Static mutable state leaks | Reset in `@AfterEach` or remove static |
 | "Override" static — wrong method runs | Hiding not overriding | Call via correct type or make instance method |

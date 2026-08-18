@@ -1,8 +1,8 @@
-[[loggging]] [[systemd]] [[Services commands]] [[grep]]
+[[logging]] [[systemd]] [[Services commands]] [[grep]]
 
 # journalctl
 
-> One-line: query **systemd-journald** — indexed, structured logs for units, boots, kernel, and priorities. **Default first tool for "why did the service die?"**
+> journalctl — journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured journal API calls. Entries are keyed by unit, boot ID, priority, executable
 
 ## Mental model
 
@@ -14,15 +14,31 @@ systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal
                                journalctl filters
 ```
 
-| Filter | Flag / syntax |
-|--------|----------------|
-| Unit | `-u nginx.service` |
-| Boot | `-b`, `-b -1`, `--list-boots` |
-| Time | `--since`, `--until` |
+| Filter   | Flag / syntax                 |
+| --- | --- |
+| 
+- | 
+
+- |
+| Unit     | `-u nginx.service`            |
+| --- | --- |
+| Boot     | `-b`, `-b -1`, `--list-boots` |
+| Time     | `--since`, `--until`          |
 | Priority | `-p err`, `-p warning..alert` |
-| Kernel | `-k` |
-| Follow | `-f` |
-| Field | `_EXE=`, `_UID=`, `_COMM=` |
+| Kernel   | `-k`                          |
+| Follow   | `-f`                          |
+| Field    | `_EXE=`, `_UID=`, `_COMM=`    |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **journald** | systemd binary logs | “journalctl -u svc -b is boot-scoped.” |
+| --- | --- | --- |
+| **-u** | Filter by unit | “Always scope to the service.” |
+| **-f** | Follow | “tail -f for systemd.” |
+| **-p err** | Priority filter | “Noise down to errors.” |
+| **vacuum** | Size/time retention | “journalctl --vacuum-size=500M.” |
 
 ## Standard config / commands
 
@@ -87,9 +103,9 @@ sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `-- No entries --` | Wrong unit name; wrong boot | `systemctl status`; `journalctl --list-boots`; `-b -1` |
-| Logs vanished after reboot | Volatile storage | [[loggging]] — `Storage=persistent` in journald.conf |
+| Logs vanished after reboot | Volatile storage | [[logging]] — `Storage=persistent` in journald.conf |
 | Permission denied | Non-privileged user | `sudo` or `usermod -aG systemd-journal user` |
 | Flood hides signal | Too broad query | `-p err`, `--since`, `-u` single unit |
 | Timestamps don't match UTC tools | Local TZ display | `journalctl --utc` |
@@ -112,10 +128,10 @@ sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer
 
 ## When NOT to use
 
-- **Application log files only** (legacy nginx file) → tail/grep path from config.
+- **Application log files only** (legacy nginx file) → tail/grep path from configuration.
 - **Years of retention** → ship to SIEM; journal is local ring buffer.
 - **Cross-host correlation** → centralized logging; journal is per-host.
 
 ## Related
 
-[[loggging]] [[systemd]] [[Services commands]] [[grep]] [[systemctl]]
+[[logging]] [[systemd]] [[Services commands]] [[grep]] [[systemctl]]

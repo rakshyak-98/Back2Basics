@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). App servers (Node, PHP-FPM, reverse proxy) treat path as **route key**. SPA fallback serves `index.html` for unknown paths so client router takes over.
+**Say it in one breath:** Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). application servers (Node, PHP-FPM.
 
 ```
 https://example.com/api/users/1
@@ -49,7 +49,7 @@ location /api/ {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 404 on client route refresh | No SPA fallback | `try_files … /index.html` |
 | Static file exposed | Path traversal | Normalize paths; deny `..` |
 | Wrong MIME | `mime.types` | `include mime.types; default_type` |
@@ -68,7 +68,7 @@ location /api/ {
 ## When NOT to use
 
 - Don't map user-upload dir under web root executable — serve from object storage or separate domain.
-- Don't rely on `.html` extension hiding — content-type and auth matter, not suffix.
+- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
 
 ## Related
 

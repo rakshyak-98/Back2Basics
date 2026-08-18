@@ -4,8 +4,6 @@
 
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
----
-
 ## Mental model
 
 A feedforward ANN maps input **x** through layers:
@@ -19,15 +17,13 @@ h₂ = σ(W₂h₁ + b₂)
 Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **softmax**). Training minimizes loss (MSE, cross-entropy) via **backpropagation** — chain rule through the graph.
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | **Width / depth** | Capacity; deeper ≠ always better on tabular data |
 | **Activation** | Nonlinearity enables curved boundaries |
 | **Regularization** | Dropout, L2, early stopping fight overfit |
 | **Batch norm** | Stabilizes deep training; watch train/eval mode |
 
 For **retrieval at scale** (recommendation, search), ANN also means **Approximate Nearest Neighbor** index (FAISS, HNSW) — different topic; see embedding + vector DB patterns below.
-
----
 
 ## Standard config / commands
 
@@ -68,19 +64,15 @@ model = nn.Sequential(
 
 **Why StandardScaler:** unscaled features dominate gradients; tree models don't need this — see [[Decision tree]].
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Loss flat / NaN | Learning rate, input scale | Lower LR; StandardScaler; gradient clipping |
 | Train acc high, val low | Capacity, no regularization | Dropout, weight decay, early stopping, more data |
 | Slow convergence | LR schedule, batch size | AdamW + warmup; tune batch size to GPU |
 | Random results | Seeds, data shuffle | Fix `random_state`; set torch/cuda seeds |
 | "ANN" search returns garbage | Embedding quality, index params | Retrain embeddings; tune HNSW `ef`, recall@k |
-
----
 
 ## Gotchas
 
@@ -90,15 +82,11 @@ model = nn.Sequential(
 > [!WARNING]
 > **Leakage via normalization:** fit scaler on **train only** inside a Pipeline or CV fold.
 
----
-
 ## When NOT to use
 
 - **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
 - **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
-- **Hard latency SLA on CPU** — deep nets vs single [[Decision tree]] inference cost.
-
----
+- **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
 
 ## Related
 

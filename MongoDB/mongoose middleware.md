@@ -2,9 +2,7 @@
 
 # Mongoose middleware
 
-> Pre/post hooks on document and query lifecycle — powerful cross-cutting layer that hides bugs when misused — **Mongoose docs + production scars**.
-
----
+> Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
 ## Mental model
 
@@ -22,14 +20,13 @@ User.findOneAndUpdate(...)
 ```
 
 | Hook type | `this` refers to | Typical use |
-|-----------|------------------|-------------|
+
 | **Document** (`save`, `init`) | Document instance | hash password, timestamps, denormalize |
+| --- | --- | --- |
 | **Query** (`find`, `update*`) | Query object | soft-delete filter, tenant scoping |
 | **Aggregate** | Aggregation | rare — read path transforms |
 
 **Order matters:** global → schema → pre before op → post after op. Multiple pres on same hook run in registration order.
-
----
 
 ## Standard config / commands
 
@@ -86,12 +83,10 @@ await doc.save({ validateBeforeSave: false }); // skips validate hooks only part
 User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag on schema
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Request hangs forever | Missing `next()` in sync pre | Add `next()` or switch to async/await |
 | Password not hashed on update | Used `updateOne` not `save` | Query middleware on `findOneAndUpdate` or hash in service layer |
 | Infinite loop | post('save') calls `doc.save()` | Remove recursive save; use `updateOne` or flag |
@@ -104,8 +99,6 @@ User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag o
 // Debug: log hook registration
 console.log(userSchema._pres.get('save'));
 ```
-
----
 
 ## Gotchas
 
@@ -127,15 +120,11 @@ console.log(userSchema._pres.get('save'));
 > [!WARNING]
 > **Transactions** — hook side effects (email, SQS) outside transaction commit → orphan messages on rollback.
 
----
-
 ## When NOT to use
 
 - **Authorization / tenancy** — enforce at API/gateway layer; query middleware is defense-in-depth only.
 - **Cross-collection invariants** — use transaction + explicit domain service, not cascading hooks.
 - **Heavy I/O in pre hooks** — blocks request; queue async job in post-commit hook or outbox pattern.
-
----
 
 ## Related
 

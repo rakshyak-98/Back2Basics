@@ -2,11 +2,11 @@
 
 # Single-sign-on (SSO)
 
-> One-line: one identity provider (IdP) login federates access to many apps via signed assertions — **SAML 2.0** or **OIDC/OAuth 2.0**.
+> Single-sign-on (SSO) — user ──► App (SP) ──redirect──► IdP login
 
 ## Mental model
 
-SSO separates **authentication** (who you are) from **app sessions**. User authenticates once at the IdP (Okta, Azure AD, Google Workspace, Keycloak); the app receives a **signed token or assertion** and creates a local session.
+SSO separates **authentication** (who you are) from **application sessions**. User authenticates once at the IdP (Okta, Azure AD, Google Workspace, Keycloak); the application receives a **signed token or assertion** and creates a local session.
 
 ```
 User ──► App (SP) ──redirect──► IdP login
@@ -15,7 +15,7 @@ App validates signature ──► session cookie / [[JWT authentication]]
 ```
 
 | Term | SAML | OIDC |
-|------|------|------|
+| --- | --- | --- |
 | Identity Provider | IdP | IdP (same) |
 | App | Service Provider (SP) | Relying Party (RP) / OAuth client |
 | Wire format | XML assertion | JWT id_token (+ access_token) |
@@ -23,19 +23,19 @@ App validates signature ──► session cookie / [[JWT authentication]]
 | Metadata | `/metadata.xml` | `/.well-known/openid-configuration` |
 | Logout | SLO (often brittle) | RP-initiated end_session (varies) |
 
-**OAuth 2.0 alone** is authorization ("can this app access my Google Drive?"). **OIDC** adds identity (`id_token` with `sub`, `email`). Enterprise SSO integrations are almost always **OIDC** (greenfield) or **SAML** (legacy SaaS).
+**OAuth 2.0 alone** is authorization ("can this application access my Google Drive?"). **OIDC** adds identity (`id_token` with `sub`, `email`). Enterprise SSO integrations are almost always **OIDC** (greenfield) or **SAML** (legacy SaaS).
 
 ## Standard config / commands
 
 ### OIDC integration checklist (SE integrating SSO)
 
-1. **Register app** at IdP → get `client_id`, `client_secret` (or public client + PKCE).
+1. **Register application** at IdP → get `client_id`, `client_secret` (or public client + PKCE).
 2. **Redirect URIs** — exact match required: `https://app.example.com/auth/callback` (no wildcards on most IdPs).
-3. **Fetch discovery doc:** `curl https://idp.example.com/.well-known/openid-configuration`
+3. **Fetch discovery document:** `curl https://idp.example.com/.well-known/openid-configuration`
 4. **Validate id_token:** signature (JWKS from `jwks_uri`), `iss`, `aud`, `exp`, `nonce`.
 5. **Map claims** → local user: `sub` (stable), `email`, groups → RBAC.
 6. **Session strategy:** HTTP-only secure cookie after exchange; don't expose id_token to JS.
-7. **SCIM** (optional) — IdP provisions/deprovisions users into app DB.
+7. **SCIM** (optional) — IdP provisions/deprovisions users into application DB.
 
 ### SAML integration checklist
 
@@ -65,7 +65,7 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `redirect_uri_mismatch` | IdP app config vs actual callback URL | Exact match scheme/host/path; trailing slash matters |
 | `invalid_client` | Secret rotated; wrong tenant | Update client secret; verify tenant ID in issuer URL |
 | Login works, instant logout | Cookie `Secure`/`SameSite`; proxy HTTPS | Terminate TLS at edge; set `SameSite=None; Secure` if cross-site |
@@ -85,14 +85,14 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 > **SAML XML is easy to misconfigure** — one wrong ACS URL or cert = opaque 500s. Keep metadata under version control.
 
 - **Just-in-time (JIT) provisioning** creates users on first login — plan default role; disable open signup.
-- **SLO / global logout** rarely works across all SPs — document "logout clears this app only".
+- **SLO / global logout** rarely works across all SPs — document "logout clears this application only".
 - **Multiple IdPs** (M&A) → account linking by email is fragile; prefer immutable `sub`.
 - **Mobile / SPA** must use **Authorization Code + PKCE**, not implicit flow (deprecated).
 
 ## When NOT to use
 
 - Machine-to-machine APIs → client credentials grant or mTLS, not interactive SSO.
-- Single small app with local users → SSO adds IdP dependency without ROI.
+- Single small application with local users → SSO adds IdP dependency without ROI.
 - Long-lived CLI tools → API keys or device code flow, not browser SSO redirect.
 
 ## Related

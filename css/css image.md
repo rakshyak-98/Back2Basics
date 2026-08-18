@@ -2,11 +2,11 @@
 
 # CSS image sizing (clipped container)
 
-> When a parent clips width but `<img>` uses `width/height: 100%`, browsers disagree on which box defines 100% — fix with explicit object-fit and containment.
+> CSS image sizing (clipped container) — └─ img (100% × 100%) ← ambiguous containing block
 
 ## Mental model
 
-A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome vs Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
+A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome versus Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
 
 ```
 Parent (overflow:hidden, width: 40%)
@@ -54,7 +54,7 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Chrome stretched, Firefox correct | DevTools computed sizes | `object-fit: cover`; `display:block` removes inline gap |
 | Image overflows clip | Parent `overflow` | `overflow:hidden` on clip container not img |
 | Aspect ratio collapse | No explicit height | Parent `aspect-ratio` or fixed height |

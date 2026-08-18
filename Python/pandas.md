@@ -2,11 +2,11 @@
 
 # pandas
 
-> Columnar DataFrame library for load → transform → analyze → export workflows in Python.
+> pandas — Python tables (DataFrames) for load, clean, analyze, and export.
 
 ## Mental model
 
-A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object vs int vs category affects memory and speed. Prefer explicit dtypes on ingest for prod pipelines.
+**Say it in one breath:** A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object versus int versus category affects.
 
 ## Standard config / commands
 
@@ -47,7 +47,7 @@ df.filter(regex="^metric_")      # column subset early
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `SettingWithCopyWarning` | Chained indexing | Use `.loc[]` assignment |
 | Memory blowup | `df.memory_usage(deep=True)` | Downcast dtypes; read columns subset |
 | Merge explosion | Key duplicates | `validate="m:1"`; dedupe keys |

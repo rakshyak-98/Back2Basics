@@ -1,57 +1,77 @@
-`.PHONY` is used in a Makefile to declare phony targets.
-- phony targets are not actual files but are names for commands that should always be executed when specified.
-- this helps avoid conflicts with files that have the same name as the target.
+[[golang]] [[go cli]] [[go build]]
 
-> [!INFO] the `.PHONY` is simply marks the listed targets as phony, meaning they are not actual files and should always be executed when invoked.
+# Makefile
 
+> Makefile for Go — thin wrapper around `go test`/`go build` so CI and humans share one entrypoint (this note is about Makefiles, not a real build file in the vault).
+
+## Mental model
+
+**Say it in one breath:** Make lists targets with recipes. For Go, targets usually call the Go toolchain — don’t reimplement module logic in Make.
+
+```txt
+make test  → go test ./...
+make build → go build -o bin/app ./cmd/app
 ```
-.PHONY: all build run clean
 
-all: bulid
+| Target | Typical recipe |
+
+| `test` | `go test ./...` |
+| --- | --- |
+| `lint` | `golangci-lint run` |
+| `build` | `go build …` |
+| `run` | `go run ./cmd/app` |
+
+## Standard config / commands
+
+```makefile
+.PHONY: test build run tidy
+
+test:
+	go test ./... -count=1
 
 build:
-	go build -o p2p-client cmd/main.go
-	
-run build:
-	./p2p-client
-	
-clean:
-	rm -rf p2p-client
-```
-- This ensures that these targets are always executed when invoked, regardless of whether files with the same names exist in the directory.
+	go build -trimpath -o bin/app ./cmd/app
 
-> [!INFO] is makefile, targets are often name of files that the Makefile will generate or update.
+tidy:
+	go mod tidy
 
-```
-output.txt: input.txt
-	cat input.txt > output.txt
-	echo "Processed input.txt" >> output.txt
-```
-- run this with `make` command (install make command `apt install make`)
-
-if you see the message `make: 'output.txt' is up to date.`, it means that `output.txt` is newer than `input.txt`, so `make` does not need to generate `output.txt`
-to force `make` to regenerate `output.txt`, you can do one of the following:
-1. update the timestamp of `input.txt` file to make it newer than `output.txt`.
-2. Clean the output file
-```
-.PHONY clean
-
-output.txt: input.txt
-	cat input.txt > output.txt
-	echo "Processed input.txt" >> output.txt
-
-clean:
-	rm -rf output.txt
+run: build
+	./bin/app
 ```
 
-3. force the target to always run
-```
-.PHONE all
+| Knob | Why it matters |
 
-all: output.txt
+| `.PHONY` | Always run non-file targets |
+| --- | --- |
+| Tabs | Recipes must use tabs |
+| Vars `$(GO)` | Override toolchain |
 
-output.txt: input.txt
-	cat input.txt > output.txt
-	echo "Processed input.txt" >> output.txt
+## Triage (when things break)
 
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `missing separator` | Spaces instead of tab | Retab recipes |
+| Stale binary | File target vs PHONY | Mark PHONY or depend correctly |
+| Works locally CI fails | Env / modules cache | Match `GOFLAGS`; cache modules |
+| Recursive make hell | Nested projects | One module-aware Makefile |
+
+## Gotchas
+
+> [!WARNING]
+> **Make doesn’t understand Go packages** — always shell out to `go`.
+
+> [!WARNING]
+> **Silent `@`** — hides commands; keep visible in CI.
+
+> [!WARNING]
+> **Windows** — prefer `task`/`just` or scripts if team isn’t Make-fluent.
+
+## When NOT to use
+
+- **Trivial one-package repository** — raw `go test` is enough.
+- **Polyglot Bazel monorepo** — use the monorepo tool.
+- **Replacing `go.mod`** — never.
+
+## Related
+
+[[go cli]] [[go build]] [[go project]]

@@ -2,9 +2,7 @@
 
 # JavaScript engine
 
-> Parses JS → bytecode/IR → executes on **call stack** + **heap**, coordinated by the **event loop** — V8 (Chrome/Node), SpiderMonkey (Firefox), JavaScriptCore (Safari).
-
----
+> JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
 ## Mental model
 
@@ -19,7 +17,7 @@ Source → parser → AST → interpreter (Ignition) → optimizing compiler (Tu
 ```
 
 | Engine | Host |
-|--------|------|
+| --- | --- |
 | **V8** | Chrome, Edge, Node.js, Deno |
 | **SpiderMonkey** | Firefox (Gecko platform) |
 | **JavaScriptCore** | Safari |
@@ -28,8 +26,6 @@ Source → parser → AST → interpreter (Ignition) → optimizing compiler (Tu
 Gecko is Firefox's **layout/rendering** engine; **SpiderMonkey** is its JS engine — check `about:support` / `about:buildconfig` in Firefox.
 
 Node uses **V8** + libuv for I/O — same language, different embed API than browser ([[NodeJS]]).
-
----
 
 ## Standard config / commands
 
@@ -54,19 +50,15 @@ if ("structuredClone" in globalThis) { /* use */ }
 
 Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for missing builtins.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Slow first load | Parse/compile huge bundle | Code-split; [[SWC]] minify; defer non-critical |
 | Works Chrome, fails Safari | JSC semantics / date parsing | Test WebKit; avoid non-standard extensions |
 | Memory climb | Detached DOM, closures | Heap snapshot in DevTools |
 | Deopt storms | Polymorphic hot functions | Stable object shapes; avoid `delete` on props |
 | Different Node vs browser | API surface | `globalThis` checks; separate builds |
-
----
 
 ## Gotchas
 
@@ -76,14 +68,10 @@ Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for miss
 > [!WARNING]
 > **Micro-optimizing for one engine** — V8-specific tricks may hurt JSC or future versions.
 
----
-
 ## When NOT to use
 
-- **Choosing framework** — engine differences rarely matter vs architecture.
+- **Choosing framework** — engine differences rarely matter versus architecture.
 - **Security boundaries** — sandbox with CSP/isolation, not "pick V8 version".
-
----
 
 ## Related
 

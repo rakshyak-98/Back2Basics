@@ -4,8 +4,6 @@
 
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
----
-
 ## Mental model
 
 **POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 TLS). Default mental model: **download to one device**, server mailbox often **emptied** after retrieval — though `leave mail on server` exists as client setting.
@@ -18,14 +16,13 @@ MUA ── TCP 995 ──► MDA (Dovecot/Courier)
 ```
 
 | Command phase | Commands |
-|---------------|----------|
+
 | **Auth** | `USER`/`PASS` or `AUTH PLAIN`/`CRAM-MD5` |
+| --- | --- |
 | **Transaction** | `LIST`, `UIDL`, `RETR n`, `DELE n` |
 | **Update** | Deletes committed on `QUIT` |
 
-**vs IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
-
----
+**versus IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
 
 ## Standard config / commands
 
@@ -63,12 +60,10 @@ sudo systemctl status dovecot
 ✗ Folder hierarchy / Sent sync across devices
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Auth fails | `doveadm auth test`; SASL logs | Password scheme; app password; MFA not on POP |
 | Mail "disappears" | Client deletes on fetch | Enable leave-on-server; switch IMAP |
 | SSL errors | Cert hostname; chain | Renew [[certbot (letsencrypt)]]; full chain on 995 |
@@ -80,8 +75,6 @@ sudo systemctl status dovecot
 journalctl -u dovecot -f
 sudo tail -f /var/log/mail.log
 ```
-
----
 
 ## Gotchas
 
@@ -97,15 +90,11 @@ sudo tail -f /var/log/mail.log
 > [!WARNING]
 > **No server-side search** — must download headers/bodies locally — slow on big mailboxes.
 
----
-
 ## When NOT to use
 
 - **New product email client** — ship IMAP + OAuth2.
 - **Team shared inbox** — IMAP namespaces or web UI.
 - **Mobile-first** — IMAP IDLE push approximations win.
-
----
 
 ## Related
 

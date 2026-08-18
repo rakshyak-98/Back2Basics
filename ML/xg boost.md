@@ -4,8 +4,6 @@
 
 > Optimized distributed GBDT — histogram splits, regularized leaf weights, sparsity-aware — **Chen & Guestrin**; default for production tabular ML at scale.
 
----
-
 ## Mental model
 
 XGBoost = [[Gradient boosting]] + engineering:
@@ -17,13 +15,11 @@ Obj = Σ loss(yᵢ, ŷᵢ) + Σ Ω(tree_k)
 
 **Second-order approximation:** uses gradient **and** Hessian for faster, stabler splits.
 
-**Histogram algorithm:** bin continuous features → O(#bins) split search vs exact sort — huge win on wide data.
+**Histogram algorithm:** bin continuous features → O(#bins) split search versus exact sort — huge win on wide data.
 
 **Sparsity:** learns default direction for missing values per split — no impute required (but document missing semantics).
 
 **Distributed:** DMatrix + column blocks; multi-GPU / cluster via `xgboost.dtrain` patterns or Spark XGBoost.
-
----
 
 ## Standard config / commands
 
@@ -95,20 +91,16 @@ loaded = xgb.Booster()
 loaded.load_model("model.json")
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Check failed: label must be 0..K-1` | Non-contiguous labels | `LabelEncoder`; verify objective matches K |
 | GPU OOM | `tree_method=gpu_hist`, huge data | Subsample; `max_bin`; CPU hist |
 | Early stop at round 1 | Wrong eval metric / bad DMatrix | Match metric to objective; verify feature types |
 | Worse than LightGBM on categoricals | One-hot explosion | Native cat in LightGBM/CatBoost; target encoding w/ CV |
 | Different results same seed | Threading / data order | `seed`, `deterministic_histogram=1` (version-dependent) |
 | Slow batch predict | Python loop over rows | `Booster.predict(DMatrix)` batch; Treelite/ONNX |
-
----
 
 ## Gotchas
 
@@ -124,16 +116,12 @@ loaded.load_model("model.json")
 > [!WARNING]
 > **Overfitting with too many trees** even with early stop — also tune `min_child_weight`, `subsample`, `colsample_bytree`.
 
----
-
 ## When NOT to use
 
 - **Small n, wide p with linear signal** — logistic + L1 may generalize with zero tuning.
 - **Pure image/text/audio** — deep nets or pretrained embeddings dominate.
 - **Need fully native categorical without encoding** — CatBoost often less pipeline work.
 - **Regulatory mandate for linear interpretability** — use GAM/GLM with documented coefficients.
-
----
 
 ## Related
 

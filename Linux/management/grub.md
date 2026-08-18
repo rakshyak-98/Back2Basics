@@ -2,7 +2,7 @@
 
 # GRUB
 
-> One-line: **GRand Unified Bootloader** — first stage that loads the kernel + initramfs; edit here for dual-boot, recovery entries, kernel cmdline (nomodeset, iommu). **GRUB 2 on virtually all modern distros.**
+> GRUB — firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads /boot/grub/grub.cfg (generated — do not hand-edit) from templates
 
 ## Mental model
 
@@ -15,11 +15,22 @@ UEFI/BIOS ──► GRUB ──► vmlinuz + initrd ──► systemd (PID 1)
 ```
 
 | Path | Role |
-|------|------|
+| --- | --- |
 | `/etc/default/grub` | User knobs: timeout, default entry, `GRUB_CMDLINE_LINUX` |
 | `/etc/grub.d/` | Script fragments that build menu entries |
 | `/boot/grub/grub.cfg` | Generated output |
 | `/boot/efi/EFI/*/grubx64.efi` | UEFI binary on ESP |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **GRUB** | Bootloader | “GRUB loads kernel + initramfs.” |
+| --- | --- | --- |
+| **grub.cfg** | Generated menu | “Edit /etc/default/grub, then update-grub.” |
+| **GRUB_CMDLINE_LINUX** | Kernel cmdline | “root=, quiet, nomodeset live here.” |
+| **update-grub** | Regen config | “After edit defaults → update-grub.” |
+| **rescue** | Boot recovery | “e at menu to edit once.” |
 
 ## Standard config / commands
 
@@ -74,7 +85,7 @@ sudo update-grub
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Drops to `grub rescue>` | Missing `/boot`, wrong UUID | Live USB → `ls` → `set root` → `linux`/`initrd` → `boot`; reinstall |
 | Kernel panic after upgrade | Bad initramfs / wrong kernel | Previous menu entry; `update-initramfs -u`; reinstall kernel package |
 | Edit `/etc/default/grub` no effect | Forgot regenerate | `update-grub` / `grub2-mkconfig` |
@@ -100,7 +111,7 @@ sudo update-grub
 
 - **systemd-boot on Arch/minimal UEFI** — no GRUB; different path.
 - **Container/VM image** — provider/kernel cmdline set in hypervisor.
-- **Runtime kernel tuning** → `sysctl`, not GRUB (except params that must be boot-time).
+- **Runtime kernel tuning** → `sysctl`, not GRUB (except parameters that must be boot-time).
 
 ## Related
 

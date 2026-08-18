@@ -8,7 +8,7 @@
 
 **Without DI:** class creates its own DB client → tight coupling, hard to mock.
 
-**With DI:** caller passes interface → swap impl in tests, config, or runtime.
+**With DI:** caller passes interface → swap implementation in tests, configuration, or runtime.
 
 ```
 ┌─────────────┐     constructs      ┌──────────────┐
@@ -22,7 +22,7 @@
 ```
 
 | Style | Tradeoff |
-|-------|----------|
+| --- | --- |
 | **Constructor inject** | Explicit required deps — preferred |
 | **Setter inject** | Optional deps — can forget |
 | **Service locator** | Hidden global — avoid in new code |
@@ -84,7 +84,7 @@ Each middleware receives `(req, res, next)` — deps wired when registering rout
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Tests hit prod DB | Real impl wired | Inject mock at test composition root |
 | Circular dependency | A needs B needs A | Extract interface or third module |
 | Container startup fails | Missing binding | Register all tokens in module |
@@ -98,13 +98,13 @@ Each middleware receives `(req, res, next)` — deps wired when registering rout
 
 - **DI ≠ singleton** — container may return new instance per resolve unless scoped.
 - **Over-injection** — 15-arg constructor signals missing facade or wrong boundary.
-- **Dynamic `import()` for lazy DI** — track async init or first request fails.
+- **Dynamic `import()` for lazy DI** — track async initialize or first request fails.
 
 ## When NOT to use
 
-- Pure functions with no external IO — pass args directly, no container.
+- Pure functions with no external IO — pass arguments directly, no container.
 - Script < 100 lines — manual wiring is clearer.
 
 ## Related
 
-[[Design pattern/Bridge]] [[Design pattern/Command]] [[NodeJS/Express middleware]] [[Design pattern]]
+[[Design pattern/Bridge]] [[Design pattern/Command]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[NodeJS/Express middleware]] [[Design pattern]]

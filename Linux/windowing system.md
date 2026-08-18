@@ -2,7 +2,7 @@
 
 # Windowing system
 
-> One-line: **GUI stack that turns pixels into windows, icons, and input** — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
+> GUI stack that turns pixels into windows, icons, and input — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
 
 ## Mental model
 
@@ -15,14 +15,26 @@ App → GTK/Qt → Wayland/X11 protocol → compositor/WM → display server →
 ```
 
 | Layer | Examples | Responsibility |
-|-------|----------|----------------|
+
 | Toolkit | GTK4, Qt6 | Buttons, layouts, theming |
+| --- | --- | --- |
 | Window manager | i3, Mutter, KWin | Focus, tiling, decorations |
 | Compositor | Mutter, Picom, Sway | vsync, shadows, compositing |
 | Display server | Xorg, Wayland compositor | Protocol + screen ownership |
 | Display manager | GDM, LightDM | Login greeter — see [[Linux display manager]] |
 
 **WIMP** — windows, icons, menus, pointer — describes the interaction model most DEs use; tiling WMs (i3, Sway) still fit under the same stack with different WM rules.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **windowing system** | Windows on a display | “WM + display server stack.” |
+| --- | --- | --- |
+| **WM** | Place/decorate windows | “i3 tiles; GNOME shells.” |
+| **compositing** | Effects/vsync | “Tear-free needs compositor.” |
+| **X11 vs Wayland** | Two models | “Wayland is the default future.” |
+| **remote display** | VNC/RDP/Waypipe | “X11 forwarding is legacy.” |
 
 ## Standard config / commands
 
@@ -42,14 +54,14 @@ gsettings get org.gnome.desktop.interface gtk-theme
 # Qt5: qt5ct or KDE system settings
 ```
 
-**Window rules (i3/Sway):** use `WM_CLASS` — see [[WM_CLASS]] for matching Chrome vs IDE instances.
+**Window rules (i3/Sway):** use `WM_CLASS` — see [[WM_CLASS]] for matching Chrome versus IDE instances.
 
 **X11 multi-monitor:** `xrandr` — [[xrandr]]; Wayland: compositor settings (gnome-control-center).
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | App UI frozen, SSH OK | Compositor CPU; TTY switch | Kill compositor extension; restart session |
 | Wrong scaling / blur | Fractional scaling | Wayland vs X11; `GDK_SCALE` hacks on X |
 | Window decorations missing | Client-side vs server-side | Install xdecorations; switch DE |
@@ -70,7 +82,7 @@ gsettings get org.gnome.desktop.interface gtk-theme
 
 ## When NOT to use
 
-- **Headless API servers** — no windowing stack required; don't install `ubuntu-desktop` on prod.
+- **Headless API servers** — no windowing stack required; don't install `ubuntu-desktop` on production.
 - **Embedded framebuffer** — direct DRM/KMS apps skip full WIMP stack.
 
 ## Related

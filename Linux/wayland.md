@@ -2,7 +2,7 @@
 
 # Wayland
 
-> One-line: **modern display protocol** — clients allocate buffers and pass FDs to the compositor; no global X11 server drawing model. **Debug sockets and env vars, not WM internals.**
+> Wayland — app (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
 
 ## Mental model
 
@@ -19,7 +19,7 @@ App (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
 ```
 
 | | X11 | Wayland |
-|---|-----|---------|
+| --- | --- | --- |
 | Server | Xorg / Xwayland | Compositor is the display server |
 | Remote GUI | SSH -X/-Y (fragile) | RDP/VNC/SSH no native draw forwarding |
 | Screen capture | Many tools | Portal / compositor permission |
@@ -27,6 +27,17 @@ App (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
 | Debug env | `DISPLAY=:0` | `WAYLAND_DISPLAY=wayland-0` |
 
 **i3 note:** classic **i3 is X11-only**. On Wayland stacks use **Sway** (i3-like) — see [[i3 Window Manager Starter Guide]] for tiling concepts; runtime differs.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Wayland** | Compositor = display server | “No separate X server — compositor is it.” |
+| --- | --- | --- |
+| **compositor** | Mutter/KWin/Sway | “App talks to compositor directly.” |
+| **XWayland** | X11 compat | “Legacy apps run nested.” |
+| **wl-clipboard** | Copy/paste tools | “X clipboards don’t always apply.” |
+| **screenshare** | PipeWire portals | “Needs xdg-desktop-portal.” |
 
 ## Standard config / commands
 
@@ -55,8 +66,8 @@ pgrep -a Xwayland
 
 1. Session type (`XDG_SESSION_TYPE`).
 2. Compositor name (`echo $XDG_CURRENT_DESKTOP`, `pgrep -a sway|mutter|kwin|weston`).
-3. App toolkit backend (`GDK_BACKEND`, `QT_QPA_PLATFORM`).
-4. Missing features → often **Xwayland** vs native Wayland port issue, not “Wayland broken”.
+3. application toolkit backend (`GDK_BACKEND`, `QT_QPA_PLATFORM`).
+4. Missing features → often **Xwayland** versus native Wayland port issue, not “Wayland broken”.
 
 ```bash
 # PipeWire / portal (screen share on modern GNOME/KDE)
@@ -66,7 +77,7 @@ systemctl --user status pipewire wireplumber xdg-desktop-portal
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | App blank / no window | Run from terminal; `GDK_BACKEND=x11` trial | GPU driver; fractional scaling bug; try native vs Xwayland |
 | Screen share fails (Zoom/Meet) | Portal running; Wayland vs X11 session | `xdg-desktop-portal-*`; use X11 session or updated client |
 | `cannot open display` on Wayland | `WAYLAND_DISPLAY` unset | Start from compositor session; don’t copy X11 `DISPLAY` fix blindly |
@@ -86,8 +97,8 @@ systemctl --user status pipewire wireplumber xdg-desktop-portal
 ## When NOT to use
 
 - **Deep WM customization guide** — use compositor docs (Sway, Mutter, KDE).
-- **Server/headless ops** — no display protocol; irrelevant except CI screenshots.
-- **Replacing X11 knowledge overnight** — mixed fleets run both for years; know both env vars.
+- **Server/headless operations** — no display protocol; irrelevant except CI screenshots.
+- **Replacing X11 knowledge overnight** — mixed fleets run both for years; know both environment variables.
 
 ## Related
 

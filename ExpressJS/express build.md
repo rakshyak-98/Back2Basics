@@ -1,34 +1,60 @@
+[[ExpressJS]] [[express concepts]] [[npm]]
 
-```js
-const esbuild = require("esbuild");
+# express build
 
-esbuild.build({
-  entryPoints: ["index.js"],
-  bundle: true,
-  platform: "node",
-  external: [
-    // NEVER bundle these
-    "bcrypt",
-    "cookie-parser",
-    "cors",
-    "dotenv",
-    "express",
-    "express-mysql-session",
-    "express-session",
-    "mysql2",
-    "nodemailer",
-    "nodemon",
-    "prettier"
-  ],
-  outfile: "dist/server.js",
-  minify: true
-});
+> Express build/run — how you package and start an Express app (Node process, not a special “Express compiler”).
 
+## Mental model
+
+**Say it in one breath:** Transpile/bundle if TypeScript, install production deps, run `node dist/server.js` behind a process manager. Express itself has no unique build step.
+
+```txt
+src ──tsc/bundler──► dist ──node──► listen :PORT
 ```
 
-- You must NOT bundle `express`, `mongoose`, `cors`, `helmet`, `dotenv`, `morgan` (and almost all other npm packages) when building a Node.js backend.
-- If you bundle them, you will get broken or huge code in production.
+| Env | Notes |
+| --- | --- |
+| Dev | `tsx watch` / nodemon |
+| Prod | `node` + pm2/systemd |
+| Container | HEALTHCHECK on `/health` |
+
+## Standard config / commands
+
+```bash
+npm ci --omit=dev
+npm run build   # tsc
+NODE_ENV=production node dist/server.js
+```
+
+| Knob | Why it matters |
+
+| `NODE_ENV` | Cache/error verbosity |
+| --- | --- |
+| Port bind `0.0.0.0` | Containers |
+| Graceful shutdown | Drain connections |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Cannot find module | Prod omit wrong | Include runtime deps |
+| Works locally not Docker | Bind/host | `0.0.0.0` |
+| TS path aliases fail | Runtime paths | Resolve at build |
+| Zombie on deploy | No SIGTERM handler | Close server |
+
+## Gotchas
 
 > [!WARNING]
-> Bundle only your source code, never bundle `node_modules`
-> That's why `external: ['express', 'bcrypt', ...]` is required for a working production backend.
+> **DevDependencies in prod image** — bloat/vulns.
+
+> [!WARNING]
+> **Listening only localhost in k8s** — probes fail.
+
+## When NOT to use
+
+- **Serverless handlers** — adapt framework or use native.
+- **Static-only sites** — CDN.
+
+## Related
+
+[[express concepts]] [[pm2]] [[Docker]]

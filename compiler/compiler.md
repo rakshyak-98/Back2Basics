@@ -41,7 +41,7 @@ ldd app                     # shared libs (dynamic link)
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Undefined reference | Link stage | Add `-l` library; include `.o` |
 | Works on dev, SIGILL on prod | CPU features | `-march` too new; build on oldest target |
 | Optimizer bug | `-O0` vs `-O2` | Bisect flags; UB in C (sanitizers) |
@@ -59,7 +59,7 @@ ldd app                     # shared libs (dynamic link)
 
 ## When NOT to use
 
-- Don't hand-write assembly for whole app unless extreme hot path — maintainability cost.
+- Don't hand-write assembly for whole application unless extreme hot path — maintainability cost.
 - Don't `-O3` blindly on latency-sensitive code without profiling — can regress.
 
 ## Related

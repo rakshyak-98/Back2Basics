@@ -2,9 +2,7 @@
 
 # Managing complex component structure
 
-> Decompose large UIs with **Provider, Compound, Summary (hooks)** patterns — contain complexity without prop drilling — **patterns.dev / React docs**.
-
----
+> Managing complex component structure — complex UI = state + composition + data fetching tangled in one file. Three levers:
 
 ## Mental model
 
@@ -24,13 +22,11 @@ After:  usePageData() + usePageActions() + <PageView /> (80 lines JSX)
 Match pattern to coupling:
 
 | Pattern | When |
-|---------|------|
+| --- | --- |
 | **Provider** | Many distant consumers, stable API |
 | **Compound** | Parent/child UI kit (Select, Accordion) |
 | **Summary hook** | One screen, heavy logic |
 | **Container/Presentational** | Test pure view with mock props |
-
----
 
 ## Standard config / commands
 
@@ -79,19 +75,15 @@ export function CheckoutPage({ cartId }: { cartId: string }) {
 }
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Mystery re-renders | Context value recreated | `useMemo` context value; split contexts |
 | Can't reuse child alone | Hidden coupling to parent | Export hook + subcomponents explicitly |
 | God Provider | 20 values in one context | Split by domain ([[React State management]]) |
 | Hooks rules violation | Conditional hook calls | Move hooks to top-level custom hook |
 | Tests brittle | Logic in JSX | Summary hook unit tests |
-
----
 
 ## Gotchas
 
@@ -101,15 +93,11 @@ export function CheckoutPage({ cartId }: { cartId: string }) {
 > [!WARNING]
 > **Compound without documentation** — implicit child order confuses consumers; document in Storybook.
 
----
-
 ## When NOT to use
 
 - **Two-level prop pass** — plain props faster than Context ceremony.
 - **Single-use modal** — local `useState` enough.
-- **Cross-app global everything** — [[Redux]] / [[zustand]] with selectors instead of mega-Provider.
-
----
+- **Cross-application global everything** — [[Redux]] / [[zustand]] with selectors instead of mega-Provider.
 
 ## Related
 

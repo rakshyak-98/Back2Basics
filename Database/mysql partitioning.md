@@ -1,5 +1,13 @@
-→ [[mysql data partition]]
+[[Database]] [[mysql data partition]]
 
 # mysql partitioning
 
-Merged into [[mysql data partition]] — RANGE/LIST/HASH partitioning, pruning, migration, and triage live there.
+> Alias stub — full RANGE/LIST/HASH partitioning, pruning, and triage live in [[mysql data partition]].
+
+## Mental model
+
+**Say it in one breath:** This filename is a redirect. Use [[mysql data partition]] for create/alter, pruning, and “query scans every partition” triage.
+
+## Related
+
+[[mysql data partition]] [[mysql table]] [[mysql index]]

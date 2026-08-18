@@ -2,9 +2,7 @@
 
 # WebAssembly (Wasm)
 
-> **Portable binary IR** run near-native speed in browser/Node — compile from Rust/C/C++/Go — sandboxed, no direct DOM — **WebAssembly spec**.
-
----
+> WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
 ## Mental model
 
@@ -25,8 +23,6 @@ Typical uses: crypto, codecs, image/audio processing, game physics, porting lega
 ```txt
 JS (UI, network)  ←→  Wasm (hot loop, crypto kernel)
 ```
-
----
 
 ## Standard config / commands
 
@@ -65,20 +61,16 @@ const wasm = await WebAssembly.compile(await readFile("add.wasm"));
 const { instance } = await WebAssembly.instantiate(wasm, {});
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `CompileError` | Wrong MIME / corrupt file | Server `application/wasm`; rebuild |
 | Memory grow fail | Linear memory max | `memory.grow` pages; tune allocator |
 | DOM access from Wasm | Not allowed | Bridge through JS exports |
 | Huge download | Debug build | `wasm-opt -Oz`; release profile |
 | CORS on wasm fetch | Cross-origin module | Same-origin or CORS headers |
 | iOS older Safari | SIMD/threads unsupported | Feature detect; scalar fallback |
-
----
 
 ## Gotchas
 
@@ -88,15 +80,11 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 > [!WARNING]
 > **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
 
----
-
 ## When NOT to use
 
 - **Simple CRUD UI** — JS is faster to ship and debug.
-- **Full app rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
+- **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
 - **When Web Crypto API suffices** — native `crypto.subtle` before bundling Rust crypto.
-
----
 
 ## Related
 

@@ -2,9 +2,7 @@
 
 # Mutexes
 
-> Mutual-exclusion lock: one holder at a time for a [[critical sections]] — **Kerrisk / concurrent programming canon**.
-
----
+> Mutexes — thread A mutex Thread B
 
 ## Mental model
 
@@ -17,17 +15,15 @@ Thread A          mutex          Thread B
    │ unlock() ────►[1→0 free]────► wakes, acquires
 ```
 
-**Mutex vs semaphore:** mutex is **ownership** — only the locker may unlock. Counting [[semaphores]] signal resource *pool* size (N connections available).
+**Mutex versus semaphore:** mutex is **ownership** — only the locker may unlock. Counting [[semaphores]] signal resource *pool* size (N connections available).
 
-**Kernel vs userspace:**
+**Kernel versus userspace:**
 - **Pthread mutex** — may use futex: fast path in userspace atomic, syscall only on contention.
 - **Go `sync.Mutex`** — similar; don't copy if locked.
 - **Java `synchronized` / `ReentrantLock`** — JVM monitors + optional fairness.
 - **Spin mutex** — for **very** short sections on multi-core; wrong choice → wasted CPU + cache line bouncing.
 
 **Priority inversion (brief):** high-priority thread waits on mutex held by low-priority thread while medium-priority threads run — high priority starves. Fix: priority inheritance mutex (PI mutex), or reduce lock scope / lock ordering.
-
----
 
 ## Standard config / commands
 
@@ -83,20 +79,16 @@ go tool pprof http://localhost:6060/debug/pprof/mutex
 
 **Lock ordering discipline:** document global order `A → B → C`; violating it causes deadlock. Tools find *contention*, not logic deadlocks — code review + timeouts where appropriate.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Throughput flat despite more cores | `perf top`; mutex profile; CPU in `futex` | Shrink critical section; sharding; lock-free structures; `RWMutex` for read-heavy |
 | Latency p99 spikes, low CPU | Blocked threads; lock holder slow I/O inside lock | Never I/O or RPC under mutex; move work outside |
 | Rare hang | Deadlock (A waits B, B waits A) | Lock ordering; `tryLock` + timeout; dump stacks |
 | CPU 100%, little progress | Spin lock on contended path | Switch to blocking mutex or redesign |
 | RT thread misses deadline | Priority inversion | PI mutex; isolate RT threads; reduce sharing |
 | After scale-out, worse on many cores | False sharing on mutex cache line | Padding; per-shard locks; `sync.Map` / concurrent maps |
-
----
 
 ## Gotchas
 
@@ -117,15 +109,11 @@ go tool pprof http://localhost:6060/debug/pprof/mutex
 
 **Connection pools:** pool *is* a semaphore/mutex hybrid — "take connection" blocks like mutex on empty pool.
 
----
-
 ## When NOT to use
 
 - Don't mutex a read-mostly map — use RCU, immutable snapshots, or sharded locks.
-- Don't replace DB transactions with app mutexes across processes — use ACID + row locks.
+- Don't replace DB transactions with application mutexes across processes — use ACID + row locks.
 - Don't spin-lock around anything that may take > ~few hundred nanoseconds routinely.
-
----
 
 ## Related
 

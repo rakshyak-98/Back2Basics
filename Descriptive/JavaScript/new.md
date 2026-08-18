@@ -68,7 +68,7 @@ class Service {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `TypeError: X is not a constructor` | Arrow fn, or no `.prototype` | Use regular function or class |
 | `instanceof` wrong | Cross-realm or manual prototype | `Symbol.hasInstance` or duck typing |
 | Constructor returns `{}` | Explicit return object | Remove return or document factory |

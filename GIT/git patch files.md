@@ -2,11 +2,11 @@
 
 # Git patch files
 
-> One-line: export commits as mailbox patches (`format-patch`) and apply with `git am` — email-style workflow, offline review, and vendor branch maintenance without shared remote.
+> Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
 ## Mental model
 
-`git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only applies diff to working tree).
+**Say it in one breath:** `git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only.
 
 ```
 feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.patch
@@ -16,7 +16,7 @@ feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.pa
                                             replayed commits on target branch
 ```
 
-Use for: mailing lists, exporting PR to air-gapped env, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
+Use for: mailing lists, exporting PR to air-gapped environment, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
 
 ## Standard config / commands
 
@@ -73,7 +73,7 @@ git commit -C HEAD  # after manual apply
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `patch does not apply` | Base branch drift | Regenerate from common ancestor; `git am --3way` |
 | Empty patch series | Wrong range `A..B` | `A..B` excludes A; use `A^..B` or verify log |
 | Wrong author on applied | Used `apply` not `am` | `git am` preserves From: line |
@@ -94,7 +94,7 @@ git commit -C HEAD  # after manual apply
 
 ## When NOT to use
 
-- **Same repo, same remote** — push branch + PR.
+- **Same repository, same remote** — push branch + PR.
 - **Interactive conflict-prone long series** — one merge or rebase onto target.
 
 ## Related

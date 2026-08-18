@@ -2,9 +2,7 @@
 
 # Take snapshot
 
-> Capture process memory or execution state at a point in time — for debugging, profiling, or checkpoint/restore.
-
----
+> Take snapshot — a snapshot freezes state so you can inspect offline or resume later:
 
 ## Mental model
 
@@ -19,7 +17,7 @@ live process ──snapshot──► artifact (core dump, heap dump, VM snapshot
 Common snapshot types:
 
 | Type | Artifact | Use case |
-|------|----------|----------|
+| --- | --- | --- |
 | **Core dump** | `core` file | Post-mortem C/C++/Go crash |
 | **Heap dump** | `.heapsnapshot`, HPROF | Memory leak in Node/Java |
 | **Debugger pause** | live inspection | Break at init (`--inspect-brk`) |
@@ -27,8 +25,6 @@ Common snapshot types:
 | **DB snapshot** | LVM/ZFS/EBS snapshot | Point-in-time recovery |
 
 Snapshots trade **disk space and pause time** for **debuggability**.
-
----
 
 ## Standard config / commands
 
@@ -76,18 +72,14 @@ lvcreate -L1G -s -n db_snap /vg/db_lv
 
 **Why quiesce:** file-system snapshot without `fsync`/DB freeze may be **crash-consistent** but not **transaction-consistent**.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Empty or truncated core | `ulimit -c`; `core_pattern` | Raise limit; writable path; `/apport` intercept on Ubuntu |
 | Heap snapshot OOMs the process | Snapshot size ≈ heap | Take from replica; use sampling profilers |
 | CRIU restore fails | TCP connections, devices | `--tcp-established`; avoid GPU/inotify-heavy apps |
 | DB corrupt after restore | No flush before snap | Use DB-native backup + WAL; freeze writes |
-
----
 
 ## Gotchas
 
@@ -100,13 +92,9 @@ lvcreate -L1G -s -n db_snap /vg/db_lv
 > [!WARNING]
 > **EBS/LVM snapshot ≠ SQL backup** — replay WAL or use `pg_basebackup` / native tools for logical consistency.
 
----
-
 ## When NOT to use
 
-Do not snapshot instead of proper logging/metrics for routine ops. Snapshots are for **incidents**, capacity planning, or migration — not continuous telemetry.
-
----
+Do not snapshot instead of proper logging/metrics for routine operations. Snapshots are for **incidents**, capacity planning, or migration — not continuous telemetry.
 
 ## Related
 

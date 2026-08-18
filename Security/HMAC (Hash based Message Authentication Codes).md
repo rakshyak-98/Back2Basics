@@ -4,8 +4,6 @@
 
 > Hash-based Message Authentication Code — proves integrity and shared-secret authenticity of a message without encryption.
 
----
-
 ## Mental model
 
 **HMAC** = hash function (SHA-256) keyed with a secret:
@@ -23,8 +21,6 @@ Properties:
 Used in: JWT `HS256`, webhook signatures (Stripe, GitHub), API request signing, TLS 1.2 PRF building blocks.
 
 Contrast **[[Asymmetrical Encryption]]** signatures — public verify, private sign; no shared secret distribution problem at scale.
-
----
 
 ## Standard config / commands
 
@@ -58,18 +54,14 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 
 **Why `timingSafeEqual`:** naive `===` leaks tag bytes via timing side channel.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Signature mismatch | Encoding (hex vs base64); body raw bytes | Sign exact bytes received; no JSON re-serialize |
 | Intermittent fail | Clock skew on timestamped HMAC | Tolerance window; NTP |
 | Key rotation pain | Single global secret | Dual-key verify window — see [[Token rotation]] |
 | Weak forgery resistance | SHA1 HMAC | Upgrade to SHA-256 minimum |
-
----
 
 ## Gotchas
 
@@ -82,13 +74,9 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 > [!WARNING]
 > **JWT `none` alg** — separate issue, but HMAC JWTs need strong secret and alg allowlist.
 
----
-
 ## When NOT to use
 
 Prefer **asymmetric signatures** (Ed25519, RSA-PSS) when many verifiers, untrusted clients, or public webhook endpoints — avoids sharing one MAC key with every consumer.
-
----
 
 ## Related
 

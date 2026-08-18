@@ -2,9 +2,7 @@
 
 # Base clock speed
 
-> Minimum guaranteed operating frequency (GHz) under nominal thermal/power spec — not the same as turbo/boost peak.
-
----
+> Base clock speed — cPUs advertise base clock (guaranteed all-core floor under TDP) and max turbo (short-burst peak on few cores):
 
 ## Mental model
 
@@ -24,8 +22,6 @@ Marketing label          Reality under load
 - Container CPU quota (cfs bandwidth)
 
 **Service impact:** latency-sensitive single-thread work cares about **turbo**; batch/parallel work cares about ** sustained all-core frequency** and memory bandwidth ([[system bus]]).
-
----
 
 ## Standard config / commands
 
@@ -58,18 +54,14 @@ cat /sys/fs/cgroup/myapp/cpu.max
 
 **Why `performance` governor:** reduces frequency transition latency for trading/ad-tech style tail-SLA services — not default for cloud cost optimization.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Slower than "spec sheet" | Thermal throttle; `dmesg \| grep -i throttle` | Improve cooling; reduce AVX load; spread jobs |
 | Variable benchmark results | Turbo + governor | Pin governor; disable turbo in BIOS for reproducibility |
 | Container "3 GHz" but sluggish | CPU quota throttling | Raise `cpu.max`; check `cpu.stat` `nr_throttled` |
 | All-core boost never hits | Power limit PL1/PL2 | Datacenter power cap; BIOS limits |
-
----
 
 ## Gotchas
 
@@ -82,13 +74,9 @@ cat /sys/fs/cgroup/myapp/cpu.max
 > [!WARNING]
 > **`/proc/cpuinfo` MHz is instantaneous** — sample over time for capacity planning.
 
----
-
 ## When NOT to use
 
 Don't buy CPUs on base clock alone for **parallel batch** — core count, cache, and memory channels often dominate. For **single-thread** latency, prioritize turbo behavior and cache.
-
----
 
 ## Related
 

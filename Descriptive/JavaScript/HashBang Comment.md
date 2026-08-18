@@ -17,8 +17,9 @@ node cli.js  ──► shebang ignored (node invoked directly)
 ```
 
 | Runner | Shebang effect |
-|--------|----------------|
+
 | `./script` (executable + shebang) | OS picks interpreter |
+| --- | --- |
 | `node script.js` | Comment only |
 | Import/require from another file | Comment only |
 
@@ -64,7 +65,7 @@ Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbui
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `bad interpreter: No such file` | Windows CRLF broke shebang | `dos2unix script.js`; shebang must be first bytes |
 | `./script: Permission denied` | Not executable | `chmod +x` |
 | Wrong Node version | `which node` vs shebang path | Use `env node` + nvm default |

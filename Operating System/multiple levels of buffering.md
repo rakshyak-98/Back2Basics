@@ -2,9 +2,7 @@
 
 # Multiple levels of buffering
 
-> Data copies and queues between app, libc, kernel page cache, block layer, and device — each layer trades latency for throughput — **Stevens / Kleppmann**.
-
----
+> Multiple levels of buffering — i/O is rarely one hop. A single write() may touch five buffers before bits reach NAND:
 
 ## Mental model
 
@@ -19,18 +17,17 @@ I/O is rarely one hop. A single `write()` may touch **five buffers** before bits
 ```
 
 | Layer | Who owns it | Flush / visibility |
-|-------|-------------|-------------------|
+
 | User-space buffer | Process | `fflush()` (stdio); language flush |
+| --- | --- | --- |
 | Socket send buffer | Kernel TCP | ACK from peer ≠ durable on disk |
 | Page cache | Kernel VFS | `fsync()` [[fsync]] |
 | Block layer queue | Kernel | Ordered with flush/FUA commands |
 | Device write cache | Drive/RAID | `hdparm -W`; BBU; power loss window |
 
-**Why layers exist:** speed mismatch (CPU vs network vs disk), batching (fewer syscalls), and copy avoidance where possible (`sendfile`, `splice`).
+**Why layers exist:** speed mismatch (CPU versus network versus disk), batching (fewer syscalls), and copy avoidance where possible (`sendfile`, `splice`).
 
 **Durability rule:** success at layer N does **not** imply durability at layer N+k. DBs use [[WAL (Write-Ahead Log)]] + ordered fsync precisely because of this stack.
-
----
 
 ## Standard config / commands
 
@@ -69,7 +66,7 @@ setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &sz, sizeof sz);
 open(path, O_WRONLY | O_DIRECT);
 ```
 
-**Node:** `socket.setNoDelay(true)` (Nagle off) vs kernel TCP buffers still apply. `fs.writeFile` → libuv → page cache.
+**Node:** `socket.setNoDelay(true)` (Nagle off) versus kernel TCP buffers still apply. `fs.writeFile` → libuv → page cache.
 
 **Go:** `bufio.Writer` — explicit `Flush()`. `TCPConn` buffer sizes via `SetWriteBuffer`.
 
@@ -85,12 +82,10 @@ open(path, O_WRONLY | O_DIRECT);
 sysctl vm.dirty_ratio vm.dirty_background_ratio
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Wrote file" missing after crash | Which layers flushed? `fsync`? | [[fsync]] on commit points; don't trust `write()` alone |
 | Log lines appear late / out of order | stdio block buffering | Line-buffer logs; `PYTHONUNBUFFERED=1`; journald |
 | Memory grows, disk idle | Dirty page cache high | Normal under write load; tune dirty_ratio if needed |
@@ -98,8 +93,6 @@ sysctl vm.dirty_ratio vm.dirty_background_ratio
 | Double memory use (DB) | DB buffer pool + OS cache same pages | Linux `O_DIRECT` for some engines; cgroup memory limit |
 | O_DIRECT EINVAL | Buffer alignment / size | 512-byte aligned buffers; read man page |
 | NFS "fast" writes, data gone | Client + server cache | `sync` mount; local SSD for state |
-
----
 
 ## Gotchas
 
@@ -120,15 +113,11 @@ sysctl vm.dirty_ratio vm.dirty_background_ratio
 
 **Metrics trap:** high `Cached` in `free -m` is often healthy page cache, not leak.
 
----
-
 ## When NOT to use
 
 - Don't disable all buffering for throughput workloads — you'll syscall yourself to death.
 - Don't use `O_DIRECT` without measuring — misalignment penalties hurt; DB engines know their path.
-- Don't stack redundant app buffers (256KB user buffer + 256KB stdio + huge TCP window) without reason.
-
----
+- Don't stack redundant application buffers (256KB user buffer + 256KB stdio + huge TCP window) without reason.
 
 ## Related
 

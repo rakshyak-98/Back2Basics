@@ -2,9 +2,7 @@
 
 # How to manipulate memory directly
 
-> Direct memory access patterns — `mmap`, pointers, unsafe escape hatches — and when **not** to touch raw memory — **Stevens / Rustonomicon / Go unsafe rules**.
-
----
+> How to manipulate memory directly — normal code uses managed abstractions: language runtime, GC, copy-on-write pages. Direct memory means you hold a raw address into process
 
 ## Mental model
 
@@ -16,7 +14,7 @@ mmap() path:          userspace pointer ──► same page cache pages (shared 
 ```
 
 | Mechanism | Language | Use case |
-|-----------|----------|----------|
+| --- | --- | --- |
 | **mmap(2)** | C, Rust, Go | Large files, zero-copy read, shared memory |
 | **Pointers** | C, C++ | Embedded, kernels, hot loops |
 | **`unsafe` Rust** | Rust | FFI, lock-free structures after proof |
@@ -24,8 +22,6 @@ mmap() path:          userspace pointer ──► same page cache pages (shared 
 | **Direct ByteBuffer** | Java | NIO off-heap, Netty |
 
 **Virtual memory** hides physical RAM; your pointer is a **virtual address**. Use-after-free, buffer overrun, and data races become security bugs — not test failures.
-
----
 
 ## Standard config / commands
 
@@ -79,12 +75,10 @@ fd open → mmap maps page cache pages   (no copy on read)
 write() → userspace → kernel buffer → disk (see [[multiple levels of buffering]])
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | SIGSEGV / segfault | core dump `gdb bt`; ASan | OOB pointer; use-after-free |
 | Corrupt data after crash | `msync(MS_SYNC)` before unmap? | Durability: [[fsync]] file or `msync` shared mapping |
 | Stale reads of live file | mmap without `MAP_SHARED` invalidation | Remap on change; or don't mmap mutating files |
@@ -97,8 +91,6 @@ write() → userspace → kernel buffer → disk (see [[multiple levels of buffe
 cat /proc/PID/maps | grep yourfile
 valgrind --tool=memcheck ./app
 ```
-
----
 
 ## Gotchas
 
@@ -117,16 +109,12 @@ valgrind --tool=memcheck ./app
 > [!WARNING]
 > **Security** — parsing untrusted binary with pointer casts = remote exploit. Use validated parsers.
 
----
-
 ## When NOT to use
 
 - **Default application code** — `read`, `WriteFile`, ORM, serde — correct and safe.
 - **Network I/O** — use sockets/streams; don't mmap sockets.
-- **"Performance" without profiling** — copy cost rarely dominates vs JSON parse/DB query.
+- **"Performance" without profiling** — copy cost rarely dominates versus JSON parse/DB query.
 - **Cross-language ownership** — raw pointers across FFI without documented lifetime = outage.
-
----
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # Vercel deployment
 
-> **Git-push serverless hosting** for Next.js/static SPAs — edge CDN, serverless functions, env vars per environment. **Vercel docs** + classic SPA refresh 404 and env mismatch debug.
+> Vercel deployment — vercel builds from Git (or CLI vercel deploy) → static assets on global CDN + serverless functions (/api/*, Next.js routes). Routing is filesystem-based
 
 ## Mental model
 
@@ -18,7 +18,7 @@ User refresh /deep link ──► must rewrite to index or SSR route
 
 ### SPA fallback (Vite/CRA — fix refresh 404)
 
-`vercel.json` at repo root:
+`vercel.json` at repository root:
 ```json
 {
   "rewrites": [
@@ -27,7 +27,7 @@ User refresh /deep link ──► must rewrite to index or SSR route
 }
 ```
 
-Next.js App Router: file-based routing — **no catch-all rewrite** unless custom static export.
+Next.js application Router: file-based routing — **no catch-all rewrite** unless custom static export.
 
 ### Next.js (recommended path)
 
@@ -37,7 +37,7 @@ Next.js App Router: file-based routing — **no catch-all rewrite** unless custo
 ### Environment variables
 
 | Scope | Use |
-|-------|-----|
+| --- | --- |
 | Production / Preview / Development | Separate secrets per branch deploy |
 | `NEXT_PUBLIC_*` | Exposed to browser — never secrets |
 | Server-only | DB URLs, API keys in non-public vars |
@@ -68,7 +68,7 @@ Or set **Root Directory** in project settings.
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Refresh on `/dashboard` → 404 | Missing SPA rewrite | Add `vercel.json` rewrites to `/index.html` |
 | Works locally, env undefined in prod | Var not set for Production | Dashboard env; rebuild after add |
 | API 500 only on Vercel | Function timeout; edge vs node runtime | Increase timeout; `export const runtime = 'nodejs'` |

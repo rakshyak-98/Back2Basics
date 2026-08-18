@@ -2,17 +2,16 @@
 
 # Nginx + Unix Domain Socket Upstream
 
-> One-line: skip TCP loopback — bind the app to a unix socket for lower latency and no port conflicts; permissions must allow Nginx to connect.
+> skip TCP loopback — bind the app to a unix socket for lower latency and no port conflicts; permissions must allow Nginx to connect.
 
 ## Mental model
 
+**Say it in one breath:** Proxy to a Unix socket instead of TCP loopback — same host, fewer ports, tighter permissions.
+
 ```
-Client → Nginx :443 → unix:/var/run/my-api/app.sock → Node/Express
 ```
 
 Unix sockets avoid TCP overhead on same host (~20–30% throughput gain in typical benchmarks). Tradeoff: socket file permissions and cleanup on restart.
-
----
 
 ## Standard config / commands
 
@@ -98,19 +97,15 @@ curl --unix-socket /var/run/my-api/app.sock http://localhost/health
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 502 Bad Gateway | Socket missing or wrong path | `ls -la` socket; app running? |
 | 502 Permission denied | Nginx user can't access socket | Shared group: `chgrp www-data` on dir + socket `660`; or run app as `www-data` |
 | App won't start: EADDRINUSE on socket | Stale socket file after crash | `ExecStartPre=/bin/rm -f ...`; manual `rm` |
 | Works via curl --unix-socket, 502 via Nginx | Typo in `proxy_pass` path | Paths must match exactly; no trailing slash issues like HTTP upstream |
 | Intermittent 502 after restart | Race: Nginx reload before app ready | systemd `After=` + health check; `Restart=always` |
-
----
 
 ## Gotchas
 
@@ -124,20 +119,17 @@ sudo nginx -t && sudo systemctl reload nginx
 > **WebSocket + unix socket works** — still set `Upgrade` / `Connection` headers.
 
 | Method | Requests/sec (typical) | Latency |
-|--------|------------------------|---------|
+
 | TCP `127.0.0.1:3000` | ~18,500 | ~2.1 ms |
+| --- | --- | --- |
 | Unix socket | ~24,000+ | ~1.4 ms |
 
 Numbers vary by hardware and payload — directionally correct for same-host proxy.
 
----
-
 ## When NOT to use
 
 - **Multi-host upstreams** — unix sockets are local only; use TCP or HTTP upstream.
-- **Quick local dev** — TCP port is simpler; switch to socket in production.
-
----
+- **Quick local development** — TCP port is simpler; switch to socket in production.
 
 ## Related
 

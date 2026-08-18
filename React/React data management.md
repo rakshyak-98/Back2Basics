@@ -2,9 +2,7 @@
 
 # React data management
 
-> Decision tree: **server state vs client state** — where TanStack Query, RTK Query, Zustand, and Context belong — **staff-level frontend architecture**.
-
----
+> React data management — split state by source of truth and lifecycle:
 
 ## Mental model
 
@@ -25,7 +23,7 @@ Split state by **source of truth** and **lifecycle**:
 ```
 
 | Question | If yes → |
-|----------|----------|
+| --- | --- |
 | Can another user/tab see different value for same screen? | Server state |
 | Lost on refresh OK / should restore from API? | Server state |
 | Pure UI (drawer open, selected tab)? | Client state |
@@ -33,8 +31,6 @@ Split state by **source of truth** and **lifecycle**:
 | Needs optimistic update + rollback? | Query mutation + optional client cache |
 
 **Anti-pattern:** fetch in `useEffect` + `useState` + manual loading flags — you rebuilt React Query poorly.
-
----
 
 ## Standard config / commands
 
@@ -99,12 +95,10 @@ const { data } = useGetOrderQuery(orderId);
 ✗ Server lists / pagination
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stale list after mutation | invalidateQueries / tag invalidation | Add onSuccess invalidation; optimistic update |
 | Double fetch on mount | Strict Mode + no dedupe | Query dedupes by key — remove duplicate useEffect fetch |
 | Global loading spinner forever | queryKey mismatch | Align keys between list/detail |
@@ -112,8 +106,6 @@ const { data } = useGetOrderQuery(orderId);
 | Two sources of truth | Same entity in Zustand + Query | Single source — Query cache; UI flags only in Zustand |
 | SSR hydration flash | fetch on client only | prefetch in loader / dehydrate QueryClient |
 | Redux boilerplate fatigue | RTK for everything | Server → Query; UI → Zustand slice |
-
----
 
 ## Gotchas
 
@@ -132,18 +124,14 @@ const { data } = useGetOrderQuery(orderId);
 > [!WARNING]
 > **WebSocket + Query** — patch cache with `setQueryData` instead of parallel Zustand copy.
 
----
-
 ## When NOT to use
 
 | Tool | Skip when |
-|------|-----------|
+| --- | --- |
 | **Redux/RTK** | Greenfield app with no complex client workflows |
 | **Zustand** | Data belongs to server; use Query |
 | **React Query** | Static site, no remote data |
 | **Jotai/Recoil** | Team lacks atom graph debugging experience — default to Query + Zustand |
-
----
 
 ## Related
 

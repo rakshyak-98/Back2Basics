@@ -1,23 +1,71 @@
-## `node-cron`
-- if you didn't save the reference, there is no way to stop or access it after it starts. it becomes garbage-managed, and you lose all control over it. It runs in the background as long as the Node process is alive.
+[[NodeJS]] [[Packages/npm packages]] [[clustering]]
 
-> [!INFO] use a function wrapper to track auto-registers every task
+# node-cron
 
-```ts
-const taskRegistry: cron.ScheduledTask[] = [];
+> In-process cron schedules — fires JS callbacks on a crontab pattern while the Node process is alive.
 
-function registerCron(...args: Parameters<typeof cron.schedule>) {
-  const task = cron.schedule(...args);
-  taskRegistry.push(task);
-  return task;
-}
+## Mental model
 
-// usage
-registerCron('* * * * *', () => console.log('Running...'));
+**Say it in one breath:** `cron.schedule(expr, fn)` runs in memory — not OS cron. Keep the returned task if you ever need `stop()`.
 
-// later stop all
-taskRegistry.forEach(t => t.stop());
-
+```txt
+process up → schedule('* * * * *', fn) → tick → fn()
 ```
 
-> [!NOTE] always store a reference to your cron job if you may need to stop or inspect it.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ScheduledTask** | Handle to stop/start | “Lose the ref ⇒ can’t stop cleanly.” |
+| --- | --- | --- |
+| **In-process** | Not systemd/cron | “Dies with the process; duplicates with N replicas.” |
+
+## Standard config / commands
+
+```js
+import cron from 'node-cron'
+
+const tasks = []
+function register(...args) {
+  const t = cron.schedule(...args)
+  tasks.push(t)
+  return t
+}
+
+register('*/5 * * * *', () => console.log('tick'))
+// shutdown:
+tasks.forEach((t) => t.stop())
+```
+
+| Knob | Why it matters |
+
+| Timezone option | Avoid UTC surprises |
+| --- | --- |
+| Registry array | Stop all on SIGTERM |
+| Validate expr | `cron.validate` |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Runs N times | N cluster workers | Leader election or external scheduler |
+| Can’t stop | Discarded return value | Keep registry |
+| Wrong hour | TZ | Set timezone explicitly |
+| Overlap | Long job > interval | Mutex / skip-if-running |
+
+## Gotchas
+
+> [!WARNING]
+> **Multi-instance apps** — every replica runs the job unless you coordinate.
+
+> [!WARNING]
+> **Not durable** — process crash misses ticks; use a queue/scheduler for critical jobs.
+
+## When NOT to use
+
+- **Clustered / K8s many pods** — use system cron, Cloud Scheduler, or a lock.
+- **Exactly-once billing jobs** — need durable job system.
+
+## Related
+
+[[Packages/npm packages]] [[clustering]] [[Node.js run as a non-privileged user]]

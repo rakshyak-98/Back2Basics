@@ -1,26 +1,80 @@
-|What you want|Command|
-|---|---|
-|See output + save to file|`ls -la \| tee listing.txt`|
-|Save and keep running the pipeline|`docker logs myapp \| tee docker.log \| grep ERROR`|
-|Append instead of overwrite|`htop -n 5 \| tee -a monitor.log`|
-|Save with sudo but run command as normal user|`cat /etc/shadow \| tee /tmp/shadow.txt` → fails `sudo cat /etc/shadow \| tee /tmp/shadow.txt` → works Better: `sudo cat /etc/shadow \| sudo tee /tmp/shadow.txt`|
-|Write to multiple files at once|`echo "Hello" \| tee file1.txt file2.txt file3.txt`|
-|Save root-owned file from non-root command|`echo "nameserver 8.8.8.8" \| sudo tee /etc/resolv.conf`|
-|Live tail + save forever|`journalctl -f \| tee journal-backup.log`|
-|Debug a long pipeline without breaking it|`curl -s https://api.example.com \| tee /dev/stderr \| jq .`|
-|Suppress the screen output, only save to file|`command \| tee file.txt \| cat > /dev/null`|
-|Colorized output in terminal AND in file (2025 trick)|`git log --oneline --graph --all \| tee git-history.txt` (colors are preserved!)|
-- read from `stdin` 
-- writes to both `stdout` and Files
-- useful for logging output while still displaying it.
-tee - command is used to redirect the output of a command to a file, while still displaying it on the terminal. It is named after the T-spliter used in plumbing, which splits water into two directions.
+[[commands]] [[sudo]]
 
-```sh
-<command> | tee file.txt;
-ls -l | tee files.txt; # save output file and see it live.
-echo "log lie" | tee -a log.txt; # append instead of overwrite.
-echo "config" | tee a.txt b.txt c.txt; # save output to multiple files.
+# tee
+
+> tee splits the pipe — write the same bytes to a file and still pass them downstream (and to your screen).
+
+## Mental model
+
+**Say it in one breath:** like a plumbing T — stdin fans out to file(s) *and* stdout.
+
+```txt
+command ──► tee file.log ──► next | stage
+              └── also writes file.log
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **`tee file`** | Save + show | “I keep a log without losing the pipeline.” |
+| --- | --- | --- |
+| **`-a`** | Append | “Don’t truncate the log on each run.” |
+| **`sudo tee`** | Root write, user command | “Redirect `>` as root fails after sudo; tee fixes it.” |
+| **Multiple files** | Fan-out | “One stream, many copies.” |
+
+## Standard config / commands
 
 ```bash
+# See + save
+ls -la | tee listing.txt
+
+# Pipeline: save full log, filter on screen
+docker logs myapp 2>&1 | tee docker.log | grep ERROR
+
+# Append
+journalctl -f | tee -a journal-backup.log
+
+# Write as root from a non-root producer
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
+
+# Many files
+echo "Hello" | tee a.txt b.txt c.txt
+
+# Peek without breaking the pipe
+curl -s https://api.example.com | tee /dev/stderr | jq .
 ```
+
+| What you want | Command shape |
+
+| Save + continue pipeline | `cmd \| tee log \| next` |
+| --- | --- | --- | --- |
+| Root-owned destination | `cmd \| sudo tee /etc/file` |
+| Quiet screen, only file | `cmd \| tee file >/dev/null` |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `Permission denied` on `/etc/...` | Used `sudo cmd > file` | `cmd \| sudo tee file` (sudo only elevates left of `>`) |
+| Log truncated unexpectedly | Missing `-a` | `tee -a` |
+| Colors gone in file | ANSI codes | Often still there; viewers may strip — use `script` if you need tty fidelity |
+| Pipeline exits early | `tee` got SIGPIPE | Ensure consumers read; or `tee` last if you only need the file |
+
+## Gotchas
+
+> [!WARNING]
+> **`sudo cmd > /root/file` does not write as root** — the shell opens the file *before* sudo. Use `sudo tee`.
+
+> [!WARNING]
+> **`tee` overwrites by default** — same footgun as `>`. Prefer `-a` for rotating incident logs.
+
+## When NOT to use
+
+- **Only save, never show** — plain `>` / `>>`.
+- **Structured logging in apps** — application logger + log shipper, not ad-hoc tee in production entrypoints.
+- **Binary streams you must not duplicate** — tee copies bytes; watch disk.
+
+## Related
+
+[[commands]] [[Bash syntax]] [[visudo]]

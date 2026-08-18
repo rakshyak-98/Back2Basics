@@ -4,8 +4,6 @@
 
 > Minimal client-state library for React — store outside the component tree with selective subscriptions — **when Redux is overkill**.
 
----
-
 ## Mental model
 
 Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).
@@ -19,15 +17,13 @@ Zustand holds state in a **vanilla store** (works without React). Components **s
 ```
 
 | Pattern | API |
-|---------|-----|
+| --- | --- |
 | **Simple store** | `create((set) => ({ count: 0, inc: () => set(s => ({ count: s.count+1 })) }))` |
 | **Selector** | `useStore(s => s.count)` — re-render only when `count` changes |
 | **Outside React** | `useStore.getState().inc()` in event handlers, middleware |
 | **Slices** | Multiple `create` stores or combine with middleware |
 
 **Server state** (API data, cache, stale-while-revalidate) belongs in **TanStack Query / RTK Query** — not Zustand. See [[React data management]].
-
----
 
 ## Standard config / commands
 
@@ -98,12 +94,10 @@ export const createCartStore = () =>
 
 On server: **new store per request**. On client: hydrate once from serialized snapshot or accept flash.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Too many re-renders | Selector returns new object each time | Stable selector; `useShallow` for object picks |
 | State wrong after navigation (SSR) | Global store on server | Per-request store factory |
 | Hydration mismatch | persist rehydrates after first paint | `skipHydration`, render placeholder until rehydrated |
@@ -115,8 +109,6 @@ On server: **new store per request**. On client: hydrate once from serialized sn
 import { useShallow } from 'zustand/react/shallow';
 const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 ```
-
----
 
 ## Gotchas
 
@@ -135,15 +127,11 @@ const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 > [!WARNING]
 > **Testing** — reset store between tests: `useCart.setState({ items: [] }, true)`.
 
----
-
 ## When NOT to use
 
 - **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
 - **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
 - **Cross-tab sync requirements** — add `BroadcastChannel` or use URL/server state.
-
----
 
 ## Related
 

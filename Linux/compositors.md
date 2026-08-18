@@ -1,48 +1,68 @@
-- refers to a software component that manages the rendering of graphical elements on the screen.
-- it plays a crucial role in how windows and visual elements are displayed, often providing features like transparency, animations, and effects.
-#### Role of compositor
-- Rendering Off-Screen Buffers
-	- A compositor creates an off-screen buffer for each window. 
-		- This allows for the graphical content of each window to be rendered separately before being combined into a final image that is displayed on the screen. 
-		- This process helps in managing complex visual effects and transitions without flickering, (*compositor update display smoothly*).
-	- visual effects - Compositors are responsible for applying various visual effect such as shadows, transparency, and animations. 
-		- These effects enhance the user experience by making the interface more visually appealing and responsive. 
-		- For instance, they can handle fade-ins, slide animations, and other transitions between different states of windows. 
-	- Window management - in environment like Linux, compositors can also serve as window managers, controlling how windows are displayed and interact with each other. 
-		- They can manage multiple virtual desktops and provide features like window tilling and snapping.
+[[Linux]] [[wayland]] [[x11]] [[Linux window manager]]
 
-Compositors in operating systems are responsible for rendering and managing multiple UI components (windows, animations, etc.) on top of each other while efficiently handling background processes. Here are key points:
+# compositors
 
-1. Role: Compositors manage how UI elements (windows, dialogs, etc.) are stacked and displayed on the screen.
+> A compositor builds the final screen image — vsync, transparency, screenshots — either as an X helper or as the Wayland display server itself.
 
+## Mental model
 
-2. Rendering: They render graphical elements from different applications and combine them into a single image.
+**Say it in one breath:** on X, compositors (Picom/Compton) sit atop the WM; on Wayland, the compositor *is* the display server.
 
+```txt
+X11:    apps → WM → (picom) → Xorg → DRM
+Wayland: apps → sway/mutter/kwin → DRM
+```
 
-3. Background Management: Compositors control how background processes (animations, off-screen rendering) are handled without affecting the user interface's responsiveness.
+### Interview map (words you can say)
 
+| Word | Plain meaning | Say in interview |
 
-4. Window Effects: They enable advanced window effects such as transparency, shadows, and smooth transitions.
+| **compositing** | Off-screen assemble + flip | “Stops tearing; costs GPU.” |
+| --- | --- | --- |
+| **Picom** | Popular X compositor | “Add effects without changing WM.” |
+| **Mutter/KWin/Sway** | Wayland compositors | “Own input + output.” |
+| **VSync** | Sync to refresh | “Prevents screen tear.” |
+| **direct scanout** | Bypass compose when possible | “Saves power/latency for fullscreen.” |
 
+## Standard config / commands
 
+```bash
+# X11 helper
+picom --vsync --backend glx &
+# Wayland: choose session (Sway/GNOME/KDE) — no separate picom
 
-An example would be Wayland or Xorg in Linux, where the compositor arranges multiple application windows and handles transitions.
+journalctl --user -u plasma-kwin_wayland -b   # example
+echo $XDG_SESSION_TYPE
+```
 
-Advantages:
+| Knob | Why it matters |
 
-Enhanced visual effects (transparency, shadows).
+| Backend (glx/xrender) | Performance vs compatibility |
+| --- | --- |
+| Unredirect fullscreen | Latency for games |
 
-Smooth management of multiple UI layers.
+## Triage (when things break)
 
-Improved user experience.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Tearing on X | Compositor running? | Start picom with vsync |
+| Laggy UI | Heavy effects | Disable blur/shadows |
+| Screenshare black | Portal/compositor | Install xdg-desktop-portal + backend |
+| Games stutter | Compose forced | Enable unredirect / fullscreen direct |
 
+## Gotchas
 
-Disadvantages:
+> [!WARNING]
+> **Two compositors at once on X** — DE already compositing + picom = flicker/fights.
 
-Can consume more system resources.
+> [!WARNING]
+> **NVIDIA + X compositing** historically flaky — prefer vendor-tested setups or Wayland.
 
-Potential performance impact on low-spec systems.
+## When NOT to use
 
+- **Latency-critical X games** sometimes disable compositing intentionally.
+- **SSH/no display** — irrelevant.
 
-Let me know if you want further clarification on compositors or their role in modern operating systems!
+## Related
 
+[[wayland]] [[x11]] [[Linux window manager]] [[display server]]

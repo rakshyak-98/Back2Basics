@@ -2,7 +2,7 @@
 
 # Polyfilling
 
-> Ship missing runtime APIs via script — fill gaps older browsers/Node versions lack — **compat tables + core-js / polyfill.io**.
+> Polyfilling — transpiling rewrites syntax (class → function). Polyfilling adds missing functions or prototypes at runtime. No syntax change — only implementation.
 
 ## Mental model
 
@@ -18,7 +18,7 @@ Bundle: your app + polyfills (Promise, Array.prototype.flat, fetch)
 ```
 
 | Approach | When |
-|----------|------|
+| --- | --- |
 | **Global polyfill** | `import 'core-js/stable'` — patches prototypes |
 | **Selective** | `import 'core-js/features/array/flat'` |
 | **CDN service** | polyfill.io (legacy) — URL with `features=` list |
@@ -63,7 +63,7 @@ if (!Array.prototype.at) {
 }
 ```
 
-Prefer spec-accurate implementations from core-js over hand-rolled shims.
+Prefer specification-accurate implementations from core-js over hand-rolled shims.
 
 ### Check support before shipping
 
@@ -77,7 +77,7 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `X is not a function` in old browser | Missing polyfill | Add feature to Babel `useBuiltIns` or import |
 | Polyfill conflicts with native | Double-patching | Feature detect `if (!Array.prototype.flat)` |
 | Bundle size exploded | Full `core-js/stable` | Switch to `usage` + narrow `targets` |
@@ -91,7 +91,7 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 
 - **`Object.prototype` pollution** from bad polyfills breaks `for...in` — never patch Object.prototype casually.
 - **Frozen environments** (SES, some embeds) forbid polyfills — target native only.
-- **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in prod.
+- **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in production.
 
 ## When NOT to use
 

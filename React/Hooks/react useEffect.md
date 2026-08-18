@@ -1,51 +1,73 @@
-> [!INFO]
-> `useEffect` runs **after render** when its dependency array value changes.
+[[Hooks]] [[react hooks]] [[Optimizing performance]]
 
-React's render must stay pure (no side effect when component is rendering).
-`useEffect()` lets you run code after render, where side effect are allowed. 
+# react useEffect
 
-> [!NOTE]
-> - `useEffect()` runs after render.
+> Run side effects after paint — fetch, subscriptions, DOM — keep render pure.
 
-## Order of `useEffect`
-all `useEffect` hooks in a component run in the order they are written in the code, every time their dependency array changes (or on mount if empty).
+## Mental model
 
-|Dependency array|When does it run?|Order relative to other effects|
-|---|---|---|
-|`useEffect(() => {}, [])`|Only once → after **first render** (mount)|In code order|
-|`useEffect(() => {}, [dep1])`|After **every render** when `dep1` changed (including first render)|In code order|
-|`useEffect(() => {}, [a, b])`|After render when **a** OR **b** changed|In code order|
-|`useEffect(() => {}, deps)`|After render when **any** dependency changed (shallow comparison)|In code order|
-|`useEffect(() => { return cleanup }, ...)`|Cleanup runs **before** next effect and on unmount|Cleanup also in code order|
+**Say it in one breath:** Render computes UI. `useEffect` runs after that commit when deps change; cleanup runs before the next effect and on unmount.
 
-> [!WARNING]
-> You should avoid using `` for purely derived (computed) state like splitting a full name. Instead, compute it directly in the render or with `useMemo`.
-
-### Call fetch api in `useEffect`
-
-```js
-useEffect(() => {
-  const controller = new AbortController(); // For fetch
-  fetch('/api/data', { signal: controller.signal })
-    .then(res => res.json())
-    .then(setData)
-    .catch(err => {
-      if (err.name !== 'AbortError') console.error(err);
-    });
-
-  return () => controller.abort(); // Cancels the first request on simulated unmount
-}, []);
-
+```txt
+render (pure) → commit DOM → useEffect(fn)
+fn deps change → cleanup() → fn() again
+unmount → cleanup()
 ```
 
-- The first fetch gets aborted during the simulation → only the second completes.
-- Safe and mirrors real cleanup needs.
+### Interview map (words you can say)
 
-> [!INFO]
-> - If it's a POST or mutating request, move it to an event handler (not a mount effect).
-> - GET requests are usually safe to duplicate (same result, no side effects).
+| Word | Plain meaning | Say in interview |
 
-## How to Handle State Synchronization Between Multiple useEffect Hooks
+| **Deps array** | When to re-run | “`[]` = mount once; omit = every render (rare).” |
+| --- | --- | --- |
+| **Cleanup** | Undo the effect | “Abort fetch, remove listener, clear timer.” |
+| **Strict Mode** | Dev double-invoke | “Mount→cleanup→mount — proves cleanup works.” |
 
-> [!NOTE]
-> In React, when one `useEffect` updates a state value, any other `useEffect` that depends on that state will automatically run on the *next render*.
+## Standard config / commands
+
+```tsx
+useEffect(() => {
+  const c = new AbortController()
+  fetch('/api', { signal: c.signal })
+    .then((r) => r.json())
+    .then(setData)
+    .catch((e) => { if (e.name !== 'AbortError') console.error(e) })
+  return () => c.abort()
+}, [])
+```
+
+| Deps | When it runs |
+
+| `[]` | After first paint only |
+| --- | --- |
+| `[a, b]` | When `a` or `b` changes (shallow) |
+| cleanup return | Before re-run + unmount |
+
+Effects in one component run **in source order**.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Infinite loop | Effect sets state that’s a dep | Remove dep or derive without effect |
+| Stale props/state | Missing dep | Add dep or use functional update / ref |
+| Double fetch in dev | Strict Mode | Idempotent + abort cleanup |
+| Race: old response wins | No abort | AbortController on cleanup |
+| Sync A→B in effect | Derived data | Compute in render / `useMemo` |
+
+## Gotchas
+
+> [!WARNING]
+> **Don’t use effects for derived state** — `fullName = first + last` belongs in render.
+
+> [!WARNING]
+> **Mutating POSTs** — prefer event handlers; GET-on-mount is the common effect case.
+
+## When NOT to use
+
+- **Transforming props → state** — derive or remount with `key`.
+- **Data fetching at scale** — [[react-query]] owns cache/dedupe better.
+
+## Related
+
+[[react hooks]] [[react-query]] [[Optimizing performance]] [[useRef]]

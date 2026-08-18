@@ -2,7 +2,7 @@
 
 # database migration
 
-> One-line: versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
+> versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
 
 ## Mental model
 
@@ -15,7 +15,7 @@ Repo migrations/          Database
 └── 003_index_orders.sql
 ```
 
-Workflow: **generate → define → run → track**. Lack of migrations → schema drift between dev/staging/prod and undebuggable deploy failures.
+Workflow: **generate → define → run → track**. Lack of migrations → schema drift between development/staging/production and undebuggable deploy failures.
 
 ## Standard config / commands
 
@@ -76,7 +76,7 @@ flyway info
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Migration partially applied | Tool-specific history table | Repair row; manual complete or rollback; restore backup worst case |
 | `duplicate column` on re-run | Migration not idempotent | Fix forward-only new migration; don't re-run edited file |
 | Down fails | Destructive down (DROP with data) | Restore from backup; write compensating up migration |
@@ -100,7 +100,7 @@ flyway info
 
 ## When NOT to use
 
-- **Throwaway local DB** — `schema:drop` / recreate OK in dev only.
+- **Throwaway local DB** — `schema:drop` / recreate OK in development only.
 - **Blue/green with dual schema** — advanced; still track changes but deploy strategy differs.
 
 ## Related

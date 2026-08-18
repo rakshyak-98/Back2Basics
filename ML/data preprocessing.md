@@ -4,8 +4,6 @@
 
 > Turn raw tables into **leak-safe, scaled, encoded** matrices estimators can fit — garbage in → un-debuggable models — **scikit-learn Pipeline docs**.
 
----
-
 ## Mental model
 
 Preprocessing runs **before** the learner sees data. Order matters:
@@ -14,16 +12,15 @@ Preprocessing runs **before** the learner sees data. Order matters:
 load → clean types → handle missing → encode categoricals → scale (if needed) → split → fit
 ```
 
-Fit transformers on **training data only**; apply same params to val/test. Putting `fit` on full dataset before split = **leakage** (val scores lie).
+Fit transformers on **training data only**; apply same parameters to value/test. Putting `fit` on full dataset before split = **leakage** (value scores lie).
 
 | Step | Tree models | Linear / SVM / NN |
-|------|-------------|-------------------|
+
 | Missing values | Native or impute | Usually impute |
+| --- | --- | --- |
 | Categoricals | Ordinal / target enc (careful) | One-hot / target enc |
 | Scaling | Skip | StandardScaler / RobustScaler |
 | Outliers | Robust to some | Clip or RobustScaler |
-
----
 
 ## Standard config / commands
 
@@ -77,19 +74,15 @@ for c in num_cols:
     df[f"{c}_was_missing"] = df[c].isna().astype(int)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Great CV, bad prod | Fit on full data before split | Pipeline inside CV; `fit` only on train fold |
 | `ValueError: unknown category` | New category in prod | `handle_unknown="ignore"` or fallback bucket |
 | Exploding coefficients | Unscaled features | StandardScaler in Pipeline |
 | All NaN after join | Merge keys, dtypes | Assert row counts; `df.info()` |
 | Model worse after "cleaning" | Removed signal (outliers = fraud) | Domain review; RobustScaler vs drop |
-
----
 
 ## Gotchas
 
@@ -99,14 +92,10 @@ for c in num_cols:
 > [!WARNING]
 > **Mean imputation on skewed data** — use median; consider missingness flags.
 
----
-
 ## When NOT to use
 
 - **Raw deep learning on images/text** — use domain-specific augmentations, not tabular imputers.
 - **Streaming features with strict SLA** — precompute offline features in a feature store; don't refit heavy pipelines per request.
-
----
 
 ## Related
 

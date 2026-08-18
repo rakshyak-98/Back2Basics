@@ -2,9 +2,7 @@
 
 # Network management (streaming)
 
-> Diagnose bitrate paths, packet loss, and connection health on live pipelines — **ss/tcpdump/iperf**, not generic IT network admin.
-
----
+> Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
 ## Mental model
 
@@ -18,15 +16,14 @@ Publisher ──► Ingest (RTMP/SRT) ──► Origin ──► CDN ──► P
 ```
 
 | Symptom layer | First tool | Typical culprit |
-|---------------|------------|-----------------|
+
 | **Publish fail** | `nc`, RTMP connect | Firewall 1935, bad DNS |
+| --- | --- | --- |
 | **Ingest jitter** | `ss -ti`, encoder logs | Wi-Fi, no CBR cap |
 | **Segment gap** | Origin m3u8 sequence | Packager crash |
 | **Viewer rebuffer** | CDN cache miss, MTR | Origin overload, bad ABR |
 
 This note is **streaming-focused triage** — see [[Networking]] for routing/BGP.
-
----
 
 ## Standard config / commands
 
@@ -85,12 +82,10 @@ sudo nft list ruleset | grep -E '1935|443'
 # AWS: security group + NACL both directions
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | OBS disconnect loop | `ss -ti` retransmits; Wi-Fi | Wired uplink; lower bitrate; RTMPS if middlebox |
 | Macroblocking but no drop | Uplink not saturated — encode issue | See [[Encoding]] CBR cap |
 | TS continuity errors | `tcpdump` UDP gaps | FEC/SRT instead of raw UDP; switch IGMP querier |
@@ -98,8 +93,6 @@ sudo nft list ruleset | grep -E '1935|443'
 | Regional viewers only fail | Geo DNS / POP routing | CDN failover; check one POP with curl `--resolve` |
 | TLS errors on license | Certificate chain | Full chain on 443; see [[TLS (Transport Layer Security)]] |
 | High latency live | Segment duration + CDN + playlist | [[HLS]] LL-HLS tuning; not a "network mgmt" knob alone |
-
----
 
 ## Gotchas
 
@@ -118,15 +111,11 @@ sudo nft list ruleset | grep -E '1935|443'
 > [!WARNING]
 > **Rate-limit on auth webhook** — ingest drops when auth service slow, looks like network failure.
 
----
-
 ## When NOT to use
 
 - **Application codec debug** — use `ffprobe`, not packet capture first.
-- **DRM license logic** — network shows 403; root cause is [[EME]]/auth.
-- **Full corporate LAN redesign** — escalate to netops; streaming ops prove hop + metric.
-
----
+- **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
+- **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
 
 ## Related
 

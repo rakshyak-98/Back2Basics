@@ -4,8 +4,6 @@
 
 > Extend linear models with **x, x², x³, interactions** to capture curvature — still linear in coefficients, nonlinear in features — **ESL**.
 
----
-
 ## Mental model
 
 Start with [[Model/Linear regression]]: ŷ = β₀ + β₁x. Add powers and cross-terms:
@@ -23,8 +21,6 @@ Degree 5 → wiggly (overfit risk)
 ```
 
 High degree + unregularized OLS **overfits** wildly between points (Runge phenomenon). Prefer **Ridge** or low degree + cross-validation.
-
----
 
 ## Standard config / commands
 
@@ -60,19 +56,15 @@ for d in [1, 2, 3]:
 
 Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint missing quadratic term.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wild predictions outside train range | High degree extrapolation | Lower degree; clip; [[Gradient boosting]] |
 | Numerical overflow | x large, x⁶ features | StandardScaler; reduce degree |
 | Feature count explosion | degree on many columns | Interaction-only; manual terms |
 | Better than trees on train only | Overfit | Ridge alpha CV; holdout |
 | Negative R² on test | Wrong basis | Try splines/GAM or tree models |
-
----
 
 ## Gotchas
 
@@ -82,16 +74,12 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 > [!WARNING]
 > **Extrapolation** — polynomials diverge fast outside training min/max x.
 
----
-
 ## When NOT to use
 
 - **Many categorical / high-dimensional tabular** — [[Decision tree]] / [[Gradient boosting]] find interactions automatically.
 - **Sharp discontinuities** — trees handle better than smooth polynomials.
 - **Need interpretable single slope** — stick to degree-1 [[Model/Linear regression]].
 
----
-
 ## Related
 
-[[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated vs actual plot]] · [[data preprocessing]]
+[[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated versus actual plot]] · [[data preprocessing]]

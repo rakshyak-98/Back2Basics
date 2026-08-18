@@ -2,7 +2,7 @@
 
 # node fs
 
-> One-line: Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
+> Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
 
 ## Mental model
 
@@ -45,7 +45,7 @@ try {
 ```
 
 | Flag | Meaning |
-|------|---------|
+| --- | --- |
 | `r` | Read (default) |
 | `w` | Write, truncate |
 | `a` | Append |
@@ -91,7 +91,7 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `EMFILE: too many open files` | `lsof -p PID \| wc -l` | Close streams; raise `ulimit -n`; pool handles |
 | `EACCES` / `EPERM` | User, SELinux, mount ro | Fix ownership; run as correct user |
 | `EBUSY` on unlink (Windows) | File still open | Close handles before delete |

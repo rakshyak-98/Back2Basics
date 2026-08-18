@@ -2,7 +2,7 @@
 
 # userdel
 
-> One-line: remove a local user account from `/etc/passwd` and optionally home + mail spool — offboarding and cleanup; irreversible without backups. **Kerrisk**.
+> userdel — removes the account line from /etc/passwd, /etc/shadow, and /etc/group (primary group entry if it was user-private). Files owned by the UID remain on disk
 
 ## Mental model
 
@@ -15,10 +15,21 @@ userdel ──► /etc/passwd, shadow, group
 ```
 
 | Flag | Effect |
-|------|--------|
+| --- | --- |
 | `-r` | Remove home dir + mail spool |
 | `-f` | Force removal even if user logged in (dangerous) |
 | (none) | Account gone; files owned by old UID become numeric orphan |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **userdel** | Remove account | “userdel -r removes home too.” |
+| --- | --- | --- |
+| **-r** | Remove home/mail | “Irreversible — backup first.” |
+| **running processes** | Must stop first | “Kill/jobs of user before delete.” |
+| **UID reuse** | Danger | “Old files may get new owner.” |
+| **group leftover** | Primary group | “groupdel if unused.” |
 
 ## Standard config / commands
 
@@ -59,7 +70,7 @@ sudo userdel -r username
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "user is currently used by process" | `ps -u user` | Stop services; `pkill -u user`; then retry |
 | "cannot remove entry in /etc/passwd" | User logged in on TTY | `who`; `pkill -KILL -u user` last resort |
 | Home not removed | Forgot `-r` | `rm -rf /home/user` after backup confirm |
@@ -84,7 +95,7 @@ sudo userdel -r username
 ## When NOT to use
 
 - **Temporary disable** → `passwd -l`, `usermod -L`, `chage -E 1`.
-- **Directory (LDAP/AD) accounts** → idm/directory admin tools.
+- **Directory (LDAP/AD) accounts** → idm/directory administrator tools.
 - **Rename user** → `usermod -l newname -d /home/newname -m`.
 - **Merge two accounts** → `chown` file migration, not delete-recreate.
 

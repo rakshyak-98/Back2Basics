@@ -2,9 +2,7 @@
 
 # library file
 
-> Static (`.a`) vs shared (`.so` / `.dylib` / `.dll`) native libraries — how SEs link C/C++/Rust deps in CI and production.
-
----
+> library file — source → Object (.o) → Archive (.a) OR Shared (.so)
 
 ## Mental model
 
@@ -17,8 +15,9 @@ Source → Object (.o) → Archive (.a) OR Shared (.so)
 ```
 
 | Artifact | Link time | Run time | Size / deploy |
-|----------|-----------|----------|---------------|
+
 | **Static `.a`** | Code copied into binary | No separate lib file | Larger binary; self-contained |
+| --- | --- | --- | --- |
 | **Shared `.so`** | Symbol references recorded | Loader maps `.so` (SONAME) | Smaller binary; must ship compatible `.so` |
 
 **Linux loader:** `ld.so` reads `DT_NEEDED`, searches `LD_LIBRARY_PATH`, `/etc/ld.so.cache`, `RUNPATH`/`RPATH`.
@@ -26,8 +25,6 @@ Source → Object (.o) → Archive (.a) OR Shared (.so)
 **Windows:** `.lib` import library + `.dll` runtime; **macOS:** `.dylib` + `@rpath`, `@loader_path`.
 
 **ABI stability:** shared libs must match **ABI** (compiler, stdlib, `-fPIC`, symbol versioning) — not just API headers.
-
----
 
 ## Standard config / commands
 
@@ -87,20 +84,16 @@ pkg-config --libs --cflags libssl
 4. For static: audit LGPL/GPL propagation (dynamic link often required)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `error while loading shared libraries: libfoo.so` | `ldd ./app` in prod image | Install package; set `RUNPATH`; copy `.so` next to binary |
 | Wrong `.so` version loaded | `LD_DEBUG=libs ./app` | Align SONAME; remove stale paths from `LD_LIBRARY_PATH` |
 | Works locally, fails CI | Dev machine has extra libs | Minimal container reproduce; explicit `-L` / vendoring |
 | `undefined reference` at link | Missing `-l` or wrong order | Put `-lfoo` after objects that use it |
 | `GLIBCXX_3.4.xx not found` | libstdc++ mismatch | Match build/runtime GCC; use same base image |
 | Static binary huge / NSS issues | glibc static quirks | Prefer shared linking on Linux services |
-
----
 
 ## Gotchas
 
@@ -116,15 +109,11 @@ pkg-config --libs --cflags libssl
 > [!WARNING]
 > **`LD_LIBRARY_PATH` in prod** — fragile; prefer `RUNPATH` baked at link or distro packages in standard paths.
 
----
-
 ## When NOT to use
 
 - **Pure managed runtimes (JVM, Node, Python wheels)** — use package manager / manylinux wheels unless writing native extensions.
-- **Static everything on glibc Linux servers** — ops and security updates harder; shared distro libs preferred.
-- **Vendor `.so` without ABI pin** — upgrade host OS breaks app; containerize or bundle exact SONAME.
-
----
+- **Static everything on glibc Linux servers** — operations and security updates harder; shared distro libs preferred.
+- **Vendor `.so` without ABI pin** — upgrade host OS breaks application; containerize or bundle exact SONAME.
 
 ## Related
 

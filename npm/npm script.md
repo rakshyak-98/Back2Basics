@@ -6,7 +6,7 @@
 
 ## Mental model
 
-`npm run <script>` executes the command in a shell with `node_modules/.bin` on PATH. Lifecycle hooks (`prestart`, `postinstall`) run automatically around named scripts. Arguments after `--` pass through to the underlying command without npm interpreting them.
+**Say it in one breath:** `npm run <script>` executes the command in a shell with `node_modules/.bin` on PATH. Lifecycle hooks (`prestart`, `postinstall`) run automatically around named scripts. Arguments after `--` pass through to.
 
 ```
 package.json scripts → npm run dev → nodemon (local bin)
@@ -69,7 +69,7 @@ npm install minimist yargs commander
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `command not found` | Local bin | Use `npx` or script name without path; `npm ci` |
 | Args not reaching tool | Missing `--` | `npm run x -- --flag` |
 | Works on Mac, fails Windows | Shell syntax | Use `cross-env`, avoid bash-only |
@@ -88,7 +88,7 @@ npm install minimist yargs commander
 ## When NOT to use
 
 - Don't put 50-line bash in scripts — extract to `scripts/` shell file.
-- Don't use npm scripts as a process manager in prod — use [[pm2/ecosystem]] or systemd.
+- Don't use npm scripts as a process manager in production — use [[pm2/ecosystem]] or systemd.
 
 ## Related
 

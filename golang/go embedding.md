@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Embedding places a type inside another **without a field name**. The outer type **promotes** the embedded type's exported methods and fields to the outer type's method set.
+**Say it in one breath:** Embedding places a type inside another **without a field name**. The outer type **promotes** the embedded type's exported methods and fields to the outer type's method set.
 
 ```go
 type Reader struct { io.Reader }  // embed interface
@@ -98,7 +98,7 @@ func NewServer(addr string) *Server {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ambiguous selector X` | Two embeds expose same field/method | Qualify `outer.A.X`; rename or drop embed |
 | Interface not satisfied | Embedded interface nil | Initialize embedded field; implement missing methods on outer |
 | Method not promoted | Unexported (lowercase) method | Export method or wrap with exported forwarder |

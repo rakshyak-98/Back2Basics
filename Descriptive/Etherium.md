@@ -4,8 +4,6 @@
 
 > Programmable blockchain: accounts hold state; transactions pay **gas** to mutate it — **Ethereum Yellow Paper** + **Mastering Ethereum** for SE integration context.
 
----
-
 ## Mental model
 
 ```txt
@@ -24,8 +22,6 @@
 **Gas:** metered computation + storage; **revert** rolls back state but burns gas spent until revert point.
 
 **Layers SEs touch:** RPC nodes (JSON-RPC), wallets (MetaMask, WalletConnect), indexers (The Graph), L2 rollups (Arbitrum, Base) — not mining.
-
----
 
 ## Standard config / commands
 
@@ -85,12 +81,10 @@ const logs = await contract.queryFilter(filter, fromBlock, toBlock);
 gwei = 10⁹ wei (fee display)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `insufficient funds for gas` | ETH balance on payer EOA | Fund hot wallet; gas tank pattern |
 | Tx stuck pending | `eth_getTransactionByHash` | Bump fee (EIP-1559 replacement); nonce gap audit |
 | `nonce too low` | Pending tx queue | Serialize signer; track nonce in DB |
@@ -98,8 +92,6 @@ gwei = 10⁹ wei (fee display)
 | Wrong network (chainId) | `wallet_switchEthereumChain` | Enforce chainId in signed tx (EIP-1559) |
 | Indexer behind chain tip | Block lag metric | Delay UI confirmation count; handle reorgs > 1 block |
 | Rate limit on public RPC | 429 from provider | Paid node; self-hosted geth/erigon; batch requests |
-
----
 
 ## Gotchas
 
@@ -118,16 +110,12 @@ gwei = 10⁹ wei (fee display)
 > [!WARNING]
 > **L2 bridge latency** — "Ethereum" UX may be L2; withdrawals have challenge periods on rollups.
 
----
-
 ## When NOT to use
 
-- **Centralized ledger sufficient** — Postgres + audit log beats chain ops/cost.
+- **Centralized ledger sufficient** — Postgres + audit log beats chain operations/cost.
 - **High-frequency micro-payments** — L2 or off-chain payment channels; L1 gas prohibitive.
 - **Private enterprise data on-chain** — permissions chain or no chain; public mempool leaks intent.
 
----
-
 ## Related
 
-[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace app]]
+[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace application]]

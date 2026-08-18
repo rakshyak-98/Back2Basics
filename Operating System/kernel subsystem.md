@@ -2,9 +2,7 @@
 
 # Kernel subsystem
 
-> Major in-kernel modules (VFS, MM, scheduler, net stack, block layer) that user space reaches only via [[system call]] — **Kerrisk / Love**.
-
----
+> Kernel subsystem — the Linux kernel is not one blob — it's subsystems with defined boundaries, sharing locks, caches, and the same address space (kernel mode).
 
 ## Mental model
 
@@ -35,16 +33,15 @@ The Linux kernel is not one blob — it's **subsystems** with defined boundaries
 
 **How this maps to debugging:**
 | Subsystem | You notice when… | First tools |
-|-----------|------------------|-------------|
+
 | VFS / FS | wrong file, slow I/O, `EMFILE` | `lsof`, `strace`, `iostat` |
+| --- | --- | --- |
 | MM | OOM, swap storm, high `Cached` | `dmesg`, `/proc/meminfo`, cgroup memory |
 | Scheduler | run queue latency, stolen time | `perf`, `vmstat`, `pidstat` |
 | Network | drops, retrans, listen overflow | `ss`, `tcpdump`, `nstat` |
 | Block | iowait, fsync p99 | `iostat -x`, `blktrace` |
 
 **Containers:** cgroups/namespaces hook into these subsystems — limits are **kernel policy**, not Docker magic.
-
----
 
 ## Standard config / commands
 
@@ -89,12 +86,10 @@ cat /sys/block/nvme0n1/queue/scheduler
 - **Postgres/Redis** — MM + block + fsync path dominate tail latency.
 - **K8s pod** — cgroup limits on memory/CPU/pids hit MM and scheduler first.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Random slow requests | `vmstat 1` iowait; `perf top` | Separate disk; tune cache; fix sync I/O in app |
 | OOM killed container | `dmesg`; cgroup `memory.events` | Raise limit or fix leak; tune JVM heap vs cgroup |
 | TCP resets under load | `ss -s`; `netstat -s` drops | `somaxconn`; app accept rate; [[file descriptors]] |
@@ -102,8 +97,6 @@ cat /sys/block/nvme0n1/queue/scheduler
 | High steal time (VM) | `top` `%st` | Noisy neighbor; resize instance; dedicated nodes |
 | Works as root, not app | capabilities, namespaces | SELinux/AppArmor audit; correct permissions |
 | After kernel upgrade, NIC gone | `dmesg`; `modprobe` | DKMS driver rebuild; pin kernel version |
-
----
 
 ## Gotchas
 
@@ -122,14 +115,10 @@ cat /sys/block/nvme0n1/queue/scheduler
 > [!WARNING]
 > **eBPF/bpf** hooks subsystems dynamically — great for observability; bad BPF can panic kernel (test on canary).
 
----
-
 ## When NOT to use
 
-- Don't treat "kernel subsystem" as something you micro-manage daily — fix app + config first, kernel tunables second, custom modules last.
+- Don't treat "kernel subsystem" as something you micro-manage daily — fix application + configuration first, kernel tunables second, custom modules last.
 - Don't load out-of-tree drivers on production without rollback kernel.
-
----
 
 ## Related
 

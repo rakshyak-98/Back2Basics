@@ -2,7 +2,7 @@
 
 # Nodemailer Transporter
 
-> One-line: configured SMTP (or SES/transport plugin) instance that sends mail — create once at boot, reuse for all messages; auth and TLS live on the transporter.
+> Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call transporter.sendMail(mailOptions) per message.
 
 ## Mental model
 
@@ -16,7 +16,7 @@ Each email ─────┴──► sendMail({ from, to, subject, html })
                          └── SMTP session (587 STARTTLS or 465 SMTPS)
 ```
 
-Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display vs bounce address). Production apps pool one transporter; don't create per request.
+Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
 
 ## Standard config / commands
 
@@ -83,7 +83,7 @@ createTransport({ ..., logger: true, debug: true });
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ECONNECTION` / timeout | Firewall, wrong port | 587 vs 465; `secure` flag; security group |
 | Auth failed | Credentials, IP allowlist | Rotate app password; enable SMTP auth on provider |
 | Mail in spam | SPF/DKIM/DMARC | DNS records; align `From` domain with SMTP auth domain |
@@ -107,7 +107,7 @@ createTransport({ ..., logger: true, debug: true });
 
 ## When NOT to use
 
-- **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from app servers.
+- **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
 - **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
 
 ## Related

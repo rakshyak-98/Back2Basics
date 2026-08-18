@@ -21,7 +21,7 @@ Pod eth0 ──► veth ──► node eBPF (Cilium) ──► cluster routing /
 Components on each node:
 
 | Piece | Role |
-|-------|------|
+| --- | --- |
 | **cilium-agent** | Programs eBPF maps, policy, endpoints |
 | **cilium-operator** | IPAM, CRD reconciliation |
 | **hubble-relay + ui** | Cluster-wide flow visibility |
@@ -108,7 +108,7 @@ kubectl -n kube-system exec ds/cilium -- cilium service list
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Pod `ContainerCreating` stuck | `kubectl describe pod`; Cilium IPAM events | Free CIDR; fix IPAM mode; restart agent |
 | Service unreachable | `cilium service list`; endpoints | Missing backend pods; wrong selector; BPF LB disabled |
 | Policy suddenly blocks traffic | `hubble observe --verdict DROPPED` | Label mismatch; namespace selector; add explicit allow |
@@ -152,7 +152,7 @@ kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 
 - **Tiny single-node lab** — flannel/canal simpler; Cilium shines at policy + observability scale.
 - **Non-Kubernetes bare metal** — Cilium exists but different install; don't assume kube chart.
-- **Replacing app auth with NP** — network segmentation complements, doesn't replace mTLS/authZ.
+- **Replacing application authentication with NP** — network segmentation complements, doesn't replace mTLS/authZ.
 
 ## Related
 

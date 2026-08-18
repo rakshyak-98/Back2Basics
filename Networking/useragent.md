@@ -4,8 +4,6 @@
 
 > Client-declared software identity string on HTTP requests — used for compatibility, analytics, and bot detection; easily spoofed.
 
----
-
 ## Mental model
 
 Every HTTP request may include:
@@ -15,7 +13,7 @@ User-Agent: Mozilla/5.0 (...) Chrome/120.0.0.0 Safari/537.36
 ```
 
 Purposes:
-- **Server adaptation** — mobile vs desktop templates (declining; prefer responsive CSS)
+- **Server adaptation** — mobile versus desktop templates (declining; prefer responsive CSS)
 - **Analytics** — browser/OS market share
 - **Bot/scraper detection** — rate limits, CAPTCHA
 - **API client identification** — mobile apps often use library defaults
@@ -30,8 +28,6 @@ Dalvik/...             → older Android
 MyApp/1.2.3 (iOS)      → custom app token
 curl/8.5.0             → scripts, health checks
 ```
-
----
 
 ## Standard config / commands
 
@@ -65,18 +61,14 @@ proxy_set_header User-Agent $http_user_agent;
 
 **Why log UA:** incident forensics ("was this curl or Chrome?") — correlate with [[Network error]] patterns.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Mobile app blocked by WAF | Default okhttp UA | Allowlist pattern; custom UA header + auth |
 | Feature gate wrong | UA sniffing | Replace with Client Hints or capability detection |
 | Rate limit hits scripts | Shared datacenter UA | Per-API-key limits, not UA alone |
 | SEO/bot traffic | Search bot UA spoof | Verify bot via reverse DNS + IP ranges |
-
----
 
 ## Gotchas
 
@@ -89,13 +81,9 @@ proxy_set_header User-Agent $http_user_agent;
 > [!WARNING]
 > **Privacy regulations** — UA can be personal data in logs; retention policy applies.
 
----
-
 ## When NOT to use
 
 Don't branch **authorization** on User-Agent. Use tokens, mTLS, or attestation for API clients.
-
----
 
 ## Related
 

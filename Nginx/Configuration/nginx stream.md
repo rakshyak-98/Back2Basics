@@ -2,11 +2,11 @@
 
 # Nginx Stream (L4 TCP/UDP Proxy)
 
-> One-line: `stream {}` module proxies raw TCP/UDP — use for databases, MQTT, TLS passthrough, or non-HTTP protocols; separate from `http {}`.
+> Nginx Stream (L4 TCP/UDP Proxy) — the stream context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client
 
 ## Mental model
 
-The **stream** context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client and upstream. Two common patterns:
+**Say it in one breath:** `stream {}` is L4 — Nginx forwards bytes (TCP/UDP) without parsing HTTP.
 
 ```
 Client ──TCP──► Nginx:5432 ──TCP──► PostgreSQL:5432   (TCP proxy)
@@ -14,8 +14,6 @@ Client ──TLS──► Nginx:443  ──plain──► backend:8080     (TLS 
 ```
 
 `ngx_stream_js_module` adds JavaScript hooks for stream-layer logic (SNI inspection, routing) — optional, not in default OSS build.
-
----
 
 ## Standard config / commands
 
@@ -80,18 +78,14 @@ ss -tlnp | grep nginx    # TCP listeners
 ss -ulnp | grep nginx    # UDP listeners
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Connection refused on stream port | `ss -tlnp \| grep :PORT`; `nginx -T \| grep -A5 stream` | Enable stream block; fix listen address; SELinux `http_port_t` won't apply — check `stream_connect` |
 | TLS passthrough routes wrong backend | `openssl s_client -connect host:443 -servername api.example.com` | Fix `$ssl_preread_server_name` map; client must send SNI |
 | Idle disconnects | `proxy_timeout` too low | Raise for long-lived connections (DB, WebSocket over stream) |
 | Works in HTTP block, not stream | Wrong context | `stream {}` is **not** inside `http {}` |
-
----
 
 ## Gotchas
 
@@ -104,14 +98,10 @@ ss -ulnp | grep nginx    # UDP listeners
 > [!WARNING]
 > **Logging:** Default access log format is binary-ish; enable `stream` access_log with custom format for debugging.
 
----
-
 ## When NOT to use
 
 - **HTTP reverse proxy** — use `http {}` + `proxy_pass`; stream loses header-based routing (except SNI preread).
 - **Application-aware load balancing** — use HAProxy, Envoy, or cloud LB for rich L7 policies.
-
----
 
 ## Related
 

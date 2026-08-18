@@ -2,11 +2,11 @@
 
 # Logging (journal & syslog)
 
-> One-line: Linux **log aggregation** — systemd-journald (structured, indexed) plus legacy syslog files under `/var/log`. **Start every service incident with journalctl, not grep of random files.**
+> Logging (journal & syslog) — applications log to stdout/stderr (captured by journald for systemd units), syslog (/dev/log socket), or directly to files (/var/log/app/). journald stores binary
 
 ## Mental model
 
-Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → err → warning → notice → info → debug.
+Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → error → warning → notice → information → debug.
 
 ```
 app ──stdout──► systemd ──► journald ──► journalctl
@@ -15,11 +15,22 @@ kernel ──► journald (-k) / dmesg
 ```
 
 | Source | Tool | Best for |
-|--------|------|----------|
+| --- | --- | --- |
 | systemd units | [[journalctl]] | Services, boots, priorities |
 | Plain files | `less`, [[grep]] | Legacy apps, nginx access.log |
 | Kernel | `journalctl -k`, `dmesg` | OOM, driver, hardware |
 | Live follow | `journalctl -f` | Deploy watch, incident stream |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **syslog / journal** | System log pipelines | “Modern = journald; rsyslog may forward.” |
+| --- | --- | --- |
+| **/var/log** | Text logs | “App logs often still here.” |
+| **logrotate** | Rotate/compress | “Without rotate, disks fill.” |
+| **facility/severity** | syslog classes | “auth.err vs local0.info.” |
+| **stdout in containers** | 12-factor logs | “Don’t write only to files in k8s.” |
 
 ## Standard config / commands
 
@@ -84,7 +95,7 @@ sudo systemctl restart systemd-journald
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No logs for service | Not systemd-managed | Find file path in unit or app config; `lsof \| grep log` |
 | Empty after reboot | Volatile journal | Enable `Storage=persistent` |
 | Disk full | journal size | `journalctl --vacuum-size`; tune journald.conf |

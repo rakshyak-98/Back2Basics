@@ -2,97 +2,69 @@
 
 # Service masking
 
-> One-line: **`systemctl mask`** — make a unit **impossible** to start (symlink to `/dev/null`). Stronger than disable; use when packages, sockets, or user sessions keep resurrecting a service.
+> Masking a systemd unit points it at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
 ## Mental model
 
-systemd unit states stack:
+**Say it in one breath:** disable removes wants; mask makes start impossible — use for bluetooth/cups on headless boxes.
 
-```
-enabled  → starts at boot (wanted by target)
-disabled → won't auto-start; manual start still works
-masked   → unit file redirected to /dev/null — start ALWAYS fails
-```
-
-**Disable** removes symlinks in `/etc/systemd/system/*.wants/`. **Mask** replaces (or overlays) the unit with a null symlink so `systemctl start` cannot load real unit. Useful for **bluetooth**, **cups**, **ModemManager** on headless servers that get re-enabled on package upgrade.
-
-```
-/etc/systemd/system/bluetooth.service → /dev/null   (mask)
-systemctl unmask → restores link to /lib/systemd/system/bluetooth.service
+```txt
+enabled  → starts at boot
+disabled → no auto-start; manual start ok
+masked   → /etc/systemd/system/foo.service → /dev/null
 ```
 
-| Action | Boot start | Manual start |
-|--------|------------|--------------|
-| `stop` | if enabled, next boot | yes when enabled |
-| `disable` | no | yes |
-| `mask` | no | **no** |
-| `mask --now` | no | stops + masks |
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **mask** | Symlink to `/dev/null` | “Start always fails until unmask.” |
+| --- | --- | --- |
+| **disable** | Drop WantedBy links | “Manual start still works.” |
+| **mask --now** | Stop + mask | “Immediate.” |
+| **socket unit** | Activation path | “Mask socket too if it respawns.” |
+| **list-unit-files** | See masked | “`--state=masked`.” |
 
 ## Standard config / commands
 
 ```bash
-# Mask and stop immediately
 sudo systemctl mask --now bluetooth.service
-
-# Verify — shows masked
 systemctl status bluetooth.service
 ls -l /etc/systemd/system/bluetooth.service
-# → /dev/null
-
-# Undo
 sudo systemctl unmask bluetooth.service
-sudo systemctl enable --now bluetooth.service   # if actually needed
-```
-
-**Common headless hardening:**
-
-```bash
-sudo systemctl mask --now \
-  bluetooth.service \
-  cups.service \
-  avahi-daemon.service
-```
-
-**Socket-activated units:** mask **both** service and socket if reconnects persist:
-
-```bash
+sudo systemctl enable --now bluetooth.service
+systemctl list-unit-files --state=masked
+# sockets
 sudo systemctl mask --now cups.socket cups.service
 ```
 
-**Check what's enabled vs masked:**
+| Knob | Why it matters |
 
-```bash
-systemctl list-unit-files --state=masked
-systemctl is-enabled bluetooth.service    # masked | disabled | enabled
-```
+| Mask in `/etc` | Beats vendor unit in `/lib` |
+| --- | --- |
+| Socket + service | Stops activation loops |
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
-| `Loaded: masked` | `systemctl status` | `unmask` if service required |
-| Service starts despite mask | Template alias unit | Mask exact instance + socket |
-| Package upgrade re-enables | maintainer scripts | Mask again; `dpkg-divert` or systemd drop-in `RefuseManualStart=yes` |
-| Dependency pull-in | `systemctl list-dependencies` | Mask socket; adjust WantedBy in override |
-| Can't mask vendor unit | Read-only /usr | Mask in `/etc/systemd/system/` (takes precedence) |
+| --- | --- | --- |
+| `Loaded: masked` | status | `unmask` if needed |
+| Starts despite mask | Alias/socket | Mask real unit names |
+| Package re-enables | maintainer scripts | Mask again; divert |
+| Can’t mask | Read-only `/usr` | Mask via `/etc/systemd/system` |
 
 ## Gotchas
 
 > [!WARNING]
-> **Masking sshd or networkd** — lockout. Always keep serial/console access.
+> **Masking sshd/networkd** can lock you out — keep console/serial.
 
 > [!WARNING]
-> **Mask vs remove package** — mask hides unit; binary still on disk. Uninstall if attack surface matters.
-
-- **`disable` not enough** — D-Bus activations and socket units can still trigger service ([[bluetoothctl]] stack).
-- **User units** — `systemctl --user mask`; separate from system mask.
-- **WSL/containers** — some units don't exist; mask fails harmlessly or errors — check list-unit-files.
+> **Mask ≠ uninstall** — binaries remain; remove package if attack surface matters.
 
 ## When NOT to use
 
-- **Temporary stop** — `stop` + `disable` suffices; unmask ceremony wastes time.
-- **Override config** — prefer drop-in `/etc/systemd/system/foo.service.d/override.conf` for Exec changes.
-- **Conflicts between two valid services** — use `systemctl disable` + alternative unit, not blanket mask without documentation.
+- **Temporary stop** — `stop`/`disable` is enough.
+- **Containers** — often no such units; don’t fight the image.
 
 ## Related
 

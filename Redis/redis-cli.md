@@ -47,7 +47,7 @@ redis-cli INFO all | less
 **Memory fields to watch:**
 
 | Field | Meaning |
-|-------|---------|
+| --- | --- |
 | `used_memory_rss` | OS view — can exceed `used_memory` with fragmentation |
 | `mem_fragmentation_ratio` | >1.5 sustained → restart/replica rebuild may help |
 | `maxmemory` | 0 = no limit until OOM killer |
@@ -87,7 +87,7 @@ redis-cli CONFIG GET maxmemory-policy
 ```
 
 | Policy | Behavior |
-|--------|----------|
+| --- | --- |
 | `noeviction` | Writes fail when full — **queue/cache apps break** |
 | `allkeys-lru` | Evict any key LRU — pure cache |
 | `volatile-lru` | Evict keys with TTL only |
@@ -110,8 +110,9 @@ redis-cli CONFIG GET appendfsync     # always | everysec | no
 ```
 
 | Mode | Durability | Recovery |
-|------|------------|----------|
+
 | RDB snapshots | Point-in-time; lose since last save | Fast restart |
+| --- | --- | --- |
 | AOF | Append every write; `everysec` ≈ 1s window | Slower rewrite |
 | Both | Common prod | RDB baseline + AOF incremental |
 
@@ -150,7 +151,7 @@ redis-cli MONITOR    # every command — disable in prod unless brief
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | OOM / killed | `INFO memory`; host `dmesg` | Set `maxmemory` + policy; add RAM; delete big keys |
 | Timeouts app-side | `LATENCY DOCTOR`; `SLOWLOG` | Remove KEYS; pipeline; split hot key |
 | `OOM command not allowed` | `maxmemory-policy noeviction` | Change policy or raise limit |

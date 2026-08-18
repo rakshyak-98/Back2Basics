@@ -4,8 +4,6 @@
 
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
----
-
 ## Mental model
 
 Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
@@ -16,15 +14,13 @@ Polynomial: add xᵢ², xᵢxⱼ → [[Model/Polynomial regression]]
 Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 ```
 
-**Explanatory vs predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
+**Explanatory versus predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
 
 | Variant | Use when |
-|---------|----------|
+| --- | --- |
 | **Ridge / Lasso** | Multicollinearity, feature selection |
 | **Quantile regression** | Need P90 latency, not mean |
 | **Log-target** | Skewed positive counts (price, revenue) |
-
----
 
 ## Standard config / commands
 
@@ -53,21 +49,17 @@ pred = np.expm1(model.predict(X_test))
 
 Despite the name, **multinomial logistic regression** predicts **class probabilities** — see [[multiclass classification]], not this note.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Negative R² on test | Model worse than mean | Features, leakage, wrong split |
 | Residual fan shape | Heteroscedasticity | Log transform; weighted least squares |
 | Huge errors on tail | Outliers | MAE/Huber; RobustScaler; cap/winsorize (careful) |
 | Predictions outside bounds | Unbounded linear head | Clip; beta regression; classify buckets |
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
-Use [[Visualization/Residual plot]] and [[Visualization/predicated vs actual plot]] after every serious regression build.
-
----
+Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual plot]] after every serious regression build.
 
 ## Gotchas
 
@@ -77,15 +69,11 @@ Use [[Visualization/Residual plot]] and [[Visualization/predicated vs actual plo
 > [!WARNING]
 > **Extrapolation** — linear models confidently predict nonsense outside training range.
 
----
-
 ## When NOT to use
 
 - **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
 - **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
 - **Heavy zero-inflation** (counts with many zeros) — Poisson/negative binomial or two-part models.
-
----
 
 ## Related
 

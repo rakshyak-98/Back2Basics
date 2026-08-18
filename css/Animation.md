@@ -2,9 +2,7 @@
 
 # Animation
 
-> Browser animation performance: stay on the **compositor** (transform/opacity), avoid **layout thrash** — **Paul Lewis / high-performance animations** + Chrome rendering pipeline.
-
----
+> Animation — JS → Style → Layout → Paint → Composite
 
 ## Mental model
 
@@ -17,8 +15,9 @@ JS → Style → Layout → Paint → Composite
 ```
 
 | Property change | Typical path | Cost |
-|-----------------|--------------|------|
+
 | `transform`, `opacity` | Composite only (if promoted) | **Low** — GPU-friendly |
+| --- | --- | --- |
 | `color`, `box-shadow` | Paint | Medium |
 | `width`, `height`, `top`, `left`, `margin` | Layout → Paint → Composite | **High** — layout thrash |
 
@@ -32,8 +31,6 @@ GOOD: batch reads → batch writes (or use transform)
 ```
 
 **`will-change`:** hints promotion; overuse → memory blowup (each layer = texture RAM).
-
----
 
 ## Standard config / commands
 
@@ -98,20 +95,16 @@ function tick(t) {
 requestAnimationFrame(tick);
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Janky scroll-linked animation | Main thread long tasks | Move to transform; offload work; `passive: true` listeners |
 | Fan spin / GPU memory spike | Layer count | Remove excess `will-change`; avoid promoting huge elements |
 | Animation stutters every N ms | GC or layout in loop | Profile Performance tab; eliminate FSL |
 | Works desktop, dies mobile | Too many paints / layers | Reduce blur/shadow animation; simplify |
 | `position: fixed` jank during scroll | Compositor + scroll mismatch | `transform: translateZ(0)` sparingly; check containing block |
 | CLS after animation | Layout-affecting exit | Animate transform/opacity; reserve space |
-
----
 
 ## Gotchas
 
@@ -127,15 +120,11 @@ requestAnimationFrame(tick);
 > [!WARNING]
 > **Third-party widgets** forcing layout in scroll handlers — audit with Performance → Bottom-Up → "Layout".
 
----
-
 ## When NOT to use
 
 - **Reduced motion users** — respect `prefers-reduced-motion: reduce`; provide instant state change.
 - **Critical path LCP element** — don't animate hero image/container until after LCP.
 - **Heavy box-shadow on large lists** — paint cost scales with pixels; use border or static shadow image.
-
----
 
 ## Related
 

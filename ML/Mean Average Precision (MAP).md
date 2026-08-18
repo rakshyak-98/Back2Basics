@@ -2,9 +2,7 @@
 
 # Mean Average Precision (MAP)
 
-> Ranking metric: average of **per-query Average Precision** — rewards relevant items ranked high — **IR evaluation (Manning, Raghavan, Schütze)**.
-
----
+> Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
 ## Mental model
 
@@ -15,16 +13,15 @@ AP = (1/R) Σₖ Precision@k · rel(k)     # R = number of relevant docs
 MAP = mean(AP over all queries)
 ```
 
-MAP cares about **order**: putting all relevant items at the top scores higher than burying one relevant doc at rank 50.
+MAP cares about **order**: putting all relevant items at the top scores higher than burying one relevant document at rank 50.
 
 | Metric | Granularity |
-|--------|-------------|
+
 | **Precision@K** | Fixed cutoff (homepage shows 10) |
+| --- | --- |
 | **Recall@K** | Coverage in top K |
 | **AP / MAP** | Full ranked list, query-averaged |
 | **[[Normalized Discounted Cumulative Gain (NDCG)]]** | Graded relevance + position discount |
-
----
 
 ## Standard config / commands
 
@@ -51,19 +48,15 @@ map_score = np.mean([
 2. Score all candidates; sort descending.
 3. Report MAP @ full list and **Precision@5 / Recall@20** for product SLAs.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | MAP = 1.0 suspiciously | Single relevant doc, trivial rank | More queries; harder negatives |
 | MAP flat despite "better" model | Wrong labels (implicit vs explicit) | Define relevance from business event |
 | Offline MAP ↑, revenue flat | Position bias in logs | Inverse propensity scoring; interleaving |
 | AP undefined | No relevant items in query | Skip query or define fallback metric |
 | Compares unfairly across systems | Different candidate pools | Same corpus per query |
-
----
 
 ## Gotchas
 
@@ -73,16 +66,12 @@ map_score = np.mean([
 > [!WARNING]
 > **Click data is biased** toward top ranks — raw clicks overestimate MAP of the old ranker.
 
----
-
 ## When NOT to use
 
 - **Single-label classification** — use precision/recall/F1 ([[binary classification]]).
 - **Regression** — use MAE/RMSE ([[regression]]).
 - **Clustering** — no query-level ranking.
 
----
-
 ## Related
 
-[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated versus actual plot]]

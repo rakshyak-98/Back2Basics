@@ -4,8 +4,6 @@
 
 > **Pure functions** `(state, action) => newState` — only place state shape changes — **Redux fundamentals**.
 
----
-
 ## Mental model
 
 ```txt
@@ -25,8 +23,6 @@ Why pure?
 ```
 
 RTK **`createSlice`** uses Immer — you **mutate draft** inside reducer, Immer produces immutable next state ([[Redux/Redux createSlice]]).
-
----
 
 ## Standard config / commands
 
@@ -80,19 +76,15 @@ extraReducers: (builder) => {
 },
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | State reference unchanged, UI stale | Mutated nested object in plain reducer | Spread clone or use createSlice |
 | Undefined state after action | Missing default param / wrong key | `state = initialState`; match action type |
 | Random test failures | Impure reducer (API inside) | Move async to [[Redux/redux middleware]] |
 | Immer error in plain reducer | push on frozen state | Switch to createSlice or deep clone |
 | Whole tree resets | Returned wrong shape | Return only slice shape in nested reducer |
-
----
 
 ## Gotchas
 
@@ -102,15 +94,11 @@ extraReducers: (builder) => {
 > [!WARNING]
 > **Shallow copy trap** — `{ ...state, nested: state.nested }` shares nested reference; clone nested when changing it.
 
----
-
 ## When NOT to use
 
 - **Server cache normalization** — RTK Query manages its own reducer slice.
 - **Ephemeral UI** — modal open flag rarely belongs in Redux ([[React State management]]).
 - **Derived data** — compute in selector (`createSelector`), don't store duplicate fields.
-
----
 
 ## Related
 

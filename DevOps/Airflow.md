@@ -2,7 +2,7 @@
 
 # Airflow
 
-> One-line: DAG scheduler for batch data/workflows — correctness = idempotent tasks + clear executor choice + SLA-aware ops — **Apache Airflow docs + on-call reality**.
+> Airflow — defines DAGs (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The scheduler parses DAGs, creates DagRuns, queues TaskInstances. Workers (executor-dependent) execute
 
 ## Mental model
 
@@ -16,7 +16,7 @@ Webserver UI ── reads same DB
 ```
 
 | Component | Role |
-|-----------|------|
+| --- | --- |
 | Scheduler | Enqueues tasks when dependencies met |
 | Webserver | UI + API |
 | Metadata DB | Source of truth for state — backup this |
@@ -78,7 +78,7 @@ with DAG(
 ### Executor choice
 
 | Executor | When | Tradeoff |
-|----------|------|----------|
+| --- | --- | --- |
 | **Sequential** | Dev laptop only | One task at a time |
 | **Local** | Small single-node | Parallel tasks, same machine |
 | **Celery** | Mature multi-worker | Redis/Rabbit broker ops |
@@ -87,7 +87,7 @@ with DAG(
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | DAG missing from UI | Import errors in scheduler log | `airflow dags list-import-errors`; fix Python exception |
 | Tasks stuck `scheduled` | Executor workers alive? Pool slots? | Scale workers; raise `pool` slots; clear zombie TIs |
 | Tasks stuck `queued` | Celery/K8s queue depth | Worker connectivity; broker URL; K8s RBAC for pod launch |
@@ -121,7 +121,7 @@ FileSensor(filepath='/data/ready', mode='reschedule', poke_interval=300, timeout
 - **`execution_date` templating changed in 2.x** — use `data_interval_start` / `logical_date` explicitly in new DAGs.
 - **XCom default stores in metadata DB** — large payloads bloat DB; write to S3 and pass URI.
 - **Pools** limit concurrency globally — `-1` slot starves unrelated DAGs if one pool misconfigured.
-- **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; DST surprises.
+- **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; destination surprises.
 
 ## When NOT to use
 

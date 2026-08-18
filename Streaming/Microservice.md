@@ -4,8 +4,6 @@
 
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
----
-
 ## Mental model
 
 Streaming stacks fail when teams draw microservices around **org charts** instead of **failure domains and bitrate paths**. Split where **scale, deploy cadence, and blast radius** differ — keep hot paths colocated when IPC cost matters.
@@ -22,8 +20,9 @@ Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Pla
 ```
 
 | Service | Owns | Scale driver | Split when |
-|---------|------|--------------|------------|
+
 | **Ingest** | RTMP/SRT/WebRTC receive | Concurrent live channels | Protocol teams differ |
+| --- | --- | --- | --- |
 | **Transcoder** | ABR ladder encode | GPU/CPU | [[NVENC]] fleet independent of API |
 | **Packager** | HLS/DASH segments, fmp4 | Disk I/O | Different release from encode codecs |
 | **Origin** | Segment storage + tokenized URL | Egress bandwidth | CDN integration cadence |
@@ -31,8 +30,6 @@ Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Pla
 | **License (DRM)** | Widevine/FairPlay/PlayReady | Crypto compliance | Audit boundary mandatory |
 | **Catalog/metadata** | VOD titles, images | CRUD | Classic REST microservice |
 | **Analytics/beacon** | QoE events | Write throughput | Never block playback path |
-
----
 
 ## Standard config / commands
 
@@ -78,12 +75,10 @@ manifest_sign_failures
 
 Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Live start slow | Chain ingest→transcode→packager sync | Async buffer; start packaging lowest rung first |
 | Some users no DRM | License region; clock skew | Scale license pool; NTP; geo routing |
 | Segments 404 | Origin vs packager path drift | Shared object key contract; integration test |
@@ -91,8 +86,6 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 | Encoder backlog | Queue depth metric | Autoscale GPU ASG; shed low-priority VOD |
 | Cost spike | Egress from origin not CDN | Cache miss — fix CDN key; origin should not serve 80% traffic |
 | One bad channel kills fleet | No bulkhead | Per-tenant quotas; isolate ingest process/containers |
-
----
 
 ## Gotchas
 
@@ -111,15 +104,11 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 > [!WARNING]
 > **Over-split before [[When scaling to hundreds of concurrent channels]]** — operational tax without revenue-scale need.
 
----
-
 ## When NOT to use
 
 - **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
 - **Split analytics before playback SLO met** — observability yes, service boundary no.
-- **Separate team microservice for config flags** — use platform feature flags.
-
----
+- **Separate team microservice for configuration flags** — use platform feature flags.
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # Flutter build and release
 
-> Compile Dart to native ARM/x64 binaries and platform bundles — debug fast, profile jank, release with obfuscation, signing, and store-ready artifacts.
+> Flutter build and release — dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
 
 ## Mental model
 
@@ -16,7 +16,7 @@ Dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/w
 
 Platform shells:
 - **Android** — Gradle wraps `flutter build apk/appbundle`; signing via keystore.
-- **iOS** — Xcode archive; provisioning profiles + App Store Connect.
+- **iOS** — Xcode archive; provisioning profiles + application Store Connect.
 - **Web** — `flutter build web` → CanvasKit or skwasm renderer.
 
 ## Standard config / commands
@@ -62,7 +62,7 @@ keytool -genkey -v \
   -alias upload
 ```
 
-**android/app/build.gradle** — reference signing config; `minSdk`, `targetSdk`, `versionCode`/`versionName` from `pubspec.yaml`:
+**android/application/build.gradle** — reference signing configuration; `minSdk`, `targetSdk`, `versionCode`/`versionName` from `pubspec.yaml`:
 
 ```yaml
 # pubspec.yaml
@@ -108,7 +108,7 @@ cd android && ./gradlew clean && cd ..
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Hot reload doesn't apply | Native code / const / enum changed | Hot restart; full restart |
 | Release crash, debug OK | Obfuscation renamed symbol | `--split-debug-info`; retain mapping |
 | Gradle / SDK errors | JDK, AGP, compileSdk mismatch | Align `android/build.gradle` with Flutter docs for version |

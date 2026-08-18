@@ -1,10 +1,8 @@
-[[Route53]] [[DNS]] [[DNS zone]] [[NAT (Network Address Translation)]] [[certbot (letsencrypt)]] [[CORS (Cross Origin Request Sharing)]]
+[[Route53]] [[Elastic IP]] [[DNS]] [[DNS zone]] [[NAT (Network Address Translation)]] [[certbot (letsencrypt)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Connect GoDaddy domain to AWS EC2
 
 > Runbook: point a GoDaddy-registered domain at an EC2 instance with correct DNS, networking, and HTTPS — **Route53 vs GoDaddy NS decision first**.
-
----
 
 ## Mental model
 
@@ -23,15 +21,13 @@ Option B — Route53 authoritative (AWS-native)
 ```
 
 | Record | Use | Gotcha |
-|--------|-----|--------|
+| --- | --- | --- |
 | **A** | `@` (apex) → IPv4 | Must be static IP — use **Elastic IP** |
 | **CNAME** | `www` → apex or ALB hostname | **Cannot** CNAME apex `@` per DNS RFC |
 | **ALIAS** (Route53 only) | Apex → ALB/CloudFront/EIP | Solves apex + AWS target without CNAME hack |
 | **AAAA** | IPv6 | Only if instance has IPv6 |
 
 **Without Elastic IP:** stop/start changes public IP → DNS breaks until TTL expires.
-
----
 
 ## Standard config / commands
 
@@ -100,12 +96,10 @@ EC2 + EIP  →  ALB + target group  →  Route53 ALIAS
               EC2 SG: only ALB SG on 80/443, not 0.0.0.0/0
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Domain doesn't resolve | `dig yourdomain.com NS` + `A` | Wrong NS delegation; A record still pointing at old IP |
 | Resolves but connection timeout | SG rules; `ss -tlnp \| grep :80` | Open 80/443; app not listening on public interface |
 | Works by IP, not domain | `curl -H 'Host: yourdomain.com' http://<EIP>` | DNS not updated; vhost `server_name` mismatch |
@@ -119,8 +113,6 @@ dig +trace yourdomain.com
 whois yourdomain.com | grep -i 'name server'
 curl -v https://yourdomain.com 2>&1 | grep -i 'subject\|issuer\|SSL'
 ```
-
----
 
 ## Gotchas
 
@@ -139,15 +131,11 @@ curl -v https://yourdomain.com 2>&1 | grep -i 'subject\|issuer\|SSL'
 > [!WARNING]
 > **Mixed NS** — editing GoDaddy records while nameservers point to Route53 has no effect. Always check NS first.
 
----
-
 ## When NOT to use
 
 - **Bare EC2 + manual DNS** at scale — move to ALB + Route53 + ACM.
 - **CNAME apex** — use Route53 ALIAS or ANAME provider feature.
 - **certbot on instance behind TLS-only ALB** — terminate at ALB with ACM; use DNS-01 if needed.
-
----
 
 ## Related
 

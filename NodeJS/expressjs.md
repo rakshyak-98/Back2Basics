@@ -1,72 +1,67 @@
-```javscrip
-app.set()
-```
-- may store any value that you want, but certain names can be used to configure the behavior of the server.
-- [app settings table](https://expressjs.com/en/4x/api.html#app.settings.table)
+[[NodeJS]] [[Express middleware]] [[HTTP module]]
 
-> [!INFO]
-> expressjs itself doesn't implement concurrency, it inherits NodeJS single-threaded, even-loop-based concurrency model. Express is a routing/middleware layer on top of Node's `http` module, it does not spawn threads or processes per request.
+# expressjs
 
->[!NOTE ] calling `app.set('foo', true)` for a boolean property is same as calling `app.engable('foo')`. Similarly `app.set('foo', false)` is `app.disable('foo')`
+> Minimal HTTP framework on Node’s `http` — routers and middleware; concurrency is still the single-threaded event loop.
 
-> [!INFO] empty object (`{}`) if there was no body to parse, the `Content-Type` was not matched, or an error occurred.
+## Mental model
 
->[!INFO] `reviver` parameter in `JSON.parse` is a function that allows you to transform the values during the parsing process
+**Say it in one breath:** `app.use` / `app.get` stack handlers; each calls `next()` or ends the response. Express does not add threads — scale with processes/cluster or offload work.
 
-```javascript
-const jsonString = '{"name": "John", "age": 25, "birthdate": "1990-01-15T00:00:00Z"}';
-
-// Reviver function to convert birthdate string into a Date object
-const reviver = (key, value) => {
-  if (key === 'birthdate') {
-    return new Date(value);
-  }
-  return value;
-};
-
-const parsedObject = JSON.parse(jsonString, reviver);
-
-console.log(parsedObject);
-// Output: { name: 'John', age: 25, birthdate: 1990-01-15T00:00:00.000Z }
-
-console.log(parsedObject.birthdate instanceof Date);  // true
+```txt
+req → middleware… → route → res.send
+         next()
 ```
 
-### Inspecting
-```js
-console.log(app._router.stack);
-```
-- property holds middleware and route definitions.
+### Interview map (words you can say)
 
-### How to get all registered routes in an Express JS app
+| Word | Plain meaning | Say in interview |
+
+| **Middleware** | `(req,res,next)` layer | “Auth, parse, log — then route.” |
+| --- | --- | --- |
+| **app.set** | Framework settings | “`trust proxy`, view engine, etc.” |
+| **Router** | Mountable mini-app | “Split features by path prefix.” |
+
+## Standard config / commands
 
 ```js
-const express = require("express");
-const app = express();
-
-app.get("/home", (req, res) => res.send("home page"))
-app.get("/login", (req, res) => res.send("login page"))
-app.get("/update", (req, res) => res.send("login page"))
-
-function getRoutes(){
-	return app._router.stack.filter(layer => layer.route)
-	.map(layer => ({
-		method: Object.keys(layer.route.methods)[0].toUpperCase();
-	}))
-}
-
-console.log(getRoutes());
-
+import express from 'express'
+const app = express()
+app.set('trust proxy', 1)
+app.use(express.json({ limit: '1mb' }))
+app.get('/health', (_req, res) => res.send('ok'))
+app.listen(3000)
 ```
 
-##### Get routes for a specific router
+| Knob | Why it matters |
 
-```js
-const router = express.Router();
-router.get('/users', (req, res) => res.send('Users'));
-router.get('/users', (req, res) => res.send('Create User'))
+| `trust proxy` | Correct client IP behind LB |
+| --- | --- |
+| `express.json` | Parses body when Content-Type matches |
+| Error middleware `(err,req,res,next)` | Must be 4-arg, last |
 
-app.use('/api', router);
-console.log(router.stack.map(layer => layer.route?.path));
+## Triage (when things break)
 
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `req.body` undefined | Missing parser / wrong CT | `express.json()`; check Content-Type |
+| Hang forever | Forgot `res`/`next` | Always end or `next(err)` |
+| Wrong client IP | Behind proxy | `trust proxy` |
+| 404 on mounted router | Path double-prefix | Mount path + router paths |
+
+## Gotchas
+
+> [!WARNING]
+> **CPU-heavy work blocks all requests** — offload to [[worker]] / [[child process]].
+
+> [!WARNING]
+> **Empty `{}` body** — no body, unmatched type, or parse error can look like empty object depending on setup.
+
+## When NOT to use
+
+- **Ultra-low-level HTTP** — raw `http` / Fastify if you need different perf model.
+- **Non-HTTP services** — gRPC/queues aren’t Express’s job.
+
+## Related
+
+[[Express middleware]] [[HTTP module]] [[node error]]

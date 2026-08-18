@@ -4,8 +4,6 @@
 
 > Evaluation model where operands and results live on a stack — programs are often postfix (Reverse Polish) with no named registers in source form.
 
----
-
 ## Mental model
 
 **Stack machines** push/pop values instead of assigning to registers in source syntax:
@@ -29,8 +27,6 @@ Languages / VMs:
 - **DC**, some calculator DSLs
 
 Contrast **register machines** (most native ISAs, Lua VM) — compilers map stack code to registers anyway.
-
----
 
 ## Standard config / commands
 
@@ -63,18 +59,14 @@ javap -c Hello.class | less
 
 **Why stack IR:** compact encoding, easy verification (stack depth analysis), simple interpreters — good for portable bytecode.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stack underflow in VM | Compiler bug or corrupt bytecode | Verify with VM validator (JVM VerifyError) |
 | Deep recursion stack overflow | Language maps calls to stack | Trampoline; explicit stack machine in heap |
 | Slow vs native | Stack dispatch overhead | JIT (JVM C2, WASM engines) |
 | Confusing postfix bugs | Wrong order of ops | Draw stack diagram; use named words/functions |
-
----
 
 ## Gotchas
 
@@ -87,13 +79,9 @@ javap -c Hello.class | less
 > [!WARNING]
 > **Stack depth limits** — WASM and embedded VMs cap depth; deep expressions fail validation.
 
----
-
 ## When NOT to use
 
-Greenfield app logic in Forth-style RPN hurts readability for teams — use stack IR **under** a conventional language (JVM, WASM), not as your primary source syntax unless domain fits (DSL calculators, PostScript).
-
----
+Greenfield application logic in Forth-style RPN hurts readability for teams — use stack IR **under** a conventional language (JVM, WASM), not as your primary source syntax unless domain fits (DSL calculators, PostScript).
 
 ## Related
 

@@ -2,9 +2,7 @@
 
 # Encoding
 
-> Raw A/V → compressed bitstream for storage or delivery — **first permanent quality decision** in the pipeline.
-
----
+> Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
 ## Mental model
 
@@ -20,15 +18,14 @@ Camera / file ──► Encode (codec params) ──► Elementary streams
 ```
 
 | Stage | Question | Wrong answer cost |
-|-------|----------|-------------------|
+
 | **Mezzanine** | Archive master quality? | Re-shoot / re-ingest impossible |
+| --- | --- | --- |
 | **ABR ladder** | How many rungs? | CDN $ + rebuffer or waste |
 | **Live** | CBR cap vs quality | Uplink drops, macroblocking |
 | **DRM** | Encode clear or encrypted? | Re-package if keys rotate wrong |
 
 **Encode once well** at mezzanine; ladder encodes can downscale from mezzanine rather than re-decoding consumer files.
-
----
 
 ## Standard config / commands
 
@@ -51,7 +48,7 @@ ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30 \
 ```
 
 | Knob | Why |
-|------|-----|
+| --- | --- |
 | `-re` | Real-time pacing for live |
 | CBR triplet | Stable uplink utilization |
 | `-g 60` @ 30fps | 2s keyframe interval for 2s HLS segments |
@@ -81,20 +78,16 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 # Verify regular IDR at expected GOP
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Macroblocking live | Bitrate too low for motion | Raise `-b:v` or drop resolution |
 | Audio drift over hours | `-re` vs wall clock skew | Hardware encoder timestamp; restart policy |
 | Huge mezzanine | CRF too low / uncompressed audio | Adjust CRF; AAC or FLAC mezzanine |
 | Keyframe every few frames | `-sc_threshold` default | Set `-sc_threshold 0` for streaming |
 | 60fps stutter on 30fps ladder | Frame rate mismatch | Separate ladders or force `-r 30` |
 | GPU encode banding | NVENC rate control | Tune CQ/VBR; increase `-b:v` floor |
-
----
 
 ## Gotchas
 
@@ -110,15 +103,11 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 > [!WARNING]
 > **Color range** — TV vs PC levels wrong → crushed blacks; tag `-color_range tv`.
 
----
-
 ## When NOT to use
 
 - **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
 - **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
 - **Maximum compression on mezzanine** — mezzanine should be high quality; crunch at delivery rungs.
-
----
 
 ## Related
 

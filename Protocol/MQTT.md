@@ -2,7 +2,7 @@
 
 # MQTT
 
-> One-line: lightweight pub/sub for devices and IoT — broker-centric topics, QoS 0/1/2, small headers; not a drop-in for HTTP REST or chat at web scale without ops discipline.
+> MQTT — publisher ──PUBLISH topic──► Broker ──forward──► Subscriber(s)
 
 ## Mental model
 
@@ -21,7 +21,7 @@ Publisher ──PUBLISH topic──► Broker ──forward──► Subscriber(
 ### Ports
 
 | Port | Usage |
-|------|--------|
+| --- | --- |
 | 1883 | Plain MQTT (lab/VPN only) |
 | 8883 | MQTT over TLS |
 | 8884 | Often WebSocket MQTT in browsers |
@@ -85,7 +85,7 @@ no leading $ for app topics ($SYS reserved by broker)
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Connect loop | Auth/cert/clientId clash | Unique clientId; verify user/ACL |
 | Messages not received | Topic typo vs filter | Log subscribe ack; test with `mosquitto_sub -v` |
 | Duplicate messages | QoS 1/2 retries | Idempotent handlers; dedupe by message id |
@@ -110,7 +110,7 @@ no leading $ for app topics ($SYS reserved by broker)
 ## When NOT to use
 
 - **Request/response HTTP APIs** — REST/gRPC clearer for CRUD.
-- **Browser-first real-time** — [[webSocket]] + app server may be simpler than MQTT-over-WS.
+- **Browser-first real-time** — [[webSocket]] + application server may be simpler than MQTT-over-WS.
 - **Guaranteed global ordering** — MQTT doesn't order across topics; design per-key streams.
 
 ## Related

@@ -4,8 +4,6 @@
 
 > Public-key cryptography — encrypt or verify with public key; decrypt or sign with private key; solves key distribution at cost of CPU and size limits.
 
----
-
 ## Mental model
 
 **Asymmetric** = key pair per party:
@@ -19,14 +17,12 @@ Sign: private key creates signature → public key verifies (not decrypt message
 
 Common uses:
 | Operation | Keys used |
-|-----------|-----------|
+| --- | --- |
 | Confidentiality to one recipient | Encrypt with **recipient public** |
 | Digital signature | Sign with **sender private**; verify with **sender public** |
 | Key exchange (TLS) | ECDHE ephemeral + cert public key |
 
 Algorithms: **RSA**, **ECDSA**, **Ed25519** (sign), **ECIES** (encrypt). Hybrid systems encrypt a random **symmetric** key asymmetrically, then bulk data with AES — see [[TLS (Transport Layer Security)]].
-
----
 
 ## Standard config / commands
 
@@ -59,18 +55,14 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 
 **Why hybrid:** RSA can't encrypt large payloads; AES-GCM carries bulk data.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `decryption failed` | Wrong key; OAEP vs PKCS#1 v1.5 | Match padding; use OAEP for new systems |
 | Signature verify fail | Message altered; wrong hash alg | Canonical JSON; specify SHA-256 |
 | TLS handshake fail | Cert/key mismatch; expired | Renew cert; full chain |
 | Performance bottleneck | RSA sign every request | Move to ECDSA/Ed25519; session tickets |
-
----
 
 ## Gotchas
 
@@ -83,13 +75,9 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 > [!WARNING]
 > **RSA 1024 deprecated** — minimum 2048, prefer 4096 or Ed25519.
 
----
-
 ## When NOT to use
 
 Don't encrypt large blobs directly with RSA. Don't use asymmetric crypto where **[[symmetrical encryption]]** + pre-shared key (already distributed via KMS) suffices.
-
----
 
 ## Related
 

@@ -18,7 +18,7 @@ new Person('Ada')
 ```
 
 | Era | Pattern |
-|-----|---------|
+| --- | --- |
 | ES5 | `function User() { this.name = … }` |
 | ES6+ | `class User { constructor() { … } }` — syntactic sugar over prototypes |
 | Factory (no `new`) | `function createUser() { return { … }; }` — no prototype chain |
@@ -80,7 +80,7 @@ class Admin extends User {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `TypeError: Cannot set property 'x' of undefined` | Called without `new` | Use `new` or class syntax |
 | Methods missing on instance | Method on constructor, not prototype | Move to `Constructor.prototype.method` |
 | `instanceof` false across iframes | Different realm prototypes | Duck-type or Symbol branding |

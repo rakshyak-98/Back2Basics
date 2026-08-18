@@ -2,7 +2,7 @@
 
 # passwd
 
-> One-line: change or administratively control local **password hash** in `/etc/shadow` — not SSH keys, not LDAP; the gate for `su`/console/PAM password auth. **Kerrisk**.
+> passwd — login attempt ──► PAM ──► /etc/shadow hash compare
 
 ## Mental model
 
@@ -15,7 +15,7 @@ login attempt ──► PAM ──► /etc/shadow hash compare
 ```
 
 | Actor | Command | Effect |
-|-------|---------|--------|
+| --- | --- | --- |
 | User | `passwd` | Change own password (needs current) |
 | root | `passwd <user>` | Set password without knowing old |
 | root | `passwd -l` | Lock (prepend `!` to hash — no password login) |
@@ -24,6 +24,17 @@ login attempt ──► PAM ──► /etc/shadow hash compare
 | root | `passwd -d` | Delete password (empty — often dangerous) |
 
 Lock (`-l`) ≠ disable account — SSH keys may still work. Full disable → `usermod -L` + `usermod -s /sbin/nologin` or `chage -E 1`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **passwd** | Change password | “passwd user as root; passwd alone for self.” |
+| --- | --- | --- |
+| **/etc/shadow** | Hash storage | “Never email /etc/shadow.” |
+| **chage** | Age/expiry | “chage -l user for policy.” |
+| **passwd -l** | Lock account | “Locks hash — SSH keys may still work.” |
+| **PAM** | Auth stack | “passwd respects PAM rules.” |
 
 ## Standard config / commands
 
@@ -70,7 +81,7 @@ PermitRootLogin no
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Authentication failure" but password correct | Account locked; wrong PAM; LDAP vs local | `passwd -S user`; `getent passwd user`; check `/etc/nsswitch.conf` |
 | User can't change password ("token manipulation") | `/etc/shadow` or disk full; read-only FS | `ls -l /etc/shadow`; `df -h /`; remount rw |
 | Locked out after `-l` | Expected for passwords | `passwd -u` or restore from console/recovery |

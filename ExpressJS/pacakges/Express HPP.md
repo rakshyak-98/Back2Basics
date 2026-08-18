@@ -1,26 +1,53 @@
-- HPP (HTTP Parameter Pollution)
-is an attack technique where an attacker injects multiple parameters with the same name in an HTTP request to manipulate backed logic.
+[[ExpressJS]] [[express concepts]] [[XSRF (cross-site request forgery)]]
+
+# Express HPP
+
+> HPP (HTTP Parameter Pollution) protection — middleware that blocks/duplicates conflicting query/body params attackers use to confuse parsers.
+
+## Mental model
+
+**Say it in one breath:** `?id=1&id=2` may become array or last-wins depending on stack. HPP middleware removes polluted duplicates so your checks see one value.
 
 ```txt
-GET /api/user?id=123&id=456
+?role=user&role=admin  →  sanitize → single role
 ```
 
-`hpp` is a middleware in Express JS that prevents HTTP Parameter Pollution by allowing only the first occurrence of a parameter in a request.
+## Standard config / commands
 
 ```js
-import express from "express";
-import hpp from "hpp";
-
-const app = express();
-
-// Apply HPP middleware
-app.use(hpp());
-
-app.get("/api/user", (req, res) => {
-  res.send(`User ID: ${req.query.id}`);
-});
-
-app.listen(3000, () => console.log("Server running on port 3000"));
-
+import hpp from 'hpp'
+app.use(hpp()) // after body parsers typically
+// allowlists possible via options in some versions
 ```
 
+| Knob | Why it matters |
+
+| Whitelist | Multi-value params you want |
+| --- | --- |
+| Order | After parsers |
+| Logs | Detect probes |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Legit multi values broken | HPP stripped | Whitelist keys |
+| Still arrays | Wrong middleware | Confirm `hpp` mounted |
+| Bypass via body | Only query cleaned | Apply consistently |
+
+## Gotchas
+
+> [!WARNING]
+> **Not a full WAF** — still validate types/authz.
+
+> [!WARNING]
+> **Framework differences** — Express query parsing quirks.
+
+## When NOT to use
+
+- **APIs that require multi-value query by design** — whitelist carefully.
+- **Non-Express stacks** — use their equivalents.
+
+## Related
+
+[[express concepts]] [[Express middleware]] [[XSRF (cross-site request forgery)]]

@@ -2,11 +2,11 @@
 
 # Bash sourcing other scripts
 
-> One-line: **`source` / `.` loads a script into the current shell** — libraries, env, and functions without a fork. Wrong path resolution breaks cron, systemd, and CI the moment cwd changes.
+> Bash sourcing other scripts — sourcing executes commands in the current shell context. Exported vars, functions, and cd persist. Executing ./script.sh runs a subshell (usually) —
 
 ## Mental model
 
-**Sourcing** executes commands in the **current shell context**. Exported vars, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
+**Sourcing** executes commands in the **current shell context**. Exported variables, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
 
 ```
 . lib/utils.sh   →  functions available immediately
@@ -14,12 +14,23 @@
 ```
 
 | Pattern | Use |
-|---------|-----|
+| --- | --- |
 | `source file` | bash builtin — readable |
 | `. file` | POSIX equivalent |
 | `${BASH_SOURCE[0]}` | Path of file being sourced — anchor relative imports |
 
 **Critical:** always resolve paths relative to **the sourced file**, not `$PWD`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **source / .** | Run in current shell | “source loads vars into this shell.” |
+| --- | --- | --- |
+| **subshell** | ( ) or script exec | “Running ./x.sh won’t keep exports.” |
+| **BASH_SOURCE** | Caller path | “Locate sibling files relative to script.” |
+| **return vs exit** | In sourced files | “exit kills the parent shell — use return.” |
+| **set -a** | Auto-export | “Useful when sourcing env files.” |
 
 ## Standard config / commands
 
@@ -53,14 +64,14 @@ deploy_app() {
 }
 ```
 
-**Optional config overlay:**
+**Optional configuration overlay:**
 
 ```bash
 CONFIG="${CONFIG:-/etc/myapp/config.sh}"
 [[ -f "$CONFIG" ]] && source "$CONFIG"
 ```
 
-**systemd ExecStartPre sourcing env:**
+**systemd ExecStartPre sourcing environment:**
 
 ```ini
 [Service]
@@ -81,7 +92,7 @@ source ~/lib/utils.sh      # breaks for other users/CI
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `No such file` on source | Relative to cwd | Use `BASH_SOURCE[0]` dirname pattern |
 | Works interactive, fails cron | Minimal PATH/cwd | Absolute paths; set PATH in script |
 | `set -u` unbound variable | Order of source | Define defaults before source or in library |
@@ -106,7 +117,7 @@ _UTILS_SH_LOADED=1
 > **`exit` in sourced file** — kills parent script/shell. Libraries should `return` (only valid inside sourced context or functions).
 
 - **shellcheck `SC1090/1091`** — dynamic source path; annotate or structure known paths.
-- **Symlinks** — `BASH_SOURCE` vs `readlink -f` for real path when symlinks involved.
+- **Symlinks** — `BASH_SOURCE` versus `readlink -f` for real path when symlinks involved.
 
 ## When NOT to use
 

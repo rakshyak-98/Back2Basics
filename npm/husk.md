@@ -2,13 +2,11 @@
 
 # Husky (filename: husk.md)
 
-> Git hooks manager for Node repos — enforce lint/test/format at commit/push without relying on developer memory — **Husky v9+**.
-
----
+> Husky (filename: husk.md) — husky installs scripts into .husky/ that Git invokes on events (pre-commit, pre-push, commit-msg). It bridges npm lifecycle and Git hooks so CI
 
 ## Mental model
 
-**Husky** installs scripts into `.husky/` that Git invokes on events (`pre-commit`, `pre-push`, `commit-msg`). It bridges **npm lifecycle** and **Git hooks** so CI rules run locally first — cheaper than a failed pipeline.
+**Say it in one breath:** **Husky** installs scripts into `.husky/` that Git invokes on events (`pre-commit`, `pre-push`, `commit-msg`). It bridges **npm lifecycle** and **Git hooks** so CI rules run locally first — cheaper.
 
 ```txt
 git commit
@@ -19,15 +17,14 @@ git commit
 ```
 
 | Hook | Typical gate |
-|------|--------------|
+
 | **pre-commit** | ESLint, Prettier, typecheck staged files |
+| --- | --- |
 | **commit-msg** | Conventional Commits / JIRA regex |
 | **pre-push** | unit tests, build, secret scan |
 | **prepare** (npm script) | `husky` — installs hooks after `npm install` |
 
 **Not a CI replacement** — developers can `--no-verify`; branch protection + remote CI is the real gate.
-
----
 
 ## Standard config / commands
 
@@ -80,12 +77,10 @@ npx lint-staged --cwd apps/web
 # or turbo run lint --filter=[HEAD^1]
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Hooks never run | `ls -la .git/hooks/pre-commit` | Re-run `npm run prepare`; ensure Husky not disabled |
 | `husky - command not found` | `HUSKY=0` in env | Unset; CI sometimes sets `HUSKY=0` intentionally |
 | Hook runs but wrong Node | `which node` in hook vs shell | Use `nvm`/`fnm` shim in hook script |
@@ -99,8 +94,6 @@ npx lint-staged --cwd apps/web
 HUSKY=2 git commit -m "test"       # verbose husky logging
 git config core.hooksPath          # should be .husky or default with husky shim
 ```
-
----
 
 ## Gotchas
 
@@ -119,15 +112,11 @@ git config core.hooksPath          # should be .husky or default with husky shim
 > [!WARNING]
 > **Docker-only dev** — hooks run on host Git, not in container; align tool versions.
 
----
-
 ## When NOT to use
 
 - **Non-Node repos** — use `pre-commit` framework (Python) or native `.git/hooks`.
 - **Heavy integration tests in pre-commit** — wrong stage; use CI.
-- **Library consumed as dependency** — don't run `prepare`/husky for npm package consumers (`prepare` should be dev-only pattern).
-
----
+- **Library consumed as dependency** — don't run `prepare`/husky for npm package consumers (`prepare` should be development-only pattern).
 
 ## Related
 

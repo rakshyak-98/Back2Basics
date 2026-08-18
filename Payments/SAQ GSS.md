@@ -6,7 +6,7 @@
 
 ## Mental model
 
-**SAQ** = merchant self-assessment against PCI DSS controls. **GSS (Guest Service System)** path applies when **all** payment acceptance is delegated to a validated third party — aligns with minimal-scope questionnaires (commonly **SAQ A** or provider-specific guidance).
+**Say it in one breath:** **SAQ** = merchant self-assessment against PCI DSS controls. **GSS (Guest Service System)** path applies when **all** payment acceptance is delegated to a validated third party — aligns with.
 
 ```
 Merchant environment          Provider hosted checkout
@@ -26,8 +26,9 @@ Pair with [[Payments/PSI GSS]] for technical architecture that qualifies.
 ### SAQ selection (simplified — confirm with QSA/acquirer)
 
 | Scenario | Typical SAQ |
-|----------|-------------|
+
 | Fully outsourced redirect checkout | SAQ A |
+| --- | --- |
 | Embedded fields, JS from PSP, no CHD on merchant | Often SAQ A-EP — verify with acquirer |
 | Merchant stores/processes PAN | SAQ D |
 
@@ -54,13 +55,13 @@ Pair with [[Payments/PSI GSS]] for technical architecture that qualifies.
 Officer signs attestation that:
 
 - Listed controls implemented
-- No prohibited storage of sensitive authentication data (CVV post-auth)
+- No prohibited storage of sensitive authentication data (CVV post-authentication)
 - Service providers PCI compliant
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Acquirer demands SAQ D | Scope creep | Architecture review; remove PAN touchpoints |
 | Failed ASV scan | Merchant IP in scope | Fix vulns or clarify scan scope with ASV |
 | Expired SAQ | Calendar | Recomplete before deadline — fines possible |
@@ -74,7 +75,7 @@ Officer signs attestation that:
 
 - **E-commerce + call center** mixed models — phone capture may blow GSS eligibility.
 - **Multi-PSP** — each must be in scope documentation.
-- **Logs/traces** accidentally capturing query params with tokens — rotate and redact.
+- **Logs/traces** accidentally capturing query parameters with tokens — rotate and redact.
 
 ## When NOT to use
 

@@ -2,11 +2,11 @@
 
 # ip
 
-> One-line: **iproute2** Swiss army knife — links, addresses, routes, neighbors, tunnels. **Modern replacement for ifconfig/route/netstat.** Kerrisk.
+> ip — network config is objects: link (interface), address (IP on link), route (forwarding decision), rule (PBR). ip talks netlink to the kernel — same API
 
 ## Mental model
 
-Network config is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
+Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
 
 ```
 ip link ──► iface up/down, mtu, master (bond/bridge)
@@ -17,12 +17,24 @@ ip neigh ──► ARP/NDP cache
 ```
 
 | Legacy (net-tools) | iproute2 |
-|--------------------|----------|
+
 | `ifconfig eth0` | `ip addr show dev eth0` |
+| --- | --- |
 | `ifconfig eth0 up` | `ip link set eth0 up` |
 | `route -n` | `ip route show` |
 | `arp -n` | `ip neigh show` |
 | `netstat -rn` | `ip route` + [[ss]] |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ip** | Address, route, link, neigh | “ip replaces ifconfig/route.” |
+| --- | --- | --- |
+| **ip addr** | Show/add addresses | “ip a is the quick view.” |
+| **ip route** | Routing table | “default via = gateway.” |
+| **ip link** | Up/down interfaces | “ip link set eth0 up.” |
+| **netns** | Network namespace | “Containers = netns + veth.” |
 
 ## Standard config / commands
 
@@ -90,7 +102,7 @@ sar -n DEV 1 5                        # needs sysstat
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Interface down | `ip link` `state DOWN` | `ip link set dev X up`; check NM/cloud config |
 | No route to host | `ip route get <dst>` | Add route or default gw; check link local |
 | Wrong source IP chosen | `ip route get` shows `src` | More specific route; policy rule |
@@ -118,7 +130,7 @@ sar -n DEV 1 5                        # needs sysstat
 - **Socket/process ownership** → [[ss]] `-lntp`.
 - **DNS resolution** → `resolvectl`, `dig` — `ip` is L3.
 - **Firewall** → nftables/iptables — routes don't filter packets.
-- **Persistent prod networking** → config management, not ad-hoc CLI only.
+- **Persistent production networking** → configuration management, not ad-hoc CLI only.
 
 ## Related
 

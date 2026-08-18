@@ -2,7 +2,7 @@
 
 # Mongoose plugin
 
-> Reusable schema functions that add paths, indexes, methods, or hooks without copy-paste — [Mongoose plugins docs](https://mongoosejs.com/docs/plugins.html).
+> Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
 ## Mental model
 
@@ -49,8 +49,9 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 ### Popular patterns
 
 | Plugin style | Adds |
-|--------------|------|
+
 | Soft delete | `deletedAt`, default query filter |
+| --- | --- |
 | Pagination | `.paginate(filter, opts)` static |
 | Unique validator | async uniqueness check |
 | Audit | `createdBy`, `updatedBy` hooks |
@@ -58,7 +59,7 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Plugin hook never runs | Order of `plugin()` vs `model()` | Register plugin before `mongoose.model()` |
 | Global plugin breaks one schema | `schema.plugin` override | Disable per-schema or guard with option flag |
 | Duplicate index from plugin | `schema.indexes()` | Merge indexes; one plugin owns index |

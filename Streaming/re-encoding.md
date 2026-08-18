@@ -4,8 +4,6 @@
 
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
----
-
 ## Mental model
 
 **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.
@@ -19,15 +17,13 @@ Source H.264 in MKV ──► copy ──► H.264 in fMP4   (NOT re-encode — 
 ```
 
 | Trigger | Action | Example |
-|---------|--------|---------|
+| --- | --- | --- |
 | Codec mismatch | Re-encode | ProRes mezzanine → H.264 ABR |
 | Bitrate/resolution change | Re-encode | 4K master → 720p rung |
 | Container only | Remux copy | TS → fMP4 same codec |
 | Broadcast compliance | Re-encode CBR | VoD VBR → live CBR |
 
 See [[transcoding]] for ladder workflow; this note focuses on **when and how** to re-encode safely.
-
----
 
 ## Standard config / commands
 
@@ -80,20 +76,16 @@ ffmpeg -i output.mp4 -vf signalstats -f null -
 ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Worse quality than source | CRF too high; double encode | Lower CRF; encode from mezzanine once |
 | Audio shorter than video | Async filter graph | `-async 1`; `-shortest` intentionally or not |
 | Wrong colors | Range/metadata lost | `-color_range tv -colorspace bt709`
 | Huge output | CRF too low / no maxrate | [[CRF (Constant Rate Factor)]] + cap |
 | ABR switch broken | GOP not fixed | `-g` + `-sc_threshold 0` |
 | GPU slower than CPU | PCIe / decode on CPU | `-hwaccel cuda` full pipeline |
-
----
 
 ## Gotchas
 
@@ -109,15 +101,11 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 > [!WARNING]
 > **Subtitle burn-in vs soft subs** — re-encode required for burn-in; soft subs can remux.
 
----
-
 ## When NOT to use
 
 - **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
 - **Quality-critical archive** — store mezzanine; re-encode only derivatives.
 - **Real-time when copy works** — ingest `-c copy` to packager saves GPU.
-
----
 
 ## Related
 

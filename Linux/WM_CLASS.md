@@ -2,7 +2,7 @@
 
 # WM_CLASS
 
-> One-line: **X11 window identity string** — how WMs and tools distinguish two Firefox windows or force rules per app instance. Set via `.desktop` `StartupWMClass` when matching fails.
+> X11 window identity string — how WMs and tools distinguish two Firefox windows or force rules per app instance. Set via `.desktop` `StartupWMClass` when matching fails.
 
 ## Mental model
 
@@ -14,7 +14,7 @@ Chromium profiles → same class unless overridden → need title or separate .d
 ```
 
 | Field | Source | Example |
-|-------|--------|---------|
+| --- | --- | --- |
 | Instance | first part of WM_CLASS | `google-chrome` |
 | Class | second part | `Google-chrome` |
 | `StartupWMClass` | `.desktop` file | Must match instance for rules |
@@ -28,6 +28,17 @@ xprop WM_CLASS
 xdotool getwindowfocus getwindowname
 xdotool search --class 'firefox'
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **WM_CLASS** | X11 app identity | “WM rules match class/instance.” |
+| --- | --- | --- |
+| **instance vs class** | Two strings | “i3 for_window uses class.” |
+| **xprop** | Inspect window | “xprop | grep WM_CLASS.” |
+| **Wayland** | app_id instead | “Different ID on Wayland.” |
+| **floating rules** | Force float/tile | “Match class → floating enable.” |
 
 ## Standard config / commands
 
@@ -57,7 +68,7 @@ Exec=google-chrome --profile-directory=Work %U
 StartupWMClass=google-chrome-work
 ```
 
-Find real class: run app, `xprop WM_CLASS`, copy **instance** string into `StartupWMClass`.
+Find real class: run application, `xprop WM_CLASS`, copy **instance** string into `StartupWMClass`.
 
 **Pin by WM_CLASS (xdotool):**
 
@@ -71,7 +82,7 @@ xdotool windowactivate "$WID"
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Rule never applies | `xprop WM_CLASS` actual value | Fix case; regex `class="(?i)firefox"` in i3 |
 | All Chrome one group | Same WM_CLASS | Separate `.desktop` + `StartupWMClass` |
 | Rule works X11 not Wayland | Native Wayland app | Use compositor `app_id` rules (Sway: `for_window [app_id=...]`) |

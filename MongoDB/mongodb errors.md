@@ -6,7 +6,7 @@
 
 ## Mental model
 
-MongoDB errors fall into a few buckets: **wire/auth** (can't connect), **write concern / topology** (not primary, election), **schema/validation** (document shape), **index/constraints** (duplicate key), and **query/update syntax** (wrong operator shape). The message usually names the bucket; the fix is in the operator or topology state.
+MongoDB errors fall into a few buckets: **wire/authentication** (can't connect), **write concern / topology** (not primary, election), **schema/validation** (document shape), **index/constraints** (duplicate key), and **query/update syntax** (wrong operator shape). The message usually names the bucket; the fix is in the operator or topology state.
 
 ## Standard config / commands
 
@@ -31,7 +31,7 @@ db.users.updateOne({ _id: id }, { $set: { status: "active" } });
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Modifiers operate on fields but we found type string` | Update payload shape | `$set`, `$inc`, etc. need `{ field: value }`, not a bare string |
 | `E11000 duplicate key error` | Index definition | Remove dup doc or fix unique index fields |
 | `Document failed validation` | JSON Schema / `$jsonSchema` | Align insert with validator or relax rules in dev |

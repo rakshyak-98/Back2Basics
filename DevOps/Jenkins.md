@@ -2,11 +2,11 @@
 
 # Jenkins
 
-> One-line: CI orchestrator — pipelines as code, agents execute steps; most outages are credentials, disk, or plugin drift — **operational field notes**.
+> CI orchestrator — pipelines as code, agents execute steps; most outages are credentials, disk, or plugin drift — **operational field notes**.
 
 ## Mental model
 
-Controller holds job config, queue, and UI. **Agents** (static VMs, Docker, K8s pods) run build steps. **Pipeline** = Groovy DSL (`Jenkinsfile`) or declarative stages calling shell, git, docker, etc.
+Controller holds job configuration, queue, and UI. **Agents** (static VMs, Docker, K8s pods) run build steps. **Pipeline** = Groovy DSL (`Jenkinsfile`) or declarative stages calling shell, git, docker, etc.
 
 ```
 Developer push → webhook/poll SCM → Jenkins queue
@@ -15,7 +15,7 @@ Developer push → webhook/poll SCM → Jenkins queue
 ```
 
 | Concept | Role |
-|---------|------|
+| --- | --- |
 | Controller | Schedules, stores config, serves UI |
 | Agent / node | Executes steps (`agent { label 'docker' }`) |
 | Executor | Slot on agent (one job step at a time per executor) |
@@ -75,7 +75,7 @@ kill -3 $(pgrep -f jenkins.war)   # or Groovy script console: Thread.currentThre
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Jobs stuck in queue | `# executors` vs queue; agent offline | Bring agents online; add executors; label mismatch |
 | `offline` agent | Agent log; JNLP/WebSocket port | Fix firewall 50000/JNLP; rotate agent secret; reconnect |
 | `Insufficient permission` | Matrix auth / folder ACL | Job folder credentials scope; service account role |
@@ -96,15 +96,15 @@ kill -3 $(pgrep -f jenkins.war)   # or Groovy script console: Thread.currentThre
 > [!WARNING]
 > **Unpinned `@Library('foo@main')`** — one Groovy change breaks all pipelines. Version libraries like prod code.
 
-- **Controller running builds** (`executor on master`) — disable for prod; agent-only execution.
+- **Controller running builds** (`executor on master`) — disable for production; agent-only execution.
 - **Credential masking** isn't perfect — avoid `echo $SECRET` in shells; use `withCredentials` wrapping only needed steps.
-- **Replay** mutates debugging — never replay-to-prod without merging fix to SCM Jenkinsfile.
+- **Replay** mutates debugging — never replay-to-production without merging fix to SCM Jenkinsfile.
 - **Reverse proxy** (`X-Forwarded-For`, `JenkinsUrl`) misconfig → broken webhooks and agent URLs.
 - **Orphaned agents** after K8s pod recycle — use ephemeral agents + pod template, not static pod names.
 
 ## When NOT to use
 
-- Greenfield CI with container-native GitOps → GitHub Actions / GitLab CI may be simpler ops.
+- Greenfield CI with container-native GitOps → GitHub Actions / GitLab CI may be simpler operations.
 - Complex DAG data pipelines → [[Airflow]] or dedicated orchestrator, not Jenkins Groovy hacks.
 
 ## Related

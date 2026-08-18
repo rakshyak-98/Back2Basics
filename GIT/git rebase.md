@@ -1,15 +1,14 @@
-[[git error]] [[git worktree]] [[git ssh config]] [[INDEX]]
+[[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]]
 
 # git rebase
 
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.
 
----
-
 ## Mental model
 
+**Say it in one breath:** Before:  main ──A──B──C
+
 ```txt
-Before:  main ──A──B──C
               └──x──y  (your branch)
 
 After rebase onto main:
@@ -18,11 +17,9 @@ After rebase onto main:
 
 **Rebase** copies each commit as a new hash (`x'`, `y'`) with updated parent. Old commits become unreachable (until reflog expires).
 
-**vs merge:** merge preserves branch topology + merge commit; rebase rewrites your local work to look like it was built on latest main.
+**versus merge:** merge preserves branch topology + merge commit; rebase rewrites your local work to look like it was built on latest main.
 
 **Golden rule:** never rebase commits **already pushed** that others may have pulled — unless team explicitly uses `git pull --rebase` culture and coordinates force-push.
-
----
 
 ## Standard config / commands
 
@@ -80,12 +77,10 @@ git commit --fixup abc1234
 git rebase -i --autosquash origin/main
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Same conflict every commit | Repeated touch of file | `git rebase -i` → squash; or merge once instead |
 | "Cannot rebase: unstaged changes" | `git status` | Stash (`git stash -u`) or commit WIP |
 | Lost commits after abort | `git reflog` | `git reset --hard HEAD@{n}` to pre-rebase entry |
@@ -93,8 +88,6 @@ git rebase -i --autosquash origin/main
 | Empty commit skipped | Already applied patch | `git rebase --skip` or `--keep-empty` |
 | Wrong file kept in conflict | ours/theirs confusion | Re-read labels; re-run conflict resolution |
 | CI fails only after rebase | Hidden dependency on old base | Run tests locally on rebased branch before push |
-
----
 
 ## Gotchas
 
@@ -110,16 +103,12 @@ git rebase -i --autosquash origin/main
 > [!WARNING]
 > **Signed commits** — replay may need re-signing depending on GPG hook config.
 
----
-
 ## When NOT to use
 
 - **Shared long-lived branch** multiple people commit to — merge or trunk-based with short branches.
 - **Integrating released tags** — don't rewrite history consumers depend on.
 - **You need true merge context** — complex binary conflicts sometimes easier with one merge commit.
 
----
-
 ## Related
 
-[[git error]] · [[git blame]] · [[git worktree]] · [[git ssh config]] · [[Terraform workflow]]
+[[git error]] · [[git blame]] · [[git worktree]] · [[git ssh configuration]] · [[Terraform workflow]]

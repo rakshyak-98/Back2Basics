@@ -2,11 +2,11 @@
 
 # OLTP
 
-> Online Transaction Processing — many small, concurrent read/write operations with latency SLOs; schema normalized, indexes hot — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
+> OLTP — the operational path: checkout, auth, inventory decrement, ticket update. Workload shape:
 
 ## Mental model
 
-OLTP is the **operational path**: checkout, auth, inventory decrement, ticket update. Workload shape:
+OLTP is the **operational path**: checkout, authentication, inventory decrement, ticket update. Workload shape:
 
 ```
 Many clients ──► short queries ──► indexed point/range lookups ──► ms latency
@@ -19,7 +19,7 @@ Many clients ──► short queries ──► indexed point/range lookups ─�
 Contrast [[OLAP]]: scan millions of rows, aggregations, columnar storage, batch ETL, seconds–minutes OK.
 
 | Dimension | OLTP | OLAP |
-|-----------|------|------|
+| --- | --- | --- |
 | Query pattern | `WHERE id = ?` | `GROUP BY region, month` |
 | Schema | 3NF, many tables | Star/snowflake, denormalized |
 | Index strategy | B-tree on hot paths | Columnar, minimal indexes |
@@ -64,7 +64,7 @@ Shard key = tenant_id / user_id — co-locate related rows. Cross-shard joins ar
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | p99 latency spike, CPU low | Lock waits: PG `pg_locks`, MySQL `innodb_lock_waits` | Shorten txs; index the WHERE; kill idle in transaction |
 | Connection storm | `max_connections`; pool exhaustion | PgBouncer; lower app pool; raise PG max carefully |
 | Replica lag growing | `pg_stat_replication`; long queries on replica | Kill analytics on replica; parallel apply; bigger replica |

@@ -2,7 +2,7 @@
 
 # fzf
 
-> One-line: fuzzy finder for the terminal — filter any list interactively (files, history, processes, git branches) with sub-100ms feel. **Reach for it when Tab completion isn't enough.**
+> fzf — reads stdin (or a shell hook), scores lines against your typed fuzzy pattern, shows an interactive TUI. It's a filter, not a search engine — you
 
 ## Mental model
 
@@ -15,13 +15,25 @@ find / ls / history ──► fzf ──► selected line ──► cd / vim / k
 ```
 
 | Integration | Trigger | Action |
-|-------------|---------|--------|
+
 | Shell history | `Ctrl+R` | Fuzzy reverse search |
+| --- | --- | --- |
 | File path | `Ctrl+T` | Insert file path |
 | `cd` | `Alt+C` | Jump to directory |
 | Generic | `cmd \| fzf` | Filter any list |
 
 Install: `apt install fzf` (Debian/Ubuntu) — enable shell hooks via `/usr/share/doc/fzf/examples/key-bindings.bash`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **fzf** | Fuzzy finder | “Pipe anything into fzf to pick.” |
+| --- | --- | --- |
+| **Ctrl-R** | History search | “fzf history beats plain reverse-i-search.” |
+| **--preview** | Side preview | “Preview files before open.” |
+| **bind** | Key actions | “Custom binds for kill/git.” |
+| **exit codes** | 1 = no match | “Scripts must handle cancel.” |
 
 ## Standard config / commands
 
@@ -70,7 +82,7 @@ systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `fzf: command not found` | Not installed | `apt install fzf` / `brew install fzf` |
 | Ctrl+R still default bash search | Hooks not sourced | Add `source /usr/share/fzf/key-bindings.bash` to `.bashrc` |
 | Empty list | Upstream pipe empty | Test pipe alone: `find . \| head` |
@@ -95,7 +107,7 @@ systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs 
 ## When NOT to use
 
 - **Scripted automation (no human)** → fixed paths, `find -name`, `rg`.
-- **Server without TTY** → avoid; use completion or explicit args.
+- **Server without TTY** → avoid; use completion or explicit arguments.
 - **Security-sensitive host enumeration** — interactive browsing of `/etc` leaves audit trail of intent; use targeted commands.
 
 ## Related

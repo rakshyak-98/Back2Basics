@@ -1,41 +1,87 @@
-> [!INFO]
-> A user can belong to one primary group + zero or more supplementary (secondary) groups.
+[[commands]] [[user management]] [[useradd]] [[groupadd]] [[gpasswd]] [[getent]]
 
-> [!INFO]
-> Membership is stored in two places:
-> - `/etc/passwd` → primary group (GID column)
-> - `/etc/group` → list of users who are members of each supplementary group
+# linux groups
 
-Add group to user 
+> Groups bundle users for shared file access and sudo — one primary GID plus optional supplementary memberships.
 
-```text
-usermod -aG <group> <current user>;
+## Mental model
+
+**Say it in one breath:** primary group lives in `/etc/passwd`; supplementary members are listed in `/etc/group` — both phrases “add user to group” / “add group to user” mean the same `usermod -aG`.
+
+```txt
+/etc/passwd  → user:…:UID:GID:…     (primary)
+/etc/group   → group:…:GID:u1,u2    (supplementary members)
+
+effective access = owner | group | other  (plus ACLs)
 ```
 
-> [!NOTE]
-> When you "add a group to a user" or "add a user to a group", you are modifying the supplementary groups — and both phrases describe the exact same action.
+### Interview map (words you can say)
 
-> [!NOTE]
-> You need to refresh your session for the group membership to take effect.
+| Word | Plain meaning | Say in interview |
+
+| **Primary GID** | Default group for new files | “New files get this group unless setgid/ACL says else.” |
+| --- | --- | --- |
+| **Supplementary** | Extra groups | “docker, sudo, adm — privileges without changing primary.” |
+| **`usermod -aG`** | Append groups | “`-a` is mandatory or you wipe existing groups.” |
+| **`getent group`** | NSS view of members | “Shows supplementary list — not who has it as primary.” |
+| **`newgrp` / re-login** | Refresh creds | “Group changes apply on next session.” |
+
+## Standard config / commands
 
 ```bash
-newgrp <group>; # activate the group in current shell session
-groups; # Verify it worked
+# Inspect
+id
+id alice
+groups
+groups alice
+getent group docker
+getent group | head
+
+# Create / membership
+sudo groupadd developers
+sudo usermod -aG developers alice
+sudo gpasswd -a alice developers
+sudo gpasswd -d alice developers
+
+# Activate in current shell (or logout/login)
+newgrp developers
 ```
 
-`getent group <group>` -> `getent` group only shows users who have this group as a supplementary.
-`groups` -> This command shows all effective groups that the user currently belongs to.
+| Phrase people say | Same action |
 
-Remove group
+| “Add group to user” | `usermod -aG group user` |
+| --- | --- |
+| “Add user to group” | `usermod -aG group user` / `gpasswd -a user group` |
 
-```bash
-gpasswd -d <user> <group>;
-```
+Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 
-> [!INFO]
-> The `gpasswd` command is used to administer `/etc/group`, and `/etc/gshadow`. Every group can have administrators, members and a password.
+## Triage (when things break)
 
-|Phrase|What the speaker is usually thinking about|Typical command used|
-|---|---|---|
-|"add group to user"|"I want this user to gain the privileges/permissions of this group"|`usermod -aG group user`|
-|"add user to group"|"I want this group to include this user as a member"|`usermod -aG group user` or `gpasswd -a user group`|
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| In group but access denied | `id` in *this* session | Re-login or `newgrp`; services need restart |
+| Lost other groups | Used `-G` without `-a` | Restore with `-aG` list |
+| `getent group X` empty of user | User has X as *primary* only | Check `id -gn`; primary isn’t always listed as member |
+| Nested “group of groups” | Linux doesn’t nest | Use ACLs or roles elsewhere |
+| File group wrong | Primary vs setgid dir | `chgrp`; `chmod g+s` on shared dirs |
+
+## Gotchas
+
+> [!WARNING]
+> **`usermod -G a,b` replaces the whole supplementary set** — always `-aG` to append.
+
+> [!WARNING]
+> **`getent group` omits users who only have that GID as primary** — use `getent passwd` / `id` to see the full picture.
+
+> [!WARNING]
+> **Daemons don’t pick up new groups until restart** — docker socket access is a classic.
+
+## When NOT to use
+
+- **Fine-grained per-file exceptions** — ACLs (`setfacl`) or shared service users.
+- **Cross-host identity** — LDAP/IdP groups via SSSD.
+- **Kubernetes RBAC** — not Linux `/etc/group`.
+
+## Related
+
+[[user management]] [[useradd]] [[groupadd]] [[gpasswd]] [[getent]] [[visudo]] [[commands]]

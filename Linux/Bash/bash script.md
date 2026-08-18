@@ -1,141 +1,114 @@
-- Start every script with a shebang
+[[Bash]] [[Bash syntax]] [[bash flags]]
 
-```bash
-#!/bin/bash
+# bash script
+
+> A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
+
+## Mental model
+
+**Say it in one breath:** start with `#!/usr/bin/env bash`, fail fast with `set -euo pipefail`, quote everything, treat `$1`/`$@` as inputs.
+
+```txt
+shebang → set flags → parse args → do work → exit status
+chmod +x  &&  ./script.sh args…
 ```
 
-- Save the file (e.g., `myscript.sh`)
-- Make it executable
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Shebang** | Interpreter line | “Kernel uses it when you `./script`.” |
+| --- | --- | --- |
+| **`set -euo pipefail`** | Strict mode | “Exit on error, unset var, and failed pipe stage.” |
+| **`$1` / `$@` / `$#`** | Args | “Positional params are the CLI.” |
+| **`[[ -f ]]`** | File tests | “Existence checks before you `rm`.” |
+| **Functions** | Named blocks | “Reuse; still quote `"$1"` inside.” |
+
+## Standard config / commands
 
 ```bash
-chmod +x myscript.sh;
+#!/usr/bin/env bash
+set -euo pipefail
+
+name="${1:-World}"
+echo "Hello, ${name}"
+
+# Args
+echo "First: $1"
+echo "All: $*"
+echo "Count: $#"
+
+# Input
+read -r -p "Enter age: " age
+
+# Tests
+if [[ "${age}" -gt 18 ]]; then
+  echo "Adult"
+elif [[ "${age}" -lt 18 ]]; then
+  echo "Minor"
+else
+  echo "Exactly 18"
+fi
+
+# Loops
+for i in {1..5}; do
+  echo "${i}"
+done
+
+count=1
+while [[ "${count}" -le 5 ]]; do
+  echo "${count}"
+  ((count++)) || true
+done
+
+# Functions
+greet() {
+  echo "Hello, ${1}!"
+}
+greet "World"
+
+# Arithmetic / strings
+((sum = 5 + 3))
+folder="beachside-hotel"
+base="${folder%-hotel}"          # strip suffix
 ```
 
-- Run it
+Make runnable:
 
 ```bash
+chmod +x myscript.sh
 ./myscript.sh
 ```
 
-## Variables
+File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -gt -le -ge`.
 
-```bash
-name="World"
-count=42
-```
+## Triage (when things break)
 
-use with `$`
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `./script: Permission denied` | Mode | `chmod +x` |
+| Runs under `sh` differently | Shebang / `sh script` | Invoke `./script` or `bash script` |
+| Dies on `((count++))` with `-e` | Exit status 1 when was 0 | `((count++)) \|\| true` or `count=$((count+1))` |
+| “unbound variable” | `set -u` | Default: `${1:-}` |
+| Broken if/fi | Typo `if`/`fi` | Match `then`/`fi`; use `[[` |
 
-```bash
-echo "Hello, $name!";
-echo "Count, ${count}"; # Curly braces for clearity
-```
+## Gotchas
 
-## Output echo
+> [!WARNING]
+> **Unquoted expansions** are the #1 script CVE class — `"$var"` always.
 
-```bash
-echo "Hello, World!":
-echo -n "No newline"; # -n suppresses newline
-echo -e "Line\nLine2"; # -e enables backslash escape
-```
+> [!WARNING]
+> **`set -e` is subtle with pipes and `if`** — prefer `set -euo pipefail` *and* understand exceptions; test failure paths.
 
-## User input: read
+> [!WARNING]
+> **Windows CRLF shebangs** — `bad interpreter: /bin/bash^M` → `dos2unix`.
 
-```bash
-echo "Enter your name:"
-read name
-echo "Hi, ${name}";
-```
+## When NOT to use
 
-```bash
-read -p "Enter age: " age
-```
+- **Complex data / HTTP / JSON APIs as core logic** — Python/Go; bash as wrapper.
+- **Performance-critical loops over huge files** — awk/compiled tools.
+- **Secrets in the script body** — inject via environment/files with mode 600.
 
-## Command-line arguments
+## Related
 
-```bash
-echo "First arg: $1"
-echo "All arg: $@"
-echo "Number of args: $#"
-```
-
-## Conditionals (if-else)
-
-```bash
-if [ "$age" -gt 18 ]; then
-	echo "Adult"
-elif [ "$age" -lt 18 ] then
-	echo "Minor"
-else
-	echo "Exactly 18"
-if
-```
-
-- common tests
-	- `-eq` `-ne` `-lt` `-gt` `-le` `-ge` (numbers)
-	- `=`, `!=` (strings)
-	- `-f file` (file exists), `-d dir` (directory exists)
-
-
-## Loop
-
-```bash
-for i in 1 2 3 4 5 6; do
-	echo "Number: ${i}"
-done
-```
-
-```bash
-for i in {1..5}; do
-	echo $i
-done
-```
-
-```bash
-count=1
-while [ $count -le 5 ]; do
-	echo $count
-	((count++))
-done
-```
-
-### String Manipulation
-
-- Remove suffix
-
-```bash
-folder="beachside-hotel"
-new="${folder%-hotel}";
-```
-
-- Remove prefix
-
-```bash
-new="${folder#hotel-}"
-```
-
-- Replace
-
-```bash
-new="${folder/-hotel/}"
-```
-
-## Function
-
-```bash
-greet() {
-	echo "Hello, ${1}!"
-}
-```
-
-```bash
-greet "World"
-```
-
-## Arithmetic
-
-```bash
-((sum = 5 + 3))
-echo $sum  # 8
-((count++))  # Increment
-```
+[[Bash syntax]] [[bash flags]] [[Bash history]] [[jq]] [[awk]] [[Bash]]

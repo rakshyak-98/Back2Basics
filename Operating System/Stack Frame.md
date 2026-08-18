@@ -4,8 +4,6 @@
 
 > One activation record per function call — holds return address, saved registers, locals, and spill slots on the process stack.
 
----
-
 ## Mental model
 
 Each time a function is **called**, the CPU pushes a **stack frame** (activation record) onto the thread's stack. Each **return** pops it. Nested calls nest frames:
@@ -31,8 +29,6 @@ Typical frame contents (ABI-dependent):
 **Stack overflow** happens when recursion or huge locals exceed the mapped stack region — SIGSEGV, not a catchable exception in C.
 
 **Service impact:** deep recursion in parsers, JSON decoders, or ORMs → crash under adversarial input; stack traces in logs map 1:1 to these frames.
-
----
 
 ## Standard config / commands
 
@@ -66,18 +62,14 @@ pthread_attr_setstacksize(&attr, 4 * 1024 * 1024);
 
 **Why:** default 8 MiB × 10k threads = address-space pressure even if stacks aren't fully used (guard pages help, but not unlimited).
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `SIGSEGV` near stack top | `ulimit -s`; recursion depth | Increase stack limit; rewrite to iterative; tail-call where safe |
 | Garbage stack traces | `-fomit-frame-pointer` builds | Rebuild with `-fno-omit-frame-pointer`; use `perf`/`eBPF` |
 | Stack clash / overlap with heap | ASLR off, huge stack alloca | Fix bug; enable ASLR; audit `alloca` / VLA |
 | Coroutine/green-thread weirdness | Mixed native + interpreted stacks | Ensure each fiber has its own stack region |
-
----
 
 ## Gotchas
 
@@ -90,13 +82,9 @@ pthread_attr_setstacksize(&attr, 4 * 1024 * 1024);
 > [!WARNING]
 > **Stack is per-thread.** Global variables live elsewhere; only locals and call chain are in the frame.
 
----
-
 ## When NOT to use
 
 Do not hand-roll stack switching unless building a runtime (coroutines, VMs). Use language/runtime support — incorrect stack alignment or red-zone violations cause silent corruption.
-
----
 
 ## Related
 

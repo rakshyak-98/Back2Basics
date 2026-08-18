@@ -4,8 +4,6 @@
 
 > Desktop capture + encode + publish for live — **default RTMP publisher** for creators and ops smoke tests.
 
----
-
 ## Mental model
 
 **OBS** composes **scenes** (camera, display, browser, images), **encodes** in real time, and **publishes** via **[[RTMP]]** (or RTMPS) to an **ingest** endpoint, or **records** locally. It is a **single-publisher client** — not a CDN, packager, or DRM layer. Production stacks receive OBS at **[[ingestion]]**, then transcode/package to **[[HLS]]/[[DASH]]**.
@@ -24,12 +22,18 @@ Sources (mic, cam, display)
 ```
 
 | Output          | Typical setting       | Pitfall                            |
-| --------------- | --------------------- | ---------------------------------- |
+| --- | --- | --- |
+| 
+
+- | 
+
+ | 
+
+- |
 | **Stream**      | RTMP CBR 4500 Kbps    | Wi-Fi uplink underrun              |
+| --- | --- | --- |
 | **Record**      | MKV + separate tracks | Not a delivery format — re-package |
 | **Virtual cam** | Zoom/Meet             | Different path than RTMP ingest    |
-
----
 
 ## Standard config / commands
 
@@ -91,12 +95,10 @@ Search: "rtmp", "error", "disconnect"
 Linux: ~/.config/obs-studio/logs/
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Failed to connect" | Server URL, firewall 1935/443 | RTMPS port; no extra path in key field |
 | Dropped frames (encoding) | OBS stats panel red | NVENC; lower resolution; close browser sources |
 | Dropped frames (network) | Yellow network box | Wired Ethernet; lower bitrate |
@@ -104,8 +106,6 @@ Linux: ~/.config/obs-studio/logs/
 | Black screen on stream | Wrong scene; source crashed | Preview vs Program; restart source |
 | Pixelated fast motion | Bitrate too low | +1000 Kbps or drop to 720p |
 | Stream OK, record corrupt | Disk full | MKV recoverable vs MP4 |
-
----
 
 ## Gotchas
 
@@ -124,15 +124,11 @@ Linux: ~/.config/obs-studio/logs/
 > [!WARNING]
 > **OBS ≠ production transcoder** — one bitrate to ingest; ABR happens downstream ([[Multi Stream]] ladder).
 
----
-
 ## When NOT to use
 
 - **24/7 unattended headless channel** — use ffmpeg/GStreamer on server with watchdog.
 - **Multi-bitrate direct to players** — OBS sends one RTMP; packager creates ladder.
 - **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
-
----
 
 ## Related
 

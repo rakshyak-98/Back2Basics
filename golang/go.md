@@ -1,166 +1,78 @@
+[[golang]] [[go package]] [[go project]]
 
-`package main` tells the Go compiler: "The package is the entry point of an executable program". Without this Go treats the code as a reusable library/package.
+# go
 
-`go mod init example.com/myapp` -> it is a globally unique identifier for you go project. Identify your module uniquely. Without a unique path collision occurs
+> Go — compiled language with packages, modules (`go.mod`), and `package main` + `func main` as the executable entry.
 
-```txt
-github.com/alice/utils
-github.com/bib/utils
+## Mental model
 
-```
-- Go resolves imports relative to the module path.
-
-> [!WARNING]
-> every `.go` file must declare a package, and all `.go` files in the same directory (except tests) must belong to the same package.
+**Say it in one breath:** A **module** (`go.mod` path) versions a tree of **packages** (one directory = one package). `package main` builds a binary; other packages are libraries. Import paths are module-path + directory.
 
 ```txt
-project/
-├── main.go         -> package main
-├── user/
-│   ├── user.go     -> package user
-│   └── helper.go   -> package user
-└── auth/
-    └── auth.go     -> package auth
-```
-- but Go does __not require the package name to match the folder name__
-
-**Why does go do this?**
-```txt
-go build
-
-↓
-
-read directory
-
-↓
-
-group files by package
-
-↓
-
-compile each package separately
-
-↓
-
-link packages together
-```
-- the directory is the compilation unit.
-
-```txt
-Filesystem path
-/home/sde/projects/myapp
-
-        ↓
-
-Module path (global identity)
-github.com/sde/myapp
-
-        ↓
-
-Import path
-github.com/sde/myapp/internal/auth
-
+go.mod module path
+   └── dir/package  ← import "module/dir"
+package main → binary
 ```
 
----
+| Idea | Go style |
+| --- | --- |
+| Enums | `type Role string` + `const` |
+| Inheritance | Embedding, not class trees |
+| Visibility | Uppercase = exported |
 
-> [!WARNING]
-> - go doesn't have enum, so the compiler does not automatically enforce allowed values.
-> - The Go designers intentionally avoided adding features that introduce extra complexity. Enum were considered syntactic sugar, because Go can already achieve most enum use cases with (type + const).
+## Standard config / commands
 
-They preferred
-```txt
-type Role string
-
-const (
-	Admin   Role = "admin"
-	Manager Role = "manager"
-	Guest   Role = "guest"
-)
+```bash
+go mod init github.com/you/app
+go get example.com/lib@v1.2.3
+go mod tidy
+go run ./cmd/app
+go build -o bin/app ./cmd/app
+go test ./...
 ```
-
----
-
-```txt
-unused write to field 
-```
-- it is a compiler warning that happens when you assign a value to a struct field but never actually use it. 
-
----
-
-## Go tag
-
-struct tag -> it provides metadata that packages (like `encoding/json`)
-
-Go code is compiled, but JSON data is only know when the program is running. `encoding/json` reads struct tags at runtime so it can dynamically map JSON data to Go structs.
-
-```go
-type User struct {
-	ID int `json:"user_id"`,
-	Name string `json:"name"`
-}
-```
-
-- Go struct tags were designed to be generic metadata, not something specific to JSON. Instead of inventing syntax for every library, Go created one mechanism.
-
-```go
-type User struct {
-	ID int `json:"user_id"`
-	Email string `json:"email" validate:"require"`
-}
-```
-
-```txt
-json.Unmarshal()
-
-↓
-
-inspect User struct
-
-↓
-
-read tags
-
-↓
-
-"user_id" → ID
-
-↓
-
-"name" → Name
-
-↓
-
-assign values
-
-```
-
----
-### How to print value instead of memory address?
-
-When printing struct pointers, `fmt.Println` may print memory addresses instead of values.
 
 ```go
 package main
 
 import "fmt"
 
-type Type struct {
-	Value int
-}
-
-func main(){
-	t := &Tree({Value: 10} // Pointer to struct
-	fmt.Print(*t) // Dereference to point struct fields
-}
-
+func main() { fmt.Println("hi") }
 ```
 
-Using `fmt.Prinf` with `%+v`
-```go
-fmt.Printf("%+v\n", t)
-```
+| Knob | Why it matters |
 
-> [!INFO] files at the same level cannot be part of different packages within the same directory.
-> - all files in a directory must belong the same package.
-- if you have `main.go` in a directory, any other file in the same directory must use `package main`.
+| Module path | Unique import identity |
+| --- | --- |
+| Same package per dir | Compiler unit |
+| `internal/` | Import firewall |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `package main` expected | Wrong package in cmd | Fix declaration |
+| Import cycle | A↔B | Extract shared package |
+| `cannot find module` | Bad path / replace | `go mod tidy`; fix replace |
+| Multiple packages in dir | Mixed names | Split dirs |
+| Enum “invalid value” | No exhaustiveness | Validate at boundaries |
+
+## Gotchas
+
+> [!WARNING]
+> **All files in a dir share one package name** (except `_test` external tests).
+
+> [!WARNING]
+> **Folder name ≠ package name required** — but matching reduces pain.
+
+> [!WARNING]
+> **No real enums** — consts don’t stop arbitrary values.
+
+## When NOT to use
+
+- **One-off scripts with heavy FFI to Python ML** — call out or use another runtime.
+- **GUI-heavy desktop** — possible, not Go’s sweet spot.
+- **Tiny glue without concurrency needs** — shell may be enough.
+
+## Related
+
+[[go package]] [[go cli]] [[go project]] [[go interface]]

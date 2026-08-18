@@ -1,106 +1,69 @@
-```bash
-alsamixer; # manage volume
-xbacklight; # manage brightness
-nmcli; # manage network
-links; #
+[[management]] [[Package Manager]] [[system service unit files]] [[supervisorctl]]
+
+# Linux application management
+
+> Application management on Linux is how you install, run, upgrade, and supervise a service — packages or images, plus systemd (or a process manager).
+
+## Mental model
+
+**Say it in one breath:** ship artifacts → run under a dedicated user → unit with restart/limits → logs + health checks.
+
+```txt
+artifact (deb/oci/bin) → User=myapp → systemd unit
+                              │
+                         journald + metrics
 ```
 
-### Application management
+### Interview map (words you can say)
 
-```bash
-lsb-release -a; # check your ubuntu version
+| Word | Plain meaning | Say in interview |
 
-sudo apt udpate;
-sudo apt upgrade -y;
-```
+| **unit** | How it runs | “ExecStart + Restart + User.” |
+| --- | --- | --- |
+| **config vs data** | `/etc` vs `/var` | “Separate so upgrades don’t wipe state.” |
+| **health check** | Ready/live | “Don’t mark healthy on listen alone.” |
+| **rollback** | Prior version | “Keep n-1 artifacts.” |
+| **12-factor logs** | stdout/err | “Let journald/collectors ship.” |
 
-```bash
-# Install git, curl, wget, build essentials
-sudo apt install -y \
-  git \
-  curl \
-  wget \
-  build-essential \
-  software-properties-common \
-  apt-transport-https
-	
-```
-
-```bash
-mkdir -p ~/applications
-mkdir -p ~/.local/bin
-mkdir -p ~/.local/share/applications
-
-echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.bsahrc
-source ~/.bashrc
-
-```
+## Standard config / commands
 
 ```bash
-cd ~/applications
-git clone <repository-url> <app-name>
-# OR
-wget <download-url> -O <app-name>.tar.gz
-tar -xzf <app-name>.tar.gz
-cd <app-name>
-
+sudo apt-get install myapp
+# or: deploy binary to /usr/local/bin
+sudo systemctl enable --now myapp
+systemctl status myapp --no-pager
+journalctl -u myapp -f
+curl -fsS localhost:8080/healthz
 ```
 
-## Create systemd service for auto-start
+| Knob | Why it matters |
 
-```bash
-cat > ~/.config/systemd/user/my-app.service;
+| `Restart=on-failure` | Survive crashes |
+| --- | --- |
+| `EnvironmentFile=` | Secrets/config injection |
 
-```
+## Triage (when things break)
 
-```ini
-[Unit]
-Description=My Application After=network.target
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Won’t start | `status` + journal | Fix ExecStart/env/perms |
+| Port in use | `ss -lntp` | Stop old process; fix unit |
+| Works manually not as service | cwd/env/user | Match unit environment |
+| Upgrade broke config | Diff `/etc` | Restore; migrate schema |
 
-[Service]
-Type=simple User=$USER WorkingDirectory=%h/applications/my-app ExecStart=/home/$USER/.nvm/versions/node/v18.x.x/bin/node /home/$USER/applications/my-app/index.js Restart=on-failure RestartSec=10 [Install] WantedBy=default.target EOF
-```
+## Gotchas
 
-- this configuration specifies that Ranger should be launched in a terminal. new file in the `.local/share/applications/ranger.desktop`
+> [!WARNING]
+> **Running as root “just to work”** — fix permissions instead.
 
-```bash
-[Desktop Entry]
-Name=Ranger
-Exec=kitty -e ranger %F
-Type=Application
-Terminal=true
-MimeType=inode/directory;
-```
+> [!WARNING]
+> **Two supervisors** (systemd + supervisord + docker restart) fight each other.
 
-**Application-Specific Configuration**: The instance name is typically set by the application itself when it is launched. Many applications allow you to specify the instance name using command-line options. For example, terminals like `gnome-terminal`, `urxvt`, and `termite` can be launched with flags like `--name` or `--class` to define their instance and class names explicitly [i3wm instance](https://bbs.archlinux.org/viewtopic.php?id=259587)
+## When NOT to use
 
-> [!NOTE] after creating the `.desktop` file, need to update the MIME type to associate directories with Ranger.
+- **One-shot CLI tools** — no service needed.
+- **Multi-tenant SaaS** — prefer k8s/orchestrator over ad-hoc host services.
 
-```bash
-xdg-mime default ranger.desktop inode/directory; # update MIME type
-xdg-mime query default inode/directory; # confirm
-```
+## Related
 
-```bash
-# list all the MIME types from shared-mime-info database
-grep -hE '^[^#]' /usr/share/mime/packages/*.xml | grep -oP 'type="\K[^"]+'
-
-```
-
----
-### Bluetooth connectivity
-- `ControllerMode = bredr` to `/etc/bluetooth/main.conf`
-
-> [!INFO]
-> `ControllerMode` -> is a BlueZ configuration (usually set in `main.conf`)
-
-```vi
-[General]
-ControllerMode = dual    # or le, or bredr
-```
-
-- Then restart Bluetooth
-```bash
-sudo service bluetooth restart;
-sudo btmgmt info; # BlueZ tool 
-```
+[[system service unit files]] [[Package Manager]] [[supervisorctl]] [[Setup Non-Login user from Running process]]

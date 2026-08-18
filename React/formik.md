@@ -4,8 +4,6 @@
 
 > React form state library — values, touched, errors, submit lifecycle — **client-only** (needs DOM + hooks) — **Formik docs**.
 
----
-
 ## Mental model
 
 Formik centralizes form state in one object:
@@ -19,15 +17,13 @@ values / errors / touched / isSubmitting
 Compared to raw `useState` per field: less boilerplate, consistent submit/validation flow. Compared to React Hook Form: Formik re-renders more (often whole form on keystroke) unless optimized.
 
 | Piece | Role |
-|-------|------|
+| --- | --- |
 | `initialValues` | Default shape |
 | `validate` / `validationSchema` | Yup schema common |
 | `onSubmit` | Async-safe; set `isSubmitting` |
 | `<Field>` | Wires name → value/onChange |
 
 **Cannot run in Server Components** — uses `useState`, `useEffect`, DOM events. Mark form tree `"use client"` ([[RSC (React Server Component boundaries)]]).
-
----
 
 ## Standard config / commands
 
@@ -75,19 +71,15 @@ export function LoginForm() {
 <Formik enableReinitialize initialValues={userFromApi ?? defaults} ... />
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Whole app re-renders typing | Large Formik tree | Split forms; React Hook Form; `FastField` |
 | Validation never fires | `validateOnBlur` false | `validateOnChange` / submit |
 | Values stale after props load | Missing reinitialize | `enableReinitialize` |
 | RSC error "useState only client" | Form in Server Component | `"use client"` boundary |
 | Double submit | No `isSubmitting` guard | Disable button; [[debouncing]] onSubmit |
-
----
 
 ## Gotchas
 
@@ -97,15 +89,11 @@ export function LoginForm() {
 > [!WARNING]
 > **File inputs** — special-case; not standard controlled value.
 
----
-
 ## When NOT to use
 
 - **Server Actions + native `<form>`** — Next.js can post without Formik for simple flows.
 - **Huge dynamic field arrays (100+)** — React Hook Form performance often wins.
 - **Non-React surfaces** — web components without React bindings.
-
----
 
 ## Related
 

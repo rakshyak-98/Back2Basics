@@ -2,7 +2,7 @@
 
 # Unbound breakpoint
 
-> Debugger set a breakpoint but cannot map it to executable code yet — common with source maps, wrong path, or unloaded modules — **VS Code / Chrome DevTools playbook**.
+> Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
 ## Mental model
 
@@ -58,7 +58,7 @@ module.exports = {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Hollow breakpoint, never hits | File not in `outFiles` glob | Widen glob; check `dist/` output path |
 | Hits wrong line | Column/line offset in map | Rebuild; align TS `sourceRoot` |
 | Works after first request | Lazy import | Break in loader or entry chunk |
@@ -77,7 +77,7 @@ module.exports = {
 
 ## When NOT to use
 
-- Don't fight unbound breakpoints in minified prod without source maps — use logging/tracing ([[Linux/loggging]]) instead.
+- Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/logging]]) instead.
 
 ## Related
 

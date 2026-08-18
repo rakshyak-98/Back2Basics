@@ -2,11 +2,19 @@
 
 # variable file
 
-> Inputs, locals, outputs, tfvars — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
+> Inputs, locals, outputs, tfvars — make one config work across envs. **Brikman / Winkler**.
 
-Variables make one config work across envs (dev/stage/prod) without editing resource blocks. They feed [[terraform provider]] region/project and resource args during [[Terraform workflow]].
+## Mental model
 
----
+Variables make one configuration work across envs (development/stage/production) without editing resource blocks. They feed [[terraform provider]] region/project and resource arguments during [[Terraform workflow]].
+
+## Standard config / commands
+
+```bash
+terraform plan -var-file=env/prod.tfvars
+terraform apply -var-file=env/prod.tfvars
+# or: TF_VAR_region=us-east-1 terraform plan
+```
 
 ## Declare inputs (`variables.tf`)
 
@@ -71,9 +79,7 @@ variable "environment" {
 }
 ```
 
-Reference in config: `var.region`, `var.tags["Env"]`.
-
----
+Reference in configuration: `var.region`, `var.tags["Env"]`.
 
 ## How values are supplied (precedence)
 
@@ -82,7 +88,7 @@ Highest wins (simplified from HashiCorp docs / both books):
 1. `-var` / `-var-file` on CLI
 2. `*.auto.tfvars` / `*.auto.tfvars.json`
 3. `terraform.tfvars` / `terraform.tfvars.json`
-4. Env `TF_VAR_<name>`
+4. environment `TF_VAR_<name>`
 5. `default` in the variable block
 
 ```shell
@@ -99,8 +105,6 @@ environment = "dev"
 > [!WARNING] Brikman — do **not** commit secrets in `tfvars`. Use env / secret store / CI.
 
 Project layout: [[Terraform setup]]
-
----
 
 ## Locals (named expressions)
 
@@ -119,8 +123,6 @@ resource "aws_instance" "web" {
 ```
 
 Winkler: locals avoid repeating concatenations; not overridable from outside like variables.
-
----
 
 ## Outputs (`outputs.tf`)
 
@@ -143,8 +145,6 @@ terraform output -raw vpc_id
 
 Brikman: outputs are the module’s public API — also how root modules share values (`module.vpc.vpc_id`) and how remote state consumers read deps.
 
----
-
 ## Module variables
 
 Child modules declare their own `variable` blocks; root passes values:
@@ -160,14 +160,39 @@ module "vpc" {
 
 Module overview: [[terraform]]
 
----
-
 ## Book takeaways
 
 | Practice | Source |
-|----------|--------|
+| --- | --- |
 | Variables + separate env dirs/files | Brikman |
 | Types, objects, locals, expressions | Winkler |
 | Validate + `sensitive` | Both / modern Terraform |
 | Wire into provider | [[terraform provider]] · [[Terraform setup]] |
 | Used at plan/apply | [[Terraform workflow]] · [[Terraform CLI]] |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
+| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
+| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
+| Type mismatch | variable type vs value | Fix type or cast in locals |
+| Module can't see root var | not passed into module | Pass explicitly in module block |
+
+## Gotchas
+
+> [!WARNING]
+> **Precedence surprises** — CLI `-var` beats tfvars; env `TF_VAR_` beats defaults. Know the order before debugging “wrong value.”
+
+> [!WARNING]
+> **`sensitive = true` is not encryption** — it only redacts CLI UI; state and some logs can still hold the value.
+
+## When NOT to use
+
+- **Hard-coding one-environment throwaways** — a literal is fine until you need a second environment.
+- **Secrets as plain tfvars in git** — use a secret store / CI injection instead.
+
+## Related
+
+[[Terraform setup]] [[Terraform workflow]] [[terraform]] [[terraform provider]] [[Terraform CLI]]

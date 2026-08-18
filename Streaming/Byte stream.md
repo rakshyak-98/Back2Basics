@@ -2,9 +2,7 @@
 
 # Byte stream
 
-> Ordered sequence of bytes as the transport primitive for media — **Unix I/O + container framing**, not a protocol.
-
----
+> Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 ## Mental model
 
@@ -19,15 +17,14 @@ Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 ```
 
 | Layer | Example | Boundary model |
-|-------|---------|----------------|
+
 | Transport | TCP, TLS | Continuous bytes |
+| --- | --- | --- |
 | Container | fMP4, MPEG-TS | Boxes / 188-byte TS packets |
 | Packaging | HLS segment, DASH Segment | HTTP object = N seconds of container |
 | Application | Manifest (`.m3u8`, MPD) | Lists URL + byte-range or whole file |
 
 **Progressive download** (single MP4 over HTTP) is a byte stream with a `moov` atom at the front or end — player needs index before seek works. **ABR streaming** splits the byte stream into **addressable HTTP objects** listed in [[Manifest (streaming)]].
-
----
 
 ## Standard config / commands
 
@@ -64,20 +61,16 @@ cat input.ts | ffmpeg -i pipe:0 -c copy -f mpegts pipe:1
 proxy_cache_key "$scheme$request_method$host$request_uri";
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Player can't start | `moov` at end of MP4 | `ffmpeg -movflags +faststart` or use fMP4 HLS |
 | Corrupt TS | Lost sync byte 0x47 | Resync demuxer; check UDP packet loss |
 | Seek broken in VoD | No index in progressive file | Fragment to HLS/DASH or fix `moov` placement |
 | CDN serves stale partial | Byte-range cache misconfig | Cache full segments; align with [[CMAF]] chunk boundaries |
 | Pipe stall | Blocking read on empty stdin | Buffer in ingest; timeout watchdog ([[ingestion]]) |
 | moof sequence gap | Packager crash mid-segment | Drop bad segment; roll `#EXT-X-MEDIA-SEQUENCE` |
-
----
 
 ## Gotchas
 
@@ -93,15 +86,11 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 > [!WARNING]
 > **Endianness in container boxes** — binary parse errors look like "random corruption"; use `ffprobe`, not hex guessing.
 
----
-
 ## When NOT to use
 
 - **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
 - **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
-- **Small config blobs** — object storage + HTTP GET beats custom streaming parsers.
-
----
+- **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
 
 ## Related
 

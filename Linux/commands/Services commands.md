@@ -2,7 +2,7 @@
 
 # Services commands
 
-> One-line: operator cheat sheet for **systemd units** and **D-Bus** introspection — start/stop, failed units, bus traffic. **Modern Linux service management.**
+> Services commands — systemd manages units (service, socket, timer, mount). systemctl talks to PID 1 over D-Bus. Failed units stay marked until reset. D-Bus (busctl, dbus-monitor) is the
 
 ## Mental model
 
@@ -15,15 +15,26 @@ systemctl ──D-Bus──► systemd ──► unit files ──► processes
 ```
 
 | Layer | Tool | When |
-|-------|------|------|
+| --- | --- | --- |
 | Unit lifecycle | `systemctl` | Start/stop/enable/mask |
 | Logs | [[journalctl]] | Why it failed |
 | D-Bus API | [[busctl]] | Hostname, login, NM APIs |
 | Legacy | `service` | SysV wrapper on some distros |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **systemctl** | Start/stop/enable units | “enable ≠ start — boot vs now.” |
+| --- | --- | --- |
+| **status** | Active + recent logs | “systemctl status is first look.” |
+| **daemon-reload** | Reread unit files | “After edit unit → daemon-reload.” |
+| **mask** | Block start forever | “mask > disable for must-not-run.” |
+| **journalctl -u** | Unit logs | “Pair status with -xe / -u logs.” |
+
 ## Standard config / commands
 
-**systemd — daily ops:**
+**systemd — daily operations:**
 
 ```bash
 # Status & failed inventory (first stop in incidents)
@@ -86,7 +97,7 @@ sudo service nginx status               # often wraps systemctl
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Unit not found` | Typo; not installed | `systemctl list-unit-files \| grep name`; install package |
 | `failed` state persists | Old failure recorded | Fix root cause; `systemctl reset-failed` |
 | Start → immediate exit | Config error | `journalctl -u svc -b -n 50`; run binary manually as svc user |
@@ -113,7 +124,7 @@ sudo service nginx status               # often wraps systemctl
 
 - **Container inner lifecycle** → `docker compose`, k8s probes — host systemctl is outer layer.
 - **User session apps** → `systemctl --user` (different bus) or desktop tools.
-- **Config file syntax** → edit files in `/etc`; systemctl only applies units.
+- **configuration file syntax** → edit files in `/etc`; systemctl only applies units.
 
 ## Related
 

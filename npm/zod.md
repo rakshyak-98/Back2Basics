@@ -1,5 +1,14 @@
-Making field options
+[[npm]]
 
+# zod
+
+> zod — message: 'Confirm password is required when setting a password',
+
+## Mental model
+
+**Say it in one breath:** zod — I can explain the job, the configuration, and the top failure without jargon.
+
+Making field options
 ```js
 cosnt schema = z.object({
 	descriptino: z.string().max(500).optionl(),
@@ -7,18 +16,14 @@ cosnt schema = z.object({
 	starRating: z.number().int().min(1).max(5).optionl(),
 })
 ```
-
 Default values
-
 ```js
 const schema = z.object({
 	role: z.enum(["admin", "user", "guest"]).default("guest"),
 	theme: z.enum(["light", "dark"]).default("guest").optional().default("light"),
 })
 ```
-
 `superRefine` and `refine`
-
 ```js
 const authSchema = z.object({
 	email: z.string().email(),
@@ -44,58 +49,45 @@ const authSchema = z.object({
 	}
 })
 ```
-
 ```js
 const contactSchema = z.object({
   email: z.string().email().optional(),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/).optional(),
-}).superRefine((data, ctx) => {
-  if (!data.email && !data.phone) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'At least one of email or phone is required',
-      path: [], // or ['email'] / ['phone'] depending on UX
-    });
-  }
-});
+  phone: z.string().regex(/^\+
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **zod** | This note’s core idea | “I explain zod in plain words.” |
+| --- | --- | --- |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+## Standard config / commands
+
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-`.transform()` Clean & powerful data shaping
+## Triage (when things break)
 
-```js
-const userCreateSchema = z.object({
-	fullName: z.string().min(2),
-	birthYear: z.number().int().min(1900).max(new Date().getFullYear() - 13),
-	role: z.enum(['user', 'admin', 'guest']).default('user'),
-}).transform((data) => ({
-	...data,
-	slug: data.fullName
-		.toLowerCase().replace(/\s+/g, '-')
-}))
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
 
-## Db query with validation
+## Gotchas
 
-```js
-const usernameCheck = z.string().min(3).superRefine(async (val, ctx) => {
-  const exists = await db.user.findFirst({ where: { username: val } });
-  if (exists) {
-    ctx.addIssue({
-      code: 'custom',
-      message: 'Username already taken',
-      path: ['username'],
-    });
-  }
-});
-```
+> [!WARNING]
+> Prefer words you can say aloud in an interview.
 
-## Error handling
+## When NOT to use
 
-```js
-	
-  if (err instanceof zod.ZodError) {
-    response.error = "Validation error";
-    response.message = zod.treeifyError(err); // zod provider error formator native support
-  }
-	
-```
+- Skip when a simpler existing approach already fits.
+
+## Related
+
+[[npm]]

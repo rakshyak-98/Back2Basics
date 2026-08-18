@@ -2,7 +2,7 @@
 
 # spawn
 
-> One-line: run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
+> run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
 
 ## Mental model
 
@@ -89,7 +89,7 @@ child.on('close', () => clearTimeout(timer));
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ENOENT` | Binary not in PATH | Absolute path; set `env.PATH` in spawn options |
 | Hangs forever | Child waits for stdin | `stdio: 'ignore'` or close stdin |
 | Buffer fills; process stalls | stdout not consumed | Pipe and drain stdout/stderr |

@@ -2,11 +2,11 @@
 
 # Git Worktree
 
-> One-line: multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
+> multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
 ## Mental model
 
-One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and config.
+**Say it in one breath:** One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and configuration.
 
 ```
 repo/.git/          ← bare or main git dir
@@ -16,8 +16,6 @@ repo/               ← worktree 1 (main)
 ```
 
 Switching branches in a worktree only updates that directory's files — no full checkout dance, no stashing WIP on the other branch.
-
----
 
 ## Standard config / commands
 
@@ -42,7 +40,7 @@ git worktree remove --force ../project-dirty
 git worktree prune
 ```
 
-Each linked worktree stores a `.git` **file** (not dir) pointing at main repo: `gitdir: /path/to/main/.git/worktrees/feature`.
+Each linked worktree stores a `.git` **file** (not dir) pointing at main repository: `gitdir: /path/to/main/.git/worktrees/feature`.
 
 ### Typical workflow
 
@@ -57,19 +55,15 @@ cd ../project-hotfix
 git worktree remove ../project-hotfix
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "branch already checked out" | `git worktree list` | One branch per worktree max; use detached or different branch |
 | Worktree dir deleted manually | `git worktree list` shows prunable | `git worktree prune` |
 | Can't remove — dirty tree | `git status` in worktree | Commit, stash, or `--force` remove |
 | Submodule confusion | Each worktree needs `submodule update` | Run in each checkout separately |
 | Disk looks duplicated | Shared objects | Normal — only working files duplicate |
-
----
 
 ## Gotchas
 
@@ -85,14 +79,10 @@ git worktree remove ../project-hotfix
 > [!WARNING]
 > **CI doesn't know about local worktrees** — pattern is dev-machine only unless CI explicitly uses it.
 
----
-
 ## When NOT to use
 
 - **Long-term second clone needs** — separate clone is simpler if you want different remotes or hooks.
 - **Replacing `git stash`** for tiny context switches — stash is lighter for 5-minute detours.
-
----
 
 ## Related
 

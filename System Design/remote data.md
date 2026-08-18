@@ -1,9 +1,67 @@
-query keys: uniquely identify and manage cache data
-- React Query uses query keys to manage and update cache automatically
+[[System Design]] [[Data fetching Frontend]] [[cache system]] [[ETAG or IF MATCH]]
 
-when we invalidate queries, we're telling React Query that the data in those queries may no longer be accurate because of the mutation.
-- invalidation triggers a refetch for any invalidated queries the next time they are accessed. 
-- So if a component or action tries to fetch customers again, React query will send a fresh request to the database.
-### Mutation
-- mutations are typically about changing data (like submitting forms or updating records), they don't need query keys, as they don't automatically cache or update data.
-- mutations don't require query keys because they don't directly interact with or update the cache on their own.
+# remote data
+
+> Remote data — state that lives on another machine; every read/write is a network call with failure, lag, and versioning.
+
+## Mental model
+
+**Say it in one breath:** Treat remote data as eventually present: loading, error, stale, and fresh are first-class states — not just “null versus object.”
+
+```txt
+UI local cache  ←get/put→  API  ←→  DB
+     (stale ok?)     (timeouts)   (source of truth)
+```
+
+| Concern | Tactic |
+| --- | --- |
+| Latency | Cache, CDN, parallel fetch |
+| Failure | Retry/backoff; degrade UX |
+| Freshness | TTL, ETag, subscriptions |
+| Auth | Tokens per request |
+
+## Standard config / commands
+
+```http
+GET /items/1
+If-None-Match: "v3"
+→ 304 Not Modified
+```
+
+```ts
+type Remote<T> =
+  | { status: 'loading' }
+  | { status: 'error'; error: Error }
+  | { status: 'success'; data: T; fetchedAt: number }
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Spinner forever | No timeout | Client + gateway timeouts |
+| Flicker stale→fresh | Cache policy | SWR; keep previous data |
+| Conflict writes | No version | ETag / If-Match |
+| Partial page empty | Waterfall fail | Error boundaries per section |
+| Wrong tenant data | Cache key | Include tenant in key |
+
+## Gotchas
+
+> [!WARNING]
+> **Assuming LAN latency in product UX** — design for 200–500ms+.
+
+> [!WARNING]
+> **Caching personalized data at CDN** — leak risk; vary on auth.
+
+> [!WARNING]
+> **Silent empty arrays** — distinguish “none” vs “failed.”
+
+## When NOT to use
+
+- **Fully local apps** — embedded DB.
+- **Secrets in client-visible remote configs** — server-only.
+- **Huge binary blobs in JSON APIs** — object storage URLs.
+
+## Related
+
+[[Data fetching Frontend]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]

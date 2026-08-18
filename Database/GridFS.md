@@ -2,7 +2,7 @@
 
 # GridFS
 
-> One-line: MongoDB's convention for storing files >16MB BSON limit — chunks in `fs.files` + `fs.chunks`; stream in/out; not a general filesystem.
+> GridFS — BSON documents cap at 16MB. GridFS splits a file into 255KB chunks (default), storing metadata in fs.files and binary chunks in fs.chunks (default bucket
 
 ## Mental model
 
@@ -63,7 +63,7 @@ new GridFSBucket(db, {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Slow listing | Missing index on `filename` | Index `fs.files.filename`; query by `_id` when possible |
 | Orphan chunks after failed upload | Partial upload | Abort stream; delete incomplete file doc; periodic cleanup job |
 | 16MB error still | Not using GridFS | Any single **document** field still limited — only file payload is chunked |

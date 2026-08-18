@@ -2,9 +2,7 @@
 
 # Buffer head
 
-> Per-block metadata wrapper in the kernel page cache — tracks dirty state, device/block identity, and LRU position for writeback and eviction.
-
----
+> Buffer head — page (4 KiB may hold multiple blocks)
 
 ## Mental model
 
@@ -23,8 +21,6 @@ buffer head                    page (4 KiB may hold multiple blocks)
 When user space calls `write()`, data lands in the page cache; the buffer head's **dirty bit** marks it for later flush. The **flusher thread** (`pdflush`/`bdi_writeback`) walks dirty heads and issues I/O. Eviction uses LRU timestamps on heads/pages — clean pages drop first; dirty pages must be written or discarded policy-dependent.
 
 **Service impact:** runaway dirty buffers → memory pressure, long `sync` stalls, or sudden write bursts that saturate disk IOPS.
-
----
 
 ## Standard config / commands
 
@@ -57,18 +53,14 @@ sudo sysctl -w vm.dirty_ratio=15
 
 **Why:** high `dirty_ratio` lets apps buffer more in RAM (throughput↑) but causes multi-second stalls when the kernel finally throttles writers.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Sudden write latency spikes | `grep Dirty /proc/meminfo`; `iostat -x 1` | Lower `dirty_*` ratios; spread writes; faster disk |
 | Data "written" but lost on crash | App uses `write()` without `fsync()` | Use `fsync`/`fdatasync` for durability contracts — see [[fsync]] |
 | Memory full but `Cached` huge | Dirty pages not flushing (`Writeback` stuck) | Check disk health, D-state processes, RAID degraded |
 | VM/container OOM with heavy I/O | Dirty page cache + cgroup memory | Set `memory.high`/`memory.max`; tune dirty ratios in guest |
-
----
 
 ## Gotchas
 
@@ -81,13 +73,9 @@ sudo sysctl -w vm.dirty_ratio=15
 > [!WARNING]
 > **Double caching:** user-space buffers + page cache = two copies. Direct I/O (`O_DIRECT`) bypasses page cache for DB engines that manage their own buffers.
 
----
-
 ## When NOT to use
 
 Do not micro-manage buffer heads in application code — the kernel owns eviction and writeback. Reach for **`fsync` policy**, **mount options**, and **I/O schedulers** instead of trying to "flush one buffer head."
-
----
 
 ## Related
 

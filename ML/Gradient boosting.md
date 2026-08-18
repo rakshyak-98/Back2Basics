@@ -4,8 +4,6 @@
 
 > Sequential ensemble: each new tree fits the **residual errors** of the ensemble so far — **Friedman (1999)** + modern GBDT libraries.
 
----
-
 ## Mental model
 
 Boosting builds an additive model:
@@ -24,11 +22,9 @@ Round 2: tree fixes what round 1 missed
 Final: weighted sum of M small trees
 ```
 
-**vs [[Random forest]]:** RF trains trees **in parallel** on bootstrap samples + random features (bagging). GBDT trains **sequentially**, each tree correcting prior bias — often higher accuracy, more tuning sensitivity.
+**versus [[Random forest]]:** RF trains trees **in parallel** on bootstrap samples + random features (bagging). GBDT trains **sequentially**, each tree correcting prior bias — often higher accuracy, more tuning sensitivity.
 
 **Loss linkage:** regression → MSE residuals; binary classification → log-loss → residuals on log-odds; ranking → LambdaRank-style gradients.
-
----
 
 ## Standard config / commands
 
@@ -56,7 +52,7 @@ clf.fit(X_train, y_train)
 See [[xg boost]]. Typical starting grid:
 
 | Param | Start | Notes |
-|-------|-------|-------|
+| --- | --- | --- |
 | `n_estimators` / `num_boost_round` | 500–2000 | Use early stopping |
 | `learning_rate` | 0.03–0.1 | ↓ rate → ↑ trees |
 | `max_depth` | 4–8 | Interaction depth |
@@ -78,20 +74,16 @@ model = xgb.train(
 )
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Train great, val collapses | `learning_rate` too high, too many rounds | Lower η; enable early stopping; ↑ `min_child_weight` / `min_samples_leaf` |
 | Underfitting (both weak) | Too few rounds, depth too shallow | More estimators + early stop; slightly deeper trees |
 | Training very slow | Dense wide matrix | `HistGradientBoosting`; LightGBM histogram; reduce features |
 | Predictions all one class | Base rate skew, wrong objective | Check `scale_pos_weight`; class weights; PR curve |
 | Wild variance across CV folds | Small data + high capacity | Stronger regularization; fewer features; nested CV |
 | Serving latency high | Tree count × depth | Limit rounds; model distillation; ONNX + treelite |
-
----
 
 ## Gotchas
 
@@ -107,16 +99,12 @@ model = xgb.train(
 > [!WARNING]
 > **Interaction ≠ causation:** high feature importance on correlated features splits credit arbitrarily — use SHAP with care.
 
----
-
 ## When NOT to use
 
 - **Tiny tabular data (< few hundred rows)** — linear/logistic + strong regularization often generalizes better with less tuning.
 - **Need online learning** — GBDT retrains are batch-heavy; consider linear models or incremental learners.
 - **Strict interpretability for regulators** — single [[Decision tree]] or GAM may be required; explain boosted models with documented SHAP limits.
 - **Already at latency budget with RF** — boosting gains may not justify 2–5× inference cost.
-
----
 
 ## Related
 

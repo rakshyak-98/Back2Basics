@@ -2,7 +2,7 @@
 
 # AWS STS (Security Token Service)
 
-> Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories from leaked static keys.
+> Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories
 
 ## Mental model
 
@@ -51,9 +51,9 @@ eval "$(aws sts assume-role ... --query 'Credentials.[AccessKeyId,SecretAccessKe
 
 ### Instance / pod identity (no keys on disk)
 
-- **EC2 instance profile** → IMDS delivers rotating role creds (prefer IMDSv2: `HttpTokens: required`).
+- **EC2 instance profile** → IMDS delivers rotating role credentials (prefer IMDSv2: `HttpTokens: required`).
 - **EKS IRSA** → OIDC trust to `sts:AssumeRoleWithWebIdentity`.
-- **Lambda** → execution role creds injected by runtime.
+- **Lambda** → execution role credentials injected by runtime.
 
 ### SSO / Identity Center
 
@@ -70,7 +70,7 @@ aws sts get-caller-identity --profile prod   # shows assumed SSO role ARN
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `AccessDenied` on `AssumeRole` | Trust policy Principal; role name/ARN; ExternalId | Fix trust `Principal`; pass correct ExternalId |
 | `ExpiredToken` mid-deploy | Session duration; clock skew on host | Re-assume; sync NTP; increase duration within max |
 | Works locally, fails in CI | OIDC thumbprint/audience; repo/org condition | Fix IdP trust; scope `sub`/`aud` conditions |
@@ -95,8 +95,8 @@ aws sts get-caller-identity --profile prod   # shows assumed SSO role ARN
 ## When NOT to use
 
 - **Long-lived IAM user access keys for apps** — use roles + STS; keys for break-glass humans only, rotated and scoped.
-- **Embedding AssumeRole in every micro-request** — cache creds until ~5 min before expiry; use SDK default credential chain.
-- **One mega-role for all environments** — separate roles per env/account; STS makes splitting cheap.
+- **Embedding AssumeRole in every micro-request** — cache credentials until ~5 min before expiry; use SDK default credential chain.
+- **One mega-role for all environments** — separate roles per environment/account; STS makes splitting cheap.
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # AWS EC2
 
-> **Virtual machines in a VPC** — pick AMI, instance type, subnet/SG, and know what still bills after `terminate`. **AWS EC2 User Guide** + finance surprises from orphaned EIPs/NAT.
+> EC2 — virtual machines in AWS with chooseable CPU, memory, disk, and network.
 
 ## Mental model
 
@@ -22,8 +22,9 @@ Every instance needs a **VPC** (default or custom) — networking is not optiona
 ### Launch checklist (prod)
 
 | Setting | Typical choice | Why |
-|---------|----------------|-----|
+
 | Subnet | Private app tier | No direct internet exposure |
+| --- | --- | --- |
 | Public IP | Off (use ALB) | Smaller attack surface |
 | SG | Tier-specific (`app-sg`) | Not `default` |
 | IAM | Instance profile with least privilege | No keys on disk |
@@ -54,7 +55,7 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Instance unreachable (SSH/app) | SG, NACL, route, public IP/subnet | Full path debug ([[AWS Networking]], [[Security group]]) |
 | Status checks failed | System vs instance check in console | Reboot; migrate if hardware; fix disk full (instance check) |
 | Out of CPU credits (T-family) | CloudWatch `CPUCreditBalance` | Unlimited mode or resize to M/C family |
@@ -80,9 +81,9 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 ## When NOT to use
 
 - **Long-running stateless web at scale without ASG** — use Auto Scaling Group + ALB.
-- **Batch/analytics** — consider Fargate, Lambda, or Spot Fleet for cost.
+- **Batch/analytics** — consider Fargate, [[AWS Lambda]], or Spot Fleet for cost.
 - **Bare metal driver/hardware timing needs** — consider Dedicated Hosts or on-prem.
 
 ## Related
 
-[[AWS Networking]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
+[[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]

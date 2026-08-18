@@ -16,8 +16,9 @@ Style recalc → Layout → Paint → Composite
 ```
 
 | Triggers layout | Usually skips layout |
-|-----------------|----------------------|
+
 | `width`, `height`, `padding`, `border` | `transform`, `opacity` |
+| --- | --- |
 | DOM insert/remove | `filter` (may paint only) |
 | Font load | `will-change: transform` |
 | Reading `offsetWidth` after write | compositor-only animations |
@@ -72,7 +73,7 @@ els.forEach((el, i) => { el.style.width = widths[i] + 10 + 'px'; });
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Jank on scroll | Sticky + height reads | `passive: true` listeners; avoid layout in scroll |
 | ResizeObserver loop error | Feedback resize | Debounce; don't set size from observer blindly |
 | Slow list filter | Re-layout 10k nodes | Virtual list; `key` stability |

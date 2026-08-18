@@ -4,8 +4,6 @@
 
 > Outbound packets leaving your network boundary toward the internet or another VPC — billed, filtered, and NAT'd differently from ingress.
 
----
-
 ## Mental model
 
 **Egress** = source inside, destination outside (relative to trust boundary):
@@ -21,8 +19,6 @@ Cloud patterns:
 - **Cost** — AWS charges per-GB **processed** by NAT GW + data transfer out to internet
 
 Ingress and egress asymmetry: you control routing tables for both; **return traffic** must match stateful firewall/NAT bindings.
-
----
 
 ## Standard config / commands
 
@@ -59,18 +55,14 @@ kubectl top pod -A --sort-by=network
 
 **Why NAT GW:** gives private RFC1918 hosts outbound internet without public IPs on each VM.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No outbound internet from private subnet | Route to NAT; NAT in public subnet | 0.0.0.0/0 → nat-id; NAT has EIP |
 | Egress works, return fails | SG stateful; asymmetric routing | Allow return on SG; fix multi-homed routes |
 | Surprise cloud bill | NAT GW + cross-AZ | VPC endpoints for S3; same-AZ NAT; flow logs |
 | Geo-blocked egress | Egress IP is NAT pool | Proxy in allowed region; VPN |
-
----
 
 ## Gotchas
 
@@ -83,13 +75,9 @@ kubectl top pod -A --sort-by=network
 > [!WARNING]
 > **DNS egress** — apps calling external APIs leak data; use VPC endpoints where available.
 
----
-
 ## When NOT to use
 
-Don't NAT **everything** if instances need direct inbound (public ALB on app tier) — split tiers: public LB ingress, private app egress via NAT.
-
----
+Don't NAT **everything** if instances need direct inbound (public ALB on application tier) — split tiers: public LB ingress, private application egress via NAT.
 
 ## Related
 

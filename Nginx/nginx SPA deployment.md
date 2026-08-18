@@ -2,11 +2,11 @@
 
 # Nginx SPA Deployment
 
-> One-line: client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
+> client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
 
 ## Mental model
 
-SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.
+**Say it in one breath:** SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.
 
 ```
 Browser GET /dashboard
@@ -16,8 +16,6 @@ Browser GET /dashboard
 ```
 
 The server delivers **one shell** (`index.html` + JS bundle); the framework router takes over after load.
-
----
 
 ## Standard config / commands
 
@@ -77,14 +75,12 @@ dist/
     index-d4e5f6.css
 ```
 
-Ensure `root` points at `dist/`, not repo root.
-
----
+Ensure `root` points at `dist/`, not repository root.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 404 on refresh at `/dashboard` | Missing or wrong `try_files` | Add `try_files $uri $uri/ /index.html` in `/` location |
 | 404 on refresh but direct URL works from home | Nested `location` blocks overriding fallback | Single catch-all for SPA; don't duplicate conflicting locations |
 | API returns HTML (index.html) instead of JSON | API `location` missing or ordered after catch-all | Put `/api/` **before** `/` fallback; use `^~ /api/` if regex locations interfere |
@@ -100,8 +96,6 @@ curl -sS https://mysite.com/ | head -5
 # Confirm Nginx serves index.html for unknown path
 curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.*</title>'
 ```
-
----
 
 ## Gotchas
 
@@ -120,14 +114,10 @@ curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.
 > [!WARNING]
 > **`error_page 404 /index.html`:** Returns 200 with index.html body — breaks monitoring that expects 404 on missing static files. Prefer explicit `try_files`.
 
----
-
 ## When NOT to use
 
-- **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid config, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
+- **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid configuration, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
 - **Multiple SPAs on one host** — use separate `root` + `server_name` or careful prefix locations, not one catch-all.
-
----
 
 ## Related
 

@@ -1,237 +1,68 @@
-m -> SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
+[[Linux]] [[gsetting]] [[X Desktop Group]]
 
-| Color   | FG   | Bright FG |
-| ------- | ---- | --------- |
-| Black   | `30` | `90`      |
-| Red     | `31` | `91`      |
-| Green   | `32` | `92`      |
-| Yellow  | `33` | `93`      |
-| Blue    | `34` | `94`      |
-| Magenta | `35` | `95`      |
-| Cyan    | `36` | `96`      |
-| White   | `37` | `97`      |
+# gnome Colorschem
 
-`\[\e[<style>;<foreground>;<background>m\]`
+> GNOME color scheme is the light/dark preference — `org.gnome.desktop.interface color-scheme` plus GTK/app theme keys.
 
-## PS1
-```bash
-PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\e[0m\]\n\$ '
+## Mental model
+
+**Say it in one breath:** set `color-scheme` to `prefer-dark`/`prefer-light`/`default`; apps that honor Settings portal follow.
+
+```txt
+gsettings set … color-scheme 'prefer-dark'
+        │
+        └─ GTK/libadwaita / portals → app chrome
 ```
 
-```bash
- PS1='\[\e[38;5;141m\]\W\[\e[38;5;175m\]$(__git_ps1 " (%s)")\[\e[0m\]\[\e[38;5;108m\] ➜ \[\e[0m\]'
-```
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **color-scheme** | prefer-dark/light | “The modern GNOME switch.” |
+| --- | --- | --- |
+| **gtk-theme** | Legacy theme name | “Still matters for older apps.” |
+| **libadwaita** | Modern GNOME toolkit | “Follows color-scheme.” |
+| **portal** | Sandboxed settings API | “Flatpak apps ask the portal.” |
+| **accent-color** | Highlight hue | “Separate from light/dark.” |
+
+## Standard config / commands
 
 ```bash
-PS1='\[\e[38;5;110m\]➜ \[\e[38;5;144m\]\W\[\e[38;5;109m\]$(__git_ps1 " (%s)")\[\e[0m\] '
+gsettings get org.gnome.desktop.interface color-scheme
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
+gsettings range org.gnome.desktop.interface color-scheme
+gsettings get org.gnome.desktop.interface gtk-theme
 ```
 
-```bash
-PS1='\[\033[01;32m\]\033[01;34m\]\W\[\033[00m\]\e[38;5;109m\]$(__git_ps1 " (%s)")\[\e[0m\] ❯ '
-```
+| Knob | Why it matters |
 
-## Habamax dark
+| `prefer-dark` | Apps should switch without theme pack hacks |
+| --- | --- |
+| gtk-theme | Older apps ignore color-scheme |
 
-```bash
-#!/bin/bash
+## Triage (when things break)
 
-# Get the current profile ID (first in list)
-PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'" | head -n 1)
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| App stays light | Toolkit age / flatpak | Update app; check portal perms |
+| Reverts on login | Managed dconf | Fleet profile overrides |
+| Only some apps change | Mixed GTK/Qt | Set Qt theme separately |
+| gsettings no schema | Headless | Needs GNOME schemas package |
 
-# Base path for gsettings
-BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
+## Gotchas
 
-# Disable theme colors/background
-gsettings set "$BASE_PATH" use-theme-colors false
-gsettings set "$BASE_PATH" use-theme-background false
+> [!WARNING]
+> **`gtk-theme='Adwaita-dark'`** is legacy; prefer `color-scheme` on modern GNOME.
 
-# Set Habamax theme colors
-gsettings set "$BASE_PATH" background-color '#1c1c1c'     # Background
-gsettings set "$BASE_PATH" foreground-color '#d0d0d0'     # Foreground
-gsettings set "$BASE_PATH" bold-color '#ffffaf'           # Bold color (Yellowish)
-gsettings set "$BASE_PATH" bold-color-same-as-fg false
+> [!WARNING]
+> **Terminal themes** are separate from GNOME color-scheme.
 
-# Set Habamax 16-color palette
-gsettings set "$BASE_PATH" palette "[
-  '#1c1c1c',  # black
-  '#af5f5f',  # red
-  '#5f875f',  # green
-  '#87875f',  # yellow
-  '#5f87af',  # blue
-  '#875f87',  # magenta
-  '#5f8787',  # cyan
-  '#d0d0d0',  # white
+## When NOT to use
 
-  '#585858',  # bright black
-  '#ff8700',  # bright red (orange-like)
-  '#87af87',  # bright green
-  '#ffffaf',  # bright yellow
-  '#87afd7',  # bright blue
-  '#d787af',  # bright magenta
-  '#87d7d7',  # bright cyan
-  '#ffffff'   # bright white
-]"
+- **Non-GNOME desktops** — use that DE’s theme system.
+- **Servers** — no-op.
 
-```
+## Related
 
-### Use rose pine moon theme
-```bash
-# Get the current profile ID
-PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
-
-# Set theme colors
-BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
-
-gsettings set "$BASE_PATH" use-theme-colors false
-gsettings set "$BASE_PATH" use-theme-background false
-
-# Background, foreground, bold
-gsettings set "$BASE_PATH" background-color '#232136'     # base
-gsettings set "$BASE_PATH" foreground-color '#e0def4'     # text
-gsettings set "$BASE_PATH" bold-color '#c4a7e7'           # love
-gsettings set "$BASE_PATH" bold-color-same-as-fg false
-
-# Rosé Pine Moon palette (16 colors)
-gsettings set "$BASE_PATH" palette "[
-  '#393552',  # black     (surface)
-  '#eb6f92',  # red       (love)
-  '#9ccfd8',  # green     (foam)
-  '#f6c177',  # yellow    (gold)
-  '#3e8fb0',  # blue      (pine)
-  '#c4a7e7',  # magenta   (iris)
-  '#ea9a97',  # cyan      (rose)
-  '#e0def4',  # white     (text)
-
-  '#6e6a86',  # bright black  (highlight low)
-  '#eb6f92',  # bright red    (love)
-  '#9ccfd8',  # bright green  (foam)
-  '#f6c177',  # bright yellow (gold)
-  '#3e8fb0',  # bright blue   (pine)
-  '#c4a7e7',  # bright magenta(iris)
-  '#ea9a97',  # bright cyan   (rose)
-  '#e0def4'   # bright white  (text)
-]"
-
-```
-
-### Use rose pine moon theme (light)
-```bash
-
-# Get the current profile ID (first in the list)
-PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'" | head -n 1)
-
-# Set base path
-BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
-
-# Disable default theme colors
-gsettings set "$BASE_PATH" use-theme-colors false
-gsettings set "$BASE_PATH" use-theme-background false
-
-# Set background, foreground, bold colors
-gsettings set "$BASE_PATH" background-color '#ffffff'     # pure white background
-gsettings set "$BASE_PATH" foreground-color '#000000'     # black text
-gsettings set "$BASE_PATH" bold-color '#ae7cf7'           # purple (bold accent)
-gsettings set "$BASE_PATH" bold-color-same-as-fg false
-
-# Set palette (converted rgb to hex)
-gsettings set "$BASE_PATH" palette "[
-  '#000000',  # rgb(0,0,0)
-  '#ff5555',  # rgb(255,85,85)
-  '#5070fa',  # rgb(80,112,250)
-  '#f1fa8c',  # rgb(241,250,140)
-  '#ae7cf7',  # rgb(174,124,247)
-  '#ff79c6',  # rgb(255,121,198)
-  '#81d3e5',  # rgb(129,211,229)
-  '#bfbfbf',  # rgb(191,191,191)
-
-  '#4d4d4d',  # rgb(77,77,77)
-  '#ff6e67',  # rgb(255,110,103)
-  '#5a8ff7',  # rgb(90,143,247)
-  '#f4f99d',  # rgb(244,249,157)
-  '#9e76da',  # rgb(158,118,218)
-  '#ff92d0',  # rgb(255,146,208)
-  '#96cfdb',  # rgb(150,207,219)
-  '#e6e6e6'   # rgb(230,230,230)
-]"
-```
-
-
-## Catppuccin Mocha palette
-
-```bash
-#!/bin/bash
-
-# Catppuccin Mocha palette
-declare -A colors=(
-  [black]="#1e1e2e"
-  [red]="#f38ba8"
-  [green]="#a6e3a1"
-  [yellow]="#f9e2af"
-  [blue]="#89b4fa"
-  [magenta]="#f5c2e7"
-  [cyan]="#94e2d5"
-  [white]="#cdd6f4"
-  [brightBlack]="#585b70"
-  [brightRed]="#f38ba8"
-  [brightGreen]="#a6e3a1"
-  [brightYellow]="#f9e2af"
-  [brightBlue]="#89b4fa"
-  [brightMagenta]="#f5c2e7"
-  [brightCyan]="#94e2d5"
-  [brightWhite]="#ffffff"
-  [bg]="#1e1e2e"
-  [fg]="#cdd6f4"
-  [cursor]="#f5c2e7"
-)
-
-# Create a new GNOME terminal profile with Catppuccin colors
-PROFILE_NAME="Catppuccin Mocha"
-PROFILE_SLUG="catppuccin-mocha"
-DCONF_DIR=/org/gnome/terminal/legacy/profiles:
-PROFILE_ID=$(uuidgen)
-
-# Append profile
-dconf write $DCONF_DIR/list "[$(dconf read $DCONF_DIR/list | sed "s/]$/, '$PROFILE_ID']/")]"
-dconf write $DCONF_DIR/:$PROFILE_ID/visible-name "'$PROFILE_NAME'"
-dconf write $DCONF_DIR/:$PROFILE_ID/palette "['${colors[black]}', '${colors[red]}', '${colors[green]}', '${colors[yellow]}', '${colors[blue]}', '${colors[magenta]}', '${colors[cyan]}', '${colors[white]}', '${colors[brightBlack]}', '${colors[brightRed]}', '${colors[brightGreen]}', '${colors[brightYellow]}', '${colors[brightBlue]}', '${colors[brightMagenta]}', '${colors[brightCyan]}', '${colors[brightWhite]}']"
-dconf write $DCONF_DIR/:$PROFILE_ID/background-color "'${colors[bg]}'"
-dconf write $DCONF_DIR/:$PROFILE_ID/foreground-color "'${colors[fg]}'"
-dconf write $DCONF_DIR/:$PROFILE_ID/bold-color "'${colors[fg]}'"
-dconf write $DCONF_DIR/:$PROFILE_ID/use-theme-colors "false"
-dconf write $DCONF_DIR/:$PROFILE_ID/use-theme-background "false"
-dconf write $DCONF_DIR/:$PROFILE_ID/cursor-colors-set "true"
-dconf write $DCONF_DIR/:$PROFILE_ID/cursor-background-color "'${colors[cursor]}'"
-dconf write $DCONF_DIR/:$PROFILE_ID/cursor-foreground-color "'${colors[bg]}'"
-
-# Optional: Set as default profile
-dconf write $DCONF_DIR/default "'$PROFILE_ID'"
-
-echo "🎨 Catppuccin Mocha theme applied to GNOME Terminal."
-
-```
-
-## Gruvbox theme
-```bash
-#!/usr/bin/env bash
-# Apply Gruvbox Dark theme to GNOME Terminal
-
-PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \')
-PROFILE_PATH="/org/gnome/terminal/legacy/profiles:/:$PROFILE"
-
-# Gruvbox Dark palette
-PALETTE="['#282828', '#cc241d', '#98971a', '#d79921', \
-'#458588', '#b16286', '#689d6a', '#a89984', \
-'#928374', '#fb4934', '#b8bb26', '#fabd2f', \
-'#83a598', '#d3869b', '#8ec07c', '#ebdbb2']"
-
-# Apply settings
-dconf write $PROFILE_PATH/background-color "'#282828'"
-dconf write $PROFILE_PATH/foreground-color "'#ebdbb2'"
-dconf write $PROFILE_PATH/palette "$PALETTE"
-dconf write $PROFILE_PATH/bold-color "'#ebdbb2'"
-dconf write $PROFILE_PATH/use-theme-colors "false"
-dconf write $PROFILE_PATH/bold-color-same-as-fg "true"
-
-echo "Gruvbox Dark theme applied to GNOME Terminal profile: $PROFILE"
-
-```
+[[gsetting]] [[X Desktop Group]] [[terminal configuration]]

@@ -2,7 +2,7 @@
 
 # JavaScript concurrency
 
-> Cooperative multitasking on a single main thread — I/O overlaps, CPU work blocks everyone — **Event Loop + libuv model**.
+> JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
 ## Mental model
 
@@ -15,8 +15,9 @@ Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
 ```
 
 | Mechanism | Parallel? | DOM / shared memory |
-|-----------|-----------|---------------------|
+
 | **Event loop + async I/O** | No (interleaved) | Main thread only (browser) |
+| --- | --- | --- |
 | **Web Workers** | Yes (separate thread) | No DOM; `postMessage` |
 | **Worker threads (Node)** | Yes | Shared `ArrayBuffer` optional |
 | **`Promise.all` + fetch** | Concurrent I/O, not CPU | Still one JS thread |
@@ -69,7 +70,7 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | API timeouts under load | Event loop blocked | Profile sync fs/crypto/json.parse on huge payloads |
 | UI jank / frozen tab | Long task on main thread | Move work to Web Worker; chunk with `requestIdleCallback` |
 | `UnhandledPromiseRejection` | Missing `await` / `.catch()` | Always handle async errors |

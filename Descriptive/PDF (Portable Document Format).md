@@ -1,7 +1,64 @@
-is called _portable_ because it preserves the layout, formatting, fonts and images of a document regardless of the software, hardware, or operating system used to view it.
+[[Descriptive]] [[pdf parser]] [[embedded image]]
 
-> [!INFO] Key reasons for portability
-> - can be opened to Windows, macOS, Linux, IOS and Android without losing formatting.
-> - PDF embed all necessary fonts, images, and layout details, so they don't depend on external resources.
-> - fixed formatting -> unlike word documents, PDFs retain their structure and appearance regardless of where they're opened.
-> - compression and optimization -> PDFs can be compressed to reduce file size while maintaining quality, making them easy to share and store.
+# PDF (Portable Document Format)
+
+> PDF is a fixed-layout document format — pages, fonts, and vectors aimed at print-faithful rendering.
+
+## Mental model
+
+**Say it in one breath:** A PDF is objects + a cross-reference table; viewers draw pages, not a live DOM like HTML.
+
+```txt
+objects (page, font, stream) → xref → viewer renders page N
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Page tree** | Structure of pages | “Random access to page N.” |
+| --- | --- | --- |
+| **Content stream** | Draw operators | “Text as positioned glyphs.” |
+| **Embedded font** | Fonts inside file | “Avoid missing glyphs.” |
+| **PDF/A** | Archival subset | “Long-term preservation.” |
+
+## Standard config / commands
+
+```bash
+pdftotext file.pdf -     # extract text
+pdfinfo file.pdf         # metadata, page count
+qpdf --check file.pdf    # structural check
+```
+
+| Knob | Why it matters |
+
+| Font embedding | Cross-machine fidelity |
+| --- | --- |
+| Compression | Size vs CPU |
+| Encryption | Permissions / open password |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Garbled text extract | drawn as paths / bad encoding | OCR or better producer |
+| Missing glyphs | fonts not embedded | Embed fonts |
+| Huge file | images uncompressed | Recompress; downsample |
+| Corrupt xref | bad merge | qpdf repair / regenerate |
+
+## Gotchas
+
+> [!WARNING]
+> **“Text” may be curves** — extractors return nothing useful.
+
+> [!WARNING]
+> **Pixel-perfect HTML≠PDF** — different layout engines.
+
+## When NOT to use
+
+- **Editableeeee web content** — HTML.
+- **Data interchange** — JSON/CSV.
+
+## Related
+
+[[pdf parser]] [[pdf-stream-viewing]] [[Markdown]]

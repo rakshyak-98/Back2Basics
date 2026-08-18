@@ -1,20 +1,18 @@
-[[Streaming]] [[RTMP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
+[[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
 
 # Ingestion
 
 > Accept live or file video into the processing pipeline — **front door** where protocols, validation, and backpressure matter first.
 
----
-
 ## Mental model
 
-**Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, auth, and isolation per tenant**.
+**Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, authentication, and isolation per tenant**.
 
 ```txt
 Publisher (OBS, encoder, partner)
         │
    ┌────┴────┬──────────┬──────────┐
- RTMP    SRT/WebRTC   S3 upload   API pull
+ [[RTMP]]    [[SRT]]/WebRTC   S3 upload   API pull
    │        │              │           │
    └────────┴──────────────┴───────────┘
                     │
@@ -24,15 +22,15 @@ Publisher (OBS, encoder, partner)
 ```
 
 | Input type | Typical protocol | Latency | Ops note |
-|------------|------------------|---------|----------|
-| **Live encoder** | [[RTMP]], SRT | seconds | Persistent connection |
+
+| **Live encoder** | [[RTMP]], [[SRT]] | seconds | Persistent connection |
+| --- | --- | --- | --- |
+| **IP camera / NVR** | [[RTSP]] | seconds–minutes | Pull PLAY; often transcode to [[HLS]] |
 | **Browser** | WebRTC WHIP | sub-second | Signaling + TURN |
 | **VoD file** | HTTPS multipart | minutes | Async job queue |
 | **Broadcast feed** | UDP MPEG-TS | seconds | Multicast / Zixi |
 
 Ingest is **not** CDN delivery — keep hot path lean; don't sync-call catalog DB on every keyframe.
-
----
 
 ## Standard config / commands
 
@@ -92,12 +90,10 @@ CPU/memory quotas — one bad publisher can't starve fleet
 Max bitrate enforcement at ingest (drop or disconnect)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | OBS "Failed to connect" | DNS, 1935 blocked, bad key | Security group; rotate key; TLS RTMPS if required |
 | Connect then immediate drop | Auth callback timeout | Scale auth service; fail-open only if contract allows |
 | Frozen picture, audio OK | Publisher stopped sending video | OBS scene empty; encoder crash |
@@ -105,8 +101,6 @@ Max bitrate enforcement at ingest (drop or disconnect)
 | VoD stuck QUEUED | Worker backlog | Scale transcode ASG; priority queue |
 | A/V sync at ingest | Wrong `-itsoffset` upstream | Fix publisher; don't patch in packager only |
 | High latency from day one | Too many sync transcode hops | `-c copy` to packager when possible |
-
----
 
 ## Gotchas
 
@@ -125,16 +119,12 @@ Max bitrate enforcement at ingest (drop or disconnect)
 > [!WARNING]
 > **Geo-locked partners** — whitelist IPs; don't expose global open RTMP.
 
----
-
 ## When NOT to use
 
 - **Client-direct to CDN** — browsers don't publish RTMP; use WebRTC/WHIP or dedicated encoder.
 - **Heavy ML on ingest thread** — offload analysis async; keep ingest I/O bound.
 - **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
 
----
-
 ## Related
 
-[[RTMP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]
+[[RTMP]] [[SRT]] [[RTSP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]

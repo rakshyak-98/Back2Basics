@@ -2,7 +2,7 @@
 
 # PostgreSQL users & roles
 
-> One-line: Postgres **roles** unify users and groups — login role = user; grant least privilege; never app-connect as superuser.
+> Postgres **roles** unify users and groups — login role = user; grant least privilege; never app-connect as superuser.
 
 ## Mental model
 
@@ -15,7 +15,7 @@ GRANT USAGE ON SCHEMA public TO app_user
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO app_user
 ```
 
-Default superuser `postgres` is for admin — apps use scoped role. Peer auth on Unix socket maps OS user → PG role (common source of "role does not exist" errors).
+Default superuser `postgres` is for administrator — apps use scoped role. Peer authentication on Unix socket maps OS user → PG role (common source of "role does not exist" errors).
 
 ## Standard config / commands
 
@@ -72,7 +72,7 @@ Reload after edit: `SELECT pg_reload_conf();`
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `role "ubuntu" does not exist` | Peer auth uses OS username | Create role; or `-U postgres`; fix pg_hba |
 | `password authentication failed` | Wrong secret; scram vs md5 | Reset password; align pg_hba method |
 | `permission denied for table` | Missing GRANT | Grant table/sequence; default privileges |
@@ -93,8 +93,8 @@ Reload after edit: `SELECT pg_reload_conf();`
 
 ## When NOT to use
 
-- **IAM DB auth (RDS/IAM)** — token-based user still maps to PG role; different connection flow.
-- **Row-level security** — complements grants; see app-specific policies.
+- **IAM DB authentication (RDS/IAM)** — token-based user still maps to PG role; different connection flow.
+- **Row-level security** — complements grants; see application-specific policies.
 
 ## Related
 

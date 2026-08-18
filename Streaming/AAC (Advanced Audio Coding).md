@@ -2,9 +2,7 @@
 
 # AAC (Advanced Audio Coding)
 
-> Default audio codec for HLS/DASH/fMP4 — **MPEG-4 Part 3 / ISO/IEC 14496-3**.
-
----
+> AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
 ## Mental model
 
@@ -19,15 +17,14 @@ PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 ```
 
 | Profile | Typical use | `CODECS` string (HLS) |
-|---------|-------------|------------------------|
+
 | **AAC-LC** | Stereo streaming default | `mp4a.40.2` |
+| --- | --- | --- |
 | **HE-AAC v1 (SBR)** | Low-bitrate mobile | `mp4a.40.5` |
 | **HE-AAC v2 (PS)** | Very low bitrate stereo | `mp4a.40.29` |
 | **AAC-LD / ELD** | WebRTC, low latency | rarely in HLS ladders |
 
 **AAC-LC @ 128 kbps stereo** is the industry default for VoD and live ABR. Surround broadcast may use AC-3/E-AC-3 (`ec-3`) or Dolby Digital Plus — separate audio renditions in the manifest.
-
----
 
 ## Standard config / commands
 
@@ -44,7 +41,7 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -c:a aac -b:a 128k -ar 48000 \
 ```
 
 | Knob | Why |
-|------|-----|
+| --- | --- |
 | `-profile:a aac_low` | LC profile — widest device support |
 | `-ar 48000` | 48 kHz — broadcast/streaming standard (44.1 kHz OK for music VoD) |
 | `-ac 2` | Stereo; mono use `-ac 1` @ 64–96k |
@@ -77,20 +74,16 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 
 `BANDWIDTH` must include audio bitrate — see [[bitrate streaming]].
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No audio on iOS/Safari | Codec not AAC-LC; wrong `mp4a` in CODECS | Re-encode AAC-LC; fix manifest CODECS string |
 | Audio ahead/behind video | Separate audio rendition misaligned | Package audio in same segment timeline; aligned GOP |
 | Muffled / underwater | HE-AAC on player without SBR | Fall back to AAC-LC for that rung |
 | Silent after DRM | Audio not CENC-wrapped with video | [[DRM]] sample encryption must cover audio track |
 | `-c:a copy` fails in HLS | Source MP3/Opus in TS | Transcode to AAC for fMP4/HLS ([[re-encoding]]) |
 | Loudness jumps between ads | No loudness normalization | EBU R128 / `-af loudnorm` on mezzanine |
-
----
 
 ## Gotchas
 
@@ -106,15 +99,11 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 > [!WARNING]
 > **Dual mono labeled stereo** — `-ac 2` on mono source wastes bits; detect channels upstream.
 
----
-
 ## When NOT to use
 
 - **WebRTC voice** — prefer Opus (built into WebRTC); AAC adds encode latency.
 - **Archival master** — store lossless (FLAC/PCM mezzanine); AAC only at delivery edge.
 - **Ultra-low latency LL-HLS** — audio frame pacing matters; don't add redundant transcode hops.
-
----
 
 ## Related
 

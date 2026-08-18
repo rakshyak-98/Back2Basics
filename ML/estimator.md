@@ -2,9 +2,7 @@
 
 # Estimator (ML / statistics)
 
-> An object that **learns parameters from data** via `fit` and **applies** them via `predict` / `transform` — scikit-learn's uniform API — **Pedregosa et al. (sklearn)**.
-
----
+> Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
 ## Mental model
 
@@ -19,7 +17,7 @@ estimator.transform(X)  # preprocessing (scalers, encoders)
 Statistical estimators (sample mean, MLE) **estimate population quantities** from a sample. Properties matter:
 
 | Property | Meaning |
-|----------|---------|
+| --- | --- |
 | **Unbiased** | E[θ̂] = θ on average |
 | **Consistent** | θ̂ → θ as n → ∞ |
 | **Efficient** | Low variance among unbiased estimators |
@@ -30,8 +28,6 @@ ML "estimators" prioritize **predictive loss** on held-out data, not unbiasednes
 Pipeline: [Transformer₁ → Transformer₂ → Predictor]
           fit/transform only on train inside CV
 ```
-
----
 
 ## Standard config / commands
 
@@ -72,19 +68,15 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
         return np.full(len(X), self.majority_)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `NotFittedError` | Called predict before fit | `fit` on train; persist with `joblib` |
 | Different output same data | Unset seed, parallel race | `random_state`; `n_jobs=1` while debugging |
 | CV worse than single split | Leakage in preprocessing | Pipeline wrapped in CV |
 | `fit` hangs | Huge one-hot, dense matrix | Sparse matrices; feature selection |
 | Coefficients "wrong sign" | Collinearity, scaling | Regularization; VIF review |
-
----
 
 ## Gotchas
 
@@ -94,14 +86,10 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 > [!WARNING]
 > **Pickle across sklearn versions** — model artifacts may not load; pin versions in prod.
 
----
-
 ## When NOT to use
 
 - **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
 - **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
-
----
 
 ## Related
 

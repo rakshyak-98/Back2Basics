@@ -2,9 +2,7 @@
 
 # Stateless offset handling
 
-> Kafka consumer offset patterns for "stateless" services — commits, rebalance, duplicates, and exactly-once illusions — **Kleppmann / Kafka ops canon**.
-
----
+> Stateless offset handling — a consumer's offset is its cursor in a partition log. Stateless here means: no durable local DB for progress — the broker
 
 ## Mental model
 
@@ -18,14 +16,12 @@ Crash before commit → replay from 3 (at-least-once duplicates)
 ```
 
 | Semantics | Behavior | Cost |
-|-----------|----------|------|
+| --- | --- | --- |
 | **At-most-once** | Commit before process | May lose messages |
 | **At-least-once** | Process then commit | Duplicates on crash |
 | **Exactly-once** | Transactions + idempotent producer | Complexity, latency, limits |
 
 **Exactly-once is not magic** — it's bounded to Kafka read-process-write within transactional boundaries; side effects to HTTP/DB still need [[Idempotent-key]].
-
----
 
 ## Standard config / commands
 
@@ -50,7 +46,7 @@ while (true) {
 ### Commit strategies
 
 | Strategy | When | Risk |
-|----------|------|------|
+| --- | --- | --- |
 | **Auto commit** | Dev only | Commit before process → loss |
 | **Sync per batch** | Default prod | Duplicate whole batch on crash |
 | **Async commit** | Higher throughput | Ordering vs failure timing |
@@ -83,12 +79,10 @@ kafka-consumer-groups.sh --bootstrap-server BROKER \
 kafka-consumer-groups.sh --describe --group my-service --members --verbose
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Consumer kicked from group | `max.poll.interval` exceeded | Smaller batches; async process + pause; scale consumers |
 | Message storm duplicates | Recent deploy before commit | Idempotent handler; dedupe store |
 | Lag growing | `RECORDS-LAG-MAX`; slow process | Scale partitions/consumers; optimize handler |
@@ -100,8 +94,6 @@ kafka-consumer-groups.sh --describe --group my-service --members --verbose
 ```shell
 kafka-consumer-groups.sh --describe --group my-service | awk '$6 > 10000 {print}'
 ```
-
----
 
 ## Gotchas
 
@@ -123,15 +115,11 @@ kafka-consumer-groups.sh --describe --group my-service | awk '$6 > 10000 {print}
 > [!WARNING]
 > **Stateless myth** — handler almost always writes somewhere; design idempotency anyway.
 
----
-
 ## When NOT to use
 
 - **Commit-before-process** for money movement — unacceptable loss window.
-- **Offset reset in prod** without replay capacity — can DDoS your own DB.
+- **Offset reset in production** without replay capacity — can DDoS your own DB.
 - **Kafka transactions** to fix non-idempotent HTTP webhooks — fix the handler instead.
-
----
 
 ## Related
 

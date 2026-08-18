@@ -22,8 +22,9 @@ Call stack (top = running now):
 ```
 
 | Phase (creation) | What happens |
-|------------------|--------------|
+
 | **Creation** | Allocate env record, bind `this`, setup outer reference, hoist `var`/functions |
+| --- | --- |
 | **Execution** | Run statements line by line |
 
 **Global context:** one per script/module — top-level `let`/`const` live in script scope, not `window` (in modules).
@@ -75,7 +76,7 @@ let a = 1;
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ReferenceError: x is not defined` | Variable not in scope chain | Declare in outer scope or pass as arg |
 | Wrong `this` in callback | Lost binding | Arrow fn, `.bind`, or wrapper |
 | Stale closure in loop | `var` + async callback | Use `let` or IIFE |
@@ -88,7 +89,7 @@ let a = 1;
 > Closures keep the **entire lexical environment** alive — capturing large objects in nested callbacks causes memory leaks in long-lived servers.
 
 - **`var` hoists to function context; `let`/`const` hoist to block** — different TDZ behavior.
-- **Eval** can mutate outer lexical env in non-strict legacy code — avoid.
+- **Eval** can mutate outer lexical environment in non-strict legacy code — avoid.
 - **Async functions** suspend, pop stack, resume later — context restored via continuation, not same stack frame.
 - **Multiple globals:** iframes, workers, Node vm — separate contexts, separate globals.
 

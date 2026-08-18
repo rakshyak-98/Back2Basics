@@ -2,7 +2,7 @@
 
 # PostgreSQL connection errors
 
-> One-line: decode FATAL connection failures — role/auth, socket vs TCP, pg_hba, SSL, and pool exhaustion.
+> PostgreSQL connection errors — client connects → libpq resolves host/port → TCP or Unix socket → Postgres postmaster spawns backend → authentication (pg_hba) → database session.
 
 ## Mental model
 
@@ -12,13 +12,13 @@ Client connects → **libpq** resolves host/port → TCP or Unix socket → Post
 psql/app ──► socket/TCP:5432 ──► pg_hba.conf match ──► auth method ──► database
 ```
 
-Errors before auth are network/config; FATAL after connect attempt are usually role/password/database/pg_hba.
+Errors before authentication are network/configuration; FATAL after connect attempt are usually role/password/database/pg_hba.
 
 ## Standard config / commands
 
 ### `role "ubuntu" does not exist`
 
-Unix **peer** auth maps OS user to same-named PG role.
+Unix **peer** authentication maps OS user to same-named PG role.
 
 ```bash
 sudo -u postgres psql -c "CREATE ROLE ubuntu WITH LOGIN SUPERUSER;"
@@ -26,7 +26,7 @@ sudo -u postgres psql -c "CREATE ROLE ubuntu WITH LOGIN SUPERUSER;"
 psql -U postgres -h localhost
 ```
 
-Fix pg_hba if you want password auth instead:
+Fix pg_hba if you want password authentication instead:
 
 ```conf
 local   all   all   scram-sha-256
@@ -69,7 +69,7 @@ openssl s_client -connect host:5432 -starttls postgres
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `role X does not exist` | `\du`; OS username | Create role or `-U` correct user |
 | `database X does not exist` | `\l` | `CREATE DATABASE`; fix connection string db name |
 | Peer auth on TCP | pg_hba `local` vs `host` | Use scram/host rule for remote |
@@ -90,8 +90,8 @@ openssl s_client -connect host:5432 -starttls postgres
 
 ## When NOT to use
 
-- **Query/runtime SQL errors** — different class (`syntax error`, deadlock); check application logs and `pg_stat_activity`.
+- **Query/runtime SQL errors** — different class (`syntax error`, deadlock, [[postgres/postgres parameter type error]]); check application logs and `pg_stat_activity`.
 
 ## Related
 
-[[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]
+[[postgres/postgres parameter type error]] [[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]

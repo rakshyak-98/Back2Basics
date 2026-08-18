@@ -14,7 +14,7 @@ code . ──► running instance ──► opens folder in window
          └── -n forces new window; -r reuses existing
 ```
 
-Remote: `vscode-remote://` URIs target SSH/WSL/Dev Containers attach points.
+Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach points.
 
 ## Standard config / commands
 
@@ -104,7 +104,7 @@ Common IDs:
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `code: command not found` | CLI not on PATH | Shell Command: Install 'code' command in PATH (or Cursor equivalent) |
 | Opens new window every time | `-n` or setting | Use `code -r .`; set `window.openFoldersInNewWindow`: `off` |
 | Wrong folder root | Opened parent not repo | Open git root: `code $(git rev-parse --show-toplevel)` |
@@ -129,7 +129,7 @@ Common IDs:
 
 ## When NOT to use
 
-- **Production server editing** — use CI-deployed config management, not remote VS Code on prod.
+- **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
 - **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
 
 ## Related

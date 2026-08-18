@@ -2,7 +2,7 @@
 
 # HTTP Response Headers (Security & Caching)
 
-> **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** + CDN cache mystery tickets.
+> **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** +
 
 ## Mental model
 
@@ -29,7 +29,7 @@ add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'none';"
 ```
 
 | Header | Purpose |
-|--------|---------|
+| --- | --- |
 | `Strict-Transport-Security` | Force HTTPS after first visit |
 | `Content-Security-Policy` | XSS/injection surface reduction |
 | `X-Frame-Options` / CSP `frame-ancestors` | Clickjacking |
@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | CDN serves wrong language/format | Missing `Vary: Accept` or `Accept-Language` | Add Vary matching negotiation headers |
 | CORS works once, cached wrong origin | No `Vary: Origin` | Add Vary; purge CDN |
 | Site won't embed in approved iframe | `X-Frame-Options: DENY` | CSP `frame-ancestors` allowlist |

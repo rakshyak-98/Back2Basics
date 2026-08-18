@@ -1,40 +1,87 @@
-CoreDNS is an open-source DNS server written in Go and designed around a highly modular plugin architecture. It is best known as the default DNS service for Kubernetes clusters and has become a core component of many cloud-native environments because of its flexibility, extensibility, and service-discovery capabilities. ([CoreDNS](https://coredns.io/?utm_source=chatgpt.com "CoreDNS: DNS and Service Discovery"))
+[[DNS]] [[DNS server]] [[Unbound]] [[Pods]]
 
-### Key Capabilities
+# CoreDNS
 
-CoreDNS is built by chaining plugins together, with each plugin providing a specific DNS-related function such as caching, forwarding, logging, metrics collection, service discovery, or custom record generation. This architecture allows operators to assemble a DNS server tailored to their environment rather than relying on a fixed feature set. ([GitHub](https://github.com/coredns/coredns?utm_source=chatgpt.com "CoreDNS is a DNS server that chains plugins"))
+> CoreDNS — plugin-chained DNS server in Go; default cluster DNS in Kubernetes — forward, cache, kubernetes, rewrite by stacking plugins.
 
-### Why It Matters
+## Mental model
 
-A major reason for CoreDNS's adoption is its role in cloud-native infrastructure. It serves as the recommended and default DNS solution for Kubernetes, where it provides name resolution and service discovery for applications running inside clusters. Its ability to integrate with systems such as Kubernetes, etcd, and Consul makes it particularly valuable for dynamic environments where services frequently appear, disappear, or move. ([Linux Foundation](https://www.linuxfoundation.org/press/press-release/cloud-native-computing-foundation-announces-coredns-graduation?utm_source=chatgpt.com "Cloud Native Computing Foundation Announces CoreDNS ..."))
+**Say it in one breath:** A query walks a **Corefile** plugin chain — e.g. kubernetes → rewrite → cache → forward — until something writes an answer. In Kubernetes it maps Service/Pod names to ClusterIPs.
 
-### Architecture and Design
+```txt
+Query → errors → health → ready → kubernetes → forward → cache → loop → reload → loadbalance
+                 (typical K8s Corefile order varies by chart)
+```
 
-Unlike traditional DNS servers that bundle most functionality into a monolithic design, CoreDNS delegates nearly all behavior to plugins. Some plugins generate DNS responses, while others enhance processing with features such as caching, monitoring, or policy enforcement. Organizations can even develop custom plugins in Go when built-in functionality is insufficient. ([CoreDNS](https://coredns.io/manual/installation/?utm_source=chatgpt.com "Installation"))
+### Interview map (words you can say)
 
-### Ecosystem and Status
+| Word | Plain meaning | Say in interview |
 
-CoreDNS is a graduated project of the Cloud Native Computing Foundation. It entered the CNCF in 2017, reached incubation in 2018, and graduated in 2019, reflecting broad adoption and project maturity. Today it is widely deployed both as a standalone DNS server and as the DNS layer for Kubernetes clusters. ([CNCF](https://www.cncf.io/projects/coredns/?utm_source=chatgpt.com "CoreDNS | CNCF"))
+| **Corefile** | Config: zones + plugin list | “DNS behavior is the plugin chain.” |
+| --- | --- | --- |
+| **kubernetes plugin** | Watches API for Services/Endpoints | “svc.cluster.local comes from here.” |
+| **forward** | Send upstream (node DNS / 8.8.8.8) | “Cluster DNS forwards external names.” |
+| **rewrite** | Mutate question/answer | “Fix legacy names without changing apps.” |
+| **stub domain** | Forward only some zones | “Corp DNS for `*.corp` via forward.” |
 
-### Related Technologies
+## Standard config / commands
 
-### Key DNS and Service Discovery Projects
+```txt
+# Corefile sketch (standalone forwarder + cache)
+.:53 {
+    forward . 1.1.1.1 8.8.8.8
+    cache 30
+    log
+    errors
+}
+```
 
-### Typical Use Cases
+```bash
+# Kubernetes
+kubectl -n kube-system get cm coredns -o yaml
+kubectl -n kube-system logs -l k8s-app=kube-dns
+kubectl -n kube-system rollout restart deploy/coredns
 
-CoreDNS is commonly used for:
+# From a debug pod
+nslookup kubernetes.default
+dig @10.96.0.10 google.com   # cluster DNS ClusterIP
+```
 
-- Kubernetes cluster DNS and service discovery
-    
-- Internal enterprise DNS infrastructure
-    
-- DNS forwarding and caching
-    
-- Dynamic DNS backed by systems such as etcd
-    
-- Custom DNS workflows implemented through plugins
-    
-- Observability and metrics integration for DNS services ([Kubernetes](https://kubernetes.io/docs/tasks/administer-cluster/coredns/?utm_source=chatgpt.com "Using CoreDNS for Service Discovery"))
-    
+| Knob | Why it matters |
 
-Its defining characteristic is **flexibility**: rather than being only a DNS server, CoreDNS acts as a programmable DNS platform that can be adapted to a wide variety of infrastructure and service-discovery needs. ([CoreDNS](https://coredns.io/?utm_source=chatgpt.com "CoreDNS: DNS and Service Discovery"))
+| `forward` targets | Node `/etc/resolv.conf` loops are common |
+| --- | --- |
+| `cache` TTL | Stale Service IPs after change vs query load |
+| Autopath / ndots | Pods with `ndots:5` explode search-list queries |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Pods can’t resolve Services | CoreDNS pods Ready? | Fix CrashLoop; check Corefile syntax |
+| External names fail | `forward` / network policy | Fix upstream; allow UDP/TCP 53 egress |
+| `i/o timeout` to CoreDNS | CNI / kube-proxy / ClusterIP | Fix networking; test from same node |
+| CPU spike | ndots + search domains | Lower `ndots`; enable cache; autopath carefully |
+| SERVFAIL after edit | Bad Corefile | `coredns -conf Corefile` validate; rollback CM |
+| Stale endpoint IP | Cache / endpoint slice lag | Wait/shorten cache; check Endpoints |
+
+## Gotchas
+
+> [!WARNING]
+> **forward to 127.0.0.1 on the node** — easy to create a resolution loop with systemd-resolved.
+
+> [!WARNING]
+> **All DNS in the cluster shares one blast radius** — CoreDNS down → Services “disappear” by name.
+
+> [!WARNING]
+> **Plugin order matters** — cache before kubernetes (wrong order) serves ghosts; read the chain top to bottom.
+
+## When NOT to use
+
+- **Public authoritative hosting for customer domains** — [[BIND]] / PowerDNS ([[PoserDNS]]) fit better.
+- **Heavy recursive with DNSSEC validation as an ISP** — [[Unbound]].
+- **Home router all-in-one DHCP+DNS** — [[dnsmasq]].
+
+## Related
+
+[[DNS]] [[DNS server]] [[name server]] [[Unbound]] [[dnsmasq]] [[PoserDNS]] [[BIND]] [[Pods]]

@@ -2,9 +2,7 @@
 
 # Codecs
 
-> Compress/decompress algorithms for A/V — **encoder choice drives compatibility, cost, and ladder design**.
-
----
+> Codecs — a codec (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at ingest, transcode, and playback — mismatches force expensive
 
 ## Mental model
 
@@ -20,8 +18,9 @@ Raw samples ──► Audio codec (AAC/Opus/AC-3) ──► frames in fMP4/TS
 ```
 
 | Category | Common codecs | Streaming role |
-|----------|---------------|----------------|
+
 | **Video baseline** | H.264 (AVC) | Universal ABR default |
+| --- | --- | --- |
 | **Video efficiency** | HEVC (H.265), AV1, VP9 | 4K/HDR, bandwidth savings |
 | **Audio default** | AAC-LC | HLS/DASH stereo |
 | **Audio broadcast** | AC-3, E-AC-3 | Surround, ATSC |
@@ -29,8 +28,6 @@ Raw samples ──► Audio codec (AAC/Opus/AC-3) ──► frames in fMP4/TS
 | **Legacy** | MPEG-2, MP3 | IPTV, old devices |
 
 **Encode once, package many** — mezzanine in high-quality intermediate; ladder generates delivery codecs ([[transcoding]]).
-
----
 
 ## Standard config / commands
 
@@ -81,20 +78,16 @@ ffmpeg -hwaccel cuda -i in.mp4 -c:v h264_nvenc -preset p4 -b:v 4500k -c:a aac ou
 ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Black screen, audio OK | Video codec unsupported | Add H.264 rung; fix CODECS |
 | Works desktop, fails TV | HEVC without hardware decode | H.264 fallback ladder |
 | HDR washed out | HEVC Main10 vs SDR tag | Correct mastering metadata; separate HDR ladder |
 | Huge files same "quality" | Wrong preset / no maxrate on CRF | Cap bitrate; review [[CRF (Constant Rate Factor)]] |
 | DRM playback fail | Clear codec vs encrypted | [[DRM]] CENC profile must match device CDM |
 | Transcode queue backlog | AV1 software too slow | AV1 only for VoD farm; live stays H.264/HEVC + [[NVENC]] |
-
----
 
 ## Gotchas
 
@@ -110,15 +103,11 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 > [!WARNING]
 > **B-frames and LL-HLS** — low-latency profiles may restrict B-frame count; encoder preset side effects.
 
----
-
 ## When NOT to use
 
 - **Mezzanine archive** — use ProRes/DNxHR (editing), not H.264 delivery codec.
 - **AV1 for all live channels day one** — encode latency and CPU/GPU cost unless fleet sized for it.
 - **Re-codec when remux suffices** — change container with `-c copy` before full [[re-encoding]].
-
----
 
 ## Related
 

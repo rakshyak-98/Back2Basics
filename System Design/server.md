@@ -4,11 +4,9 @@
 
 > Long-lived process accepting client requests — **connection model + state strategy** define scale and failure modes.
 
----
-
 ## Mental model
 
-A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread vs event loop**, **stateless vs session**, **HTTP vs WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
+A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread versus event loop**, **stateless versus session**, **HTTP versus WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
 
 ```txt
 Client ──► load balancer ──► server pool
@@ -19,15 +17,13 @@ Client ──► load balancer ──► server pool
 ```
 
 | Model | Examples | Strength |
-|-------|----------|----------|
+| --- | --- | --- |
 | **Thread-per-request** | Classic Java servlet | Simple blocking I/O |
 | **Event loop** | Node, nginx, Go netpoll | High concurrency, low memory |
 | **Process pool** | uWSGI, prefork Apache | Isolation |
 | **Serverless** | Lambda | No idle cost; cold start |
 
 **Server can upgrade HTTP to SSE** for server-push notifications — one long-lived response stream per client.
-
----
 
 ## Standard config / commands
 
@@ -93,12 +89,10 @@ SIGTERM → stop accept → drain in-flight → close DB pool → exit
 Kubernetes preStop hook + terminationGracePeriodSeconds
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Connection refused | Process down; wrong port | systemd status; bind 0.0.0.0 |
 | 502 from LB | Backend unhealthy | /ready failing; OOM kill |
 | Slow under load | FD exhaustion | ulimit; connection leak fix |
@@ -106,8 +100,6 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 | SSE duplicates | Multiple tabs | Client reconnect with Last-Event-ID |
 | Sticky session miss | LB config | Cookie affinity or shared session store |
 | CPU pegged | Sync crypto/blocking | Offload; async I/O ([[Event Loop]]) |
-
----
 
 ## Gotchas
 
@@ -126,15 +118,11 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 > [!WARNING]
 > **Trust proxy misconfig** — IP spoofing on rate limits.
 
----
-
 ## When NOT to use
 
-- **Pure static site** — object storage + CDN, no app server.
+- **Pure static site** — object storage + CDN, no application server.
 - **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
 - **Long batch ETL** — job queue worker, not synchronous HTTP server.
-
----
 
 ## Related
 

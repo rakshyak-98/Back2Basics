@@ -2,11 +2,11 @@
 
 # Kotlin syntax (quick reference)
 
-> JVM-null-safe language — `?.`, `!!`, `val`/`var`, and extension functions; use this note for day-one reading code, not full language spec.
+> Kotlin syntax (quick reference) — kotlin targets JVM/JS/Native. val immutable reference, var mutable. Nullability enforced at compile time: String vs String?.
 
 ## Mental model
 
-Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` vs `String?`.
+Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` versus `String?`.
 
 ```
 Java null check     →  Kotlin ?.  ?:  !!
@@ -80,8 +80,9 @@ fun String.isEmail(): Boolean = "@" in this
 ### Scope functions (pick by intent)
 
 | Fn | `this`/`it` | Use |
-|----|-------------|-----|
+
 | `let` | `it` | null-safe block + result |
+| --- | --- | --- |
 | `run` | `this` | configure object + result |
 | `apply` | `this` | configure, return receiver |
 | `also` | `it` | side effect, return receiver |
@@ -109,7 +110,7 @@ suspend fun load(): Data = withContext(Dispatchers.IO) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NPE at `!!` | View/binding not inflated | Use view binding; `?.` or `requireNotNull` |
 | Smart cast impossible | `var` mutated across threads | Copy to local `val` before check |
 | Platform type warning | Java API returns unknown null | Annotate Java `@Nullable` / `@NonNull` or explicit Kotlin type |

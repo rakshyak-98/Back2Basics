@@ -4,8 +4,6 @@
 
 > Algorithms that assign **discrete class labels** from features — pick by data size, interpretability, imbalance, and latency — **scikit-learn classifier zoo**.
 
----
-
 ## Mental model
 
 **Features** (predictors, X) → **classifier** → **predicted label** (target, y). All sklearn classifiers share `fit(X, y)` and `predict(X)`.
@@ -15,7 +13,7 @@ Features x₁…xₚ  →  f(x)  →  ŷ ∈ {classes}
 ```
 
 | Family | Strength | Weakness |
-|--------|----------|----------|
+| --- | --- | --- |
 | **Logistic / linear** | Fast, interpretable | Linear boundaries |
 | **[[Decision tree]]** | Rules, interactions | Overfits alone |
 | **[[Random forest]]** | Strong default tabular | Heavy model size |
@@ -25,8 +23,6 @@ Features x₁…xₚ  →  f(x)  →  ŷ ∈ {classes}
 | **[[ANN]]** | Images, text, huge data | Needs data + GPU |
 
 **Target leakage:** any feature available only after the label is known must be dropped before training.
-
----
 
 ## Standard config / commands
 
@@ -51,22 +47,18 @@ for name, clf in candidates.items():
 
 1. Stratified split (or time split for temporal data).
 2. [[data preprocessing]] inside Pipeline.
-3. Metric aligned to cost ([[binary classification]] PR-AUC vs accuracy).
+3. Metric aligned to cost ([[binary classification]] PR-AUC versus accuracy).
 4. Persist with `joblib` + training data hash + schema version.
-
----
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | All one class predicted | Imbalance, bad threshold | `class_weight`; tune threshold |
 | Great offline, bad online | Train/serve skew | Feature parity tests |
 | Slow inference | Forest depth, k-NN | Reduce trees; distill to logistic |
 | Unstable feature importances | Correlated features | [[Random forest]] impurity vs SHAP |
 | High variance across CV folds | Small data | Simpler model; collect more labels |
-
----
 
 ## Gotchas
 
@@ -76,15 +68,11 @@ for name, clf in candidates.items():
 > [!WARNING]
 > **One-hot high cardinality** — tree models may memorize categories; target encoding with CV only.
 
----
-
 ## When NOT to use
 
 - **Continuous target** — [[regression]].
 - **Ordered ratings** — [[ordinal classification]].
 - **Search ranking** — learning-to-rank + [[Normalized Discounted Cumulative Gain (NDCG)]].
-
----
 
 ## Related
 

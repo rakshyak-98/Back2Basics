@@ -4,8 +4,6 @@
 
 > Text-to-diagram DSL for design docs and runbooks — great for **version-controlled architecture**; know rendering and maintenance limits.
 
----
-
 ## Mental model
 
 ```txt
@@ -19,15 +17,14 @@ Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 **Common diagram types:**
 
 | Type | Use in SE docs |
-|------|----------------|
+
 | `flowchart` | Request paths, decision trees, incident flow |
+| --- | --- |
 | `sequenceDiagram` | RPC/message timing, auth handshakes |
 | `classDiagram` | Domain model sketch (not codegen) |
 | `erDiagram` | Schema relationships |
 | `stateDiagram-v2` | Order/job state machines |
 | `C4Context` (plugin) | System context (if supported) |
-
----
 
 ## Standard config / commands
 
@@ -60,7 +57,7 @@ sequenceDiagram
 ```mermaid
 graph TD
   A[Symptom: 502] --> B{Upstream up?}
-  B -->|no| C[Fix app pool]
+  B -->|no| C[Fix application pool]
   B -->|yes| D[Check Nginx timeout]
 ```
 ```
@@ -87,20 +84,16 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 - Use subgraph for bounded contexts
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Diagram doesn't render | Renderer support | Obsidian/GitHub vs Confluence; export PNG fallback |
 | Syntax error opaque | Mermaid live editor | https://mermaid.live — iterate paste back |
 | Layout overlaps | Too many nodes | Split diagrams; use `direction TB/LR` |
 | Different look in PR vs Obsidian | Version skew | Pin mermaid version in docs; avoid exotic syntax |
 | Security concern in public repo | Diagram content | No secrets/hostnames with creds in labels |
 | PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
-
----
 
 ## Gotchas
 
@@ -116,16 +109,12 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 > [!WARNING]
 > **Stakeholders print slides** — test contrast; dark-mode Obsidian exports may wash out.
 
----
-
 ## When NOT to use
 
 - **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
 - **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
 - **UML for codegen** — use OpenAPI/Protobuf/PlantUML with tooling if binding to code.
 
----
-
 ## Related
 
-[[INDEX]] · [[NOTES_STANDARD]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace app]]
+[[INDEX]] · [[NOTES_STANDARD]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace application]]

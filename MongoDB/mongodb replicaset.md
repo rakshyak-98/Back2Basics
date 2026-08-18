@@ -16,7 +16,7 @@ Client writes → Primary → oplog
 ```
 
 | Role | Writes | Reads | Data |
-|------|--------|-------|------|
+| --- | --- | --- | --- |
 | Primary | Yes | Yes | Full |
 | Secondary | No | Yes (if allowed) | Full |
 | Arbiter | No | No | None |
@@ -55,7 +55,7 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No primary / RECOVERING | `rs.status()` | Fix network; restore member; re-sync secondary |
 | High replication lag | `rs.printSlaveReplicationInfo()` | Scale primary load; disk I/O; index hot writes |
 | Rollback after failover | Logs "rollback" | Re-sync affected secondary from backup |

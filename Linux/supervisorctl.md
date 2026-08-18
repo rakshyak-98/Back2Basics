@@ -2,11 +2,11 @@
 
 # supervisorctl
 
-> One-line: **Supervisord process control** — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
+> Supervisord process control — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
 
 ## Mental model
 
-**Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. Config lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.
+**Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. configuration lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.
 
 ```
 supervisord (PID 1 or child)
@@ -17,12 +17,23 @@ supervisorctl → UNIX socket → supervisord
 ```
 
 | Command | Effect |
-|---------|--------|
+| --- | --- |
 | `reread` | Reload config files; report new/changed programs |
 | `update` | Apply changes (start/stop/restart as needed) |
 | `start/stop/restart <name>` | Target one program or group |
 | `status` | RUNNING / STOPPED / FATAL |
 | `tail -f <name> stdout` | Stream logs |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **supervisord** | Process babysitter | “Not systemd — app-level process manager.” |
+| --- | --- | --- |
+| **supervisorctl** | CLI to daemon | “start/stop/status/tail.” |
+| **program:** | Config stanza | “One [program:x] per process.” |
+| **autostart** | On supervisord boot | “autostart=true ≠ system boot unless service.” |
+| **stdout_logfile** | Capture output | “Without it, crashes are silent.” |
 
 ## Standard config / commands
 
@@ -67,7 +78,7 @@ priority=999
 sudo supervisorctl restart web:*
 ```
 
-**Socket / CLI config** (`/etc/supervisor/supervisord.conf`):
+**Socket / CLI configuration** (`/etc/supervisor/supervisord.conf`):
 
 ```ini
 [unix_http_server]
@@ -81,7 +92,7 @@ serverurl=unix:///var/run/supervisor.sock
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | FATAL / backoff | `supervisorctl tail celery_worker stderr` | Fix command path; venv; permissions |
 | Config change ignored | Ran only `restart` | `reread` then `update` |
 | RUNNING but not working | Port bind; wrong `directory` | `ss -lntp`; fix `user` and cwd |
@@ -98,7 +109,7 @@ serverurl=unix:///var/run/supervisor.sock
 > [!WARNING]
 > **Running supervisord as PID 1 in Docker** — need `tini` or `--nodaemon` patterns; zombie reaping breaks without init.
 
-- **systemd vs supervisor** — pick one orchestration layer per app; don't double-wrap same process.
+- **systemd versus supervisor** — pick one orchestration layer per application; don't double-wrap same process.
 - **`user=`** — must exist before start; file permissions must allow that user.
 - **Environment** — doesn't load login shell; set `environment=` explicitly.
 

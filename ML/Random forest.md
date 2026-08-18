@@ -4,8 +4,6 @@
 
 > Bagged ensemble of decorrelated [[Decision tree]]s — vote (classify) or average (regress) — **Breiman (2001)**; strong default before boosting tuning.
 
----
-
 ## Mental model
 
 ```txt
@@ -25,8 +23,6 @@ Variance ↓  (ensemble)
 Bias ~      (deep trees)
 Speed ↑     (embarrassingly parallel fit + predict)
 ```
-
----
 
 ## Standard config / commands
 
@@ -74,20 +70,16 @@ from sklearn.inspection import permutation_importance
 pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | OOB good, val bad | Data shift / leakage in features | Audit temporal split; remove leaky cols |
 | Barely beats single tree | Too few trees or correlated features | ↑ `n_estimators`; tune `max_features` |
 | Memory blowup on fit | `n_estimators` × deep trees × wide data | Limit depth; `max_samples`; subsample rows |
 | Slow inference | Hundreds of deep trees | Reduce trees; [[Gradient boosting]] with fewer deeper stages; treelite |
 | Importance ranks nonsense | Correlated features | Permutation importance; SHAP |
 | Class imbalance ignored | Default majority vote | `class_weight`; stratified bootstrap |
-
----
 
 ## Gotchas
 
@@ -103,16 +95,12 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 > [!WARNING]
 > **Time series:** i.i.d. bootstrap breaks temporal structure — use blocked bootstrap or dedicated time-series models.
 
----
-
 ## When NOT to use
 
 - **Need peak tabular accuracy** after tuning budget — [[Gradient boosting]] / [[xg boost]] usually wins Kaggle-style tabular.
 - **Linear separable with sparse high-dim text** — linear models + hashing faster and simpler.
 - **Strict latency (< few ms) on edge** — model size of hundreds of trees may exceed budget; linear or tiny NN.
 - **Online learning** — full retrain required; not incremental.
-
----
 
 ## Related
 

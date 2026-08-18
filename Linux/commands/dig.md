@@ -1,102 +1,109 @@
-```sh
-dig +short google.com; # out ip only
-dig @8.8.8.8 google.com; # DNS
-```
- 
- > [!INFO]
- > no "ANSWER SECTION": In `dig <domain>`, it usually means the queried name didn't return any authoritative or resolved data.
- 
- Common reasons
-1. No DNS record exists
-	 - The domain or specific record type (A, AAA, CNAME) is missing.
-	 - Example: querying an `A` record for a subdomain that hasn't been created.
-2. NXDOMAIN (Non-Existent Domain)
-	- The domain itself does not exist.
-	- In `dig` output, you'll see
+[[Linux]] [[DNS]] [[dns record]] [[DNS server]] [[DNS zone]] [[TCP]]
 
-```text
-status: NXDOMAIN
-```
+# dig
 
-3. Query type mismatch
+> `dig` asks DNS questions and prints the raw answer — use it to see whether a name, type, or resolver is wrong.
 
-- You requested a type that isn't present.
-```bash
-dig <domain> MX;
-```
-- if no `MX` record exists, Answer section is empty.
+## Mental model
 
-4. Propagation/Caching issues
-- DNS changes not propagated yet.
-- Local resolver may not have the record cached.
+**Say it in one breath:** You query a resolver (or an authoritative NS) for a name + type; look at `status` and the `ANSWER SECTION` before blaming the application.
 
-```bash
-dig +trace <domain>; # Follows the DNS chain to authoritative server.
-dig @8.8.8.8 <domain>; # check using public resolver.
+```txt
+dig example.com A
+        │
+        ▼
+   resolver (@8.8.8.8 or /etc/resolv.conf)
+        │
+        ▼
+   status: NOERROR + ANSWER    → usable records
+   status: NXDOMAIN            → name doesn’t exist
+   NOERROR + empty ANSWER      → name exists, that type doesn’t
 ```
 
+### Interview map (words you can say)
 
-```bash
-resolvectl status; # check which dns server is used by current config.
-```
+| Word | Plain meaning | Say in interview |
 
-- `dig` expects a hostname only - on schema `https://` no path `/`, no port `443`.
+| **Resolver** | Server you ask first | “Stub resolver → recursive → authoritative.” |
+| --- | --- | --- |
+| **Authoritative** | NS that owns the zone | “Query `@ns1…` to bypass cache lies.” |
+| **NOERROR** | Query processed OK | “Not the same as ‘has an A record’.” |
+| **NXDOMAIN** | Name does not exist | “Typo or zone missing.” |
+| **ANSWER SECTION** | Records you asked for | “Empty answer + NOERROR → wrong type.” |
+| **TTL** | Cache lifetime | “High TTL slows rollback after a fix.” |
 
-```bash
-dig google.com; # correct
-dig https://google.com; # wrong
+### How the story goes (4 steps)
 
-```
+1. **Ask** — `dig name [type]` (hostname only — no `https://`).
+2. **Read status** — NXDOMAIN versus NOERROR.
+3. **Read answer** — A/AAAA/CNAME/MX/… present?
+4. **Isolate cache** — `@8.8.8.8`, `@1.1.1.1`, then `@` authoritative NS; `+trace` if needed.
 
-- `NOERROR` -> means DNS resolution was successful (no errors like `NXDOMAIN`).
-- ANSWER SECTION -> subdomain resolves to n number of IPv4 addresses (A records).
-- TTL -> will be cached that long unless manually flushed.
-
-> [!INFO]
-> public resolvers -> DNS servers operated by third parties, open for anyone to use instead of your ISP's DNS. They translate domain names -> IP addresses.
-
-## Diagnose why domain doesn't show an ANSWER SECTION
+## Standard config / commands
 
 ```bash
-dig <domain>;
-```
-- if `status: NXDOMAIN` -> domain does not exist.
-- if no NXDOMAIN but empty answer -> record type may be missing.
+dig example.com
+dig +short example.com
+dig @8.8.8.8 example.com A
+dig example.com AAAA
+dig example.com MX
+dig example.com CNAME
+dig example.com NS
 
-**Specify record type**
+dig +trace example.com
+dig @ns1.example.net example.com A    # authoritative
+
+resolvectl status                     # systemd-resolved upstream
+```
+
+| Knob | Why it matters |
+
+| `@server` | Bypass local cache / broken ISP DNS |
+| --- | --- |
+| `+short` | Script-friendly; hide noise |
+| `+trace` | Walk root → TLD → auth — finds delegation breaks |
+| Type (`A` vs `AAAA`) | Dual-stack bugs look like “DNS is down” |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| No ANSWER SECTION | `status:` line | NXDOMAIN → name; NOERROR empty → add type / fix CNAME chain |
+| Works on 8.8.8.8, not locally | Local resolver / cache | Flush; fix `resolv.conf` / corporate DNS |
+| Wrong IP after change | TTL; auth vs cache | Query auth NS; wait TTL; lower TTL before cuts |
+| App fails, dig OK | App DNS / Happy Eyeballs | Check AAAA, search domains, `/etc/nsswitch.conf` |
+| `dig https://…` fails | URL shaped query | Use bare hostname |
+
+### Empty ANSWER playbook
+
 ```bash
-dig <domain> A # IPV4
-dig <domain> AAAA # IPV6
-dig <domain> CNAME # CNAME
-dig <domain> MX # mail server
+dig example.com            # status?
+dig example.com A
+dig example.com AAAA
+dig example.com NS
+dig @$(dig +short example.com NS | head -1) example.com A
 ```
-- some time the domain exists, but the type you asked doesn't.
 
-**Check authoritative server**
+## Gotchas
 
-```bash
-dns NS <domain>;
-```
-- list authoritative `nameservers`.
-- if missing -> DNS misconfigured at registrar.
+> [!WARNING]
+> **NOERROR + empty answer** is normal when the type is missing — not “DNS is broken.”
 
-**Query authoritative server directly**
+> [!WARNING]
+> **CNAME at apex** / conflicting records — follow the chain; don’t stop at the first response.
 
-```bash
-dig @ns1.example-NS.com yourdomain.com A
-```
-- bypass local resolver caching.
-- Shows whether authoritative server actually has the record.
+> [!WARNING]
+> **Split-horizon DNS** — VPN vs public answers differ; dig from the same network as the app.
 
-**Check propagation/caching**
-```bash
-dig @8.8.8.8 <domain>;
-dig @1.1.1.1 <domain>;
-```
-- check public resolvers to see if record is propagated globally
+> [!WARNING]
+> **`search` domains** in resolv.conf rewrite short names — `dig` of FQDN with trailing dot avoids search.
 
-**Optional: Check zone file / hosting panel**
-- if you control the domain, verify
-	- A/CNAME records exist for requested hostname.
-	- No typos in subdomain names.
-	- TTL isn't too high (causing stale cache).
+## When NOT to use
+
+- **HTTP debugging** — use `curl -v`; dig only proves name→IP.
+- **DNSSEC deep validation UX** — specialized tools; dig can show `AD` bits but isn’t a full auditor.
+- **Load-balancer health** — dig won’t tell you if port 443 is up; combine with `nc`/`curl`.
+
+## Related
+
+[[DNS]] [[dns record]] [[DNS server]] [[DNS zone]] [[getent]] [[nc]] [[Linux network commands]]

@@ -4,8 +4,6 @@
 
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
----
-
 ## Mental model
 
 Authentication stack layers:
@@ -17,7 +15,7 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 ```
 
 | Term | Meaning |
-|------|---------|
+| --- | --- |
 | **Authentication (AuthN)** | Proving *who* you are |
 | **Authorization (AuthZ)** | What you're *allowed* to do |
 | **Identification** | Claiming an identifier (username) — not proof |
@@ -36,8 +34,6 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 | **API key** | Long-lived identifier + secret — service accounts |
 | **mTLS** | Client cert as authentication factor |
 | **RBAC / ABAC** | Role vs attribute based authorization |
-
----
 
 ## Standard config / commands
 
@@ -68,21 +64,17 @@ authn_success user_id=... method=oidc
 authz_denied  user_id=... resource=... action=delete
 ```
 
-**Why separate AuthN/AuthZ:** passing login doesn't imply admin — check permissions every request.
-
----
+**Why separate AuthN/AuthZ:** passing login doesn't imply administrator — check permissions every request.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Logged in but 403" | AuthZ policy | Fix roles/scopes; not token refresh |
 | Token valid forever | Missing `exp` | Short TTL + refresh rotation |
 | TOTP drift fail | NTP on server/phone | Widen window temporarily; fix time |
 | OAuth confusion | Using access token as ID token | Use OIDC ID token for identity |
 | Session fixation | Cookie not rotated on login | Regenerate session ID |
-
----
 
 ## Gotchas
 
@@ -98,13 +90,9 @@ authz_denied  user_id=... resource=... action=delete
 > [!WARNING]
 > **API key in frontend** — not secret; use backend proxy.
 
----
-
 ## When NOT to use
 
 Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
-
----
 
 ## Related
 

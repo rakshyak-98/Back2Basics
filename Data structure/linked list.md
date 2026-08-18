@@ -2,11 +2,11 @@
 
 # Linked list
 
-> Nodes chained by `next` (and optionally `prev`) pointers — O(1) insert/delete at known node; O(n) indexed access.
+> Linked list — don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 
 ## Mental model
 
-Each node holds **value** + **next** pointer. Head is entry; tail optional for O(1) append with doubly-linked + tail ref. Singly-linked: one direction. Doubly-linked: `prev` enables backward walk and O(1) delete given node ref. No random access — index i requires i steps from head.
+Each node holds **value** + **next** pointer. Head is entry; tail optional for O(1) append with doubly-linked + tail reference. Singly-linked: one direction. Doubly-linked: `prev` enables backward walk and O(1) delete given node reference. No random access — index i requires i steps from head.
 
 ```
 head → [1|•]→[2|•]→[3|null]
@@ -59,7 +59,7 @@ while (fast?.next) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Lost rest of list | Assignment order | `node.next = node.next.next` save refs first |
 | Infinite loop | Cycle | Floyd cycle detection |
 | Off-by-one tail | Empty list | Dummy head; check `head === null` |

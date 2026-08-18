@@ -4,11 +4,9 @@
 
 > Find the **maximum-margin** separating hyperplane (or ε-tube for regression) — kernel trick maps to high-D implicitly — **Cortes & Vapnik (1995)**.
 
----
-
 ## Mental model
 
-**Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification vs margin width.
+**Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification versus margin width.
 
 ```txt
 min  ½‖w‖² + C Σ ξᵢ
@@ -18,14 +16,13 @@ s.t. yᵢ(w·φ(xᵢ) + b) ≥ 1 − ξᵢ
 **Kernel K(x,x')** replaces explicit φ — common **RBF** (Gaussian) for nonlinear boundaries. Support vectors are training points on or inside the margin — prediction depends mostly on them, not all data.
 
 | Mode | sklearn class | Key param |
-|------|---------------|-----------|
+
 | Binary classify | `SVC` | `C`, `gamma` (RBF) |
+| --- | --- | --- |
 | Multiclass | `SVC` (OvO/OvR) | same |
 | Regression | `SVR` | `C`, `epsilon` |
 
 SVMs shine on **medium-sized, dense** data; struggle on **large sparse text** unless linear kernel + careful scaling.
-
----
 
 ## Standard config / commands
 
@@ -64,19 +61,15 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 `probability=True` on `SVC` wraps Platt scaling — slow; use `decision_function` + calibrate separately if needed.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Training never finishes | n > 100k, RBF | `LinearSVC` or [[Random forest]] |
 | All one class | C too high/low, scaling | Grid search C; StandardScaler |
 | Test perf random | Unscaled features | Pipeline with scaler |
 | Memory blowup | RBF on 500k rows | Subsample; linear kernel |
 | Platt probs miscalibrated | `probability=True` | CalibratedClassifierCV |
-
----
 
 ## Gotchas
 
@@ -86,15 +79,11 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 > [!WARNING]
 > **No native missing values** — impute in [[data preprocessing]] pipeline.
 
----
-
 ## When NOT to use
 
 - **Huge datasets (millions+ rows)** — [[Gradient boosting]] / linear models scale better.
 - **Need feature importances for compliance** — prefer [[Decision tree]] or linear models.
 - **Image/audio deep learning** — CNNs / transformers dominate.
-
----
 
 ## Related
 

@@ -1,66 +1,90 @@
-reads the system DMI (Desktop Management Interface) / SMBIOS (System Management BIOS) table and displays hardware information stored by the BIOS/UEFI
+[[commands]] [[lspci]]
 
-```bash
-dmidecode -t slot;
-dmidcode -t system | grep -i "Product Name";
+# dmidecode
+
+> dmidecode prints SMBIOS/DMI tables from firmware — vendor, model, serial, slots, memory layout as the BIOS recorded them.
+
+## Mental model
+
+**Say it in one breath:** firmware strings about the chassis — great for inventory; not a live PCIe bandwidth meter.
+
+```txt
+UEFI/BIOS SMBIOS tables ──► dmidecode ──► system / baseboard / memory / slots
+lspci ──► what is actually enumerated and link speed/width
 ```
 
-```bash
-dmidecode -s system-manufacturer
-dmideocde -s system-product-name
-```
+### Interview map (words you can say)
 
+| Word | Plain meaning | Say in interview |
 
-> [!NOTE]
-> It reads firmware-provided information. Accuracy depends on what the BIOS/UEFI exposes.
+| **SMBIOS / DMI** | Firmware inventory tables | “What the vendor burned in, not what Linux measured.” |
+| --- | --- | --- |
+| **`-t system`** | Product / serial / UUID | “Asset tag and serial for CMDB.” |
+| **`-s`** | One string keyword | “Script-friendly single values.” |
+| **`-t slot`** | Physical slot labels | “Map empty vs occupied connectors.” |
+| **`LnkCap` vs `LnkSta`** | Max vs negotiated PCIe | “From `lspci -vv` — catch lane starvation.” |
 
-```bash
-
-dmidecode -t system
-# manufacturer, product name, serial number, UUID, sku
-
-dmidecode -t bios
-# BIOS vendor, BIOS version, Release date, ROM size
-
-dmidecode -t processor
-# Socket, CPU Version, Core unit, Thread count, Max speed
-
-dmideocde -t memory
-# RAM size, Manufacturer, Part number, Serial number, DIMM slot, Form factor (DIMM/SODIMM)
-
-dmidecode -t baseboard
-# Manufacturer, Model, Version, Serial number
-
-dmidecode -t chassis
-# Desktop/laptop/server, Manufacturer, Asset tag, serial number
-
-```
+## Standard config / commands
 
 ```bash
-dmidecode -t slot
-```
-This list every physical slot on the motherboard, including empty ones, with:
-- slow designation
-- type `x16 PCI Express Gen4`, `x8 PCI Express Gen3`
-- current usage
+sudo dmidecode -t system
+sudo dmidecode -t bios
+sudo dmidecode -t baseboard
+sudo dmidecode -t chassis
+sudo dmidecode -t processor
+sudo dmidecode -t memory
+sudo dmidecode -t slot
 
-**Current occupied slots and what's installed in them**
+sudo dmidecode -s system-manufacturer
+sudo dmidecode -s system-product-name
+sudo dmidecode -s system-serial-number
+```
+
+Needs root (or CAP) — tables are under `/sys/firmware/dmi`.
+
+## PCIe slot vs reality
 
 ```bash
-ispci -vv | grep -i "PCI bridge"
-ispci -tv
+sudo dmidecode -t slot
+lspci -tv
+lspci -vv | grep -i "PCI bridge"
+# NVIDIA example
+lspci -d 10de: -vv
 ```
-`ispic -tv` gives a tree view showing bus/slot hierarchy so you can map devices (GPU, NICs, NVMe, etc.) to physical slots.
 
-**Confirm the installed T4 and its slot/link details**
+| Outcome | Meaning |
+| --- | --- |
+| `LnkSta` ≈ `LnkCap` | Card running at capability |
+| Width lower (x16→x8) | Lane-starved slot/riser |
+| Speed lower (8GT→2.5GT) | Bad link / Gen fallback / power state |
 
-```bash
-ispci -d 10de: -vv
-```
-This filters to NVIDIA devices (vendor ID `10de`) and shows `LnkCap` (link capability — max supported width/speed) vs `LnkSta` (link status — actual negotiated width/speed) for the T4. Compare the two to catch lane-starving (e.g., a card that supports x16 but is only running at x8).
+## Triage (when things break)
 
-**Three possible outcomes:**
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Empty / “Not Specified” | VM or lazy BIOS | Expect blanks in clouds; use instance metadata |
+| Permission denied | Not root | `sudo` |
+| Serial looks fake | OEM placeholder | Cross-check baseboard serial / cloud ID |
+| GPU slow, slots “x16” | Negotiated link | Compare `LnkCap`/`LnkSta` via `lspci` |
+| Typo commands | `dmideocde` | It’s `dmidecode` |
 
-1. **`LnkSta` matches `LnkCap`** (e.g., both x16 @ 8GT/s) — the T4 is running at full capability. The slot it occupies is not a bandwidth bottleneck.
-2. **`LnkSta` width is narrower than `LnkCap`** (e.g., `LnkCap: Width x16` but `LnkSta: Width x8`) — the card is lane-starved. This happens when the slot is electrically wired for fewer lanes than the physical connector suggests, or the riser/backplane split the lanes (the scenario the document flags under "Riser/backplane PCIe lane allocation").
-3. **`LnkSta` speed is lower than `LnkCap`** (e.g., `LnkCap: 8GT/s` but `LnkSta: 2.5GT/s`) — a Gen3-capable card is being forced to Gen1 speed, usually indicating a misconfigured riser, a bad connection, or power-state throttling.
+## Gotchas
+
+> [!WARNING]
+> **Firmware can lie or omit fields** — especially VMs and cheap boards.
+
+> [!WARNING]
+> **Slot label ≠ electrical width** — always confirm with `lspci -vv` when performance matters.
+
+> [!WARNING]
+> **Serials are sensitive** — treat inventory exports as confidential.
+
+## When NOT to use
+
+- **Live CPU/RAM usage** — `top` / `free` / metrics agents.
+- **Disk topology** — `lsblk` / `nvme list`.
+- **Cloud instance type** — provider metadata API.
+
+## Related
+
+[[lspci]] [[commands]] [[Linux process commands]]

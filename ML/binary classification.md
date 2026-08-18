@@ -2,13 +2,11 @@
 
 # Binary classification
 
-> Predict one of two labels (spam/ham, fraud/legit) — optimize threshold on **precision/recall tradeoff**, not raw accuracy — **Hastie, Tibshirani, Friedman (ESL)**.
-
----
+> Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
 ## Mental model
 
-Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 vs 0.
+Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 versus 0.
 
 ```txt
 score(x) → probability p → if p ≥ τ then positive else negative
@@ -17,13 +15,12 @@ score(x) → probability p → if p ≥ τ then positive else negative
 Imbalanced data (1% fraud): 99% accuracy by predicting all negatives — useless. Track **ROC-AUC**, **PR-AUC**, **F1**, **calibration**, and **cost-sensitive** metrics tied to business harm.
 
 | Metric | When it matters |
-|--------|-----------------|
+
 | **ROC-AUC** | Rank quality; less sensitive to prevalence |
+| --- | --- |
 | **PR-AUC** | Heavy imbalance; focuses on positives |
 | **F1** | Balance precision/recall for single threshold |
 | **Brier / calibration** | Probabilities used for pricing or routing |
-
----
 
 ## Standard config / commands
 
@@ -59,19 +56,15 @@ model = xgb.XGBClassifier(
 )
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | High accuracy, bad business outcome | Class balance, threshold | PR-AUC; tune τ; `class_weight` / `scale_pos_weight` |
 | Model always predicts negative | Prevalence, features, leakage | SMOTE (careful); better features; check label definition |
 | Probabilities look wrong | Calibration plot | Platt / isotonic via `CalibratedClassifierCV` |
 | Train AUC 1.0, prod collapse | Target leakage, temporal split | Time-based split; remove post-outcome features |
 | Different results per run | Random seed, data order | Set seeds; stratified CV |
-
----
 
 ## Gotchas
 
@@ -81,15 +74,11 @@ model = xgb.XGBClassifier(
 > [!WARNING]
 > **Accuracy on imbalanced data** is a vanity metric in design reviews.
 
----
-
 ## When NOT to use
 
 - **More than two unordered classes** — [[multiclass classification]].
 - **Ordered labels** (low/medium/high) — [[ordinal classification]].
 - **Ranking/search quality** — [[Mean Average Precision (MAP)]] / [[Normalized Discounted Cumulative Gain (NDCG)]].
-
----
 
 ## Related
 

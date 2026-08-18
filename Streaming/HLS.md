@@ -1,63 +1,63 @@
-HTTP Live Streaming (HLS) is an adaptive bitrate video streaming protocol developed by apple. It is the industry standard of delivering both live and on-demand audio and video content over the internet.
+[[Streaming]] [[ABR]] [[DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]]
 
-**How HLS Work**
-1. Encoding -> the source video is encoded into multiple quality levels, such as 480p, 720p, 1080p.
-2. Segmenting -> The encoded video streams are broken down into small, downloadable file chunks, typically ranging from 2 to 10 seconds in length.
-3. Manifest creation -> An index file (manifest, usually with an `.m3u8` extension) is generated. This file acts as a playlist, documenting the order of the segments and the various quality levels available.
-4. Delivery & Playback -> The client device (smartphone, web browser, smart TV) downloads the manifest file and begins requesting the video segments over a standard HTTP connection.
+# HLS (HTTP Live Streaming)
+
+> HLS cuts video into short HTTP files and a playlist — the player fetches the next chunk over plain HTTPS.
+
+## Mental model
+
+**Say it in one breath:** Package many qualities into segments, publish an `.m3u8` menu, let the CDN cache GETs — no special streaming socket to the viewer.
+
+```txt
+Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
+        │
+   encode + package ──► segments (.ts or fMP4 .m4s)
+        │
+   master.m3u8 ──► media playlists ──► segment URLs
+        │
+   CDN / origin ──► player GETs over HTTP(S)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Master / multivariant** | Menu of quality playlists | “First download is the master; it lists renditions.” |
+| --- | --- | --- |
+| **Media playlist** | Ordered list of segments for one rung | “The media playlist is the segment sequence.” |
+| **Segment** | 2–10 s media file | “Playback is just sequential HTTP GETs.” |
+| **TARGETDURATION** | Max segment length advertised | “Players size buffer from TARGETDURATION.” |
+| **MEDIA-SEQUENCE** | Live sliding window index | “Live playlists drop old segments and bump the sequence.” |
+| **fMP4 / CMAF** | Modern segment shape (not only TS) | “We prefer fMP4 so HLS and DASH share bytes.” |
+| **LL-HLS** | Parts + blocking playlist | “Partials cut live delay from tens of seconds to a few.” |
+
+### How the story goes (4 steps)
+
+1. **Ingest** — publisher pushes [[RTMP]] / [[SRT]] / [[RTSP]] pull / file into the packager.
+2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
+3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
+4. **Deliver** — CDN serves HTTP; player adapts quality from buffer + bandwidth.
 
 > [!INFO]
-> Because HLS relies on standard HTTP traffic (and the TCP transport protocol), it effortlessly bypasses standard firewalls and content filters that might block specialized streaming protocols. It does not required specialized streaming servers.
+> HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
 
-## HLS Architecture & Backend Flow
+## Standard config / commands
 
-HLS is fundamentally a stateless, HTTP-based file delivery system rather than a persistent socket connection. This makes it highly cacheable but requires a robust packaging pipeline.
+### Master playlist
 
-1. **Ingestion:** A raw stream (often RTMP, SRT, or WebRTC) is sent to an encoder. In modern stacks, this is typically handled by custom Dockerized FFmpeg instances or managed services like AWS Elemental MediaLive.
-2. **Transmuxing & Packaging:** The encoder decodes the input and re-encodes it into multiple quality levels (Adaptive Bitrate Streaming). It packages the video into small segments and generates the index playlists (`.m3u8`).
-3. **Distribution:** Segments and manifests are pushed to an origin server (e.g., an S3 bucket) and served via a CDN (e.g., CloudFront). The client player simply makes standard HTTP `GET` requests to retrieve the files.
-
-**Low-Latency HLS (LL-HLS) Mechanics**
-
-Standard HLS inherently carries a latency of 15–30 seconds because the player must buffer several full segments before playback. LL-HLS (the 2026 standard for live events) reduces this to 2–5 seconds through specific protocol extensions:
-
-- **Partial Segments (`EXT-X-PART`):** Instead of waiting for a full 6-second segment to finish encoding, the packager outputs smaller chunks (e.g., 200ms) called CMAF chunks. The player downloads and plays these immediately.
-- **Blocking Playlist Reloads:** Clients can request a manifest update and specify a future segment sequence. The origin server holds the HTTP request open until that segment is ready, eliminating the overhead of the client constantly polling the server.
-- **Preload Hints (`EXT-X-PRELOAD-HINT`):** The server hints at the upcoming partial segment, allowing the client to initiate the `GET` request before the bytes are even fully available from the encoder.
-- **Rendition Reports (`EXT-X-RENDITION-REPORT`):** Appended to media playlists, these tags tell the client the current state (sequence numbers, parts) of other bitrate tracks. This allows the player to switch qualities rapidly without needing to download the other manifests first.
-    
-
-**Codecs and Container Formats**
-
-- **Containers:** While MPEG-TS (`.ts`) is the legacy container, **fMP4 (fragmented MP4)** via CMAF (Common Media Application Format) is the modern requirement. CMAF allows HLS and MPEG-DASH to share the exact same underlying media files, saving roughly 50% on origin storage and CDN caching costs.
-- **Video Codecs:** H.264 (AVC) remains the baseline for maximum device compatibility. However, HEVC (H.265) and AV1 are now standard for 4K and HDR content due to yielding 40-50% bandwidth savings.
-- **Audio Codecs:** AAC-LC is the standard baseline, with AC-3 or Dolby formats used for surround sound.
-    
-
-**Manifest Structure (`.m3u8`)**
-
-HLS relies on a two-tier manifest architecture to manage adaptive bitrates.
-
-**1. Multivariant (Master) Playlist:** This is the file the player requests first. It does not contain video files; it contains URLs to the different quality levels (renditions) available.
-
-Plaintext
-
-```
+```plaintext
 #EXTM3U
 #EXT-X-VERSION:7
+#EXT-X-INDEPENDENT-SEGMENTS
 #EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080,CODECS="avc1.640028,mp4a.40.2"
 1080p/index.m3u8
-#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720,CODECS="avc1.4d401f,mp4a.40.2"
+#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720,CODECS="avc1.64001f,mp4a.40.2"
 720p/index.m3u8
 ```
 
-**2. Media Playlist:**
+### Live media playlist
 
-The player selects a URL from the master playlist based on current bandwidth and downloads the media playlist. This file contains the actual sequence of video segments (`.m4s` for fMP4).
-
-Plaintext
-
-```
+```plaintext
 #EXTM3U
 #EXT-X-VERSION:7
 #EXT-X-TARGETDURATION:6
@@ -68,8 +68,70 @@ segment_104.m4s
 segment_105.m4s
 ```
 
-**Security and Access Control**
+### Package with ffmpeg (fMP4 HLS)
 
-- **Segment Encryption:** You can apply AES-128 encryption at the segment level. The player reads the `EXT-X-KEY` tag in the manifest, authenticates to retrieve the decryption key, and decrypts the segments in memory.
-- **DRM (Digital Rights Management):** For premium content, HLS supports SAMPLE-AES encryption wrapped in hardware-level DRM systems (Apple FairPlay, Google Widevine, Microsoft PlayReady).
-- **Tokenization:** CDN-level signed URLs or cookies are used to restrict access to the manifests and segments, preventing unauthorized deep-linking or stream ripping. Tokens are typically appended as query strings to the `.m3u8` and `.m4s` requests.
+```bash
+ffmpeg -i in.mp4 -c:v libx264 -c:a aac -g 60 -sc_threshold 0 \
+  -f hls -hls_time 4 -hls_segment_type fmp4 \
+  -hls_fmp4_init_filename init.mp4 -master_pl_name master.m3u8 stream.m3u8
+```
+
+| Knob | Why it matters |
+
+| Segment 2–6 s | Startup vs live latency vs CDN object count |
+| --- | --- |
+| fMP4 + [[CMAF]] | Share segments with [[DASH]]; skip duplicate TS store |
+| `Cache-Control` short on live playlists | Stale playlist = stuck live edge |
+| `#EXT-X-KEY` / SAMPLE-AES | Encryption; pair with [[DRM]] / FairPlay for premium |
+| Signed URL / cookie on CDN | Stop hotlink of `.m3u8` and `.m4s` |
+
+Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `mediastreamvalidator` on macOS.
+
+## LL-HLS (low latency)
+
+Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
+
+| Extension | Job |
+| --- | --- |
+| **`EXT-X-PART`** | Serve ~200 ms partials before the full segment exists |
+| **Blocking playlist reload** | Hold GET until the next part/segment is ready |
+| **`EXT-X-PRELOAD-HINT`** | Tell the player what to request next early |
+| **`EXT-X-RENDITION-REPORT`** | Sync sequence across rungs for faster ABR |
+
+Needs CMAF-style chunks and a player that understands LL tags.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Black screen / won’t start | Master 404, bad `CODECS`, CORS | Fix origin path; align ffprobe vs playlist |
+| Live stuck / freeze at edge | CDN caching playlist; old `MEDIA-SEQUENCE` | `max-age=0` on live `.m3u8`; fix packager sequence |
+| Works Safari, fails Chrome | TS-only or FairPlay-only path | Dual package; Widevine for non-Apple ([[DRM]]) |
+| High live latency | Full-segment only | LL-HLS parts or shorter segments |
+| 403 on segments, playlist OK | Token not on child URLs | Relative URLs + signed cookie |
+| ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
+| Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
+
+## Gotchas
+
+> [!WARNING]
+> **HLS is not a push protocol to the viewer** — the player pulls. Origin must keep playlists fresh for live.
+
+> [!WARNING]
+> **Packager restart resets `MEDIA-SEQUENCE`** — players hang; use discontinuity or coordinated restart.
+
+> [!WARNING]
+> **Absolute segment URLs behind a proxy** — player bypasses your app origin; rewrite manifests ([[streaming manifest file]]).
+
+> [!WARNING]
+> **LL tags on non-LL players** — gate features; don’t break legacy clients with unknown tags they mishandle.
+
+## When NOT to use
+
+- **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
+- **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
+- **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
+
+## Related
+
+[[Streaming]] [[ABR]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]] [[DRM]] [[RTMP]] [[rendition]]

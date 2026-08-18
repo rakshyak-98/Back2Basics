@@ -1,22 +1,68 @@
-The `~/Templates` directory in Linux is part of the XDG user directories standard.
-- It allow you to create custom file templates that appear in your file manager's right click context menu
+[[Linux]] [[X Desktop Group]]
 
-## How it works
+# Linux Templates Directory
 
-- Any file you place in `~/Templates` becomes a template option.
-- When you right-click in a folder and select **New Document**, your templates will show up in the submenu.
-- Selecting a template creates a copy of it in the current folder types, like boilerplate documents, scripts, or code snippets.
+> `Templates/` (often `~/Templates`) holds starter files that file managers offer via “Create Document” — empty doc skeletons, not system `/etc` templates.
 
-> [!INFO]
-> You can also check/edit the configuration in `~/.config/user-dirs.dirs` to point to
+## Mental model
 
-- run `xdg-user-dirs-update` to apply changes
-```text
-XDG_TEMPLATES_DIR="$HOME/Templates"
+**Say it in one breath:** drop a file in `~/Templates`; Nautilus/Dolphin “Create Document” copies it next to you.
+
+```txt
+~/Templates/Invoice.odt
+      │
+      └─ file manager → Create Document → ./Invoice.odt
 ```
 
-- Open file manager
-- Navigate to any folder
-- Right-click in empty space -> **New Document**
-- Select the template from the list
-- A copy will be created in the current folder.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Templates dir** | User skeleton docs | “XDG user dir, not `/etc`.” |
+| --- | --- | --- |
+| **xdg-user-dirs** | Standard folders | “`xdg-user-dir TEMPLATES`.” |
+| **Create Document** | FM action | “Copies template into cwd.” |
+| **skel** | `/etc/skel` | “Different — new-user homes.” |
+| **empty file** | Zero-byte template | “Still shows up as a type.” |
+
+## Standard config / commands
+
+```bash
+xdg-user-dir TEMPLATES
+mkdir -p "$(xdg-user-dir TEMPLATES)"
+cp ~/Forms/offer.md "$(xdg-user-dir TEMPLATES)/"
+# ~/.config/user-dirs.dirs → XDG_TEMPLATES_DIR
+cat ~/.config/user-dirs.dirs
+```
+
+| Knob | Why it matters |
+
+| `XDG_TEMPLATES_DIR` | Override path |
+| --- | --- |
+| File extension | Determines icon/app |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Menu empty | Dir missing/empty | Create dir; add files |
+| Wrong path | `user-dirs.dirs` | Fix XDG_TEMPLATES_DIR; `xdg-user-dirs-update` |
+| No menu in FM | Non-XDG FM | Use FM’s own template feature |
+| Template opens not copied | Misclick | Use Create Document, not Open |
+
+## Gotchas
+
+> [!WARNING]
+> **`/etc/skel` ≠ Templates** — skel seeds new homes; Templates is a per-user convenience.
+
+> [!WARNING]
+> **Cloud-synced Templates** can fight with local path expectations.
+
+## When NOT to use
+
+- **Code scaffolding** — use cookiecutter/copier, not FM templates.
+- **Server provisioning** — use configuration management, not desktop Templates.
+
+## Related
+
+[[X Desktop Group]] [[user management]] [[Linux file management]]

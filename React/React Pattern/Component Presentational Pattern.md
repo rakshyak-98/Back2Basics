@@ -1,59 +1,78 @@
-## Why use this pattern?
-- Logic (Container) is separate from UI (Presentational)
-- `Cart.jsx` can be used elsewhere with different data.
-- Can test the presentational component independently.
+[[React Pattern]] [[React code smells]] [[React Pattern/Provider pattern]]
 
-- Container component: Handles state and business logic
-- Presentational Component: Renders UI based on props. 
+# Component Presentational Pattern
 
-Creating the Presentational Component (`cart.jsx`)
-- Receives cart items, total price, and handlers via props.
-- Renders a simple cart UI.
+> Split “how data is loaded” (container) from “how it looks” (presentational) — UI stays reusable and easy to test.
 
-```js cart.js
-const Cart = ({ items, total, onRemove }) => (
-  <div>
-    <h2>Shopping Cart</h2>
-    {items.length === 0 ? <p>Cart is empty</p> : (
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>
-            {item.name} - ${item.price}
-            <button onClick={() => onRemove(item.id)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-    )}
-    <h3>Total: ${total}</h3>
-  </div>
-);
+## Mental model
 
-export default Cart;
+**Say it in one breath:** Container owns fetch/state/handlers; presentational component is mostly props → JSX.
+
+```txt
+CartContainer ──props──► CartView (pure-ish UI)
+     │
+  hooks / Redux / Query
 ```
 
-### Creating the container component
-- Manages state for cart items.
-- Implements logic to remove items and calculate total.
-- Passes data and function to `Cart.jsx`.
+### Interview map (words you can say)
 
-```jsx cartContainer.jsx
-import { useState } from "react";
-import Cart from "./Cart";
+| Word | Plain meaning | Say in interview |
 
-const CartContainer = () => {
-  const [cart, setCart] = useState([
-    { id: 1, name: "React Book", price: 30 },
-    { id: 2, name: "JavaScript Guide", price: 25 }
-  ]);
+| **Container** | Data + behavior | “Wires the screen to APIs.” |
+| --- | --- | --- |
+| **Presentational** | Props in, UI out | “Storybook-friendly; no fetch.” |
+| **Modern take** | Custom hooks | “`useCart()` + dumb view replaces class containers.” |
 
-  const removeItem = (id) => {
-    setCart(cart.filter(item => item.id !== id));
-  };
+## Standard config / commands
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+```tsx
+function CartView({ items, total, onRemove }: Props) {
+  return (
+    <ul>
+      {items.map((i) => (
+        <li key={i.id}>
+          {i.name} <button onClick={() => onRemove(i.id)}>x</button>
+        </li>
+      ))}
+      <p>Total: {total}</p>
+    </ul>
+  )
+}
 
-  return <Cart items={cart} total={total} onRemove={removeItem} />;
-};
-
-export default CartContainer;
+function CartContainer() {
+  const { items, total, remove } = useCart()
+  return <CartView items={items} total={total} onRemove={remove} />
+}
 ```
+
+| Knob | Why it matters |
+
+| Props-only view | Snapshot/visual tests without mocking network |
+| --- | --- |
+| Hook as container | Less nesting than wrapper components |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Can’t reuse UI | Fetch inside view | Extract container/hook |
+| Prop explosion | Too many props | Group into view-model object |
+| Logic leaks into JSX | Inline business rules | Move to hook |
+| Over-split noise | One-liner wrappers | Merge until pain returns |
+
+## Gotchas
+
+> [!WARNING]
+> **Don’t cargo-cult folders** — `containers/` vs `components/` without a rule just adds hops.
+
+> [!WARNING]
+> **Presentational ≠ no hooks** — local UI state (open/closed) is fine in the view.
+
+## When NOT to use
+
+- **Tiny components** — splitting a 20-line widget wastes time.
+- **RSC-first pages** — server component can be the “container.”
+
+## Related
+
+[[React code smells]] [[react-query]] [[React Pattern/Provider pattern]]

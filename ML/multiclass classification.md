@@ -4,8 +4,6 @@
 
 > Predict one label from **K > 2** classes — reduction strategies, metrics, and production pitfalls.
 
----
-
 ## Mental model
 
 Binary classifiers naturally output one score; multiclass extends via:
@@ -23,9 +21,7 @@ Softmax / multinomial: Single model, K outputs summing to 1 (logistic extension)
 - **Probabilities:** must sum to 1 — calibrate if used for ranking or thresholds
 - **Top-k:** return k highest classes (search, catalog)
 
-**Imbalance:** macro vs micro vs weighted F1 — pick metric matching business cost (rare class recall vs overall accuracy).
-
----
+**Imbalance:** macro versus micro versus weighted F1 — pick metric matching business cost (rare class recall versus overall accuracy).
 
 ## Standard config / commands
 
@@ -58,7 +54,7 @@ top3 = top_k_accuracy_score(y_val, proba, k=3)
 ```
 
 | Metric | When |
-|--------|------|
+| --- | --- |
 | Macro F1 | Equal weight per class (rare classes matter) |
 | Weighted F1 | Weight by support (closer to accuracy) |
 | Micro F1 | Global TP/FP/FN (multi-label overlap) |
@@ -74,20 +70,16 @@ y_enc = le.fit_transform(y_train)
 # Persist le.classes_ for serving decode
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Always predicts majority class | Class imbalance, wrong metric | `class_weight="balanced"`; SMOTE cautiously; macro F1 |
 | Confusion between two similar classes | Feature overlap | Add discriminative features; hierarchical classification |
 | Probabilities don't sum to 1 | Wrong API / broken wrapper | Use `predict_proba`; verify OvR calibration |
 | Great val, bad prod slice | Train skew vs prod geography | Stratified split by segment; monitor per-class recall |
 | K increases, latency spikes | OvO explosion | Switch to OvR or native multiclass; model distillation |
 | Label string mismatch at serve | Encoder drift | Version `LabelEncoder` / label map with model artifact |
-
----
 
 ## Gotchas
 
@@ -103,15 +95,11 @@ y_enc = le.fit_transform(y_train)
 > [!WARNING]
 > **Calibration per class:** OvR probabilities often miscalibrated — isotonic/Platt on validation per class for threshold tuning.
 
----
-
 ## When NOT to use
 
 - **Extremely large K (millions of labels)** — extreme classification, embeddings + ANN retrieval ([[ANN]]), not full softmax.
 - **Ordinal classes** (small < medium < large) — treat as [[ordinal classification]], not nominal multiclass.
 - **Need interpretable per-class rules** — shallow [[Decision tree]] or separate binary models per business line.
-
----
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # MySQL triggers
 
-> One-line: automatic SQL on INSERT/UPDATE/DELETE — audit, denormalization, validation; hidden logic that breaks migrations and surprises ORMs.
+> MySQL triggers — BEFORE INSERT trigger (validate, set defaults)
 
 ## Mental model
 
@@ -21,7 +21,7 @@ row written
 AFTER INSERT trigger (audit log, counter update)
 ```
 
-MySQL allows **one trigger per timing/event/table** (before 5.7 had limits; 8.0+ multiple with different names). Logic in triggers is **invisible to app code** — hard to test and version.
+MySQL allows **one trigger per timing/event/table** (before 5.7 had limits; 8.0+ multiple with different names). Logic in triggers is **invisible to application code** — hard to test and version.
 
 ## Standard config / commands
 
@@ -78,7 +78,7 @@ mysqldump -u root -p --no-data --triggers mydb > schema.sql
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | INSERT fails mysteriously | Trigger SIGNAL/validation | `SHOW TRIGGERS`; test trigger body |
 | Double audit rows | App + trigger both write | Remove duplicate path |
 | Migration fails on trigger | Invalid def after ALTER | Drop/recreate trigger in migration |

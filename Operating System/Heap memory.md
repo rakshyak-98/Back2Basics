@@ -1,42 +1,112 @@
-A heap is a tree-based structure that lets you always get the min and max element in `O(1)` and insert/remove in `O(log n)`.
+[[Operating System]] [[RAM and Swap memory]] [[OOM (Linux Out Of Memory)]] [[cgroup (Control Group)]]
 
-> [!INFO]
-> - min-head -> top (root) is always the smallest element.
-> - max-heap -> top is always the largest element.
+# Heap memory
 
-> [!NOTE]
-> Heap (DSA) and Heap memory (Runtime/OS) they are completely different concepts.
-> Heap (DSA) -> a tree-based structure (Min/Max heap).
-> Heap (Runtime/OS) -> a region of RAM used for dynamic allocation.
+> Heap memory is the process region for `malloc` / `new` — grows and shrinks at runtime, unlike the fixed stack frames.
 
-> [!INFO]
-> heap memory in OS, is a logical memory region, not a physical one.
-> logical memory -> it's part of the process's virtual address space. The OS maps it to physical memory under the hood, but the heap itself is just a logical abstraction provided to your program.
+## Mental model
+
+**Say it in one breath:** The heap is where your program parks objects that outlive a single function call; the allocator hands out chunks until the OS or runtime says no.
 
 ```txt
-+---------------------+
-|     Stack           | ← grows downward (for function calls, locals)
-+---------------------+
-|     Heap            | ← grows upward (for malloc/new)
-+---------------------+
-|     BSS             | (uninitialized static/global vars)
-+---------------------+
-|     Data            | (initialized static/global vars)
-+---------------------+
-|     Text / Code     | (binary instructions)
-+---------------------+
+high addresses
+  ┌─────────────┐
+  │   Stack     │  ← grows down (locals, return addresses)
+  ├─────────────┤
+  │     ↕       │  (gap / mmap region)
+  ├─────────────┤
+  │   Heap      │  ← grows up (malloc / new / GC nursery)
+  ├─────────────┤
+  │ BSS / Data  │
+  ├─────────────┤
+  │ Text / Code │
+  └─────────────┘
+low addresses
 ```
 
-## Heap out or memory
+### Interview map (words you can say)
 
- >[!INFO]
- >It is a pure resource-exhaustion attack aimed at availability rather than confidentiality or integrity.
+| Word | Plain meaning | Say in interview |
 
-Heap out of memory refers to condition in which a program attempts to allocate more memory in the heap region than is available or permitted by the operating system or runtime environment resulting in an allocation failure.
-
-- The heap is the portion of a process's virtual memory used for dynamic allocations (via functions such as `malloc` in c/c++).
-- Unlike the stack, which is automatically managed and limited in size, the heap grows as needed until it encounters system-imposed limits (for example, process address space constraints, ulimit settings, or the Java Virtual Machine's configured heap size).
-	- When these limits are reached, the program typically raises an error such as `OutOfMemoryError` or `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed`
+| **Heap (OS/runtime)** | Dynamic allocation region | “Long-lived objects live on the heap via malloc/new.” |
+| --- | --- | --- |
+| **Heap (DSA)** | Min/max tree | “Different word — priority queue, not process memory.” |
+| **malloc / brk / mmap** | How the heap grows | “Small allocs use the heap; big ones often mmap.” |
+| **Fragmentation** | Free holes too small to reuse | “RSS stays high even after free if the allocator can’t coalesce.” |
+| **OOM / heap limit** | Alloc fails or process dies | “JVM has `-Xmx`; Linux may OOM-kill the whole process.” |
+| **Leak** | Allocated, never freed / never unreachable | “RSS climbs under load; heap dump shows retained paths.” |
 
 > [!INFO]
-> These actions are feasible because many applications trust external input to be well-behaved and do not enforce safeguards such as maximum allocation sizes, timeouts, or memory quotas per operation.kjjkkjjjj
+> **DSA heap ≠ heap memory.** Priority-queue “heap” is a tree. Runtime “heap” is a virtual-memory region mapped to RAM (and maybe swap). Same English word, different interviews.
+
+### How the story goes (4 steps)
+
+1. **Request** — code calls `malloc` / `new` / language allocator.
+2. **Satisfy** — allocator uses free lists, arenas, or asks the kernel (`brk` / `mmap`).
+3. **Use** — pointer lives until `free` / GC / process exit.
+4. **Fail** — soft limit (ulimit, `-Xmx`, cgroup) or hard RAM pressure → error or [[OOM (Linux Out Of Memory)]].
+
+## Standard config / commands
+
+```bash
+# Process virtual map — look for [heap] and large anon regions
+cat /proc/self/maps | grep -E 'heap|anon'
+
+# RSS / virtual size while reproducing a leak
+ps -o pid,rss,vsz,cmd -p <pid>
+smem -P <process-name>   # if installed — proportional set size
+
+# glibc malloc stats (C programs linked with glibc)
+export MALLOC_CHECK_=3
+# or call malloc_stats() / mallinfo2() from a debug path
+
+# Java heap
+java -Xms512m -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -jar app.jar
+
+# Container / cgroup memory ceiling (kills look like "random" OOM)
+cat /sys/fs/cgroup/memory.max 2>/dev/null || cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+```
+
+| Knob | Why it matters |
+
+| `ulimit -v` / `RLIMIT_AS` | Caps address space — malloc fails earlier |
+| --- | --- |
+| JVM `-Xmx` / Go `GOMEMLIMIT` | Soft app limit before host OOM |
+| cgroup `memory.max` | Hard kill in K8s/Docker even if host has RAM |
+| `MALLOC_ARENA_MAX` (glibc) | Too many arenas → RSS bloat on many threads |
+
+Debug: `pprof` (Go), `jcmd <pid> GC.heap_info` (Java), `heapdump` / Chrome DevTools (Node).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `OutOfMemoryError` / alloc failed | Heap dump; `-Xmx` vs RSS | Raise limit **or** cut retained size; don’t guess |
+| RSS climbs, never falls | Heap dump / `pmap -x` | Fix leak; GC alone won’t free native/off-heap |
+| Works locally, dies in K8s | cgroup `memory.max` vs process RSS | Align requests/limits; leave headroom for native |
+| High RSS after free() | Fragmentation / arenas | Tune allocator; reuse pools; check mmap-backed buffers |
+| Process killed, no app exception | `dmesg` / `oom_kill` | Host or cgroup OOM — see [[OOM (Linux Out Of Memory)]] |
+
+## Gotchas
+
+> [!WARNING]
+> **Virtual size ≠ RAM.** A huge `VIRT` with modest `RSS` is often reserved address space, not “using all the RAM.”
+
+> [!WARNING]
+> **Free does not always return pages to the OS.** Allocators keep arenas; RSS can stay high after you “freed” everything.
+
+> [!WARNING]
+> **Off-heap still counts.** Direct ByteBuffers, JNI, and `mmap` files sit outside the JVM heap but inside the cgroup.
+
+> [!WARNING]
+> **Unbounded input → heap bomb.** Trusting client-supplied sizes (`Content-Length`, unzip bombs) is a classic availability kill.
+
+## When NOT to use
+
+- **Tiny, short-lived locals** — stack (or registers) is cheaper; don’t heap-allocate every integer.
+- **Fixed-size ring of messages** — prefer a bounded [[buffer]] / pool over unbounded heap growth.
+- **Sharing huge read-only blobs across processes** — prefer `mmap` / [[shared memory]], not N heap copies.
+
+## Related
+
+[[RAM and Swap memory]] [[OOM (Linux Out Of Memory)]] [[cgroup (Control Group)]] [[Stack Frame]] [[Browser memory]] [[buffer]] [[shared memory]]

@@ -2,7 +2,7 @@
 
 # groupadd
 
-> One-line: create a new **group** entry in `/etc/group` (and `/etc/gshadow` if shadow groups enabled) — shared permissions, sudo rules, and service ACLs. **Kerrisk**.
+> groupadd — groups are numeric GID + name mappings. File permissions use UID for owner, GID for group (ls -l third column). Users gain group membership
 
 ## Mental model
 
@@ -15,7 +15,7 @@ usermod -aG devops alice ──► alice in supplementary groups
 ```
 
 | Command | Purpose |
-|---------|---------|
+| --- | --- |
 | `groupadd name` | New group, GID auto from `/etc/login.defs` |
 | `groupadd -g 1005 name` | Explicit GID (match NFS/LDAP) |
 | `groupadd -r name` | System group (low GID range) |
@@ -23,6 +23,17 @@ usermod -aG devops alice ──► alice in supplementary groups
 | `groupdel name` | Delete (must have no members as primary) |
 | `gpasswd -a user group` | Add member |
 | `gpasswd -d user group` | Remove member |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **groupadd** | Create group | “groupadd deploy.” |
+| --- | --- | --- |
+| **-g** | Set GID | “Match GID across fleet.” |
+| **-r** | System group | “For daemons.” |
+| **/etc/group** | Membership file | “getent group to verify.” |
+| **usermod -aG** | Add members | “groupadd creates; usermod joins.” |
 
 ## Standard config / commands
 
@@ -56,8 +67,9 @@ sudo groupdel oldproject
 **Common production groups:**
 
 | Group | Typical purpose |
-|-------|-----------------|
+
 | `sudo` / `wheel` | Elevated privileges via sudoers |
+| --- | --- |
 | `docker` | Docker socket access without root |
 | `adm` | Read `/var/log` |
 | `www-data` | Web server file ownership |
@@ -65,7 +77,7 @@ sudo groupdel oldproject
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "group already exists" | `getent group name` | Use existing or pick new name |
 | "GID already in use" | `getent group <gid>` | Choose free GID: `grep : /etc/group \| cut -d: -f3 \| sort -n` |
 | User not in group after add | Session cached | Re-login; `newgrp deploy`; verify `id` |

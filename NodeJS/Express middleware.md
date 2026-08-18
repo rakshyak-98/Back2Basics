@@ -1,207 +1,70 @@
-- They provide a way to execute code, modify the request and response objects, end the request-response cycle, and call the next middleware function in the stack.
+[[NodeJS]] [[expressjs]] [[node error]]
 
-### How middleware work
+# Express middleware
 
-- middleware functions are executed sequentially in the order they are defined.
-- middleware functions can perform tasks such as logging, authentication, parsing request bodies.
-- they can modify the `req` and `res` object or end the request-response cycle by sending a response.
+> Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
-> [!NOTE] if a middleware function does not end the request-response cycle, it must call `next()` to pass control to the next middleware function.
+## Mental model
 
-1. Logging middleware
-```js
-const logger = (req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-};
+**Say it in one breath:** Middleware runs in registration order. If it doesn’t send a response, it must `next()` or `next(err)`.
 
-export default logger;
+```txt
+app.use(A) → app.use(B) → app.get('/') → error mw
 ```
 
-2. Body parsing middleware
-```js
-import express from 'express';
-import logger from './middleware/logger.js';
+### Interview map (words you can say)
 
-const app = express();
+| Word | Plain meaning | Say in interview |
 
-// Use JSON body parser middleware
-app.use(express.json());
+| **next()** | Continue chain | “Forgot it = hung request.” |
+| --- | --- | --- |
+| **Error middleware** | `(err,req,res,next)` | “Four args — must be last.” |
+| **Router-level** | `router.use` | “Scope middleware to a mount.” |
 
-// Use custom logger middleware
-app.use(logger);
-
-// Example route
-app.post('/data', (req, res) => {
-    res.send(`Received data: ${JSON.stringify(req.body)}`);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-```
-
-3. Authentication middleware
-```js
-const auth = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) {
-        return res.status(401).send('Access denied. No token provided.');
-    }
-    // Verify token (pseudo-code)
-    try {
-        const decoded = verifyToken(token);
-        req.user = decoded;
-        next();
-    } catch (ex) {
-        res.status(400).send('Invalid token.');
-    }
-};
-
-export default auth;
-```
-
-### Error handling middleware
+## Standard config / commands
 
 ```js
-app.use((err, req, res, next) => {
-	logger.error("Request failed", {
-		error: {
-			name: err.name,
-			message: err.message,
-			stack: erro.stack,
-			statusCode: err.statusCode,
-		},
-		request: {
-			method: req.method,
-			url: req.originUrl,
-			ip: req.ip,
-			userId: req.user?.id,
-			body: req.body ? JSON.stringfy(req.body).slice(0, 500) : null, // truncate
-		}
-	});
-	
-	const status = err.statusCode || 500;
-	const isDev = process.env.NODE_ENV=='development';
-	
-	let response = {
-		error: 'Internal server error',
-	};
-	
-	if(err instanceof ValidationError) {
-		response = {
-			error: 'Validation failed',
-			details: err.details || err.message,
-		};
-	}else if (status < 500){
-		response.error = err.message || 'Bad Request';
-	}
-	
-	if(err instanceOf multer.MulterError){
-		if(err.code === "LIMIT_FILE_SIZE"){
-			response.error = "File tool large (max 5MB)"
-		}
-		if(err.code === "LIMIT_UNEXPECTED_FILE"){
-			response.error = "Too many files (max 10)"
-		}
-	}
-	
-	if(isDev){
-		response.details = {
-			name: err.name,
-			message: err.message,
-			stack: err.stack?.split('\n').slice(0, 8), // first 8 lines
-		};
-	}
-	
-	res.status(status).json(response);
+app.use(express.json())
+app.use((req, _res, next) => {
+  console.log(req.method, req.url)
+  next()
 })
 
+app.use((err, _req, res, _next) => {
+  console.error(err)
+  res.status(err.status || 500).json({ error: err.message })
+})
 ```
 
-5. Static file middleware
+| Knob | Why it matters |
 
-```js
-import express from 'express';
-import path from 'path';
-import logger from './middleware/logger.js';
-import errorHandler from './middleware/errorHandler.js';
+| Order | Parser before routes that need `body` |
+| --- | --- |
+| Path-scoped `app.use('/api', …)` | Don’t run globally when unneeded |
+| Async errors | Pass to `next(err)` (or wrappers) |
 
-const app = express();
+## Triage (when things break)
 
-// Use JSON body parser middleware
-app.use(express.json());
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Request hangs | No `next` / no `res` | Always continue or end |
+| Error HTML dump | No error middleware | Add 4-arg handler |
+| `body` empty | Parser after route | Reorder `express.json()` |
+| Auth skipped | Middleware after route | `app.use(auth)` before protected routes |
 
-// Use custom logger middleware
-app.use(logger);
+## Gotchas
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+> [!WARNING]
+> **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5.
 
-// Example route
-app.post('/data', (req, res) => {
-    res.send(`Received data: ${JSON.stringify(req.body)}`);
-});
+> [!WARNING]
+> **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”
 
-// Use error handling middleware
-app.use(errorHandler);
+## When NOT to use
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-```
+- **Business logic only used by one route** — put it in the route/handler module.
+- **Heavy CPU** — don’t block the middleware chain; queue/worker.
 
-6. XSRF Token implementation
+## Related
 
-```js
-// filepath: /home/ubuntu/GitHub/Playground/Javascript/src/index.js
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const csurf = require('csurf');
-
-const app = express();
-
-// Setup cookie parser middleware
-app.use(cookieParser());
-
-// Setup CSRF protection middleware
-const csrfProtection = csurf({ cookie: true });
-
-// Route to get CSRF token
-app.get('/form', csrfProtection, (req, res) => {
-   res.send(`<form action="/process" method="POST">
-               <input type="hidden" name="_csrf" value="${req.csrfToken()}">
-               <button type="submit">Submit</button>
-             </form>`);
-});
-
-// Route to process form submission
-app.post('/process', csrfProtection, (req, res) => {
-   res.send('Form processed');
-});
-
-app.listen(3000, () => console.log('Server running on port 3000'));
-```
-
-### Avoid Try-catch everywhere
-
-```js
-const asyncHandler = (fn) => (req, res, next) => {
-	Promise.resolve(fn(req, res, next)).catch(next)
-}
-```
-
-```js
-const asyncHandler = require("@middleware/asychHandler")
-
-app.get("/user", asyncHandler(async (req, res, next) => {
-	const user = await User.findById(req.params.id);
-	if(!user){
-		throw new Error("User not found)
-	}
-	res.json(user);
-}))
-```
-
+[[expressjs]] [[node error]] [[Runtime Errors]]

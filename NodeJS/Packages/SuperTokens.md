@@ -2,11 +2,11 @@
 
 # SuperTokens (Node SDK)
 
-> One-line: managed/session-based auth SDK — handles login, refresh, anti-CSRF, and session validation middleware for Express/Fastify; self-host or SaaS core.
+> SuperTokens (Node SDK) — superTokens splits auth into a Core service (session store, refresh rotation) and your API (SDK middleware). Sessions live in httpOnly cookies +
 
 ## Mental model
 
-[SuperTokens](https://supertokens.com/docs/nodejs) splits auth into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
+[SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
 ```
 Browser ──login──► API (supertokens-node SDK) ──► SuperTokens Core
@@ -79,7 +79,7 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 401 on all routes | Core down; wrong `connectionURI` | Health check Core; verify network from API pod |
 | CORS errors on `/auth` | `websiteDomain` mismatch | Align appInfo domains; CORS before middleware |
 | Refresh loop | Clock skew; cookie domain | Sync NTP; `cookieDomain` for subdomains |
@@ -105,7 +105,7 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 
 - **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
 - **Machine-to-machine only** — client credentials flow, not session cookies.
-- **Already deep into custom JWT** — migration cost vs incremental hardening.
+- **Already deep into custom JWT** — migration cost versus incremental hardening.
 
 ## Related
 

@@ -1,93 +1,70 @@
-`lean()` 
-Avoid the overhead of Mongoose wrapper functions and features.
-- used in Mongoose ORM to optimize performance for read-heavy opeartions.
-- can not use methods like `.save()` or `.validate()` on lean query results.
-- read-only use, not suitable for operations requiring updates or additional mongoose methods.
+[[mongoose/mongoose]] [[mongoose/mongoose schema]] [[mongoose/mongoose custom function]]
 
-> [!NOTE] as `populate()` normally returns Mongoose documents. When combined with `lean()`, it ensures even the populated fields are returned as plain JavaScript objects.
+# mongoose methods
 
-### Validate schema
-```js
-const validateDoc = new ApplicationSchema(
-	{
-		student: new Types.ObjectId(studentId),
-		status,
-	},
-	{ new: true }
-);
-console.log(validateDoc);
+> Instance methods and statics attach behavior to documents/models — keep query helpers next to the schema.
 
-await validateDoc.validate({ pathsToSkip: ["program"] });
-const application = await ApplicationSchema.updateOne(
-	{
-		_id: new Types.ObjectId(applicationId),
-		student: new Types.ObjectId(studentId),
-	},
-	{ $set: { status } },
-	{ new: true }
-);
-res.json({
-	success: {
-		message: "Application updated successfully",
-		data: application,
-	},
-});
+## Mental model
+
+**Say it in one breath:** `methods` run on a document (`this`); `statics` run on the model; `query` helpers chain on find.
+
+```txt
+doc.method() | Model.static() | Model.find().byEmail()
 ```
 
-## Custom sequences for categories (100xxx, 200xxx etc.)
-- To generate category-based sequences, you need a separate counter per category.
-```js
-const CounterSchema = new mongoose.Schema({
-  category: String,
-  seq: { type: Number, default: 1000 }
-});
+### Interview map (words you can say)
 
-const Counter = mongoose.model('Counter', CounterSchema);
+| Word | Plain meaning | Say in interview |
 
-const productSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  productId: Number,
-  category: String,
-  name: String,
-  price: Number
-});
+| **methods** | Per-document API | “`user.checkPassword()`.” |
+| --- | --- | --- |
+| **statics** | Per-model API | “`User.findByEmail()`.” |
+| **query helper** | Chainable filter | “`.byTenant(id)`.” |
+| **lean** | Skip hydrate | “Faster reads, no methods.” |
 
-productSchema.pre('save', async function(next) {
-  if (!this.productId) {
-    const counter = await Counter.findOneAndUpdate(
-      { category: this.category },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.productId = parseInt(`${this.category}${counter.seq}`);
-  }
-  next();
-});
-
-const Product = mongoose.model('Product', productSchema);
-
-```
-
-## Mongoose plugin Solution for sequence
-[[Mongoose plugin]]
+## Standard config / commands
 
 ```js
-const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
-
-const productSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  productId: Number,
-  category: String,
-  name: String,
-  price: Number
-});
-
-productSchema.plugin(AutoIncrement, { 
-  inc_field: 'productId', 
-  start_seq: 1001 
-});
-
-const Product = mongoose.model('Product', productSchema);
-
+schema.methods.displayName = function () {
+  return this.name || this.email
+}
+schema.statics.findByEmail = function (email) {
+  return this.findOne({ email })
+}
+schema.query.byTenant = function (tenantId) {
+  return this.where({ tenantId })
+}
 ```
+
+| Knob | Why it matters |
+
+| Arrow functions | Break `this` binding — use `function` |
+| --- | --- |
+| lean() | Methods unavailable on plain objects |
+| async methods | Always await |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `this` undefined | arrow fn on methods | Use classic function |
+| method missing | lean query | Remove lean or plain helper |
+| static not found | wrong model export | Export compiled model |
+| Side effects in getters | hidden I/O | Move to explicit methods |
+
+## Gotchas
+
+> [!WARNING]
+> **Business logic only in methods** — still enforce critical rules in services for non-Mongoose paths.
+
+> [!WARNING]
+> **Methods don’t exist after `lean()` or `toObject()` without virtuals config.**
+
+## When NOT to use
+
+- **Pure utilities** — plain functions may be clearer.
+- **Cross-model workflows** — service layer, not one model’s statics.
+
+## Related
+
+[[mongoose/mongoose schema]] [[mongoose/mongoose custom function]] [[mongoose/mongoose]]

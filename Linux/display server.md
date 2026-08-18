@@ -2,7 +2,7 @@
 
 # Display server
 
-> One-line: **The process that owns the framebuffer and multiplexes GUI clients** — every pixel and input event passes through it. When the screen freezes, blame the server stack before the app.
+> Display server — owns the screen and input; GUI apps draw through it.
 
 ## Mental model
 
@@ -15,8 +15,9 @@ Input devices ──► Display server ──► GPU/compositor ──► monito
 ```
 
 | Server | Protocol | Typical stack |
-|--------|----------|---------------|
+
 | Xorg | X11 | i3, Openbox, GNOME-on-X |
+| --- | --- | --- |
 | Wayland compositor | Wayland | GNOME Shell, KDE, Sway |
 | Mir (legacy Ubuntu) | Mir | Rare today |
 
@@ -25,6 +26,17 @@ Input devices ──► Display server ──► GPU/compositor ──► monito
 - **Window manager** — decorates/focuses windows (often embedded in compositor on Wayland).
 - **Display manager** — login greeter (GDM, LightDM) — starts *before* your session.
 - **Desktop environment** — full product (GNOME, KDE).
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **display server** | Owns screen + input | “Xorg or Wayland compositor.” |
+| --- | --- | --- |
+| **protocol** | App ↔ server | “Apps don’t poke GPU alone.” |
+| **compositor** | Draw final frame | “Wayland merges server+compositor.” |
+| **DRM/KMS** | Kernel modeset | “Talks to the monitor.” |
+| **seat** | Keyboard/mouse/screen set | “logind manages seats.” |
 
 ## Standard config / commands
 
@@ -49,14 +61,14 @@ xauth list       # see [[x11]] — cookies for that display
 echo $WAYLAND_DISPLAY   # wayland-0
 ```
 
-**When switching stacks:** logout → gear icon on greeter → "GNOME on Xorg" vs "GNOME" — see [[Linux display manager]].
+**When switching stacks:** logout → gear icon on greeter → "GNOME on Xorg" versus "GNOME" — see [[Linux display manager]].
 
 **Remote GUI:** SSH `-X`/`-Y` forwards to **X11** display server on your laptop — Wayland forwarding is limited; often need XWayland on remote or pure CLI.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Black screen after login | Switch TTY Ctrl+Alt+F3; journal | Broken driver; nomodeset; reinstall GPU driver |
 | Apps can't connect to display | `echo $DISPLAY` / `$WAYLAND_DISPLAY` | `export DISPLAY=:0`; run from user session, not SSH without forward |
 | Only root GUI works | Permissions on `/tmp/.X11-unix` | Wrong user; xhost +local: (avoid in prod) |

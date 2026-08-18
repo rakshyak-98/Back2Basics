@@ -2,7 +2,7 @@
 
 # Sliding window
 
-> Two-pointer technique over a contiguous subarray/substring — turn O(n²) brute force into O(n) by expanding/shrinking one window instead of restarting from every index.
+> Sliding window — arr: [ 2, 1, 5, 1, 3, 2 ] target sum ≤ 7
 
 ## Mental model
 
@@ -86,7 +86,7 @@ function minSubArrayLen(target, nums) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong answer on edge cases | Empty array, all negatives, single element | Handle `n === 0`; pick correct algorithm (window vs prefix sum) |
 | Off-by-one length | Inclusive `[L,R]` vs half-open `[L,R)` | Standardize: length = `R - L + 1` for inclusive |
 | Infinite loop on shrink | `left` not advancing when invalid | Ensure `left++` each shrink iteration |

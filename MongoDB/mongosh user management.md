@@ -1,88 +1,70 @@
+[[MongoDB]] [[mongosh]]
+
+# mongosh user management
+
+> MongoDB users and roles live in databases — grant least privilege, usually via `admin`.
+
+## Mental model
+
+**Say it in one breath:** Create a user with roles scoped to a DB (or cluster); authenticate with that user + `authSource`.
+
+```txt
+admin.createUser → roles[{ role, db }] → clients auth with authSource
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Role** | Privilege bundle | “`readWrite` on `app`.” |
+| --- | --- | --- |
+| **authSource** | DB that stores the user | “Often `admin`.” |
+| **Custom role** | Least privilege set | “Only `find` on one coll.” |
+| **SCRAM** | Password auth mechanism | “Default for users.” |
+
+## Standard config / commands
+
 ```js
-use admin;
-db.getRoles({showBuiltinRoles: true, showPrivileges: true});
-db.runCommand({ connectionStatus: 1 }); // details about the authenticated user for the current session
+use admin
 db.createUser({
-  user: "myUser",
-  pwd: "myPassword",
-  roles: [
-    { role: "readWrite", db: "myDatabase" },
-    { role: "dbAdmin", db: "myDatabase" }
-  ]
-});
-```
-
-```js
-db.getUsers(); // view users;
-db.updateUser("myUser", {
-	roles: [{role: "dbAdmin", db: "testDB"}]
+  user: 'app',
+  pwd: passwordPrompt(),
+  roles: [{ role: 'readWrite', db: 'app' }],
 })
-db.deleteUser("myUser"); // remove user from current database;
-db.changeUserPassword("myUser", "newPassword");
-db.grantRolesToUser("myUser", [{role: "read", db: "testDB"}])
-db.revokeRolesFromUser("myUser", [{role: "read", db: "testDB" }])
-db.auth("myUser", "password");
+db.getUsers()
+db.updateUser('app', { roles: [{ role: 'read', db: 'app' }] })
+db.dropUser('app')
 ```
 
-### **Default Roles Overview**
+| Knob | Why it matters |
 
-1. **Database-Specific Roles**:
-   - `read`: Read-only access to a database.
-   - `readWrite`: Read and write access to a database.
-2. **Administrative Roles**:
-   - `dbAdmin`: Administrative tasks like indexing and stats.
-   - `userAdmin`: User management for the database.
-3. **Cluster Roles**:
-   - `clusterAdmin`: Full control of the cluster.
-   - `clusterMonitor`: Read-only access to cluster monitoring.
-4. **Backup and Restore Roles**:
-   - `backup`: Permissions for backups.
-   - `restore`: Permissions for restoring data.
+| Built-in roles | Fast start |
+| --- | --- |
+| Custom roles | Lock down collections |
+| X.509 / LDAP | Enterprise auth stories |
 
-```js
-db.runCommand({ listCommands: 1 }); // list all available commands (actions correspond to commands)
-db.createRole({
-  role: "<role_name>",
-  privileges: [
-    {
-      resource: { db: "<database>", collection: "<collection>" },
-      actions: ["<action1>", "<action2>"]
-    }
-  ],
-  roles: ["<existing_role1>", "<existing_role2>"]
-});
-```
-### **Common Default Actions**
-#### **CRUD Actions**:
-- `find`: Read documents.
-- `insert`: Add new documents.
-- `update`: Modify existing documents.
-- `remove`: Delete documents.
+## Triage (when things break)
 
-#### **Administrative Actions**:
-- `createCollection`: Create new collections.
-- `dropCollection`: Drop collections.
-- `createIndex`: Create indexes.
-- `dropIndex`: Drop indexes.
-- `compact`: Defragment data on storage.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| not authorized | roles on wrong db | Grant on target db |
+| Auth failed | authSource mismatch | Point URI at user DB |
+| Can’t create user | not admin | Use root/userAdmin |
+| Too much privilege | `root` in apps | Replace with readWrite |
 
-#### **Database Management Actions**:
-- `listCollections`: List collections in a database.
-- `listIndexes`: List indexes on a collection.
-- `collStats`: Retrieve collection statistics.
-- `dbStats`: Retrieve database statistics.
+## Gotchas
 
-#### **User and Role Management Actions**:
-- `createUser`: Create users.
-- `dropUser`: Remove users.
-- `grantRole`: Grant roles to a user.
-- `revokeRole`: Revoke roles from a user.
+> [!WARNING]
+> **Users in app DB vs admin** — URI `authSource` must match where the user was created.
 
-#### **Backup and Restore Actions**:
-- `backup`: Take database backups.
-- `restore`: Restore databases from backups.
+> [!WARNING]
+> **Shared root credentials in apps** — blast radius on leak.
 
-#### **Cluster-Level Actions**:
-- `addShard`: Add shards to a cluster.
-- `removeShard`: Remove shards from a cluster.
-- `shardCollection`: Shard a collection.
+## When NOT to use
+
+- **Local disposable docker** — root is fine for throwaway demos.
+- **Managed Atlas** — prefer UI/API database users.
+
+## Related
+
+[[mongosh]] [[mongodb connection]]

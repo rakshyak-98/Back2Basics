@@ -1,3 +1,13 @@
+[[Rendering performance]]
+
+# composite
+
+> composite — compositing is where the painted parts of the page are put together for displaying on screen.
+
+## Mental model
+
+**Say it in one breath:** composite — compositing is where the painted parts of the page are put together for displaying on screen.
+
 Compositing is where the painted parts of the page are put together for displaying on screen.
 since the part of the page were potentially drawn onto multiple layers, they need to be applied to the screen in the correct order.
 - especially important for elements that overlap another.
@@ -7,3 +17,7 @@ since the part of the page were potentially drawn onto multiple layers, they nee
 - Stick to transform and opacity changes for your animations.
 - promote moving elements with `will-change` or `translateZ`.
 - avoid overusing promotion rules; layers requires memory and management.
+
+## Related
+
+[[Rendering performance]]

@@ -2,11 +2,11 @@
 
 # GPG sign (Git commits & tags)
 
-> One-line: cryptographically **sign Git commits/tags** with your GPG key — proves authorship and integrity for supply-chain and release audit. **Fix "no secret key" before enabling signing in CI or globally.**
+> GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
 ## Mental model
 
-Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private** key in your agent's keyring — passphrase-protected by default.
+**Say it in one breath:** Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private**.
 
 ```
 git commit -S ──► gpg signs hash ──► signature embedded in commit
@@ -14,7 +14,7 @@ git log --show-signature ──► gpg --verify against trusted keys
 ```
 
 | Error | Meaning |
-|-------|---------|
+| --- | --- |
 | `gpg: no default secret key` | No private key selected / none installed |
 | `gpg: signing failed: No secret key` | Key ID in git config doesn't match secret keyring |
 | `gpg: signing failed: Inappropriate ioctl` | TTY/pinentry broken over SSH |
@@ -69,12 +69,12 @@ git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519.pub
 ```
 
-See [[gpg]] for repo key verification (nginx packages, etc.) — different use case from commit signing.
+See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `no default secret key` | `gpg --list-secret-keys` | Generate/import key; set `user.signingkey` |
 | Wrong key used | `git config user.signingkey` | Match long ID from secret keyring |
 | Passphrase loop over SSH | pinentry | `export GPG_TTY=$(tty)`; use `gpg-agent`; local sign |

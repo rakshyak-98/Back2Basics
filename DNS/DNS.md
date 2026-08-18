@@ -2,7 +2,7 @@
 
 # DNS
 
-> One-line: distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
+> distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
 
 ## Mental model
 
@@ -24,10 +24,10 @@ Transport:
 - **TCP/53** for truncated responses (TC bit set) or zone transfers (AXFR).
 - **DNS-over-HTTPS/TLS** on recursive path (browser/OS dependent).
 
-**Key record types for ops:**
+**Key record types for operations:**
 
 | Type | Use |
-|------|-----|
+| --- | --- |
 | A / AAAA | Name → IPv4 / IPv6 |
 | CNAME | Alias → another name (no other records at same name) |
 | NS | Delegates zone to authoritative servers |
@@ -86,7 +86,7 @@ options edns0 trust-ad
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NXDOMAIN everywhere for one name | `dig +trace` stops where? | Fix NS delegation or missing zone at authoritative |
 | Works with `@8.8.8.8`, fails with corporate DNS | Compare `dig @corp-dns` vs public | Internal split-horizon; add private zone or conditional forwarder |
 | Intermittent wrong IP | TTL + multiple A records; geo DNS | Lower TTL during migration; verify all authoritative NS agree (`dig @each-ns`) |
@@ -110,13 +110,13 @@ options edns0 trust-ad
 
 - **CNAME at apex** (example.com) is invalid in traditional DNS — use ALIAS/ANAME at provider or flatten.
 - **Negative caching** (NXDOMAIN) respects SOA minimum TTL — typo domains stay "broken" for minutes.
-- **Split-horizon**: same name, different answer inside vs outside — debug from both vantage points.
+- **Split-horizon**: same name, different answer inside versus outside — debug from both vantage points.
 - **systemd-resolved stub** on 127.0.0.53 — tools may show different path than `dig @127.0.0.53`.
 
 ## When NOT to use
 
 - Service-to-service naming inside a cluster → platform DNS (K8s, Consul) is faster to iterate.
-- Storing non-DNS data in TXT beyond reasonable size — use a real config store.
+- Storing non-DNS data in TXT beyond reasonable size — use a real configuration store.
 
 ## Related
 

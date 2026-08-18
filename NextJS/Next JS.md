@@ -1,124 +1,60 @@
-> [!INFO] In NextJS, when using `next/router`, the query parameters might be undefined on the first render because NextJS initially renders the page on the server (or statically), and _the query values are only available after hydration on the client.
+[[NextJS]] [[React]] [[express build]]
 
-### Image
+# Next JS
 
-```txt
-Error: Invalid src prop [(https://picsum.photos/seed/DUeHUGir/1880/2247)](https://picsum.photos/seed/DUeHUGir/1880/2247) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js` See more info: [https://nextjs.org/docs/messages/next-image-unconfigured-host](https://nextjs.org/docs/messages/next-image-unconfigured-host)
-```
-- NextJS restricts external image resources for `next/image` by default. You need to allow `hostname` in your `next.config.js` file.
+> Next.js — React framework with file-based routing, server components/SSR, and a production build toolchain.
 
-#### Allow External images in `next.config.js`
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-    ],
-  },
-};
+## Mental model
 
-module.exports = nextConfig;
-
-```
-
-### Page route
-- in NextJS application, any file inside the `pages/` directory become a route.
-- To create a directory inside `pages/` that NextJS ignores.
+**Say it in one breath:** Routes live under `app/` (application Router) or `pages/`. Server Components render on server by default; mark client interactivity with `"use client"`.
 
 ```txt
-pages/
-  _apiSlice/  <-- Ignored by Next.js routing
-  index.js
-
+request → Next server → RSC/SSR/HTML → hydrate client islands
 ```
 
-### next Router
-`asPath` is a property of `useRouter()` from `next/Router` ant it returns the URL path as seen in the browser (including query parameters but without considering dynamic route patterns)
-```ts
-import { useRouter } from "next/router";
+| Piece | Job |
+| --- | --- |
+| App Router | Layouts/nested routes |
+| Server Actions | Mutations |
+| next/image | Image pipeline |
 
-export default function Page() {
-  const router = useRouter();
+## Standard config / commands
 
-  return <p>Current Path: {router.asPath}</p>;
-}
-
+```bash
+npx create-next-app@latest
+npm run dev
+npm run build && npm start
 ```
 
-| Property   | Example Route             | Description                                            |
-| ---------- | ------------------------- | ------------------------------------------------------ |
-| `asPath`   | `/product/10?sort=asc`    | the actual URL in the browser, including query params. |
-| `pathName` | `/product/[id]`           | the NextJS route pattern (dynamic route name).         |
-| `query`    | `{id: "10", sort: "asc"}` | extracted query parameters as an object.               |
-#### Map an incoming request path with `rewrites`
-- `rewrites` allow you to map an incoming request path to a different destination path.
-- `rewriets` act as a URL prozy and mask the destination path.
+| Knob | Why it matters |
 
-> [!NOTE] `rewrites` are applied to client-side routing, a `<Link href="/about">` will have the rewrite.
+| `app/` vs `pages/` | Router generation |
+| --- | --- |
+| `dynamic` / `revalidate` | Caching |
+| Edge vs Node runtime | API limits |
 
-```js
-// next.config.js
-module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",  // Match any API route
-        destination: "https://backend.example.com/api/:path*", // Proxy to backend
-      },
-    ];
-  },
-};
+## Triage (when things break)
 
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Window is not defined | Client API in server | `"use client"` or dynamic |
+| Hydration mismatch | Server≠client HTML | Stabilize random/dates |
+| 404 after deploy | Base path / trailing slash | Align config/host |
+| Slow TTFB | Blocking data | Stream; cache |
 
-### Manifest JSON file
+## Gotchas
 
-- enables code splitting, lazy loading
-- [[SSR]] needs to know which chunks to send.
-- Middleware/runtime matches routes and behavior based on manifest.
+> [!WARNING]
+> **Mixing routers** — prefer one.
 
-> [!INFO] manifest json file
-> - allow static hosting/CDNs to understand asset dependencies.
+> [!WARNING]
+> **Env vars** — `NEXT_PUBLIC_` only for browser.
 
-- `*-manifest.json` files serve as internal maps used by the framework and server to efficiently resolve resources.
+## When NOT to use
 
-| File Name                        | Purpose                                                     |
-| -------------------------------- | ----------------------------------------------------------- |
-| `build-manifest.json`            | Map of all built files for each route/page (JS/CSS chunks)  |
-| `react-loadable-manifest.json`   | Helps with dynamic imports & SSR chunk resolution           |
-| `ssr-module-manifest.json`       | Used by the server to know which modules to preload for SSR |
-| `middleware-manifest.json`       | Metadata for middleware (functions, matchers)               |
-| `routes-manifest.json`           | List of all static + dynamic routes and rewrites/redirects  |
-| `client-reference-manifest.json` | Tracks server components vs client components for RSC       |
-| `app-build-manifest.json`        | Used in App Router builds (maps pages to built files)       |
-### Next dynamic
-[skipping ssr](https://nextjs.org/docs/app/guides/lazy-loading#skipping-ssr)
-```js
-export default dynamic(() => Promise.resolve(Home_1), { ssr: false })
-```
-> [!INFO] 
-> dynamically load the component and do not render this component of ssr.
+- **Pure API service** — Fastify/Express.
+- **Static brochure without React** — simpler SSG/HTML.
 
-> [!NOTE]
-> `ssr: false` option will work for client component, move it into Client Component ensure the client code-splitting working properly.
+## Related
 
-if you dynamically import a Server Component, only the Client Components that are children of the server component will be lazy-loaded - not the server component itself. It will also help preload the static assets such as CSS when you're using it in Server Components.
-
-```js
-import dynamic from 'next/dynamic'
- 
-// Server Component:
-const ServerComponent = dynamic(() => import('../components/ServerComponent'))
- 
-export default function ServerComponentExample() {
-  return (
-    <div>
-      <ServerComponent />
-    </div>
-  )
-}
-```
+[[NextJS configuration]] [[Next js Build]] [[RSC (React Server Component boundaries)]] [[React]]

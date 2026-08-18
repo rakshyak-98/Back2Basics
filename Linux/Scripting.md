@@ -2,7 +2,7 @@
 
 # Scripting
 
-> One-line: glue Unix tools and business logic with **shell scripts** — automation, cron wrappers, deploy hooks, and incident one-offs. **Know when bash stops and Python starts.**
+> Scripting — a shell script is a sequence of commands run by an interpreter (bash, sh). The shell expands variables, splits words, runs pipelines, and returns an exit
 
 ## Mental model
 
@@ -18,11 +18,23 @@ set -euo pipefail
 ```
 
 | Use shell for | Use Python/Go for |
-|---------------|-------------------|
+
 | Wrapping CLI tools | Complex data structures |
+| --- | --- |
 | Cron/systemd hooks | APIs, JSON parsing at scale |
 | Deploy rsync/tar glue | Libraries, test suites |
 | Quick incident fixes | Anything > ~200 lines |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **shebang** | #!/bin/bash interpreter line | “Without shebang, shell guesses wrong.” |
+| --- | --- | --- |
+| **set -euo pipefail** | Fail fast flags | “Production scripts start with set -euo pipefail.” |
+| **quoting** | $var vs "$var" | “Unquoted vars split on spaces — bugs.” |
+| **exit code** | 0 ok, non-zero fail | “Check $? or use if cmd; then.” |
+| **cron PATH** | Minimal env | “Cron scripts need full paths.” |
 
 ## Standard config / commands
 
@@ -131,7 +143,7 @@ See [[bash script]] for deeper syntax; [[crontab]] and [[systemd]] for schedulin
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `bad interpreter` | Shebang path wrong | `#!/usr/bin/env bash`; `which bash` |
 | Works manually, fails in cron | PATH, cwd, env | Absolute paths; `cd` in script; log env |
 | `set -u` unbound variable | Typo or optional arg | `${var:-default}`; validate `$#` |

@@ -59,7 +59,7 @@ npx prisma generate
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Unknown arg include` | Relation in schema? | Add `@relation`; regenerate client |
 | N+1 queries | Query log | Use `include` or `select` in one query |
 | `P2002` unique violation | Constraint | Upsert or handle conflict |

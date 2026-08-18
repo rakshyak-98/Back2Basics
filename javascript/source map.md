@@ -1,10 +1,8 @@
-[[React build]] [[SWC]] [[javascript engine]] [[React project config]] [[Security/content security policy]]
+[[React build]] [[SWC]] [[javascript engine]] [[React project configuration]] [[Security/content security policy]]
 
 # Source map
 
-> Maps **bundled/minified code** back to original TS/JS sources for stack traces and debugging — **Source Map v3 spec**.
-
----
+> Source map — production ships app.js (one line, mangled names). Browser loads optional app.js.map:
 
 ## Mental model
 
@@ -19,15 +17,13 @@ Error at app.js:1:48291  →  DevTools shows Checkout.tsx:42 payInvoice()
 ```
 
 | Mode | Tradeoff |
-|------|----------|
+| --- | --- |
 | `sourcemap: true` (prod) | Debuggable prod; **don't expose publicly** without auth |
 | `hidden-source-map` | Sentry upload only; no browser fetch |
 | `inline` | Embedded; huge bundles |
 | Dev default | Fast rebuild; full maps |
 
 Works with [[SWC]], Babel, TypeScript, Sass — anything that emits `//# sourceMappingURL=`.
-
----
 
 ## Standard config / commands
 
@@ -62,25 +58,21 @@ Set `build.sourcemap: 'hidden'` so maps aren't served to users.
 }
 ```
 
-Bundler consumes TS maps or generates its own — avoid double-confusion; usually let Vite own prod maps.
+Bundler consumes TS maps or generates its own — avoid double-confusion; usually let Vite own production maps.
 
 ### Verify in DevTools
 
 Settings → enable source maps → trigger error → stack links to original file.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stack shows minified names | Map not loaded | `sourceMappingURL` comment; deploy `.map` |
 | Wrong file/line | Outdated map vs bundle | Rebuild; maps CI artifact tied to release |
 | Maps 404 | CDN omit `.map` | Upload maps to Sentry; block public `.map` |
 | Huge deploy size | inline maps | External `.map` files |
 | CSP blocks | `connect-src` / map fetch | Allow error tracker domain only |
-
----
 
 ## Gotchas
 
@@ -90,15 +82,11 @@ Settings → enable source maps → trigger error → stack links to original fi
 > [!WARNING]
 > **Map mismatch after hotfix** — always tag maps with release version (git SHA).
 
----
-
 ## When NOT to use
 
 - **Public library npm package** — ship types + docs, not full source maps to consumers.
 - **Tiny internal scripts** — readable unminified code may suffice.
 
----
-
 ## Related
 
-[[SWC]] · [[React build]] · [[React project config]] · [[javascript engine]] · [[Security/content security policy]]
+[[SWC]] · [[React build]] · [[React project configuration]] · [[javascript engine]] · [[Security/content security policy]]

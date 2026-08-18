@@ -2,11 +2,11 @@
 
 # Slack (ops & alerting)
 
-> **Team notification bus for on-call** — Incoming Webhooks, Bot tokens, Workflow Builder, and Slack CLI for deploy/CI signals. Not a product pitch; wiring alerts that don't spam or leak secrets.
+> Slack (ops & alerting) — slack receives HTTP POST (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: Alertmanager/PagerDuty/CI → Slack
 
 ## Mental model
 
-Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
+Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. operations stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
 
 ```
 Prometheus/CI ──► webhook POST JSON ──► #alerts channel
@@ -14,13 +14,13 @@ Prometheus/CI ──► webhook POST JSON ──► #alerts channel
                          └── optional: threads, @channel, Block Kit for context
 ```
 
-Separate **noisy dev channel** from **prod paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
+Separate **noisy development channel** from **production paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
 
 ## Standard config / commands
 
 ### Incoming Webhook (fastest path)
 
-1. Slack app → Incoming Webhooks → Add to workspace → pick channel.
+1. Slack application → Incoming Webhooks → Add to workspace → pick channel.
 2. Store URL in secret manager (not git).
 
 ```bash
@@ -96,7 +96,7 @@ slack run   # dev mode for workflow apps
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `404 invalid_payload` | Malformed JSON; missing `text` or `blocks` | Validate JSON; min required fields |
 | `403 / channel_not_found` | Webhook tied to channel; app not invited | Re-add app to private channel |
 | Alerts stopped entirely | Rotated webhook; secret expired | Regenerate webhook; update vault/CI secret |

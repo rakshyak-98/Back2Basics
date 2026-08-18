@@ -1,10 +1,8 @@
-[[loggging]] [[OOM (Linux Out Of Memory)]] [[Linux]] [[eBPF]]
+[[logging]] [[OOM (Linux Out Of Memory)]] [[Linux]] [[eBPF]]
 
 # Kernel ring buffer
 
 > Fixed-size circular log in kernel memory for `printk` and early-boot messages — consumed by `dmesg`, `journald`, and serial consoles.
-
----
 
 ## Mental model
 
@@ -24,8 +22,6 @@ Contents you'll see:
 - Panic/oops stack traces
 
 Separate from **userspace journal** (`journald`) but `journalctl -k` pulls kernel ring into structured logs.
-
----
 
 ## Standard config / commands
 
@@ -61,18 +57,14 @@ echo 5 | sudo tee /proc/sys/kernel/printk_ratelimit_burst
 
 **Why enlarge buffer:** boot storms on servers with many NVMe/NIC lines overwrite early errors before you capture them.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Missing boot errors | Buffer wrapped | `log_buf_len`; serial console capture; IPMI SOL log |
 | OOM but no killer line | Overwritten | `journalctl -k`; enable persistent journal |
 | `dmesg: read kernel buffer failed` | `dmesg_restrict` | sudo or sysctl |
 | Flood slows system | Driver printk in hot path | Fix driver; dynamic debug `echo 'module 0' > /sys/module/XXX/parameters/debug |
-
----
 
 ## Gotchas
 
@@ -85,14 +77,10 @@ echo 5 | sudo tee /proc/sys/kernel/printk_ratelimit_burst
 > [!WARNING]
 > **Not a structured audit trail** — no guaranteed ordering across CPUs without `printk` defer; use tracing ([[eBPF]]) for high-rate events.
 
----
-
 ## When NOT to use
 
 Don't rely on kernel ring for **application logs** — use stdout/journal/centralized logging. Ring buffer is for **kernel/driver/hardware** narrative.
 
----
-
 ## Related
 
-[[Rolling Buffer]] [[loggging]] [[OOM (Linux Out Of Memory)]] [[eBPF]] [[Linux]]
+[[Rolling Buffer]] [[logging]] [[OOM (Linux Out Of Memory)]] [[eBPF]] [[Linux]]

@@ -2,7 +2,7 @@
 
 # busctl
 
-> One-line: **systemd's D-Bus introspection CLI** — list services, call methods, monitor signals on system/session bus without raw `dbus-send` XML. **Ships with systemd; the operator-facing D-Bus debugger.**
+> busctl — d-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). busctl wraps libsystemd's bus API — same
 
 ## Mental model
 
@@ -17,18 +17,29 @@ Client ──► D-Bus daemon (/run/dbus/system_bus_socket)
 ```
 
 | Bus | Socket | Scope |
-|-----|--------|-------|
+| --- | --- | --- |
 | System | `/run/dbus/system_bus_socket` | Machine-wide (`--system`, default for root) |
 | Session | `$DBUS_SESSION_BUS_ADDRESS` | Per-user desktop (`--user`) |
 
-**vs related tools:**
+**versus related tools:**
 
 | Tool | Role |
-|------|------|
+| --- | --- |
 | `busctl` | Structured introspect + call (systemd) |
 | `dbus-send` | Low-level message send (legacy) |
 | `dbus-monitor` | Raw traffic tap |
 | `gdbus` | GLib helper (GNOME stack) |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **D-Bus** | IPC message bus | “systemd and desktop talk over D-Bus.” |
+| --- | --- | --- |
+| **busctl** | Introspect/call | “busctl tree / call for debugging.” |
+| **system vs session** | Bus scopes | “system bus needs root often.” |
+| **introspect** | List methods | “Discover API before calling.” |
+| **monitor** | Watch messages | “busctl monitor for race hunts.” |
 
 ## Standard config / commands
 
@@ -84,7 +95,7 @@ journalctl -u dbus -u NetworkManager --since "10 min ago"
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Failed to connect to bus` | dbus daemon down | `systemctl status dbus`; `systemctl start dbus` |
 | Session bus errors in desktop app | `echo $DBUS_SESSION_BUS_ADDRESS` | Re-login; `dbus-launch` for bare X |
 | `busctl list` empty/minimal | Wrong bus (`--user` vs system) | Add `--system` or run as session user |
@@ -111,7 +122,7 @@ journalctl -u dbus -u NetworkManager --since "10 min ago"
 - **Simple service restart** → [[systemctl]].
 - **GNOME-specific APIs** → sometimes easier with `gdbus`.
 - **Remote machines** → SSH + busctl locally; D-Bus doesn't tunnel by default.
-- **Performance tracing** → eBPF, app metrics — not bus introspection.
+- **Performance tracing** → eBPF, application metrics — not bus introspection.
 
 ## Related
 

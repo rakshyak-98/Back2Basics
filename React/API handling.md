@@ -2,9 +2,7 @@
 
 # API handling (React)
 
-> How the browser talks to backends — shared client, auth injection, cancellation, and cache ownership — **Martin Fowler (API client patterns)** + TanStack Query / RTK Query docs.
-
----
+> API handling (React) — component → hook (useQuery / useMutation) → api client (axios/fetch) → server
 
 ## Mental model
 
@@ -16,14 +14,12 @@ Component → hook (useQuery / useMutation) → api client (axios/fetch) → ser
 Separate concerns:
 
 | Layer | Owns |
-|-------|------|
+| --- | --- |
 | **HTTP client** | Base URL, headers, interceptors, timeouts |
 | **Data library** | Cache keys, stale time, invalidation |
 | **Component** | Loading UI, empty states, form submit |
 
 Server state belongs in **Query cache**, not scattered `useState` copies ([[React data management]]).
-
----
 
 ## Standard config / commands
 
@@ -77,20 +73,16 @@ export function usePosts() {
 
 See [[Redux/RTQ/RTQ tags]] — `providesTags` / `invalidatesTags` on mutations.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Double fetch on mount | Strict Mode + no dedupe | Query client dedupes; ignore duplicate in dev |
 | Stale UI after mutation | Cache not invalidated | `invalidateQueries` or RTK tags |
 | CORS errors | Response headers | [[CORS (Cross Origin Request Sharing)]] on server |
 | Random 401 loops | Refresh token race | Single-flight refresh queue in interceptor |
 | Cancel ignored | No `signal` passed | Pass Query `signal` to axios/fetch |
 | Wrong env URL | `VITE_*` at build time | Rebuild; verify [[React project config]] |
-
----
 
 ## Gotchas
 
@@ -100,15 +92,11 @@ See [[Redux/RTQ/RTQ tags]] — `providesTags` / `invalidatesTags` on mutations.
 > [!WARNING]
 > **Storing tokens in localStorage** — XSS exfiltration; prefer HttpOnly cookies for session ([[JWT authentication]]).
 
----
-
 ## When NOT to use
 
 - **Static content only** — no API layer needed.
 - **GraphQL with complex graphs** — use Apollo/urql with normalized cache, not ad hoc REST wrappers everywhere.
 - **Server Components (RSC)** — fetch on server in loader/component; client cache optional.
-
----
 
 ## Related
 

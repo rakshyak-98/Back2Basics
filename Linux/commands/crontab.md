@@ -2,7 +2,7 @@
 
 # crontab
 
-> One-line: per-user job scheduler — minute/hour/day/month/weekday triggers for scripts and one-liners. **Still everywhere; systemd timers are the modern alternative on server distros.**
+> crontab — cron reads /var/spool/cron/crontabs/<user> (or /etc/cron.d/* for system jobs). The crond daemon wakes every minute, checks whether any entry's five fields match *now*, and spawns
 
 ## Mental model
 
@@ -19,13 +19,25 @@
 ```
 
 | Location | Who | Typical use |
-|----------|-----|-------------|
+
 | `crontab -e` (user) | That user | Backups, reports, app maintenance |
+| --- | --- | --- |
 | `/etc/cron.d/` | root-defined, can set user field | Package-installed jobs |
 | `/etc/cron.{hourly,daily,weekly,monthly}/` | Scripts dropped in dir | anacron-friendly batch jobs |
 | `@reboot` | Once at boot | Legacy "start my thing" — prefer [[systemd]] unit |
 
 Environment is **sparse**: often only `HOME`, `LOGNAME`, `SHELL`, `PATH=/usr/bin:/bin`. Always use absolute paths for scripts and binaries.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **crontab** | Per-user schedule | “crontab -e edits your jobs.” |
+| --- | --- | --- |
+| **minute hour dom mon dow** | Five fields | “* * * * * = every minute — careful.” |
+| **PATH** | Thin cron env | “Use absolute paths in cron.” |
+| **/etc/cron.d** | System drop-ins | “Prefer files over root crontab for packages.” |
+| **MAILTO** | Cron email | “Silence with MAILTO="" if noisy.” |
 
 ## Standard config / commands
 
@@ -86,7 +98,7 @@ systemctl status crond             # RHEL/CentOS
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Job never runs | `crontab -l`; `systemctl status cron` | Re-enable cron; fix typo in time fields |
 | Runs but fails silently | Mail to root (`/var/mail/root`); add logging | Redirect `>> /var/log/job.log 2>&1`; run command manually as same user |
 | "Command not found" | Minimal `PATH` in cron | Use full paths: `/usr/bin/python3`, not `python3` |
@@ -111,7 +123,7 @@ systemctl status crond             # RHEL/CentOS
 
 ## When NOT to use
 
-- **Sub-minute scheduling** → systemd timer, supervisor, or app-internal scheduler.
+- **Sub-minute scheduling** → systemd timer, supervisor, or application-internal scheduler.
 - **Boot-order dependencies** → [[systemd]] unit with `After=` / `Requires=`.
 - **One-shot delayed tasks** → `at`, not cron.
 - **Complex retry/backoff** → dedicated job runner (Sidekiq, Celery, Airflow), not cron loops.

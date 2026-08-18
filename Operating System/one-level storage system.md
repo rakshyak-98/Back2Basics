@@ -2,9 +2,7 @@
 
 # One-level storage system
 
-> Classic OS mental model: disk and RAM are one addressable store via virtual memory — **Multics / early UNIX teaching canon**; explains page cache behavior today.
-
----
+> One-level storage system — the one-level store illusion: programmers see a single large virtual address space. The OS + MMU map virtual pages to RAM frames
 
 ## Mental model
 
@@ -16,16 +14,15 @@ Virtual address ──► page table ──► RAM frame (hot)
 ```
 
 | Layer today | One-level store equivalent |
-|-------------|---------------------------|
+
 | **Virtual memory** | Uniform byte address space per process |
+| --- | --- |
 | **Page cache** | Disk pages cached in RAM — same physical pages mmap touches |
 | **Swap** | Cold pages evicted to swap partition/file |
 | **mmap** | File bytes appear as memory — no separate I/O API |
 | **Demand paging** | Code/data loaded on first access, not at exec |
 
 **Why staff engineers care:** every `read()`/`write()` on a warm file goes through the **page cache** anyway. Double-copy from "I'll mmap to be faster" often wins only at scale or random access patterns — see [[How to manipulate memory directly]].
-
----
 
 ## Standard config / commands
 
@@ -68,12 +65,10 @@ fsync() → force dirty pages + metadata for THAT fd's file
 mmap MAP_SHARED write → same dirty pages — msync/fsync for durability
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Sudden latency spikes | `majflt` rising; `vmstat` `wa` | Cold cache after deploy; insufficient RAM; preload/warm |
 | OOM killer | `free -h`; cgroup limit | Process RSS + cache pressure; reduce footprint or add RAM |
 | Thrashing | High `si/so` in vmstat | Working set > RAM; swap storm — reduce concurrency |
@@ -86,8 +81,6 @@ mmap MAP_SHARED write → same dirty pages — msync/fsync for durability
 pmap -x PID | tail -1
 cat /proc/PID/smaps_rollup
 ```
-
----
 
 ## Gotchas
 
@@ -106,15 +99,11 @@ cat /proc/PID/smaps_rollup
 > [!WARNING]
 > **One-level store is an illusion** — programmers still need [[fsync]] discipline; the kernel does not sync every write to disk.
 
----
-
 ## When NOT to use
 
 - **Teaching junior devs pointer math** — start with virtual memory + page cache diagram, not Multics history.
 - **Assuming uniform latency** — NUMA, swap, and disk tiers break the illusion; size RAM for working set.
 - **Bypassing cache "for speed"** without measurement — O_DIRECT requires aligned buffers and complicates portability.
-
----
 
 ## Related
 

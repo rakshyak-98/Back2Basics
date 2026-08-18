@@ -4,8 +4,6 @@
 
 > Isolates hostname and NIS domain name — lets each container think it has its own `uname -n` without changing the host.
 
----
-
 ## Mental model
 
 **UTS** (Unix Timesharing System) namespace splits the **kernel's hostname/domainname** per namespace:
@@ -20,8 +18,6 @@ hostname: prod-node-1    hostname: web-abc      hostname: db-xyz
 Created via `clone(CLONE_NEWUTS)`, `unshare(CLONE_NEWUTS)`, or implicitly by runtimes (`docker run`, `kubectl run`). Child namespaces **copy** parent's hostname at creation time; changing one does not affect siblings.
 
 **Not isolated by UTS alone:** network interfaces, `/etc/hosts` content (unless bind-mounted separately), or DNS — engineers often confuse hostname namespace with network namespace.
-
----
 
 ## Standard config / commands
 
@@ -61,18 +57,14 @@ readlink /proc/PID/ns/uts
 # Same inode → same UTS namespace
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Container shows host hostname | `--hostname` not set; host UTS shared | `docker run --hostname`; ensure not `--uts=host` |
 | License/software binds to hostname | App reads `gethostname()` | Set stable `--hostname` or StatefulSet pod name |
 | Monitoring duplicates host alerts | All containers report same hostname | Unique hostname per replica or use labels not hostname |
 | `hostname` change doesn't persist | Ephemeral container restart | Set in orchestrator spec, not manual `hostname` cmd |
-
----
 
 ## Gotchas
 
@@ -85,13 +77,9 @@ readlink /proc/PID/ns/uts
 > [!WARNING]
 > **TLS cert CN/SAN** tied to hostname — changing UTS without updating certs breaks HTTPS inside mesh.
 
----
-
 ## When NOT to use
 
 Do not rely on UTS for security boundaries — it's cosmetic identity. Combine with [[IPC namespace]], mount, network, and user namespaces for isolation.
-
----
 
 ## Related
 

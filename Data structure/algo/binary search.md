@@ -2,11 +2,11 @@
 
 # Binary search
 
-> Halve sorted search space each step — O(log n) find/insert boundary; loop invariant is the hard part.
+> Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
 ## Mental model
 
-Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** vs **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` vs `left < right` causes infinite loops or missed answers.
+Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
 
 ```
 sorted: [1,3,5,7,9]  target 7
@@ -60,7 +60,7 @@ while (lo < hi) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Infinite loop | `lo`/`hi` update | Use `lo + (hi-lo)/2`; ensure range shrinks |
 | Wrong index | `<=` vs `<` | Exact: `lo<=hi`; bound: half-open `[lo,hi)` |
 | -1 always | Not sorted | Sort first or binary search on index space |

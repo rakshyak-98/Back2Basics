@@ -2,9 +2,7 @@
 
 # SWC (Speedy Web Compiler)
 
-> **Rust-based** transpiler/minifier — Babel-compatible subset at much lower latency — powers Next.js, Vite (optional), Deno — **SWC project docs**.
-
----
+> SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
 ## Mental model
 
@@ -23,12 +21,10 @@ Used for:
 Not a full **polyfill** layer — pair with [[polyfills]] for missing runtime APIs.
 
 | vs Babel | SWC |
-|----------|-----|
+| --- | --- |
 | Speed | 10–20× faster typical |
 | Plugin ecosystem | Smaller; some Babel plugins missing |
 | Config | `.swcrc` / bundler integration |
-
----
 
 ## Standard config / commands
 
@@ -67,7 +63,7 @@ npx swc src -d dist
 
 ### Next.js (default)
 
-Next uses SWC internally — custom Babel only if `.babelrc` present (disables SWC for that app).
+Next uses SWC internally — custom Babel only if `.babelrc` present (disables SWC for that application).
 
 ### Jest
 
@@ -77,19 +73,15 @@ module.exports = {
 };
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Babel plugin missing | SWC unsupported syntax plugin | Keep Babel for that file or macro |
 | Different output vs Babel | Edge semantic diff | Integration test; pin @swc/core version |
 | JSX runtime error | Classic vs automatic | `react.runtime: "automatic"` |
 | Decorators fail | Stage mismatch | Enable experimental in swc config |
 | Slower than expected | Falling back to Babel | Remove `.babelrc` in Next |
-
----
 
 ## Gotchas
 
@@ -99,14 +91,10 @@ module.exports = {
 > [!WARNING]
 > **Type checking** — SWC strips types; still run `tsc --noEmit` in CI.
 
----
-
 ## When NOT to use
 
 - **Heavy custom Babel plugin chain** — migration cost may exceed build time savings.
 - **Non-JS languages** — SWC is JS/TS focused; use appropriate compiler (Rust, Go) for those.
-
----
 
 ## Related
 

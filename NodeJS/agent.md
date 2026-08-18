@@ -1,12 +1,66 @@
-is responsible for managing connection persistence and reuse of HTTP clients.
-- reusing a single socket connection for each until the queue is empty.
-- maintains a queue of pending requests for a given host and port.
-- whether it is destroyed or pooled depends on the `keepAlive` option.
-- servers may also refuse to allow multiple requests over the same connection, in which case the connection will have to be remade for every request and cannot be pooled.
-- the agent will still make the request to that server, but each one will occur over a new connection.
-- used sockets consume OS resources.
-- sockets are removed from an agent when the socket emits either a `close` event or an `agentRemove` event.
+[[NodeJS]] [[HTTP module]] [[expressjs]]
 
-> [!INFO] Pooled connections have TCP keep-Alive enabled for them, but server can close idle connections.
+# agent (http.Agent)
 
-> [!INFO] When a connection is closed by the client or server, it is removed from the pool.
+> Connection pool for outbound HTTP — keep-alive sockets, max sockets per host, and fewer TCP/TLS handshakes.
+
+## Mental model
+
+**Say it in one breath:** Without keep-alive, every `http.request` pays handshake cost. An `Agent` reuses sockets up to configured limits.
+
+```txt
+request → Agent → idle socket? reuse : connect
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **keepAlive** | Reuse TCP/TLS | “Critical for chatty microservices.” |
+| --- | --- | --- |
+| **maxSockets** | Cap per host | “Protect yourself and the peer.” |
+| **free sockets** | Idle pool | “`maxFreeSockets` bounds memory.” |
+
+## Standard config / commands
+
+```js
+import http from 'node:http'
+
+const agent = new http.Agent({ keepAlive: true, maxSockets: 50 })
+http.get('http://example.com', { agent }, (res) => res.resume())
+
+// undici/fetch often has its own pool — prefer that in modern Node
+```
+
+| Knob | Why it matters |
+
+| `keepAlive` | Enable reuse |
+| --- | --- |
+| `timeout` | Kill stuck sockets |
+| Global agent | Default shared — tune carefully |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Latency high to same host | New conn each time | `keepAlive: true` |
+| ECONNRESET storms | Peer closed idle | Tune timeouts; refresh |
+| FD exhaustion | maxSockets too high | Lower caps |
+| Hang forever | No timeout | Set agent/request timeouts |
+
+## Gotchas
+
+> [!WARNING]
+> **`agent: false`** disables pooling for that request — sometimes needed, usually slower.
+
+> [!WARNING]
+> **fetch/undici** — separate pooling story from classic `http.Agent`.
+
+## When NOT to use
+
+- **One-off scripts** — defaults fine.
+- **Mis-tuning maxSockets to “unlimited”** — you can DoS the dependency.
+
+## Related
+
+[[HTTP module]] [[Optimization]] [[expressjs]]

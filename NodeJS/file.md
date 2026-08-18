@@ -2,7 +2,7 @@
 
 # Node.js `file` module patterns
 
-> One-line: read/write paths via `node:fs` — choose sync vs promise vs stream based on size and startup cost; never block the event loop on large sync I/O.
+> Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
 ## Mental model
 
@@ -14,7 +14,7 @@ fs (callback)              ← legacy; still used by streams
 fs sync (*Sync)            ← boot/config only; blocks event loop
 ```
 
-Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type info without extra `stat` calls.
+Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type information without extra `stat` calls.
 
 Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
 
@@ -89,7 +89,7 @@ reader.on('error', (err) => console.error(err));
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ENOENT` on read | Path cwd-relative vs absolute | `path.resolve`; log `process.cwd()` |
 | Garbled text | Missing encoding | Pass `'utf8'`; detect BOM |
 | Event loop stalls | Sync `readFileSync` on MB files | Switch to promises/streams |

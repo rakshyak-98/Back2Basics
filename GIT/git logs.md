@@ -2,11 +2,11 @@
 
 # Git log
 
-> One-line: traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
+> traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
 ## Mental model
 
-`git log` walks commits reachable from refs, newest first by default. Ranges use **double-dot** `A..B` = commits reachable from B not from A (merge-base relative). **Path filter** limits to commits touching files.
+**Say it in one breath:** `git log` walks commits reachable from refs, newest first by default. Ranges use **double-dot** `A..B` = commits reachable from B not from A (merge-base relative). **Path filter** limits.
 
 ```
 git log main..feature     commits on feature not in main
@@ -69,7 +69,7 @@ git log -G "regex" -- path/
 git log --pretty=format:"%h - %an (%ar): %s"
 ```
 
-See [[git formating]] for full placeholder table.
+See [[git formatting]] for full placeholder table.
 
 ### Since/until
 
@@ -81,7 +81,7 @@ git log --after="2 weeks ago"
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Empty range | Reversed or equal SHAs | Swap order; verify merge-base |
 | Missing commits on branch | Not reachable from ref | Log from correct branch; `--all` |
 | File history stops at rename | No `--follow` | Add `--follow` |
@@ -107,4 +107,4 @@ git log --after="2 weeks ago"
 
 ## Related
 
-[[git command]] [[git formating]] [[git diff]] [[git blame]] [[git branch]]
+[[git command]] [[git formatting]] [[git diff]] [[git blame]] [[git branch]]

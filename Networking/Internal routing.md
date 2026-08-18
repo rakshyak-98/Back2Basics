@@ -1,23 +1,81 @@
-- if you and the target device reside on the same private IP network and you cannot configure your router, you can communicate directly within the network using internal routing.
+[[Networking]] [[localhost]] [[address port]] [[non-Routable address]]
 
-- identify the Device's Private IP
-- On the target device, find its private IP:
-- Ensure the program Listens on a Non-Default Port
-	- verify that the program you want to communicate with is actively listening on the desired port.
-	
-```shell
-sudo netstat -tuln | grep <port>
+# Internal routing
+
+> Internal routing is same-LAN reachability — private IP to private IP with no internet hairpin required.
+
+## Mental model
+
+**Say it in one breath:** If both hosts share a subnet (or routes between private nets), talk to the peer’s private IP:port — the default gateway is not in the path.
+
+```txt
+Laptop 192.168.1.10 ── switch ──► Pi 192.168.1.50:5000
+                 (no NAT, no public IP needed)
 ```
 
-- Directly Connect Using the private IP
+### Interview map (words you can say)
 
-```shell
-curl http://198.168.1.3:5000;
+| Word | Plain meaning | Say in interview |
+
+| **Same L2/L3 segment** | Shared broadcast / subnet | “ARP resolves MAC; IP stays private.” |
+| --- | --- | --- |
+| **Private IP** | RFC1918 address | “`10/8`, `172.16/12`, `192.168/16`.” |
+| **Hairpin / NAT loopback** | LAN host → public IP → back in | “Often broken; prefer private IP on LAN.” |
+| **Host firewall** | ufw/iptables on the target | “Port open on process ≠ open on firewall.” |
+
+## Standard config / commands
+
+```bash
+# Target’s private IP
+ip -4 addr show
+hostname -I
+
+# Is the service listening where you think?
+ss -tlnp | grep 5000
+# Prefer 0.0.0.0 or LAN IP — not only 127.0.0.1
+
+# Connect from another LAN host
+curl http://192.168.1.50:5000
+
+# Allow inbound (example)
+sudo ufw allow 5000/tcp
+sudo ufw status
 ```
 
-- Verify Firewell or Security Settings
-	- Ensure the target device allows incoming connections on the specified port:
-	
-```shell
-sudo ufw allow 5000
-```
+| Knob | Why it matters |
+
+| Bind address | `127.0.0.1` blocks LAN clients |
+| --- | --- |
+| Subnet / VLAN | Different VLAN ⇒ need a router between them |
+| mDNS / DHCP names | `hostname.local` helps; IP is the reliable debug target |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Connection refused | `ss -tlnp` on target | Start service; fix bind host/port |
+| Timeout | `ping` / `traceroute`; ufw/SG | Same subnet? Allow port; fix Wi‑Fi AP isolation |
+| Works via localhost only | Bound to loopback | Bind `0.0.0.0` or LAN IP |
+| Phone can’t see laptop | AP client isolation | Disable isolation or use a travel router/VLAN that allows peer traffic |
+| Used public IP from LAN | Hairpin NAT | Use private IP on LAN instead |
+
+## Gotchas
+
+> [!WARNING]
+> **AP / “guest Wi‑Fi” isolation** — devices share SSID but cannot talk to each other.
+
+> [!WARNING]
+> **Wrong private IP after DHCP renew** — bookmarks rot; use DHCP reservation or mDNS.
+
+> [!WARNING]
+> **VPN split tunnel** — “internal” routes may go to the VPN instead of the LAN; check `ip route`.
+
+## When NOT to use
+
+- **Exposing a service to the internet** — use reverse proxy, VPN, or tunnel — not raw port-forward forever.
+- **Assuming same Wi‑Fi = same network** — guest networks and VLANs lie.
+- **Skipping authentication because “it’s LAN only”** — LAN is not a trust boundary on shared Wi‑Fi.
+
+## Related
+
+[[Networking]] [[localhost]] [[address port]] [[non-Routable address]] [[network gateway]] [[NAT (Network Address Translation)]]

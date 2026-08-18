@@ -67,7 +67,7 @@ qpdf --show-object=trailer input.pdf
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Garbled / empty text | Font without ToUnicode map | OCR fallback (tesseract); try mutool |
 | Wrong column order | Visual layout vs reading order | Use `-layout` or `pdfminer.six` with LAParams |
 | Encrypted PDF | `/Encrypt` in trailer | Provide password to library |

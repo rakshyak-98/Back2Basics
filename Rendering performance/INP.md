@@ -63,14 +63,14 @@ const worker = new Worker('/worker.js');
 ### Lab vs field
 
 | Source | Use |
-|--------|-----|
+| --- | --- |
 | **CrUX / Search Console** | Real user INP (28-day p75) |
 | **Lighthouse** | Lab proxy — not official INP score |
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | INP poor, LCP good | Long tasks on interaction | Profile click handler; split work |
 | Spikes only mobile | Slower CPU, 4x throttling | Reduce JS; simplify DOM |
 | After deploy regression | New sync JSON parse | Stream/chunk; Web Worker |
@@ -88,7 +88,7 @@ const worker = new Worker('/worker.js');
 
 ## When NOT to use
 
-- Don't chase sub-50 ms INP on internal admin tools with 5 users — focus on critical revenue paths first.
+- Don't chase sub-50 ms INP on internal administrator tools with 5 users — focus on critical revenue paths first.
 
 ## Related
 

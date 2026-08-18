@@ -1,79 +1,70 @@
-The difference between `\n` (Line Feed) and `\r` (Carriage Return) lies in their historical use and behavior:
+[[Descriptive]] [[Markdown]]
 
----
+# LF and CRLF
 
-| **Feature**          | **\n (Line Feed)**             | **\r (Carriage Return)**                                   |
-| -------------------- | ------------------------------ | ---------------------------------------------------------- |
-| **ASCII Code**       | 10 (Decimal) / 0x0A (Hex)      | 13 (Decimal) / 0x0D (Hex)                                  |
-| **Purpose**          | Moves to the next line         | Moves the cursor to the start of the same line             |
-| **Representation**   | Used as a newline character    | Used as a carriage return                                  |
-| **Escape Sequence**  | `\n`                           | `\r`                                                       |
-| **Primary Usage**    | Common in Unix/Linux systems   | Historically used in old systems and Windows               |
-| **Behavior in Text** | Advances the cursor vertically | Moves the cursor horizontally to the beginning of the line |
+> LF (`\n`) and CRLF (`\r\n`) are line endings — Unix vs classic Windows; mismatches break scripts and diffs.
 
----
+## Mental model
 
-### **Historical Context**
-
-1. **`\n` (Line Feed)**:
-	- Originates from typewriters, where it moved the paper up by one line.
-	- In modern systems (Unix, macOS, Linux), it indicates the end of a line in text files.
-2. **`\r` (Carriage Return)**:
-	- Refers to moving the print head back to the beginning of the line on a typewriter.
-	- In modern systems (Windows), it is combined with `\n` as `\r\n` for line endings.
-
----
-### **Examples**
-
-1. **Newline (`\n`)**:
-```python
-print("Hello\nWorld")
-```
+**Say it in one breath:** Text lines must end somehow; Git `core.autocrlf` / `.gitattributes` keep the repository consistent across OS.
 
 ```txt
-Hello
-World
+LF = \n          CRLF = \r\n
 ```
 
-1. **Carriage Return (`\r`)**:
-```python
-print("Hello\rWorld")
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **LF** | Unix/macOS default | “Shell scripts need LF.” |
+| --- | --- | --- |
+| **CRLF** | Windows default | “Notepad legacy.” |
+| **`.gitattributes`** | Force eol per path | `* text=auto eol=lf` |
+| **shebang break** | `#!/bin/bash\r` | “bad interpreter” |
+
+## Standard config / commands
+
+```bash
+file file.sh           # shows CRLF if present
+dos2unix file.sh       # to LF
+unix2dos file.sh       # to CRLF
+printf '\r\n' | od -c
 ```
 
-```txt
-World
+```gitattributes
+* text=auto eol=lf
+*.bat text eol=crlf
 ```
-- The cursor moves back to the start, so "Hello" is overwritten by "World".
 
-1. **Combining Both (`\r\n`)**:
-- Commonly used in Windows systems to represent a newline.
+| Knob | Why it matters |
 
----
+| autocrlf | Local checkout conversion |
+| --- | --- |
+| Editor “EOL” | Save with correct ending |
+| Docker build scripts | Must be LF |
 
-### **Platform-Specific Usage**
+## Triage (when things break)
 
-1. **Unix/Linux/macOS**: Use `\n` for line endings.
-2. **Windows**: Use `\r\n` for line endings.
-3. **Classic Mac OS** (Pre-OS X): Used `\r`.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| bad interpreter | CRLF shebang | dos2unix |
+| Noisy git diffs | eol churn | .gitattributes |
+| Make fails weirdly | `\r` in Makefile | Convert to LF |
+| CI only | checkout eol | Align attributes |
 
----
+## Gotchas
 
-### **Advantages & Disadvantages**
+> [!WARNING]
+> **Mixing eol in one file** — some tools only look at first line.
 
-#### **`\n`**
+> [!WARNING]
+> **Binary marked as text** — autocrlf can corrupt; set binary in attributes.
 
-- **Advantages**:
-    - Compact: Single character for newlines.
-    - Consistent across Unix-based systems.
-- **Disadvantages**:
-    - May cause issues when transferred to Windows systems.
+## When NOT to use
 
-#### **`\r`**
+- **Binary formats** — don’t “normalize” images.
+- **Protocols that define their own framing** — HTTP already specifies CRLF in headers.
 
-- **Advantages**:
-	- Simplicity in its original context.
-- **Disadvantages**:
-	- Rarely used alone in modern systems.
-	- Confusion when handling cross-platform files.
-	
----
+## Related
+
+[[Markdown]] [[Linux/commands/SSH]]

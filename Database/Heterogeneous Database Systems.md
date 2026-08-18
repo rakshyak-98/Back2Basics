@@ -2,7 +2,7 @@
 
 # Heterogeneous Database Systems
 
-> One-line: one application orchestrates **multiple DB engines** (SQL + document + cache + search) — polyglot persistence; integration and consistency are the hard parts.
+> one application orchestrates **multiple DB engines** (SQL + document + cache + search) — polyglot persistence; integration and consistency are the hard parts.
 
 ## Mental model
 
@@ -17,14 +17,14 @@ App / API ─────┼───►│ MongoDB     │  flexible documents
                └───►│ S3 + Athena │  cold analytics
 ```
 
-**Heterogeneous** = different data models, query languages, consistency models ([[ACID]] vs [[BASE]]), ops tooling. Cohesion comes from **application layer** (API, events, ETL) — not a single SQL dialect.
+**Heterogeneous** = different data models, query languages, consistency models ([[ACID]] versus [[BASE]]), operations tooling. Cohesion comes from **application layer** (API, events, ETL) — not a single SQL dialect.
 
 ## Standard config / commands
 
 ### Access-pattern routing (design doc table)
 
 | Data | Store | Why |
-|------|-------|-----|
+| --- | --- | --- |
 | Orders, payments | Postgres | ACID, constraints |
 | Product catalog JSON | MongoDB | schema flexibility |
 | Session / rate limit | Redis | TTL, speed |
@@ -65,7 +65,7 @@ CREATE TABLE outbox (
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Search out of sync with DB | Indexer lag / failed consumer | Replay outbox/CDC; rebuild index |
 | Double charge | Dual-write without txn | Single source of truth + idempotent consumers |
 | Cache serves stale forever | No TTL/invalidation | Event-driven eviction; short TTL + version keys |

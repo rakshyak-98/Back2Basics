@@ -1,42 +1,60 @@
-# How to set global package which is been fetched at the client side
-```js
+[[NextJS]] [[Next JS]] [[typescript]]
 
+# NextJS Config
+
+> `next.config.js` — Next.js knobs: redirects, headers, images, transpile packages, experimental flags.
+
+## Mental model
+
+**Say it in one breath:** One configuration file shapes build + runtime behavior. Prefer documented options over undocumented experimental flags in production.
+
+```txt
+next.config.* ──build/runtime──► output + routing behavior
 ```
 
-```js
-const nextConfig = {
-  images: {
-    domains: ["example.com"]
-  } }
-```
+## Standard config / commands
 
 ```js
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-	images: {
-    remotePatterns: [
-      { hostname: "example.com" },
-    ],
+  reactStrictMode: true,
+  images: { remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }] },
+  async headers() {
+    return [{ source: '/(.*)', headers: [{ key: 'X-Frame-Options', value: 'DENY' }] }]
   },
 }
+module.exports = nextConfig
 ```
 
-### Enable client side source map
-```js
-const nextConfig = {
-  productionBrowserSourceMaps: true, // enable client side source map
-}
-```
+| Knob | Why it matters |
 
-```js
-const nextConfig = {
-	async redirects() {
-		return [
-			{
-				source: '/old-path',
-				destination: '/new-path',
-				parament: true,
-			}
-		]
-	}
-}
-```
+| `output: 'standalone'` | Docker-friendly |
+| --- | --- |
+| `basePath`/`assetPrefix` | Subpath deploys |
+| `transpilePackages` | Monorepo libs |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Image host refused | `images.remotePatterns` | Allow hostname |
+| Wrong asset URLs | basePath | Align CDN/prefix |
+| ESM/CJS config load | File type | `.mjs` / `next.config.ts` care |
+| Headers not applied | Source pattern | Fix matchers |
+
+## Gotchas
+
+> [!WARNING]
+> **Restart required** for many config changes.
+
+> [!WARNING]
+> **Experimental flags** — churn between majors.
+
+## When NOT to use
+
+- **application logic** — keep out of configuration; use code.
+- **Secrets** — environment, not configuration committed.
+
+## Related
+
+[[Next JS]] [[Next js Build]] [[HTTP Strict Transport Security]]

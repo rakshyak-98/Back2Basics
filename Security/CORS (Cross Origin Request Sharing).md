@@ -2,7 +2,7 @@
 
 # CORS (Cross Origin Request Sharing)
 
-> One-line: browser-enforced policy — server headers permit another origin to read responses; preflight validates "non-simple" requests — **Fetch spec / W3C**.
+> CORS (Cross Origin Request Sharing) — CORS is not server access control — it stops browser JavaScript on https://evil.com from reading responses from https://api.example.com unless the
 
 ## Mental model
 
@@ -21,7 +21,7 @@ Browser on https://myapp.com
 **Simple requests** (GET/HEAD/POST with safelisted headers) go direct. **Preflight** `OPTIONS` runs first for custom headers, PUT/PATCH/DELETE, `Content-Type: application/json`, etc.
 
 | Header | Role |
-|--------|------|
+| --- | --- |
 | `Origin` | Sent by browser on cross-origin requests |
 | `Access-Control-Allow-Origin` | Echo specific origin or `*` (no credentials) |
 | `Access-Control-Allow-Credentials: true` | Allows cookies — **cannot** use `*` for ACAO |
@@ -96,7 +96,7 @@ curl -i 'https://api.example.com/users' \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Works in Postman, fails in browser | CORS is browser-only | Add ACAO headers; not an "API bug" |
 | `No Access-Control-Allow-Origin` | Response lacks header on error paths | Add CORS middleware **before** routes; include 4xx/5xx responses (`always` in nginx) |
 | Preflight 404/405 | `OPTIONS` not routed | Register `app.options('*')` or nginx OPTIONS block |
@@ -116,7 +116,7 @@ curl -i 'https://api.example.com/users' \
 > **Error responses must include CORS headers** or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
 
 - **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.
-- **Preflight cache** (`Max-Age`) masks config fixes — hard refresh or wait cache expiry when testing.
+- **Preflight cache** (`Max-Age`) masks configuration fixes — hard refresh or wait cache expiry when testing.
 - **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
 - **WebSocket** has separate origin check at handshake — see [[webSocket]].
 
@@ -124,7 +124,7 @@ curl -i 'https://api.example.com/users' \
 
 - Server-to-server calls → no CORS needed.
 - Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
-- "Fix" CORS by disabling browser security — dev-only Chrome flags don't help users.
+- "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
 ## Related
 

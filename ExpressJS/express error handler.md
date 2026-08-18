@@ -2,11 +2,11 @@
 
 # Express Error Handler
 
-> One-line: four-argument middleware `(err, req, res, next)` must be registered **last** — centralize status codes, hide stacks in prod, never leak internals.
+> Express Error Handler — express distinguishes error-handling middleware by arity (4 params). Calling next(err) or throwing inside async route (with wrapper) skips normal middleware and jumps to error
 
 ## Mental model
 
-Express distinguishes error-handling middleware by **arity (4 params)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.
+Express distinguishes error-handling middleware by **arity (4 parameters)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.
 
 ```
 Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)
@@ -15,8 +15,6 @@ Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)
 ```
 
 Without async wrapper, rejected Promises in `async (req,res)` ** bypass** error handler unless you use Express 5 or explicit `try/catch`.
-
----
 
 ## Standard config / commands
 
@@ -122,20 +120,16 @@ process.on('unhandledRejection', (err) => {
 });
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stack trace in prod JSON | `NODE_ENV` | Gate stack on `development` only |
 | 404 returns HTML not JSON | Error handler after static middleware order | Move API routes + 404 before static; separate routers |
 | Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
 | `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
 | Validation errors inconsistent | Ad-hoc status codes | Centralize in error class + handler |
 | Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
-
----
 
 ## Gotchas
 
@@ -151,14 +145,10 @@ process.on('unhandledRejection', (err) => {
 > [!WARNING]
 > **Same handler for 404 and 500** — fine if statusCode distinguishes; don't leak path existence on auth-sensitive routes (optional generic 404).
 
----
-
 ## When NOT to use
 
 - **Per-route try/catch everywhere** — duplicates logic; use wrapper + global handler.
 - **Sending `err.stack` to clients in any environment** — security finding every time.
-
----
 
 ## Related
 

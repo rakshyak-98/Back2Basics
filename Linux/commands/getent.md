@@ -2,7 +2,7 @@
 
 # getent
 
-> One-line: query **NSS** (Name Service Switch) databases the same way libc does — one command for local files, LDAP, SSSS, DNS, and hosts. **The truth for "does this account exist?"**
+> getent — when a program calls getpwnam("alice"), glibc walks /etc/nsswitch.conf and asks each configured source (files, systemd, sss, ldap, …). getent exposes that same resolution path
 
 ## Mental model
 
@@ -15,13 +15,25 @@ app / login ──► libc NSS ──► files │ sss │ ldap │ ...
 ```
 
 | Database | Typical use |
-|----------|-------------|
+
 | `passwd` | Users (UID, home, shell) |
+| --- | --- |
 | `group` | Groups (GID, members) |
 | `shadow` | Password aging (root only) |
 | `hosts` | Hostname ↔ IP (`/etc/hosts` + DNS per nsswitch) |
 | `services` | Port ↔ service name |
 | `ethers`, `protocols`, `rpc` | Network tables |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **getent** | Query NSS databases | “getent sees LDAP/sssd, not just files.” |
+| --- | --- | --- |
+| **passwd** | User lookup | “getent passwd user — exists?” |
+| **group** | Group lookup | “getent group sudo.” |
+| **hosts** | Name → IP via NSS | “getent hosts vs dig — different paths.” |
+| **nsswitch.conf** | Lookup order | “files ldap dns order matters.” |
 
 ## Standard config / commands
 
@@ -55,7 +67,7 @@ sudo getent shadow alice
 getent --help
 ```
 
-**vs raw file grep:**
+**versus raw file grep:**
 
 ```bash
 grep alice /etc/passwd          # files only — misses SSSD/LDAP
@@ -70,7 +82,7 @@ cat /etc/nsswitch.conf
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | User in `/etc/passwd` but can't login | Not in SSSD/LDAP view | `getent passwd user`; fix nsswitch or sync directory |
 | `getent` hangs | Broken DNS/LDAP | `getent hosts badname`; `sssctl user-checks`; fix resolver |
 | Empty `getent passwd` | nsswitch misconfigured | Restore `/etc/nsswitch.conf`; `authselect` / `pam-auth-update` |
@@ -95,7 +107,7 @@ cat /etc/nsswitch.conf
 ## When NOT to use
 
 - **DNS-only troubleshooting** → `dig`, `resolvectl query`.
-- **Active Directory admin** → `ldapsearch`, `adcli`, `realm`.
+- **Active Directory administrator** → `ldapsearch`, `adcli`, `realm`.
 - **Edit accounts** → [[useradd]], [[usermod]], [[passwd]] — getent is read-only.
 
 ## Related

@@ -1,33 +1,92 @@
-`ENGINE=InnoDB` -> is the default and most advanced storage engine in MySQL, whey you set
-```mysql
-CREATE TABLE my_table () ENGINE=InnoDB;
+[[mysql]] [[MySQL Engines]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
+
+# mysql engine
+
+> A storage engine is how MySQL stores and locks a table — pick InnoDB unless you have a sharp reason not to.
+
+## Mental model
+
+**Say it in one breath:** `ENGINE=...` on a table chooses persistence, locking, transactions, and indexes — InnoDB is the production default.
+
+```txt
+SQL layer (parse / optimize)
+        │
+        ▼
+   storage engine ──► InnoDB (default) | MyISAM | MEMORY | CSV | …
 ```
 
-| Feature                 | Description                                                               |
-| ----------------------- | ------------------------------------------------------------------------- |
-| ✅ **ACID compliant**    | Ensures Atomicity, Consistency, Isolation, Durability (via transactions)  |
-| ✅ **Row-level locking** | Better concurrency than table-locking engines                             |
-| ✅ **Foreign keys**      | Supports `FOREIGN KEY` constraints                                        |
-| ✅ **Crash recovery**    | Uses write-ahead logs to recover safely from crashes                      |
-| ✅ **MVCC**              | Multi-Version Concurrency Control — enables non-blocking reads            |
-| ✅ **Clustered index**   | Primary key data is physically ordered with the table (performance boost) |
+### Interview map (words you can say)
 
-## MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`
+| Word | Plain meaning | Say in interview |
 
-|Feature|InnoDB|MyISAM|MEMORY|
-|---|---|---|---|
-|**Storage**|Disk|Disk|RAM (volatile)|
-|**Persistence**|✅ Persistent|✅ Persistent|❌ Lost on restart|
-|**Transactions (ACID)**|✅ Yes|❌ No|❌ No|
-|**Row-level locking**|✅ Yes|❌ Table-level only|❌ Table-level only|
-|**Foreign keys**|✅ Yes|❌ No|❌ No|
-|**Crash recovery**|✅ Automatic recovery|❌ Manual repair needed|❌ Data lost|
-|**Index type**|`BTREE` (default)|`BTREE`|`HASH` (default), `BTREE` opt|
-|**Concurrency**|✅ High (row locks + MVCC)|❌ Poor (full table lock)|⚠️ Limited (RAM-bound)|
-|**Full-text search**|✅ Since 5.6|✅ Native support|❌ Not supported|
-|**Storage size**|Medium|Smaller|N/A|
-|**Use cases**|General-purpose, safe ops|Read-heavy, no transactions|Temp cache/lookups|
+| **InnoDB** | Transactional engine | “Row locks, FK, crash recovery — default.” |
+| --- | --- | --- |
+| **MyISAM** | Old table-lock engine | “No txns; legacy read-heavy only.” |
+| **MEMORY** | RAM tables | “Fast and volatile — gone on restart.” |
+| **MVCC** | Readers don’t block writers (versioned rows) | “Consistent reads without locking every row.” |
+| **Clustered PK** | Data ordered by primary key | “Secondary indexes store the PK.” |
+| **WAL / redo** | Crash safety for InnoDB | “Committed work survives process death.” |
 
-`InnoDB` -> use for most production workloads (safety, concurrency, FK).
-`MyISAM` -> use for read-heavy, non-critical legacy apps.
-`MEMORY` -> use for temporary, fast, non-persistent in-RAM memory.
+### Comparison (keep short)
+
+| Feature | InnoDB | MyISAM | MEMORY |
+| --- | --- | --- | --- |
+| Persistence | Yes | Yes | No (RAM) |
+| Transactions | Yes | No | No |
+| Locking | Row | Table | Table |
+| Foreign keys | Yes | No | No |
+| Crash recovery | Auto | Repair | Data lost |
+| Index default | BTREE | BTREE | HASH |
+
+## Standard config / commands
+
+```mysql
+CREATE TABLE t (
+  id INT PRIMARY KEY,
+  name VARCHAR(100)
+) ENGINE=InnoDB;
+
+SHOW TABLE STATUS WHERE Name = 't';
+SELECT ENGINE FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME = 't';
+
+ALTER TABLE t ENGINE=InnoDB;   -- convert (plan downtime / locks)
+```
+
+| Knob | Why it matters |
+
+| Default engine | `default_storage_engine` — new tables inherit it |
+| --- | --- |
+| Per-table ENGINE | Mixed engines = mixed semantics (surprises) |
+| Convert MyISAM→InnoDB | Gains txns/FK; check disk + rebuild time |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| No rollback / partial writes | `SHOW TABLE STATUS` → MyISAM | Convert to InnoDB |
+| Whole table locks under load | Engine / `LOCK TABLES` | InnoDB + row locks |
+| FK create rejected | Engine ≠ InnoDB | Use InnoDB both sides |
+| Data gone after restart | MEMORY / tmp | Persist to InnoDB |
+| HASH index “ignored” | InnoDB table | Expected — BTREE only |
+
+## Gotchas
+
+> [!WARNING]
+> **Engine is per table** — one MyISAM table in an InnoDB app breaks transactional assumptions across joins.
+
+> [!WARNING]
+> **`ALTER ... ENGINE=` rebuilds the table** — size and locks matter in prod.
+
+> [!WARNING]
+> **MEMORY is not a cache tier you forget** — process restart empties it.
+
+## When NOT to use
+
+- **MyISAM for new apps** — no ACID; prefer InnoDB.
+- **MEMORY for durable business data** — use InnoDB (or Redis with clear TTL semantics).
+- **“One engine for everything exotic”** — CSV/ARCHIVE are niche export/archive tools, not OLTP.
+
+## Related
+
+[[MySQL Engines]] [[mysql]] [[ACID]] [[mysql lock]] [[mysql transaction]] [[mysql index]] [[write-ahead logging]] [[memory engine]]

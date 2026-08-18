@@ -36,8 +36,9 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 ```
 
 | Attribute | Parse blocked? | Execute when | Order |
-|-----------|----------------|--------------|-------|
+
 | (none) | Yes | Downloaded | Sequential |
+| --- | --- | --- | --- |
 | `defer` | No | After parse | Yes |
 | `async` | No | Downloaded | No |
 | `type=module` | No | After parse | Yes |
@@ -62,7 +63,7 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Blank page until JS loads | Sync script in `<head>` | `defer` or move to body end |
 | FOUC / unstyled flash | CSS late | Critical CSS inline or preload |
 | Hydration mismatch (SSR) | Server HTML ≠ client render | Fix random IDs/dates; `suppressHydrationWarning` last resort |
@@ -76,7 +77,7 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 
 - **`document.write`** in async scripts can destroy DOM — banned in modern perf guides.
 - **CSP** ([[Security/content security policy]]) breaks inline scripts unless nonce/hash.
-- **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for auth.
+- **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for authentication.
 - **`100vh`** includes mobile URL bar — use `dvh` where supported.
 
 ## When NOT to use

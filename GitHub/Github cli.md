@@ -6,7 +6,7 @@
 
 ## Mental model
 
-`gh` wraps GitHub REST/GraphQL with repo-aware defaults (current directory's remote). Auth is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repo, environment, or org.
+`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
 
 ## Standard config / commands
 
@@ -62,7 +62,7 @@ gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `HTTP 401` | `gh auth status` | `gh auth login` or refresh token |
 | `HTTP 403` on secret set | Repo admin? | Need maintain/admin; org secrets need org role |
 | Wrong repo context | `gh repo view` | `cd` to repo root or `-R owner/repo` |

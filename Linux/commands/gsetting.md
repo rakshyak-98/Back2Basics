@@ -1,30 +1,72 @@
-```bash
-gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
+[[commands]] [[gnome Colorschem]] [[X Desktop Group]]
 
-gsettings get org.gnome.Terminal.ProfilesList default; # get profile
+# gsetting
 
-# theme
-gsettings get org.gnome.desktop.interface gtk-theme
-gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+> `gsettings` reads/writes GNOME/dconf keys — the schema’d way to change desktop settings from the shell.
+
+## Mental model
+
+**Say it in one breath:** schemas define keys; `gsettings set SCHEMA KEY VALUE` persists in dconf for the user session.
+
+```txt
+gsettings ──► dconf DB (~/.config/dconf/user)
+                 ▲
+            GSettings schemas (/usr/share/glib-2.0/schemas)
 ```
 
-```bash
-gnome-default-applications-properties
-```
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **schema** | Namespace of keys | “List with `gsettings list-schemas`.” |
+| --- | --- | --- |
+| **key** | One setting | “`get` before `set`.” |
+| **dconf** | Binary settings DB | “gsettings is the safe API over dconf.” |
+| **range / describe** | Allowed values | “`gsettings range SCHEMA KEY`.” |
+| **reset** | Back to default | “`gsettings reset` undoes experiments.” |
+
+## Standard config / commands
 
 ```bash
-PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
-gsettings list-recursively "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
+gsettings list-schemas | head
+gsettings list-keys org.gnome.desktop.interface
+gsettings get org.gnome.desktop.interface color-scheme
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings range org.gnome.desktop.interface color-scheme
+gsettings reset org.gnome.desktop.interface color-scheme
+# dump/load (dconf)
+dconf dump /org/gnome/ > gnome.dconf
+dconf load /org/gnome/ < gnome.dconf
 ```
 
-```bash
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" use-theme-colors false
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" background-color '#282A36'
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" foreground-color '#F8F8F2'
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" palette "['#000000', '#FF5555', '#50FA7B', '#F1FA8C', '#BD93F9', '#FF79C6', '#8BE9FD', '#BFBFBF', '#4D4D4D', '#FF6E67', '#5AF78E', '#F4F99D', '#CAA9FA', '#FF92D0', '#9AEDFE', '#E6E6E6']"
-```
+| Knob | Why it matters |
 
-```bash
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color '#FFFFFF'
-gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color-same-as-fg false
-```
+| Correct schema path | Typos silently no-op or error |
+| --- | --- |
+| Session bus | Needs user D-Bus (logged-in GUI) |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| No such schema | Package missing | Install GNOME schema package |
+| Set does nothing | Wrong session / Wayland | Run as desktop user; check schema |
+| Reverts on login | Managed by fleet policy | dconf locks / enterprise profiles |
+| Can’t run over SSH | No session bus | `export DBUS_SESSION_BUS_ADDRESS=…` or local terminal |
+
+## Gotchas
+
+> [!WARNING]
+> **Editing dconf binary by hand** — prefer `gsettings`/`dconf dump|load`.
+
+> [!WARNING]
+> **Root gsettings ≠ user desktop** — keys are per-user.
+
+## When NOT to use
+
+- **Non-GNOME desktops** — KDE uses different configuration stores.
+- **Server automation** — no GUI schemas; use files/systemd instead.
+
+## Related
+
+[[gnome Colorschem]] [[X Desktop Group]] [[D-Bus]] [[editor configuration]]

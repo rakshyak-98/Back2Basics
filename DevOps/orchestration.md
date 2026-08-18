@@ -2,7 +2,7 @@
 
 # Orchestration (DevOps)
 
-> Coordinate ordered steps, retries, and failure handling across services — central workflow vs scattered scripts — **CI/CD + runtime workflow engines**.
+> Orchestration (DevOps) — orchestration sequences tasks/services to achieve a workflow. Contrast choreography (each service reacts to events without central brain) — see Architectures/Orchestration layer for distributed-systems
 
 ## Mental model
 
@@ -23,8 +23,9 @@ Use orchestration when you need **central error handling**, **retries/timeouts**
 ### When to orchestrate (decision table)
 
 | Signal | Orchestrate? |
-|--------|--------------|
+
 | 3+ steps with dependencies | Yes |
+| --- | --- |
 | Compensating rollback on failure | Yes |
 | Simple cron + one script | No — cron enough |
 | Event-driven microservices only | Maybe choreography instead |
@@ -90,7 +91,7 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Pipeline stuck | Orchestrator worker down | Restart scheduler; clear zombie lock |
 | Partial deploy | Step 3 failed after 1–2 succeeded | Automated rollback / feature flag off |
 | Duplicate side effects | Retry without idempotency | Idempotency keys; mark completed steps |
@@ -103,8 +104,8 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 > **Orchestration becomes single point of failure** — HA the controller (Airflow metadata DB, Temporal cluster).
 
 - **Refactoring hint:** avoid orchestration until workflow complexity justifies it — don't DAG a bash one-liner.
-- **Secrets in DAG repo** — use vault/CI secrets, not plain text Variables.
-- **Long synchronous pipelines** — block releases; split verify vs promote stages.
+- **Secrets in DAG repository** — use vault/CI secrets, not plain text Variables.
+- **Long synchronous pipelines** — block releases; split verify versus promote stages.
 
 ## When NOT to use
 

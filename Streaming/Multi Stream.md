@@ -4,8 +4,6 @@
 
 > Multiple renditions or simultaneous publish destinations from one source — **ABR ladders + multi-CDN push**, not "many viewers".
 
----
-
 ## Mental model
 
 **Multi-stream** covers two distinct patterns engineers conflate:
@@ -24,12 +22,11 @@ Pattern B — Multi-push (one publisher, many destinations)
 ```
 
 | Pattern | Scale driver | Failure mode |
-|---------|--------------|--------------|
+
 | **ABR ladder** | CDN storage, encode CPU/GPU | Wrong GOP alignment → rebuffer on switch |
+| --- | --- | --- |
 | **Multi-push** | Uplink bandwidth × N | One bad destination stalls encoder |
 | **Multi-audio/caption** | Manifest complexity | Wrong `#EXT-X-MEDIA` grouping |
-
----
 
 ## Standard config / commands
 
@@ -86,20 +83,16 @@ Encode (ABR 4 rungs SW):     4× realtime CPU or 1× NVENC with parallel session
 Origin storage:              sum(all rung bitrates) × duration
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | One CDN OK, other black | Single dest fail in multi-push | Independent reconnect per output; don't block on one |
 | ABR switch artifacts | GOP misaligned across rungs | Fixed `-g`; `-sc_threshold 0` ([[CMAF]]) |
 | Encoder CPU 100% | Too many simultaneous encodes | Drop rungs; [[NVENC]]; reduce destinations |
 | YouTube OK, origin bad | Wrong key on one dest | Per-destination credentials |
 | Duplicate segments on CDN | Two packagers same key | Unique stream keys per environment |
 | Audio only on one rung | Map error in ffmpeg | `-map 0:a` on every output branch |
-
----
 
 ## Gotchas
 
@@ -115,15 +108,11 @@ Origin storage:              sum(all rung bitrates) × duration
 > [!WARNING]
 > **Different keyframe intervals per destination** — breaks if one path re-encodes; align GOP.
 
----
-
 ## When NOT to use
 
 - **Single destination VoD** — one mezzanine + ladder at origin; no multi-push.
 - **Player-side multi-stream** — viewers need **one** manifest; don't expose raw parallel URLs.
 - **Ten destinations from one laptop** — use origin + CDN fanout instead of publisher-side replication.
-
----
 
 ## Related
 

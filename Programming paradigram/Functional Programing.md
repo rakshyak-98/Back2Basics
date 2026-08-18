@@ -1,4 +1,4 @@
-[[Programming paradigram/purely declarative]] [[Operating System/Stack based programming language]]
+[[Programming paradigm/purely declarative]] [[Operating System/Stack based programming language]]
 
 # Functional programming
 
@@ -55,7 +55,7 @@ const visible = items.filter(i => i.active);
 ## Triage (when things break)
 
 | Smell | Check | Fix |
-|-------|-------|-----|
+| --- | --- | --- |
 | Stale UI | Mutated object in place | New reference for React deps |
 | Heisenbug | Global mutable cache | Pass deps explicitly |
 | Stack overflow | Deep recursion | Tail-call (where supported) or loop |
@@ -78,4 +78,4 @@ const visible = items.filter(i => i.active);
 
 ## Related
 
-[[Programming paradigram/purely declarative]] [[React/React data management]] [[Design pattern/Static Members]]
+[[Programming paradigm/purely declarative]] [[React/React data management]] [[Design pattern/Static Members]]

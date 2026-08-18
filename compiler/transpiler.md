@@ -52,7 +52,7 @@ module: {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Syntax error in old browser | Build target | Lower `@babel/preset-env` targets |
 | Missing polyfill | `core-js` | `useBuiltIns: 'usage'` or manual import |
 | TS types ignored | Using Babel only | Add `tsc --noEmit` or `fork-ts-checker` |

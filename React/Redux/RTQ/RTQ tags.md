@@ -2,9 +2,7 @@
 
 # RTQ tags
 
-> RTK Query **cache labels** — `providesTags` on queries, `invalidatesTags` on mutations — automatic refetch graph — **RTK Query docs**.
-
----
+> RTQ tags — each cached query entry can provide tags { type, id? }. Mutations invalidate tags → RTK refetches all queries that provided matching tags.
 
 ## Mental model
 
@@ -28,8 +26,6 @@ provided: {
 ```
 
 **Providing** a tag = "this cache entry depends on tag X" → invalidating X drops/refetches it.
-
----
 
 ## Standard config / commands
 
@@ -76,19 +72,15 @@ async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
 
 Register `api.middleware` and `api.reducer` in store ([[Redux/RTQ Toolkit]]).
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | List stale after create | Mutation missing `LIST` invalidation | `invalidatesTags: [{ type: 'Post', id: 'LIST' }]` |
 | Too many refetches | Broad `{ type: 'Post' }` without id | Narrow id-specific invalidation |
 | Tag not in tagTypes | Typo / missing registration | Add to `tagTypes` array |
 | Query never refetches | `providesTags` omitted | Add providesTags to query endpoint |
 | Flash empty during refetch | `keepUnusedDataFor` | Tune cache lifetime; optimistic update |
-
----
 
 ## Gotchas
 
@@ -98,15 +90,11 @@ Register `api.middleware` and `api.reducer` in store ([[Redux/RTQ Toolkit]]).
 > [!WARNING]
 > **Tags without LIST id** — creating item won't refresh collection views.
 
----
-
 ## When NOT to use
 
 - **One-off read never mutated** — skip tags; static `keepUnusedDataFor`.
 - **Real-time push** — WebSocket patch + `updateQueryData` may beat blind invalidation ([[webSocket]]).
-- **Non-Redux app** — TanStack Query `queryKey` invalidation is the parallel ([[react-query]]).
-
----
+- **Non-Redux application** — TanStack Query `queryKey` invalidation is the parallel ([[react-query]]).
 
 ## Related
 

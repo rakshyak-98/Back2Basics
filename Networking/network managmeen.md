@@ -1,14 +1,12 @@
 [[ss]] [[route]] [[ip]] [[Linux]]
 
-# NetworkManager (network managmeen)
+# NetworkManager (network management)
 
-> One-line: default Linux userspace daemon that owns interface bring-up, DHCP, Wi-Fi, DNS, and routing — replaces manual `ifup`/static scripts on most desktops and servers.
-
----
+> NetworkManager (network management) — networkManager (NM) sits between kernel netlink and admin intent (CLI, GUI, cloud-init):
 
 ## Mental model
 
-**NetworkManager (NM)** sits between **kernel netlink** and **admin intent** (CLI, GUI, cloud-init):
+**NetworkManager (NM)** sits between **kernel netlink** and **administrator intent** (CLI, GUI, cloud-initialize):
 
 ```txt
 cloud-init / nmcli / GUI
@@ -21,9 +19,7 @@ cloud-init / nmcli / GUI
 
 Competes conceptually with **systemd-networkd**, **ifupdown**, **netplan** (Ubuntu renders into NM or networkd). On many distros **NM is the source of truth** — hand-editing `/etc/network/interfaces` gets overwritten on reboot.
 
-**Service impact:** "I added a route but it vanished" → NM policy or cloud-init reapplied profile.
-
----
+**Service impact:** "I added a route but it vanished" → NM policy or cloud-initialize reapplied profile.
 
 ## Standard config / commands
 
@@ -72,19 +68,15 @@ nmcli con mod "Wired connection 1" ipv4.ignore-auto-dns yes
 
 **Why `nmcli` over `ip` alone:** `ip route add` is ephemeral unless scripted; NM stores in connection profile.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | No default route | `nmcli dev`; `ip route` | `nmcli con up`; fix `ipv4.gateway`; autoconnect `yes` |
 | DNS fails, IP works | `resolvectl status`; NM dns | Set `ipv4.dns`; disable bad DHCP option 6 |
 | Changes lost on reboot | Edited `ip` not NM profile | Use `nmcli con mod`; check netplan render |
 | Interface unmanaged | `NM_UNMANAGED` in logs | `nmcli dev set eth0 managed yes`; fix udev |
 | VPN split tunnel wrong | `nmcli con show vpn` routes | Adjust route metrics; `ipv4.never-default` |
-
----
 
 ## Gotchas
 
@@ -97,13 +89,9 @@ nmcli con mod "Wired connection 1" ipv4.ignore-auto-dns yes
 > [!WARNING]
 > **Cloud images** — cloud-init first boot profile overrides manual NM edits unless you change the cloud config.
 
----
-
 ## When NOT to use
 
 On **Kubernetes nodes** or **router appliances**, teams often prefer **systemd-networkd** or CNI-managed interfaces — disable NM for dataplane NICs to avoid surprise DHCP.
-
----
 
 ## Related
 

@@ -1,20 +1,68 @@
-> [!NOTE]
-> In a well architected application, the **Presentation Layer** should never communicate directly with the [[Data access Layer]]. Doing so creates tight coupling, making your code fragile and difficult to test.
+[[Service Layer]] [[Multi-tier and Layered Architecture]] [[frontend layered architecture]]
 
-- The Presentation Layer should interact exclusively with [[Service Layer]]
+# presentation layer
 
+> Presentation layer is the UI/API edge — it shows data and takes input; it should not own business rules.
 
-**The Recommended Flow of Communication**
-- To achieve a clean, maintainable architecture, data flow should follow a strict hierarchy:
+## Mental model
 
-**Presentation Layer** -> Receives the user request (HTTP POST, UI button Click).
-**Service Layer** -> Executes the business logic (validation, calculation, orchestrating multiple data sources).
-Data Access Layer -> Performs the raw CRUD operations on the database.
+**Say it in one breath:** Browser, CLI, or HTTP adapters format requests/responses; [[Service Layer]] decides what is allowed.
 
-### Why the Presentation Layer talks only to the Service Layer
+```txt
+User → View / Controller / BFF → Service → Data
+         ↑ presentation lives here
+```
 
-- **Encapsulation of Complexity:** Your UI shouldn't know how the database is structured. If your database schema changes, you only update the Data Access Layer and potentially the Service Layer, leaving the Presentation Layer untouched.
-    
-- **Security & Validation:** Business rules (like "a user cannot withdraw more than their balance") belong in the Service Layer. If the UI talked to the Data Access Layer, someone could potentially bypass those rules by hitting the database directly.
-    
-- **Transactional Integrity:** A single user action might involve updating three different database tables. The Service Layer ensures these happen as one atomic transaction, preventing partial updates that would break your application.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Presentation** | How users see/send data | “React pages or REST controllers.” |
+| --- | --- | --- |
+| **DTO / view-model** | Shape for the wire/UI | “Don’t leak DB columns to the client.” |
+| **Validation (syntax)** | Required fields, types | “Shape checks here; business rules deeper.” |
+| **BFF** | Backend for frontend | “Aggregate APIs for one UI.” |
+
+## Standard config / commands
+
+```ts
+// controller stays dumb
+app.post('/orders', async (req, res) => {
+  const dto = OrderDto.parse(req.body) // syntax
+  const result = await orderService.place(dto) // rules
+  res.status(201).json(OrderView.from(result))
+})
+```
+
+| Knob | Why it matters |
+
+| Parse at edge | Fail bad JSON early |
+| --- | --- |
+| Map errors → status | 400 vs 409 vs 500 |
+| No SQL here | Keeps UI/API swappable |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Business rule in React | Pricing / authz in UI only | Move to service; UI is hint |
+| Leaked DB errors | Raw ORM messages | Map to safe problem details |
+| Fat pages | Data fetch + rules mixed | Split presentational vs container |
+| CORS / auth at wrong layer | Token checks only in UI | Enforce on API too |
+
+## Gotchas
+
+> [!WARNING]
+> **UI-only authorization** — attackers skip the browser; server must enforce.
+
+> [!WARNING]
+> **View knows the schema** — renaming columns breaks every screen; use DTOs.
+
+## When NOT to use
+
+- **Batch jobs / workers** — no presentation layer; call services directly.
+- **Internal scripts** — CLI that is the product may fold layers until it hurts.
+
+## Related
+
+[[Service Layer]] [[frontend layered architecture]] [[Multi-tier and Layered Architecture]]

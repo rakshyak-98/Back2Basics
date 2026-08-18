@@ -2,9 +2,7 @@
 
 # IM (Information Management) production systems
 
-> Enterprise MAM/PAM for broadcast — **metadata, workflow, and asset lifecycle** from ingest to playout and compliance.
-
----
+> IM (Information Management) production systems — information Management (IM) in broadcast is Media Asset Management (MAM) plus workflow orchestration: log content, attach metadata/CIDs, manage versions/rights, route
 
 ## Mental model
 
@@ -19,7 +17,7 @@ Ingest (tape/file/live) ──► IM catalog ──► edit/approve ──► tr
 ```
 
 | Component | Role | Examples |
-|-----------|------|----------|
+| --- | --- | --- |
 | **MAM** | Asset storage + metadata | Dalet, Avid, CatDV |
 | **PAM** | Production editing projects | Avid, Adobe prod |
 | **Workflow engine** | State machine (review/legal) | Custom + BPMN |
@@ -27,8 +25,6 @@ Ingest (tape/file/live) ──► IM catalog ──► edit/approve ──► tr
 | **Playout** | Linear channel automation | Harmonic, Pebble |
 
 OTT stacks often **integrate** IM → export CID + mezzanine URL to product CMS — IM remains **system of record** for masters.
-
----
 
 ## Standard config / commands
 
@@ -84,12 +80,10 @@ Immutable audit: who changed rights window
 Export play logs joined on CID — see [[Compliance Reporting to Broadcasters]]
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Streamable but not in app | CMS sync lag | Replay IM→CMS webhook |
 | Wrong episode airs | Playout schedule vs IM version | Lock version on schedule bind |
 | Transcode from old master | Wrong asset linked | Version pin in workflow |
@@ -97,8 +91,6 @@ Export play logs joined on CID — see [[Compliance Reporting to Broadcasters]]
 | Proxy/master mismatch | Re-ingest incomplete | QC gate block publish |
 | Duplicate CID | Ingest without dedupe | Unique constraint on CID |
 | Slow editor UX | Master over network | Force proxy workflow |
-
----
 
 ## Gotchas
 
@@ -117,15 +109,11 @@ Export play logs joined on CID — see [[Compliance Reporting to Broadcasters]]
 > [!WARNING]
 > **Parallel CMS + IM truth** — pick system of record per field; sync direction documented.
 
----
-
 ## When NOT to use
 
 - **Creator UGC platform** — lightweight object storage + CMS beats Dalet-scale IM.
 - **Simple podcast host** — audio CMS sufficient.
 - **Real-time clip sharing** — IM workflow too slow; separate short-form pipeline.
-
----
 
 ## Related
 

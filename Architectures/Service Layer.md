@@ -1,9 +1,77 @@
-A **Service Layer** is a design pattern used in software architecture to act as an intermediary between the [[presentation layer]] (UI/API controllers) and the [[Data access Layer]] (repositories/databases).
+[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]]
 
-- Encapsulate business logic, ensuring that your application follow the **Separation of Concerns** principle. Instead of controllers dealing with complex calculations, data validation, and transaction management, they simply delegate those tasks to the Service layer.
+# Service Layer
 
-**Core Responsibilities**
-- Business Logic Encapsulation -> Contains the core rules of your application (e.g., "Calculate interest", "check inventory before purchase", "generate invoice").
-- Transaction Management -> Manages database transactions (begin, commit, rollback) to ensure data consistency across multiple operations.
-- Decoupling -> Prevents the UI layer from knowing about database schema or specific persistence frameworks. This makes it easier to swap out a database or even change your front-end technology.
-- Orchestration -> Coordinates calls to multiple repositories or external services. For Example a `UserRegistrationServiceq` might call a `UserRepository` to save the user, a `MailService` to send a welcome email, and a `LoggerService` to track the event.
+> Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
+
+## Mental model
+
+**Say it in one breath:** Controllers accept requests; the service decides the rules and transactions; repositories talk to storage.
+
+```txt
+HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Service** | Use-case / business logic | “Validation and multi-table rules live here.” |
+| --- | --- | --- |
+| **Transaction boundary** | Begin/commit/rollback scope | “The service owns the unit of work.” |
+| **Thin controller** | Map HTTP ↔ DTO only | “No SQL or pricing rules in the route.” |
+| **Domain rule** | Business invariant | “Check inventory before charge.” |
+
+### How the story goes (4 steps)
+
+1. **Accept** — controller parses input.
+2. **Decide** — service validates and applies rules.
+3. **Persist** — repos write inside one transaction when needed.
+4. **Return** — map domain result to HTTP/status.
+
+## Standard config / commands
+
+```ts
+// sketch — Nest / Express style
+class OrderService {
+  async place(cmd: PlaceOrder) {
+    return this.uow.transaction(async (tx) => {
+      await this.inventory.reserve(tx, cmd.sku, cmd.qty)
+      return this.orders.create(tx, cmd)
+    })
+  }
+}
+```
+
+| Knob | Why it matters |
+
+| Txn in service | Multi-repo consistency |
+| --- | --- |
+| No DB in controller | Swap transport without rewriting rules |
+| One service per use-case cluster | Avoid god-services |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Fat controllers | SQL / rules in routes | Move to service |
+| Partial writes | No txn across repos | Wrap in unit-of-work |
+| Circular deps | Service A↔B | Extract domain or events |
+| Hard to test | Needs full HTTP | Unit-test service with fakes |
+
+## Gotchas
+
+> [!WARNING]
+> **Anemic services** — if the service only forwards to the repo, you added a layer for nothing.
+
+> [!WARNING]
+> **Txn leakage** — opening transactions in controllers usually races and nests badly.
+
+## When NOT to use
+
+- **Tiny CRUD** — one handler + one query is fine until rules grow.
+- **Pure BFF glue** — mapping APIs with no rules doesn’t need a service layer.
+
+## Related
+
+[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Idempotent-key]]

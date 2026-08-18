@@ -4,8 +4,6 @@
 
 > Split one logical database into independent shards — **horizontal scale when single-node limits hit**, not day-one default.
 
----
-
 ## Mental model
 
 **Sharding** partitions rows across **multiple databases** by a **shard key** (user_id, tenant_id, geo). Each shard holds a **subset** of data; the application **routes** queries to the correct shard(s). Cross-shard joins and transactions become **expensive or impossible** — design around shard-local access patterns.
@@ -18,16 +16,15 @@
 ```
 
 | Signal | Threshold (rule of thumb) | Action |
-|--------|---------------------------|--------|
+
 | **DB size** | Single node > few TB | Archive or shard |
+| --- | --- | --- |
 | **Table size** | Hot table billions rows | Partition/shard |
 | **RAM** | Indexes don't fit memory | Shard or read replicas |
 | **Ops** | Backup/restore > SLA window | Smaller shards |
 | **Write QPS** | Single primary maxed | Shard writes |
 
 **Shard key choice is permanent-ish** — resharding is a major migration ([[migration]]).
-
----
 
 ## Standard config / commands
 
@@ -89,12 +86,10 @@ Disk %, QPS, replication lag, p99 query time
 Alert on shard skew (one shard 2× others)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | One shard hot | Key skew | Rehash; salt hot keys |
 | Cross-shard timeout | Scatter-gather query | Redesign schema; denormalize |
 | User on wrong shard | Routing bug | Consistent hash; migration table |
@@ -102,8 +97,6 @@ Alert on shard skew (one shard 2× others)
 | Transaction fails across shards | 2PC not used | Saga / outbox pattern |
 | Backup uneven | One huge shard | Rebalance |
 | Connection pool exhaustion | Per-shard pools | Size pools × shard count |
-
----
 
 ## Gotchas
 
@@ -122,15 +115,11 @@ Alert on shard skew (one shard 2× others)
 > [!WARNING]
 > **Auto-increment IDs** — collisions across shards; use UUID/snowflake.
 
----
-
 ## When NOT to use
 
 - **< 100 GB with low QPS** — single Postgres + replicas sufficient.
 - **Heavy cross-entity analytics** — warehouse (OLAP) not OLTP shard.
 - **Strong global transactions** — shard fights ACID across boundaries.
-
----
 
 ## Related
 

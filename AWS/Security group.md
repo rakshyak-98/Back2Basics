@@ -2,7 +2,7 @@
 
 # Security Group
 
-> **Stateful virtual firewall** at ENI level — default deny inbound, allow by rule; return traffic automatically permitted. Primary ingress/egress control for EC2, RDS, ELB, Lambda-in-VPC, ElastiCache, etc.
+> Security Group — a Security Group (SG) is a label + rule set attached to ENIs (instances, load balancers, RDS). Rules are allow-only (no deny rules).
 
 ## Mental model
 
@@ -21,7 +21,7 @@ Contrast **NACL** (subnet, stateless, allow/deny). SG is where 90% of "can't con
 ### Tiered SG pattern (prod)
 
 | SG name | Inbound | Outbound |
-|---------|---------|----------|
+| --- | --- | --- |
 | `alb-public` | 443 from `0.0.0.0/0` | All → `app-sg` on app port |
 | `app-private` | app port from `alb-sg` **SG id** | 443 to `0.0.0.0/0` or VPC endpoints only |
 | `db-private` | 5432/3306 from `app-sg` **SG id** | none needed (stateful) or restrict |
@@ -42,7 +42,7 @@ aws ec2 authorize-security-group-ingress \
 
 ### Rules that survive review
 
-- **No `0.0.0.0/0` on admin ports** (22, 3389) — use SSM Session Manager or bastion with source IP lock.
+- **No `0.0.0.0/0` on administrator ports** (22, 3389) — use SSM Session Manager or bastion with source IP lock.
 - **Least privilege ports** — `8080/tcp` not `-1` (all protocols) unless proven necessary.
 - **Separate SG per tier** — don't reuse `default` SG.
 - **Document why** in SG description tag (`Name`, `Purpose`, `Owner`).
@@ -55,7 +55,7 @@ aws ec2 authorize-security-group-ingress \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Connection timeout to EC2/RDS | SG inbound on **destination**; outbound on **source** if non-stateful path | Add SG-to-SG or CIDR rule on correct port |
 | Works from one instance, not another | Different SG attachment | Align SG or add missing rule |
 | ALB targets unhealthy | Target SG allows ALB SG on app/health port | Open port from `alb-sg` |
@@ -87,8 +87,8 @@ aws ec2 create-network-insights-path --source sg-xxx --destination sg-yyy ...
 ## When NOT to use
 
 - **Subnet-wide block list (deny bad IP)** — SG has no deny; use **NACL** or **AWS Network Firewall** / WAF at edge.
-- **Application auth** — SG is network layer; never expose admin API to world because "it's password protected."
-- **Replacing IAM** — opening SG to `0.0.0.0/0` on 443 doesn't replace authn/z at app layer.
+- **Application authentication** — SG is network layer; never expose administrator API to world because "it's password protected."
+- **Replacing IAM** — opening SG to `0.0.0.0/0` on 443 doesn't replace authn/z at application layer.
 
 ## Related
 

@@ -4,8 +4,6 @@
 
 > Graded ranking metric — relevant items higher in the list score more; normalized to [0,1] vs ideal ranking — **Järvelin & Kekäläinen (2002)**.
 
----
-
 ## Mental model
 
 **DCG** sums relevance with a **logarithmic position discount** (top ranks matter most):
@@ -22,9 +20,7 @@ Rank 1 relevant (grade 3)  → large gain
 Rank 10 same item          → heavily discounted
 ```
 
-vs [[Mean Average Precision (MAP)]]: MAP is binary relevance; NDCG handles **graded** judgment (somewhat relevant vs exact match).
-
----
+versus [[Mean Average Precision (MAP)]]: MAP is binary relevance; NDCG handles **graded** judgment (somewhat relevant versus exact match).
 
 ## Standard config / commands
 
@@ -57,19 +53,15 @@ ndcg = ndcg_score(y_true, y_score, k=10)
 
 Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NDCG always ~1 | Tiny candidate sets | Expand pool; harder negatives |
 | NDCG drops after reranker | Graded labels inconsistent | Harmonize label guidelines |
 | Compare @k across teams | Different k | Fix k in SLA (e.g. @10) |
 | IDCG = 0 | No relevant items | Exclude query from aggregate |
 | sklearn shape errors | Query matrix layout | `(n_queries, n_items)` 2D arrays |
-
----
 
 ## Gotchas
 
@@ -79,15 +71,11 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 > [!WARNING]
 > **Exponential gain 2^rel − 1** — high grades dominate; one "3" at rank 1 can mask many rank-10 failures.
 
----
-
 ## When NOT to use
 
 - **Binary classification without ranking** — [[binary classification]] metrics.
-- **Continuous score prediction** — [[regression]] + [[Visualization/predicated vs actual plot]].
+- **Continuous score prediction** — [[regression]] + [[Visualization/predicated versus actual plot]].
 - **Uniform relevance only** — [[Mean Average Precision (MAP)]] may be simpler to explain.
-
----
 
 ## Related
 

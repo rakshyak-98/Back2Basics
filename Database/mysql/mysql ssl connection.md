@@ -2,11 +2,11 @@
 
 # MySQL SSL/TLS connections
 
-> One-line: encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
+> encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
 
 ## Mental model
 
-MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for auth.
+MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for authentication.
 
 ```
 App (mysql2/pg driver) ──TLS──► MySQL server
@@ -80,7 +80,7 @@ Download combined CA bundle from provider; use `ssl: { ca: rdsCa }` in driver.
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `SSL connection error` | CA mismatch; expired cert | Update ca.pem; rotate server cert |
 | Connects but `Ssl_cipher` empty | ssl not requested | Add driver `ssl` object; `--ssl-mode=REQUIRED` |
 | `SELF_SIGNED_CERT_IN_CHAIN` | Corporate proxy / wrong CA | Install correct CA; never disable verify in prod |
@@ -101,8 +101,8 @@ Download combined CA bundle from provider; use `ssl: { ca: rdsCa }` in driver.
 
 ## When NOT to use
 
-- **Local dev on localhost socket only** — optional; still good practice.
-- **Performance micro-optimization on private VPC** — TLS overhead usually negligible vs query cost.
+- **Local development on localhost socket only** — optional; still good practice.
+- **Performance micro-optimization on private VPC** — TLS overhead usually negligible versus query cost.
 
 ## Related
 

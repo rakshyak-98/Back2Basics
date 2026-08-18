@@ -2,11 +2,11 @@
 
 # MySQL connection pool (app-side)
 
-> One-line: reuse TCP+auth sessions via `mysql2`/`createPool` — cap concurrency, always release; raw `createConnection` per request causes races and `PROTOCOL_CONNECTION_LOST`.
+> MySQL connection pool (app-side) — without pool: req A ──conn──► START TX ... (held)
 
 ## Mental model
 
-Each MySQL connection is a **server session** (memory, temp tables, transaction state). **Pool** maintains N open connections; app **borrows** for query duration and **releases** back.
+Each MySQL connection is a **server session** (memory, temporary tables, transaction state). **Pool** maintains N open connections; application **borrows** for query duration and **releases** back.
 
 ```
 Without pool:  req A ──conn──► START TX ... (held)
@@ -78,7 +78,7 @@ SHOW STATUS LIKE 'Threads_connected';
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `PROTOCOL_CONNECTION_LOST` | Idle timeout; firewall | `enableKeepAlive`; lower idle; validate pool on checkout |
 | Wrong rollback / mixed transactions | Shared single connection | Use pool + `getConnection()` per transaction |
 | Pool queue timeout | `connectionLimit` too low | Fix slow queries; modest ↑ limit; scale read replicas |

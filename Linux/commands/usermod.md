@@ -2,7 +2,7 @@
 
 # usermod
 
-> One-line: **mutate existing POSIX accounts** — shell, home, groups, login name. Always verify with `getent`; `/etc/passwd` alone lies when LDAP/sssd is in play.
+> usermod — → /etc/passwd + shadow + group
 
 ## Mental model
 
@@ -15,7 +15,7 @@ NSS (sssd/LDAP) → usermod may not apply — use directory tools
 ```
 
 | Flag | Effect | Risk |
-|------|--------|------|
+| --- | --- | --- |
 | `-s SHELL` | Login shell | Lock user if shell invalid |
 | `-l NEW` | Rename login | Update home references, cron, mail |
 | `-d DIR -m` | Home + move files | `-m` required to move existing home |
@@ -23,6 +23,17 @@ NSS (sssd/LDAP) → usermod may not apply — use directory tools
 | `-aG GROUP` | Append supplementary | **Safe** add to sudo/docker/etc |
 | `-G g1,g2` | **Replace** all supp groups | Drops sudo if forgotten |
 | `-L` / `-U` | Lock/unlock password | PAM still applies |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **usermod** | Change existing user | “usermod -aG docker user — note -a.” |
+| --- | --- | --- |
+| **-aG** | Append groups | “Without -a you wipe groups.” |
+| **-L / -U** | Lock/unlock | “Locks password; keys may remain.” |
+| **-d -m** | Move home | “-m moves files with home.” |
+| **-s** | Shell | “usermod -s /usr/sbin/nologin.” |
 
 ## Standard config / commands
 
@@ -68,7 +79,7 @@ sudo find / -uid OLD_UID -exec chown NEW_UID {} \; 2>/dev/null
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "not in docker group" after usermod | `id` vs `id deploy` | Re-login; `-aG` not `-G`; verify `getent group docker` |
 | Lost sudo | `groups user` | `usermod -aG sudo user`; was wiped by `-G` only |
 | Can't login | `getent passwd`; shell path | `usermod -s /bin/bash`; nologin mistake |

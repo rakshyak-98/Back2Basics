@@ -1,81 +1,70 @@
-```js
-const path = require('path');
-const dotenv = require('dotenv');
+[[NodeJS]] [[npm command]] [[node modules]]
 
-// Determine environment
-const environment = process.env.NODE_ENV || 'development';
+# node environment configuration
 
-// Load environment-specific .env file
-const envPath = path.resolve(__dirname, `../../config/.env.${environment}`);
+> Configure Node apps via env vars and files — `NODE_ENV`, secrets outside git, fail fast on missing required config.
 
-// Load the .env file
-const result = dotenv.config({ path: envPath });
+## Mental model
 
-if (result.error) {
-  console.error(`Error loading .env file for ${environment}:`, result.error);
-  process.exit(1);
-}
+**Say it in one breath:** 12-factor style — configuration from the environment. Load `.env` only in development; in production the orchestrator injects variables.
 
-// Validate required environment variables
-const requiredEnvVars = [
-  'NODE_ENV',
-  'PORT',
-  'DB_HOST',
-  'DB_PORT',
-  'DB_NAME',
-  'DB_USER',
-  'DB_PASSWORD',
-  'JWT_SECRET'
-];
-
-const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
-
-if (missingEnvVars.length > 0) {
-  console.error('Missing required environment variables:', missingEnvVars.join(', '));
-  process.exit(1);
-}
-
-// Export configuration object
-const config = {
-  env: environment,
-  isProduction: environment === 'production',
-  isDevelopment: environment === 'development',
-  isTest: environment === 'test',
-  
-  app: {
-    port: parseInt(process.env.PORT, 10),
-    apiVersion: process.env.API_VERSION || 'v1',
-  },
-  
-  database: {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT, 10),
-    name: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  },
-  
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT, 10),
-  },
-  
-  jwt: {
-    secret: process.env.JWT_SECRET,
-    expire: process.env.JWT_EXPIRE || '7d',
-  },
-  
-  logging: {
-    level: process.env.LOG_LEVEL || 'info',
-  },
-  
-  externalApi: {
-    key: process.env.EXTERNAL_API_KEY,
-  },
-};
-
-// Freeze config to prevent modifications
-Object.freeze(config);
-
-module.exports = config;
+```txt
+process.env.DATABASE_URL ← platform / dotenv (dev)
+validate at boot → crash if required missing
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **NODE_ENV** | mode flag | “`production` enables optimizations / stricter.” |
+| --- | --- | --- |
+| **dotenv** | Load `.env` file | “Dev convenience — not a secret store.” |
+| **12-factor** | Config in env | “Same artifact, different env.” |
+
+## Standard config / commands
+
+```bash
+export NODE_ENV=production
+export DATABASE_URL=postgres://…
+node app.js
+```
+
+```js
+import 'dotenv/config' // local only
+const url = process.env.DATABASE_URL
+if (!url) throw new Error('DATABASE_URL required')
+```
+
+| Knob | Why it matters |
+
+| Required vs optional | Boot fail vs defaults |
+| --- | --- |
+| Typed config module | Parse ints/bools once |
+| Secrets manager | Prod — not flat `.env` in images |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Works on laptop only | Missing env in deploy | Set platform secrets |
+| Wrong DB | Multiple `.env*` precedence | Document load order |
+| `undefined` config | Typo in name | Central schema (zod/envalid) |
+| Secret in git | `.env` committed | Rotate; gitignore; history purge |
+
+## Gotchas
+
+> [!WARNING]
+> **Don’t bake secrets into Docker layers** — inject at runtime.
+
+> [!WARNING]
+> **`NODE_ENV=test` vs production** — frameworks change caching/error detail.
+
+## When NOT to use
+
+- **Putting all configuration in Redux/DB for static values** — environment/files are enough.
+- **Client-side secret environment** — anything `NEXT_PUBLIC_` is public.
+
+## Related
+
+[[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]]

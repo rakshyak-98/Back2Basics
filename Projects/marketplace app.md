@@ -4,8 +4,6 @@
 
 > Two-sided marketplace architecture: **payments, trust, inventory, and dispute** boundaries — design checklist for staff reviews, not a build backlog.
 
----
-
 ## Mental model
 
 ```txt
@@ -20,20 +18,19 @@ Seller ──► Listing / Inventory ──────────────�
 **Hard problems are orthogonal to CRUD:**
 - **Double sale** of last unit (inventory concurrency)
 - **Payment success, order create fail** (distributed transaction)
-- **Seller payout vs chargeback window** (ledger timing)
+- **Seller payout versus chargeback window** (ledger timing)
 - **Search ranking gaming** (trust/abuse)
 
 Design for **eventual consistency** with explicit user-visible states — not one giant ACID transaction across Stripe + Postgres + search index.
-
----
 
 ## Standard config / commands
 
 ### Core bounded contexts
 
 | Context | Owns | Integrates via |
-|---------|------|----------------|
+
 | Identity | users, roles, KYC status | [[JWT authentication]], SSO |
+| --- | --- | --- |
 | Catalog | listings, media, categories | search indexer (async) |
 | Inventory | stock, reservations | optimistic lock / row lock |
 | Orders | state machine | events (`OrderPlaced`, …) |
@@ -89,12 +86,10 @@ Elasticsearch/OpenSearch = query-optimized projection
 Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Oversold SKU | Reservation TTL, race logs | Pessimistic lock hot SKUs; extend hold on payment step |
 | Paid order missing | Webhook 5xx / no idempotency | Replay webhooks; dead-letter queue; reconcile job |
 | Seller not paid | Payout batch / KYC hold | Ledger report; manual adjustment with audit |
@@ -102,8 +97,6 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 | Review bombing | Velocity by IP/account age | Rate limits; verified purchase only |
 | Search shows delisted item | Index lag | Tombstone events; periodic full reindex |
 | Tax wrong jurisdiction | Address vs IP vs nexus rules | Tax engine vendor; don't hand-roll VAT |
-
----
 
 ## Gotchas
 
@@ -122,16 +115,12 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 > [!WARNING]
 > **Guest checkout** — email verification before digital delivery; fraud rate higher.
 
----
-
 ## When NOT to use
 
 - **Single merchant store** — Shopify/WooCommerce; skip two-sided payout complexity.
 - **Classifieds (no payment on platform)** — trust/messaging only; narrower scope.
-- **Real-time auction without ops** — sniping, shill bidding need dedicated fraud team.
-
----
+- **Real-time auction without operations** — sniping, shill bidding need dedicated fraud team.
 
 ## Related
 
-[[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]
+[[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[ecommerce-eks-layout]] · [[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]

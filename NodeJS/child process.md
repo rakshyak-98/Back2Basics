@@ -1,57 +1,70 @@
--  order of execution of a set of asynchronous tasks is not important.
-- the parallel execution task is carried out be an underlying, non-blocking API and interleaved by the event loop.
+[[NodeJS]] [[worker]] [[clustering]] [[Node events driven]]
 
-> [!INFO] a task gives control back to the event loop when it requests a new asynchronous operation, allowing the event loop to execute another task.
-- this is *concurrency*
+# child process
+
+> Spawn another OS process from Node — shell out, run binaries, or isolate crashable work. Mind shell injection.
+
+## Mental model
+
+**Say it in one breath:** `exec` runs a shell command string (buffers output); `execFile`/`spawn` run a program with argv (safer); `fork` starts another Node process with IPC.
+
+```txt
+parent ──spawn──► child (separate memory)
+         IPC / stdout / exit code
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **exec** | Shell + buffered output | “Pipes/`&&` work; injection risk.” |
+| --- | --- | --- |
+| **spawn** | Streaming stdio | “Long-running / large output.” |
+| **fork** | Node + `process.send` | “IPC channel built in.” |
+
+## Standard config / commands
 
 ```js
-const { exec } = require("child_process")
+import { execFile, spawn } from 'node:child_process'
 
-exec("ls -l", (error, stdout, stderr) => {
-	console.log(stdout);
+execFile('ls', ['-l'], (err, stdout) => {
+  if (err) throw err
+  console.log(stdout)
 })
 
-```
-- use `exec` when you need shell features (e.g., `&&` `|` `*`)
-- command are passed as a single string.
-
-```js
-const { exec } = require("child_process");
-
-exec("echo Hello && ls -l", (error, stdout, stderr) => {
-    if (error) {
-        console.error(`Error: ${error.message}`);
-        return;
-    }
-    console.log(`Output:\n${stdout}`);
-});
-
+const child = spawn('ffmpeg', ['-i', inFile, outFile], { stdio: 'inherit' })
+child.on('exit', (code) => console.log('done', code))
 ```
 
-> [!WARNING] if user input is included, it can lead to shell injection (e.g., `exec("rm -rf /")` if poorly sanitized)
+| Knob | Why it matters |
 
-```js
-const { execFile } = require("child_process");
+| argv array | Avoids shell injection |
+| --- | --- |
+| `maxBuffer` (exec) | Prevent huge stdout OOM |
+| `detached` / `unref` | Daemonize carefully |
 
-execFile("ls", ["-l"], (error, stdout, stderr) => {
-    if (error) {
-        console.error(`Error: ${error.message}`);
-        return;
-    }
-    console.log(`Output:\n${stdout}`);
-});
+## Triage (when things break)
 
-```
-- arguments are passed as an array, preventing command injection
-- faster and safer (no shell execution, prevents shell injection)
-- best for running binaries or scripts with arguments.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Shell injection | User string in `exec` | `execFile` + fixed argv |
+| `maxBuffer` exceeded | Large output via exec | `spawn` and stream |
+| Zombie / hang | Not consuming stdio | Drain or `stdio: 'ignore'` |
+| ENOENT | PATH / wrong binary | Absolute path; check `env` |
 
-### Force `exec` to use bash
-```js
-const { exec } = require("child_process");
+## Gotchas
 
-exec("echo $0", { shell: "/bin/bash" }, (error, stdout) => {
-    console.log(`Shell Used: ${stdout.trim()}`); // Output: /bin/bash
-});
+> [!WARNING]
+> **`exec(userInput)` is RCE** — never pass unsanitized input to a shell.
 
-```
+> [!WARNING]
+> **Windows vs POSIX** — shells and signals differ; prefer `execFile` for portability.
+
+## When NOT to use
+
+- **CPU parallelism inside one application** — [[worker]] threads share memory differently.
+- **Tiny sync helpers** — maybe just a library call, not a process.
+
+## Related
+
+[[worker]] [[clustering]] [[Runtime Errors]]

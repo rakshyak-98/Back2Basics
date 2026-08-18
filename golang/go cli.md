@@ -1,71 +1,80 @@
-```shell
-go mod init <domain name/username/module name>;
-go mod tidy;
-go mod verify;
-go get <package>;
-go run <file.go>;
-go build;
-go install;
-```
+[[golang]] [[go]] [[go package]] [[go debugging]]
 
-```shell
-go mod edit --replace example.com/module=../module; # Replace a module with local version
-```
+# go cli
 
-```shell
-go clean -cache;
-go list -m all; # list dependencies
-go get -u ./..; # upgrade dependencies
-go doc <package>;
-```
+> `go` CLI — module, build, test, and dig into deps/memory with the standard toolchain.
 
-#### Using `pmap` (Memory Map of the Process)
-- run your go program and capture its memory map
+## Mental model
 
-```shell
-go run mian.go & pmap -x $! > memory_snapshot.txt;
-```
-
-### Using `/proc` Fielsystem (Detailed Memory Stats)
-```shell
-go run main.go & cat /proc$!/status | grep Vm > memory_snapshot.txt;
-```
-- Extracts virtual memory (Vm) statistics of the Go process.
-
-```shell
-cat /proc/$!/smaps > memory_snapshot.txt
-```
+**Say it in one breath:** One binary drives modules (`mod`), compile (`build`/`run`), tests, and docs. Prefer `./...` patterns and modules over old `GOPATH` mode.
 
 ```txt
-0000000000400000   6032K r-x-- go
-00000000009e4000   5724K r---- go
-0000000000f7b000    320K rw--- go
-0000000000fcb000    176K rw---   [ anon ]
-000000c000000000   4096K rw---   [ anon ]
-000000c000400000  61440K -----   [ anon ]
-000075289d3c0000    256K rw---   [ anon ]
-000075289d400000  32768K rw---   [ anon ]
-000075289f400000 263680K -----   [ anon ]
-00007528af580000      4K rw---   [ anon ]
-00007528af581000 524284K -----   [ anon ]
-00007528cf580000      4K rw---   [ anon ]
-00007528cf581000 293564K -----   [ anon ]
-00007528e1430000      4K rw---   [ anon ]
-00007528e1431000  36692K -----   [ anon ]
-00007528e3806000      4K rw---   [ anon ]
-00007528e3807000   4068K -----   [ anon ]
-00007528e3c07000     16K rw-s- go@go1.23.2-go1.23.2-linux-amd64-2025-03-15.v1.count
-00007528e3c0b000    640K rw---   [ anon ]
-00007528e3cab000   1024K rw---   [ anon ]
-00007528e3dab000     68K rw---   [ anon ]
-00007528e3dbc000    512K -----   [ anon ]
-00007528e3e3c000      4K rw---   [ anon ]
-00007528e3e3d000    508K -----   [ anon ]
-00007528e3ebc000    384K rw---   [ anon ]
-00007528e3f1c000     16K r----   [ anon ]
-00007528e3f20000      8K r-x--   [ anon ]
-00007ffd256c4000    132K rw---   [ stack ]
-ffffffffff600000      4K --x--   [ anon ]
- total          1236432K
-
+go mod init → edit code → go test ./... → go build
 ```
+
+| Command | Job |
+| --- | --- |
+| `go mod tidy` | Sync require/sum |
+| `go run` | Compile+run |
+| `go build` / `install` | Artifact |
+| `go test -race` | Race detector |
+| `go doc` | Quick docs |
+
+## Standard config / commands
+
+```bash
+go mod init github.com/you/app
+go get example.com/lib@v1.2.3
+go mod tidy && go mod verify
+go run ./cmd/app
+go build -trimpath -ldflags="-s -w" -o bin/app ./cmd/app
+go test ./... -count=1
+go test -race ./...
+go list -m all
+go clean -cache
+go mod edit -replace example.com/lib=../lib
+```
+
+```bash
+# memory snapshot while running
+go run . & pid=$!; sleep 1; pmap -x $pid | head
+grep Vm /proc/$pid/status
+```
+
+| Knob | Why it matters |
+
+| `-race` | Catch data races |
+| --- | --- |
+| `-trimpath` | Reproducible builds |
+| `replace` | Local module override |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Sum DB / checksum mismatch | Proxy / replace | `GOSUMDB`; fix replace |
+| Stale cache weirdness | Bad build cache | `go clean -cache` |
+| `unknown revision` | Tag missing | Pin commit / publish tag |
+| Slow CI | Module download | Cache pkg mod; vendor if needed |
+| Binary huge | Debug symbols | `-ldflags="-s -w"` |
+
+## Gotchas
+
+> [!WARNING]
+> **`go get` on a main module** — prefer `go get pkg@version` explicitly.
+
+> [!WARNING]
+> **`pmap`/`/proc` are Linux ops tips** — not part of Go itself.
+
+> [!WARNING]
+> **`go run` rebuilds often** — use `build` for timing tests.
+
+## When NOT to use
+
+- **Non-Go monorepo orchestration** — Bazel/Make wrap `go`, don’t replace understanding.
+- **Editing `go.sum` by hand** — never.
+- **`GO111MODULE=off` in 2026** — modules only.
+
+## Related
+
+[[go]] [[Makefile]] [[go debugging]] [[go package]]

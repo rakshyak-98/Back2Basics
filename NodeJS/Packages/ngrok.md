@@ -1,25 +1,68 @@
-## Installation
-```bash
-curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+[[NodeJS]] [[Packages/npm packages]] [[HTTP module]]
 
-echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+# ngrok
 
-sudo apt update && sudo apt install ngrok
-```
+> Tunnel localhost to a public HTTPS URL — demo webhooks and mobile clients without deploying.
 
-```bash
-npm install -g ngrok;
-ngrok http 3000;
-```
-- you will get a public URL like
+## Mental model
 
-```bash
-ngrok config add-authtoken <YOUR_AUTHTOKEN>
-```
+**Say it in one breath:** ngrok agent opens an outbound tunnel to ngrok’s edge; the edge gives you `https://….ngrok…` that forwards to `localhost:PORT`.
 
 ```txt
-https://c12345abc.ngrok.io → http://localhost:3000
+Internet → ngrok edge → agent → http://127.0.0.1:3000
 ```
 
-> [!NOTE]
-> `ngrok config edit` opens with `neno` editor for opening with vim `export EDITOR=vim`
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **Authtoken** | Account credential | “Required for modern agents.” |
+| --- | --- | --- |
+| **http 3000** | Local target | “Forwards to your Node server.” |
+| **Ephemeral URL** | Changes each free session | “Update webhook config.” |
+
+## Standard config / commands
+
+```bash
+ngrok config add-authtoken <TOKEN>
+ngrok http 3000
+# https://xxxx.ngrok-free.app → http://localhost:3000
+export EDITOR=vim   # then: ngrok config edit
+```
+
+```bash
+npm install -g ngrok   # or apt package from ngrok’s repo
+```
+
+| Knob | Why it matters |
+
+| Authtoken | Auth to your account |
+| --- | --- |
+| Region | Latency to you / peers |
+| Reserved domain | Stable URL (paid) |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Auth errors | Missing token | `config add-authtoken` |
+| 502 from edge | Local app down | Start server on that port |
+| Webhook signature fail | Wrong URL / body | Use current URL; raw body |
+| Browser interstitial | Free tier warning page | Header bypass or paid plan |
+
+## Gotchas
+
+> [!WARNING]
+> **Public = attack surface** — don’t expose admin UIs without auth.
+
+> [!WARNING]
+> **URL changes** — free tunnels aren’t stable; pin a domain for demos that matter.
+
+## When NOT to use
+
+- **Production ingress** — real DNS + LB/CDN.
+- **Private corporate networks only** — VPN / Tailscale may fit better.
+
+## Related
+
+[[HTTP module]] [[expressjs]] [[Packages/npm packages]]

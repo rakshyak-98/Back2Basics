@@ -2,7 +2,7 @@
 
 # DNS zone
 
-> One-line: a contiguous DNS namespace slice served authoritatively by one or more NS — **RFC 1035**.
+> a contiguous DNS namespace slice served authoritatively by one or more NS — **RFC 1035**.
 
 ## Mental model
 
@@ -19,7 +19,7 @@ A **zone** is everything below a **zone apex** (e.g. `example.com`) that one adm
 **Delegation:** parent publishes NS records; child zone file holds the actual records. **Subdomain delegation** (`sub.example.com` → different NS) creates a separate zone cut.
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | Zone apex | `@` in zone file = `example.com` itself |
 | Authoritative | Server answers from zone data, not cache/recursion |
 | Primary (master) | Source of truth; edits happen here |
@@ -86,7 +86,7 @@ curl -s -H "Authorization: Bearer $CF_TOKEN" \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Some resolvers get old IP | SOA serial on all NS; TTL remaining | Bump serial; ensure secondaries synced (`rndc notify` / provider auto-sync) |
 | Zone transfer fails | `dig AXFR @primary`; firewall TCP/53 | ACL on primary; allow secondary IP; check TSIG key |
 | Subdomain NXDOMAIN | Delegation NS in parent vs child zone | Add NS + glue at parent OR record in parent zone — not both incorrectly |
@@ -103,12 +103,12 @@ curl -s -H "Authorization: Bearer $CF_TOKEN" \
 - **CNAME at `@`** is invalid in plain DNS — registrars offering "CNAME flattening" hide this; know your provider's behavior.
 - **NS at apex must match parent delegation** — mismatch = lame delegation intermittent failures.
 - **TTL 86400 during migration** = up to 24h pain; lower TTL **before** cutover, not after.
-- **Split-horizon zones** (internal vs external) drift easily — treat as two zones with sync discipline.
+- **Split-horizon zones** (internal versus external) drift easily — treat as two zones with sync discipline.
 
 ## When NOT to use
 
 - Single static host entry on one machine → `/etc/hosts` or local [[dnsmasq]] stub.
-- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces ops load.
+- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces operations load.
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # fork
 
-> One-line: `child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cluster workers and isolated JS processes; not for arbitrary shell commands.
+> `child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cluster workers and isolated JS processes; not for arbitrary shell commands.
 
 ## Mental model
 
@@ -88,7 +88,7 @@ process.on('SIGTERM', () => {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `channel closed` | Child exited early | Log child stderr; catch bootstrap errors |
 | Messages lost | Send before `message` listener | Wait for `'online'` or first ping |
 | Memory × N workers | Each fork full V8 heap | Prefer [[worker threads]] for shared process CPU tasks |

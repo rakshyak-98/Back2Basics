@@ -2,7 +2,7 @@
 
 # bluetoothctl
 
-> One-line: **BlueZ interactive CLI** — pair headsets, debug `org.bluez.Error.Busy`, and script BT when GUI applets lie about power state.
+> BlueZ interactive CLI — pair headsets, debug `org.bluez.Error.Busy`, and script BT when GUI applets lie about power state.
 
 ## Mental model
 
@@ -14,12 +14,23 @@ GNOME Settings ──┘ (same daemon — conflict if both "own" power)
 ```
 
 | Command | Purpose |
-|---------|---------|
+| --- | --- |
 | `power on/off` | Adapter radio |
 | `scan on` / `devices` | Discovery |
 | `pair` / `trust` / `connect` | Bond + auto-reconnect |
 | `remove MAC` | Forget device |
 | `info MAC` | RSSI, UUIDs, connected state |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **bluetoothctl** | BlueZ interactive CLI | “power on → scan → pair → trust → connect.” |
+| --- | --- | --- |
+| **agent** | Pairing PIN handler | “agent on before pair.” |
+| **trust** | Auto-reconnect | “Trust after pair for headphones.” |
+| **rfkill** | Block radios | “rfkill list if soft-blocked.” |
+| **systemctl bluetooth** | Daemon | “bluetooth.service must be up.” |
 
 ## Standard config / commands
 
@@ -65,7 +76,7 @@ sudo systemctl mask bluetooth      # see [[Service masking]]
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Failed to set power on: org.bluez.Error.Busy` | `rfkill`; GNOME BT applet | Kill conflicting UI; `rfkill unblock bluetooth`; restart `bluetooth` |
 | Device pairs, won't connect | `info MAC`; profiles | `trust MAC`; remove + re-pair; check A2DP vs HID |
 | No adapter found | `lsusb`; `dmesg` | Driver/firmware; VM USB passthrough |
@@ -93,12 +104,12 @@ sudo systemctl restart bluetooth
 > **Pairing in SSH session** — need `agent on` and often physical confirm on device; no PIN UI over SSH.
 
 - **Multiple adapters** — `select ADAPTER_MAC` in bluetoothctl before pair.
-- **BLE vs classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
+- **BLE versus classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
 
 ## When NOT to use
 
 - **Wi-Fi debugging** — unrelated stack; use `nmcli`, `iw`.
-- **Production server hardening** — disable/mask BT entirely; no pairing on prod.
+- **Production server hardening** — disable/mask BT entirely; no pairing on production.
 - **Bulk fleet provisioning** — use MDM/vendor tools, not manual bluetoothctl.
 
 ## Related

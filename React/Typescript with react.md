@@ -1,20 +1,70 @@
-```shell
-grep -r "defaultExportName" src/
+[[React]] [[useRef]] [[react hooks]]
 
+# Typescript with react
+
+> Type React props, hooks, and refs so the compiler catches wrong shapes before runtime.
+
+## Mental model
+
+**Say it in one breath:** Components are functions of typed props; hooks take type arguments (`useRef<T>`, `useReducer<R>`); `forwardRef` often needs an explicit generic or a small type augment.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **`FC` / props type** | Shape of props | “Prefer `function Comp(props: Props)` over `React.FC`.” |
+| --- | --- | --- |
+| **`useRef<T>(null)`** | Ref may be null until mount | “Include `null` in the type.” |
+| **`Reducer<S, A>`** | State + action types | “Built-in helper for `useReducer`.” |
+| **forwardRef generics** | Ref + props params | “Default typings often erase props generics.” |
+
+## Standard config / commands
+
+```tsx
+type Props = { label: string; onSave: (id: string) => void }
+
+function Form({ label, onSave }: Props) { /* … */ }
+
+const inputRef = useRef<HTMLInputElement>(null)
+
+type State = { n: number }
+type Action = { type: 'inc' } | { type: 'set'; n: number }
+const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, { n: 0 })
+
+const Input = React.forwardRef<HTMLInputElement, Props>(function Input(props, ref) {
+  return <input ref={ref} {...props} />
+})
 ```
 
-> [!INFO] `useRef` has a type overload for the specific case in which the type argument doesn't include `null` but the initializer is `null`
+| Knob | Why it matters |
 
-React has a built-in interface, `Reducer` that takes two type arguments: the state and the action interface, both of which are readily available.
+| Props as type alias | Clear, no `children` surprises from old `FC` |
+| --- | --- |
+| `useRef<T>(null)` | Matches real lifecycle |
+| Augment `forwardRef` | Restore generic props if lib types erase them |
 
-> [!WARNING] when we apply `forwardRef` to the component, the type argument is somehow forgotten and replace by `unknown`
-- the problem is the `forwardRef` does not return a component with the same type that you pass into it.
-```typescript
-import React from 'react'
-declare module "react" {
-	function forwardRef<T, P = {}> (
-		render: (props: P, ref: ForwardRef<T>) => ReactElement | null
-	): (props: P & RefAttributes<T>) => ReactElement | null;
-}
-```
-- Typescript definition file `*.d.ts` in source tree `<root>/react-augmented.d.ts`
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Ref typed `never` / wrong | Initializer vs type arg | `useRef<T>(null)` when T excludes null incorrectly |
+| forwardRef props become `unknown` | Lib typing | Explicit generics or `*.d.ts` augment |
+| Event handler type errors | Wrong event type | `React.ChangeEvent<HTMLInputElement>` etc. |
+| Children type fights you | `React.FC` defaults | Drop `FC`; type `children` explicitly |
+
+## Gotchas
+
+> [!WARNING]
+> **`forwardRef` forgets generics** — returned component types often collapse; assert or augment.
+
+> [!WARNING]
+> **`useRef<T>(null)` overload** — if `T` does not include `null` but you pass `null`, you hit a special overload; prefer `useRef<T \| null>(null)`.
+
+## When NOT to use
+
+- **Throwaway prototypes** — JS is fine until the API stabilizes.
+- **Over-modeling runtime CSS** — don’t type every style object if it slows delivery.
+
+## Related
+
+[[useRef]] [[react hooks]] [[Hooks/react useEffect]]

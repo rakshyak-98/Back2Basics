@@ -2,9 +2,7 @@
 
 # AI chat with memory
 
-> LLMs are stateless per request — "memory" is **context you re-inject** each turn (history, summaries, RAG chunks) — **OpenAI / Anthropic API docs**.
-
----
+> AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
 ## Mental model
 
@@ -17,14 +15,13 @@ system prompt + retrieved docs + summarized history + latest user message → mo
 Token budget is finite (`context window`). Long chats hit **context rot** (early facts dropped) and **cost/latency** scale with history length.
 
 | Layer | What it stores | Tradeoff |
-|-------|----------------|----------|
+
 | **Full transcript** | Every message in context | Simple; dies at ~128k tokens |
+| --- | --- | --- |
 | **Rolling window** | Last N turns | Cheap; forgets old facts |
 | **Summary memory** | LLM-compressed history | Keeps themes; loses exact quotes |
 | **Vector RAG** | Embeddings of docs + past turns | Scales knowledge; retrieval quality matters |
 | **Structured memory** | DB rows (user prefs, facts) | Deterministic; needs schema + extraction |
-
----
 
 ## Standard config / commands
 
@@ -67,19 +64,15 @@ messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {
 
 Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming protects latency and cost.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Model "forgets" earlier facts | Token count / window size | Summary memory, RAG, or structured DB facts |
 | Wrong answers despite docs | Retrieval (`k`, chunk size, embedding model) | Re-chunk, hybrid search, cite sources in prompt |
 | Cost spike | Messages array growth | Hard cap turns; summarize; cache embeddings |
 | Duplicate / contradictory replies | Multiple memory sources unsynced | Single source of truth; version user profile row |
 | PII in logs | What you persist | Redact before store; TTL on conversation tables |
-
----
 
 ## Gotchas
 
@@ -89,15 +82,11 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 > [!WARNING]
 > **Injecting untrusted retrieved text** — RAG chunks can contain prompt-injection strings. Sanitize, attribute, and instruct the model to ignore instructions inside documents.
 
----
-
 ## When NOT to use
 
 - **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
 - **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
 - **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
-
----
 
 ## Related
 

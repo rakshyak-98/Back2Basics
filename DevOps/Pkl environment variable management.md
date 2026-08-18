@@ -2,7 +2,7 @@
 
 # Pkl environment variable management
 
-> Apple Pkl — typed config language that evaluates to JSON/YAML/properties — **env-specific config without stringly env soup**.
+> Pkl environment variable management — ▼ pkl eval -p env=production
 
 ## Mental model
 
@@ -16,8 +16,9 @@ app.pkl + env prod.pkl/amends
 ```
 
 | vs raw env vars | Pkl |
-|-----------------|-----|
+
 | Untyped strings | Typed fields + validation |
+| --- | --- |
 | Copy-paste per env | `amends` / imports compose configs |
 | Secret leakage risk | Eval at deploy; integrate with secret stores |
 
@@ -92,7 +93,7 @@ pkl repl
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Eval error on field | Type/constraint violation | Fix Pkl types; don't coerce in app |
 | Wrong env values | Parameter not passed | `-p env=…` in CI; default in Pkl |
 | Secret in git | Password in `.pkl` | Externalize; amends + CI inject at eval |
@@ -104,14 +105,14 @@ pkl repl
 > [!WARNING]
 > **Pkl is not a secret store** — pair with [[Descriptive/doppler]] or vault for credentials; Pkl references env vars at eval time.
 
-- **Eval in prod on every start** — cache rendered config or bake into image at build.
+- **Eval in production on every start** — cache rendered configuration or bake into image at build.
 - **Team learning curve** — new DSL; document REPL workflow for onboarding.
 - **Version pin** — pin Pkl CLI in CI for reproducible eval.
 
 ## When NOT to use
 
-- Single static `config.json` with no env variance — overhead unjustified.
-- Org already standardized on [[Terraform/variable file]] + tfvars for infra-only config.
+- Single static `config.json` with no environment variance — overhead unjustified.
+- Org already standardized on [[Terraform/variable file]] + tfvars for infra-only configuration.
 
 ## Related
 

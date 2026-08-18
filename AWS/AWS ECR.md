@@ -2,7 +2,7 @@
 
 # AWS ECR
 
-> **Private Docker registry in AWS** — store images per region/account; IAM controls push/pull; integrates with ECS/EKS/Lambda/EC2. Not Docker Hub; not interchangeable without auth + URL change.
+> ECR (Elastic Container Registry) — private Docker/OCI image registry in AWS.
 
 ## Mental model
 
@@ -85,14 +85,22 @@ docker push $ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO:latest
 
 ## Triage (when things break)
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `no basic auth credentials` on push | `aws ecr get-login-password`; IAM | Login; CI role `GetAuthorizationToken` |
-| `denied: repository does not exist` | Repo name/region/account in URL | Create repo; fix URI |
-| ECS/EKS `CannotPullContainerError` | Execution role ECR perms; repo policy | Add ECR pull actions; private repo policy if cross-account |
-| Pull works locally, fails in cluster | Cluster in private subnet without NAT/endpoint | ECR VPC endpoints |
-| Image scan shows CVEs | Base image stale | Rebuild from patched base; block deploy on CRITICAL (policy) |
-| Storage cost creep | Untagged manifests | Lifecycle policy; delete old tags |
+| Symptom                              | Check                                          | Fix                                                          |
+| --- | --- | --- |
+| 
+
+- | 
+
+---- | 
+
+---- |
+| `no basic auth credentials` on push  | `aws ecr get-login-password`; IAM              | Login; CI role `GetAuthorizationToken`                       |
+| --- | --- | --- |
+| `denied: repository does not exist`  | Repo name/region/account in URL                | Create repo; fix URI                                         |
+| ECS/EKS `CannotPullContainerError`   | Execution role ECR perms; repo policy          | Add ECR pull actions; private repo policy if cross-account   |
+| Pull works locally, fails in cluster | Cluster in private subnet without NAT/endpoint | ECR VPC endpoints                                            |
+| Image scan shows CVEs                | Base image stale                               | Rebuild from patched base; block deploy on CRITICAL (policy) |
+| Storage cost creep                   | Untagged manifests                             | Lifecycle policy; delete old tags                            |
 
 ## Gotchas
 

@@ -2,7 +2,7 @@
 
 # Cloudflare
 
-> **Authoritative DNS + reverse proxy (orange cloud) + WAF/CDN/DDoS** — changes where traffic terminates and who sees origin IP. **Cloudflare docs** + migration incidents when proxy hid real client IP or broke TLS.
+> Cloudflare — sits between users and origin: as DNS provider (nameservers → Cloudflare) and optionally HTTP proxy (proxied records). Proxied traffic: client → Cloudflare edge →
 
 ## Mental model
 
@@ -22,13 +22,14 @@ User ──► CF edge (TLS, cache, WAF) ──► origin (ALB, nginx, Vercel)
 
 1. Add site in Cloudflare dashboard → import/copy DNS records.
 2. Change registrar **NS** to Cloudflare-assigned nameservers.
-3. Choose proxied vs DNS-only per record (A/AAAA/CNAME).
+3. Choose proxied versus DNS-only per record (A/AAAA/CNAME).
 
 ### SSL/TLS modes (critical)
 
 | Mode | Origin cert | When |
-|------|-------------|------|
+
 | **Full (strict)** | Valid cert on origin (Let's Encrypt, ACM) | **Prod default** |
+| --- | --- | --- |
 | Full | Self-signed OK on origin | Lab only |
 | Flexible | Origin can be HTTP | **Avoid** — CF→origin unencrypted |
 
@@ -40,7 +41,7 @@ set_real_ip_from 173.245.48.0/20;  # + all CF ranges from https://www.cloudflare
 real_ip_header CF-Connecting-IP;
 ```
 
-App logs: use `CF-Connecting-IP`, not `$remote_addr` (which is CF edge).
+application logs: use `CF-Connecting-IP`, not `$remote_addr` (which is CF edge).
 
 ### Wrangler CLI (Workers, Pages, R2)
 
@@ -63,7 +64,7 @@ wrangler r2 object put my-bucket/key --file=./local
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Too many redirects | SSL mode vs origin HTTP/HTTPS | Full (strict) + HTTPS origin; or fix origin redirect loop |
 | 522 / 523 connection to origin | Origin down; SG/firewall blocks CF IPs | Open firewall to [CF IP ranges](https://www.cloudflare.com/ips/); health check origin |
 | 525 SSL handshake failed | Origin cert expired/wrong name | Renew cert; match hostname |
@@ -94,7 +95,7 @@ curl -I https://example.com --resolve example.com:443:ORIGIN_IP  # bypass CF tes
 ## When NOT to use
 
 - **Internal-only services** — no public DNS/proxy needed; use private DNS ([[Route53]] private zone, [[mDNS]]).
-- **WebSockets/long polling without config** — works on CF but verify timeout/cache rules.
+- **WebSockets/long polling without configuration** — works on CF but verify timeout/cache rules.
 - **Replacing WAF on complex custom protocols** — CF is HTTP-centric; raw TCP needs Spectrum (paid).
 
 ## Related

@@ -4,8 +4,6 @@
 
 > API that hides physical placement — callers use logical names (paths, URIs, keys) while the system maps to blocks, objects, or remote stores.
 
----
-
 ## Mental model
 
 An **abstract storage location** decouples **what** you access from **where** bits live:
@@ -25,8 +23,6 @@ Layers engineers confuse:
 - **URI** (`s3://`, `gs://`) — vendor API semantics
 - **Key-value** (Redis, etcd) — no hierarchical byte offset
 - **DB logical** (table/index) — buffer manager hides file layout
-
----
 
 ## Standard config / commands
 
@@ -54,20 +50,16 @@ mount --bind /mnt/fast-disk/pgdata /var/lib/postgresql/data
 # App sees same path; bits on different device
 ```
 
-**Why bind mounts:** migrate data without reconfiguring app paths — common in container volume patterns.
-
----
+**Why bind mounts:** migrate data without reconfiguring application paths — common in container volume patterns.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "File not found" after migration | Path vs actual mount | `findmnt`; fix bind mount / symlink |
 | Slow "local" writes | NFS/EBS/network backing | Move hot data to local NVMe; check [[disk IOPS]] |
 | S3 404 on existing object | Wrong region/bucket/prefix | URI spelling; IAM scope |
 | DB on wrong disk tier | Tablespace location | `SHOW data_directory`; relocate tablespace |
-
----
 
 ## Gotchas
 
@@ -80,13 +72,9 @@ mount --bind /mnt/fast-disk/pgdata /var/lib/postgresql/data
 > [!WARNING]
 > **Container paths** — `/app/data` may be ephemeral overlay unless volume mounted; rebuild loses "logical" path.
 
----
-
 ## When NOT to use
 
 Avoid stacking opaque abstractions without observability (FUSE on NFS on loopback). For latency-sensitive systems, make **one** clear mapping from logical name to physical device measurable.
-
----
 
 ## Related
 

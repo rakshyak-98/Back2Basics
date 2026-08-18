@@ -1,8 +1,8 @@
-[[Programming paradigram/Functional Programing]] [[Database/OLAP]] [[Descriptive/Mermaid (DSL)]]
+[[Programming paradigm/Functional Programming]] [[Database/OLAP]] [[Descriptive/Mermaid (DSL)]]
 
 # Purely declarative
 
-> Describe **what** result you want; runtime chooses **how** — SQL, regex, HTML/CSS, Prolog-style rules.
+> Purely declarative — imperative: step-by-step mutations. Declarative: state the desired outcome or relation. Engine optimizes execution (query planner, layout engine, regex NFA). You trade control of execution order
 
 ## Mental model
 
@@ -53,7 +53,7 @@ EXPLAIN ANALYZE SELECT ...;
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Slow SQL | `EXPLAIN` | Indexes; rewrite joins; stats vacuum |
 | Wrong CSS layout | DevTools box model | Change declarative props, not manual pixel nudge loops |
 | K8s drift | `kubectl diff` | GitOps reconcile; fix manifest not pods by hand |
@@ -72,8 +72,8 @@ EXPLAIN ANALYZE SELECT ...;
 ## When NOT to use
 
 - Don't use declarative DSL for procedural algorithms (sort implementation) — use a general language.
-- Don't SQL everything in app strings — ORM/query builder for structure + safety.
+- Don't SQL everything in application strings — ORM/query builder for structure + safety.
 
 ## Related
 
-[[Programming paradigram/Functional Programing]] [[Database/OLAP]] [[Database/mysql/MySQL Events]]
+[[Programming paradigm/Functional Programming]] [[Database/OLAP]] [[Database/mysql/MySQL Events]]

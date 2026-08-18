@@ -1,13 +1,66 @@
-- where your system absorbs the most load: storage versus compute.
+[[System Design]] [[Streaming]] [[HLS]] [[DASH]] [[ABR]]
 
-## The Static file Approach
+# on-demand vs static file (Streaming)
 
-- In this model, the media file (e.g., `.mp3` `.mp4`) are entirely pre-processed, encoded, and saved to a storage system before the user ever hits "play".
-- When a user requests the media, the server simply reads the file from the disk and sends it over the network.
+> On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
-**How it works in Practice** 
-- You upload a raw video, a background worker processes it into various resolutions, and the final assests are stored in an object store (like AWS S3). A content delivery Network (CDN) sites in front of this storage to cache and server the files globally.
+## Mental model
 
-> [!INFO]
-> CDNs are built exactly for this. Once a file is cached at an edge location, your backend infrastructure does zero work to server subsequent requests.
-> - Low compute cost -> serving the file require almost no CPU power.
+**Say it in one breath:** Static = mezzanine already sliced to HLS/DASH on object storage. On-demand = origin transcodes/packages when the first viewer (or publish job) needs a rendition.
+
+```txt
+Static:   mezz → (batch) → HLS on S3/CDN → players
+On-demand: mezz → request → packager/transcoder → CDN cache → players
+```
+
+| Mode | Pros | Cons |
+| --- | --- | --- |
+| **Pre-packaged static** | Predictable CDN hit; simple origin | Storage × renditions; slow publish |
+| **Just-in-time / on-demand** | Storage lean; late binding DRM/ladder | First-byte latency; origin CPU |
+
+## Standard config / commands
+
+```txt
+# Static publish sketch
+ffmpeg … → renditions → packager → s3://bucket/asset/master.m3u8
+
+# On-demand sketch
+player → CDN → origin packager (miss) → cache segments
+```
+
+| Knob | Why |
+| --- | --- |
+| CDN cache key | Include bitrate / token carefully |
+| Warmup | Prefetch popular ladder after publish |
+| Fallback | Pre-bake poster / audio-only |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Long startup | Cold JIT transcode | Pre-warm; bake top bitrates |
+| 404 segment | Packager race | Atomic publish; retry |
+| CDN stampede | Many misses one asset | Request coalesce; longer TTL |
+| Huge bill | JIT every unique | Cache; limit ladder |
+| DRM mismatch | Late binding fail | Align CPIX/keys pre-play |
+
+## Gotchas
+
+> [!WARNING]
+> **“Static file” still needs manifests** — players want HLS/DASH, not one giant MP4 (unless progressive).
+
+> [!WARNING]
+> **On-demand without cache** — origin becomes the bottleneck.
+
+> [!WARNING]
+> **Live ≠ VOD on-demand** — live has different latency/GOP rules ([[HLS]] / [[DASH]]).
+
+## When NOT to use
+
+- **True live events** — live pipeline, not VOD JIT.
+- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
+- **No CPU budget at edge** — pre-package everything.
+
+## Related
+
+[[Streaming]] [[HLS]] [[DASH]] [[ABR]] [[transcoding]] [[rendition]]

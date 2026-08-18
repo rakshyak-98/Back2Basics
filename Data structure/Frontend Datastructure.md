@@ -4,11 +4,9 @@
 
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
----
-
 ## Mental model
 
-Browser JS gives you **Map/Set** (O(1) avg keyed ops), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
+Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
 
 ```txt
 UI pattern              → Structure
@@ -24,8 +22,6 @@ Priority updates        → Map + sorted index (or heap lib)
 **React note:** immutable updates — copy-on-write for Maps (`new Map(prev)`) or structural sharing (Immer).
 
 **Big-O in FE matters when:** virtual lists (10k+ rows), graph editors, real-time tick buffers, client search indexes.
-
----
 
 ## Standard config / commands
 
@@ -118,20 +114,16 @@ const meta = new WeakMap(); // keys are objects; no memory leak when DOM node go
 meta.set(domNode, { lastMeasure: 42 });
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | UI lag typing in big list | O(n) filter each keystroke | Pre-index; debounce; [[Progressive search functionality]] |
 | Memory grows unbounded | Global cache Map | LRU cap; WeakMap for DOM-bound data |
 | Stale UI after update | Mutated Map in place | New Map reference for React memo |
 | Wrong render order | Object key sort | Map preserves insertion; explicit sort key |
 | Duplicate keys in virtual list | Index as React key | Stable entity id from Map |
 | Race in async fetch | Last-write-wins | Request id / AbortController + Map stamp |
-
----
 
 ## Gotchas
 
@@ -147,15 +139,11 @@ meta.set(domNode, { lastMeasure: 42 });
 > [!WARNING]
 > **Sorted array + splice for queue** — O(n); use ring buffer or dedicated deque.
 
----
-
 ## When NOT to use
 
 - **< 100 items** — plain array + `find` is fine; don't pre-optimize.
 - **Server-authoritative pagination** — client Map of "all rows" fights product; page cache only.
 - **Replace DB index** — client structures mirror UX needs, not SQL semantics.
-
----
 
 ## Related
 

@@ -4,12 +4,13 @@
 
 > **Mission:** force-multiply engineering teams with operational field notes — retrieve fast, debug fast, configure correctly.
 
+## Mental model
+
+**Say it in one breath:** **Mission:** force-multiply engineering teams with operational field notes — retrieve fast, debug fast, configure correctly.
+
 → Primary hub: **[[staff engineer]]**
-
 → Vault entry: **[[INDEX]]** · **[[NOTES_STANDARD]]** · **[[README]]**
-
----
 
 ## Related
 
-[[staff engineer]] · [[general]] · [[INDEX]]
+[[staff engineer]]] [[[general]]] [[[INDEX]]] [[[NOTES_STANDARD]]

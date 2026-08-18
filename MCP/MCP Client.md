@@ -4,8 +4,6 @@
 
 > Model Context Protocol client ops — how Cursor and tooling hosts discover, auth, invoke, and debug MCP servers — **MCP spec (Anthropic ecosystem)**.
 
----
-
 ## Mental model
 
 An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or more **MCP servers** that expose **tools**, **resources**, and **prompts** over a transport. The LLM never talks to your server directly — the client mediates capability discovery and tool calls.
@@ -21,16 +19,15 @@ An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or m
 ```
 
 | Surface | Client responsibility |
-|---------|----------------------|
+
 | **tools/list** | Cache schema; show model what exists |
+| --- | --- |
 | **tools/call** | Validate args; enforce timeouts; redact secrets in logs |
 | **resources/read** | Fetch file/DB rows into context window |
 | **prompts/get** | Template expansion for repeatable workflows |
 | **auth** | OAuth/API keys — client stores tokens, not the model |
 
-**Transport:** `stdio` (local subprocess — most Cursor servers), `SSE/HTTP` (remote), streamable HTTP (spec evolution — see [[MCP]]).
-
----
+**Transport:** `stdio` (local subprocess — most Cursor servers), `SSE/HTTP` (remote), streamable HTTP (specification evolution — see [[MCP]]).
 
 ## Standard config / commands
 
@@ -88,12 +85,10 @@ Concurrent calls:    serialize if server isn't thread-safe
 Retry:               idempotent reads yes; writes no blind retry
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Server not listed in Cursor | MCP settings → logs; JSON syntax | Fix `mcp.json`; restart Cursor |
 | `needsAuth` / 401 | Server status; OAuth flow | Run `mcp_auth`; refresh token |
 | Tool call hangs | Server stderr; backend connectivity | Timeout; fix DB URL / VPN |
@@ -107,8 +102,6 @@ Retry:               idempotent reads yes; writes no blind retry
 # Use full paths:
 "command": "/usr/local/bin/npx"
 ```
-
----
 
 ## Gotchas
 
@@ -130,15 +123,11 @@ Retry:               idempotent reads yes; writes no blind retry
 > [!WARNING]
 > **Parallel tool calls** — two writes racing. Document side effects; use server-side locking.
 
----
-
 ## When NOT to use
 
-- **Simple static docs** — link the doc; don't wrap in MCP.
+- **Simple static docs** — link the document; don't wrap in MCP.
 - **High-QPS automation** — use direct API/SDK; MCP adds LLM mediation overhead.
 - **Untrusted servers** — MCP server runs with host privileges; audit before adding.
-
----
 
 ## Related
 

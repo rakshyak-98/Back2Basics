@@ -89,7 +89,7 @@ WHEN NOT MATCHED THEN INSERT (sku, qty) VALUES (s.sku, s.qty);
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `EXCLUDED` undefined error | Used outside DO UPDATE | Only reference in UPDATE SET / WHERE of upsert |
 | Duplicate key still thrown | No matching conflict target | Add UNIQUE index; specify `(columns)` matching constraint |
 | Upsert never updates | DO NOTHING or WHERE false | Use DO UPDATE; relax WHERE |

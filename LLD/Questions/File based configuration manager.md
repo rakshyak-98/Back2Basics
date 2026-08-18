@@ -1,38 +1,58 @@
-## Problem Statement
+[[Questions]] [[Design pattern/Singleton]]
 
-You are tasked with creating a system-wide configuration manager for a complex software suite. The configuration manager is responsible for managing various configuration settings that affect the behavior and appearance of the software. To prevent multiple instances of the configuration manager, which could lead to inconsistencies and potential resource conflicts, you need to implement a design pattern that ensures the configuration manager is a singleton object.
+# File based configuration manager
 
-## Assignment
+> Low-level design exercise — system-wide configuration manager with Singleton access and file-backed settings for a multi-module suite.
 
-You are required to extend an abstract class `FileBasedConfigurationManager` to implement the Singleton design pattern and create a configuration manager class. The abstract class provides a foundation for managing configuration settings using a file-based approach.
+## Mental model
 
-### Part 1: Implementing Singleton and Extending Abstract Class
+**Say it in one breath:** One configuration manager reads and writes shared config files so every module sees consistent settings without each opening files independently.
 
-1. **Extend the `FileBasedConfigurationManager` abstract class**: You already have an abstract class named `FileBasedConfigurationManager`. Your task is to extend this class to create your own configuration manager class.
-    
-2. **Implement the Singleton design pattern**: Within your configuration manager class, implement the Singleton design pattern to ensure that only one instance of your class can exist within the program.
-    
-3. **Implement the `get_instance()` and `reset_instance()` methods**: Implement the `get_instance()` and `reset_instance()` methods in your configuration manager class. The `get_instance()` method should return the singleton instance of your configuration manager class. The `reset_instance()` method should reset the singleton instance of your configuration manager class to `null`.
-    
+### Problem statement
 
-### Part 2: Configuration Management
+Create a **system-wide configuration manager** for a complex software suite. The manager should:
 
-The `FileBasedConfigurationManager` abstract class provides a foundation for managing configuration settings using a file-based approach.
+- Maintain a **single source of truth** for configuration values.
+- Read from and write to **file-based** storage.
+- Expose thread-safe access through a **Singleton** instance.
 
-It already has a `load` method that loads configuration settings from a file and stores it in a dictionary. The `dictionary` is a collection of key-value pairs, where the key is a string and the value is an object.
+### Typical operations
 
-Implement the following methods for configuration management in your extended class:
+| Operation | Purpose |
+| --- | --- |
+| `load(path)` | Parse configuration file into memory |
+| `get(key)` | Read a setting |
+| `set(key, value)` | Update a setting (may persist to disk) |
+| `save()` | Flush in-memory changes to file |
+| `reload()` | Re-read from disk after external edits |
 
-- `get_configuration(key)`: Retrieve a configuration value based on a given key.
-- `get_configuration_with_type(key, type)`: Retrieve a configuration value and perform type conversion.
-- `set_configuration(key, value)`: Set a configuration value.
-- `set_configuration(key, value)`: Set a configuration value with type checking.
-- `remove_configuration(key)`: Remove a configuration value based on a given key.
-- `clear()`: Clear all configuration settings.
+## Standard config / commands
 
-## Instructions
+```python
+config = ConfigManager.get_instance()
+config.load("/etc/myapp/config.yaml")
+timeout = config.get("db.timeout")
+config.set("db.timeout", 30)
+config.save()
+```
 
-1. Clone this repository to your local machine.
-2. Extend the `FileBasedConfigurationManager` abstract class to create your own configuration manager class.
-3. Implement the required methods within your configuration manager class.
-4. Run the provided test cases in the `FileBasedConfigurationManagerTest` class to verify the correctness of your implementation.
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Stale config in running process | File changed on disk | Call `reload()` or watch file with inotify |
+| Race on concurrent writes | Missing lock | Synchronize `set` / `save` |
+| Partial write corrupts file | Crash mid-save | Atomic write (temp file + rename) |
+
+## Gotchas
+
+> [!WARNING]
+> **Global mutable config** — document which keys are hot-reloadable versus restart-required.
+
+## When NOT to use
+
+- **Twelve-factor apps** — environment variables and secret managers often replace file-based global config.
+
+## Related
+
+[[Design pattern/Singleton]] [[Questions]] [[LLD/Questions/Logger]]

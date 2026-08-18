@@ -2,9 +2,7 @@
 
 # HES Architecture
 
-> **HES** acronym is ambiguous in this vault (no prior mentions) — commonly **Home Energy System**, **Head-End System** (utilities/AMI), or **Health Examination System**. Below: **high-availability edge service** pattern applicable to meter gateways, clinic edge nodes, or IoT aggregators — define your domain acronym in the project README.
-
----
+> HES Architecture — │ Edge / HES tier │
 
 ## Mental model
 
@@ -30,8 +28,6 @@ Devices / Clients
 - Observability with device correlation id
 
 If your HES = **utility head-end:** add protocol adapters (DLMS/COSEM, IEC 61850). If **health edge:** PHI encryption, audit, HIPAA boundary before cloud.
-
----
 
 ## Standard config / commands
 
@@ -98,12 +94,10 @@ Traces:  edge → cloud ingest span
 Alerts:  queue_depth high 15m, cert expiry 14d
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Devices retry storm | 5xx rate, timeout | Scale HES pods; extend adapter backoff; fix DB pool |
 | Duplicate readings in billing | Idempotency key | Enforce (device_id, seq) unique; audit adapter gen |
 | Edge disk full | Spool PVC usage | Increase retention policy; restore WAN; drop policy w/ audit |
@@ -111,8 +105,6 @@ Alerts:  queue_depth high 15m, cert expiry 14d
 | Cloud sees gaps | forward_lag metric | Network partition — expected; backfill from spool |
 | Latency SLO miss | Hot partition device | Shard by deviceId; async pipeline |
 | "HES" means different thing per team | Glossary | Rename service in docs; link domain spec |
-
----
 
 ## Gotchas
 
@@ -128,15 +120,11 @@ Alerts:  queue_depth high 15m, cert expiry 14d
 > [!WARNING]
 > **Acronym collision** — confirm with stakeholders: Energy HES ≠ Hospital HES compliance scope.
 
----
-
 ## When NOT to use
 
 - **Direct device-to-cloud only** — no outage buffer; fine for low-value telemetry, not billing/medical grade.
 - **Monolith ingest in single VM** — first WAN blip becomes data loss without queue.
 - **Custom binary protocol without schema registry** — versioning hell at 10k firmware variants.
-
----
 
 ## Related
 

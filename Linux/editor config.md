@@ -2,11 +2,11 @@
 
 # EditorConfig (editor config)
 
-> One-line: **`.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL** — stops the PR wars between "tabs vs spaces" and fixes mixed line-ending CI failures.
+> `.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL — stops the PR wars between "tabs vs spaces" and fixes mixed
 
 ## Mental model
 
-[EditorConfig](https://editorconfig.org) is a **declarative INI-style file** committed at repo root. Plugins in VS Code, IntelliJ, Vim, etc. read it on save/open. It overrides personal editor defaults **within that project** — not global IDE settings. Prettier/ESLint can still conflict if not aligned.
+[EditorConfig](https://editorconfig.org) is a **declarative INI-style file** committed at repository root. Plugins in VS Code, IntelliJ, Vim, etc. read it on save/open. It overrides personal editor defaults **within that project** — not global IDE settings. Prettier/ESLint can still conflict if not aligned.
 
 ```
 .editorconfig (root)
@@ -17,8 +17,9 @@ Developer opens file → plugin applies nearest matching section
 ```
 
 | Key | Typical value | Why |
-|-----|---------------|-----|
+
 | `root = true` | stop searching parent dirs | Monorepo boundary |
+| --- | --- | --- |
 | `indent_style` | space / tab | Team consistency |
 | `indent_size` | 2 / 4 | Match language norm |
 | `end_of_line` | lf | Linux CI; avoid CRLF diffs |
@@ -26,9 +27,20 @@ Developer opens file → plugin applies nearest matching section
 | `trim_trailing_whitespace` | true | Clean diffs |
 | `insert_final_newline` | true | POSIX text file; git diff noise |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **editorconfig** | Shared indent/style | “Same tabs across vim/VS Code.” |
+| --- | --- | --- |
+| **.editorconfig** | Repo root file | “Commit it — not editor-specific.” |
+| **indent_style** | tab vs space | “Match language norms.” |
+| **charset** | utf-8 default | “Avoid latin1 surprises.” |
+| **end_of_line** | lf vs crlf | “lf on Linux/mac; watch Windows clones.” |
+
 ## Standard config / commands
 
-**Production-safe baseline for polyglot repo:**
+**Production-safe baseline for polyglot repository:**
 
 ```ini
 # .editorconfig
@@ -94,7 +106,7 @@ eclint check *
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Settings ignored | Plugin installed? | Enable EditorConfig extension; reload |
 | Wrong indent in subfolder | Nested `.editorconfig` | Child `root = true` stops inherit — rare |
 | CI fails EOL | `file` or `git diff --check` | Set `end_of_line = lf`; `.gitattributes` |

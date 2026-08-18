@@ -2,9 +2,7 @@
 
 # React style inside component
 
-> CSS colocated with JSX — CSS Modules, styled-components, **`styled-jsx` (Next.js)** — scope styles to component without global leaks — **CSS-in-JS tradeoffs**.
-
----
+> React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
 ## Mental model
 
@@ -25,8 +23,6 @@ Global CSS     → layout tokens, resets (once in root)
 Component CSS  → module or styled-jsx
 Design system  → shared Button variants
 ```
-
----
 
 ## Standard config / commands
 
@@ -74,19 +70,15 @@ export function Badge({ color }: { color: string }) {
 
 Avoid huge inline objects recreated every render ([[referential equality]] matters for memoized children).
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Styles not applied (Modules) | Wrong import | `import s from './x.module.css'` |
 | Flash unstyled (FOUC) | CSS load order | [[css/Flash of Unstyled Content]] |
 | styled-jsx not working | Not Next / plugin | Use Modules or Tailwind in Vite |
 | Specificity wars | Global !important | Scope with Modules |
 | Hydration class mismatch | Random class gen | Stable build config |
-
----
 
 ## Gotchas
 
@@ -96,15 +88,11 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 > [!WARNING]
 > **styled-jsx global** — `<style jsx global>` affects entire app — use sparingly.
 
----
-
 ## When NOT to use
 
 - **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
 - **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
 - **Plain static site** — external CSS file sufficient.
-
----
 
 ## Related
 

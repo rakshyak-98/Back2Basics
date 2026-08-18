@@ -4,8 +4,6 @@
 
 > Predict continuous target as weighted sum of features (+ intercept) — **Hastie ESL**; baseline every tabular regression problem should beat.
 
----
-
 ## Mental model
 
 ```txt
@@ -23,14 +21,12 @@
 **Regularized variants:**
 
 | Model | Penalty | Effect |
-|-------|---------|--------|
+| --- | --- | --- |
 | Ridge (L2) | Σβ² | Shrinks coefficients; keeps all features |
 | Lasso (L1) | Σ\|β\| | Sparse β; feature selection |
 | Elastic Net | L1 + L2 | Correlated groups + sparsity |
 
 For classification boundaries, see [[sigmoid]] + logistic regression (not this note).
-
----
 
 ## Standard config / commands
 
@@ -75,20 +71,16 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 - **OLS:** scaling doesn't change predictions (only coefficient scale).
 - **Ridge/Lasso:** **always scale** — penalty is not rotation-invariant.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | High train R², awful val | Overfitting transforms / leakage | Audit features; hold out time; reduce polynomial degree |
 | Negative R² on val | Wrong baseline, broken pipeline | Verify target not in X; check train/val split |
 | Coefficients flip sign vs domain | Multicollinearity | Drop correlated cols; Ridge; PCA |
 | Residual fan shape | Heteroscedasticity | Log-transform target; weighted least squares |
 | Predictions clip at extremes | Linear extrapolation | Polynomial features; [[Gradient boosting]]; log target |
 | `LinAlgError: singular matrix` | Perfect collinearity, p > n | Drop duplicate cols; Ridge; reduce features |
-
----
 
 ## Gotchas
 
@@ -104,16 +96,12 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 > [!WARNING]
 > **Interpretability of raw coefficients** only holds when features are on comparable scales (or standardized).
 
----
-
 ## When NOT to use
 
 - **Strong nonlinear interactions** without explicit feature crosses — [[Gradient boosting]] or GAM usually wins.
 - **Target is count / rate with bounds** — Poisson, Gamma GLM, or beta regression.
 - **Heavy outliers drive loss** — Huber / quantile regression, or robust tree models.
 - **Need calibrated uncertainty in production** — Bayesian linear or conformal prediction on residuals.
-
----
 
 ## Related
 

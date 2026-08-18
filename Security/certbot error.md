@@ -2,7 +2,7 @@
 
 # Certbot error
 
-> One-line: map Let's Encrypt / Certbot failures to root cause and fix — **operational runbook**, not a log dump.
+> Certbot error — certbot talks to an ACME server (Let's Encrypt by default) through challenges to prove domain control. Failures cluster into: policy, DNS, HTTP reachability
 
 ## Mental model
 
@@ -45,8 +45,9 @@ journalctl -u certbot.timer
 ## Triage (error → cause → fix)
 
 | Error / symptom | Cause | Fix |
-|-----------------|-------|-----|
+
 | `Cannot issue for "x.example.com": forbidden by policy` | Name on LE blocklist (e.g. certain TLDs, `example.com`, typosquats) or reserved | Use a real public domain; remove invalid SANs from `-d` list |
+| --- | --- | --- |
 | `DNS problem: NXDOMAIN looking up A/AAAA for ...` | No public DNS record for challenge host | Add A/AAAA (http-01) or fix `_acme-challenge` TXT (dns-01) |
 | `Connection refused` / `Timeout during connect` on http-01 | Port 80 closed, wrong server, or LB not routing `/.well-known/acme-challenge/` | Open :80 to internet; nginx location for webroot; cloud SG / firewall |
 | `404` on acme-challenge | Wrong webroot `-w`; app catches all routes | `location ^~ /.well-known/acme-challenge/ { root /var/www/html; }` |

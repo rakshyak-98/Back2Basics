@@ -2,9 +2,7 @@
 
 # Buffer flags
 
-> State bits on kernel or driver buffers — track lifecycle (mapped, queued, dirty, done) so producers/consumers agree on who owns the memory.
-
----
+> Buffer flags — buffers move through a state machine. Flags encode that state without extra syscalls:
 
 ## Mental model
 
@@ -19,15 +17,13 @@ Buffers move through a **state machine**. Flags encode that state without extra 
 Flags appear at multiple layers:
 
 | Layer | Examples | Who sets |
-|-------|----------|----------|
+| --- | --- | --- |
 | **Page cache / buffer head** | dirty, locked, uptodate | Kernel VFS |
 | **Socket / pipe** | `O_NONBLOCK`, `MSG_DONTWAIT` | `fcntl`, send flags |
 | **V4L2 / DMA drivers** | `MAPPED`, `QUEUED`, `DONE`, `ERROR` | Driver + userspace ioctl |
 | **Rust / language** | `BytesMut` flags, `Vec` capacity vs len | Runtime |
 
 Confusion usually comes from mixing **fd flags** (`O_NONBLOCK`) with **buffer flags** (driver-specific bitmask) — different namespaces.
-
----
 
 ## Standard config / commands
 
@@ -67,18 +63,14 @@ grep Dirty /proc/meminfo
 # See [[buffer head]] for dirty writeback policy
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Dequeue returns empty forever | Buffer never transitioned to DONE | Re-queue after consume; check driver errors (`ERROR` flag) |
 | Use-after-free on mmap buffer | Dequeued while still MAPPED | Follow driver contract: unmap before free |
 | `EAGAIN` on read/write | `O_NONBLOCK` set on fd | Expected for [[non-blocking]]; poll then retry |
 | Stale frame / torn data | Reading buffer still QUEUED | Wait for DONE; double-buffering |
-
----
 
 ## Gotchas
 
@@ -91,13 +83,9 @@ grep Dirty /proc/meminfo
 > [!WARNING]
 > **Race: flag check without lock.** Producer sets DONE while consumer reads — use memory barriers or lockless ring design ([[Rolling Buffer]] / [[atomic ring buffer]]).
 
----
-
 ## When NOT to use
 
-Do not mirror driver flag semantics in app-level enums unless you own the full queue protocol — prefer explicit state enums in your domain layer and translate at the ioctl boundary.
-
----
+Do not mirror driver flag semantics in application-level enums unless you own the full queue protocol — prefer explicit state enums in your domain layer and translate at the ioctl boundary.
 
 ## Related
 

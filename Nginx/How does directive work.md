@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`** walks filesystem then named location. **`proxy_pass`** forwards to upstream. Order of **processing phases** (not file order) matters for rewrite vs access.
+**Say it in one breath:** configuration is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.
 
 ```
 request → server_name match → location longest prefix / regex → directives (try_files, proxy_pass, …)
@@ -55,7 +55,7 @@ sudo systemctl reload nginx
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong location block | `nginx -T` full dump | More specific `location`; `^~` to skip regex |
 | 404 static but file exists | `root` vs `alias` | `alias` strips location prefix; trailing slashes |
 | PHP downloads not executes | `location ~ \.php$` + fastcgi | Include fastcgi_params; correct `SCRIPT_FILENAME` |

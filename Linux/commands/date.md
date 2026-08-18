@@ -2,7 +2,7 @@
 
 # date
 
-> One-line: **GNU date arithmetic and formatting** — compute timestamps for certs, TTLs, cron windows, and log correlation. `-d` is GNU-specific; don't assume on Alpine/BusyBox.
+> date — reads/writes the system clock (via timedatectl / NTP underneath). For scripting, you care about format strings (+%s, +%Y-%m-%d) and relative parsing (-d "+7 days").
 
 ## Mental model
 
@@ -14,12 +14,24 @@ epoch ──date -d @N──► human (debug logs)
 ```
 
 | Flag / format | Meaning |
-|---------------|---------|
+
 | `-d STR` | Parse STR (GNU); relative or absolute |
+| --- | --- |
 | `-u` | UTC for output/parsing |
 | `+%s` | Unix epoch seconds |
 | `+%Y-%m-%dT%H:%M:%SZ` | ISO-8601 UTC (with `-u`) |
 | `-d @EPOCH` | Epoch → human |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **date** | Print/set time | “date -u for UTC.” |
+| --- | --- | --- |
+| **+format** | strftime | “date +%F_%H%M%S for stamps.” |
+| **-d** | Parse string | “date -d 'yesterday'.” |
+| **TZ** | Timezone env | “TZ=UTC date.” |
+| **timedatectl** | systemd time | “Prefer for set-timezone.” |
 
 ## Standard config / commands
 
@@ -60,7 +72,7 @@ timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `date: invalid date` | GNU vs BusyBox | Install `coreutils`; on macOS use `gdate` or python |
 | Off by hours in logs | `timedatectl`; `date +%Z` | TZ mismatch; set UTC on servers |
 | Cron ran "wrong" hour | `/etc/localtime`, DST | Use UTC in crontab for global fleets |
@@ -85,4 +97,4 @@ timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 
 ## Related
 
-[[Scripting]] [[crontab]] [[Linux system management]] [[journalctl]]
+[[Scripting]] [[crontab]] [[Linux system management]] [[NTP sync]] [[journalctl]]

@@ -2,7 +2,7 @@
 
 # mDNS
 
-> One-line: link-local multicast DNS for `.local` names without a central server — **RFC 6762** (Bonjour / Avahi).
+> mDNS — (multicast DNS) resolves hostnames on a local link via UDP 5353 to 224.0.0.251 (IPv4) / ff02::fb (IPv6). Queries and responses are multicast — any
 
 ## Mental model
 
@@ -52,7 +52,7 @@ sudo systemctl restart systemd-resolved
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `*.local` doesn't resolve | `avahi-daemon` running? VLAN isolation? | Enable mDNS on interface; ensure same L2 segment (no mDNS across routed VLANs without reflector) |
 | Works on Wi-Fi, not Ethernet | Different VLANs / AP client isolation | Move to same broadcast domain or deploy mDNS gateway/reflector (e.g. Avahi reflector, UniFi mDNS) |
 | Duplicate name conflicts | `avahi-browse -a` shows multiple same names | Rename host; Avahi appends `-2` suffix on conflict |
@@ -66,7 +66,7 @@ sudo systemctl restart systemd-resolved
 > **mDNS crosses trust boundaries poorly.** A compromised LAN device can spoof `printer.local` or `_ssh._tcp.local`. Never treat mDNS answers as authenticated.
 
 - **Not routable by default** — routers don't forward 224.0.0.251; cross-subnet needs explicit reflector/proxy.
-- **`.local` vs `.localdomain`** — macOS/iOS use `.local` for mDNS; don't register `.local` in public [[DNS zone]].
+- **`.local` versus `.localdomain`** — macOS/iOS use `.local` for mDNS; don't register `.local` in public [[DNS zone]].
 - **Docker bridge** isolates multicast — container won't see host mDNS without `network_mode: host` or macvlan.
 - **Wi-Fi multicast-to-unicast** conversion on some APs breaks discovery unless vendor fix enabled.
 

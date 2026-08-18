@@ -1,24 +1,62 @@
-is a consistency model used in [[Distributed computing]] to achieve high availability that informally guarantees
-- new updates are made to a given data item, all accesses to that item will return the last updated value.
-- Eventual consistency, also called *optimistic replication*
-- weak guarantee
-Most stronger models, like [[linerizability]] are trivially eventually consistent.
-## BASE
-Basically-Available Soft-state Eventual consistency
-### Basically available
-- reading and writing operations are available as much as possible (using all nodes of databases cluster)
-- might not be consistent (the write might not persist after conflict are reconciled, and the read might not get the latest write).
-### Soft-state
-- without consistency guarantees, after some amount of time, we only have some probability of knowing the state, since it might not yet have converged (to tend to meet in a point of line).
-### Eventually consistent
-- if we execute some writes and then the system functions long enough, we can know the state of the data, any further reads of the data item will return the same value.
-> [!NOTE] Eventually consistent
-> Eventual consistency is sometimes criticised as increasing the complexity of distributed software applications. An eventually consistent system can return any value before it converges.
+[[System Design]] [[distributed system]] [[Quorum]] [[cache system]]
 
-## Conflict resolution
-- ensure replica convergence, must reconcile differences between multiple copies of distributed data.
-1. exchanging versions or updates of data between servers (anti-entropy)
-2. choosing an appropriate final state when concurrent updates have occurred (reconciliation).
-- A widespread approach is "Last writes wins"
-- another is invoke a user-specified handler.
-- Timestamps and [vector clocks](#vecrot clocks) are often used to detect concurrency between updates.
+# Eventual consistency
+
+> Eventual consistency — replicas may disagree briefly after a write; if you stop writes, they converge to the same values.
+
+## Mental model
+
+**Say it in one breath:** AP-leaning systems acknowledge quickly, replicate async, and heal with read repair / anti-entropy. Users may see stale data for a window.
+
+```txt
+Write → replica A (ack)
+     ↘ async → replicas B,C  (later)
+Read may hit B early → stale
+```
+
+| Pattern | Example |
+| --- | --- |
+| DNS TTL | Old IP until cache expires |
+| Cache + DB | Invalidate/TTL |
+| Multi-master | CRDTs / LWW |
+| CQRS read models | Async projection |
+
+## Standard config / commands
+
+```txt
+Client strategies
+- Read-your-writes: sticky session / primary read
+- Monotonic reads: session consistency tokens
+- Tolerate stale: show “updating…” UX
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| User sees old profile | Replica lag / cache | Bypass cache; higher R; wait |
+| Never converges | Conflict policy missing | LWW/CRDT/merge; repair job |
+| “Lost” update | Concurrent writers | Version vectors; CAS |
+| Hot key lag | Single partition overload | Shard; buffer |
+| Billing mismatch | Wrong consistency tier | Stronger path for money |
+
+## Gotchas
+
+> [!WARNING]
+> **Eventual ≠ “who cares”** — define the SLA window and conflict rule.
+
+> [!WARNING]
+> **Caches without invalidation** — eternal eventual.
+
+> [!WARNING]
+> **Money/inventory** — usually need stronger consistency or reservations.
+
+## When NOT to use
+
+- **Bank ledgers / unique inventory** — use strong consistency or explicit reservation.
+- **Security policy flips** — don’t leave revoke eventually for long.
+- **Single-node application** — you already have “immediate.”
+
+## Related
+
+[[Quorum]] [[distributed system]] [[cache system]] [[Concurrent modification]]

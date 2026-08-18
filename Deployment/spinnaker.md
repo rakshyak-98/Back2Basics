@@ -4,8 +4,6 @@
 
 > Multi-cloud continuous delivery control plane — pipelines, bakes, deploy stages, and rollback — **Netflix OSS CD mental model**.
 
----
-
 ## Mental model
 
 Spinnaker separates **how artifacts are built** (CI: Jenkins, GitHub Actions) from **how they are promoted** (CD: pipelines with gates). A typical flow:
@@ -20,7 +18,7 @@ CI builds image → trigger Spinnaker pipeline
 ```
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | **Application** | Group of services (microservice boundary) |
 | **Pipeline** | DAG of stages with triggers |
 | **Bake** | Packer-style immutable image from base + package |
@@ -28,9 +26,7 @@ CI builds image → trigger Spinnaker pipeline
 | **Server group** | Homogeneous instances (ASG, K8s replica set abstraction) |
 | **Artifact** | Docker image, jar, deb — versioned reference from CI |
 
-**Orchestration vs execution:** Spinnaker orchestrates; clusters (EKS, GKE, Titus) execute. Clouddriver caches cloud state — stale cache causes scary UI drift.
-
----
+**Orchestration versus execution:** Spinnaker orchestrates; clusters (EKS, GKE, Titus) execute. Clouddriver caches cloud state — stale cache causes scary UI drift.
 
 ## Standard config / commands
 
@@ -77,8 +73,9 @@ spin pipeline execute --name deploy-prod --application myapp
 ### When Spinnaker vs Argo
 
 | Factor | Spinnaker | Argo CD / Rollouts |
-|--------|-----------|-------------------|
+
 | Multi-cloud ASG/Lambda | Strong | K8s-centric |
+| --- | --- | --- |
 | Complex promotion DAG | Native pipelines | Argo Workflows / separate CI |
 | GitOps desired state | Secondary (pipeline-driven) | Primary (manifest in Git) |
 | Ops burden | Heavy (multiple microservices) | Lighter for K8s-only shops |
@@ -86,12 +83,10 @@ spin pipeline execute --name deploy-prod --application myapp
 
 **Rule of thumb:** K8s-only + GitOps → **Argo**. Multi-cloud + legacy VM/ASG + rich pipelines → **Spinnaker**. Many teams: **Actions/Jenkins CI + Argo CD** and skip Spinnaker entirely.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Pipeline not triggering | Trigger config; artifact regex; CI webhook | Match tag pattern; verify echo/delivery config |
 | Deploy stuck "in progress" | Clouddriver logs; cloud quota | Kill stuck stage; refresh cache; fix IAM |
 | Wrong version deployed | Artifact pin vs `:latest` | Immutable tags; forbid floating latest in prod |
@@ -104,8 +99,6 @@ spin pipeline execute --name deploy-prod --application myapp
 kubectl -n spinnaker logs deploy/clouddriver --tail=200
 kubectl -n spinnaker logs deploy/orca --tail=200
 ```
-
----
 
 ## Gotchas
 
@@ -124,15 +117,11 @@ kubectl -n spinnaker logs deploy/orca --tail=200
 > [!WARNING]
 > **IAM too broad** — clouddriver creds with `*` — blast radius on compromise.
 
----
-
 ## When NOT to use
 
 - **Single small K8s cluster** — Argo CD + Helm sufficient.
 - **Serverless-only, few functions** — CI deploy per function adequate.
-- **Team without dedicated platform ops** — Spinnaker maintenance will stall feature work.
-
----
+- **Team without dedicated platform operations** — Spinnaker maintenance will stall feature work.
 
 ## Related
 

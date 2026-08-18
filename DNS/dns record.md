@@ -2,7 +2,7 @@
 
 # DNS record
 
-> Name → type → value mapping in a zone — A/AAAA/CNAME/TXT/MX with TTL controlling cache stickiness.
+> DNS record — resolvers cache answers per TTL (seconds). Lower TTL before changes = faster global cutover. CNAME can't apex @ on all providers (use ALIAS/ANAME
 
 ## Mental model
 
@@ -35,7 +35,7 @@ dig @8.8.8.8 yourdomain.com A    # bypass local cache
 ### Common record types
 
 | Type | Use |
-|------|-----|
+| --- | --- |
 | A / AAAA | Host → IPv4 / IPv6 |
 | CNAME | Alias hostname → hostname |
 | TXT | SPF, DKIM, domain verify |
@@ -45,7 +45,7 @@ dig @8.8.8.8 yourdomain.com A    # bypass local cache
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Old IP still resolves | TTL cache | Wait TTL; `dig @1.1.1.1` vs local |
 | Apex CNAME rejected | Provider rules | ALIAS record or A to load balancer |
 | Cert validation fails | `_acme-challenge` TXT | Add exact token; no extra quotes |

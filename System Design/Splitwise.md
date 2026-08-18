@@ -4,8 +4,6 @@
 
 > Expense-sharing system design — **groups, balances, debt simplification, notifications**; classic interview + real fintech patterns.
 
----
-
 ## Mental model
 
 **Splitwise-like** apps track **who paid** and **who owes whom** in **groups**. Core insight: store **atomic expenses** (who paid, split among whom) then **derive balances**; optionally **simplify debts** so A→B→C becomes A→C. Not a payment processor — **ledger + settlement tracking** unless integrated with Stripe/UPI.
@@ -19,16 +17,14 @@ Simplify: if A owes B $30 and B owes A $50 → net B owes A $20
 ```
 
 | Entity | Purpose |
-|--------|---------|
+| --- | --- |
 | **User** | Account, auth |
 | **Group** | Roommates, trip |
 | **Expense** | Amount, payer, splits, metadata |
 | **Balance** | Derived net between pair (or per group) |
 | **Settlement** | Payment recorded between users |
 
-Requirements from product: add/remove/update user; create group; add members; notify members; create expense; settle debt; **RBAC** (admin vs member).
-
----
+Requirements from product: add/remove/update user; create group; add members; notify members; create expense; settle debt; **RBAC** (administrator versus member).
 
 ## Standard config / commands
 
@@ -105,12 +101,10 @@ Only payer or admin can edit expense
 JWT sub = user_id ([[JWT authentication]])
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Balances don't zero after settle | Partial settlement math | Validate amount ≤ owed |
 | Split sum ≠ expense | Validation skipped | Reject POST if splits mismatch |
 | User sees other group | Missing authz filter | group_id membership check |
@@ -118,8 +112,6 @@ JWT sub = user_id ([[JWT authentication]])
 | Notification spam | One event per split | Batch "A added expense" once |
 | Currency mix | FX not in scope | One currency per group MVP |
 | Simplify confuses users | UX | Show both gross and net |
-
----
 
 ## Gotchas
 
@@ -138,15 +130,11 @@ JWT sub = user_id ([[JWT authentication]])
 > [!WARNING]
 > **Splitwise ≠ bank transfer** — clarify "recorded settlement" vs actual payment.
 
----
-
 ## When NOT to use
 
 - **Enterprise AP/AR** — use real accounting ERP; tax/invoicing rules differ.
 - **High-frequency trading ledger** — different consistency/latency model.
-- **Single-user budget app** — no group balance graph needed.
-
----
+- **Single-user budget application** — no group balance graph needed.
 
 ## Related
 

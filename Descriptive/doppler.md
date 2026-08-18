@@ -2,11 +2,11 @@
 
 # Doppler
 
-> Centralized secrets manager — sync API keys and env vars to dev/stage/prod without `.env` in git — **Doppler docs + production secret-rotation practice**.
+> Doppler — stores secrets in projects × configs (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
 
 ## Mental model
 
-Doppler stores secrets in **projects** × **configs** (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
+Doppler stores secrets in **projects** × **configs** (development/staging/production). The CLI or SDK injects values at runtime — nothing sensitive lives in the repository.
 
 ```
 Developer / CI
@@ -18,7 +18,7 @@ Developer / CI
 ```
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | **Project** | One app or service boundary |
 | **Config** | Environment slice (`dev`, `staging`, `prod`) |
 | **Secret** | Key/value; can reference other secrets |
@@ -71,7 +71,7 @@ doppler configure unset config
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Doppler Error: you must run doppler setup` | `doppler configure get project` | `doppler setup` in repo root |
 | App sees old secret after rotation | Process still running with old env | Restart process; `doppler run` picks up latest |
 | CI fails auth | Token scope / expiry | Regenerate service token; store in CI secret store |
@@ -89,7 +89,7 @@ doppler configure unset config
 
 ## When NOT to use
 
-- Static, non-sensitive config (feature flags, public URLs) — use normal config files or [[NodeJS/node-convict]].
+- Static, non-sensitive configuration (feature flags, public URLs) — use normal configuration files or [[NodeJS/node-convict]].
 - Air-gapped or strict data-residency without Doppler region support — use [[Security/KMS]] or Vault on-prem.
 - One-off local scripts where `.env.local` (gitignored) is simpler and the team agrees.
 

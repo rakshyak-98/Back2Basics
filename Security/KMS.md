@@ -2,7 +2,7 @@
 
 # KMS (Key Management Service)
 
-> **Managed encryption keys** — envelope encryption for AWS services and your apps; keys never leave HSM in plaintext. **AWS KMS docs** + outages when key policy and IAM both had to align.
+> KMS (Key Management Service) — managed keys for encrypting data; keys stay in the HSM.
 
 ## Mental model
 
@@ -61,7 +61,7 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `AccessDeniedException` on Decrypt | Key policy **and** IAM; VPC endpoint? | Add role to key policy; `kms:ViaService` conditions |
 | S3 SSE-KMS upload fail | Bucket default encryption key; key policy for S3 | Allow S3 service principal in key policy |
 | Lambda/RDS can't read secret | Secret encrypted with CMK; execution role lacks kms:Decrypt | Grant role on CMK used by Secrets Manager |
@@ -85,7 +85,7 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 
 ## When NOT to use
 
-- **App-level secrets in env vars without envelope** — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
+- **application-level secrets in environment variables without envelope** — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
 - **Password hashing** — KMS encrypt ≠ bcrypt/Argon2; use for **encryption at rest**, not password storage.
 - **High-frequency per-field encrypt on hot path without cache** — cost + latency; batch or use AES-GCM with rotated data keys.
 

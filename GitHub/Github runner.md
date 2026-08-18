@@ -13,7 +13,7 @@ Event → Workflow → Job(s) → Runner agent → Steps (checkout, build, deplo
 ```
 
 | Type | Pros | Cons |
-|------|------|------|
+| --- | --- | --- |
 | GitHub-hosted | Zero ops, clean slate | Shared pool, egress limits, no VPC |
 | Self-hosted | Private deps, GPUs, faster cache | You patch, secure, scale |
 
@@ -57,7 +57,7 @@ concurrency:
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Job queued forever | Runners offline in Settings | Start runner service; check `./run.sh` logs |
 | Self-hosted wrong user/env | Service account | Install runner as dedicated user; fix PATH |
 | Out of disk on hosted runner | Large artifacts/cache | Trim cache; use `actions/upload-artifact` retention |

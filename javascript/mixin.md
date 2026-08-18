@@ -1,55 +1,70 @@
-- class containing methods that can be used by other classes without a need to inherit from it.
-```javascript
-let sayHiMixin = {
-	sayHi() {
-		console.log(`Hello ${this.name}`);
-	},
-	sayBya() {
-		console.log(`Byte ${this.name}`);
-	}
-}
+[[javascript]] [[prototype]] [[Packages/Immer]]
 
-class User{
-	constructor(name){
-		this.name = name;
-	}
-}
+# mixin
 
-// no inheritance, simple method copying.
-Object.assign(User.prototype, sayHiMixin);
+> Copy or compose behavior into objects/classes — share methods without deep inheritance trees.
 
-new User("John").sayHi();
+## Mental model
+
+**Say it in one breath:** A mixin is a bag of methods you assign onto a prototype or fold into a class. Prefer composition (has-a) when possible; mixins when many types need the same behavior.
+
+```txt
+Object.assign(Target.prototype, editableMixin)
 ```
 
-> [!NOTE] `super` looks for parent methods in `[[HomeObject]].[[Prototype]]`
+### Interview map (words you can say)
 
-```javascript
-let sayMixin = {
-	say(phrase){
-		console.log(phrase);
-	}
+| Word | Plain meaning | Say in interview |
+
+| **mixin** | Reusable behavior fragment | “Horizontal reuse vs vertical inheritance.” |
+| --- | --- | --- |
+| **composition** | Own a helper object | “Often clearer than mixin.” |
+| **conflict** | Same method name | “Last assign wins — dangerous.” |
+
+## Standard config / commands
+
+```js
+const canSpeak = {
+  speak() { return this.phrase },
 }
+class Robot {}
+Object.assign(Robot.prototype, canSpeak)
 
-let sayHiMixin = {
-	__proto__: sayMixin,
-
-	sayHi(){
-		super.say(`Hello ${this.name}`);
-	},
-
-	sayBye(){
-		super.say(`Hello ${this.name}`);
-	}
+// Or functional
+const withSpeak = (Base) => class extends Base {
+  speak() { return this.phrase }
 }
-
-class User{
-	constructor(name){
-		this.name = name;
-	}
-}
-
-Object.assign(User.prototype, sayHiMixin);
-
-new User("Dude").sayHi();
 ```
 
+| Knob | Why it matters |
+
+| Assign to prototype | Shared methods |
+| --- | --- |
+| Instance assign | Per-object overrides |
+| TypeScript mixins | Constrained generics pattern |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Wrong `this` | Detached method | Call via object / bind |
+| Method clash | Two mixins same name | Rename; compose explicitly |
+| Hard to trace | Too many mixins | Prefer explicit helpers |
+| Broken instanceof expectations | Prototype soup | Document lineage |
+
+## Gotchas
+
+> [!WARNING]
+> **Order matters** — later `Object.assign` overwrites methods silently.
+
+> [!WARNING]
+> **Stateful mixins** — shared mutable props on prototype bite everyone.
+
+## When NOT to use
+
+- **One class needs the behavior** — just write a method.
+- **React** — hooks/HOCs replaced mixin era (`React.createClass` mixins are gone).
+
+## Related
+
+[[prototype]] [[React Pattern/Higher order Component (HOCs)]] [[Packages/Immer]]

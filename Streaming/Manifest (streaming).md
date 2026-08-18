@@ -2,9 +2,7 @@
 
 # Manifest (streaming)
 
-> Index file telling the player **what to fetch next** — **playlist orchestration**, not the media itself.
-
----
+> Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
 ## Mental model
 
@@ -21,14 +19,12 @@ Manifest refresh (live): poll interval ≈ segment duration / 2
 ```
 
 | Format | Files | Spec |
-|--------|-------|------|
+| --- | --- | --- |
 | **HLS** | `.m3u8` master + media | Apple HLS RFC 8216 |
 | **DASH** | `.mpd` | ISO 23009-1 — see [[MPD]] |
 | **Smooth / MSS** | Legacy | Avoid greenfield |
 
 **Master** manifest lists renditions; **media** manifest lists segment sequence for one rendition.
-
----
 
 ## Standard config / commands
 
@@ -90,12 +86,10 @@ ffmpeg -i in.mp4 -c copy -f hls -hls_time 4 -hls_list_size 0 -master_pl_name mas
 
 For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 403 on segments, manifest OK | Token not propagated to child URLs | Relative paths; CDN signed cookie |
 | Stuck on old live edge | CDN caching manifest | Lower TTL; `#EXT-X-SKIP` / correct `MEDIA-SEQUENCE` |
 | Player won't start VoD | `#EXT-X-ENDLIST` missing | Add ENDLIST for VoD event playlists |
@@ -103,8 +97,6 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 | CODECS mismatch | ffprobe vs manifest | Regenerate master from actual encode |
 | DRM fail | `#EXT-X-KEY` / ContentProtection | Align with [[DRM]] / [[EME]] |
 | Infinite manifest poll storm | `#EXT-X-TARGETDURATION` too low | Match max segment duration |
-
----
 
 ## Gotchas
 
@@ -120,15 +112,11 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 > [!WARNING]
 > **LL-HLS partial tags on non-LL players** — gate features by player capability.
 
----
-
 ## When NOT to use
 
 - **Progressive MP4 only** — single URL, no manifest; no ABR.
 - **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
-- **Embedding segment list in app** — manifests exist to update without app release.
-
----
+- **Embedding segment list in application** — manifests exist to update without application release.
 
 ## Related
 

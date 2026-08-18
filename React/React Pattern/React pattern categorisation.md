@@ -1,140 +1,72 @@
-| **Pattern**                   | **Example Components**                                | **Purpose**                                          |
-| ----------------------------- | ----------------------------------------------------- | ---------------------------------------------------- |
-| **Component Composition**     | `Button`, `Input`, `Card`, `Grid`                     | Reusability and SRP.                                 |
-| **HOCs**                      | `withAuth`, `withPagination`, `withLogging`           | Extend component functionality without modification. |
-| **Render Props**              | `DataFetcher`, `AnimationWrapper`, `DragDropProvider` | Share reusable logic between components.             |
-| **Compound Components**       | `Modal`, `Dropdown`, `Form`, `Tabs`                   | Modular and implicitly linked child components.      |
-| **Custom Hooks**              | `useFetch`, `useAuth`, `useTheme`                     | Encapsulate logic and improve testability.           |
-| **Provider Pattern**          | `AuthProvider`, `ThemeProvider`                       | Inject global dependencies or context.               |
-| **Factory Pattern**           | `WidgetFactory`, `FormFactory`                        | Dynamically create components or configurations.     |
-| **Portal Pattern**            | `Tooltip`, `Notification`, `Snackbar`                 | Render outside the DOM hierarchy.                    |
-| **Controller-Presentational** | `UserController`, `ProductList`                       | Separate logic-heavy and UI-heavy responsibilities.  |
+[[React Pattern]] [[React Pattern/Summary pattern]] [[React design patterns]]
 
----
-### Categorisation of Components Based on Design Patterns in React
+# React pattern categorisation
 
-In a large-scale React application with 2000+ components, Categorisation components by their responsibilities and aligning them with suitable design patterns ensures maintainability, scalability, and adherence to SOLID principles.
+> Map UI jobs to patterns — composition, hooks, compounds, providers — so a large codebase stays consistent.
 
----
+## Mental model
 
-#### **1. Component Composition (SRP, LSP)**
+**Say it in one breath:** Pick the pattern from the job: reuse UI → composition; reuse behavior → hooks/HOC/render props; shared subtree state → compound/provider; outside DOM → portal.
 
-- **Purpose**: Break down complex UI into smaller, reusable components.
-- **Example Components**:
-    - **UI Components**:
-        - `Button`, `Input`, `Card`, `Avatar`, `Badge`
-    - **Layout Components**:
-        - `Grid`, `Row`, `Column`, `Container`
+```txt
+Job → Pattern → Example
+UI atoms → Composition → Button, Grid
+Cross-cut → HOC / hook → withAuth, useAuth
+Flexible UI + logic → Render props / hooks
+Linked parts → Compound → Tabs, Form.Field
+App-wide deps → Provider → Theme, Auth
+```
 
----
+### Interview map (words you can say)
 
-#### **2. Higher-Order Components (HOCs) (OCP, DIP)**
+| Pattern | Plain meaning | Say in interview |
 
-- **Purpose**: Reuse functionality across multiple components.
-- **Example Components**:
-    - **Authentication**:
-        - `withAuth`, `withRoleCheck`
-    - **Enhancements**:
-        - `withLogging`, `withErrorBoundary`
-    - **Data Fetching**:
-        - `withDataFetch`, `withPagination`
+| **Composition** | Nest small components | “Prefer over inheritance.” |
+| --- | --- | --- |
+| **HOC** | Wrap to inject behavior | “Easy wrapper hell — prefer hooks.” |
+| **Render props** | Logic calls `children(fn)` | “Mostly replaced by hooks.” |
+| **Compound** | Parts share context | “Declarative `<Tabs>` API.” |
+| **Provider** | Inject deps down tree | “Theme, auth, query client.” |
+| **Portal** | Render elsewhere in DOM | “Modals, toasts, tooltips.” |
+| **Container/Presentational** | Logic vs UI split | “Or just a hook + dumb UI.” |
 
----
+## Standard config / commands
 
-#### **3. Render Props (OCP, ISP)**
+| Pattern | Example components |
 
-- **Purpose**: Share complex logic via a render prop function.
-- **Example Components**:
-    - **Data Fetching**:
-        - `DataFetcher`, `QueryHandler`
-    - **Animations**:
-        - `AnimationWrapper`, `TransitionGroup`
-    - **Utilities**:
-        - `DragDropProvider`, `TooltipProvider`
+| Composition | `Button`, `Card`, `Grid` |
+| --- | --- |
+| HOC | `withAuth`, `withErrorBoundary` |
+| Render props | `DataFetcher` (legacy) |
+| Compound | `Modal`, `Dropdown`, `Tabs` |
+| Hooks | `useFetch`, `useModal` |
+| Provider | `AuthProvider`, `ThemeProvider` |
+| Factory | `WidgetFactory` (dynamic config) |
+| Portal | `Tooltip`, `Snackbar` |
+| Container/Presentational | `UserController` + `UserCard` |
 
----
+## Triage (when things break)
 
-#### **4. Compound Components (SRP, LSP)**
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Wrapper hell | Stacked HOCs | Convert to hooks |
+| Prop drilling 8 levels | No provider/compound | Context or compound API |
+| Inconsistent patterns per feature | No team map | Document “pattern per job” |
+| Untestable UI | Logic in presentational | Extract hook/container |
 
-- **Purpose**: Enable multiple child components to work together with implicit relationships.
-- **Example Components**:
-    - **UI/Interactive Components**:
-        - `Modal`, `Dropdown`, `Tabs`, `Accordion`
-    - **Form Components**:
-        - `Form`, `Form.Input`, `Form.Button`
-    - **Chart Components**:
-        - `Chart`, `Chart.Axis`, `Chart.Tooltip`
+## Gotchas
 
----
+> [!WARNING]
+> **Don’t assign SOLID labels as cargo cult** — pattern follows the reuse problem.
 
-#### **5. Custom Hooks (DIP, ISP)**
+> [!WARNING]
+> **HOCs + render props still appear in interviews** — know them; ship hooks.
 
-- **Purpose**: Encapsulate shared stateful logic for reusability.
-- **Example Components**:
-    - **State Management**:
-        - `useAuth`, `useTheme`, `useUserSettings`
-    - **API/Data Fetching**:
-        - `useFetch`, `usePagination`, `useSearch`
-    - **UI Logic**:
-        - `useModal`, `useDragDrop`, `useHover`
+## When NOT to use
 
----
+- **Greenfield tiny application** — composition + hooks cover 90%.
+- **Forcing a factory** — only when configuration truly drives component choice.
 
-#### **6. Provider Pattern (DIP)**
+## Related
 
-- **Purpose**: Inject global dependencies or states into components.
-- **Example Components**:
-    - **Global State**:
-        - `AuthProvider`, `ThemeProvider`, `LocalizationProvider`
-    - **Feature Flags**:
-        - `FeatureFlagProvider`, `ExperimentProvider`
-
----
-
-#### **7. Factory Pattern (SRP, OCP)**
-
-- **Purpose**: Dynamically create or configure components based on requirements.
-- **Example Components**:
-    - **Dynamic UI**:
-        - `WidgetFactory`, `FormFactory`
-    - **Themed Components**:
-        - `ButtonFactory`, `ChartFactory`
-
----
-
-#### **8. Portal Pattern (ISP, DIP)**
-
-- **Purpose**: Render components outside the main DOM hierarchy.
-- **Example Components**:
-    - **Modals/Overlays**:
-        - `Tooltip`, `Popover`, `Modal`
-    - **System-Level Notifications**:
-        - `Notification`, `Snackbar`
-
----
-
-#### **9. Controller and Presentational Pattern (SRP)**
-
-- **Purpose**: Separate logic-heavy and UI-heavy responsibilities.
-- **Example Components**:
-    - **Controller Components**:
-        - `UserController`, `ProductController`
-    - **Presentational Components**:
-        - `UserCard`, `ProductList`
-
----
-### Suggestions:
-
-1. **Keep Composition Flexible**:
-    - Prefer composition over rigid hierarchies to make components reusable.
-2. **Avoid Overusing HOCs**:
-    - Use HOCs sparingly to avoid "wrapper hell."
-3. **Document Patterns**:
-    - Maintain a living style guide documenting which pattern applies to each feature.
-4. **Utilize Linting and Testing**:
-    - Ensure SRP and ISP compliance through static analysis and unit tests.
-
-
-## Container-Presentational Pattern
-- Container Component: Manages state, logic, and API calls. 
-- Presentational Component: Focuses on rendering UI based on props.
+[[React Pattern/Summary pattern]] [[React Pattern/Higher order Component (HOCs)]] [[Render props]] [[React Pattern/Provider pattern]] [[React Pattern/Compound Components]]

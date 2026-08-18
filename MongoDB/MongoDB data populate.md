@@ -1,58 +1,63 @@
-## Populating faker data using `faker-js`
+[[MongoDB]] [[mongoose/mongoose]] [[query/mongodb lookup query]]
 
-```ts
-import mongoose from "mongoose";
-import { faker } from "@faker-js/faker";
+# MongoDB data populate
 
-// MongoDB connection
-mongoose.connect("mongodb://127.0.0.1:27017/your_db_name", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+> Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
-// Define Product Schema
-const productSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  productId: { type: String, default: null },
-  image: { type: String, required: true },
-  title: { type: String, required: true },
-  price: { type: Number, required: true },
-  originalPrice: { type: Number, required: true },
-  rating: { type: Number, required: true },
-  category: { type: String, default: null },
-  productType: { type: String, enum: ["class", "product"], default: "product" },
-});
+## Mental model
 
-const Product = mongoose.model("Product", productSchema);
+**Say it in one breath:** Store refs as ids; `.populate('author')` runs follow-up queries (or a `$lookup`) and stitches results.
 
-// Generate Fake Products
-const generateFakeProducts = (count = 10) => {
-  return Array.from({ length: count }, () => ({
-    id: faker.string.uuid(),
-    productId: faker.string.uuid(),
-    image: faker.image.url(),
-    title: faker.commerce.productName(),
-    price: parseFloat(faker.commerce.price({ min: 10, max: 500 })),
-    originalPrice: parseFloat(faker.commerce.price({ min: 500, max: 1000 })),
-    rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
-    category: faker.commerce.department(),
-    productType: faker.helpers.arrayElement(["class", "product"]),
-  }));
-};
-
-// Insert Fake Data
-const seedDatabase = async () => {
-  try {
-    const fakeProducts = generateFakeProducts(20); // Generate 20 fake products
-    await Product.insertMany(fakeProducts);
-    console.log("Fake products inserted successfully!");
-  } catch (error) {
-    console.error("Error inserting fake products:", error);
-  } finally {
-    mongoose.connection.close(); // Close connection
-  }
-};
-
-seedDatabase();
-
+```txt
+Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **ref** | Path points at another model | “`ref: 'User'` on the schema.” |
+| --- | --- | --- |
+| **populate** | Hydrate refs | “Extra query unless you aggregate.” |
+| **select** | Limit fields | “Don’t pull whole user.” |
+| **vs `$lookup`** | Aggregation join | “Prefer `$lookup` for heavy reports.” |
+
+## Standard config / commands
+
+```js
+const post = await Post.findById(id).populate('author', 'name email')
+await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
+```
+
+| Knob | Why it matters |
+
+| Field select | Payload size |
+| --- | --- |
+| Lean | Faster plain objects |
+| Match/options | Filter populated set |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| null after populate | Bad id / wrong ref | Fix ObjectId; check model name |
+| N+1 slowness | Many populates | `$lookup` or batch |
+| Huge payloads | No select | Project fields |
+| Circular populate | A↔B depth | Cap depth; redesign |
+
+## Gotchas
+
+> [!WARNING]
+> **Populate is not free** — lists with nested populate can explode query count.
+
+> [!WARNING]
+> **Missing refs become null** — orphan ids fail quietly.
+
+## When NOT to use
+
+- **Analytics joins** — aggregation `$lookup`.
+- **Data always read together** — embed instead of reference.
+
+## Related
+
+[[mongoose/mongoose]] [[query/mongodb lookup query]] [[mongodb denormalization]]

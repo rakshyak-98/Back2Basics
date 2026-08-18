@@ -2,7 +2,7 @@
 
 # SCP (Secure Copy Protocol)
 
-> One-line: file copy over SSH — reuses sshd auth and encryption; prefer `rsync -e ssh` or SFTP for large/recursive transfers with resume.
+> SCP (Secure Copy Protocol) — SCP wraps SSH transport: authenticate like ssh, then copy files over encrypted channel. Syntax mirrors cp with remote user@host:path. Not a
 
 ## Mental model
 
@@ -62,7 +62,7 @@ sftp> get /remote/log.txt .
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Permission denied (publickey) | SSH key agent | `ssh-add -l`; correct `-i` key; `authorized_keys` |
 | Host key verification failed | Known_hosts mismatch | Verify fingerprint; update known_hosts carefully |
 | Stalled mid-transfer | Network drop | Use rsync; `ServerAliveInterval` in ssh config |

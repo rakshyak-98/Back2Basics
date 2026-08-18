@@ -2,11 +2,11 @@
 
 # Docker compose
 
-> Multi-container apps as declarative YAML — `docker compose` v2 is a Docker CLI plugin, not a separate Python binary — Compose spec + **Docker Deep Dive** (Poulton).
+> Docker compose — compose orchestrates one host / one stack (dev, CI, small prod). Not a cluster scheduler — that's Kubernetes.
 
 ## Mental model
 
-Compose orchestrates **one host / one stack** (dev, CI, small prod). Not a cluster scheduler — that's Kubernetes.
+Compose orchestrates **one host / one stack** (development, CI, small production). Not a cluster scheduler — that's Kubernetes.
 
 ```
 docker compose up
@@ -104,7 +104,7 @@ docker compose down -v         # also removes named volumes — destructive
 
 ### depends_on + healthchecks
 
-**Without `condition: service_healthy`**, `depends_on` only waits for container *start*, not app ready — race on first request.
+**Without `condition: service_healthy`**, `depends_on` only waits for container *start*, not application ready — race on first request.
 
 ```yaml
 depends_on:
@@ -117,19 +117,19 @@ depends_on:
 ### Networks
 
 | Pattern | Use |
-|---------|-----|
+| --- | --- |
 | Default bridge per project | Service DNS `servicename` |
 | `networks: [frontend, backend]` | Split public nginx from internal API |
 | `external: true` | Join pre-created network (shared reverse proxy) |
 
 ### Secrets (compose-native)
 
-Prefer `secrets:` + `_FILE` env vars over plaintext in `environment:`. Swarm mode mounts secrets; standalone compose bind-mounts secret file read-only.
+Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment:`. Swarm mode mounts secrets; standalone compose bind-mounts secret file read-only.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `connection refused` between services | `docker compose ps`; wrong service name | Use service name not `localhost` cross-container |
 | Works once, fails on restart | No healthcheck; app starts before DB | `condition: service_healthy` |
 | Config change ignored | Old container running | `docker compose up -d --force-recreate` |
@@ -147,8 +147,8 @@ Prefer `secrets:` + `_FILE` env vars over plaintext in `environment:`. Swarm mod
 > [!WARNING]
 > **`restart: always` on dev laptop** — Docker daemon restart resurrects everything; port conflicts at boot.
 
-- **`version:` key deprecated** — Compose Spec doesn't require it; remove `version: '3.8'` from new files.
-- **`.env` committed with prod creds** — compose auto-loads `.env`; gitignore it.
+- **`version:` key deprecated** — Compose specification doesn't require it; remove `version: '3.8'` from new files.
+- **`.env` committed with production credentials** — compose auto-loads `.env`; gitignore it.
 - **`build:` without pinned base image digest** — reproducibility drift.
 - **`depends_on` ≠ orchestration** — no rolling update, no auto-heal beyond restart policy; use K8s/swarm for that.
 - **Resource limits in compose** — `deploy.resources` applies in Swarm; for standalone use `mem_limit` / `cpus` (compose v2 supports both patterns — verify with `docker compose config`).
@@ -157,7 +157,7 @@ Prefer `secrets:` + `_FILE` env vars over plaintext in `environment:`. Swarm mod
 
 - **Multi-node HA, PDB, autoscaling** — [[kubectl]] / Kubernetes.
 - **Secret rotation at scale** — Vault, cloud SM, not flat files on disk.
-- **Compose in prod at large scale** — OK for single-node edge/small SaaS; plan migration path early.
+- **Compose in production at large scale** — OK for single-node edge/small SaaS; plan migration path early.
 
 ## Related
 

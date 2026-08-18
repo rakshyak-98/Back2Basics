@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in config. Only load what you need: fewer modules = smaller attack surface and memory.
+Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in configuration. Only load what you need: fewer modules = smaller attack surface and memory.
 
 ```
 httpd binary
@@ -36,7 +36,7 @@ sudo systemctl reload apache2
 ### Typical production set
 
 | Module | Purpose |
-|--------|---------|
+| --- | --- |
 | `mpm_event` | Concurrent requests (with PHP-FPM, not prefork+mod_php) |
 | `ssl` | TLS termination |
 | `rewrite` | Pretty URLs |
@@ -52,7 +52,7 @@ LoadModule rewrite_module modules/mod_rewrite.so
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `Invalid command 'RewriteRule'` | mod_rewrite loaded? | `a2enmod rewrite` |
 | Apache won't start after enable | `apachectl configtest` | Fix LoadModule order; missing .so |
 | PHP works, static 403 | Directory permissions | `Require all granted` + filesystem perms |

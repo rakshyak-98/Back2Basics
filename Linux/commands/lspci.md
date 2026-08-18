@@ -2,7 +2,7 @@
 
 # lspci
 
-> One-line: list **PCI/PCIe devices** attached to the CPU — NICs, GPUs, storage controllers, USB bridges. **First step for "does the kernel see my hardware?"**
+> lspci — the kernel discovers PCI devices at boot and exposes them in /sys/bus/pci/devices/. lspci reads that tree and resolves vendor/device IDs via the pci.ids database.
 
 ## Mental model
 
@@ -15,13 +15,24 @@ lspci ──► /sys/bus/pci ──► vendor:device ID ──► human name (pc
 ```
 
 | Flag | Purpose |
-|------|---------|
+| --- | --- |
 | `-v` | Verbose — driver, module, capabilities |
 | `-vv` | Very verbose — config space details |
 | `-k` | Show kernel driver handling each device |
 | `-t` | Tree view — buses/bridges hierarchy |
 | `-s <slot>` | Single device (`0000:03:00.0`) |
 | `-n` | Numeric IDs only (no pci.ids lookup) |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **lspci** | List PCI devices | “lspci -nnk shows IDs + driver.” |
+| --- | --- | --- |
+| **-k** | Kernel driver | “Who bound this GPU/NIC?” |
+| **-v** | Verbose | “IRQ, memory BARs.” |
+| **vendor:device** | Hardware IDs | “Match firmware/driver quirks.” |
+| **rescan** | Hotplug | “echo 1 > …/rescan after add.” |
 
 ## Standard config / commands
 
@@ -66,7 +77,7 @@ dmesg | grep -i '03:00.0'
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | GPU not in `nvidia-smi` | `lspci \| grep -i nvidia` | Reseat; IOMMU/ACS; driver install; `dmesg` |
 | NIC missing | `lspci -k` | Enable in BIOS; passthrough conflict; driver module |
 | "Unknown device" | `lspci -n` | Update pci.ids; new hardware needs newer kernel |
@@ -93,7 +104,7 @@ dmesg | grep -i '03:00.0'
 - **USB peripherals** → `lsusb`.
 - **CPU/RAM inventory** → [[dmidecode]].
 - **Block device health** → `smartctl`, `nvme cli`.
-- **Network config** → [[ip]], [[ss]] — lspci only finds the card.
+- **Network configuration** → [[ip]], [[ss]] — lspci only finds the card.
 
 ## Related
 

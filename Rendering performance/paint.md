@@ -27,7 +27,7 @@ Changing a **layout property** forces layout **then** paint. Changing **color** 
 ### Property cost (rule of thumb)
 
 | Cheap (composite) | Medium (paint) | Expensive (layout+paint) |
-|-------------------|----------------|---------------------------|
+
 | `transform`, `opacity` | `background-color`, `box-shadow` | `width`, `top`, `font-size` |
 
 ### Reduce paint area
@@ -70,7 +70,7 @@ function updateVisual(state) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Full-screen green flash | Whole page repaints | Reduce layer count; fix hover rules on `*` |
 | Memory climb | Too many layers | Remove excessive `will-change` |
 | Text blurry after animate | Subpixel transform | Snap to integer px |

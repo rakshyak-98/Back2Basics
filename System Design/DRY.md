@@ -4,8 +4,6 @@
 
 > Single source of truth for knowledge — **dedupe logic and config**, not every similar-looking line.
 
----
-
 ## Mental model
 
 **DRY** means every piece of **knowledge** (business rule, schema, validation) should have **one authoritative representation**. Change the rule once — it propagates everywhere. Confusing DRY with **"never duplicate code"** leads to premature abstractions that couple unrelated features.
@@ -19,15 +17,14 @@ Healthy DRY:
 ```
 
 | Repeat type | DRY response | Anti-pattern |
-|-------------|--------------|--------------|
+
 | **Business rule** | Shared module / service | Copy-paste in 5 repos |
+| --- | --- | --- |
 | **Schema** | OpenAPI / protobuf single gen | Hand-written DTOs |
 | **Config** | Env + IaC variables | Hardcode in each service |
 | **Similar UI layout** | Component library | 200-line "helper" for 2 callers |
 
 **Divide system into pieces** with clear boundaries — reuse **across** boundaries via contracts, not `#include` everything ([[KISS]]).
-
----
 
 ## Standard config / commands
 
@@ -84,20 +81,16 @@ Not: "these 3 lines look similar" on first sight
 □ Will teams deploy independently if shared lib changes?
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Inconsistent behavior UI vs API | Forked validation | Extract shared validator; API owns truth |
 | Bug fixed in one service only | Copy-paste logic | Search repo; centralize |
 | Shared lib breaks all services | Tight coupling | Version lib semver; avoid breaking changes |
 | "God module" imports | Over-DRY | Split by domain boundary |
 | Config drift prod/stage | Duplicate env files | Single template + env overlay |
 | Generated code edited by hand | Regen overwrite | Fix generator source |
-
----
 
 ## Gotchas
 
@@ -116,15 +109,11 @@ Not: "these 3 lines look similar" on first sight
 > [!WARNING]
 > **Long methods "because DRY"** — split readable methods; extract only real duplication.
 
----
-
 ## When NOT to use
 
 - **Exploratory prototype** — duplication acceptable until pattern stabilizes.
-- **Cross-team library for one constant** — copy or config service.
+- **Cross-team library for one constant** — copy or configuration service.
 - **Identical syntax, different domain meaning** — forcing merge creates wrong coupling.
-
----
 
 ## Related
 

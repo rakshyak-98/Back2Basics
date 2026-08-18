@@ -1,113 +1,71 @@
-### **1. Using `explain()` Method**
+[[MongoDB]] [[mongodb schema]] [[mongodb shell]]
 
-The `explain()` method provides detailed insights into query execution, including index usage, scanned documents, and execution time.
+# MongoDB query validation
 
-#### Modes of `explain()`:
+> Collection validators reject bad writes — JSON Schema (or operators) enforced by the server.
 
-1. **Query Planner**: Shows the query plan MongoDB considered.
-2. **Execution Stats**: Provides detailed statistics about the execution.
-3. **All Plans Execution**: Shows stats for all considered query plans.
+## Mental model
 
-#### Example:
+**Say it in one breath:** Attach rules to a collection; inserts/updates that fail the schema get an error (or a warning).
 
-```javascript
-db.collection.find({ fieldName: "value" }).explain("executionStats");
+```txt
+write → validator ($jsonSchema) → accept | reject
 ```
 
-#### Key Metrics:
+### Interview map (words you can say)
 
-- **`nReturned`**: Number of documents returned by the query.
-- **`totalKeysExamined`**: Number of index keys scanned.
-- **`totalDocsExamined`**: Number of documents scanned.
-- **`executionTimeMillis`**: Total time taken by the query (in milliseconds).
-- **`indexName`**: Index used for the query.
+| Word | Plain meaning | Say in interview |
 
----
+| **`$jsonSchema`** | Draft-ish schema for BSON | “required, bsonType, pattern…” |
+| --- | --- | --- |
+| **`validationAction`** | error vs warn | “warn while backfilling.” |
+| **`validationLevel`** | strict vs moderate | “moderate skips already-invalid docs.” |
+| **collMod** | Change validator later | “Evolve without recreate.” |
 
-### **2. Monitoring Tools**
+## Standard config / commands
 
-MongoDB provides tools to monitor query performance across the database.
+```js
+db.runCommand({
+  collMod: 'users',
+  validator: { $jsonSchema: {
+    bsonType: 'object',
+    required: ['email'],
+    properties: { email: { bsonType: 'string' } },
+  }},
+  validationLevel: 'moderate',
+  validationAction: 'error',
+})
+```
 
-#### MongoDB Atlas (Cloud):
+| Knob | Why it matters |
 
-- Use the **Performance Advisor** to identify slow queries and suggest indexes.
-- Analyze the **Query Profiler** to inspect query logs and find slow operations.
+| moderate | Lets old bad docs update other fields |
+| --- | --- |
+| warn | Observe without blocking |
+| App + server validation | Defense in depth |
 
-#### MongoDB Compass (GUI):
+## Triage (when things break)
 
-- View slow queries, examine performance, and analyze index coverage.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Document failed validation | error details / schema | Fix payload or schema |
+| Legacy writes blocked | strict + old docs | moderate + migrate |
+| Validator too weak | only app checks | Add server schema |
+| Silent bad data | action=warn | Flip to error after cleanup |
 
-#### Database Profiler:
+## Gotchas
 
-- Logs detailed query execution information.
-- Enable the profiler for deeper insights:
-    
-    ```javascript
-    db.setProfilingLevel(2); // 0: Off, 1: Slow ops, 2: All ops
-    db.system.profile.find(); // Access profiling logs
-    ```
-    
+> [!WARNING]
+> **Validators don’t migrate history** — old docs stay wrong until you rewrite them.
 
----
+> [!WARNING]
+> **Complex `$jsonSchema`** — hard to read; keep rules minimal and clear.
 
-### **3. Aggregating Logs for Analysis**
+## When NOT to use
 
-You can collect and analyze query logs to find slow operations.
+- **Highly polymorphic events** — validate in the producer instead.
+- **One-off scratch collections** — skip until shape stabilizes.
 
-- **Slow Queries Log**: Configure `slowms` to log queries taking longer than a specific time:
-    
-    ```javascript
-    db.setProfilingLevel(1, { slowms: 50 }); // Log queries slower than 50ms
-    ```
-    
-- **Export Logs**: Analyze using tools like Kibana or custom scripts.
-    
+## Related
 
----
-
-### **4. Load Testing**
-
-To test query performance under different loads:
-
-- Use tools like **JMeter**, **Gatling**, or **k6**.
-- Simulate concurrent read/write queries.
-- Evaluate latency, throughput, and resource utilization.
-
----
-
-### **5. Key Performance Metrics**
-
-#### a. Query Efficiency:
-
-- High `totalDocsExamined` relative to `nReturned` indicates poor efficiency.
-- Use indexing to reduce the ratio.
-
-#### b. Index Utilization:
-
-- Ensure queries leverage indexes by analyzing the `indexName` field in `explain()`.
-
-#### c. Latency:
-
-- Measure `executionTimeMillis`. Optimize queries if latency exceeds thresholds.
-
-#### d. Write Performance:
-
-- Monitor write operations. Excessive indexes may increase write latency.
-
----
-
-### **6. Performance Optimization Tips**
-
-1. **Optimize Query Patterns**:
-    
-    - Avoid full collection scans; use indexed fields in filters.
-    - Limit returned fields using projections.
-2. **Index Strategies**:
-    
-    - Use compound indexes for combined filters.
-    - Drop unused indexes to save resources.
-3. **Analyze Sharding**:
-    
-    - Distribute data effectively to reduce query hotspots in sharded clusters.
-
----
+[[mongodb schema]] [[mongodb migration]] [[mongodb shell]]

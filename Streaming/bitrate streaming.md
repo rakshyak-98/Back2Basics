@@ -4,8 +4,6 @@
 
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
----
-
 ## Mental model
 
 **Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.
@@ -20,14 +18,12 @@ Player buffer ──► picks rung from throughput + buffer health
 ```
 
 | Term | Meaning |
-|------|---------|
+| --- | --- |
 | **CBR** | Target constant bitrate — predictable CDN cost; live broadcast |
 | **VBR** | Variable within cap — better quality per bit |
 | **CRF** | Quality target per encode pass — VOD file size varies ([[CRF (Constant Rate Factor)]]) |
 | **GOP** | Keyframe interval — must align across ladder for clean ABR switch |
 | **Segment duration** | HLS typically 2–6s — trades startup vs switch latency |
-
----
 
 ## Standard config / commands
 
@@ -78,26 +74,22 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 
 `BANDWIDTH` must include **video + audio + mux overhead** — player overestimates need if wrong → unnecessary downswitch.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Constant rebuffering | CDN logs; player bandwidth estimate | Add lower rung; reduce segment duration slightly |
 | Never reaches top rung | `BANDWIDTH` inflated in manifest | Recalculate; include audio |
 | Quality cliff between rungs | Bitrate gap too large | Insert intermediate rung |
 | ABR switch flicker | GOP misaligned | Re-encode with fixed GOP; `-sc_threshold 0` |
 | Blurry on motion | CRF too high / low bitrate cap | Raise cap or lower CRF on that rung |
 | Audio sync drift | Separate audio renditions | Use same segment boundaries; packaged audio per variant |
-| Live uplink unstable | Encoder CBR exceeding link | Drop rung count; [[NVENC]] hardware; SRT with ARQ |
+| Live uplink unstable | Encoder CBR exceeding link | Drop rung count; [[NVENC]] hardware; [[SRT]] with ARQ |
 
 ```bash
 ffprobe -show_streams -select_streams v manifest.m3u8
 mediainfo segment000.ts
 ```
-
----
 
 ## Gotchas
 
@@ -119,15 +111,11 @@ mediainfo segment000.ts
 > [!WARNING]
 > **Audio-only HLS variant forgotten** — accessibility + ultra-low bandwidth path missing.
 
----
-
 ## When NOT to use
 
 - **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
 - **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
 - **20-rung ladder** — storage/CDN cost; diminishing returns beyond ~5–6 rungs.
-
----
 
 ## Related
 

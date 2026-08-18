@@ -4,8 +4,6 @@
 
 > Thermal Design Power — watts of heat the cooling solution must dissipate at the vendor's reference workload; not peak power, not idle power.
 
----
-
 ## Mental model
 
 **TDP** is a **cooling design label**, not a hard electrical cap:
@@ -19,8 +17,6 @@ Actual idle           →  far below TDP
 Relates to **[[base clock speed]]** — all-core base assumes CPU stays within TDP at stock cooler. Laptops and datacenters **power-limit** CPUs below or above sticker TDP via BIOS/ACPI/cgroup.
 
 **Service impact:** dense VMs on oversubscribed hosts — neighbor turbo steals power budget; sustained builds throttle when package temperature hits TJmax.
-
----
 
 ## Standard config / commands
 
@@ -51,20 +47,16 @@ lscpu
 # Compare benchmark under load vs idle
 ```
 
-**Why care in K8s:** Bursty jobs on same node raise package temp → **shared frequency drop** for all pods on socket.
-
----
+**Why care in K8s:** Bursty jobs on same node raise package temporary → **shared frequency drop** for all pods on socket.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Performance cliff after minutes | Thermal throttle | Improve airflow; repaste; lower PL1; spread load |
 | Laptop fans spin under "light" load | Background AVX (browser, ML lib) | Power profile balanced; limit threads |
 | Datacenter hot aisle | Inlet temp > spec | Fix CRAC; blanking panels; workload shift |
 | Spec TDP vs bill mismatch | Actual draw >> TDP label | Size PSU/cooling to **measured** peak, not sticker |
-
----
 
 ## Gotchas
 
@@ -77,13 +69,9 @@ lscpu
 > [!WARNING]
 > **VMs hide physical TDP** — noisy neighbor is thermal/power contention, not your cgroup CPU limit alone.
 
----
-
 ## When NOT to use
 
 Don't size datacenter power purely on summed CPU TDP labels — measure **actual rack draw** (PDU meters) including memory, NICs, and GPUs.
-
----
 
 ## Related
 

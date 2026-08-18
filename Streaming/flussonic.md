@@ -1,99 +1,152 @@
-Flussonic specific jobs:
-1. Receives stream -> Takes your UDP input `udp://<private ip>:<port>`>
-2. Gets keys from DoveRunner -> Retrieves encryption keys `aes_key` `iv` `key_id`
-3. Encrypts content -> Applies Widevine encryption to the stream
-4. Package output -> Generates DASH/HLS manifest with encryption metadata (PSSH)
-5. Serves encryption stream -> Streams at `http://<private ip>:<port>/<content id>/dash.mpd`
+[[Streaming]] [[DRM]] [[DASH]] [[HLS]] [[MPEG-TS]] [[Pallycon(DoveRunner)]] [[ingestion]]
 
+# flussonic
 
-> [!INFO]
-> DoveRunner role -> Generates keys and later provides license tokens to players
-> Players role -> Requests license from DovRunner, decrypts using license, plays video
+> Media server that ingests live UDP/SRT/RTMP, packages HLS/DASH, and can encrypt with DRM keys — the packaging edge in front of players.
 
-> [!NOTE]
-> Without Flussonic -> Your stream would be unencrypted. Flussonic is the encryption/packaging layer.
+## Mental model
 
-### License tokens
-
-license tokens -> authorize specific players/users to encrypt the encrypted content.
-
-**Why you need them**:
-1. Encryption key stays secret -> Flussonic encrypts with keys from DovRunner, but players don't have the key
-2. Player requests playback -> Player asks DovRunner: "Can I play this?"
-3. DovRunner validates -> Checks if user/device is authorized.
-4. DovRunner issues license -> A token containing: Decryption key, User/device ID, Content restrictions (which content can be played), time limits (expiry), Usage rights (stream/download/offline)
-5. Player decrypts and plays -> Using the licensed key.
-
-Without license token
-- Anyone with the encrypted stream could extract the key and decrypt it.
-- No control over who watches, how many times, or for how long.
-- Piracy/content leakage.
-
-With license tokens
-- Only authorized users get decryption keys
-- Keys are ties to specific devices/sessions
-- Time-limited access
-- Content protection
-
-### How does validation step happens between the player and DovRunner
+**Say it in one breath:** Flussonic sits between your encoder and the player: take a live input, optionally fetch DRM keys, encrypt + package, serve manifests and segments.
 
 ```txt
-1. Player sends License Request
-   ├─ Content ID (channel_1)
-   ├─ Device ID / User ID
-   ├─ Session token
-   └─ PSSH (from DASH manifest)
-
-2. DoveRunner License Server validates:
-   ├─ Is content_id valid?
-   ├─ Is user/device registered?
-   ├─ Has user purchased/subscribed?
-   ├─ Is session still active?
-   ├─ Geographic restrictions? (country-based)
-   ├─ Device limit exceeded? (max 5 simultaneous streams)
-   └─ Time-based restrictions? (expiry date)
-
-3. DoveRunner responds:
-   ├─ If ALL valid → Issue license token
-   └─ If ANY invalid → Deny with error code
+Encoder / headend
+   │  udp://host:port  (or [[SRT]] / [[RTMP]] / [[RTSP]])
+   ▼
+Flussonic
+   ├─ (optional) fetch keys from DoveRunner KMS  → aes_key, iv, key_id
+   ├─ encrypt (e.g. Widevine / CENC)
+   └─ package HLS / DASH (+ PSSH in manifest)
+   ▼
+http://origin/<content_id>/index.m3u8
+http://origin/<content_id>/dash.mpd
+   ▼
+Player ── license request ──► DoveRunner ──► decrypt + play
 ```
 
-Your backend needs to:
+### Interview map (words you can say)
 
-**Generate license token**
+| Word | Plain meaning | Say in interview |
 
-```json
+| **Ingest** | How live bytes enter Flussonic | “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.” |
+| --- | --- | --- |
+| **Package** | Remux/segment for OTT | “We output DASH/HLS the CDN and players understand.” |
+| **DRM encrypt** | Scramble samples with KMS keys | “Flussonic encrypts; it does not authorize viewers.” |
+| **PSSH** | DRM init data in the manifest/init | “Player needs PSSH to start a license request.” |
+| **License token** | Your backend’s signed “this user may play” | “DoveRunner checks the token, then returns content keys.” |
+| **Manifest rewrite** | Proxy fixes absolute URLs | “Browser must hit your gateway, not 127.0.0.1 inside the box.” |
 
-{
-	"user_id": "user_123",
-	"content_id": "channel_1",
-	"device_id": "device_xyz",
-	"expires_at": 1234567890,
-	"rights": ["stream"],
-	"signed_with": YOUR_SITE_KEY
-}
+### Roles (keep them straight)
 
-```
+| Actor | Job |
+| --- | --- |
+| **Flussonic** | Ingest, encrypt, package, serve media |
+| **DoveRunner / PallyCon** | KMS + license server ([[Pallycon(DoveRunner)]]) |
+| **Your license backend** | Auth user → sign token player sends to DoveRunner |
+| **Player** | Fetch manifest → request license → decrypt via CDM ([[EME]], [[DRM]]) |
 
-**Sign it with Site key**
+Without Flussonic encryption, the stream is clear. Without license tokens, anyone who can fetch segments may still need a CDM path — but you lose entitlement control; design assumes signed tokens.
+
+### License token story (4 steps)
+
+1. Player wants `content_id` — your application already authenticated the user.
+2. Your backend builds a short-lived token (user, device, content, expiry, rights) and **HMAC-signs** with the site key.
+3. Player sends license request + token (+ PSSH) to DoveRunner.
+4. DoveRunner validates signature and policy → returns decryption license to the CDM.
 
 ```txt
-signature = HMAC-SHA256(token, site_key);
+Player → your API: “token for channel_1”
+Your API → signed license token
+Player → DoveRunner: license request + token + PSSH
+DoveRunner → allow/deny → key material to CDM
 ```
 
-**Return to player**
+## Standard config / commands
+
+### Conceptual stream URL shapes
+
+```txt
+# Ingest (encoder → Flussonic)
+udp://<flussonic-private-ip>:<port>
+
+# Play clear or encrypted packaged output
+http://<flussonic-host>:<port>/<content_id>/index.m3u8
+http://<flussonic-host>:<port>/<content_id>/dash.mpd
+```
+
+### License token your backend signs (shape)
 
 ```json
-
 {
-	"license": "signed_token_here"
+  "user_id": "user_123",
+  "content_id": "channel_1",
+  "device_id": "device_xyz",
+  "expires_at": 1735689600,
+  "rights": ["stream"]
 }
-
 ```
 
-4. Player sends to DovRunner KMS with license request
-5. DovRunner verifies signature and issue decryption license
+```txt
+signature = HMAC-SHA256(canonical_token_bytes, site_key)
+# Return signed blob to player — never embed site_key in the app
+```
 
+### DoveRunner validation checklist (what the KMS asks)
 
-> [!NOTE]
-> You need a **license server** (you backend server) that validates users before signing the token.
+```txt
+content_id valid?
+user/device enrolled?
+subscription / entitlement OK?
+session still active?
+geo / device-concurrency limits?
+token signature + expiry OK?
+→ issue license OR deny with error code
+```
+
+| Knob | Why it matters |
+
+| Ingest URL / multicast group | Wrong iface = silent no-input |
+| --- | --- |
+| DRM key / content_id mapping | Mismatch → player license fails though manifests 200 |
+| Output hostname in manifests | Absolute `127.0.0.1` breaks browsers behind a proxy — rewrite ([[streaming manifest file]]) |
+| Token TTL | Long-lived tokens = sharing / piracy window |
+
+Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, not the identity provider.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| No segments / empty manifest | Ingest bitrate / `udp://` reachability | Fix encoder → Flussonic path; confirm MPEG-TS on the wire ([[MPEG-TS]]) |
+| Manifest 200, player black | DRM / license error in player logs | Token signing, content_id, Widevine support |
+| “DRM secured” but won’t play | CDM / browser policy | Test Widevine-capable Chrome/Android; FairPlay needs HLS+FPS path |
+| Segments load from wrong host | Absolute URLs in MPD/M3U8 | Gateway rewrite to public prefix ([[streaming manifest file]]) |
+| Works on server curl, fails in browser | Private IP in manifest | Publish public origin or reverse-proxy |
+| License denied intermittently | Clock skew / expired token | NTP; shorten path from mint → player request |
+| High origin CPU | Transcode + encrypt on one box | Separate ABR ladder; scale Flussonic / push CDN |
+
+## Gotchas
+
+> [!WARNING]
+> **Flussonic encrypts; DoveRunner authorizes** — configuring packaging without a license token path leaves you with ciphertext nobody legitimate can play — or a broken entitlement story.
+
+> [!WARNING]
+> **Site key on the client** — never ship the HMAC site key in the app; only your backend signs tokens.
+
+> [!WARNING]
+> **Manifest hostnames** — Flussonic may emit URLs valid only on the host/container network; browsers need the public/gateway path.
+
+> [!WARNING]
+> **Clear vs encrypted testing** — prove ingest→HLS/DASH clear first; then enable DRM so you don’t debug two failures at once.
+
+> [!WARNING]
+> **Not a WebRTC SFU** — Flussonic here is OTT packaging. Browser P2P uses [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not UDP TS ingest.
+
+## When NOT to use
+
+- **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
+- **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
+- **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
+
+## Related
+
+[[DRM]] [[Pallycon(DoveRunner)]] [[DASH]] [[HLS]] [[MPEG-TS]] [[CPIX]] [[EME]] [[ingestion]] [[streaming manifest file]] [[IPTV]] [[CAS (Conditional Access System)]]

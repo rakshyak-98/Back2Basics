@@ -4,8 +4,6 @@
 
 > **Where** state lives — local UI, lifted, context, zustand, Redux, server cache — pick by lifetime and audience — **Kent C. Dodds (state colocation)**.
 
----
-
 ## Mental model
 
 ```txt
@@ -29,8 +27,6 @@ Need server cache?     YES → Query/RTK Query ([[React data management]])
 Else need global UI?   YES → [[zustand]] (simple) or Redux (middleware/devtools)
 Else                   useState / useReducer in feature
 ```
-
----
 
 ## Standard config / commands
 
@@ -70,19 +66,15 @@ const { data: user } = useQuery({ queryKey: ["me"], queryFn: fetchMe });
 
 See [[zustand]] for client-global pattern; [[Redux]] when you need audit middleware across many features.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stale list after POST | Server state not invalidated | Query invalidate / RTK tags |
 | Context re-render entire tree | Value not memoized | Split context; zustand selectors |
 | Two sources of truth | Same entity in Redux + Query | Single owner — usually Query |
 | Lost state on refresh | Expected for RAM | Persist or URL encode |
 | Infinite update loop | setState in render | Derive or useEffect deps |
-
----
 
 ## Gotchas
 
@@ -92,15 +84,11 @@ See [[zustand]] for client-global pattern; [[Redux]] when you need audit middlew
 > [!WARNING]
 > **Redux for form field focus** — colocate; global store noise.
 
----
-
 ## When NOT to use
 
 - **Everything in Redux** — 2017 pattern; server cache belongs in Query.
 - **Context for high-frequency updates** — perf cliff; use zustand/external store.
 - **Global store for one screen** — local state until second consumer exists.
-
----
 
 ## Related
 

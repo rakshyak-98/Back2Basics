@@ -2,9 +2,7 @@
 
 # Decision tree
 
-> Greedy, axis-aligned splits that partition feature space into leaf predictions — **Hastie / ESL** + production ML triage.
-
----
+> Decision tree — a decision tree asks a sequence of yes/no questions on one feature at a time until a leaf assigns a class (classification) or
 
 ## Mental model
 
@@ -24,8 +22,6 @@ A decision tree asks a sequence of **yes/no questions** on one feature at a time
 **Inference:** O(tree depth) comparisons — fast, interpretable, no scaling required for ordinals.
 
 **Ensembles:** single trees overfit; [[Random forest]] and [[Gradient boosting]] fix that by averaging or boosting many trees.
-
----
 
 ## Standard config / commands
 
@@ -66,25 +62,21 @@ print(export_text(clf, feature_names=list(X.columns)))
 ### Hyperparameter search (start here)
 
 | Knob | Effect |
-|------|--------|
+| --- | --- |
 | `max_depth` | ↑ capacity, ↑ overfit |
 | `min_samples_leaf` | ↑ smoothing, ↓ variance |
 | `ccp_alpha` | post-prune via cost-complexity |
 | `max_leaf_nodes` | hard cap on complexity |
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 100% train / 50% val | Depth too high, leaf min too low | Reduce `max_depth`; raise `min_samples_leaf`; try `ccp_alpha` |
 | Model ignores a feature | High cardinality / sparse one-hot | Target encoding, binning, or tree ensemble |
 | Unstable splits run-to-run | Small data + many ties | Set `random_state`; increase `min_samples_split` |
 | Biased toward majority class | Check `class_weight`, metric | `class_weight="balanced"`; optimize PR-AUC not accuracy |
 | Slow training on wide data | `max_features`, depth | Limit depth; use `max_features`; switch to [[Random forest]] / [[xg boost]] |
-
----
 
 ## Gotchas
 
@@ -100,16 +92,12 @@ print(export_text(clf, feature_names=list(X.columns)))
 > [!WARNING]
 > **Monotonic constraints ignored** unless you use libraries that support them (XGBoost, LightGBM). Raw sklearn trees can violate business rules (e.g. "higher income → lower risk").
 
----
-
 ## When NOT to use
 
 - **High-dimensional sparse text** without feature engineering — linear + hashing or embeddings beat deep single trees.
 - **Need calibrated probabilities** from one tree — use [[Random forest]], [[Gradient boosting]], or Platt/isotonic calibration.
 - **Strict monotonic or linear relationship** — prefer constrained boosting or GLM.
 - **Production latency at massive depth** — shallow tree or linear model; cache feature lookups.
-
----
 
 ## Related
 

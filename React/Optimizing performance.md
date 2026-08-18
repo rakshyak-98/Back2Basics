@@ -1,33 +1,69 @@
-[optimize react component](https://github.com/stevekinney/lots-to-do/tree/main/src/lib)
+[[React]] [[React code smells]] [[react hooks]] [[useRef]]
 
-**A functional component will render for one of three reasons:**
-- Then component was not in the component tree before and is now.
-- The parent component just re-rendered.
-- The component uses a hook that has flagged this component for re-render.
+# Optimizing performance
 
-> [!NOTE] React might batch rendering after several of these things happen.
+> Cut wasted re-renders and expensive work — measure first, then memoize or split.
 
-if a state value changes and the parent component re-renders, for example, the component might re-render once, or it might re-render twice.
-### Memoization 
-- Property memoization is relevant for objects and arrays created inline, and even more so for functions, which is the primary reason for the existence of the `useCallback` hook and why it is used so often in React.
-- to prevent expensive recalculations
-- to maintain [[referential equality]]
+## Mental model
 
-> [!NOTE] if any value in the dependency array has changed since the component was last rendered
+**Say it in one breath:** A function component re-renders when it mounts, when its parent re-renders, or when a hook says state/context changed. Memoization keeps referential equality so children can skip work.
 
-> [!NOTE] `useMemo` will not recompute because it only tracks the reference, not the content.
-
-### Memoize functions with `useCallback`
-
-```javascript
-function useCallback(fn, deps){
-	return useMemo(() => fn, deps)
-}
+```txt
+parent render → child render (default)
+memo(child) + stable props → skip child
+useMemo/useCallback → stable references for deps
 ```
-- `useCallback` makes memoized callback where referential equality is desired, and is never used to prevent expensive calculations.
 
-> [!WARNING] we memoize functions more often than other types of values.
+### Interview map (words you can say)
 
-- An empty array in an effect hook indicates that it runs only on mount, whereas a nonempty array indicates that the hook runs on mount and every time the mentioned dependencies update.
+| Word | Plain meaning | Say in interview |
 
-> [!NOTE] A dependency is any local variable that exists locally in the component scope but not any variable that also exists outside the component scope.
+| **Re-render** | Function runs again | “Not always bad — cheap renders are fine.” |
+| --- | --- | --- |
+| **`React.memo`** | Skip if props shallow-equal | “Helps pure leaves under hot parents.” |
+| **`useMemo`** | Cache computed value | “For expensive derive, not every object.” |
+| **`useCallback`** | Memoize function identity | “Same as `useMemo(() => fn, deps)`.” |
+
+## Standard config / commands
+
+```tsx
+const value = useMemo(() => heavy(list), [list])
+const onSelect = useCallback((id: string) => setId(id), [])
+
+const Row = React.memo(function Row({ item, onSelect }: Props) {
+  return <li onClick={() => onSelect(item.id)}>{item.name}</li>
+})
+```
+
+| Knob | Why it matters |
+
+| Profiler / why-did-you-render | Prove waste before memo |
+| --- | --- |
+| Stable deps | Empty deps = mount-only identity |
+| Split context | Huge provider values bust memo |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Typing lag in list | Profiler: which component | Virtualize; memo rows; stable callbacks |
+| memo child still renders | New object/array/fn props | `useCallback` / hoist constants |
+| `useMemo` “not working” | Dep is new reference each time | Fix upstream identity, not more memo |
+| Effect thrash | Unstable deps | Memoize or move deps |
+
+## Gotchas
+
+> [!WARNING]
+> **`useMemo` compares references, not deep content** — new `{}` every render defeats it.
+
+> [!WARNING]
+> **Memo tax** — comparing props costs CPU; don’t wrap everything.
+
+## When NOT to use
+
+- **Fast leaves** — optimize after measuring.
+- **Premature `useCallback` everywhere** — adds noise without a memoized child/effect dep need.
+
+## Related
+
+[[React code smells]] [[useRef]] [[Hooks/react useEffect]] [[react hooks]]

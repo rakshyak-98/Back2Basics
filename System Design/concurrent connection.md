@@ -1,9 +1,68 @@
-[[context switching]] [[Networking]]
+[[System Design]] [[Throughput]] [[backpressure]] [[TCP]]
 
-In the context of media streaming and infrastructure architecture, a concurrent connection is as active, sustained session between a client (or source) and a server where data is being actively transmitted or maintained in a state-ready condition.
+# concurrent connection
 
-### Network Concurrency
+> Concurrent connections — how many live sockets/sessions you hold at once; often the real limit before CPU is.
 
-This is the total number of TCP/UDP sockets open to your server. In a 300-channel scenario, if you are receiving 300 unique streams, your server must manage 300 distinct socket file descriptors. This consumes kernel memory and require efficient handling of the `epoll` or `kqueue` event loops to prevent context-switching bottlenecks.
+## Mental model
 
-Encoding/Decoding concurrency (Process-level) -> This is the number of active NVENC/NVDEC hardware session, Even if 300 network connections are open, the limiting factor is how many simultaneous media pipeline the GPU hardware can handle before the fixed-function circuitry saturates.
+**Say it in one breath:** Each connection costs FDs, memory, and timer softirq. Throughput ≠ concurrency; long-lived streams burn concurrency without huge RPS.
+
+```txt
+clients ══╗
+          ╠══ LB ── workers (ulimit, event loop)
+clients ══╝
+```
+
+| Limit | Where |
+| --- | --- |
+| `ulimit -n` | Process FDs |
+| `somaxconn` | Accept queue |
+| Worker count | App server |
+| NAT ports | Client side |
+
+## Standard config / commands
+
+```bash
+ss -s
+ss -tan state established | wc -l
+ulimit -n
+sysctl net.core.somaxconn
+```
+
+| Knob | Why |
+| --- | --- |
+| Keep-alive | Fewer handshakes; more idle conns |
+| HTTP/2 multiplex | Many streams / one conn |
+| Idle timeout | Reap dead mobiles |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| `Too many open files` | `ulimit`; FD leak | Raise limit; fix leak |
+| Accept drops | `ListenOverflows` | Raise somaxconn; faster accept |
+| High conns, low RPS | Idle WS/SSE | Timeouts; scale horizontally |
+| Ephemeral port exhaustion | Outbound APIs | Pools; more IPs; HTTP/2 |
+| LB 502 under load | Backend conn cap | Raise upstream; warm pools |
+
+## Gotchas
+
+> [!WARNING]
+> **Thread-per-conn** — dies at tens of thousands; use async/evented.
+
+> [!WARNING]
+> **Mobile networks** — ghost connections; heartbeat carefully.
+
+> [!WARNING]
+> **Counting LB vs app** — health checks inflate numbers.
+
+## When NOT to use
+
+- **Pure batch jobs** — connections short; optimize CPU/IO instead.
+- **Serverless with tiny concurrency** — different scaling story.
+- **One administrator user** — ignore micro-tuning.
+
+## Related
+
+[[Throughput]] [[backpressure]] [[TCP]] [[Real-time Subscription]] [[Scaling Throughput in High-load system]]

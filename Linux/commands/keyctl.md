@@ -2,7 +2,7 @@
 
 # keyctl
 
-> One-line: **inspect and manipulate kernel keyrings** — the in-kernel credential store used by NFS, Kerberos, module signing, `request_key`, and some crypto stacks. Not GnuPG. **Kerrisk keyutils.**
+> keyctl — linux key retention service holds opaque blobs (keys) in keyrings attached to user, session, process, or thread. User-space sees them via keyutils (keyctl, keyctl(1)).
 
 ## Mental model
 
@@ -21,13 +21,24 @@ request_key / add_key / keyctl
 ```
 
 | Concept | Meaning |
-|---------|---------|
+| --- | --- |
 | **Key serial** | Numeric ID for a key object |
 | **Keyring** | Container of keys (like a directory) |
 | **Key type** | `user`, `logon`, `encrypted`, `asymmetric`, `dns_resolver`, … |
 | **Session keyring** | Per-login session; default for `request_key` helpers |
 
-**Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repo trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
+**Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repository trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **keyring** | In-kernel key store | “Keys can live in kernel, not files.” |
+| --- | --- | --- |
+| **keyctl** | Userspace control | “keyctl show / add / pipe.” |
+| **session keyring** | Per-login keys | “Gone at logout unless linked.” |
+| **user keyring** | Per-UID | “Shared across sessions of user.” |
+| **timeout** | Key expiry | “Short-lived creds via keyctl timeout.” |
 
 ## Standard config / commands
 
@@ -64,8 +75,9 @@ keyctl pin @s
 **Common key types operators see:**
 
 | Type | Typical use |
-|------|-------------|
+
 | `logon` | Kernel / initramfs secrets — **not readable from user space** |
+| --- | --- |
 | `encrypted` | Keys wrapped by master key in kernel |
 | `asymmetric` | Module signature verification, IMA/EVM |
 | `dns_resolver` | Kernel DNS cache keys |
@@ -82,7 +94,7 @@ keyctl show $(keyctl get_persistent 0 @u)
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NFS `key expired` / mount auth fails | `keyctl show`; `keyctl list @s` | Re-run `nfsidmap`; remount; check `rpc.idmapd` |
 | `request_key: upcall failed` in dmesg | `journalctl -k`; helper `/sbin/request-key` | Install `keyutils`; fix helper timeout |
 | Module load `Required key not available` | `keyctl list @s`; MOK/secure boot | Enroll signing key; `mokutil` / distro doc |
@@ -107,7 +119,7 @@ journalctl -k | grep -i 'request_key\|keyctl'
 ## When NOT to use
 
 - **Managing TLS cert files or GPG keys** — use [[Linux Key management]], `gpg`, `openssl`.
-- **Storing app secrets in prod** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
+- **Storing application secrets in production** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
 - **Daily password/keyring unlock prompts on GNOME** — that’s **GNOME Keyring** / PAM, not `keyctl` CLI.
 
 ## Related

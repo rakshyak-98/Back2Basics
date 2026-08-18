@@ -6,11 +6,12 @@
 
 ## Mental model
 
-Go favors **composition over inheritance**. Interfaces are implicit (duck typing). SOLID still applies but looks different: small interfaces (ISP), struct embedding (OCP-ish), constructor functions (DIP via interfaces in main).
+**Say it in one breath:** Go favors composition over inheritance — small interfaces (ISP), embedding (OCP-ish), constructors that take interfaces (DIP).
 
 | Principle | Go expression |
-|-----------|---------------|
+
 | **S** Single responsibility | One package/type, one reason to change |
+| --- | --- |
 | **O** Open/closed | Embed interfaces; extend via new types |
 | **L** Liskov | Implement interface without surprising callers |
 | **I** Interface segregation | `io.Reader`, `io.Writer` — tiny interfaces |
@@ -71,7 +72,7 @@ func (fakeLogger) Info(string, ...any) {}
 ## Triage (when things break)
 
 | Smell | Check | Fix |
-|-------|-------|-----|
+| --- | --- | --- |
 | God struct with 20 methods | Package size | Split by domain; extract interfaces |
 | Interface with 15 methods | Call sites | Split into Reader/Writer-style interfaces |
 | Concrete type in constructor everywhere | Tests hard | Accept interface in `New*` |

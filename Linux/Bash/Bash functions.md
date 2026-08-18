@@ -2,7 +2,7 @@
 
 # Bash functions
 
-> One-line: **Reusable shell blocks in the current session or sourced file** — share logic without fork/exec overhead of external scripts. Scope, `return`, and `local` prevent the subtle bugs that leak into prod deploy scripts.
+> Bash functions — reusable shell blocks in the current session or a sourced file.
 
 ## Mental model
 
@@ -15,11 +15,22 @@ deploy_app        →  runs in same shell — can mutate cwd, env, exports
 ```
 
 | vs | Function | Script |
-|----|----------|--------|
+| --- | --- | --- |
 | Process | same shell | usually subshell |
 | Env/cwd side effects | yes | isolated if subshell |
 | Speed | no fork for logic | fork per invocation |
 | Shebang | N/A | `#!/usr/bin/env bash` |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **function** | Named reusable block | “Prefer functions over copy-paste.” |
+| --- | --- | --- |
+| **local** | Scoped vars | “Without local, you leak globals.” |
+| **$@ / "$@"** | All args safely | “Always quote "$@".” |
+| **return** | Function exit status | “return N; exit kills the shell.” |
+| **declare -f** | List functions | “declare -f name to inspect.” |
 
 ## Standard config / commands
 
@@ -86,7 +97,7 @@ trap cleanup EXIT
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `command not found` for function | Defined after call | Reorder; source lib first |
 | Variable clobbered global | Missing `local` | Add `local` to all params/temps |
 | `return: can only return from function` | return in sourced top-level | Use `exit` in scripts, `return` in functions only |
@@ -103,7 +114,7 @@ trap cleanup EXIT
 > **Naming collision** — function `ls` shadows binary. Prefix with `_` or namespace (`app::deploy` as name with colon).
 
 - **Recursive functions** — bash has no tail-call optimization; deep recursion blows stack.
-- **`$*` vs `$@`** — use `"$@"` for preserved word splitting on args.
+- **`$*` versus `$@`** — use `"$@"` for preserved word splitting on arguments.
 
 ## When NOT to use
 

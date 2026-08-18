@@ -2,9 +2,7 @@
 
 # Session Storage
 
-> Browser `sessionStorage` API — tab-scoped key/value store; security and storage choice vs `localStorage` and cookies — **WHATWG HTML / OWASP**.
-
----
+> Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
 ## Mental model
 
@@ -20,15 +18,14 @@ Tab B (same origin) → separate sessionStorage (not shared)
 ```
 
 | Store | Lifetime | Sent to server | Size (~) | XSS impact |
-|-------|----------|----------------|----------|------------|
+
 | **sessionStorage** | Tab | No | ~5MB | Full read if XSS |
+| --- | --- | --- | --- | --- |
 | **localStorage** | Until cleared | No | ~5MB | Full read if XSS |
 | **Cookie** | Configurable | Yes (auto) | ~4KB | HttpOnly mitigates JS read |
 | **Memory (React state)** | Page | No | RAM | Lost on refresh |
 
-**Not a session mechanism for auth** — the server doesn't see sessionStorage. Auth sessions use **HttpOnly Secure cookies** or **Bearer tokens** with explicit tradeoffs ([[JWT authentication]]).
-
----
+**Not a session mechanism for authentication** — the server doesn't see sessionStorage. authentication sessions use **HttpOnly Secure cookies** or **Bearer tokens** with explicit tradeoffs ([[JWT authentication]]).
 
 ## Standard config / commands
 
@@ -84,20 +81,16 @@ const bc = new BroadcastChannel('app');
 bc.postMessage({ type: 'logout' });
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Data lost on refresh | Expected if new tab/window | Use `localStorage` or server persistence |
 | Data not shared between tabs | By design | `localStorage` or URL state |
 | `QuotaExceededError` | Large JSON blobs | Compress; server-side session store |
 | Works in dev, null in prod | SSR accessing `sessionStorage` | `typeof window !== 'undefined'` guard |
 | Stale state after deploy | Old keys without version | Namespace with version suffix `v2:` |
 | Security audit flag | PII in sessionStorage | Move sensitive data server-side |
-
----
 
 ## Gotchas
 
@@ -116,15 +109,11 @@ bc.postMessage({ type: 'logout' });
 > [!WARNING]
 > **Safari ITP / private mode** — `setItem` throws; always try/catch.
 
----
-
 ## When NOT to use
 
 - **Authentication/session IDs** — HttpOnly cookies + SameSite.
 - **Preferences that should persist** — theme, locale → `localStorage` or account settings API.
 - **Large datasets** — IndexedDB or server fetch.
-
----
 
 ## Related
 

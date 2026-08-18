@@ -101,7 +101,7 @@ location /assets/ {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | White page → styled jump | CSS `<link>` at bottom of body | Move stylesheets to `<head>`; inline critical CSS |
 | Dark mode flash (light then dark) | Theme JS at end of body | Inline theme script in `<head>`; use `color-scheme` CSS |
 | FOUC only on slow 3G | Waterfall: CSS after JS | Preload CSS; reduce JS blocking; split bundles |

@@ -4,8 +4,6 @@
 
 > A **one-off, purpose-built** solution for a single feature — fast locally, expensive globally if it becomes the default pattern — **Fowler (refactoring)** applied to frontend.
 
----
-
 ## Mental model
 
 "Ad hoc" (Latin: *for this*) = code shaped for **one screen or sprint**, not a reusable platform.
@@ -19,15 +17,13 @@ Platform: shared QueryClient, design tokens, routing layout
 In React codebases, ad hoc systems appear as:
 
 | Smell | Example |
-|-------|---------|
+| --- | --- |
 | Duplicate fetch logic | Each page rolls its own `useEffect` + axios |
 | Global `window` hacks | Event bus on `window` for cross-tree talk |
 | One-off Context | `ThemeContext` + `CartContext` + `ModalContext` per feature |
 | Inline business rules | 200-line component with no extraction |
 
 Fine for **prototypes and experiments**; toxic when it becomes production architecture without review.
-
----
 
 ## Standard config / commands
 
@@ -59,19 +55,15 @@ function useExport() {
 }
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Same bug in many pages | Copy-paste ad hoc fetch | Single hook or RTK endpoint |
 | State desync across tabs | Ad hoc localStorage writes | [[Redux/Redux State sync with localstorage]] or Query persist |
 | Un-testable components | Logic in JSX | Extract pure functions / hooks |
 | "Works on my machine" env | Hardcoded URLs | [[React project config]] env vars |
 | Performance death by Context | Ad hoc Provider tree | [[zustand]] or colocate state |
-
----
 
 ## Gotchas
 
@@ -81,15 +73,11 @@ function useExport() {
 > [!WARNING]
 > **Temporary flags live forever** — `// TODO` ad hoc paths become critical prod paths without tests.
 
----
-
 ## When NOT to use
 
 - **Shared across 3+ features** — invest in [[React Architecture]] and [[React data management]].
-- **Auth, billing, permissions** — never one-off; centralize and audit.
+- **authentication, billing, permissions** — never one-off; centralize and audit.
 - **Design system components** — use tokens + shared library, not inline styles per screen.
-
----
 
 ## Related
 

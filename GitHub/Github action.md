@@ -2,7 +2,7 @@
 
 # GitHub Actions
 
-> Event-driven CI/CD defined in YAML under `.github/workflows/` — jobs run on [[Github runner]] instances.
+> GitHub Actions — trigger (push, PR, cron, dispatch)
 
 ## Mental model
 
@@ -67,12 +67,12 @@ jobs:
 
 ### Disable CodeQL (repo setting path)
 
-Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in prod repos).
+Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in production repos).
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Workflow not triggering | `on:` branch/path filters | Match branch name; use `workflow_dispatch` to test |
 | Secret empty in log | `secrets` scope (env vs repo) | Set secret at correct level; fork PRs don't get secrets |
 | `ubuntu-latest` tool missing | Runner image changelog | Pin `actions/setup-*` or explicit apt install |
@@ -92,7 +92,7 @@ Settings → Code security → Code scanning → disable tool (prefer fixing fin
 ## When NOT to use
 
 - Don't run long-lived servers in Actions — use deploy targets (k8s, Lambda, VM).
-- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repo secrets for shared infra creds.
+- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repository secrets for shared infra credentials.
 
 ## Related
 

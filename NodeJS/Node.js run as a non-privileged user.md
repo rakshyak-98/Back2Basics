@@ -2,11 +2,11 @@
 
 # Node.js run as a non-privileged user
 
-> One-line: never run app servers as root — bind high ports or use capabilities/setcap; delegate privileged ops to systemd; load nvm/env in service units explicitly.
+> Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
 ## Mental model
 
-Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate admin tools — not `sudo` from the app.
+Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
 ```
 Bad:  root → node app.js (listening 3000)
@@ -79,7 +79,7 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `EACCES` writing logs/uploads | File owner root | `chown` app dir to service user |
 | `node: command not found` in service | PATH not loaded | Absolute path to node binary in unit |
 | Env vars empty under systemd | Missing EnvironmentFile | Add `EnvironmentFile=`; no shell profile in services |

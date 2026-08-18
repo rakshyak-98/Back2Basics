@@ -2,9 +2,7 @@
 
 # Variable (JavaScript)
 
-> **Named binding** in a lexical environment — holds a value (primitive or reference) — mutability rules depend on `var` / `let` / `const` — **ECMA-262**.
-
----
+> Variable (JavaScript) — a variable is not the value itself — it's an identifier bound in an Environment Record (Lexical environment):
 
 ## Mental model
 
@@ -16,14 +14,13 @@ let user = { id: 1 }  → binding "user" → reference to object in heap
 ```
 
 | Declaration | Scope | Reassign | Hoist behavior |
-|-------------|-------|----------|----------------|
+
 | `var` | Function | Yes | Hoisted, init `undefined` ([[hoisting]]) |
+| --- | --- | --- | --- |
 | `let` | Block | Yes | TDZ until line runs |
 | `const` | Block | No rebinding | TDZ; object contents mutable |
 
-Primitives ([[primitive non-primitive values]]) copy by value; objects copy **reference** — two vars can alias same object.
-
----
+Primitives ([[primitive non-primitive values]]) copy by value; objects copy **reference** — two variables can alias same object.
 
 ## Standard config / commands
 
@@ -59,19 +56,15 @@ camelCase     → variables and functions
 PascalCase    → constructors / React components
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `ReferenceError: x before initialization` | TDZ / temporal dead zone | Declare before use; check block scope |
 | Unexpected `undefined` | Hoisted `var` | Switch to `let`/`const` |
 | Mutation surprises | Shared object reference | Clone `{ ...obj }` or structuredClone |
 | `Assignment to constant` | Reassign `const` | Use `let` or mutate property intentionally |
 | Global pollution | Missing declaration | `"use strict"`; ESLint no-undef |
-
----
 
 ## Gotchas
 
@@ -81,14 +74,10 @@ PascalCase    → constructors / React components
 > [!WARNING]
 > **Loop `var` closures** — classic setTimeout prints same index; use `let`.
 
----
-
 ## When NOT to use
 
 - **`var` in new code** — no benefit over `let`/`const`.
 - **Reassigning everywhere** — prefer smaller scopes and derived values ([[React State management]] patterns).
-
----
 
 ## Related
 

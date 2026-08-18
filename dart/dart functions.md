@@ -2,11 +2,11 @@
 
 # Dart functions
 
-> First-class, closable functions with optional/named params, cascade-friendly syntax, and nested functions for encapsulation — know closure capture and `=>` vs block bodies.
+> Dart functions — functions are objects: assign to variables, pass as args, return from functions. Dart is single-threaded event-loop async (flutter isolates for parallelism).
 
 ## Mental model
 
-Functions are objects: assign to variables, pass as args, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).
+Functions are objects: assign to variables, pass as arguments, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).
 
 ```
 Top-level fn
@@ -100,7 +100,7 @@ list.forEach(print);     // top-level tear-off
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | "Required named parameter missing" | Call without `required` arg | Pass named param or give default |
 | Closure sees stale value | Captured loop variable (pre-Dart 3) | Use `for (final x in xs)` or copy local |
 | `void` callback return ignored | Returning value from `void` fn | Change return type or don't return |

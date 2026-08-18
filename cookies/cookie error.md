@@ -2,11 +2,11 @@
 
 # Cookie errors (cross-origin dev & prod)
 
-> **Browser blocked the cookie** — almost always SameSite/Secure/domain mismatch, missing CORS credentials, or third-party cookie phaseout — not "cookies broken."
+> Cookie errors (cross-origin dev & prod) — browser stores cookie for api.example.com
 
 ## Mental model
 
-Cookies are set by `Set-Cookie` on a **response** and sent on **matching requests** per domain/path/SameSite/Secure rules. Cross-origin SPA (frontend `localhost:3000`, API `localhost:4000`) is **not** same-site; production subdomain splits (`app.example.com` vs `api.example.com`) are **same-site** but still **cross-origin** for CORS.
+Cookies are set by `Set-Cookie` on a **response** and sent on **matching requests** per domain/path/SameSite/Secure rules. Cross-origin SPA (frontend `localhost:3000`, API `localhost:4000`) is **not** same-site; production subdomain splits (`app.example.com` versus `api.example.com`) are **same-site** but still **cross-origin** for CORS.
 
 ```
 Browser stores cookie for api.example.com
@@ -56,7 +56,7 @@ Set-Cookie: session=...; Domain=.example.com; Path=/; Secure; HttpOnly; SameSite
 Required when frontend on `other.com` calls your API — **and** `Secure: true` (HTTPS).
 
 | Scenario | SameSite | Secure |
-|----------|----------|--------|
+| --- | --- | --- |
 | Same origin | Lax (default OK) | HTTPS in prod |
 | Cross-subdomain API | Lax often enough for top-level nav | Yes |
 | Cross-site iframe/embed | None | Yes (mandatory) |
@@ -73,7 +73,7 @@ Required when frontend on `other.com` calls your API — **and** `Secure: true` 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Login OK, next request 401 | Cookie not stored (Secure on HTTP) | HTTPS or disable Secure locally |
 | Works in Chrome, not Safari | ITP; third-party cookie blocked | First-party cookie on shared parent domain |
 | POST login loses cookie | SameSite=Lax blocks cross-site POST | SameSite=None + Secure or same-origin proxy |

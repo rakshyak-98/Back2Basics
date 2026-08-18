@@ -17,8 +17,9 @@ Tx submitted ──► mempool ──► block proposed ──► consensus ─�
 Properties engineers care about:
 
 | Property | Meaning | Production implication |
-|----------|---------|------------------------|
+
 | Immutability | Changing old blocks breaks hash chain | Can't "edit" records — only append corrections |
+| --- | --- | --- |
 | Decentralization | No single writer | Slower finality; upgrade coordination hard |
 | Transparency | Public chains: all data visible | No PII on-chain without encryption |
 | Consensus | Agreement despite faults | CAP: partition behavior varies by chain |
@@ -40,8 +41,8 @@ Properties engineers care about:
 ```
 
 - **Anchor hash on-chain, data off-chain** — store document hash in contract event; blob in S3/IPFS.
-- **Wallet/signing** — user keys in HSM/browser wallet; server never holds user seed in prod.
-- **Idempotency** — tx nonce management; retry with same nonce vs replacement.
+- **Wallet/signing** — user keys in HSM/browser wallet; server never holds user seed in production.
+- **Idempotency** — tx nonce management; retry with same nonce versus replacement.
 
 ### Read contract (Ethereum JSON-RPC)
 
@@ -80,7 +81,7 @@ contract.on('Transfer', (from, to, value, event) => {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Tx pending forever | Gas too low; nonce gap | Bump fee (EIP-1559); fix nonce sequence |
 | Tx succeeded then "undone" | Chain reorg | Wait more confirmations; idempotent handlers |
 | Contract call reverts | `eth_call` simulate; decode revert | Fix require conditions; check allowance/balance |
@@ -104,7 +105,7 @@ contract.on('Transfer', (from, to, value, event) => {
 
 ## When NOT to use
 
-- **CRUD app with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
+- **CRUD application with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
 - **Sub-second latency requirements** — chain finality is seconds to minutes.
 - **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.
 

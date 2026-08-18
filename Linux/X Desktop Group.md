@@ -2,9 +2,7 @@
 
 # X Desktop Group
 
-> **XDG Base Directory Specification** — standard paths for config, data, cache, and runtime files on Linux — essential for portable CLI tools and CI.
-
----
+> X Desktop Group — ~/.config/ XDG_CONFIG_HOME — user settings (small, portable)
 
 ## Mental model
 
@@ -17,7 +15,7 @@
 
 **Before XDG:** dotfile explosion in `$HOME` (`.foo`, `.barrc`) — backup tools and corporate homedir sync suffered.
 
-**Spec:** freedesktop.org — apps **should** read env vars; fall back to defaults above.
+**specification:** freedesktop.org — apps **should** read environment variables; fall back to defaults above.
 
 ```txt
 $HOME
@@ -26,7 +24,16 @@ $HOME
 └── .cache/myapp/downloads/
 ```
 
----
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **XDG** | Freedesktop base dirs | “Config in ~/.config, not ~/dotscatter.” |
+| --- | --- | --- |
+| **XDG_RUNTIME_DIR** | Per-session sockets | “Wayland/Pulse sockets live here.” |
+| **desktop entry** | .desktop launchers | “Apps register via .desktop files.” |
+| **mimeapps.list** | Default apps | “xdg-open uses this map.” |
+| **autostart** | Session startup apps | “~/.config/autostart/.” |
 
 ## Standard config / commands
 
@@ -86,20 +93,16 @@ RUN mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME
 # Writable homedir not required
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Config not found after login | `$XDG_CONFIG_HOME` typo | Unset or fix env in `.profile` |
 | Disk full on cache | `~/.cache` size | `du -sh ~/.cache/*`; app cleanup; tmpfs for CI |
 | Permission denied runtime | `XDG_RUNTIME_DIR` | Must be uid-owned, 0700; systemd sets on login |
 | Two configs diverge | Legacy + XDG both exist | Deprecate `~/.apprc`; single source |
 | Snap/Flatpak different paths | Sandbox overrides | Use `snap run --shell` / portal docs |
 | NFS home slow | Cache on NFS | Point `XDG_CACHE_HOME` to local disk |
-
----
 
 ## Gotchas
 
@@ -115,15 +118,11 @@ RUN mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME
 > [!WARNING]
 > **Roaming profiles (Windows crossover)** — WSL paths differ; document WSL `\\wsl$\` behavior separately.
 
----
-
 ## When NOT to use
 
-- **System-wide daemon config** — `/etc/myapp/` + `/etc/myapp/conf.d/` (FHS), not user XDG.
+- **System-wide daemon configuration** — `/etc/myapp/` + `/etc/myapp/conf.d/` (FHS), not user XDG.
 - **macOS primary target** — use `~/Library/Application Support` (or cross-platform dirs crate).
 - **Windows** — `%APPDATA%`, `%LOCALAPPDATA%` via known-folder API.
-
----
 
 ## Related
 

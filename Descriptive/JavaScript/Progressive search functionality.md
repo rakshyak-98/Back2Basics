@@ -2,9 +2,7 @@
 
 # Progressive search functionality
 
-> Typeahead / live search UX: **debounce**, cancel stale requests, and index for snappy feel without melting the API.
-
----
+> Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
 ## Mental model
 
@@ -20,8 +18,6 @@ Keystroke → debounce window → abort prior fetch → new query → render res
 1. **Network** — one request per term without debounce → DDoS your own API
 2. **Server** — `%term%` LIKE without index → DB CPU spike
 3. **Client** — re-render 5k DOM nodes each key → main thread jank ([[Animation]])
-
----
 
 ## Standard config / commands
 
@@ -108,20 +104,16 @@ API: GET /search?q=foo&limit=20
 - Preserve query in URL ?q= for share/back
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | DB CPU spike on typing | Query plan / missing index | Trigram/FTS index; debounce; min length |
 | Stale results flash | Race (slow response wins) | AbortController; request sequence id |
 | Feels laggy | Time to first paint | Optimistic skeleton; local prefix index |
 | Mobile keyboard jank | Input handler work | Debounce; virtualize list |
 | Empty for valid terms | Encoding / case | `encodeURIComponent`; normalize Unicode NFC |
 | Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
-
----
 
 ## Gotchas
 
@@ -137,15 +129,11 @@ API: GET /search?q=foo&limit=20
 > [!WARNING]
 > **SSR search** — don't hydrate mismatch; defer client fetch or match server results.
 
----
-
 ## When NOT to use
 
 - **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
 - **Heavy analytics query** — batch/report UI, not per-keystroke.
 - **Offline-first with tiny dataset** — filter in memory; skip network entirely.
-
----
 
 ## Related
 

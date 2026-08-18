@@ -4,8 +4,6 @@
 
 > One publisher → one ingest destination → one encoded bitrate path — **simplest live topology** before ABR and multi-CDN.
 
----
-
 ## Mental model
 
 **Single stream** means **one active encode pipeline** from source to **one ingest endpoint** — not multiple ladder rungs ([[Multi Stream]] ABR) and not fan-out to YouTube + origin simultaneously. OBS defaults here: **one RTMP push** at **one resolution/bitrate**. Origin may still **transcode to ABR** downstream — that's server-side, not publisher multi-stream.
@@ -20,13 +18,12 @@ Contrast [[Multi Stream]]:
 ```
 
 | Aspect | Single stream | When to expand |
-|--------|---------------|----------------|
+
 | **Uplink** | One bitrate budget | Need >1 destination without origin |
+| --- | --- | --- |
 | **Ops** | Minimal | SLA events → redundant push |
 | **Quality** | One rung to ingest | Players need ABR → server ladder |
 | **Failure** | Single point | Backup ingest URL (failover encoder config) |
-
----
 
 ## Standard config / commands
 
@@ -57,7 +54,7 @@ live on;
 drop_idle_publisher 10s;
 ```
 
-Document behavior for ops — "single stream per key" policy.
+Document behavior for operations — "single stream per key" policy.
 
 ### Downstream ABR from single ingest (server-side)
 
@@ -74,19 +71,15 @@ Primary encoder active; secondary encoder configured but offline
 Manual switch on primary failure — not simultaneous push
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | New publish kicks old | Same stream key | Unique keys per event; or intentional takeover |
 | Quality OK ingest, bad playback | No server ladder | Enable transcode packager |
 | Single viewer OK, scale fails | RTMP to players | Must use [[HLS]]/[[DASH]] for viewers |
 | Bitrate wrong for network | Single rung too high | Lower OBS bitrate or 720p output |
 | Duplicate events on key reuse | Stale CDN cache | New key per event; purge manifest |
-
----
 
 ## Gotchas
 
@@ -99,15 +92,11 @@ Manual switch on primary failure — not simultaneous push
 > [!WARNING]
 > **No redundancy** — single laptop OBS is SPOF; plan backup encoder for tier-1 events.
 
----
-
 ## When NOT to use
 
 - **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
 - **Direct ABR from publisher** — multiple encodes or hardware ladder (rare); usually server-side.
 - **WebRTC fanout** — SFU architecture, not single RTMP ([[WebRTC]]).
-
----
 
 ## Related
 

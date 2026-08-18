@@ -42,7 +42,7 @@ curl -X POST \
 ### Backend storage
 
 | Field | Purpose |
-|-------|---------|
+| --- | --- |
 | `user_id` | Target user |
 | `token` | FCM device token (unique per app instance) |
 | `platform` | ios / android / web |
@@ -51,7 +51,7 @@ curl -X POST \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `registration-token-not-registered` | Stale token in DB | Delete token; client re-registers |
 | Web push fails | VAPID key, HTTPS | Serve over HTTPS; matching VAPID in Firebase console |
 | iOS no push | APNs key/certs in Firebase | Upload APNs auth key; enable push capability |

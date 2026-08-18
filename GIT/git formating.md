@@ -2,11 +2,11 @@
 
 # Git log formatting
 
-> One-line: `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
+> `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formatting*).
 
 ## Mental model
 
-`git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.
+**Say it in one breath:** `git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.
 
 ```
 git log --pretty=format:"%h %ad | %an | %s" --date=short
@@ -29,8 +29,9 @@ git log --pretty=fuller -3
 ### Placeholder reference
 
 | Placeholder | Description |
-|-------------|-------------|
+
 | `%h` | Abbreviated commit hash |
+| --- | --- |
 | `%H` | Full commit hash |
 | `%s` | Subject (first line of message) |
 | `%b` | Body |
@@ -70,7 +71,7 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Literal `%h` in output | Missing `--pretty=format` | Quote format string |
 | Wrong timezone on `%ad` | `--date` default | `--date=local` or `--date=iso-strict` |
 | Empty `%d` | Detached or no refs | Normal for old commits |

@@ -6,7 +6,7 @@
 
 ## Mental model
 
-Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile dev loops**: watch files, transform on demand, serve over the dev server to the app.
+Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
 
 ```
 App requests bundle          Metro dev server
@@ -95,7 +95,7 @@ NODE_ENV=production npx react-native bundle ...
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Red screen "Unable to resolve module" | Path, typo, missing `npm install`, wrong `main` in package | Fix import; add to `resolver.extraNodeModules`; reinstall pods on iOS |
 | Works after `--reset-cache` only | Stale metro-cache or Babel plugin change | `npx react-native start --reset-cache`; delete `/tmp/metro-*` |
 | "TransformError" / syntax error | Babel preset missing for TS/JSX | Ensure `@react-native/babel-preset`; check `babel.config.js` |
@@ -123,7 +123,7 @@ NODE_ENV=production npx react-native bundle ...
 
 - **Web-only React (Vite/webpack)** — Metro is RN-specific; don't force it for SPA builds.
 - **Replacing Babel blindly with SWC** — RN toolchain assumptions (inline requires, Flow) may break; test on both platforms.
-- **Custom bundler for simple RN app** — default Metro + reset-cache solves 95% of cases; only eject config for monorepos, aliases, or asset pipelines.
+- **Custom bundler for simple RN application** — default Metro + reset-cache solves 95% of cases; only eject configuration for monorepos, aliases, or asset pipelines.
 
 ## Related
 

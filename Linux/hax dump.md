@@ -1,8 +1,8 @@
 [[gdb]] [[webSocket]] [[Networking]]
 
-# hax dump *(filename typo — see hexdump / xxd below)*
+# hex dump *(filename typo — see hexdump / xxd below)*
 
-> One-line: **Hex dumps for binary inspection** — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
+> Hex dumps for binary inspection — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hex dump.md`; tools are **`hexdump`** and **`xxd`**.
 
 ## Mental model
 
@@ -14,11 +14,22 @@ Offset   Hex bytes                    ASCII
 ```
 
 | Tool | Style | Best for |
-|------|-------|----------|
+| --- | --- | --- |
 | `hexdump -C` | Canonical (offset, hex, ASCII) | Default debug; compares to docs |
 | `xxd` | Same family; `xxd -r` reverse | Make binary from hex edit |
 | `od -Ax -tx1z` | POSIX | Minimal systems without hexdump |
 | Wireshark | Packet hex pane | Full capture + decode |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **hexdump / xxd** | Bytes as hex | “xxd file | head to peek magic.” |
+| --- | --- | --- | --- |
+| **endian** | Byte order | “Multi-byte fields need endian care.” |
+| **magic numbers** | File signatures | “ELF starts 7f 45 4c 46.” |
+| **-C** | Canonical hex+ASCII | “hexdump -C for readable.” |
+| **od** | Octal dump classic | “od -An -tx1 for scripts.” |
 
 ## Standard config / commands
 
@@ -61,7 +72,7 @@ strings file.bin | head
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Garbage ASCII column | Binary/compressed data | Expected; look for magic bytes at offset 0 |
 | Wrong magic (`7f454c46` = ELF) | `hexdump -C -n 4` | Wrong file; truncation; swap endian |
 | Dump all zeros | Sparse hole or real empty | `ls -l`; `stat`; check if preallocated |
@@ -71,7 +82,7 @@ strings file.bin | head
 **Common magic bytes:**
 
 | Hex start | Type |
-|-----------|------|
+| --- | --- |
 | `89 50 4E 47` | PNG |
 | `FF D8 FF` | JPEG |
 | `50 4B 03 04` | ZIP |
@@ -86,13 +97,13 @@ strings file.bin | head
 > [!WARNING]
 > **PII/secrets in dumps** — tokens and keys appear in cleartext captures. Redact before tickets.
 
-- **`hexdump` vs `od` flags differ** — scripts: prefer `hexdump -C` on GNU, test on target OS.
+- **`hexdump` versus `od` flags differ** — scripts: prefer `hexdump -C` on GNU, test on target OS.
 - **Line wrapping** — copy-paste hex for `xxd -r` must preserve column format.
 
 ## When NOT to use
 
 - **Structured protocol decode** — use Wireshark dissectors, `protoc --decode`, language parsers.
-- **Text config diff** — use [[diff]] on decoded UTF-8, not hex (unless encoding hunt).
+- **Text configuration diff** — use [[diff]] on decoded UTF-8, not hex (unless encoding hunt).
 
 ## Related
 

@@ -2,9 +2,7 @@
 
 # Referential equality
 
-> **`===` for objects/functions** — same reference means "unchanged" to React memoization — **React reconciliation**.
-
----
+> Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
 ## Mental model
 
@@ -26,8 +24,6 @@ Parent re-render
 ```
 
 Stable references let you **skip** subtree work ([[Optimizing performance]]).
-
----
 
 ## Standard config / commands
 
@@ -63,19 +59,15 @@ return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 
 See [[React State management]] — don't memo everything; profile first.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | memo useless | Unstable prop refs | useCallback/useMemo upstream |
 | useEffect infinite loop | Object/array in deps | Primitive deps or memoize |
 | Stale closure in callback | Empty deps but uses state | Functional update or include deps |
 | Context consumers all update | New `{}` value each render | useMemo context value |
 | Zustand/selectors fine | External store uses snapshot | Select primitives |
-
----
 
 ## Gotchas
 
@@ -85,15 +77,11 @@ See [[React State management]] — don't memo everything; profile first.
 > [!WARNING]
 > **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
 
----
-
 ## When NOT to use
 
 - **Cheap leaf components** — memo + callback overhead > re-render cost.
 - **Server Components** — client referential equality rules don't apply on server.
 - **Replacing proper state design** — lift or colocate instead of memo band-aids.
-
----
 
 ## Related
 

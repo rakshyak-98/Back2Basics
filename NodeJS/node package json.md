@@ -2,11 +2,11 @@
 
 # package.json
 
-> One-line: project manifest — scripts, dependency graph, engine constraints, and module type; enforce Node/npm versions in CI and prod.
+> package.json — npm's contract with the repo: dependencies (runtime), devDependencies (build/test), scripts (automation entrypoints), engines (supported Node/npm), and type (module vs CommonJS default).
 
 ## Mental model
 
-`package.json` is npm's contract with the repo: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` vs CommonJS default).
+`package.json` is npm's contract with the repository: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` versus CommonJS default).
 
 ```
 package.json
@@ -78,7 +78,7 @@ echo "22.16.0" > .nvmrc
 ### Common fields
 
 | Field | Purpose |
-|-------|---------|
+| --- | --- |
 | `main` / `exports` | Entry when package is imported |
 | `bin` | CLI commands linked on global/local install |
 | `files` | Whitelist for `npm publish` |
@@ -87,7 +87,7 @@ echo "22.16.0" > .nvmrc
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Works locally, fails CI Node version | `engines` vs runner | Align `.nvmrc`, Docker, setup-node |
 | `ERR_REQUIRE_ESM` | `"type":"module"` | Consistent ESM or use `.cjs` |
 | Phantom dependency | Import pkg not in dependencies | Add explicit dep; enable lint rule |
@@ -109,7 +109,7 @@ echo "22.16.0" > .nvmrc
 ## When NOT to use
 
 - **Monorepo workspace root** — use workspaces field; per-package manifests in packages/*.
-- **Application secrets** — never put secrets in package.json; use env/secret manager.
+- **Application secrets** — never put secrets in package.json; use environment/secret manager.
 
 ## Related
 

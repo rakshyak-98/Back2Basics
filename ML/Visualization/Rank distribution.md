@@ -1,10 +1,8 @@
-[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicated versus actual plot]]
 
 # Rank distribution
 
-> Histogram/KDE of **predicted scores or ranks** — detect collapse, saturation, and train/serve skew in ranking systems.
-
----
+> Rank distribution — a ranker should produce a spread of scores so sorting separates good from bad items. Healthy distribution:
 
 ## Mental model
 
@@ -21,15 +19,13 @@ Frequency
 Failure modes:
 
 | Shape | Meaning |
-|-------|---------|
+| --- | --- |
 | Spike at one value | Model degenerate (all same score) |
 | Bimodal | Two regimes merged — check features or calibration |
 | Train vs serve mismatch | Different preprocessing or missing features |
 | Heavy tail | Few extreme scores dominate top-k |
 
-Compare **train, val, and prod** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
-
----
+Compare **train, value, and production** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
 
 ## Standard config / commands
 
@@ -67,19 +63,15 @@ for p in [50, 90, 99]:
 
 Alert if p50 jumps week-over-week without redeploy explanation.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | All scores identical | Model not trained / wrong column | Verify `predict` output variance |
 | Scores all 0–1 but flat | Sigmoid saturation | Feature scale; deeper model |
 | Prod distribution shifted | Feature null rate | Schema tests; default imputation |
 | Top-k always same items | Popularity bias | Negative sampling; diversify |
 | Bimodal after deploy | A/B bucket mixing | Split metrics by variant |
-
----
 
 ## Gotchas
 
@@ -89,16 +81,12 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 > [!WARNING]
 > **Calibrated probability ≠ good rank spread** — you need relative ordering, not just 0–1 density.
 
----
-
 ## When NOT to use
 
 - **Pure classification** without scores — use confusion matrix ([[binary classification]]).
 - **Regression error analysis** — [[Visualization/Residual plot]] instead.
 - **Small offline sets** — histograms noisy; rely on [[Mean Average Precision (MAP)]] with confidence intervals.
 
----
-
 ## Related
 
-[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated vs actual plot]] · [[rank prediction]]
+[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated versus actual plot]] · [[rank prediction]]

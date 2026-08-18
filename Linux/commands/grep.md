@@ -2,7 +2,7 @@
 
 # grep
 
-> One-line: stream filter for lines matching a pattern — first tool for log triage, config audits, and "does this string exist anywhere?" **Kernighan & Pike, Unix philosophy**.
+> stream filter for lines matching a pattern — first tool for log triage, config audits, and "does this string exist anywhere?" **Kernighan & Pike, Unix philosophy**.
 
 ## Mental model
 
@@ -15,8 +15,9 @@ file / pipe ──► grep PATTERN ──► matching lines ──► wc / head 
 ```
 
 | Flag family | Purpose |
-|-------------|---------|
+
 | `-i` | Case-insensitive |
+| --- | --- |
 | `-r` / `-R` | Recursive directory search |
 | `-E` | Extended regex (`+`, `\|`, `()`) |
 | `-F` | Fixed string (no regex — faster, safer for literals) |
@@ -25,6 +26,17 @@ file / pipe ──► grep PATTERN ──► matching lines ──► wc / head 
 | `-l` | Filenames only (which files contain it?) |
 | `-n` | Line numbers |
 | `-A/-B/-C` | Context lines after/before/around match |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **grep** | Match lines by regex | “grep -R pattern . for trees.” |
+| --- | --- | --- |
+| **-E / -F** | ERE vs fixed | “-F for literal strings.” |
+| **-v** | Invert | “Exclude noise lines.” |
+| **-n / -H** | Line numbers / filename | “Needed in pipelines.” |
+| **ripgrep** | Faster recursive | “rg often replaces grep -R.” |
 
 ## Standard config / commands
 
@@ -67,7 +79,7 @@ grep -E 'timeout|refused|reset' /var/log/syslog
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `grep` hangs on huge file | `grep --line-buffered` or `tail -f \| grep` | Don't grep entire multi-GB logs — use [[journalctl]] time bounds or `zgrep` on rotated `.gz` |
 | No matches but you know string exists | Wrong case (`-i`), wrong file encoding, binary file | `grep -a` for text-in-binary; `file` the target; try `strings` |
 | Regex matches too much | Unescaped `.` `*` `(` | Use `-F` for literals; test with `grep -E --color=always` |

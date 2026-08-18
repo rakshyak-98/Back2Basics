@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Content never updates | `revalidate` set? | Add interval or on-demand hook |
 | Users see old data long | CDN TTL > revalidate | Align edge cache; purge CDN |
 | Build OK, prod stale | Hosting ISR support | Vercel/Netlify plugin; not plain static export |

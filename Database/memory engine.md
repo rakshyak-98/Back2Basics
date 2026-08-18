@@ -2,11 +2,11 @@
 
 # MEMORY storage engine (MySQL)
 
-> One-line: table data lives in RAM only — microsecond reads for temp/session data; gone on restart; strict type/size limits.
+> MEMORY storage engine (MySQL) — mySQL MEMORY (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents —
 
 ## Mental model
 
-MySQL **MEMORY** (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents — **full loss on restart/crash**. Optimizer may still use MEMORY for internal temp tables.
+MySQL **MEMORY** (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents — **full loss on restart/crash**. Optimizer may still use MEMORY for internal temporary tables.
 
 ```
 DISK (InnoDB)     vs     MEMORY
@@ -64,7 +64,7 @@ CREATE TABLE cache (
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Table empty after restart | Expected MEMORY behavior | Move to InnoDB/Redis; accept ephemeral |
 | `table is full` | `max_heap_table_size` | Raise limit or shard; move to InnoDB |
 | Can't use TEXT/BLOB column | ENGINE limitation | VARCHAR up to row limit or external store |

@@ -2,7 +2,7 @@
 
 # Token rotation
 
-> **Limit blast radius of leaked credentials** — refresh/access tokens, API keys, session ids, and signing keys expire and are replaced on a schedule or after use. **RFC 6819 (OAuth 2.0 Threat Model)** + prod incidents from never-rotated JWT signing keys.
+> Token rotation — expire and replace secrets often so a leak has a short life.
 
 ## Mental model
 
@@ -43,7 +43,7 @@ OAuth **refresh token rotation** (RFC 6819 §5.2.2.3): each refresh issues new r
 ### API keys (machine)
 
 | Pattern | Rotation |
-|---------|----------|
+| --- | --- |
 | Dual-key grace | Key A active, add Key B, deploy clients, retire A |
 | STS-style | Prefer [[aws STS (Security Token Service)]] roles over static keys |
 | Hash at rest | Store bcrypt/sha256 of key; compare on use |
@@ -61,7 +61,7 @@ vault write -force auth/approle/role/myrole/secret-id
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Mass logout after deploy | JWKS old key removed too early | Re-add key; lengthen overlap |
 | Refresh loop / 401 storm | Clock skew; rotated refresh not persisted client-side | Sync NTP; fix client to store new refresh |
 | "Invalid signature" intermittent | Multiple issuers/kids; cached JWKS stale | CDN cache JWKS short TTL; verify `kid` |

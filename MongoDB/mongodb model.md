@@ -46,7 +46,7 @@ const users = await User.find({ tenantId }).lean(); // plain objects, faster
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `E11000` on compound field | `db.users.getIndexes()` | Fix duplicate data; confirm index key order matches query |
 | ValidationError on save | Schema path + `required` | Align payload; use `runValidators: true` on updates |
 | Field missing after update | `strict` mode | Add field to schema or use `$set` with defined paths |

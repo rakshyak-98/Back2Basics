@@ -2,9 +2,7 @@
 
 # tiled, multi-resolution, and predictive loading system
 
-> Deep-zoom / tiled media streaming: pyramid levels, viewport fetch, and prefetch — maps, PDF viewers, microscopy, satellite imagery.
-
----
+> tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
 ## Mental model
 
@@ -25,8 +23,6 @@ Client viewport → compute visible tile (z, x, y) → fetch only those + neighb
 **Predictive loading:** prefetch ring around viewport in pan direction; cancel in-flight fetches on rapid zoom change.
 
 **Formats:** DZI (Deep Zoom), IIIF (`/info.json` + `{region}/{size}/{rotation}/{quality}.jpg`), map `{z}/{x}/{y}.png`, MBTiles offline bundle.
-
----
 
 ## Standard config / commands
 
@@ -101,12 +97,10 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 # Output: output.dzi + output_files/
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Blank tiles at zoom | Missing pyramid level | Regenerate z range; verify maxZoom in metadata |
 | Wrong tile positions | Y axis flip (TMS vs XYZ) | `y_tms = (2^z - 1) - y_xyz` |
 | 404 storm on pan | Bounds math off-by-one | Unit test tile coverage; clamp x/y |
@@ -114,8 +108,6 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 | Slow zoom | Fetching full res too early | Clamp max native zoom; overzoom last level with CSS |
 | Stale tiles after update | CDN immutable | Version path `/dataset-v4/tiles/...` |
 | CORS on tile CDN | Image canvas tainted | `crossOrigin="anonymous"` + ACAO header |
-
----
 
 ## Gotchas
 
@@ -131,15 +123,11 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 > [!WARNING]
 > **Security on dynamic tiles** — signed URLs or auth cookie; tiles leak data if guessable x/y/z.
 
----
-
 ## When NOT to use
 
 - **Images < 2000px** — single responsive `srcset` sufficient.
 - **Video** — HLS/DASH segment streaming, not static tile pyramid.
 - **Vector maps at scale** — MVT (Mapbox Vector Tiles) not raster pyramid.
-
----
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # Route53
 
-> AWS **authoritative DNS + health-checked routing + private zones** — not just "create an A record." **Route53 Developer Guide** + prod cutover war stories.
+> Route53 — hosts hosted zones (public on the internet, or private associated with VPCs). Records answer queries; routing policies (weighted, latency, failover, geolocation) steer traffic. Health checks remove
 
 ## Mental model
 
@@ -21,7 +21,7 @@ Client resolver ──► Route53 (authoritative for zone) ──► A/AAAA/CNAM
 ### Public hosted zone + ALB (common pattern)
 
 | Record | Type | Target | Notes |
-|--------|------|--------|-------|
+| --- | --- | --- | --- |
 | `app.example.com` | A (ALIAS) | ALB dualstack DNS name | Evaluate target health |
 | `example.com` | A (ALIAS) | CloudFront or ALB | Apex requires ALIAS not CNAME |
 | `_acme-challenge` | TXT | cert validation | Let's Encrypt / ACM DNS validation |
@@ -65,7 +65,7 @@ aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch fil
 ### TTL guidance
 
 | Use case | TTL | Why |
-|----------|-----|-----|
+| --- | --- | --- |
 | Stable prod ALIAS | 60–300s | Faster failover vs cache churn tradeoff |
 | Pre-cutover testing | 300–60s | Lower before migration, raise after stable |
 | CDN/CloudFront fronted | 60s on origin names | Failover pairs with health checks |
@@ -73,7 +73,7 @@ aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch fil
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Domain doesn't resolve at all | NS at registrar match Route53 zone; zone exists | Update registrar NS; wait propagation (up to 48h, often minutes) |
 | Resolves old IP after change | TTL; cached at resolver/ISP | Lower TTL pre-change; `dig +trace`; flush local cache |
 | Apex works, `www` doesn't (or reverse) | Missing record; CNAME at apex (invalid) | ALIAS at apex; CNAME for subdomains only |

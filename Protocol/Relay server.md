@@ -1,88 +1,98 @@
-A relay server is a server that forwards data between two or more devices or systems that cannot communicate directly.
+[[Protocol]] [[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]]
 
-> [!NOTE]
-> Both devices (Device A and Device B) first establish a connection to the relay server.
-> - This connection is possible because the devices initiate outgoing connections, which are generally allowed by most NAT's and firewalls (outgoing traffic is usually not blocked).
+# Relay server
 
-Once both devices have connected to the relay server, the server creates communication channels (virtual pipes) for each device. These channels serve as endpoints to send and receive data between the devices via the relay server.
+> Relay server — both peers dial out to a middle box that forwards bytes when they cannot connect directly through NAT.
 
-### Why Relay servers work?
-- NAT and Firewalls typically block incoming traffic to devices. So, both devices can open a connection to the relay server, but the server acts as the intermediary to relay data.
-- This solves the problem of devices that cannot directly connect because of [[Symmetric NAT]], firewalls blocking incoming traffic, or other restrictive network setups.
+## Mental model
 
-### What Happens If a Firewall Imposes Rules on Outgoing Traffic?
+**Say it in one breath:** Device A and Device B each open an *outbound* connection to the relay; the relay stitches those sockets and copies packets — inbound holes through NAT are not required.
 
-If a firewall enforces **outgoing traffic rules**, it can prevent devices behind the firewall from establishing connections to external servers, including relay servers. This creates a significant challenge for communication protocols like TURN (which requires outgoing traffic to establish connections). Here's how this situation impacts the communication and what can be done to resolve it:
+```txt
+Peer A ──outbound──► Relay ◄──outbound── Peer B
+                       │
+                  forwards A↔B
+```
 
----
+In WebRTC this is usually [[TURN server (Traversal Using Relays around NAT)]]. [[STUN (Session Traversal Utilities for NAT)]] only discovers addresses; the relay **carries** the media. [[ICE (Interactive Connectivity Establishment)]] picks relay only after cheaper paths fail.
 
-### Key Points:
+### Interview map (words you can say)
 
-1. **Firewall Blocking Outgoing Traffic**:
-   
-   - A **firewall** that blocks outgoing traffic would prevent the device from reaching any external server, including the relay server (e.g., TURN or STUN).
-   - This effectively stops the device from initiating the connection needed to set up a communication channel via a relay server.
-2. **Impact on NAT Traversal**:
-   
-   - **STUN** and **TURN** protocols rely on the device initiating outbound connections (because outgoing connections are typically allowed).
-   - With outgoing traffic blocked, **NAT traversal** cannot occur, meaning the devices won’t be able to discover their public IPs or connect to peers through the relay server.
-3. **Resulting Connectivity Issues**:
-   
-   - Devices that rely on **peer-to-peer** communication (e.g., WebRTC, VoIP) would be unable to function properly.
-   - Even if a **TURN server** is available, the firewall would prevent the device from sending its data to the server for relaying.
+| Word | Plain meaning | Say in interview |
 
----
+| **Outbound-only** | Clients dial the relay | “NATs allow out; relay avoids inbound.” |
+| --- | --- | --- |
+| **Allocation** | Relay reserves ports for a client | “TURN allocation is my relay address.” |
+| **Hairpin / double NAT** | Complex home/CGNAT topologies | “Direct fails; relay still works.” |
+| **TCP/TLS TURN** | Relay over allowed web ports | “When UDP dies, turns:443 saves the call.” |
+| **Cost** | Server sees full bitrate | “Relays are the expensive fallback.” |
 
-### Potential Solutions:
+### When outbound is also blocked
 
-1. **Using a Proxy Server**:
-   
-   - A proxy server can help by forwarding traffic between the client and the external server.
-   - **HTTP/HTTPS Proxy**: In environments where **HTTP or HTTPS traffic** is allowed, a proxy server can be used to tunnel the communication to a TURN server.
-   
-   **How It Works**:
-  
-   - The device sends outgoing traffic to the proxy server.
-   - The proxy server forwards the traffic to the relay server (TURN or STUN), allowing the NAT traversal to happen.
- 
- > [!INFO] For bypassing firewall restriction and enabling communication with a TURN server, the relevant proxy is typically a forward proxy.
+Strict egress firewalls break STUN/TURN. Escapes (in order of commonality):
 
-> [!NOTE] Not typically used for NAT traversal: Reverse proxies are less relevant in the context of bypassing firewall restrictions for TURN/STUN because the goal is for the client to access external resources, not the other way around.
+1. Allowlist TURN IPs/ports (best).
+2. TURN over TLS/WebSocket on 443.
+3. Corporate forward HTTP proxy (if supported).
+4. VPN that exits where TURN is reachable.
 
-2. **TURN with WebSocket or HTTP**:
-   
-   - Some **TURN servers** and protocols support using **WebSockets** or **HTTP/HTTPS** for communication.
-   - WebSocket or HTTP connections are more likely to be allowed by firewalls since these protocols often bypass stricter rules on outgoing traffic.
-   
-   **How It Works**:
-   
-   - The TURN server uses **WebSocket** or **HTTP** as a transport layer, which is more likely to pass through firewalls that allow web traffic.
-   - This allows the device behind the firewall to reach the TURN server and initiate the connection despite outgoing traffic restrictions.
-3. **Network Configuration Adjustments**:
-   
-   - In some cases, it may be possible to reconfigure the firewall rules to allow specific outgoing connections to known **TURN servers** or **STUN servers**.
-   - This requires cooperation with network administrators to whitelist certain ports and IP addresses for peer-to-peer communication.
-4. **VPN (Virtual Private Network)**:
-   
-   - If the firewall is blocking outgoing traffic to relay servers, using a **VPN** can tunnel traffic out of the local network.
-   - The device can connect to the VPN, which effectively bypasses the firewall rules and establishes communication with external servers.
+## Standard config / commands
 
----
+```js
+// WebRTC: relay = TURN in iceServers
+const pc = new RTCPeerConnection({
+  iceServers: [{
+    urls: [
+      'turn:turn.example.com:3478?transport=udp',
+      'turns:turn.example.com:443?transport=tcp',
+    ],
+    username: shortLivedUser,
+    credential: shortLivedPass,
+  }],
+  iceTransportPolicy: 'all', // 'relay' = force relay for debug
+})
+```
 
-### Advantages of These Solutions:
+```bash
+# coturn smoke test
+turnutils_uclient -v -u user -w pass turn.example.com
+```
 
-- **Proxy Servers**: Allow the device to access external services (like TURN) even when outgoing traffic is restricted.
-- **WebSocket/HTTP TURN**: Increases the chances of traffic being allowed through the firewall by using protocols that are more commonly permitted.
-- **VPN**: Bypasses firewall restrictions by tunneling traffic through a secure connection.
+| Knob | Why it matters |
 
-### Disadvantages:
+| Short-lived credentials | Long-lived secrets in clients get stolen |
+| --- | --- |
+| UDP + TCP/TLS listeners | Corporate nets block UDP |
+| Bandwidth alerts | Silent “everyone on relay” burns money |
 
-- **Proxy Servers**: Requires setting up and maintaining a proxy server, which may not always be feasible.
-- **WebSocket/HTTP TURN**: May not be supported by all TURN servers or may introduce additional complexity.
-- **VPN**: Adds overhead, and devices may need additional configuration. Also, a VPN connection might not always be practical in certain environments.
+## Triage (when things break)
 
----
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| ICE fails, no relay candidates | Auth / DNS / firewall to TURN | Fix creds; open 3478/443; test `turnutils_uclient` |
+| Works only with `iceTransportPolicy: 'relay'` | Direct/STUN path broken | Keep relay; fix UDP/STUN for cost |
+| Connect fails on corp Wi‑Fi | UDP egress filtered | Enable TURN TCP/TLS 443 |
+| Huge egress bill | Most sessions nominated relay | Fix NAT/firewall; investigate ICE failure rate |
+| One-way media via relay | Permissions / wrong peer addr | Check TURN permissions/channels |
+| Outbound totally blocked | Proxy/VPN required | Allowlist or tunnel; otherwise no P2P |
 
-### Conclusion:
+## Gotchas
 
-When firewalls block outgoing traffic, using a **proxy server**, **WebSocket/HTTP-based TURN** servers, or **VPNs** can help bypass these restrictions and allow devices to establish connections. However, each solution has its own trade-offs, such as added complexity or potential performance issues.
+> [!WARNING]
+> **Relay is not STUN** — if you only deploy STUN, hard NATs still fail.
+
+> [!WARNING]
+> **Forcing relay hides root cause** — fine for demos; in prod measure how often you need it.
+
+> [!WARNING]
+> **Reverse proxies ≠ TURN** — an HTTPS reverse proxy fronts your API; TURN is a media/data forwarder with allocations.
+
+## When NOT to use
+
+- **Same-LAN / host candidates already work** — don’t pay relay RTT and cost.
+- **One-to-many broadcast** — CDN + [[HLS]]/[[DASH]], not per-viewer relays.
+- **You control both ends with public IPs** — direct TCP/UDP or a normal media server is simpler.
+
+## Related
+
+[[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT (Network Address Translation)]] [[NAT Traversal]] [[WebRTC]] [[P2P (Peer-to-Peer)]]

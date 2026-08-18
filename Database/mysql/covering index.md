@@ -2,7 +2,7 @@
 
 # covering index
 
-> Secondary index that contains **all columns the query needs** — InnoDB skips the clustered-index lookup — **High Performance MySQL** (Schwartz et al.).
+> covering index — innoDB secondary indexes store (index_cols…, PK) in a B+ tree. Non-covering query:
 
 ## Mental model
 
@@ -64,8 +64,9 @@ SELECT status, created_at FROM orders WHERE user_id = 42;
 ```
 
 | Extra column | Meaning |
-|--------------|---------|
+
 | `Using index` | **Covering** — no clustered lookup |
+| --- | --- |
 | `Using index condition` | Index Condition Pushdown (ICP) — filters in index, may still lookup |
 | `Using where` | Filter after index access — often needs clustered read |
 | `Using filesort` | Sort not satisfied by index order — check composite order |
@@ -94,7 +95,7 @@ Rule: **equality → equality → range → ORDER BY columns** in one index.
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Query fast in staging, slow in prod | `EXPLAIN ANALYZE`; rows examined vs returned | Add/adjust covering index; fix cardinality stats (`ANALYZE TABLE`) |
 | Index exists but not used | Wrong column order; function on column (`LOWER(email)`) | Match index to predicate; generated stored column |
 | `Using index` but still slow | Index too wide (many BIGINT+TEXT); buffer pool cold | Trim covered cols; warm cache; partition |
@@ -112,7 +113,7 @@ Rule: **equality → equality → range → ORDER BY columns** in one index.
 - **Secondary index includes PK implicitly** — `(user_id)` index already carries PK for lookup; covering means *non-PK SELECT list* cols.
 - **Low-cardinality leading column** — index `(status, user_id)` when `status` has 3 values → optimizer may ignore.
 - **Duplicate indexes** — `(a,b)` makes `(a)` redundant for reads but MySQL won't auto-drop; maintenance cost doubles.
-- **`ORDER BY` mismatch** — `DESC` vs index ASC may filesort unless 8.0+ descending indexes defined.
+- **`ORDER BY` mismatch** — `DESC` versus index ASC may filesort unless 8.0+ descending indexes defined.
 
 ## When NOT to use
 

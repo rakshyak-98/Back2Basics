@@ -4,8 +4,6 @@
 
 > Schema and modeling errors that pass code review but fail in production — **Kleppmann (DDIA)** + years of migration pain.
 
----
-
 ## Mental model
 
 Most production DB pain is **modeling and access-pattern mismatch**, not missing indexes alone.
@@ -16,8 +14,6 @@ Reality:       migrations lock, rows are wide, history vanishes, FKs cascade at 
 ```
 
 Design for **how data is queried and how it changes** — not how objects look in application code.
-
----
 
 ## Standard config / commands
 
@@ -100,12 +96,10 @@ deleted_at TIMESTAMPTZ NULL
 -- 5. Drop old column
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Duplicate "unique" business rows | Missing UNIQUE | Add constraint; dedupe script; merge strategy |
 | Orphan child rows | FK not enforced | Add FK RESTRICT; backfill parents |
 | Report numbers wrong vs finance | Float money / timezone dates | Minor units; `TIMESTAMPTZ`; store UTC |
@@ -114,8 +108,6 @@ deleted_at TIMESTAMPTZ NULL
 | Cascade deleted half catalog | ON DELETE CASCADE | Change to RESTRICT; soft delete |
 | JSON column unqueryable slow | No GIN index | Index paths you filter; normalize hot fields |
 | Connection storms | No [[connection pooling]] | PgBouncer / RDS proxy; fix connection leaks |
-
----
 
 ## Gotchas
 
@@ -134,15 +126,11 @@ deleted_at TIMESTAMPTZ NULL
 > [!WARNING]
 > **Optimistic locking omitted** — lost updates when two tabs save — add `version` column or `updated_at` check.
 
----
-
 ## When NOT to use
 
 - **Over-normalizing read-heavy dashboards** — materialized views or OLAP store ([[OLAP]]) for analytics.
 - **JSONB for every column** — loses constraints; schema drift without migration discipline.
 - **Premature sharding** — fix indexes and query shapes first ([[covering index]]).
-
----
 
 ## Related
 

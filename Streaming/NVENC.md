@@ -2,9 +2,7 @@
 
 # NVENC (NVIDIA Encoder)
 
-> Hardware H.264/HEVC/AV1 encode on NVIDIA GPUs — **offload live/VoD from CPU**, with rate-control tradeoffs.
-
----
+> NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
 ## Mental model
 
@@ -18,15 +16,14 @@ GPU: NVENC ──► H.264/HEVC bitstream ──► packager ([[HLS]]/[[DASH]])
 ```
 
 | Use case | NVENC fit | Prefer libx264 when |
-|----------|-----------|---------------------|
+
 | **Live multi-channel** | Excellent | — |
+| --- | --- | --- |
 | **VoD highest quality** | Good with tuning | Archive / film grain |
 | **Low latency** | `preset p1` + tune ll | — |
 | **AV1 delivery** | RTX 40+ AV1 NVENC | Software AV1 for max compression |
 
 Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
-
----
 
 ## Standard config / commands
 
@@ -41,7 +38,7 @@ ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i input.mp4 \
 ```
 
 | Knob | Why |
-|------|-----|
+| --- | --- |
 | `-preset p4` | Balance quality/latency (`p1` fastest, `p7` best quality) |
 | `-tune ll` | Low-latency live |
 | `-forced-idr 1` | Keyframe on GOP boundary for ABR |
@@ -85,20 +82,16 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 # Or SSIM: ffmpeg -i a -i b -lavfi ssim -f null -
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `No NVENC capable devices` | Driver, headless GPU | `nvidia-smi`; install datacenter driver; not CPU-only VM |
 | Session limit exceeded | `nvidia-smi encodersessions` | Add GPU; reduce channels; use datacenter SKU |
 | Worse quality vs x264 same bitrate | Preset too fast | `p5`/`p6`; enable AQ; slight bitrate bump |
 | Keyframe drift | Missing `-g` / `-forced-idr` | Align GOP to segment ([[CMAF]]) |
 | CUDA errors in pipeline | OOM on GPU | Reduce concurrent `-hwaccel`; fall back SW decode |
 | HEVC won't play on device | Profile/ tag | `-tag:v hvc1` for Apple |
-
----
 
 ## Gotchas
 
@@ -117,15 +110,11 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 > [!WARNING]
 > **Audio still on CPU** — GPU encode doesn't offload AAC; plan CPU for audio + mux.
 
----
-
 ## When NOT to use
 
 - **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
 - **Film grain VoD mastering** — software encode preserves detail better at same size.
-- **One short clip monthly** — GPU fleet overhead not worth ops.
-
----
+- **One short clip monthly** — GPU fleet overhead not worth operations.
 
 ## Related
 

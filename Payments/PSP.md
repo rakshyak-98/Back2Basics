@@ -2,11 +2,11 @@
 
 # PSP (Payment Service Provider)
 
-> End-to-end payments intermediary — merchant accounts, processing, and often gateway UX — **Stripe/Adyen/Square class of vendors**.
+> PSP (Payment Service Provider) — a PSP connects payers and merchants: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
 
 ## Mental model
 
-A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
+**Say it in one breath:** A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
 
 ```
 Customer payment ──► PSP ──► Acquiring bank ──► Card schemes ──► Issuing bank
@@ -15,6 +15,7 @@ Customer payment ──► PSP ──► Acquiring bank ──► Card schemes �
 ```
 
 | vs [[Payments/payment gateway]] | PSP often includes gateway + processing + merchant ID |
+| --- | --- |
 | vs [[Payments/payment gateway]] | Standalone gateway may plug into third-party acquirer |
 
 PSPs provide **integration SDKs** for e-commerce and [[POS]] — checkout plugins, hosted pages, terminal APIs.
@@ -24,7 +25,7 @@ PSPs provide **integration SDKs** for e-commerce and [[POS]] — checkout plugin
 ### Choose PSP criteria
 
 | Factor | Question |
-|--------|----------|
+| --- | --- |
 | **Geography** | Currencies, local methods (UPI, iDEAL, SEPA) |
 | **Model** | SaaS subscription vs marketplace ([[Payments/Strip]] Connect) |
 | **PCI path** | Hosted vs embedded fields → SAQ type |
@@ -60,7 +61,7 @@ CREATE TABLE payment_events (
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Merchant account restricted | KYC doc expiry | PSP dashboard compliance tasks |
 | Settlement delay | Rolling reserve / new account | PSP risk policy; normal for startups |
 | Method not available | Country/currency matrix | Enable payment method in dashboard |

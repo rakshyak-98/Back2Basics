@@ -2,19 +2,17 @@
 
 # Nginx Automated Config Deployment
 
-> One-line: CI/CD or app servers write configs to `/tmp`, validate, then sudo-copy into `sites-available` — never let unprivileged processes write directly to `/etc/nginx`.
+> Nginx Automated Config Deployment — automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
 
 ## Mental model
 
-Automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
+**Say it in one breath:** Generate vhost files from templates, `nginx -t`, then reload — never edit live conf blindly in deploy scripts.
 
 ```
 App writes /tmp/site.conf  →  sudo nginx -t  →  sudo cp to sites-available  →  symlink  →  reload
 ```
 
-Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx -t` before reload — bad config can block new workers.
-
----
+Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx -t` before reload — bad configuration can block new workers.
 
 ## Standard config / commands
 
@@ -73,21 +71,17 @@ sudo cp /etc/nginx/sites-available/site.conf.bak /etc/nginx/sites-available/site
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Keep previous config versioned in git or object storage.
-
----
+Keep previous configuration versioned in git or object storage.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Deploy succeeds but site 502 | Generated `proxy_pass` port wrong | Diff generated conf vs working; test upstream with `curl` |
 | `nginx -t` fails in CI | Syntax error in template | Run `nginx -t` locally with same output; check unescaped `$` in templates |
 | Permission denied on sudo | `sudo -l` | Add missing command to sudoers |
 | Old config still served | Symlink not updated | `readlink -f /etc/nginx/sites-enabled/site`; force `ln -sf` |
 | Include path broken | No shell expansion in `include` | Use absolute paths in generated configs |
-
----
 
 ## Gotchas
 
@@ -100,14 +94,10 @@ Keep previous config versioned in git or object storage.
 > [!WARNING]
 > **Never disable `nginx -t` in pipeline** — production incident from one missing semicolon.
 
----
-
 ## When NOT to use
 
 - **Kubernetes ingress** — use Ingress controller or Gateway API; don't shell out to host Nginx from pods.
-- **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-app sudo from runtime.
-
----
+- **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-application sudo from runtime.
 
 ## Related
 

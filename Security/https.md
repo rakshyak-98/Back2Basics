@@ -4,8 +4,6 @@
 
 > HTTP over TLS — encrypts and authenticates web traffic; browsers require valid PKI chain for padlock, APIs should pin or trust store consciously.
 
----
-
 ## Mental model
 
 ```txt
@@ -24,9 +22,7 @@ HTTPS provides:
 
 Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
 
-HTTP/1.1 vs HTTP/2 vs HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
-
----
+HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
 
 ## Standard config / commands
 
@@ -68,19 +64,15 @@ server {
 
 **Why fullchain.pem:** serve leaf + intermediates — clients without AIA fetch may fail on missing intermediate.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Certificate expired | `openssl s_client` dates | `certbot renew`; automate reload |
 | `NET::ERR_CERT_AUTHORITY_INVALID` | Wrong chain; self-signed | Install intermediate; public CA |
 | Mixed content blocked | HTTP assets on HTTPS page | Upgrade URLs; CSP upgrade-insecure |
 | TLS handshake timeout | Firewall 443; SNI missing | Open port; correct vhost cert |
 | HTTP/2 errors behind old proxy | ALPN not forwarded | Enable HTTP/2 on edge; proxy_protocol |
-
----
 
 ## Gotchas
 
@@ -96,13 +88,9 @@ server {
 > [!WARNING]
 > **Binary bodies fine on HTTP/1.1** — `Content-Type: application/octet-stream` over TLS is normal.
 
----
-
 ## When NOT to use
 
 Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
-
----
 
 ## Related
 

@@ -18,7 +18,7 @@ TypeScript: React.ButtonHTMLAttributes<HTMLButtonElement>
 ```
 
 | Type | Scope |
-|------|-------|
+| --- | --- |
 | `JSX.IntrinsicElements` | All built-in tags (`div`, `input`, …) |
 | `React.IntrinsicAttributes` | Universal JSX attrs (`key`, `ref`) |
 | Component `Props` | Your custom interface + optional `children` |
@@ -68,7 +68,7 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | TS error: Property `foo` does not exist on type `IntrinsicAttributes` | Prop passed to custom component not declared | Add to component `Props` or spread to DOM child |
 | `className` vs `class` error | Using HTML attr name in JSX | Use `className` (React convention) |
 | Ref not attached | Functional component without `forwardRef` | Wrap with `React.forwardRef` |
@@ -81,9 +81,9 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 > Spreading unknown props onto DOM nodes can inject invalid attributes silently in JS — TypeScript catches this only if your props interface is tight.
 
 - **`key` and `ref` are not props** — they live on `IntrinsicAttributes`, not in `props` inside the component.
-- **Event types differ:** `onChange` on `<input>` vs custom component needs explicit typing.
-- **SVG vs HTML:** separate intrinsic element maps — `<svg>` attrs differ from `<div>`.
-- **React 19:** ref as prop reduces `forwardRef` boilerplate — check your React version typings.
+- **Event types differ:** `onChange` on `<input>` versus custom component needs explicit typing.
+- **SVG versus HTML:** separate intrinsic element maps — `<svg>` attrs differ from `<div>`.
+- **React 19:** reference as prop reduces `forwardRef` boilerplate — check your React version typings.
 
 ## When NOT to use
 

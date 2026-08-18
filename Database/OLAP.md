@@ -2,7 +2,7 @@
 
 # OLAP (Online Analytical Processing)
 
-> **Read-heavy analytics** — scans, aggregates, GROUP BY across dimensions — optimized for dashboards and BI, not row-by-row checkout. Contrast [[OLTP]]: many small writes, index-point lookups, [[ACID]] transactions.
+> OLAP (Online Analytical Processing) — OLTP answers "create this order now" (few rows, ms latency). OLAP answers "revenue by region last 36 months" (millions–billions of rows, seconds OK).
 
 ## Mental model
 
@@ -14,14 +14,14 @@ OLTP (Postgres/MySQL) ──ETL/CDC──► OLAP (BigQuery, Snowflake, ClickHou
     source of truth                      dashboards, ML features
 ```
 
-Running heavy OLAP on primary OLTP **without isolation** is a classic prod outage ([[Database mistakes]]).
+Running heavy OLAP on primary OLTP **without isolation** is a classic production outage ([[Database mistakes]]).
 
 ## Standard config / commands
 
 ### When to split OLTP vs OLAP
 
 | Signal | Action |
-|--------|--------|
+| --- | --- |
 | Reporting queries slow OLTP | Read replica + timeout, or warehouse |
 | Full table scans on facts | Columnar warehouse |
 | Cross-system metrics | ETL to single OLAP |
@@ -56,8 +56,9 @@ WHERE o.updated_at >= :watermark;
 ### Engine cheat sheet
 
 | Engine | Sweet spot |
-|--------|------------|
+
 | BigQuery / Snowflake | Managed, separate storage/compute |
+| --- | --- |
 | ClickHouse | Fast aggregations, high ingest |
 | Redshift | AWS-native, spectrum to S3 |
 | Postgres + Citus/columnar ext | Small team, moderate scale |
@@ -72,7 +73,7 @@ WHERE o.updated_at >= :watermark;
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Dashboard timeout | Full scan; missing partition filter | Add date predicate; sort key; MV |
 | OLTP prod slow during report | Report on primary | Move to replica/warehouse; kill query |
 | ETL duplicate rows | Non-idempotent load | Merge/upsert on natural key; dedupe window |
@@ -97,7 +98,7 @@ WHERE o.updated_at >= :watermark;
 ## When NOT to use
 
 - **Operational reads in user request path** — use OLTP + cache.
-- **OLAP engine as primary app DB** — poor fit for high-frequency row updates ([[OLTP]]).
+- **OLAP engine as primary application DB** — poor fit for high-frequency row updates ([[OLTP]]).
 - **Premature Snowflake for 10GB** — replica + indexed aggregates may suffice ([[Data access patterns]]).
 
 ## Related

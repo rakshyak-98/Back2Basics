@@ -2,11 +2,11 @@
 
 # /etc files
 
-> One-line: **persistent system configuration** under `/etc` — the first place to look when behavior differs after reboot or between hosts. **FHS + distro overlays (cloud-init, Ansible).**
+> /etc files — SSH hardening (break-glass: keep console/session open while testing):
 
 ## Mental model
 
-`/etc` holds config consumed by daemons at start (or reload). Runtime state lives in `/var` and `/run`; binaries in `/usr/bin`. Many daemons **overwrite** or **include** fragments — editing the wrong file or missing a `systemctl reload` leaves you thinking you changed something when the running process didn't.
+`/etc` holds configuration consumed by daemons at start (or reload). Runtime state lives in `/var` and `/run`; binaries in `/usr/bin`. Many daemons **overwrite** or **include** fragments — editing the wrong file or missing a `systemctl reload` leaves you thinking you changed something when the running process didn't.
 
 ```
 Package install ──► /etc/default|/etc/sysconfig (defaults)
@@ -16,11 +16,24 @@ systemd ──► /etc/systemd/system/*.service (overrides)
 ```
 
 | Pattern | Example | Note |
-|---------|---------|------|
-| Main config | `/etc/ssh/sshd_config` | Single file |
+| --- | --- | --- |
+| Main config | `/etc/ssh/sshd_config` | Single file — see [[sshd config]] |
 | Drop-in dir | `/etc/ssh/sshd_config.d/` | Preferred on newer OpenSSH |
+| Main config | `/etc/nginx/nginx.conf` | Includes sites + snippets — [[nginx config structure]] |
+| Drop-in dir | `/etc/nginx/conf.d/` | Global HTTP snippets; Debian also uses `sites-enabled/` |
 | Defaults | `/etc/default/grub` | Sourced by scripts, not daemon directly |
 | systemd override | `/etc/systemd/system/nginx.service.d/` | `systemctl daemon-reload` after edit |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **/etc** | Host config tree | “/etc is the system’s knobs.” |
+| --- | --- | --- |
+| **passwd / shadow** | Users / password hashes | “shadow is root-only — don’t chmod it open.” |
+| **fstab** | Mount at boot | “Bad fstab = unbootable.” |
+| **resolv.conf** | DNS resolvers | “Often overwritten by systemd-resolved.” |
+| **sysctl.conf** | Kernel tunables | “Persist with /etc/sysctl.d/.” |
 
 ## Standard config / commands
 
@@ -99,7 +112,7 @@ dpkg-query -W -f='${Conffiles}\n' openssh-server   # package-owned conffiles
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Config edit ignored | Wrong file; drop-in override | `sshd -T`; `nginx -T`; check `.d/` dirs |
 | Locked out of SSH | Syntax error; bad AllowUsers | Console/recovery; `sshd -t`; revert drop-in |
 | DNS works in dig, not apps | `/etc/resolv.conf` stub | [[systemd]]-resolved; fix `nsswitch` |
@@ -125,7 +138,7 @@ dpkg-query -W -f='${Conffiles}\n' openssh-server   # package-owned conffiles
 
 - **Runtime tuning without persistence** → `sysctl -w`, `ip route` — know they'll vanish.
 - **Secrets in plain `/etc`** → prefer secret store, systemd `LoadCredential`, vault.
-- **Application config in Docker** → image/env/volume strategy, not host `/etc` mix.
+- **Application configuration in Docker** → image/environment/volume strategy, not host `/etc` mix.
 
 ## Related
 

@@ -2,7 +2,7 @@
 
 # normalizr
 
-> One-line: flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
+> flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
 
 ## Mental model
 
@@ -69,7 +69,7 @@ const postWithAuthor = denormalize(result.posts[0], post, entities);
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Duplicate entities | Unstable id (missing or composite) | Set `idAttribute`; ensure API returns stable ids |
 | Nested data not flat | Field not in schema | Add Entity reference to schema |
 | Undefined entity merge | Wrong result shape | Log `result` keys vs reducer expectations |

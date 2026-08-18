@@ -1,20 +1,69 @@
-### What happens when you interact with MongoDB through mongoose
-- mongoose interprets the connection string and manages how to communicate with the database.
-### Parsing the connection string
-- When you call `mongoose.connect`, Mongoose parses the provided MongoDB connection string. The connection string typically looks like this
+[[MongoDB]] [[mongoose/mongoose schema]] [[mongodb connection]]
+
+# mongoose
+
+> Mongoose is the Node ODM for MongoDB — schemas, models, and connection pooling on top of the driver.
+
+## Mental model
+
+**Say it in one breath:** Define a schema → compile a model → `connect` once → CRUD through the model (validation + middleware included).
+
 ```txt
-mongodb://username:password@host:port/database
+URI → mongoose.connect → Model(schema) → find/save
+                              ↓
+                         virtuals / hooks (app-level)
 ```
-### Create a connection
-- after parsing the connection string, Mongoose creates a connection instance using the MongoDB NodeJS driver.
-- this involves:
-	-  a TCP
 
+### Interview map (words you can say)
 
-### mongoose virtuals
-- mongoDB itself does not have the concept of virtuals. Virtual properties are a mongoose-only feature, implemented at the application level, not at the database level.
-#### Why mongoDB does not have virtuals
-- mongoDB stores raw JSON-like documents (BSON) and does not support computed fields natively.
-- mongoose which is an ODM (Object-Document Mapper) for mongoDB, provides virtuals as a way to define computed properties on JavaScript objects that are derived from stored data.
+| Word | Plain meaning | Say in interview |
 
-> [!INFO] if you want computed fields, you have to use aggregation pipelines or computed fields at the application level.
+| **ODM** | Objects ↔ documents | “Schema lives in the app.” |
+| --- | --- | --- |
+| **Model** | Collection constructor | “`mongoose.model('User', schema)`.” |
+| **Virtual** | Computed field not stored | “MongoDB doesn’t store it.” |
+| **Middleware** | pre/post hooks | “hash password pre('save').” |
+
+## Standard config / commands
+
+```js
+await mongoose.connect(process.env.MONGO_URI, { maxPoolSize: 10 })
+const userSchema = new mongoose.Schema({ email: { type: String, required: true } })
+userSchema.virtual('domain').get(function () {
+  return this.email.split('@')[1]
+})
+const User = mongoose.model('User', userSchema)
+```
+
+| Knob | Why it matters |
+
+| Pool size | Too big thunders Mongo |
+| --- | --- |
+| `strict` | Drop unknown paths vs keep |
+| `bufferCommands` | Behavior before connected |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| buffering timed out | connect never succeeded | Fix URI/network; await connect |
+| ValidationError | schema vs payload | Align types/required |
+| Duplicate key | unique index | Catch 11000; clean data |
+| Virtual missing in JSON | not in `toJSON` | `schema.set('toJSON', { virtuals: true })` |
+
+## Gotchas
+
+> [!WARNING]
+> **Virtuals aren’t in Mongo** — can’t query/filter them server-side.
+
+> [!WARNING]
+> **Multiple connections/models** — accidental `model` recompile in serverless hot reload.
+
+## When NOT to use
+
+- **Simple scripts** — native driver is enough.
+- **Heavy aggregations only** — driver + aggregate may be clearer.
+
+## Related
+
+[[mongoose/mongoose schema]] [[mongoose/mongoose methods]] [[mongodb connection]]

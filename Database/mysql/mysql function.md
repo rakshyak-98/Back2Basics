@@ -1,147 +1,87 @@
+[[mysql]] [[mysql Programmable SQL]] [[mysql query]]
 
-| Feature                 | **Stored Procedure**                                            | **Function**                                        |
-| ----------------------- | --------------------------------------------------------------- | --------------------------------------------------- |
-| **Purpose**             | Perform actions (insert, update, delete, complex logic)         | Compute and return a single value                   |
-| **Return type**         | No mandatory return; can use OUT params                         | Must return exactly one value (`RETURNS data_type`) |
-| **Usage context**       | Called via `CALL proc_name(...)`                                | Used inside SQL (e.g., `SELECT func_name(...)`)     |
-| **Allowed operations**  | Can use DML: `INSERT`, `UPDATE`, `DELETE`, `COMMIT`, `ROLLBACK` | Cannot modify data (only read/select)               |
-| **Transaction control** | Allowed (`START TRANSACTION`, `COMMIT`, `ROLLBACK`)             | Not allowed                                         |
-| **Return mechanism**    | OUT/INOUT parameters or result sets                             | Single scalar return via `RETURN`                   |
-| **Determinism**         | Not required                                                    | Must be deterministic for index usage               |
-| **Performance usage**   | Used for business logic workflows                               | Used for computed columns or expressions in queries |
+# mysql function
 
-```mysql
-DELIMITER //
+> Stored functions return one value for use in SQL expressions; procedures run action batches via `CALL`. Also: CAST/CONVERT helpers.
 
-CREATE FUNCTION function_name (param1 TYPE, param2 TYPE, ...)
-RETURNS return_type
-DETERMINISTIC -- or NONDETERMINISTIC
-BEGIN
-  -- Logic here
-  RETURN some_value;
-END //
+## Mental model
 
-DELIMITER ;
+**Say it in one breath:** Functions are for computing a scalar inside `SELECT`; procedures are for multi-statement work with optional OUT parameters — functions must not do arbitrary DML/txn control the way procedures can.
 
+```txt
+SELECT tax(price) FROM items;     ── function
+CALL AddHotel('Name');            ── procedure
+CAST / CONVERT / DATE_FORMAT      ── built-in conversion
 ```
 
-Delete function 
+### Interview map (words you can say)
 
-```mysql
-DROP FUNCTION IF EXISTS add_tax;
-```
+| Word | Plain meaning | Say in interview |
 
-Routine -> stored executable code saved inside MySQL database.
-type of routines -> Stored Procedure, Stored Function.
+| **Function** | Returns one value | “Usable in expressions.” |
+| --- | --- | --- |
+| **Procedure** | Actions / result sets | “CALL; can COMMIT in older patterns.” |
+| **DETERMINISTIC** | Same in → same out | “Needed for some optimizations.” |
+| **DELIMITER** | Client statement end | “Change to define bodies with `;`.” |
+| **CAST/CONVERT** | Type coercion | “Fix comparisons and joins.” |
 
-```mysql
-SELECT ROUTINE_NAME
-FROM information_schema.ROUTINES
-WHERE ROUTINE_TYPE = 'FUNCTION'
-  AND ROUTINE_SCHEMA = 'your_database_name';
-
-```
-
-```mysql
-SHOW FUNCTION STATUS WHERE Db = 'mysql';
-```
-
-## Data conversion
-
-### Type conversion
-
-```mysql
-SELECT CAST('123' AS UNSIGNED);
-SELECT CONVERT('2024-01-01', DATE);
-```
-
-### Date/Time Conversion
-
-```mysql
-SELECT STR_TO_DATE('27-05-2025', '%d-%m-%Y');
-SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
-```
-
-### Numeric Conversion
-
-```mysql
-SELECT CONV('1010', 2, 10);  -- binary 1010 → decimal 10
-```
-
-## Procedure
+## Standard config / commands
 
 ```sql
-SHOW PROCEDURE STATUS WHERE Db = 'your_database_name';
+DELIMITER //
+CREATE FUNCTION add_tax(p DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+  RETURN p * 1.18;
+END //
+DELIMITER ;
 
-SELECT ROUTINE_NAME
-FROM INFORMATION_SCHEMA.ROUTINES
-WHERE ROUTINE_TYPE = 'PROCEDURE'
-  AND ROUTINE_SCHEMA = 'your_database_name';
-```
+DROP FUNCTION IF EXISTS add_tax;
 
-```mysql
 CREATE PROCEDURE AddHotel(IN name VARCHAR(100))
 BEGIN
   INSERT INTO Hotels (hotel_name) VALUES (name);
 END;
+
+SHOW FUNCTION STATUS WHERE Db = 'mydb';
+SELECT ROUTINE_NAME FROM information_schema.ROUTINES
+WHERE ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = 'mydb';
+
+SELECT CAST('123' AS UNSIGNED);
+SELECT STR_TO_DATE('27-05-2025', '%d-%m-%Y');
+SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
 ```
 
-```mysql
-CALL AddHotel('Hilton');
-```
+| Knob | Why it matters |
 
-```sql
-DELIMITER $$
+| DETERMINISTIC / NO SQL | Optimizer + binary logging rules |
+| --- | --- |
+| DEFINER | Runs as definer privileges — security |
+| Built-ins | Prefer CAST over UDFs when enough |
 
-CREATE PROCEDURE GetHotelSectionsByPage(
-  IN p_hotel_id INT,
-  IN p_page_name VARCHAR(255)
-)
-BEGIN
-  SELECT 
-    hs.id AS hotel_section_id,
-    ts.section_name,
-    ts.type AS section_type,
-    hs.is_active
-  FROM Hotels AS h
-  JOIN HotelPages AS hp 
-    ON hp.hotel_id = h.id
-  JOIN TemplatePages AS tp 
-    ON tp.id = hp.template_page_id
-  JOIN HotelSections AS hs 
-    ON hs.hotel_page_id = hp.id
-  JOIN TemplateSections AS ts 
-    ON ts.id = hs.template_section_id
-  WHERE h.id = p_hotel_id
-    AND tp.page_name = p_page_name
-    AND tp.template_id = h.current_template_id;
-END$$
+## Triage (when things break)
 
-DELIMITER ;
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Can’t use function in SQL | Created as procedure? | CREATE FUNCTION + RETURNS |
+| Binary logging errors | Non-deterministic UDF | Mark correctly; adjust binlog settings |
+| DELIMITER issues in clients | GUI eats `;` | Set delimiter; or use migration tools |
+| Wrong date parse | Format mismatch | Match `STR_TO_DATE` format string |
 
-## User define functions
+## Gotchas
 
-```sql
-CREATE FUNCTION get_hotel_name(hotel_id INT) RETURNS VARCHAR(100)
-READS SQL DATA DETERMINISTIC
-BEGIN
-    DECLARE name VARCHAR(100);
-    SELECT hotel_name INTO name FROM hotels WHERE id = hotel_id;
-    RETURN IFNULL(name, 'Unknown');
-END;
+> [!WARNING]
+> **DEFINER rights** — a function can run with elevated privileges; audit who owns it.
 
-SELECT 
-    booking_id,
-    hotel_id,
-    get_hotel_name(hotel_id) AS hotel_name
-FROM bookings;
-```
+> [!WARNING]
+> **UDFs in hot WHERE clauses** — often kill index use; prefer expressions/generated columns.
 
-```sql
-CREATE FUNCTION mask_card(card_number VARCHAR(20)) RETURNS VARCHAR(20)
-DETERMINISTIC
-BEGIN
-	RETURN CONCAT('**** **** **** ', RIGHT(card_number, 4));
-END
-```
+## When NOT to use
+
+- **Business workflows with side effects** — application service + transaction.
+- **Replacing simple CAST** — don’t write a UDF for `CAST(x AS UNSIGNED)`.
+
+## Related
+
+[[mysql Programmable SQL]] [[mysql triggers]] [[mysql query]] [[variables]]

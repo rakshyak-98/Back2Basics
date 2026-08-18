@@ -2,7 +2,7 @@
 
 # BIND (named) — Operations
 
-> One-line: authoritative/recursive DNS via `named` — edit `named.conf`, validate zones, reload without restart, know recursion vs authority.
+> BIND (named) — Operations — BIND 9 runs as named. Two roles (don't mix blindly on public internet):
 
 ## Mental model
 
@@ -23,8 +23,6 @@ Key files (Debian/RHEL layouts vary):
 /var/named/ or /etc/bind/      # zone files
 rndc.key                     # admin control key
 ```
-
----
 
 ## Standard config / commands
 
@@ -121,12 +119,10 @@ rndc-confgen -a   # generates key for rndc
 # named.conf: allow-transfer { key "transfer-key"; };
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | NXDOMAIN for valid record | Serial not bumped; wrong zone file path | `named-checkzone`; bump SOA serial; `rndc reload` |
 | Secondary stale | NOTIFY blocked; serial | Open TCP 53 between prim/sec; increment serial |
 | `REFUSED` on query | `allow-query` ACL | Add client network or `any` (careful) |
@@ -148,8 +144,6 @@ sudo ss -ulnp | grep :53
 # Options: disable stub, or configure BIND on different interface
 ```
 
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -167,14 +161,10 @@ sudo ss -ulnp | grep :53
 > [!WARNING]
 > **Views** — split-horizon (internal vs external) doubles operational complexity; document which view clients hit.
 
----
-
 ## When NOT to use
 
-- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND ops burden.
+- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND operations burden.
 - **Recursive resolver for office** — consider Unbound or dedicated resolver distro; BIND can do it but harden carefully.
-
----
 
 ## Related
 

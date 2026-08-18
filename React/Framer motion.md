@@ -4,8 +4,6 @@
 
 > Declarative animation library for React — `motion` components, variants, layout transitions — **Motion (formerly Framer Motion) docs**.
 
----
-
 ## Mental model
 
 Framer Motion wraps DOM nodes as **`motion.div`** etc. Animate by changing props (`animate`, `initial`, `exit`) or **variants** (named state maps).
@@ -19,14 +17,12 @@ layout → FLIP-style layout animations on reflow
 Runs on **main thread** (with WAAPI where possible). Heavy animation on large lists competes with React render — prefer `transform`/`opacity`, not `width`/`top`.
 
 | API | Use |
-|-----|-----|
+| --- | --- |
 | `motion.*` | Animated element |
 | `variants` | Orchestrated multi-step |
 | `AnimatePresence` | Mount/unmount exit animations |
 | `layout` | Auto layout shift animation |
 | `useReducedMotion` | Accessibility respect |
-
----
 
 ## Standard config / commands
 
@@ -74,19 +70,15 @@ const reduce = useReducedMotion();
 <motion.div layout layoutId="shared-card" />
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Exit animation skipped | Missing `AnimatePresence` | Wrap conditional; unique `key` |
 | Janky list scroll | Animating layout/width | Use transform only; virtualize list |
 | Flash on hydration | SSR mismatch | `initial={false}` after mount |
 | Bundle size spike | Full import | `LazyMotion` + `domAnimation` feature pack |
 | Children don't stagger | Variants not on parent | `variants` + `staggerChildren` on parent |
-
----
 
 ## Gotchas
 
@@ -96,15 +88,11 @@ const reduce = useReducedMotion();
 > [!WARNING]
 > **Modal focus trap** — motion doesn't handle a11y; pair with focus management.
 
----
-
 ## When NOT to use
 
 - **CSS-only hover/focus** — Tailwind transitions cheaper ([[css/Animation]]).
 - **Canvas/WebGL games** — use RAF loop or dedicated engine.
 - **Critical path LCP hero** — prefer CSS; defer motion library.
-
----
 
 ## Related
 

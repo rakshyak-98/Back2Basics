@@ -4,8 +4,6 @@
 
 > Injection of executable script into a page another user's browser will run — steals sessions, defaces UI, exfiltrates data.
 
----
-
 ## Mental model
 
 XSS = attacker's JS runs in **victim origin** context:
@@ -23,8 +21,6 @@ Defense layers:
 2. **CSP** — [[content security policy]] restrict script sources
 3. **HttpOnly cookies** — JS can't read session cookie
 4. **Framework defaults** — React/Vue escape text nodes
-
----
 
 ## Standard config / commands
 
@@ -58,18 +54,14 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 
 **Why HttpOnly:** even if XSS exists, exfiltrating session cookie is harder (not impossible with CSRF combos).
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Reported script popup | Reproduce URL/param | Encode output; CSP; sanitize HTML |
 | Session hijack spike | New script in stored fields | Audit DB content; WAF temporary |
 | CSP breaks legit feature | Console violations | Nonce/hash; narrow allowlist |
 | Markdown/HTML renderer XSS | Allowlist tags | Use safe parser; no raw HTML pass-through |
-
----
 
 ## Gotchas
 
@@ -85,13 +77,9 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 > [!WARNING]
 > **DOM XSS in SPA routers** — `document.write`, `location` to sink.
 
----
-
 ## When NOT to use
 
 Don't rely on **WAF alone** — fix source encoding. Don't disable CSP globally for one widget — isolate vendor subdomain.
-
----
 
 ## Related
 

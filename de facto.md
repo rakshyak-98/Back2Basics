@@ -2,27 +2,14 @@
 
 # de facto standard
 
-> Practice or product so widely adopted it **behaves like** a standard — without formal standards-body ratification (contrast **de jure**).
+> De facto standard — so widely used it behaves like a standard without formal ratification.
 
 ## Mental model
 
-**De jure** = by law/spec (ISO, RFC, ECMA). **De facto** = by market habit (Git, Docker, `{json}` APIs). Interop often follows de facto before formal specs catch up (e.g. OAuth flows, S3 API shape). Risk: vendor lock-in, spec drift, sudden deprecation.
+**Say it in one breath:** De facto standard — so widely used it behaves like a standard without formal ratification.
 
-## Examples
-
-| De facto | Notes |
-|----------|-------|
-| Git | Not the only VCS; default for OSS/commercial |
-| Linux on servers | Not the only UNIX; dominant cloud image |
-| JSON REST | Not the only API style; OpenAPI documents reality |
-| `docker run` | OCI replaced single vendor runtime story |
-
-## When it matters
-
-- **Integration** — "everyone supports S3 API" beats obscure standard.
-- **Hiring/tooling** — de facto skills transfer vs niche spec compliance.
-- **Risk** — single implementer defines behavior until commoditized.
+**De jure** = by law/specification (ISO, RFC, ECMA). **De facto** = by market habit (Git, Docker, `{json}` APIs). Interop often follows de facto before formal specs catch up (e.g. OAuth flows, S3 API shape). Risk: vendor lock-in, specification drift, sudden deprecation.
 
 ## Related
 
-[[Release cycle]] [[general]] [[Protocol/open api specification]]
+[[de facto]]] [[[Release cycle]]] [[[general]]

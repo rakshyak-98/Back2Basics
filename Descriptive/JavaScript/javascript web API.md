@@ -72,7 +72,7 @@ ws.send(JSON.stringify({ type: 'ping' }));
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | CORS error on fetch | Response headers | Server `Access-Control-Allow-Origin`; see [[Security/CORS (Cross Origin Request Sharing)]] |
 | `fetch failed` Node | TLS, DNS, cert | `NODE_EXTRA_CA_CERTS`; verify URL |
 | Timer never fires | Tab throttled (background) | `visibilitychange`; Web Worker for critical timers |

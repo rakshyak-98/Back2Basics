@@ -2,7 +2,7 @@
 
 # ARIES
 
-> One-line: industry-standard WAL recovery algorithm ( steal + no-force ) — analysis → redo → undo after crash; underpins SQL Server, Db2, and many enterprise engines.
+> industry-standard WAL recovery algorithm ( steal + no-force ) — analysis → redo → undo after crash; underpins SQL Server, Db2, and many enterprise engines.
 
 ## Mental model
 
@@ -24,8 +24,9 @@ ARIES also supports **fuzzy checkpoints** — don't require all dirty pages flus
 ### Conceptual mapping (not one CLI)
 
 | Concept | Postgres-ish | MySQL InnoDB-ish |
-|---------|--------------|------------------|
+
 | WAL | `pg_wal` | redo log |
+| --- | --- | --- |
 | Checkpoint | `CHECKPOINT` | InnoDB checkpoint |
 | Page LSN | page header | page LSN in FIL page |
 | Undo | rollback segments / MVCC | undo tablespace |
@@ -52,7 +53,7 @@ See [[WAL (Write-Ahead Log)]] for `fsync`, `synchronous_commit`, `innodb_flush_l
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Long startup after crash | Expected redo volume | Regular checkpoints; adequate WAL size |
 | Corrupt page after recovery | Media failure / partial write | Restore backup + replay WAL; `pg_checksums` |
 | Stuck in recovery | Missing WAL segment | Restore from archive; PITR |
@@ -73,7 +74,7 @@ See [[WAL (Write-Ahead Log)]] for `fsync`, `synchronous_commit`, `innodb_flush_l
 
 ## When NOT to use
 
-- **Not an app-level pattern** — you don't implement ARIES; you tune the engine that already does.
+- **Not an application-level pattern** — you don't implement ARIES; you tune the engine that already does.
 - **Embedded SQLite** — simpler recovery; still WAL-based but not full ARIES paper.
 
 ## Related

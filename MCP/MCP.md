@@ -12,7 +12,7 @@ An **MCP host** (Cursor, Claude Desktop) runs **MCP clients** that connect to **
 Host (IDE) → MCP Client ↔ transport ↔ MCP Server (git, DB, browser, …)
 ```
 
-Spec evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
+specification evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
 
 ## Standard config / commands
 
@@ -32,7 +32,7 @@ Spec evolves — streamable HTTP supersedes early SSE-only patterns for remote s
 ### Server responsibilities
 
 | Surface | Example |
-|---------|---------|
+| --- | --- |
 | Tools | `query_database`, `create_issue` |
 | Resources | `file:///README.md`, logs URI |
 | Prompts | Reusable prompt templates |
@@ -40,7 +40,7 @@ Spec evolves — streamable HTTP supersedes early SSE-only patterns for remote s
 ### Transport options
 
 | Transport | Use case |
-|-----------|----------|
+| --- | --- |
 | stdio | Local subprocess (default for CLI servers) |
 | Streamable HTTP | Remote/shared server, auth at edge |
 | SSE (legacy) | Older deployments; migrate when possible |
@@ -50,7 +50,7 @@ Reference: [MCP specification](https://modelcontextprotocol.io/) · [Streamable 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Server not listed | Config JSON syntax | Validate; restart host |
 | Tool call timeout | Server logs | Increase timeout; fix blocking I/O |
 | Auth errors (remote) | OAuth/API key | `mcp_auth` flow in host; rotate creds |

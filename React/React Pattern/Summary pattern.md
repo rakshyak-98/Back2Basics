@@ -4,8 +4,6 @@
 
 > Pack component logic into **custom hooks** so the component body is mostly JSX — "summarize" behavior above the return — **React community pattern (hooks era)**.
 
----
-
 ## Mental model
 
 ```txt
@@ -30,8 +28,6 @@ The hook is the **summary** of behavior; the component **presents** it. Enables:
 - Clear separation from [[Separate functional logic from persentation components]]
 
 Not the Gang of Four **Summary** (short object interface) — naming collision in this vault only.
-
----
 
 ## Standard config / commands
 
@@ -66,19 +62,15 @@ export function RoomManager({ roomId }: { roomId: string }) {
 - `FeatureNameView` — pure presentation (optional)
 - Export hook from `useFeatureName.ts` colocated with screen
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Hook 300+ lines | Multiple domains mixed | Split `useRoomData` + `useRoomForm` |
 | Unstable return object | New `{}` each render | `useMemo` return bundle or destructure fields |
 | Can't test without router | Hook calls `useNavigate` | Inject navigate param or wrapper in test |
 | Duplicate hooks same fetch | Copy-paste | Move to shared feature hook |
 | Rules of hooks error | Hook inside if | Call hook unconditionally at top |
-
----
 
 ## Gotchas
 
@@ -88,15 +80,11 @@ export function RoomManager({ roomId }: { roomId: string }) {
 > [!WARNING]
 > **Leaking QueryClient details** — return `{ rooms, save }`, not raw `useQuery` result unless needed.
 
----
-
 ## When NOT to use
 
 - **Trivial 10-line component** — inline state is clearer.
 - **Shared library API** — export hook + headless component, not only internal summary.
 - **Class components (legacy)** — HOC/render props instead ([[Render props]]).
-
----
 
 ## Related
 

@@ -1,13 +1,20 @@
+[[Feature implementation]]
+
+# Bar code generate feature
+
+> Bar code generate feature — short field notes on what it is and how to use it.
+
+## Mental model
+
+**Say it in one breath:** Bar code generate feature — short field notes on what it is and how to use it.
+
 ```shell
 npm install express bwip-js
 ```
-
 ```js
 const express = require('express');
 const bwipjs = require('bwip-js');
-
 const app = express();
-
 app.get("/barcode", (req, res) => {
 	cosnt {code} = req.query;
 	bwipjs.toBuffer({
@@ -26,3 +33,7 @@ app.get("/barcode", (req, res) => {
 	})
 })
 ```
+
+## Related
+
+[[Feature implementation]]

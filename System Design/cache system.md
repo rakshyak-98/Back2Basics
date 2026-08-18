@@ -2,9 +2,7 @@
 
 # Cache system
 
-> Fast read path in front of slow/expensive source — **TTL, invalidation, and stampede control** define correctness.
-
----
+> Cache system — a cache stores copies of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are
 
 ## Mental model
 
@@ -16,15 +14,14 @@ Write: App ──► DB ──► invalidate/publish ──► cache entries dro
 ```
 
 | Layer | Typical | TTL | Invalidation |
-|-------|---------|-----|--------------|
+
 | **Browser/CDN** | HTTP `Cache-Control` | seconds–days | Purge API |
+| --- | --- | --- | --- |
 | **App local** | Caffeine, sync.Map | seconds | Event / TTL |
 | **Distributed** | [[Redis]] | minutes | Key delete, pub/sub |
 | **Query cache** | ORM / materialized view | tricky | Write-through or bust |
 
 **DNS cache** is a special case — stale resolver data looks like "random" connectivity failures.
-
----
 
 ## Standard config / commands
 
@@ -83,12 +80,10 @@ Working set hot keys × average value size × replica factor < Redis memory
 Monitor: hit rate, evicted_keys, latency p99
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Stale data after update | TTL only, no invalidation | Delete key on write; shorter TTL |
 | Redis OOM | `INFO memory`; evictions | Raise maxmemory; LRU policy; smaller values |
 | Thundering herd on expiry | Spike on DB at T+0 | Jitter TTL; singleflight rebuild |
@@ -96,8 +91,6 @@ Monitor: hit rate, evicted_keys, latency p99
 | CDN serves old API | Wrong Cache-Control | private/no-store on auth responses |
 | Cache hit rate 0 | Key churn / wrong prefix | Namespace keys; log miss reason |
 | Inconsistent replicas | Read from replica lag | Read-your-writes: primary or version check |
-
----
 
 ## Gotchas
 
@@ -116,15 +109,11 @@ Monitor: hit rate, evicted_keys, latency p99
 > [!WARNING]
 > **DNS TTL 86400 during migration** — plan lower TTL days before cutover.
 
----
-
 ## When NOT to use
 
 - **Strong consistency required** — read from primary or use linearizable store; no silent cache.
 - **Write-heavy counters** — aggregate in DB/Redis INCR, not read-modify-write cache loop.
 - **Secrets** — don't cache API keys in CDN edge.
-
----
 
 ## Related
 

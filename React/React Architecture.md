@@ -2,9 +2,7 @@
 
 # React Architecture
 
-> How you **split UI, state, data, and boundaries** so the app scales past one team — **Kent C. Dodds / React docs / production postmortems**.
-
----
+> React Architecture — routes / layouts → URL → screen composition
 
 ## Mental model
 
@@ -21,8 +19,9 @@ Infrastructure            → api client, auth, error boundaries, i18n
 Core challenges when building production React:
 
 | Challenge | Mitigation |
-|-----------|------------|
+
 | **Server vs client state** | [[React data management]] — don't duplicate API in Redux |
+| --- | --- |
 | **Bundle size** | Code-split routes ([[react routes]]); lazy `React.lazy` |
 | **Auth/session** | Central guard + token refresh ([[JWT authentication]]) |
 | **Error isolation** | Route-level error boundaries |
@@ -34,8 +33,6 @@ Core challenges when building production React:
 Bad:  every page imports axios + Redux + Context for same POST
 Good: RTK Query endpoint + generated hook + route loader
 ```
-
----
 
 ## Standard config / commands
 
@@ -77,21 +74,17 @@ const Billing = lazy(() => import("../features/billing/routes"));
 // <Suspense fallback={<Skeleton />}><Billing /></Suspense>
 ```
 
-Document **data flow ADR** when choosing Redux vs Query vs zustand ([[React State management]]).
-
----
+Document **data flow ADR** when choosing Redux versus Query versus zustand ([[React State management]]).
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Circular imports | Feature ↔ shared leak | Enforce dependency rule (eslint-plugin-import) |
 | Hydration mismatch | Client-only APIs in RSC | Move to client leaf |
 | Global re-render storm | Context at root | Colocate; selectors ([[zustand]]) |
 | Inconsistent API errors | Per-page handling | Normalized error type in [[API handling]] |
 | Slow initial load | No split | Route lazy + analyze bundle ([[React build]]) |
-
----
 
 ## Gotchas
 
@@ -101,15 +94,11 @@ Document **data flow ADR** when choosing Redux vs Query vs zustand ([[React Stat
 > [!WARNING]
 > **Redux for every GET** — cache belongs in Query ([[react-query]]); Redux for true client global state.
 
----
-
 ## When NOT to use
 
 - **Marketing one-pager** — Vite + few components; skip feature folders.
 - **Embedded widget** — isolate bundle, minimal router.
 - **Copy-paste architecture from blog** — match team size and release cadence.
-
----
 
 ## Related
 

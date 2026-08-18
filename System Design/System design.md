@@ -1,19 +1,66 @@
-## Abstraction and Implementation Hierarchies
-In software design, separate abstraction and implementation hierarchies refer to 
-- decoupling the high level logic (abstraction) from its underlying details (implementation).
-- this separation allows both the abstraction and its implementation to evolve independently without tightly coupling them.
+[[System Design]] [[SOLID]] [[API design]] [[Distributed computing]]
 
-#### Abstraction
-- interface is a tool to achieve abstraction.
-- represents the high-level functionality or concept.
-- does not know the implementation details.
-- typically defines what need to be done (e.g., an interface or abstract class).
+# System design
 
-#### Implementation
-- contains the specific details of how something is done.
-- implements the behavior defined by the abstraction.
+> System design — split what the system means (abstraction) from how it runs (implementation) so either can change without wrecking the other.
 
-##### Why separate them?
-- you can extend either abstraction or implementation without affecting the other.
-- adding new features or implementation is easier.
-- implementations can be reused with different abstraction.
+## Mental model
+
+**Say it in one breath:** Interfaces/APIs describe *what*; adapters/DB/engines do *how*. Interviews and production both fail when those layers glue together.
+
+```txt
+Use-case / domain  →  ports (interfaces)
+                           ↑
+                      adapters (HTTP, SQL, S3)
+```
+
+## Standard config / commands
+
+```txt
+Design checklist
+[ ] Requirements: QPS, data size, consistency, latency SLO
+[ ] API sketch + failure modes
+[ ] Data model + ownership
+[ ] Scaling path (vertical → shard → cache → async)
+[ ] Observability: red metrics + traces
+```
+
+## Abstraction and implementation hierarchies
+
+| Side | Holds |
+| --- | --- |
+| **Abstraction** | Interfaces, use-cases, policies |
+| **Implementation** | Drivers, frameworks, vendor SDKs |
+
+Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting business rules.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Feature needs 12-file edit | Leaky abstraction | Re-draw ports |
+| Can’t load-test one piece | No seams | Add interface + fake |
+| Vendor lock in domain | SDK types in core | Anti-corruption layer |
+| “Architecture astronaut” | Too many layers | Collapse until pain returns |
+| SLO miss unknown where | No metrics per layer | Instrument adapters + use-cases |
+
+## Gotchas
+
+> [!WARNING]
+> **Premature microservices** — separate *modules* before separate *deploys*.
+
+> [!WARNING]
+> **Interface per class** — noise; ports at boundaries only.
+
+> [!WARNING]
+> **Ignoring ops** — design that can’t be deployed/observed isn’t done.
+
+## When NOT to use
+
+- **Throwaway spikes** — one file is fine.
+- **CRUD internal tools** — boring MVC may win.
+- **Interview cargo-cult boxes** — justify every box with load/failure.
+
+## Related
+
+[[SOLID]] [[API design]] [[Distributed computing]] [[cache system]] [[Quorum]]

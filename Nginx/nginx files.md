@@ -1,12 +1,12 @@
-[[Nginx/Configuration]] [[Linux/loggging]] [[Linux/commands/journalctl]]
+[[Nginx/Configuration]] [[Linux/logging]] [[Linux/commands/journalctl]]
 
 # Nginx files (paths and log rotation)
 
-> Where config, logs, and runtime state live on disk — first stop when nginx -t passes but site wrong or logs vanish.
+> Nginx files (paths and log rotation) — package layout varies Debian (/etc/nginx/) vs RHEL (/etc/nginx/ similar) but patterns hold: main config includes snippets and sites-enabled. See
 
 ## Mental model
 
-Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but patterns hold: **main config** includes **snippets** and **sites-enabled**. Logs go to `/var/log/nginx/` unless redirected. **logrotate** truncates logs without dropping open FDs if postrotate sends `USR1` to nginx.
+**Say it in one breath:** Package layout varies Debian (`/etc/nginx/`) versus RHEL (`/etc/nginx/` similar) but patterns hold: **main configuration** includes **snippets** and **sites-enabled**. See [[nginx configuration structure]] for every file under `/etc/nginx/`. Logs.
 
 ```
 /etc/nginx/nginx.conf → sites-enabled/* → access.log / error.log
@@ -18,16 +18,22 @@ Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but
 
 ### Common paths (Debian/Ubuntu)
 
-| Path | Purpose |
-|------|---------|
-| `/etc/nginx/nginx.conf` | Main include tree |
-| `/etc/nginx/sites-available/` | Site defs |
-| `/etc/nginx/sites-enabled/` | Symlinks to enabled sites |
-| `/etc/nginx/conf.d/*.conf` | Drop-in snippets |
-| `/var/log/nginx/access.log` | Request log |
-| `/var/log/nginx/error.log` | Errors, upstream failures |
-| `/etc/logrotate.d/nginx` | Rotation policy |
-| `/run/nginx.pid` | Master PID |
+| Path                          | Purpose                   |
+| --- | --- |
+| 
+
+- | 
+
+---- |
+| `/etc/nginx/nginx.conf`       | Main include tree         |
+| --- | --- |
+| `/etc/nginx/sites-available/` | Site defs                 |
+| `/etc/nginx/sites-enabled/`   | Symlinks to enabled sites |
+| `/etc/nginx/conf.d/*.conf`    | Drop-in snippets          |
+| `/var/log/nginx/access.log`   | Request log               |
+| `/var/log/nginx/error.log`    | Errors, upstream failures |
+| `/etc/logrotate.d/nginx`      | Rotation policy           |
+| `/run/nginx.pid`              | Master PID                |
 
 ### Enable site
 
@@ -63,7 +69,7 @@ sudo tail -f /var/log/nginx/access.log
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Edit has no effect | Which file included? | `nginx -T`; enable correct site symlink |
 | Disk full | `/var/log/nginx` size | Force rotate; lower retention; fix log flood |
 | Empty error log | `error_log` path override | Grep `error_log` in `nginx -T` |
@@ -87,4 +93,4 @@ sudo tail -f /var/log/nginx/access.log
 
 ## Related
 
-[[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/loggging]]
+[[nginx configuration structure]] [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/logging]]

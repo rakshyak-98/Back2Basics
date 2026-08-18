@@ -1,8 +1,8 @@
-[[Linux configuration]] [[Linux terminal]] [[terminal config]]
+[[Linux configuration]] [[Linux terminal]] [[terminal configuration]]
 
 # Font commands (fontconfig)
 
-> One-line: **fontconfig CLI** — resolve, list, and rebuild font caches when apps show tofu boxes or wrong faces after install. Not a font installer; it tells you what the system *actually* picks.
+> fontconfig CLI — list, match, and rebuild fonts when apps show missing glyphs.
 
 ## Mental model
 
@@ -14,11 +14,22 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 ```
 
 | Tool | Role |
-|------|------|
+| --- | --- |
 | `fc-list` | Inventory: family, style, file path |
 | `fc-match` | What fontconfig *would* use for a query |
 | `fc-cache` | Rebuild caches after install/remove |
 | `fc-scan` | Low-level scan of a directory (debug) |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **fc-list** | List fonts | “fc-list : family | sort.” |
+| --- | --- | --- | --- |
+| **fc-cache** | Rebuild cache | “After install fonts → fc-cache -fv.” |
+| **~/.local/share/fonts** | User fonts | “No root needed.” |
+| **fc-match** | What will render | “fc-match 'DejaVu Sans'.” |
+| **Pango/Qt** | App stacks | “Apps may bypass fontconfig quirks.” |
 
 ## Standard config / commands
 
@@ -46,7 +57,7 @@ sudo fc-cache -fv
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Tofu □□□ after font install | `fc-list \| grep -i name` | Font not installed; wrong path; run `fc-cache -fv` |
 | App shows different font than terminal | `fc-match "Family"` in both contexts | Snap/Flatpak sandbox has isolated font dirs |
 | Bold/italic wrong | `fc-match "Family:style=Bold"` | Install separate bold file; check `@font-face` in CSS apps |
@@ -61,15 +72,15 @@ sudo fc-cache -fv
 > [!WARNING]
 > **Flatpak/Snap** — host fonts don't always propagate. Use `flatpak override --user --filesystem=~/.local/share/fonts` or install font inside sandbox.
 
-- **X11 vs Wayland** — font rendering differs (Xft, Cairo, subpixel). Same `fc-match` can look different; not always a fontconfig bug.
+- **X11 versus Wayland** — font rendering differs (Xft, Cairo, subpixel). Same `fc-match` can look different; not always a fontconfig bug.
 - **Clearing cache blindly** — `rm -rf ~/.cache/fontconfig` fixes corruption but forces full rebuild on next login.
 
 ## When NOT to use
 
-- **Choosing a font for design** — use a font book or app UI; `fc-list` is for ops/debug.
-- **PDF/print embedding** — fontconfig doesn't embed; that's app-specific (LibreOffice, LaTeX).
+- **Choosing a font for design** — use a font book or application UI; `fc-list` is for operations/debug.
+- **PDF/print embedding** — fontconfig doesn't embed; that's application-specific (LibreOffice, LaTeX).
 - **Windows/macOS font sync** — different stack entirely.
 
 ## Related
 
-[[Linux configuration]] [[Linux terminal]] [[terminal config]] [[wayland]] [[x11]]
+[[Linux configuration]] [[Linux terminal]] [[terminal configuration]] [[wayland]] [[x11]]

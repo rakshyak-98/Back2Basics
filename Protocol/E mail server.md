@@ -2,7 +2,7 @@
 
 # E mail server
 
-> One-line: the MTA/MDA/MUA stack that accepts, routes, stores, and retrieves mail — debug deliverability at each hop.
+> E mail server — email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.
 
 ## Mental model
 
@@ -16,8 +16,9 @@ Email crosses distinct roles. Confusing them causes misconfigured ports and wron
 ```
 
 | Role | Name | Job | Typical port |
-|------|------|-----|--------------|
+
 | **MUA** | Mail User Agent | Compose/read (Outlook, mutt, web UI) | — |
+| --- | --- | --- | --- |
 | **MSA** | Mail Submission Agent | Authenticated client injection | 587 STARTTLS |
 | **MTA** | Mail Transfer Agent | Route/relay between domains | 25 |
 | **MDA** | Mail Delivery Agent | Drop into mailbox (Maildir/mbox) | local / LMTP |
@@ -66,14 +67,14 @@ dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
 - [ ] **DMARC** policy (`p=none` → monitor, then `quarantine`/`reject`)
 - [ ] **PTR/rDNS** matches SMTP EHLO hostname
 - [ ] **TLS cert** valid for submission/IMAP hostnames
-- [ ] **Firewall**: 25/587/993 open as needed; block 25 outbound on app servers not sending mail
+- [ ] **Firewall**: 25/587/993 open as needed; block 25 outbound on application servers not sending mail
 - [ ] **Relay policy**: authenticated users only on 587; no open relay on 25
 - [ ] **Queue monitoring** + alert on backlog depth
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Mail stuck in queue | `mailq`; defer reason in log | Fix DNS/MX; clear RBL; auth to smart host |
 | Users can't send | MSA auth / TLS | Verify SASL creds; cert chain on 587 |
 | Users can't receive | MX DNS; MTA listening :25 | Fix MX; open SG; check `postconf inet_interfaces` |
@@ -96,7 +97,7 @@ dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
 ## When NOT to use
 
 - Product email at scale → managed [[SMTP]] relay (SES, SendGrid) beats running your own MTA reputation.
-- Dev-only fake SMTP → Mailhog/Mailpit locally; don't point at production MX.
+- development-only fake SMTP → Mailhog/Mailpit locally; don't point at production MX.
 
 ## Related
 

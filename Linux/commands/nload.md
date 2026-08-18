@@ -2,7 +2,7 @@
 
 # nload
 
-> One-line: real-time **per-interface bandwidth** graph in the terminal — quick "who is saturating the NIC?" without Prometheus. **Legacy but still useful on jump boxes.**
+> nload — polls /proc/net/dev (or pcap on some builds) and draws moving averages for incoming and outgoing throughput per interface. One screen, two graphs — not
 
 ## Mental model
 
@@ -13,12 +13,24 @@
 ```
 
 | Tool | Granularity | Best for |
-|------|-------------|----------|
+
 | `nload` | Per interface | "Is eth0 pegged?" |
+| --- | --- | --- |
 | `iftop` | Per connection | "Which remote IP?" |
 | `nethogs` | Per process | "Which PID?" |
 | `ip -s link` | Counter snapshot | Scripting, no TUI |
 | `sar -n DEV` | Historical (sysstat) | Post-incident |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **nload** | Live bandwidth graphs | “nload eth0 for instant traffic.” |
+| --- | --- | --- |
+| **in/out** | RX/TX rates | “Spot saturation quickly.” |
+| **iftop / bmon** | Alternatives | “iftop shows per-flow.” |
+| **iface down** | No data | “Wrong device name → empty.” |
+| **remote SSH** | Over own link | “Measuring the link you use skews it.” |
 
 ## Standard config / commands
 
@@ -60,7 +72,7 @@ sar -n DEV 1 5
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Shows 0 on busy host | Wrong interface name | `ip link`; cloud uses `ens*`, not `eth0` |
 | Graph flat but users report slowness | Problem not bandwidth (latency, CPU) | [[ss]], `ping`, app metrics |
 | Can't identify culprit | Interface-level only | `iftop`, `nethogs`, `tcpdump` |

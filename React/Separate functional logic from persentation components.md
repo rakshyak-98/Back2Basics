@@ -1,19 +1,76 @@
-Imagine replacing the entire user interface with a completely different one - for example, swapping a graphical GUI for a command-line interface, a web app for a mobile app, or a desktop view for a voice-assisted interface. If your functional logic remains unchanged and reusable without touching UI-specific code, you've achieved good separation. This test forces you to keep domain calculations, data processing, and rules isolated from how data is displayed or user input is handled.
+[[React]] [[React Pattern/Component Presentational Pattern]] [[React Pattern/Provider pattern]]
 
-## Common Architectural Patterns
+# Separate functional logic from presentation components
 
-### MVC (Model View Controller)
+> Keep domain rules out of JSX — you should be able to swap GUI for CLI without rewriting the rules.
 
-- Model -> Pure functional/domain logic and data.
-- View -> Pure presentation (what the user sees).
-- Controller -> Handles input and bridges the two (but can sometimes mix concerns)
+## Mental model
 
-### MVP (Model View Presenter)
+**Say it in one breath:** Pure domain code computes; presentation only renders props and fires callbacks. If swapping the UI would force rewriting business rules, separation failed.
 
-- Presenter fully mediates, making the View "passive" (dumb) and easier to test/mock. Great mental shift: The View knows nothing about the Model.
+```txt
+Domain (pure)  →  ViewModel / hooks  →  Presentational UI
+     ↑                    ↑
+  testable            thin glue
+```
 
-### MVVM (Model View View-Model)
+### Interview map (words you can say)
 
-- View-Model -> Holds presentation-specific state and logic (e.g., formatting data for display), but ant UI rendering details.
-- View -> Binds directly to View-Model (Often via data binding).
-- Model -> Core functional logic.
+| Word | Plain meaning | Say in interview |
+
+| **MVC** | Model + View + Controller bridge | “Controller can still mix concerns.” |
+| --- | --- | --- |
+| **MVP** | Passive view, presenter mediates | “View knows nothing about the model.” |
+| **MVVM** | View binds to View-Model | “Formatting lives in VM, not DOM code.” |
+
+## Standard config / commands
+
+```tsx
+// domain — no React
+export function cartTotal(items: { price: number; qty: number }[]) {
+  return items.reduce((s, i) => s + i.price * i.qty, 0)
+}
+
+// glue
+function useCartVm(items: Item[]) {
+  return { total: cartTotal(items), count: items.length }
+}
+
+// presentation — props only
+function CartSummary({ total, count }: { total: number; count: number }) {
+  return <p>{count} items · ${total}</p>
+}
+```
+
+| Pattern | Who owns logic |
+
+| Container / Presentational | Container fetches & maps; presentational is dumb |
+| --- | --- |
+| Custom hooks | Logic reusable without a “container” component |
+| Provider | Shared domain state injected; UI stays thin |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Can’t unit-test totals | Logic inside JSX | Extract pure functions |
+| Same rule duplicated in web + mobile | Coupled to DOM | Shared domain module |
+| “Dumb” view still imports API | Fetch in presentational | Move fetch to hook/container |
+| Hard to swap design system | Domain in styled components | Props in; no business imports |
+
+## Gotchas
+
+> [!WARNING]
+> **Presentational ≠ zero hooks** — local UI state (open/closed) is fine; domain rules are not.
+
+> [!WARNING]
+> **MV\* labels don’t save you** — the swap-UI test matters more than the acronym.
+
+## When NOT to use
+
+- **Tiny throwaway screens** — three lines of logic don’t need a domain layer.
+- **UI-only chrome** — no domain rules; keep it in the component.
+
+## Related
+
+[[React Pattern/Component Presentational Pattern]] [[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]] [[React code smells]]

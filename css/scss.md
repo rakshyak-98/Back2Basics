@@ -2,9 +2,7 @@
 
 # scss
 
-> SCSS in 2026: still valuable for **design tokens, mixins, and partials** — but lean on native CSS where it caught up — **Sass team + modern CSS spec**.
-
----
+> scss — = CSS + variables, nesting, mixins, functions, @use modules. Build step compiles to plain CSS.
 
 ## Mental model
 
@@ -20,8 +18,6 @@ SCSS = CSS + variables, nesting, mixins, functions, `@use` modules. Build step c
 **Migration reality:** greenfield may ship CSS modules + Tailwind; legacy codebases still run large SCSS — know both maintenance and sunset patterns.
 
 **Module system (`@use` / `@forward`)** replaced `@import` (deprecated) — one namespace per file, no duplicate global pollution.
-
----
 
 ## Standard config / commands
 
@@ -118,20 +114,16 @@ npm i -D sass-embedded
 }
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Duplicate CSS in bundle | Leftover `@import` | Migrate to `@use`; single entry `@forward` barrel |
 | Undefined variable | Namespace | `@use 'tokens/colors' as c;` → `c.$primary` |
 | Deprecation warnings CI fail | dart-sass 1.80+ | Replace `@import`, `/` division → `math.div()` |
 | Huge CSS output | `@extend` chains | Prefer mixins or utility classes |
 | Dark mode tokens wrong | Compile-time `$vars` only | Move theme to CSS custom properties |
 | Slow builds | `@use` graph + source maps | `--quiet-deps`; limit `additionalData` glob |
-
----
 
 ## Gotchas
 
@@ -147,15 +139,11 @@ npm i -D sass-embedded
 > [!WARNING]
 > **Tailwind + SCSS duplication** — pick source of truth for spacing/color; don't define both.
 
----
-
 ## When NOT to use
 
 - **New micro-frontends with Tailwind/CSS-in-JS** — SCSS adds build complexity without team buy-in.
 - **Runtime theming / user accent colors** — CSS custom properties only.
 - **One-off static landing** — plain CSS or utility framework faster than token architecture.
-
----
 
 ## Related
 

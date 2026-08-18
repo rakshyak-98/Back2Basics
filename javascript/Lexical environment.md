@@ -2,9 +2,7 @@
 
 # Lexical environment
 
-> Internal record holding **bindings** (variables, functions) + link to **outer** environment — scope is lexical, not dynamic — **ECMA-262 spec / You Don't Know JS**.
-
----
+> Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
 ## Mental model
 
@@ -20,7 +18,7 @@ Each scope (function, block, module) has a **Lexical Environment**:
 **Variable** access = walk the chain until name found ([[variable]]). You cannot inspect LexicalEnvironment objects from user code — engines implement them internally.
 
 | Concept | Behavior |
-|---------|----------|
+| --- | --- |
 | **Lexical scope** | Defined by source text nesting |
 | **Closure** | Function + reference to outer env |
 | **`var`** | Function-scoped; hoisted ([[hoisting]]) |
@@ -34,8 +32,6 @@ function outer() {
   return inner;
 }
 ```
-
----
 
 ## Standard config / commands
 
@@ -71,19 +67,15 @@ export const secret = 42;
 
 Debug scope in DevTools **Scope** panel during breakpoint — practical view of environment records.
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `undefined` before assignment | `var` hoisting | Use `let`; declare before use |
 | Loop closure same index | Shared `var` binding | `let i` in for-loop or IIFE |
 | Cannot access before init | TDZ with `const` | Reorder declarations |
 | Unexpected global leak | Bare assignment | `"use strict"`; declare with `let` |
 | Stale closure in React | Captured old state | Functional updates; refs ([[referential equality]]) |
-
----
 
 ## Gotchas
 
@@ -93,14 +85,10 @@ Debug scope in DevTools **Scope** panel during breakpoint — practical view of 
 > [!WARNING]
 > **Dynamic `eval`** — can mutate lexical bindings in non-strict legacy modes; avoid.
 
----
-
 ## When NOT to use
 
-- **Explaining to juniors** — start with "scope chain" intuition; spec terms second.
+- **Explaining to juniors** — start with "scope chain" intuition; specification terms second.
 - **Performance micro-hacks** — engines optimize closures; don't flatten scopes manually without profiling.
-
----
 
 ## Related
 

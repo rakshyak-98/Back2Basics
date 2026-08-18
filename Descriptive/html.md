@@ -1,96 +1,71 @@
-#### How to suppress the automatic requests for `favicon.ico` in web
+[[Descriptive]] [[Markdown]] [[embedded image]]
 
-```html
-<head>
-	<link rel='icon' href='data:,' />
-<head>
-```
-- browser make a default request for `favicon.ico` on each page load.
+# html
 
-### Browser specific methods to suppress automatic favicon requests
-- firefox `about:config`
-- search `browser.chrome.favicons`
+> HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
+
+## Mental model
+
+**Say it in one breath:** Tags build a DOM tree; semantics (button/a/heading) matter for a11y and SEO more than nested divs.
 
 ```txt
-Layout was forced before the page was fully loaded. If stylesheets are not yet loaded this may cause a flash of unstyled content. markup.js:250:53
-```
-- indicates that the browser is rendering elements before all CSS stylesheets have been fully loaded, leading to a [[Flash of Unstyled Content]] (FOUC).
-
-### Prevent unintended dragging
-```css
-img {
-	pointer-events: none;
-	user-drag: none;
-	-webkit-user-drag: none;
-}
-
+HTML → DOM → CSSOM → render
 ```
 
-```js
-function blockContextMenu(e){
-	e.preventDefault();	
-}
+### Interview map (words you can say)
 
-document.addEventListener("contextmenu", blockContextMenu)
+| Word | Plain meaning | Say in interview |
 
-```
+| **Semantic tags** | Meaning | “Use `button`, not clickable `div`.” |
+| --- | --- | --- |
+| **DOM** | Live tree | “JS mutates nodes.” |
+| **void elements** | No close tag | `img`, `br`, `input` |
+| **forms** | Submit model | “name → payload.” |
 
-#### Detect focus loss and add watermark
+## Standard config / commands
 
-```js
-function addWatermarkWhenScreenShot(e){
-	document.hidden ? addWaterMark() : removeWaterMark();
-}
-
-function addWatermark() {
-    let wm = document.createElement("div");
-    wm.innerText = "Protected Content";
-    wm.id = "watermark";
-    document.body.appendChild(wm);
-}
-
-function removeWatermark() {
-    let wm = document.getElementById("watermark");
-    if (wm) wm.remove();
-}
-
-document.addEventListener("visibilitychange", addWatermarkWhenScreenShot)
-```
-
-```css
-#watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    color: rgba(255, 0, 0, 0.5);
-    pointer-events: none;
-    z-index: 9999;
-}
-
-```
-
-```js
-function addWaterMarkWhenPrintKeyboardShortut(e){
-	if ((e.key === "PrintScreen" ) || (e.ctrlKey && e.key === "p")){
-		addWatermark();
-		setTimeout(removeWatermark, 3000);
-	}
-}
-document.addEventListener("keydown", addWaterMarkWhenPrintKeyboardShortut)
-
-```
-
-### Select Warning: The `value` prop supplied to `<select>` must be a scalar value if `multiple` is false.
-- you are using a `<select>` element with `multiple={false}` (or by default, since `multiple` is `false` by default).
-- you passed an array or non-scaler value to the `value` prop.
-
-> [!INFO]
-> react will warn here because `value` is an array, only allowed when `multiple={true}`
 ```html
-<select value={["apple"]}>
-	<option value="apple">Apple</option>
-	<option value="banana">Banana</option>
-</select>
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><title>App</title></head>
+  <body>
+    <main>
+      <h1>Title</h1>
+      <button type="button">Save</button>
+    </main>
+  </body>
+</html>
 ```
+
+| Knob | Why it matters |
+
+| `lang` | A11y / hyphenation |
+| --- | --- |
+| `alt` on images | Screen readers |
+| `type` on button | Avoid accidental submit |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Quirks mode | missing doctype | Add `<!doctype html>` |
+| Broken layout | invalid nesting | Validate HTML |
+| Form weird POST | button type | `type="button"` |
+| A11y fails | div soup | Semantic elements + labels |
+
+## Gotchas
+
+> [!WARNING]
+> **Clickable divs without keyboard** — not accessible.
+
+> [!WARNING]
+> **Inline scripts before DOM** — null querySelector; defer/DOMContentLoaded.
+
+## When NOT to use
+
+- **Non-document UIs** — canvas/WebGL still need a host page.
+- **Data interchange** — JSON, not HTML scraping.
+
+## Related
+
+[[Markdown]] [[embedded image]] [[WCAG (Web Content Accessibility Guidelines)]]

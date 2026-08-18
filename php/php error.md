@@ -2,7 +2,7 @@
 
 # PHP errors
 
-> Apache/PHP-FPM startup and runtime failures — read the error log line, fix the socket/port/config mismatch.
+> PHP errors — PHP in production usually sits behind Apache (mod_php rare now) or Nginx → PHP-FPM (Unix socket or TCP). "No listening sockets" means the
 
 ## Mental model
 
@@ -48,7 +48,7 @@ listen = /run/php/php8.2-fpm.sock
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `no listening sockets available, shutting down` | `ss -tlnp`, Apache already up | Stop duplicate Apache; free port 80 |
 | `Address already in use` | Conflicting nginx/apache | One listener per port; disable unused service |
 | 502 Bad Gateway | FPM running? socket path | Restart FPM; align socket in nginx + pool |

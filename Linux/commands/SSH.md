@@ -1,120 +1,109 @@
-```shell
-ssh -F <config file> -G <Host>; # print final resolved configurations for that host
-ssh user@host; # connect to remote host using default key
-ssh -p 2222 user@host; # connect with specific port
-ssh-copy-id user@host; # copy public key to a remote server
+[[Linux]] [[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]]
+
+# SSH
+
+> SSH (Secure Shell) opens an encrypted login/command channel to a remote host — authenticate with keys, then run shells, tunnels, or file copy.
+
+## Mental model
+
+**Say it in one breath:** TCP connect → agree session crypto → prove who you are (key or password) → you get a shell or a tunnel.
+
+```txt
+Client                         Server (sshd)
+  │ TCP :22                       │
+  ├─ version + host key check ────┤  (known_hosts)
+  ├─ KEX → symmetric session ─────┤  ([[symmetrical encryption]])
+  ├─ user auth (pubkey) ──────────┤  ([[Asymmetrical Encryption]])
+  └─ channels: shell / -L / -R ───┘
 ```
 
-```shell
-nc -zv host 22; # check ssh port availability
-ssh -T user@host;
-```
+### Interview map (words you can say)
 
-## Remote port forwarding
+| Word | Plain meaning | Say in interview |
+
+| **Host key** | Server’s identity key | “Client verifies fingerprint vs known_hosts.” |
+| --- | --- | --- |
+| **User key** | Your login credential | “Private stays local; public in `authorized_keys`.” |
+| **KEX** | Key exchange | “Builds a shared session key; then symmetric crypto.” |
+| **Session cipher** | Bulk encryption | “AES-GCM/chacha — not your long-term SSH key.” |
+| **MAC / AEAD** | Integrity | “Detects tampering on the wire.” |
+| **Tunnel `-L/-R/-D`** | Port forwarding | “SSH as a poor man’s VPN for one port.” |
+
+### How the story goes (4 steps)
+
+1. **Connect** — TCP to `sshd` (often :22).
+2. **Trust host** — compare host key; abort on mismatch (possible MITM).
+3. **Secure channel** — KEX → symmetric session; MACs/AEAD on packets.
+4. **Authenticate user** — pubkey challenge (or other methods) → open channels.
+
+`ssh-keyscan` only fetches the host key — it does **not** authenticate you and it does **not** prove the host is genuine without an out-of-band fingerprint check.
+
+## Standard config / commands
 
 ```bash
+ssh user@host
+ssh -p 2222 user@host
+ssh -i ~/.ssh/id_ed25519 user@host
+ssh -F ~/.ssh/config -G host     # print effective config
+ssh-copy-id user@host
 
-# Make local port 3000 accessible on remote port 8080
-ssh -R 8080:localhost:3000 user@root;
+# Connectivity
+nc -zv host 22
+ssh -vvv user@host               # auth/debug
 
+# Keys
+ssh-keygen -t ed25519 -C "you@work"
+ssh-keygen -lf ~/.ssh/id_ed25519.pub
+ssh-keygen -F github.com         # find known_hosts line
+
+# Host key fetch (verify fingerprint separately!)
+ssh-keyscan -p 22 host
+
+# Local / remote forward
+ssh -L 8080:localhost:80 user@host
+ssh -R 8080:localhost:3000 user@host
 ```
 
-### Debug wrong key/user/port
+Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuthentication`, `PermitRootLogin`, `AllowUsers`, ciphers.
 
-```bash
-ssh -F <config file> -G <host>;
-```
-- verify which `IdentityFile` is used
-- check config inheritance (Host*, wildcard)
+| Knob | Why it matters |
 
-### List Current ssh connections
+| `IdentityFile` / `-i` | Wrong key → auth failure loop |
+| --- | --- |
+| `HostKeyAlgorithms` | Legacy servers need explicit algos |
+| `StrictHostKeyChecking` | `no` is a MITM footgun |
+| `ProxyJump` / bastion | Corporate entry pattern |
 
-```bash
-who; # show who is logged on.
-```
+## Triage (when things break)
 
-### How `ssh-keyscan` fetches SSH host keys
-`ssh-kyscan` works by initiating a raw ssh handshake with the remote server just long enough to capture its public host key, then disconnects.
-- TCP connect to server on port 22 (or customer with -p).
-- Sends SSH protocol version exchange.
-- Receives server's public host key's RSA, ED25519.
-- Prints key's in OpenSSH `known_hosts` format.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Permission denied (publickey) | `-vvv`; which key offered | Right `-i`; pubkey in `authorized_keys`; perms `600/700` |
+| Host key verification failed | Someone rotated keys **or** MITM | Verify fingerprint OOB; then update known_hosts |
+| Timeout | `nc -zv`; security groups | Open :22/custom; check bind address |
+| Works in shell, fails in CI | Missing agent / key | `ssh-agent`; non-interactive `IdentitiesOnly=yes` |
+| Tunnel open, app fails | Bound to localhost only | `-L` bind address; remote firewall |
 
-> [!NOTE] Does not authenticate or complete full SSH logins
+## Gotchas
 
-> [!INFO] You must manually verify the fingerprint from a trusted source before trusting.
+> [!WARNING]
+> **Host key ≠ user key.** Trusting the server is separate from logging in as you.
 
-#### Why `ssh-keyscan` alone is not secure?
-- it trusts whatever host responds on the IP/hostname and port.
-- if a attacker is spoofing the server [[MITM]], `ssh-keyscan` will still show their key.
-- So, if you blindly save that key (to `known_hosts`) you've now trusting a potentially fake server.
-[github official fingerprint](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
+> [!WARNING]
+> **`ssh-keyscan` is not verification.** Always compare fingerprints with a trusted source (e.g. GitHub’s published fingerprints).
 
-### Validate ssh key
+> [!WARNING]
+> **Private key in the repo / AMI** — rotate immediately; use short-lived certs or cloud IAM where possible.
 
-```sh
-ssh-keyscan github.com | tee tmp_key;
-ssh-keygen -lf <public key>; # print fingerprint + bits.
-ssh-keygen -yf <private key>; # prints public key if valid.
+> [!WARNING]
+> **Agent forwarding (`-A`)** — convenient and dangerous on untrusted bastions.
 
-ssh-keygen -i <private key> -v user@host; # verify connectivity.
+## When NOT to use
 
-```
-[]()
-- verify the fingerprint manually before trusting.
+- **Public machine-to-machine APIs** — HTTPS + application authentication; don’t expose SSH broadly.
+- **Bulk file sync as primary transport** — consider object storage; `scp`/`rsync`-over-SSH for operations, not CDN.
+- **Interactive root over password on the open internet** — keys + allowlists + bastion.
 
-```sh
-ssh-keygen -F github.com
-```
-- this tells you the line number of GitHub's key from `~/.ssh/known_hosts`.
-- find all the entries of for a host.
+## Related
 
-### Why this works
-
-- SSH servers must send their public key early in handshake (to prove identity).
-- that key is not secret - it's how clients verify they're talking to the correct server.
-- `ssh-keyscan` captures just that.
-
-### Difference between `ssh-keyscan` and `ssh-keygen`
-
-- `ssh-keyscan` fetch a remote server's host key. You want to get a host's key without connecting fully.
-- `ssh-keygen` inspect/verify key fingerprint. You want to view fingerprint of local key file (your own SSH keys) or a `known_hosts` entry.
-
-# Understanding the SSH encryption and  Connection process
-
-[post link](https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process)
-
-- ssh key pairs begins after the symmetric encryption has been established.
-- client-server model to authenticate two parties and encrypt the data.
-- the client is responsible for beginning the initial [[TCP]] handshake with the server.
-- ssh connection is established in two separate stages
-	- first is to agree upon and establish encryption to protect future communication.
-	- second to authenticate the user and discover whether access to the server should be granted.
-- sever provides its public host key, which the client can use to check whether this was the intended host.
-	- both party negotiate a session key using a version of something called [Diffie-Hellman algorithm]() combine their own private data with public data from the other system to arrive at an identical secret session key.
-	- session key will be used to encrypt the entire session.
-	- public and private key pairs used for this part of the procedure are completely separate from the SSH keys used to authenticate a client to the server.
-
-## Understand Symmetric Encryption, Asymmetric Encryption and Hashes
-
-- relationship of the encrypt and decrypt data determines whether an encryption scheme is [[symmetrical encryption]] or [[Asymmetrical Encryption]]
-- Asymmetric key pairs that can be created are only used for authentication, not encrypting the connection.
-- the first option from the client's list that is available on the server is used as the cipher algorithm in both directions.
-- SSH uses asymmetric encryption, during initial key exchange process used to set up the symmetrical encryption. (produce temporary key paris and exchange the public key in order to produce the share secret that will be used for symmetrical encryption).
-
-### SSH key pairs
-
-- SSH key pairs can be used to authenticate a client to a server.
-- client creates a key pairs and then uploads the public key to any remote server it wishes to access.
-after the symmetrical encryption is established to secure communication between the server and client, the client must authenticate to be allowed access.
-- the server can use the public key in the file to encrypt a challenge message to the client.
-- if client can prove that it was able to decrypt this message, it has demonstrated that it owns the associated private key.
-- then server can set up the environment for the client.
-
-## Hashing
-
-- ssh takes advantage of [[Cryptographic hashing]] for data manipulation
-- each message sent after the encryption is negotiated must contain a MAC (Message Authentication Code) so that the other party can verify the packet integrity.
-- the MAC is calculated from the symmetrical shared secret, the packet sequence number of the message, and the actual message content.
-- the MAC itself is sent outside of the symmetrically encrypted area as the final part of the packet.
-- recommend encrypting the data first and then calculating the MAC.
+[[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[nc]] [[puTTY]] [[ufw]]

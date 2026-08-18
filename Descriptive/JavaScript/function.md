@@ -16,7 +16,7 @@ fn(2, 3) → new context → return 5 → context popped
 ```
 
 | Form | `this` | Hoisting |
-|------|--------|----------|
+| --- | --- | --- |
 | Function declaration | call-site | whole block |
 | Function expression | call-site | name only inside expr |
 | Arrow function | lexical `this` | not hoisted as fn |
@@ -75,7 +75,7 @@ const withAuth = (token) => (req) => fetch(req, {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `fn is not a function` | Import/export mismatch | Default vs named export |
 | Wrong arity silently | Extra args ignored | Validate length or use TS |
 | `this` undefined in method passed as callback | Detached method | `bind`, arrow wrapper, or class field |
@@ -87,7 +87,7 @@ const withAuth = (token) => (req) => fetch(req, {
 > [!WARNING]
 > Functions are **mutable objects** — reassigning `parseConfig = null` does not remove it from closures that already captured the old reference.
 
-- **`function.length`:** count of params before first default/rest — not always runtime arity.
+- **`function.length`:** count of parameters before first default/rest — not always runtime arity.
 - **Generator/async:** return iterators/promises; different error paths.
 - **Strict mode** in modules and classes — silent global leaks become errors.
 

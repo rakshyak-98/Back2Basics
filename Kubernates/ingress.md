@@ -2,7 +2,7 @@
 
 # ingress
 
-> HTTP/S routing into the cluster — **Ingress** = rules; **Ingress Controller** = program that implements them — **Kubernetes: Up and Running** (Burns et al.).
+> ingress — internet ──► LB / NodePort ──► Ingress Controller (nginx, traefik, cilium, ALB…)
 
 ## Mental model
 
@@ -23,15 +23,17 @@ Ingress spec.rules[].host + path  ──maps──►  Service.name:port  ──
 Two objects, easy to confuse:
 
 | Object | What it is |
-|--------|------------|
+
 | `Ingress` | Declarative routing rules (YAML you write) |
+| --- | --- |
 | Ingress Controller | Watches Ingress; configures data plane (nginx, Envoy, …) |
 
 ### Controller landscape
 
 | Controller | Typical use |
-|------------|-------------|
+
 | **ingress-nginx** | General self-hosted; annotations rich |
+| --- | --- |
 | **Traefik** | Docker-native shops; auto-discovery |
 | **AWS LB Controller** | EKS → ALB/NLB |
 | **GCE / GKE Ingress** | GCP integrated |
@@ -125,7 +127,7 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 ```
 
 | Step | Command | Interpret |
-|------|---------|-----------|
+| --- | --- | --- |
 | 1 | `kubectl describe ingress -n prod` | Address assigned? Backend service name/port correct? |
 | 2 | `kubectl get endpoints -n prod api` | Empty = no ready pods |
 | 3 | `kubectl get pods -n prod -l app=api` | Running + Ready? |
@@ -136,11 +138,11 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 
 **Common root causes:**
 
-- Service `targetPort` ≠ container `containerPort` (8080 vs 80).
-- App binds `127.0.0.1` only — not reachable from controller pod network.
-- Readiness probe passes localhost but app broken on real traffic path.
+- Service `targetPort` ≠ container `containerPort` (8080 versus 80).
+- application binds `127.0.0.1` only — not reachable from controller pod network.
+- Readiness probe passes localhost but application broken on real traffic path.
 - TLS secret missing/wrong → 502 on HTTPS, HTTP works.
-- Annotation typo (`nginx.ingress.kubernetes.io/backend-protocol: HTTPS` when app is HTTP).
+- Annotation typo (`nginx.ingress.kubernetes.io/backend-protocol: HTTPS` when application is HTTP).
 - Timeout too low — long requests → 502 at 60s default.
 
 ```bash
@@ -154,7 +156,7 @@ metadata:
 ## Triage table
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 404 from ingress | host/path rule mismatch | Add rule; check `pathType` Prefix vs Exact |
 | 503 Service Unavailable | endpoints empty | Fix readiness; pod crash — [[kubectl]] CrashLoop |
 | 502 intermittent | controller + app logs | Timeouts; pod restarts; HPA flapping |

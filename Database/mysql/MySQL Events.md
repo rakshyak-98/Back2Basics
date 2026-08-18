@@ -94,7 +94,7 @@ END
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Event never runs | `event_scheduler` OFF | `SET GLOBAL event_scheduler = ON`; persist in config |
 | Event DISABLED after error | `SHOW EVENTS` → Status | `ALTER EVENT … ENABLE`; fix SQL in body |
 | Runs but no rows affected | Wrong WHERE; timezone | Verify `time_zone`; test DO clause manually |
@@ -119,7 +119,7 @@ END
 
 ## When NOT to use
 
-- **Heavy ETL or cross-system orchestration** — use [[Airflow]], cron + app worker, or CDC pipeline.
+- **Heavy ETL or cross-system orchestration** — use [[Airflow]], cron + application worker, or CDC pipeline.
 - **Exactly-once distributed semantics** — events are single-node; use external queue with acks.
 - **User-visible scheduling** — no UI; prefer application scheduler with audit trail.
 

@@ -2,7 +2,7 @@
 
 # BGP
 
-> One-line: path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
+> path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
 
 ## Mental model
 
@@ -21,8 +21,9 @@ BGP (Border Gateway Protocol) advertises **IP prefixes** (NLRI) between **Autono
 ```
 
 | Type | Scope | Typical use |
-|------|-------|-------------|
+
 | **eBGP** | Between different ASNs | Internet peering, transit, cloud Direct Connect |
+| --- | --- | --- |
 | **iBGP** | Within one ASN | Propagate external routes to all internal routers |
 
 **Selection order (simplified):** highest LOCAL_PREF → shortest AS_PATH → eBGP over iBGP → lowest MED → closest IGP to NEXT_HOP → router tie-break.
@@ -70,7 +71,7 @@ Minimal eBGP sanity checklist after change:
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Session stuck `Active` / `Idle` | `tcpdump port 179`; ACL on either side | Open TCP/179; fix MD5 mismatch; verify correct source IP on multi-homed host |
 | Session flaps every ~60–180s | `show bgp neighbors` → hold timer, keepalive | MTU issue on TCP/179 (try `tcp mss` or lower interface MTU); BFD false positives |
 | Prefix not received | `show ip bgp neighbors received-routes` (soft config) | Peer export policy filters you; ask peer what they advertise |

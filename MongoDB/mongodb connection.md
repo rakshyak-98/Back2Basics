@@ -6,7 +6,7 @@
 
 ## Mental model
 
-The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes auth, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
+The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes authentication, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
 
 ```
 App → Driver pool → Primary (writes)
@@ -23,7 +23,7 @@ mongodb://user:pass@host1:27017,host2:27017,host3:27017/mydb?replicaSet=rs0&auth
 ```
 
 | Option | Why |
-|--------|-----|
+| --- | --- |
 | `replicaSet` | Required for RS discovery; wrong name = silent wrong host |
 | `authSource=admin` | User often lives in `admin`, not app DB |
 | `retryWrites=true` | Idempotent retry on transient network blips |
@@ -50,7 +50,7 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `getaddrinfo EAI_AGAIN` | `dig host`, Docker network, VPN | Fix [[DNS]]; use service name on same network |
 | `MongoServerSelectionError: timed out` | Firewall, SG, wrong port | Open 27017 between app ↔ DB; verify RS members reachable |
 | `Authentication failed` | `authSource`, user DB | Create user in correct DB; match URI `authSource` |
@@ -69,7 +69,7 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 
 ## When NOT to use
 
-- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + auth + network ACL.
+- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
 - Don't create one connection per request — always pool via driver/mongoose.
 
 ## Related

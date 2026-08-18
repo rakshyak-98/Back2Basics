@@ -2,9 +2,7 @@
 
 # Compliance Reporting to Broadcasters
 
-> Auditable reconciliation of entitlements + consumption → licensed Content IDs — **rights / royalty enforcement**, not analytics vanity metrics.
-
----
+> Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
 ## Mental model
 
@@ -21,15 +19,14 @@ Billing (subs/PPV) ──► Entitlement ledger ──► Playback beacons
 ```
 
 | Data source | Proves | Typical grain |
-|-------------|--------|---------------|
+
 | **Subscription/transaction** | Who paid, when, plan | Order ID, user hash, SKU |
+| --- | --- | --- |
 | **Entitlement grant** | Right to play title X | CID, window start/end, geo |
 | **Consumption telemetry** | Actual plays | CID, start/end, device, territory |
 | **Ad insertion (optional)** | Commercial obligations | SCTE-35, pod position |
 
 Reports must **join on stable IDs** — internal UUIDs useless to licensor; map to **canonical CID** at ingest ([[CMS]] metadata).
-
----
 
 ## Standard config / commands
 
@@ -82,20 +79,16 @@ aws s3 cp s3://compliance-reports/daily/2026-07-22/report.csv.gpg s3://licensor-
 sha256sum report.csv.gpg > report.csv.gpg.sha256
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Licensor rejects report | Schema version drift | Pin contract appendix; validation gate before export |
 | Minutes > physical possible | Duplicate beacons | Dedupe on `(session_id, heartbeat_seq)` |
 | Missing territory | GeoIP default wrong | Require CDN-Country header; fail closed |
 | Free trial counted as paid | transaction_type mapping | Business rules table per SKU |
 | Late Kafka events | Partition reprocessing | Re-run reconciliation for open window |
 | CID mismatch | CMS typo vs ingest | Golden CID registry; block publish without CID |
-
----
 
 ## Gotchas
 
@@ -114,15 +107,11 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 > [!WARNING]
 > **Manual CSV edits** — breaks audit trail; regenerate from immutable raw only.
 
----
-
 ## When NOT to use
 
 - **Internal product analytics** — use warehouse/BI stack; don't overload compliance schema.
 - **Pre-revenue MVP** — still **log raw events** early; retrofitting CIDs is painful.
 - **Real-time licensor API before legal requires it** — batch daily/weekly unless contract mandates SLA.
-
----
 
 ## Related
 

@@ -2,11 +2,11 @@
 
 # Git Submodule
 
-> One-line: pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
+> pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
 ## Mental model
 
-A submodule is a **gitlink**: parent repo records a path + exact commit SHA of nested repo. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.
+**Say it in one breath:** A submodule is a **gitlink**: parent repository records a path + exact commit SHA of nested repository. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.
 
 ```
 parent-repo/
@@ -15,8 +15,6 @@ parent-repo/
 ```
 
 Parent tracks **pointer**, not submodule files directly.
-
----
 
 ## Standard config / commands
 
@@ -66,12 +64,10 @@ rm -rf .git/modules/vendor/lib
 git commit -m "Remove lib submodule"
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Empty directory after clone | Submodule not initialized | `git submodule update --init --recursive` |
 | "modified content" in `git status` | Submodule on different commit than pinned | Commit new SHA in parent or reset submodule |
 | Detached HEAD in submodule | Normal after update | Checkout branch inside submodule or stay detached at tag |
@@ -84,8 +80,6 @@ git commit -m "Remove lib submodule"
 git diff vendor/lib
 git submodule foreach 'git rev-parse HEAD'
 ```
-
----
 
 ## Gotchas
 
@@ -101,14 +95,10 @@ git submodule foreach 'git rev-parse HEAD'
 > [!WARNING]
 > **Renaming path** — edit `.gitmodules` AND `git mv`; run `git submodule sync`.
 
----
-
 ## When NOT to use
 
 - **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
-- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for app repos.
-
----
+- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
 
 ## Related
 

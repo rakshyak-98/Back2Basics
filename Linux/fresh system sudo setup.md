@@ -2,7 +2,7 @@
 
 # Fresh system sudo setup
 
-> One-line: **bootstrap a non-root admin safely** — sudo group, key-based SSH, visudo edits, and recovery paths before you lock yourself out. **First-boot checklist for VPS/bare metal.**
+> Fresh system sudo setup — install ──► create admin user ──► SSH key auth ──► verify sudo ──► harden sshd ──► disable root password login
 
 ## Mental model
 
@@ -13,15 +13,27 @@ Install ──► create admin user ──► SSH key auth ──► verify sudo
 ```
 
 | Group | Distro | Sudo access |
-|-------|--------|-------------|
+
 | `sudo` | Debian, Ubuntu | `%sudo ALL=(ALL:ALL) ALL` |
+| --- | --- | --- |
 | `wheel` | RHEL, Fedora, Arch | `%wheel ALL=(ALL) ALL` |
 
 Root should remain for break-glass; daily work as unprivileged user + `sudo`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **sudo** | Run as root with audit | “Prefer sudo over lingering root shell.” |
+| --- | --- | --- |
+| **visudo** | Safe sudoers edit | “Never edit sudoers with plain vim.” |
+| **%sudo / %wheel** | Admin group | “Add user to sudo group, not NOPASSWD everywhere.” |
+| **/etc/sudoers.d** | Drop-in rules | “Ship policy as files, not one giant sudoers.” |
+| **NOPASSWD** | No password prompt | “OK for automation; bad for interactive admins.” |
+
 ## Standard config / commands
 
-**1. Create admin user (Ubuntu/Debian example):**
+**1. Create administrator user (Ubuntu/Debian example):**
 
 ```bash
 # As root on first login
@@ -87,7 +99,7 @@ journalctl _COMM=sudo
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `deploy is not in the sudoers file` | `groups deploy`; `getent group sudo` | Boot single-user/recovery; `usermod -aG sudo deploy` as root |
 | `visudo` syntax error, sudo dead | `pkexec visudo` or recovery console | Fix line visudo flagged; never leave broken sudoers |
 | Locked out after `PasswordAuthentication no` | Console/VNC/provider recovery | Mount disk; fix `sshd_config`; or inject key into `~deploy/.ssh/authorized_keys` |
@@ -99,7 +111,7 @@ journalctl _COMM=sudo
 
 1. Provider **serial console / rescue mode** → mount root FS.
 2. `chroot /mnt` or edit mounted `etc/sudoers.d/*`.
-3. Re-enable `PasswordAuthentication yes` temporarily **or** paste pubkey into admin `authorized_keys`.
+3. Re-enable `PasswordAuthentication yes` temporarily **or** paste pubkey into administrator `authorized_keys`.
 4. Reboot; fix properly; re-harden.
 
 **Recovery checklist:**
@@ -129,8 +141,8 @@ sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /mnt/etc/ssh/ss
 ## When NOT to use
 
 - **Shared developer laptops** — NOPASSWD ALL for convenience trades away sudo audit and password second factor.
-- **Production app runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
-- **Disabling root entirely before testing admin** — always validate `deploy` sudo in a second session first.
+- **Production application runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
+- **Disabling root entirely before testing administrator** — always validate `deploy` sudo in a second session first.
 
 ## Related
 

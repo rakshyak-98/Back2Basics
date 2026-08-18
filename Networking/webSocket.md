@@ -2,7 +2,7 @@
 
 # WebSocket
 
-> One-line: full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
+> full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
 ## Mental model
 
@@ -19,7 +19,7 @@ Client                          Server / Proxy
   │  ◄──── framed messages ────►   │  (TCP stays open)
 ```
 
-Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy env vars for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
+Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy environment variables for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
 
 ## Standard config / commands
 
@@ -74,7 +74,7 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Works direct, fails via nginx | `curl -i` through proxy; nginx error log | Missing `Upgrade`/`Connection` headers; add `map` block above |
 | 502 after ~60s idle | nginx `proxy_read_timeout` (default 60s) | Raise timeout; align with app heartbeat interval |
 | 504 on connect | `proxy_connect_timeout`; upstream down | Fix backend listen; check upstream block |

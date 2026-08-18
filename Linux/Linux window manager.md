@@ -1,48 +1,70 @@
-### Display manager
-```bash
-sudo dpkg-reconfigure gdm3;
-sudo apt-get install --reinstall gdm3;
-sudo journalctl -xe;
-sudo systemctl daemon-reload; # reload systemd daemon to apply tha changes;
+[[Linux]] [[wayland]] [[x11]] [[compositors]]
+
+# Linux window manager
+
+> A window manager (WM) places and decorates windows — tiling (i3) or stacking (Openbox) — on top of a display server.
+
+## Mental model
+
+**Say it in one breath:** display server owns pixels/input; WM decides layout; desktop environments bundle WM + panels + apps.
+
+```txt
+apps ──► WM (i3/openbox/…) ──► X11
+apps ──► compositor (sway/mutter) ──► Wayland
+              (WM + display server merged)
 ```
 
-- configure: `/etc/systemd/system/` or `/usr/lib/systemd/system/` if it doesn't exist, you may need to reinstall the `gdm3` package.
+### Interview map (words you can say)
 
-- this configuration ensures that `gdm3` is started when the `graphical.target` is reached and that it is also aliased as `display-manager.service`
+| Word | Plain meaning | Say in interview |
+
+| **WM** | Layout policy | “i3 tiles; floating WMs stack.” |
+| --- | --- | --- |
+| **compositor** | Final frame / vsync | “Tear-free needs compositing.” |
+| **DE** | Full desktop suite | “GNOME/KDE include a WM/compositor.” |
+| **reparenting** | X11 WM wraps windows | “Classic X model.” |
+| **tiling** | Non-overlap layout | “Keyboard-driven productivity.” |
+
+## Standard config / commands
+
 ```bash
-[Install]
-Alias=display-manager.service
-WantedBy=graphical.target
+# X11 session example
+exec i3
+# ~/.config/i3/config → $mod+Shift+r reload
+
+echo $XDG_CURRENT_DESKTOP
+echo $XDG_SESSION_TYPE   # x11 | wayland
+ps -e | grep -E 'i3|sway|mutter|kwin'
 ```
 
-## Window manager
+| Knob | Why it matters |
 
-### Wayland Enable
-```bash
-# /etc/gdm3/custom.conf
-WaylandEnable=true
-```
+| Config path | Per-WM (`~/.config/i3`, sway, …) |
+| --- | --- |
+| Mod key | Muscle memory for all binds |
 
-Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
+## Triage (when things break)
 
-### X server
-is a display server for UNIX like operating systems, including Linux.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Black screen after login | WM crashed | TTY; check `~/.xsession-errors` / journal |
+| Keys do nothing | Wrong mod / grabbed | Fix config; restart WM |
+| Floating apps ignore rules | WM_CLASS / app_id | `xprop` / Wayland app_id rules |
+| Tear / stutter | Compositor off | Enable compositing / use Wayland |
 
-- provide framework for graphical user interface by mapping graphical elements such as windows, applications, and input devices.
-- facilitates the communication between the hardware and the software.
-- default display server for Linux.
+## Gotchas
 
-### [[ Wayland ]]
-display server protocol and architecture designed as a replacement for x11.
+> [!WARNING]
+> **Wayland “WMs” are compositors** — i3 doesn’t run native Wayland; use Sway.
 
-- starting with Ubuntu 17.10 there has been experimental support for wayland.
-- user can choose wayland as the session type during the login screen.
+> [!WARNING]
+> **DE + DIY WM** — fighting GNOME/KDE session scripts ends in pain; pick one stack.
 
-### I3
-```bash
-i3-msg exit; # exit from current login session.
-i3-config-wizard; # re-generate default i3 config file
-```
+## When NOT to use
 
-- configure PAM(Plugable Authentication Module): Ensure that your PAM configuration includes the necessary lines to unlock the key-ring. 
-- `/etc/pam.conf` and `/etc/pam.d/<desktop manager>` this should include `auth required pam_gnome_keyring.so` line.
+- **Servers / CI** — no GUI.
+- **Kiosk with a browser only** — a DE may be heavier than a minimal compositor session.
+
+## Related
+
+[[i3 Window Manager Starter Guide]] [[wayland]] [[x11]] [[compositors]] [[Linux display manager]]

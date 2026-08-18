@@ -2,7 +2,7 @@
 
 # Method shadowing (embedding / inheritance)
 
-> Same-named method on outer and inner type — **which implementation runs depends on the static type of the reference**, not the "logical" OOP hierarchy; source of subtle bugs in Go embedding and Java hiding.
+> Method shadowing — same method name on outer and inner types; the static type picks which runs.
 
 ## Mental model
 
@@ -91,7 +91,7 @@ class Derived : Base() {
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Wrong `Log`/helper called | Go promoted vs outer method | Qualify embed `s.Logger.Log` or rename |
 | Java "override" doesn't run | Method static / private / wrong sig | Remove static; match signature; add `@Override` |
 | Unexpected field value | Field shadowing | Rename field; use getter |

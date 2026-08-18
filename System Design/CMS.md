@@ -4,8 +4,6 @@
 
 > Authoring + storage + delivery API for structured content — **headless** separates editorial from presentation.
 
----
-
 ## Mental model
 
 A **CMS** lets non-engineers **create, edit, publish** content (pages, articles, video metadata, assets) with **workflow** (draft → review → live). **Headless CMS** exposes **JSON/API** only — web/mobile apps render UI; **monolithic CMS** (WordPress) renders HTML server-side.
@@ -19,14 +17,12 @@ Editors ──► CMS admin UI ──► content API ──► apps / CDN / [[St
 ```
 
 | Style | Examples | When |
-|-------|----------|------|
+| --- | --- | --- |
 | **Headless** | Strapi, Directus, Sanity | Multi-channel product |
 | **Git-based** | Markdown in repo | Dev-heavy docs |
 | **Broadcast MAM** | Dalet, Avid | Video IM systems — see [[IM (Information Management) production systems]] |
 
 Streaming platforms use CMS for **title metadata, images, CID, geo rules** — playback still from origin/CDN.
-
----
 
 ## Standard config / commands
 
@@ -85,12 +81,10 @@ Field-level: drm_policy editable only by admin
 Audit log: who published what when (compliance)
 ```
 
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Site shows old title | CDN/API cache | Purge; webhook on publish |
 | Draft visible publicly | Preview key leaked | Separate preview domain |
 | Missing poster | Media not populated | `populate=*` or explicit join |
@@ -98,8 +92,6 @@ Audit log: who published what when (compliance)
 | Streaming CID mismatch | Manual typo | Validation regex; golden CID registry |
 | Editor timeout on upload | Large video in CMS | External asset URL only |
 | Webhook 500 loop | Downstream revalidate | Idempotent webhook handler |
-
----
 
 ## Gotchas
 
@@ -118,15 +110,11 @@ Audit log: who published what when (compliance)
 > [!WARNING]
 > **No publish schedule timezone** — UTC vs local launch bugs.
 
----
-
 ## When NOT to use
 
 - **Hardcoded marketing one-pager** — git + MD faster.
 - **Transactional order data** — CMS for editorial; orders in OLTP DB.
 - **Real-time chat** — not CMS domain.
-
----
 
 ## Related
 

@@ -62,8 +62,9 @@ innodb_flush_method = O_DIRECT       # avoid double cache with FS cache
 ### fsync policy cheat sheet
 
 | Setting | Durability | Throughput |
-|---------|------------|--------------|
+
 | PG `synchronous_commit=on` + `fsync=on` | Strong | Baseline |
+| --- | --- | --- |
 | PG `synchronous_commit=off` | Last txs may vanish on crash | Higher |
 | InnoDB `flush_log_at_trx_commit=2` | OS crash may lose ~1s | Higher |
 | InnoDB `flush_log_at_trx_commit=0` | ~1s window always | Highest risk |
@@ -71,7 +72,7 @@ innodb_flush_method = O_DIRECT       # avoid double cache with FS cache
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Disk fills; `pg_wal` huge | `pg_stat_replication`; lagging replica/slot | Drop stale replication slot; fix replica; increase `max_wal_size` temporarily |
 | Spiky write latency every N min | Checkpoint / WAL recycle | Raise `max_wal_size` (PG) or `innodb_log_file_size` (MySQL); spread checkpoints |
 | "could not write to WAL" / PANIC | `df`; inode exhaustion; RO mount | Free disk; remount RW; restore from backup if WAL corrupt |

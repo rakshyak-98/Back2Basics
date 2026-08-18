@@ -1,61 +1,69 @@
-## Create custom function in mongoose schema
+[[mongoose/mongoose]] [[mongoose/mongoose methods]] [[mongoose middleware]]
 
-#### Instance method ( Custom method for a single document)
-- use `schema.methods` to define methods for individual documents.
-```js
-const mongoose = require("mongoose");
+# mongoose custom function
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
-    role: { type: String, enum: ["admin", "manager", "auditor"], required: true }
-});
+> Custom validators, getters/setters, and schema helpers — teach Mongoose your domain checks.
 
-// Custom method for checking role
-userSchema.methods.isAdmin = function () {
-    return this.role === "admin";
-};
+## Mental model
 
-const User = mongoose.model("User", userSchema);
+**Say it in one breath:** Hook custom functions into path validators or setters so bad values never persist.
 
-const user = new User({ username: "Alice", role: "admin" });
-console.log(user.isAdmin()); // true
-
+```txt
+set(value) → validate(fn) → save
 ```
 
-#### Static methods ( Custom methods for the model )
-- use `schema.static` to define methods accessible on the model itself.
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **validate** | Sync/async check | “Return false or throw.” |
+| --- | --- | --- |
+| **get/set** | Transform on read/write | “Normalize email toLowerCase.” |
+| **Custom SchemaType** | Reuse a type | “Shared Money type.” |
+| **pre hook** | Middleware | “See mongoose middleware.” |
+
+## Standard config / commands
+
 ```js
-userSchema.statics.findByRole = function (role) {
-    return this.find({ role });
-};
-
-const User = mongoose.model("User", userSchema);
-
-// Example Usage
-User.findByRole("manager").then(users => console.log(users));
-
+email: {
+  type: String,
+  set: (v) => v?.trim().toLowerCase(),
+  validate: {
+    validator: (v) => /^[^\s@]+@[^\s@]+$/.test(v),
+    message: 'Invalid email',
+  },
+}
 ```
 
-#### Virtuals (Computed fields without storing data)
-- use `schema.virtual` to create properties that don't get stored in the database.
-```js
-userSchema.virtual("displayName").get(function () {
-    return `${this.username} (${this.role})`;
-});
+| Knob | Why it matters |
 
-const user = new User({ username: "Bob", role: "manager" });
-console.log(user.displayName); // Bob (manager)
+| Async validators | Must `await` save |
+| --- | --- |
+| `message` | Clear API errors |
+| runValidators on update | Off by default for updates |
 
-```
+## Triage (when things break)
 
-#### Middle ware (pre/post Hooks for Lifecycle Events)
-- you can modify data before saving.
-```js
-userSchema.pre("save", function (next) {
-    console.log(`Saving user: ${this.username}`);
-    next();
-});
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Update skips validation | `findOneAndUpdate` | `{ runValidators: true }` |
+| Async validator ignored | not returning promise | return Promise / async fn |
+| Setter not applied | update operators | setters need `update` pipelines / save path |
+| Vague ValidationError | no message | Add message strings |
 
-```
+## Gotchas
+
+> [!WARNING]
+> **Updates ≠ save path** — many validators/setters don’t run unless configured.
+
+> [!WARNING]
+> **Heavy async validators** — external HTTP in validate = flaky saves.
+
+## When NOT to use
+
+- **Cross-document rules** — transactions/services.
+- **One-time data cleanup** — migration scripts.
+
+## Related
+
+[[mongoose/mongoose methods]] [[mongoose middleware]] [[mongoose/mongoose schema]]

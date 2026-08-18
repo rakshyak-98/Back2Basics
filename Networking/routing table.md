@@ -2,7 +2,7 @@
 
 # Routing table
 
-> One-line: kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
+> kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
 ## Mental model
 
@@ -71,7 +71,7 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ## Cloud route table mapping
 
 | Concept | AWS VPC | GCP | Azure |
-|---------|---------|-----|-------|
+| --- | --- | --- | --- |
 | Route table | Per-subnet association | Subnet ↔ route table | Route table ↔ subnet |
 | Internet egress | `0.0.0.0/0` → IGW (public) | default route → default internet gateway | `0.0.0.0/0` → Internet |
 | Private egress | `0.0.0.0/0` → NAT GW | Cloud NAT | NAT Gateway |
@@ -85,7 +85,7 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Host unreachable to one subnet | `ip route get <dst>` | Missing or wrong route; add via correct gateway |
 | Works from host A, not host B | Compare `ip route` + security groups/NACLs | Asymmetric routing or SG blocking return path |
 | Route "disappeared" after DHCP renew | `journalctl -u systemd-networkd` / NM logs | Daemon overwrote manual route → make persistent in net config |
@@ -108,7 +108,7 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ## When NOT to use
 
 - Don't hand-edit routes on managed instances (EKS nodes, GKE nodes) — fix the CNI/cloud route table instead.
-- Don't add static routes for every microservice; use service mesh or DNS-based discovery for app-level routing.
+- Don't add static routes for every microservice; use service mesh or DNS-based discovery for application-level routing.
 
 ## Related
 

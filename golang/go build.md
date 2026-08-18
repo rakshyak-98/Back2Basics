@@ -2,11 +2,11 @@
 
 # go build
 
-> Compile Go packages/binaries with module-aware dependency resolution — `go.mod` is the source of truth.
+> `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
 ## Mental model
 
-Go modules (`go.mod` + `go.sum`) replace GOPATH-era vendoring chaos. `go build` resolves imports, compiles packages, links a static binary (by default). Cross-compile via `GOOS`/`GOARCH`. Build cache lives in `$GOCACHE` — clean builds are rare after first compile.
+**Say it in one breath:** `go.mod` pins deps; `go build` resolves imports, compiles packages, and links a binary. Cache in `$GOCACHE` makes rebuilds fast.
 
 ```
 go.mod (module path + require)
@@ -37,7 +37,7 @@ go install ./cmd/...           # puts binary in $GOBIN
 ### Useful flags
 
 | Flag | Why |
-|------|-----|
+| --- | --- |
 | `-race` | Data race detector (dev/test only) |
 | `-tags prod` | Build tags for conditional files |
 | `-ldflags "-X main.version=1.2.3"` | Inject version at link time |
@@ -46,7 +46,7 @@ go install ./cmd/...           # puts binary in $GOBIN
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | `cannot find module` | `go.mod` module path | `go mod init` correct path; private module GOPRIVATE |
 | `checksum mismatch` | `go.sum` | `go mod tidy`; don't hand-edit sum |
 | CGO errors on cross-compile | `CGO_ENABLED=1` | Disable CGO or cross toolchain |

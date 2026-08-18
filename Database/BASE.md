@@ -2,7 +2,7 @@
 
 # BASE
 
-> One-line: distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
+> distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
 
 ## Mental model
 
@@ -18,8 +18,9 @@ Single source of truth now    Multiple versions → merge later
 ```
 
 | Letter | Meaning | Operational read |
-|--------|---------|------------------|
+
 | **B**asically Available | System responds (maybe degraded/stale) | Read replica lag OK for some queries |
+| --- | --- | --- |
 | **S**oft state | State may change without input (replication, TTL) | Caches expire; background sync |
 | **E**ventual consistency | Replicas converge if no new writes | "Read your writes" not guaranteed without sticky routing |
 
@@ -66,7 +67,7 @@ Leader election + sync quorum for critical metadata
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | User sees stale data after update | Read from replica | Route session to primary; sticky sessions |
 | Duplicate charges on retry | No idempotency | Idempotency keys; dedupe table |
 | Lost update across regions | Last-write-wins | Version vectors; CRDT or conflict UI |

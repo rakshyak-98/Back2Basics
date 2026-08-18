@@ -1,121 +1,100 @@
-```text
-awk 'pattern { action }' file:
+[[commands]] [[grep]] [[jq]]
+
+# awk
+
+> awk walks a file line by line — match a pattern, run an action on fields.
+
+## Mental model
+
+**Say it in one breath:** each line is `$0`, columns are `$1…$NF`; you write `pattern { action }`.
+
+```txt
+input lines ──► split on FS ──► match pattern? ──► run action ──► next line
+                     BEGIN runs once first; END runs once last
 ```
 
-## How to print user and their belonging groups
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+
+| **`$0` / `$1`…** | Whole line / fields | “`$3` is the third column after split.” |
+| --- | --- | --- |
+| **`NF` / `NR`** | Field count / line number | “`NR` is the record number; `$NF` is the last field.” |
+| **`-F` / `FS`** | Input separator | “`-F:` for `/etc/passwd`.” |
+| **`BEGIN` / `END`** | Setup / teardown | “Sum in the body, print total in `END`.” |
+| **No pattern** | Every line | “Defaults to run on all records.” |
+| **No action** | Print match | “Pattern alone prints the line.” |
+
+## Standard config / commands
 
 ```bash
-getent passwd | awk -F: '{print $1}' | while read user; do
-	echo -n "$user: "
-	groups "$user" | cut -d: -f2
+# Columns
+awk '{ print $2 }' file.txt
+awk '{ print $1, $NF }' file.txt
+awk -F: '{ print $1, $7 }' /etc/passwd
+
+# Filter
+awk '/error/ { print }' app.log
+awk '$3 > 100 { print $0 }' data.txt
+
+# Aggregate
+awk '{ sum += $2 } END { print "Total =", sum }' numbers.txt
+awk 'END { print NR }' file.txt          # line count
+seq 10 | awk '{ sum += $1; print $1, "→", sum }'
+
+# CSV / memory one-liners
+awk -F, '{ print $1, $3 }' data.csv
+free -m | awk '/Mem:/ { print "Used:", $3 "MB" }'
+
+# Users → groups (primary + supplementary listing via groups)
+getent passwd | awk -F: '{ print $1 }' | while read -r user; do
+  echo -n "$user: "
+  groups "$user" | cut -d: -f2
 done
 ```
 
-```bash
-# Show only user and shell
-awk -F: '{print $1 "\t→ " $7}' /etc/passwd
-
-# Show memory usage in MB
-free -m | awk '/Mem:/ {print "Used:", $3"MB"}'
-
-# Extract IPs from logs
-journalctl | awk '/Failed password/ {print $11}'
-
-# Show biggest files in current directory
-ls -l | awk 'NR>1 {print $5, $9}' | sort -nr | head
-
-# Convert CSV to space-separated
-awk -F, '{print $1, $3}' data.csv
-
-# Running total
-seq 10 | awk '{sum += $1; print $1, "→", sum}'
-
-```
-
-- if no pattern -> runs on every line
-- if no action -> defaults to `{ print $0 }` (print whole line).
-- input is automatically split into fields: `$1` `$2` `$3`
-
-> print 2nd column of every line
+| Symbol | Meaning |
+| --- | --- |
+| `$0` | Whole line |
+| `$1,$2…` | Fields (whitespace by default) |
+| `NF` / `NR` | Fields this line / line number |
+| `FS` / `OFS` | Input / output field separator |
+| `/regex/` | Pattern match |
 
 ```bash
-awk '{ print $2 }' file.text
+awk 'BEGIN { FS=":"; OFS="\t" }
+     { print $1, $7 }
+     END { print "done" }' /etc/passwd
 ```
 
-|Symbol|Meaning|Example|
-|---|---|---|
-|`$0`|whole line|`print $0`|
-|`$1,$2..`|columns (space-separated by default)|`print $1,$3`|
-|`NF`|number of fields in current line|`print $NF`|
-|`NR`|current line number|`NR==10`|
-|`FS`|input field separator|`-F:` or `FS=":"`|
-|`OFS`|output field separator|`OFS=" → "`|
-|`BEGIN`|run before any input|`BEGIN {print "Start"}`|
-|`END`|run after all input|`END {print "Total:", sum}`|
-|`/regex/`|pattern match|`/error/i` (case-insensitive)|
+## Triage (when things break)
 
-> [!NOTE]
-> - by default `awk` split each line on white-space (space or tab).
-> - Text processing tool for line by line parsing.
-> - patterns scanning + processing (fields, columns, regex, etc.).
- 
-```sh
-awk 'pattern { action }' file;
-```
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Empty `$1` / wrong columns | Separator | `-F','` or `-F':'`; watch quoted CSV |
+| Off-by-one fields | Leading spaces / empty fields | `NF`; try `awk -F'[ ]+'` |
+| Script “does nothing” | Pattern never matches | Drop pattern; print `$0` to verify |
+| Totals wrong | Forgot `END` | Accumulate in body, print in `END` |
+| Broken on large files | Shell loops around awk | Keep work *inside* awk |
+| Locale weird numbers | Decimal comma | `LC_ALL=C awk …` |
 
-### Common built in variables
-| Variable | Description                        |
-| -------- | ---------------------------------- |
-| `$0`     | Entire line                        |
-| `$1,$2…` | Fields (by default split by space) |
-| `NR`     | Line number                        |
-| `NF`     | Number of fields in line           |
-| `FS`     | Field separator                    |
-| `OFS`    | Output field separator             |
-```sh
-awk -F, '{ print $1 }' file.csv; # change delimiter
-```
+## Gotchas
 
-```sh
-awk 'BEGIN { init_code } 
-     condition { action_code } 
-     END { cleanup_code }'
-```
+> [!WARNING]
+> **Whitespace split collapses runs** — multiple spaces still make one split; empty columns disappear unless you set `FS` carefully.
 
+> [!WARNING]
+> **CSV with quotes is not a job for naive `-F,`** — use a real CSV tool or Python when fields contain commas.
 
-### The 10 Commands You’ll Use 95% of the Time
+> [!WARNING]
+> **`/regex/i` is gawk** — portable awk may lack ignore-case flags; use `tolower($0) ~ /error/`.
 
-Run these one by one in your terminal:
+## When NOT to use
 
-```bash
-# 1. Print 2nd column
-echo "apple 42 red" | awk '{print $2}'
+- **Structured JSON** — [[jq]].
+- **Multi-line records / complex state machines** — Python/Perl.
+- **In-place edit of huge trees** — [[Find command]] + targeted editors.
 
-# 2. Print multiple columns
-echo "apple 42 red big" | awk '{print $1, $4}'
+## Related
 
-# 3. Print last column
-awk '{print $NF}' /etc/passwd
-
-# 4. Print second-to-last column
-awk '{print $(NF-1)}' /etc/passwd
-
-# 5. Only lines containing "bash"
-awk '/bash/ {print $0}' /etc/passwd
-
-# 6. Only lines where column 3 > 100
-awk '$3 > 100 {print $0}' data.txt
-
-# 7. Add all values in column 2
-awk '{sum += $2} END {print "Total =", sum}' numbers.txt
-
-# 8. Count lines (like wc -l)
-awk 'END {print NR}'
-
-# 9. Print line numbers
-awk '{print NR, $0}' file.txt
-
-# 10. Use custom field separator (e.g. colon in /etc/passwd)
-awk -F: '{print $1, $7}' /etc/passwd
-```
-
+[[grep]] [[jq]] [[sed]] [[commands]]

@@ -15,14 +15,14 @@ Subsets of n elements:             2^n
 Permutations of n distinct:        n!
 ```
 
-Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous vs any subsequence**.
+Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
 
 ## Standard config / commands
 
 ### Subarrays / substrings (contiguous)
 
 | Object | Count | Notes |
-|--------|-------|-------|
+| --- | --- | --- |
 | Subarrays of array length `n` | `n(n+1)/2` | Includes length 1..n |
 | Substrings of string length `n` | `n(n+1)/2` | Same formula |
 | Subarrays of fixed length `k` | `n - k + 1` | Slide window |
@@ -31,7 +31,7 @@ Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous
 ### Pairs and combinations
 
 | Object | Count |
-|--------|-------|
+| --- | --- |
 | Unordered pairs from `n` | `n(n-1)/2` |
 | Ordered pairs | `n²` |
 | Choose `k` from `n` | `C(n,k) = n! / (k!(n-k)!)` |
@@ -40,7 +40,7 @@ Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous
 ### Binary / decision trees
 
 | Object | Count |
-|--------|-------|
+| --- | --- |
 | Subsets of `n` elements | `2^n` |
 | Bitmasks 0..2^n-1 | Iterate `for (mask = 0; mask < 1<<n; mask++)` |
 | Nodes in full binary tree height `h` | `2^(h+1) - 1` |
@@ -48,7 +48,7 @@ Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous
 ### Graph basics
 
 | Object | Formula |
-|--------|---------|
+| --- | --- |
 | Handshaking lemma (undirected) | `sum(deg) = 2|E|` |
 | Max edges simple undirected | `n(n-1)/2` |
 | Tree edges | `n - 1` for connected tree |
@@ -56,8 +56,9 @@ Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous
 ### Complexity shortcuts
 
 | Pattern | Typical complexity |
-|---------|-------------------|
+
 | Nested loops `i`, `j=i..n` | O(n²) — triangular number n(n+1)/2 iterations |
+| --- | --- |
 | Sort + two pointers | O(n log n) |
 | [[sliding window]] | O(n) — each pointer moves ≤ n |
 | Binary search on answer | O(n log W) or O(log n × cost(check)) |
@@ -75,7 +76,7 @@ When output is mod `10^9+7`:
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Formula gives huge number vs expected | Ordered vs unordered confused | Re-derive with n=3 example |
 | Off by 1 on subarray count | Empty subarray included/excluded? | Problem usually excludes empty |
 | 2^n TLE | n > 20–22 | Need DP or math closed form, not bitmask枚举 |

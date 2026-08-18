@@ -2,11 +2,11 @@
 
 # Netlify deployment
 
-> Git-connected or CLI deploy with `netlify.toml` — build command, publish dir, and Next.js plugin for SSR/ISR.
+> Netlify deployment — netlify runs your build command, publishes publish directory to CDN, and optionally runs serverless functions at the edge. Next.js needs @netlify/plugin-nextjs for App
 
 ## Mental model
 
-Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for App Router features (not plain static export). Env vars live in Netlify UI per context (production/deploy-preview).
+Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for application Router features (not plain static export). environment variables live in Netlify UI per context (production/deploy-preview).
 
 ```
 git push → Netlify build → plugin adapts Next → CDN + functions
@@ -51,7 +51,7 @@ netlify deploy --prod
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | 404 on dynamic routes | Plugin missing | Add `@netlify/plugin-nextjs` |
 | Build works locally, fails CI | Node version | Pin `NODE_VERSION` in toml |
 | Env var undefined | Context scope | Set for Production + Preview |
@@ -71,7 +71,7 @@ netlify deploy --prod
 ## When NOT to use
 
 - Don't use Netlify static hosting alone for heavy WebSocket/long-polling backends — dedicated server or specialized host.
-- Don't commit `.env` — use Netlify env UI or secrets.
+- Don't commit `.env` — use Netlify environment UI or secrets.
 
 ## Related
 
