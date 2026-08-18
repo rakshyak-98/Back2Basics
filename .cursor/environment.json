@@ -1,0 +1,14 @@
+{
+  "name": "Back2Basics vault",
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "vault-preview",
+      "command": "python3 .cursor/vault_preview.py serve --host 0.0.0.0 --port 8000",
+      "description": "Browsable HTML preview of the vault with working [[wikilink]] navigation. Open http://localhost:8000/ (root serves README.md; /INDEX.md is the on-call routing map)."
+    }
+  ],
+  "ports": [
+    { "name": "vault-preview", "port": 8000 }
+  ]
+}
