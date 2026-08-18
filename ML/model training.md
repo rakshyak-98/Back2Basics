@@ -1,38 +1,51 @@
 # Model training
 
 ## Evaluation
-- accuracy, precision, recall, F1 score, mean squared error.
 
-### How to check if the model is underfitted or overfitted?
-- use k-fold cross-validation to evaluate model performance. If the model's performance varies significantly across different folds, it may indicate instability and potential overfitting.
-- use regularization techniques (like L1 or L2) to control model complexity. A decrease in performance with increased regularization can suggest overfitting.
+Common metrics:
+- **Classification:** accuracy, precision, recall, F1 score
+- **Regression:** mean squared error (MSE)
+
+### How to tell if the model is underfitting or overfitting?
+
+- **K-fold cross-validation** — if scores swing a lot between folds, the model may be unstable or overfitting.
+- **Regularization (L1/L2)** — if test score drops when you add regularization, the model was likely overfitting.
 
 ### F1 score
-- is a metric used to evaluate the performance of a classification model.
-- useful in situations where you need to balance precision and recall, especially with imbalanced datasets.
+
+- One number that balances precision and recall.
+- Useful when classes are imbalanced (e.g. 95% negative, 5% positive).
 
 ## Test size
-- `test_size` parameter determines the proportion of the dataset to include in the test split
-- common values `0.2`, `0.25`, `0.1`
-- `0.2`: common choice, good balance between training and testing data
-- `0.25`: for a large dataset, allowing more data for testing
-- `0.1`: very large datasets, where even a small percentage can provide a significant number of samples for testing
 
-> [!NOTE] for smaller datasets, a large test size (like 30%) might be necessary to ensure you have enough samples for evaluation.
+`test_size` sets how much data goes to the test set.
 
-> [!NOTE] more complex models may require more data to train effectively, suggesting a smaller test size
+| Value | When to use |
+|-------|-------------|
+| `0.2` | Default — good split for most datasets |
+| `0.25` | Large dataset — still enough train data |
+| `0.1` | Very large dataset — small % still means many test rows |
+
+> [!NOTE] Small dataset? Use a bigger test split (e.g. 30%) so evaluation has enough samples.
+
+> [!NOTE] Complex models need more training data — consider a smaller test split.
 
 ## Random state
-- `random_state` parameter controls the shuffling applied to the data before splitting it into train and test sets. Use the same `random_state` constant for model training and for the train/test split.
-- The train and test datasets are formed by randomly splitting rows, but the sequence of values selected for each split depends on the `random_state` used.
-- helps reflect the variability of real-world data during training and testing.
-- helps uncover hidden model weaknesses due to unexpected patterns in data.
-- reduces overfitting to a particular train-test split.
+
+`random_state` controls how rows are shuffled before train/test split.
+
+- Use the **same value** for splitting and for any random steps in training.
+- Different splits can hide weak spots — try a few values to check stability.
+- Same seed → same split every run (good for debugging).
+
+Why it matters:
+- Mimics real-world variation in train and test data.
+- Surfaces hidden weaknesses from odd data patterns.
+- Reduces luck from one lucky split.
 
 ### Data features and labels
-- a dataset lacking variation (features or labels being too similar) can lead to poor model learning.
 
-> [!NOTE] having the same number of features and labels is normal, but the key is whether there is enough variation within the data.
-
-- even with the same feature count, if features are highly correlated or irrelevant, the model may underperform due to poor predictive power.
-- feature engineering: same number of features is fine, but relevant, informative features are necessary for good model performance. You might need feature transformations to make the dataset more meaningful.
+- If features or labels are too similar, the model learns little.
+- Same number of features and labels is normal — what matters is **variation** in the data.
+- Too many correlated or useless features → model underperforms.
+- **Feature engineering:** pick useful features; transform data when it helps.

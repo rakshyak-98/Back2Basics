@@ -1,10 +1,11 @@
-## Destructing assignment
-- it _destructrizes_ by copying items into variables.
-- ignore elements using comma
-- work with any iterable on the right-side
-- we can use any _assignables_ on the left side `[user.name, user.surname] = "john smith"`
-- absent values are considered undefined. `let [firstName, lastName] = [];`
-- for potentially missing properties we can set default values using `=` `let {width = 100, height = 100, title = {title: "Menu"};`
-- `({title, width, height} = {title: "Menu", width: 100, height: 100})`
+## Destructuring assignment
 
-> [!NOTE] JavaScript assumes that we have a code block `{key: value, ...}`, that's why there's an error. To show JavaScript that it's not a code block, we can wrap the expression in parentheses `(...)`;
+- Copies values from arrays or objects into variables.
+- Skip items with an extra comma: `[a, , c] = arr`
+- Works with any iterable on the right side.
+- Left side can be any valid assignment target: `[user.name, user.surname] = "john smith".split(" ")`
+- Missing values become `undefined`: `let [firstName, lastName] = [];`
+- Default values with `=`: `let {width = 100, height = 100, title = "Menu"} = options`
+- Swap without temp: `({title, width, height} = {title: "Menu", width: 100, height: 100})`
+
+> [!NOTE] Bare `{...}` looks like a code block. Wrap in `(...)` when assigning: `({a} = obj)`.

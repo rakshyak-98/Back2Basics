@@ -2,27 +2,27 @@
 
 # AI chat with memory
 
-> LLMs are stateless per request — "memory" is **context you re-inject** each turn (history, summaries, RAG chunks) — **OpenAI / Anthropic API docs**.
+> The model remembers nothing between API calls. You must send history, summaries, or retrieved docs each time.
 
 ---
 
 ## Mental model
 
-The model does not persist anything between HTTP calls. Every turn you send:
+Each request is independent. You build the prompt like this:
 
 ```txt
-system prompt + retrieved docs + summarized history + latest user message → model → reply
+system prompt + retrieved docs + chat history + latest user message → model → reply
 ```
 
-Token budget is finite (`context window`). Long chats hit **context rot** (early facts dropped) and **cost/latency** scale with history length.
+The model has a **token limit**. Long chats cost more, run slower, and drop early messages.
 
-| Layer | What it stores | Tradeoff |
-|-------|----------------|----------|
-| **Full transcript** | Every message in context | Simple; dies at ~128k tokens |
+| Approach | What you keep | Tradeoff |
+|----------|---------------|----------|
+| **Full transcript** | Every message | Simple; hits limit fast |
 | **Rolling window** | Last N turns | Cheap; forgets old facts |
-| **Summary memory** | LLM-compressed history | Keeps themes; loses exact quotes |
-| **Vector RAG** | Embeddings of docs + past turns | Scales knowledge; retrieval quality matters |
-| **Structured memory** | DB rows (user prefs, facts) | Deterministic; needs schema + extraction |
+| **Summary** | LLM-compressed history | Keeps themes; loses exact wording |
+| **Vector RAG** | Search over docs and past turns | Scales well; bad search = bad answers |
+| **Structured DB** | User prefs and facts in rows | Reliable; needs schema and extraction |
 
 ---
 
@@ -65,7 +65,7 @@ context = "\n".join(c.page_content for c in chunks)
 messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {user_text}"})
 ```
 
-Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming protects latency and cost.
+Annotate **why**: system prompt sets behavior; RAG adds facts; trimming saves cost and time.
 
 ---
 
@@ -73,29 +73,29 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Model "forgets" earlier facts | Token count / window size | Summary memory, RAG, or structured DB facts |
-| Wrong answers despite docs | Retrieval (`k`, chunk size, embedding model) | Re-chunk, hybrid search, cite sources in prompt |
-| Cost spike | Messages array growth | Hard cap turns; summarize; cache embeddings |
-| Duplicate / contradictory replies | Multiple memory sources unsynced | Single source of truth; version user profile row |
-| PII in logs | What you persist | Redact before store; TTL on conversation tables |
+| Model "forgets" earlier facts | Token count / window size | Summarize, use RAG, or store facts in a DB |
+| Wrong answers despite docs | Search quality (k, chunk size, embeddings) | Fix chunks and search; cite sources in prompt |
+| Cost spike | Growing messages array | Cap turns; summarize; cache embeddings |
+| Contradictory replies | Multiple memory sources out of sync | One source of truth; version user profile |
+| PII in logs | What you store | Redact before save; set TTL on chat tables |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> **Storing full chat in the client** — anyone can tamper with "memory." Treat client history as UX only; authoritative memory lives server-side with user/session ID.
+> **Client-side chat history** — users can edit it. Treat it as UI only. Store real memory on the server with user/session ID.
 
 > [!WARNING]
-> **Injecting untrusted retrieved text** — RAG chunks can contain prompt-injection strings. Sanitize, attribute, and instruct the model to ignore instructions inside documents.
+> **Untrusted RAG text** — documents can contain prompt injection. Sanitize and tell the model to ignore instructions inside docs.
 
 ---
 
 ## When NOT to use
 
-- **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
-- **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
-- **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
+- **One-off questions** — no memory needed.
+- **Strict audit trail** — use DB fields, not LLM summaries you cannot replay.
+- **Live collaborative editing** — use CRDT/OT, not chat history as state.
 
 ---
 

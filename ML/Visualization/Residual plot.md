@@ -2,13 +2,13 @@
 
 # Residual plot
 
-> Plot **residual (y − ŷ) vs ŷ** (or vs feature) — primary diagnostic for regression misspecification — **ESL / regression diagnostics**.
+> Plot **error (y − ŷ)** against predicted value — main tool to spot a bad regression fit.
 
 ---
 
 ## Mental model
 
-Residuals should look like **random noise** around zero:
+Good model → residuals look like **random noise** around zero:
 
 ```txt
 Residual
@@ -19,16 +19,16 @@ Residual
 0
 ```
 
-Structured patterns mean the model missed something:
+Bad patterns mean the model missed something:
 
-| Pattern | Interpretation |
-|---------|----------------|
-| U-shape vs ŷ | Nonlinearity → [[Model/Polynomial regression]] or trees |
-| Funnel (spread grows) | Heteroscedasticity → log y, weighted LS |
-| Stripes / bands | Wrong family (classification labels as regression) |
-| Trend vs feature | Missing interaction or wrong transform |
+| Pattern | What it means |
+|---------|---------------|
+| U-shape vs ŷ | Non-linear relationship → [[Model/Polynomial regression]] or trees |
+| Funnel (wider spread) | Errors grow with y → try log transform or weighted least squares |
+| Stripes / bands | Labels may be categories, not numbers |
+| Trend vs a feature | Missing interaction or wrong transform |
 
-For **ordinal** models, off-by-k errors show as discrete bands — consider [[ordinal classification]] metrics too.
+For **ordinal** targets, errors often form bands — also check [[ordinal classification]] metrics.
 
 ---
 

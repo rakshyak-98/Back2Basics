@@ -164,7 +164,7 @@ A _Requires_ means that all the units listed are triggered to activate. if they 
 
 Description : this is just a free-form description of the target
 
-Requires : then the listed target unit will also be activated. if the listed target unit is deactivated or fails, the parent will be deactivated.
+Requires : also start the listed target units. If a listed unit stops or fails, the parent stops too.
 
 - if their are no After and Before options, then both the parent and listed target unit will activate simultaneously
 

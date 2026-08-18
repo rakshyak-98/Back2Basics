@@ -2,33 +2,33 @@
 
 # Predicted vs actual plot
 
-> Scatter of **y_true vs ŷ** — quick visual for calibration, bias, and heteroscedasticity — standard regression QA.
+> Scatter plot of **actual vs predicted** values — quick check for bias and bad fits in regression.
 
 ---
 
 ## Mental model
 
-Perfect predictions lie on the diagonal **y = x**:
+Perfect predictions sit on the line **y = x**:
 
 ```txt
 ŷ
 │     ╱ ideal
 │   ╱
-│ ╱  • points above → under-predict
-│╱   • points below → over-predict
+│ ╱  • above line → under-predicted
+│╱   • below line → over-predicted
 └──────── y_true
 ```
 
-Patterns tell stories:
+What the shape tells you:
 
-| Pattern | Likely issue |
+| Pattern | Likely cause |
 |---------|--------------|
-| Points fan out | Variance grows with y (heteroscedasticity) |
-| Systematic curve below diagonal | Model underfits nonlinearity |
-| Horizontal band at cap | Target clipped; model hits ceiling |
-| Clusters off diagonal | Missing segment feature or wrong model per segment |
+| Points spread wider as y grows | Errors grow with target size |
+| Curve below the line | Model misses non-linear pattern |
+| Flat band at top/bottom | Target was capped; model hits a ceiling |
+| Cluster off the line | Missing feature or wrong model for that group |
 
-For **ranking** models, same plot compares predicted scores to graded relevance — use alongside [[Mean Average Precision (MAP)]].
+For **ranking** models, compare predicted scores to true grades — use with [[Mean Average Precision (MAP)]].
 
 ---
 
@@ -62,7 +62,7 @@ plt.plot(lims, lims, "r--")
 
 ### Residual companion
 
-Always pair with [[Visualization/Residual plot]] — actual vs predicted hides structure in errors when scale is large.
+Always also plot [[Visualization/Residual plot]] — this scatter can hide error patterns when values are large.
 
 ---
 
@@ -70,27 +70,26 @@ Always pair with [[Visualization/Residual plot]] — actual vs predicted hides s
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Tight cloud but bad business metric | Wrong aggregate metric | Segment plot by cohort |
-| S-curve off diagonal | Log/normal target | Log transform; [[Model/Polynomial regression]] |
-| Vertical stripe at one y | Class imbalance bucket | Classification not regression |
-| Predictions constant | Dead model / leakage removed | Baseline check |
-| Rank plot flat | Scores uncalibrated | Calibrate; check [[Visualization/Rank distribution]] |
+| Tight cloud but bad business score | Wrong metric for the job | Plot by user segment |
+| S-curve off the line | Target needs log/normal transform | Log target; try [[Model/Polynomial regression]] |
+| Vertical stripe at one y | Really a classification bucket | Use classification metrics |
+| Flat predictions | Broken model or leaked features removed | Compare to a simple baseline |
+| Rank scores all similar | Scores not calibrated | Calibrate; check [[Visualization/Rank distribution]] |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> **Outliers compress the cloud** — use log axes or hexbin; don't overfit 3 points.
-
+> **Outliers squash the plot** — use log axes or hexbin; do not overfit a handful of points.
 
 ---
 
 ## When NOT to use
 
-- **Classification** — confusion matrix / ROC, not y vs ŷ scatter.
-- **High-dimensional output** — per-target subplots or aggregate metrics.
-- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
+- **Classification** — use confusion matrix / ROC, not this scatter.
+- **Many output dimensions** — one subplot per target or use summary metrics.
+- **Ranking only** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves are clearer.
 
 ---
 

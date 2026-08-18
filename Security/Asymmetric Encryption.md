@@ -2,7 +2,7 @@
 
 # Asymmetric encryption
 
-> Public-key cryptography — encrypt or verify with public key; decrypt or sign with private key; solves key distribution at cost of CPU and size limits.
+> Public-key crypto — encrypt with the public key, decrypt with the private key. Slower than symmetric crypto but solves key sharing.
 
 ---
 
@@ -87,7 +87,7 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 
 ## When NOT to use
 
-Don't encrypt large blobs directly with RSA. Don't use asymmetric crypto where **[[symmetric encryption]]** + pre-shared key (already distributed via KMS) suffices.
+Don't encrypt large files with RSA alone. Use symmetric encryption when both sides already share a key (e.g. from KMS).
 
 ---
 

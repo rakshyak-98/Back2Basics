@@ -99,24 +99,23 @@ ssh-keygen -F github.com
 
 ## Understand Symmetric Encryption, Asymmetric Encryption and Hashes
 
-- the relationship between encryption and decryption determines whether an encryption scheme is [[symmetric encryption]] or [[Asymmetric Encryption]]
-- Asymmetric key pairs that can be created are only used for authentication, not encrypting the connection.
-- the first option from the client's list that is available on the server is used as the cipher algorithm in both directions.
-- SSH uses asymmetric encryption during the initial key exchange to set up symmetric encryption (produce temporary key pairs, exchange public keys, and derive the shared secret used for symmetric encryption).
+- **Symmetric** — same key to encrypt and decrypt ([[symmetric encryption]]).
+- **Asymmetric** — key pair; used mainly to prove identity, not to encrypt the whole session ([[Asymmetric Encryption]]).
+- The server picks the first cipher both sides support.
+- SSH uses asymmetric crypto first to agree on a symmetric session key (Diffie-Hellman + temporary key pairs).
 
 ### SSH key pairs
 
-- SSH key pairs can be used to authenticate a client to a server.
-- client creates a key pair and then uploads the public key to any remote server it wishes to access.
-- after symmetric encryption is established to secure communication between the server and client, the client must authenticate to be allowed access.
-- the server can use the public key in the file to encrypt a challenge message to the client.
-- if client can prove that it was able to decrypt this message, it has demonstrated that it owns the associated private key.
-- the server can then set up the environment for the client.
+- Client creates a key pair and puts the **public** key on the server.
+- After the session is encrypted, the client must still **authenticate**.
+- Server sends a challenge encrypted with the client's public key.
+- Client decrypts with its private key to prove it owns the key.
+- Server then opens the user's shell environment.
 
 ## Hashing
 
-- ssh takes advantage of [[Cryptographic hashing]] for data manipulation
-- each message sent after the encryption is negotiated must contain a MAC (Message Authentication Code) so that the other party can verify the packet integrity.
-- the MAC is calculated from the symmetric shared secret, the packet sequence number of the message, and the actual message content.
-- the MAC itself is sent outside of the symmetrically encrypted area as the final part of the packet.
-- encrypt the data first, then calculate the MAC.
+- SSH uses [[Cryptographic hashing]] for integrity checks.
+- Each packet after encryption includes a **MAC** (Message Authentication Code).
+- MAC = hash of (shared secret + sequence number + message body).
+- MAC sits outside the encrypted payload, at the end of the packet.
+- Encrypt first, then compute the MAC.

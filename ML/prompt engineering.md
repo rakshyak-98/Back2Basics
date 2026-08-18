@@ -2,40 +2,46 @@
 
 # Prompt engineering
 
-> Writing effective instructions so a model consistently generates content that meets your requirements. Because generated content is nondeterministic, good prompting mixes art and science — but techniques and best practices help you get reliable results.
+> Write clear instructions so the model gives you useful output. Models do not always give the same answer twice, but good prompts make results more reliable.
 
 ## Context, Task, Constraints, and Persona
 
+Give the model:
+- **Context** — background it needs
+- **Task** — what you want it to do
+- **Constraints** — limits (length, format, tone)
+- **Persona** — role it should play (e.g. "senior SRE", "support agent")
+
 ## LLM
-LLMs are pattern predictors that generate one token at a time. They predict the next most likely token based on the input provided. Generation happens token by token with no planning ahead, meaning LLMs only "think" while they are typing. They will most often predict the next most likely token, but sometimes may predict other likely tokens instead.
 
-LLMs have a training cutoff date.
+LLMs build text one token at a time. Each step picks the next most likely word based on the input. They do not plan the full answer first — they figure it out as they write.
 
-- Deterministic systems, like calculators, always produce the same output for a given input (e.g., 2 + 2 always equals 4). Nondeterministic systems can produce different outputs for the same input. LLMs are nondeterministic, meaning if you enter the same prompt multiple times, you will likely get different answers each time. This is because they predict tokens based on probability, not fixed rules.
+LLMs only know data from training up to a cutoff date.
 
-- LLMs are trained on data collected up to a certain cutoff date. While many LLMs now have multi-modality features like internet searching that allow them to find information after their cutoff date, information before the cutoff date tends to be more reliable. This is because post-cutoff information may only exist in limited sources, making the LLM's responses potentially less accurate for very recent events or new technologies.
+- **Deterministic systems** (like calculators) always give the same output for the same input.
+- **LLMs are not deterministic.** Run the same prompt twice and you may get different answers. They follow probability, not fixed rules.
+- **Cutoff date matters.** Older training data is usually more reliable. Newer facts may be missing or wrong unless the model can search the web.
+
 ## Chain of thought
 
-- asking the AI to think step-by-step or Few-Shot Prompting
-
+Ask the model to think step by step, or show a few examples first (few-shot prompting).
 
 ## Temperature, Top P, Tokens, and Context window
 
-Temperature -> our way of changing a model's creativity or randomness
-- controls how predictable the AI output will be. The range is 0 to 2. At temperature 0, the LLM will always pick the most likely next word (remember, they are pattern predictors, so their responses are just picking words based on probability and statistics).
+**Temperature** controls randomness.
 
-When we raise the temperature, the AI might pick the 2nd most likely word, or the 100th most likely word. This can make our outputs much more creative, but can also add too much randomness and make them incoherent.
-
-> [!NOTE]
-> If you are writing an application focused on creativity, you might bump the temperature up to 1.4 (remember 2 is completely random and incoherent). But if you are running a medical AI application, you might dial it way down to .5. So keep this in mind when working with these APIs.
+- Range: 0 to 2.
+- **0** — always picks the most likely next word. Best for factual tasks (medical, legal, code).
+- **Higher** — may pick less likely words. More creative, but can become nonsense.
+- Creative apps: try ~1.4. Factual apps: try ~0.5. **2** is mostly random.
 
 ## Top P
 
-**Top P**: Top P _sounds similar_ to temperature, but it does something a bit different.
+Top P works like temperature but cuts off unlikely options.
 
-In every word prediction, the percentage of words that can be predicted add up to 100%. So if I ask the color of the sky, "blue" might be 80% most likely, "gray" 15% most likely, and "orange" 5% most likely. We can see that these three options add up to 100%.
+Example: sky color — blue 80%, gray 15%, orange 5%.
 
-- If we are running a business and want to only consider the top 90% of options, we can change our top p to .9, and it will only consider the first 90% of token/word options. What does that mean for our sky example? "Orange" would no longer be considered, because it is not in the top 90% most likely next words.
+- **Top P = 0.9** — only consider options in the top 90%. Orange (5%) is dropped.
+- Use Top P or temperature — usually not both at high values.
 
-> **Context Windows**: how many tokens an LLM can "remember" at a time.
-
+> **Context window** — how many tokens the model can read at once (input + output).
