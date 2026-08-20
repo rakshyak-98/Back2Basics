@@ -1,4 +1,4 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[Docker]] [[AWS EC2]]
+[[AWS]] [[IAM]] [[ARN (Amazon Resource Name)]] [[docker cli]] [[AWS EC2]]
 
 # AWS ECR
 
@@ -116,4 +116,4 @@ docker push $ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO:latest
 
 ## Related
 
-[[IAM]] · [[ARN (Amazon Resource Name)]] · [[Docker]] · [[AWS EC2]] · [[AWS Networking]]
+[[AWS]] · [[IAM]] · [[ARN (Amazon Resource Name)]] · [[docker cli]] · [[AWS EC2]] · [[AWS ECS]] · [[AWS Lambda]] · [[AWS Networking]]

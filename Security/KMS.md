@@ -1,4 +1,4 @@
-[[TLS (Transport Layer Security)]] [[JWT authentication]] [[Security]] [[Token rotation]]
+[[TLS (Transport Layer Security)]] [[JWT authentication]] [[Security]] [[Token rotation]] [[AWS]]
 
 # KMS (Key Management Service)
 
@@ -91,4 +91,4 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 
 ## Related
 
-[[TLS (Transport Layer Security)]] · [[JWT authentication]] · [[Token rotation]] · [[Security]] · [[aws STS (Security Token Service)]]
+[[TLS (Transport Layer Security)]] · [[JWT authentication]] · [[Token rotation]] · [[Security]] · [[aws STS (Security Token Service)]] · [[AWS S3]] · [[AWS Secrets Manager]] · [[CloudWatch]] · [[AWS]]

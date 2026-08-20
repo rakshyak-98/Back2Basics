@@ -1,4 +1,4 @@
-[[AWS]] [[IAM]] [[KMS (Key Management Service)]] [[ARN (Amazon Resource Name)]] [[AWS Lambda]] [[AWS RDS]] [[aws STS (Security Token Service)]]
+[[AWS]] [[IAM]] [[KMS]] [[ARN (Amazon Resource Name)]] [[AWS Lambda]] [[AWS RDS]] [[aws STS (Security Token Service)]]
 
 # AWS Secrets Manager
 
@@ -11,7 +11,7 @@
 | **Secrets Manager** | DB creds, API keys; JSON secrets | Built-in Lambda rotation |
 | **SSM Parameter Store** | Config + SecureString; hierarchy `/app/prod/db` | Manual / custom; cheaper |
 
-Both use [[KMS (Key Management Service)]] for SecureString / secret encryption. Apps fetch at runtime with IAM — never bake into images.
+Both use [[KMS]] for SecureString / secret encryption. Apps fetch at runtime with IAM — never bake into images.
 
 ```
 App role ──► GetSecretValue / GetParameter
@@ -66,7 +66,7 @@ aws ssm get-parameters-by-path --path /app/prod --recursive --with-decryption
 > **Env vars in Lambda/ECS are not secret storage** — visible via GetFunctionConfiguration / task def.
 
 > [!WARNING]
-> **IAM Allow without KMS key policy** → decrypt fails ([[KMS (Key Management Service)]]).
+> **IAM Allow without KMS key policy** → decrypt fails ([[KMS]]).
 
 > [!WARNING]
 > **Secrets Manager pricing per secret / month** — Prefer SSM SecureString for large volumes of cheap config secrets; Secrets Manager for rotated credentials.
@@ -82,4 +82,4 @@ aws ssm get-parameters-by-path --path /app/prod --recursive --with-decryption
 
 ## Related
 
-[[IAM]] · [[KMS (Key Management Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Lambda]] · [[AWS RDS]] · [[aws STS (Security Token Service)]] · [[AWS]]
+[[IAM]] · [[KMS]] · [[ARN (Amazon Resource Name)]] · [[AWS Lambda]] · [[AWS RDS]] · [[aws STS (Security Token Service)]] · [[AWS]]

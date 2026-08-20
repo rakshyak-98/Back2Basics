@@ -1,4 +1,4 @@
-[[AWS]] [[IAM]] [[ARN (Amazon Resource Name)]] [[KMS (Key Management Service)]] [[CloudFront]] [[AWS Billing and cost management]]
+[[AWS]] [[IAM]] [[ARN (Amazon Resource Name)]] [[KMS]] [[CloudFront]] [[AWS Billing and cost management]]
 
 # AWS S3
 
@@ -6,7 +6,7 @@
 
 ## Mental model
 
-S3 is a **flat keyspace** inside a **bucket** (bucket name is global DNS-like). Objects have ACL/policy evaluation: **Block Public Access** + **bucket policy** + **IAM** + optional **object ACL**. Encryption at rest is SSE-S3 or SSE-KMS ([[KMS (Key Management Service)]]). Versioning + lifecycle control cost and recovery.
+S3 is a **flat keyspace** inside a **bucket** (bucket name is global DNS-like). Objects have ACL/policy evaluation: **Block Public Access** + **bucket policy** + **IAM** + optional **object ACL**. Encryption at rest is SSE-S3 or SSE-KMS ([[KMS]]). Versioning + lifecycle control cost and recovery.
 
 ```
 Client ──► PutObject / GetObject / Presigned URL
@@ -100,7 +100,7 @@ Gateway endpoint for S3 (route table entry, no hourly charge) — prefer over NA
 |---------|-------|-----|
 | 403 Access Denied | Block Public Access; bucket policy; IAM; KMS key policy | Align all four; Access Analyzer |
 | Works in console, fails in app | Wrong role / region / bucket ARN | Fix [[ARN (Amazon Resource Name)]]; region endpoint |
-| SSE-KMS upload fail | Key policy for role + `s3.amazonaws.com` | [[KMS (Key Management Service)]] |
+| SSE-KMS upload fail | Key policy for role + `s3.amazonaws.com` | [[KMS]] |
 | Website 403 / XML error | Public access + policy + website endpoint URL | Policy; or switch to CloudFront |
 | Bill spike | Versions, incomplete multipart, data transfer | Lifecycle; abort MPU; CloudFront for egress |
 | Terraform state lock weirdness | DynamoDB lock table + bucket versioning | [[Terraform setup]] · [[AWS DynamoDB]] |
@@ -127,4 +127,4 @@ Gateway endpoint for S3 (route table entry, no hourly charge) — prefer over NA
 
 ## Related
 
-[[AWS]] · [[IAM]] · [[ARN (Amazon Resource Name)]] · [[KMS (Key Management Service)]] · [[CloudFront]] · [[AWS Billing and cost management]] · [[Terraform setup]] · [[AWS DynamoDB]]
+[[AWS]] · [[IAM]] · [[ARN (Amazon Resource Name)]] · [[KMS]] · [[CloudFront]] · [[AWS Billing and cost management]] · [[Terraform setup]] · [[AWS DynamoDB]]

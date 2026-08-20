@@ -93,4 +93,4 @@ Don't NAT **everything** if instances need direct inbound (public ALB on app tie
 
 ## Related
 
-[[NAT (Network Address Translation)]] [[Egress and Ingress]] [[routing table]] [[Network error]] [[AWS Networking]]
+[[NAT (Network Address Translation)]] · [[Egress and Ingress]] · [[routing table]] · [[Network error]] · [[AWS Networking]] · [[AWS]] · [[ALB (Application Load Balancer)]]

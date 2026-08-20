@@ -1,4 +1,4 @@
-[[AWS Networking]] [[AWS EC2]] [[Route53]] [[NAT (Network Address Translation)]] [[AWS Billing and cost management]]
+[[AWS]] [[AWS Networking]] [[AWS EC2]] [[Route53]] [[NAT (Network Address Translation)]] [[AWS Billing and cost management]]
 
 # AWS Elastic IP (EIP)
 
@@ -187,4 +187,4 @@ aws ec2 release-address --allocation-id eipalloc-xxx
 
 ## Related
 
-[[AWS Networking]] · [[AWS EC2]] · [[Route53]] · [[Security group]] · [[NAT (Network Address Translation)]] · [[How to connect Godaddy domain with AWS EC2 instance]] · [[AWS Billing and cost management]] · [[Networking/Egress traffic]]
+[[AWS]] · [[AWS Networking]] · [[AWS EC2]] · [[Route53]] · [[Security group]] · [[ALB (Application Load Balancer)]] · [[NAT (Network Address Translation)]] · [[How to connect Godaddy domain with AWS EC2 instance]] · [[AWS Billing and cost management]] · [[Egress traffic]]

@@ -106,4 +106,4 @@ sudo resize2fs /dev/nvme0n1p1   # ext4
 
 ## Related
 
-[[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS Billing and cost management]] · [[AWS EFS (Elastic File System)]] · [[fsync]] · [[Take snapshot]] · [[KMS (Key Management Service)]] · [[AWS]]
+[[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS Billing and cost management]] · [[AWS EFS (Elastic File System)]] · [[fsync]] · [[Take snapshot]] · [[KMS]] · [[AWS]]

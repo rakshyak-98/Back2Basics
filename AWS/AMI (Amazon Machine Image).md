@@ -1,4 +1,4 @@
-[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]] [[KMS (Key Management Service)]]
+[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]] [[KMS]]
 
 # AMI (Amazon Machine Image)
 
@@ -89,4 +89,4 @@ aws ec2 modify-image-attribute --image-id ami-xxx \
 
 ## Related
 
-[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS Auto Scaling]] · [[KMS (Key Management Service)]] · [[AWS]] · [[Advanced RISC Machine (ARM)]]
+[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS Auto Scaling]] · [[KMS]] · [[AWS]] · [[Advanced RISC Machine (ARM)]]

@@ -81,6 +81,9 @@ variable "aws_region" {
 > [!WARNING] Brikman — never commit access keys in `.tf` or `.tfvars`.
 
 ### Remote state (S3 + DynamoDB lock)
+
+See [[AWS S3]] and [[AWS DynamoDB]] for bucket/table ops outside Terraform.
+
 ```hcl
 # backend.tf
 terraform {
@@ -238,7 +241,7 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 1. Install Terraform
 2. Pick cloud: AWS or GCP section above → `versions.tf` + `providers.tf`
 3. Auth (env / ADC / role) — never commit secrets
-4. Optional remote `backend.tf` (S3 or GCS)
+4. Optional remote `backend.tf` ([[AWS S3]] or GCS; DynamoDB lock → [[AWS DynamoDB]])
 5. `terraform init` → download plugins ([[Terraform CLI]])
 6. `terraform plan` → `terraform apply` ([[Terraform workflow]])
 7. Stuck? `TF_LOG=DEBUG` ([[Terraform CLI]])

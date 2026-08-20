@@ -22,10 +22,10 @@ ERROR 1045 (28000): Access denied for user 'root'@'_gateway' (using password: YE
 ### Bonus: If this is AWS RDS / Aurora
 
 > [!NOTE]
-> RDS does **not** allow real root remote login at all for security reasons. You must:
+> See [[AWS RDS]]. RDS does **not** allow real root remote login at all for security reasons. You must:
 
 1. Create a new DB user in the RDS console or with SQL
-2. Make sure the RDS security group allows your IP (or 0.0.0.0/0 if public)
+2. Make sure the RDS [[Security group]] allows your IP (or 0.0.0.0/0 if public)
 3. Connect with that new user, not root
 
 ---

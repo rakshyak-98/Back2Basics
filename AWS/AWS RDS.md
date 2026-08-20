@@ -1,4 +1,4 @@
-[[AWS]] [[AWS Networking]] [[Security group]] [[connection pooling]] [[AWS Secrets Manager]] [[KMS (Key Management Service)]] [[AWS Billing and cost management]]
+[[AWS]] [[AWS Networking]] [[Security group]] [[connection pooling]] [[AWS Secrets Manager]] [[KMS]] [[AWS Billing and cost management]]
 
 # AWS RDS
 
@@ -86,4 +86,4 @@ Lambda: prefer RDS Proxy or Data API — one pool per concurrent env explodes
 
 ## Related
 
-[[AWS Networking]] · [[Security group]] · [[connection pooling]] · [[AWS Secrets Manager]] · [[KMS (Key Management Service)]] · [[AWS DynamoDB]] · [[AWS Billing and cost management]] · [[AWS]]
+[[AWS Networking]] · [[Security group]] · [[connection pooling]] · [[AWS Secrets Manager]] · [[KMS]] · [[AWS DynamoDB]] · [[AWS Billing and cost management]] · [[AWS]]

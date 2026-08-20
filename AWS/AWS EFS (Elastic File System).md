@@ -1,4 +1,4 @@
-[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS S3]] [[Security group]] [[AWS Networking]] [[NFS (Network File System)]]
+[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS S3]] [[Security group]] [[AWS Networking]]
 
 # AWS EFS (Elastic File System)
 
@@ -84,4 +84,4 @@ aws efs describe-mount-targets --file-system-id fs-xxx
 
 ## Related
 
-[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS S3]] · [[Security group]] · [[AWS Networking]] · [[NFS (Network File System)]] · [[AWS]]
+[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS S3]] · [[Security group]] · [[AWS Networking]] · [[AWS]]

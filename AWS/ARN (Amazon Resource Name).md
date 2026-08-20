@@ -1,4 +1,4 @@
-[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]] [[AWS Lambda]]
+[[AWS]] [[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]] [[AWS Lambda]]
 
 # ARN (Amazon Resource Name)
 
@@ -88,4 +88,4 @@ aws iam get-role --role-name AppRole --query 'Role.Arn'
 
 ## Related
 
-[[IAM]] · [[aws STS (Security Token Service)]] · [[AWS EC2]] · [[AWS ECR]] · [[Security group]]
+[[AWS]] · [[IAM]] · [[aws STS (Security Token Service)]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS S3]] · [[AWS Lambda]] · [[Security group]]

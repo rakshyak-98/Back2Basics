@@ -1,4 +1,4 @@
-[[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
+[[AWS]] [[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
 
 # IAM
 
@@ -97,4 +97,4 @@ aws iam generate-credential-report && aws iam get-credential-report --query 'Con
 
 ## Related
 
-[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
+[[AWS]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Secrets Manager]] · [[KMS]] · [[Security group]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]] · [[CloudTrail]]

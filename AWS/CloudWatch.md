@@ -1,4 +1,4 @@
-[[AWS]] [[AWS Lambda]] [[AWS EC2]] [[CloudTrail]] [[AWS Billing and cost management]] [[KMS (Key Management Service)]]
+[[AWS]] [[AWS Lambda]] [[AWS EC2]] [[CloudTrail]] [[AWS Billing and cost management]] [[KMS]]
 
 # CloudWatch
 
@@ -62,7 +62,7 @@ fields @timestamp, @message
 
 ### SSE-KMS on log groups
 
-Needs key policy allowing `logs.<region>.amazonaws.com` ([[KMS (Key Management Service)]]).
+Needs key policy allowing `logs.<region>.amazonaws.com` ([[KMS]]).
 
 ## Triage (when things break)
 
@@ -97,4 +97,4 @@ Needs key policy allowing `logs.<region>.amazonaws.com` ([[KMS (Key Management S
 
 ## Related
 
-[[AWS Lambda]] · [[AWS EC2]] · [[ALB (Application Load Balancer)]] · [[CloudTrail]] · [[AWS Billing and cost management]] · [[KMS (Key Management Service)]] · [[AWS]]
+[[AWS Lambda]] · [[AWS EC2]] · [[ALB (Application Load Balancer)]] · [[CloudTrail]] · [[AWS Billing and cost management]] · [[KMS]] · [[AWS]]

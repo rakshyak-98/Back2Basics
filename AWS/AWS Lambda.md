@@ -1,4 +1,4 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[aws STS (Security Token Service)]] [[AWS ECR]] [[AWS Networking]]
+[[AWS]] [[IAM]] [[ARN (Amazon Resource Name)]] [[aws STS (Security Token Service)]] [[AWS ECR]] [[AWS Networking]]
 
 # AWS Lambda
 
@@ -224,4 +224,4 @@ aws lambda update-function-configuration \
 
 ## Related
 
-[[IAM]] · [[ARN (Amazon Resource Name)]] · [[aws STS (Security Token Service)]] · [[AWS ECR]] · [[AWS Networking]] · [[Security group]] · [[AWS EC2]] · [[node serverless]]
+[[AWS]] · [[IAM]] · [[ARN (Amazon Resource Name)]] · [[aws STS (Security Token Service)]] · [[AWS ECR]] · [[AWS Networking]] · [[Security group]] · [[AWS EC2]] · [[AWS SQS]] · [[API Gateway]] · [[CloudWatch]] · [[AWS Secrets Manager]] · [[node serverless]]

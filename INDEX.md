@@ -26,7 +26,7 @@
 | Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
 | TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS (Transport Layer Security)]] |
 | AWS `AccessDenied` / wrong principal | [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] |
-| S3 403 / public access blocked | [[AWS S3]] · [[KMS (Key Management Service)]] |
+| S3 403 / public access blocked | [[AWS S3]] · [[KMS]] |
 | RDS / Aurora connection timeout | [[AWS RDS]] · [[Security group]] · [[AWS Networking]] |
 | Lambda timeout / throttle / no logs | [[AWS Lambda]] · [[CloudWatch]] |
 | ALB 502 / idle timeout churn | [[ALB (Application Load Balancer)]] · [[connection chrun]] |
@@ -58,7 +58,7 @@
 
 ### AWS
 - Hub: [[AWS]]
-- Identity: [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Secrets Manager]] · [[KMS (Key Management Service)]]
+- Identity: [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Secrets Manager]] · [[KMS]]
 - Network: [[AWS Networking]] · [[Security group]] · [[Elastic IP]] · [[Route53]] · [[ALB (Application Load Balancer)]] · [[CloudFront]]
 - Compute: [[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS Auto Scaling]] · [[AWS Lambda]] · [[AWS ECS]] · [[AWS ECR]]
 - Storage: [[AWS S3]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]]

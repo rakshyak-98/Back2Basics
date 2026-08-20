@@ -8,7 +8,7 @@
 
 - [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]]
 - [[AWS Secrets Manager]] (Secrets Manager + SSM Parameter Store)
-- [[KMS (Key Management Service)]] (lives under Security — do not duplicate)
+- [[KMS]] (lives under Security — do not duplicate)
 
 ## Network
 

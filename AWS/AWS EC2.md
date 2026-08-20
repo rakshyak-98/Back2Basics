@@ -1,4 +1,4 @@
-[[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
+[[AWS]] [[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
 
 # AWS EC2
 
@@ -85,4 +85,4 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 
 ## Related
 
-[[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
+[[AWS]] · [[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]] · [[AWS Auto Scaling]] · [[ALB (Application Load Balancer)]] · [[AWS Lambda]]

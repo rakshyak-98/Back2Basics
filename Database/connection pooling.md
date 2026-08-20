@@ -152,4 +152,4 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
 
 ## Related
 
-[[Database mistakes]] · [[mysql]] · [[psql essential]] · [[ACID]] · [[half-open connections]] · [[file descriptors]]
+[[Database mistakes]] · [[mysql]] · [[psql essential]] · [[ACID]] · [[half-open connections]] · [[file descriptors]] · [[AWS RDS]] · [[AWS Lambda]]

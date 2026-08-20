@@ -1,4 +1,4 @@
-[[AWS/AWS EC2]] [[Elastic IP]] [[AWS/IAM]] [[AWS/ARN (Amazon Resource Name)]]
+[[AWS]] [[AWS EC2]] [[Elastic IP]] [[IAM]] [[ARN (Amazon Resource Name)]] [[AWS S3]] [[EBS (Elastic Block Store)]]
 
 # AWS Billing and Cost Management
 
@@ -70,4 +70,4 @@ Free Tier reference: [AWS Free Tier](https://aws.amazon.com/free/)
 
 ## Related
 
-[[AWS/AWS EC2]] [[AWS/AWS EBS(Elastic Block Store)]] [[AWS/IAM]]
+[[AWS]] · [[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[Elastic IP]] · [[IAM]] · [[AWS S3]] · [[CloudWatch]]

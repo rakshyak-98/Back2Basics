@@ -1,4 +1,4 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[JWT authentication]] [[Security]]
+[[AWS]] [[IAM]] [[ARN (Amazon Resource Name)]] [[JWT authentication]] [[Security]]
 
 # AWS STS (Security Token Service)
 
@@ -100,4 +100,4 @@ aws sts get-caller-identity --profile prod   # shows assumed SSO role ARN
 
 ## Related
 
-[[IAM]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[JWT authentication]]
+[[AWS]] · [[IAM]] · [[ARN (Amazon Resource Name)]] · [[AWS CLI]] · [[Security group]] · [[AWS EC2]] · [[CloudTrail]] · [[JWT authentication]]

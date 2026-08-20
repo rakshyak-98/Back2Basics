@@ -19,3 +19,6 @@ dynamic - examine current state of server.
 
 choosing the load balancer algo - unique characteristic of the application
 decision metric - capacity of the server, all heterogeneous, nature of the request application handles, general resource demand, or request need more computing power.
+## Related
+
+[[ALB (Application Load Balancer)]] · [[connection chrun]] · [[AWS Networking]] · [[AWS]]

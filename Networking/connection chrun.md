@@ -114,4 +114,4 @@ ss -tan state time-wait | wc -l
 
 ## Related
 
-[[half-open connections]] [[Epoll]] [[ss]] [[eBPF]] [[Linux network commands]]
+[[half-open connections]] · [[Epoll]] · [[ss]] · [[eBPF]] · [[Linux network commands]] · [[ALB (Application Load Balancer)]]

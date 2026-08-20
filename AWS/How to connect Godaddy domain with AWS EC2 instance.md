@@ -151,4 +151,4 @@ curl -v https://yourdomain.com 2>&1 | grep -i 'subject\|issuer\|SSL'
 
 ## Related
 
-[[Route53]] [[DNS]] [[DNS zone]] [[certbot (letsencrypt)]] [[certbot error]] [[NAT (Network Address Translation)]] [[nginx SPA deployment]]
+[[AWS]] · [[Route53]] · [[DNS]] · [[DNS zone]] · [[Elastic IP]] · [[ALB (Application Load Balancer)]] · [[certbot (letsencrypt)]] · [[certbot error]] · [[NAT (Network Address Translation)]] · [[nginx SPA deployment]]

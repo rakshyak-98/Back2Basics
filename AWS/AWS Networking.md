@@ -1,4 +1,4 @@
-[[Route53]] [[Security group]] [[AWS EC2]] [[NAT (Network Address Translation)]] [[DNS]]
+[[AWS]] [[Route53]] [[Security group]] [[AWS EC2]] [[NAT (Network Address Translation)]] [[DNS]]
 
 # AWS Networking
 
@@ -84,4 +84,4 @@ aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protoc
 
 ## Related
 
-[[Route53]] · [[Elastic IP]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]
+[[AWS]] · [[Route53]] · [[Elastic IP]] · [[Security group]] · [[AWS EC2]] · [[ALB (Application Load Balancer)]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]
