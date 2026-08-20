@@ -122,4 +122,4 @@ mtr -u turn.example.com
 
 ## Related
 
-[[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[UDP]] [[DTLS]] [[webSocket]]
+[[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[UDP]] [[DTLS]] [[Networking/webSocket]]

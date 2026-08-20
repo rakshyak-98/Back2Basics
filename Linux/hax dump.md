@@ -1,4 +1,4 @@
-[[gdb]] [[webSocket]] [[Networking]]
+[[gdb]] [[Networking/webSocket]] [[Networking]]
 
 # hax dump *(filename typo — see hexdump / xxd below)*
 
@@ -96,4 +96,4 @@ strings file.bin | head
 
 ## Related
 
-[[gdb]] [[webSocket]] [[Networking]] [[diff]]
+[[gdb]] [[Networking/webSocket]] [[Networking]] [[diff]]

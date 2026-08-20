@@ -1,4 +1,4 @@
-[[NodeJS/Event Loop]] [[Operating System/Blocking Vs Non-Blocking]] [[javascript/web workers]] [[NodeJS/worker threads]]
+[[NodeJS/Event Loop]] [[Operating System/Blocking Vs Non-Blocking]] [[javascript/web workers]] [[Worker Threads]]
 
 # JavaScript concurrency
 
@@ -93,4 +93,4 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 
 ## Related
 
-[[NodeJS/Event Loop]] [[javascript/web workers]] [[NodeJS/worker threads]] [[Operating System/Blocking Vs Non-Blocking]]
+[[NodeJS/Event Loop]] [[javascript/web workers]] [[Worker Threads]] [[Operating System/Blocking Vs Non-Blocking]]

@@ -8,13 +8,14 @@
 
 ---
  
- - Google V8 Engine -> Compiles js to machine code (JIT compilation for speed). [article](https://medium.com/@mukeshsharma20120/%EF%B8%8F-deep-dive-into-node-js-internal-working-a-comprehensive-guide-389542a036f4)
- - libuv -> A C library for async I/O, event loop, and cross-platform abstractions (e.g., handles Windows IOCP vs. Linux epoll).
+ - [[Google V8 Engine]] -> Compiles js to machine code (JIT compilation for speed). [article](https://medium.com/@mukeshsharma20120/%EF%B8%8F-deep-dive-into-node-js-internal-working-a-comprehensive-guide-389542a036f4)
+ - [[libuv]] -> A C library for async I/O (database calls are "Network I/O" Operations), event loop, and cross-platform abstractions (e.g., handles Windows [[IOCP]] vs. Linux [[epoll]]).
  - Node Bindings -> C++ wrappers that give V8 and libuv to JS APIs (e.g., `fs` `net`...)
+> [!INFO]
+> And in a normal REST API, **a surprisingly large portion of the time is often spent waiting on I/O rather than computing**, which is one of the main reasons Node.js's event-driven architecture works so well for API servers.
  
  > [!NOTE]
  > - `require()` in Node is **synchronous** (blocking). (Browsers **cannot block** while waiting for network fetches.)
- 
  
 - child process can  be spawned by using `child_process.fork()` API (instead of using multiple threads).
 - `cluster` module allows you to share sockets between processes to enable load balancing over your cores.

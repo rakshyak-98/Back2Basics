@@ -1,8 +1,10 @@
-[[NodeJS]] [[Epoll]] [[clustering]] [[worker threads]] [[Express middleware]]
+[[NodeJS]] [[Epoll]] [[clustering]] [[Worker Threads]] [[Express middleware]]
 
 # Node.js Event Loop
 
 > One-line: single-threaded JS + libuv thread pool — non-blocking I/O until you block the thread with CPU or sync I/O.
+
+> the Event Loop schedules the work; it doesn't create a new JavaScript thread for each callback or async function.
 
 ## Mental model
 
@@ -14,10 +16,16 @@ Node runs user JavaScript on **one thread**. libuv handles async I/O (network, f
 │  (6 phases) │ ──► run JS callbacks ──►│ thread pool  │
 └─────────────┘                         └──────────────┘
        ▲
-       └── microtasks (nextTick, Promises) between phases
+       └── microtasks (nextTick, Promises) between phases (very high priority queue)
 ```
+- `process.nextTick()` is a NodeJS-specific mechanism that schedules a callback to run after the current JavaScript operation finishes, but before the event loop continues to the next phase.
 
 **Concurrency is cooperative** — long handlers delay every connection. Throughput ≠ parallel CPU.
+
+> [!NOTE]
+> `async`/promise are different then IO operations. IO operation is "filesystem read write/network IO" etc.
+
+- Async I/O can complete while the event loop is blocked, but Node cannot process the result's JavaScript callback until the event loop becomes available.
 
 ---
 
@@ -25,19 +33,61 @@ Node runs user JavaScript on **one thread**. libuv handles async I/O (network, f
 
 | Phase | Handles | Senior note |
 |-------|---------|-------------|
-| **timers** | `setTimeout`, `setInterval` | Min delay ~1ms; starvation if recursive timers |
+| **timers** | `setTimeout`, `setInterval` set callbacks | Min delay ~1ms; starvation if recursive timers |
 | **pending callbacks** | Deferred I/O (TCP errors) | Debug `ECONNREFUSED` weirdness here |
 | **idle, prepare** | Internal | Ignore unless hacking core |
-| **poll** | Incoming I/O, execute poll callbacks | Blocks waiting for events; core of non-blocking |
+| **poll** | Incoming I/O, execute poll callbacks | Database, Network response, Socket data, file relate completion |
 | **check** | `setImmediate` | Run after poll — good post-I/O batching |
 | **close callbacks** | `socket.on('close')` | Missing cleanup → FD leaks → OOM |
+
+- the Event loop phase depends on what caused its callback/continuation to become ready. Don't thing "All callbacks -> one specific phase" Callbacks can be associated with different phases.
+
+```txt
+                 EVENT LOOP
+                     │
+                     ↓
+              ┌──────────────┐
+              │    Timers    │
+              └──────┬───────┘
+                     ↓
+              ┌──────────────┐
+              │   Pending    │
+              │  Callbacks   │
+              └──────┬───────┘
+                     ↓
+              ┌──────────────┐
+              │     Poll     │
+              │     I/O      │
+              └──────┬───────┘
+                     │
+                     ├──────────────→ Microtask Queue
+                     │                     │
+                     │                     ↓
+                     │              Promise / await
+                     │
+                     ↓
+              ┌──────────────┐
+              │    Check     │
+              │setImmediate()│
+              └──────┬───────┘
+                     ↓
+              ┌──────────────┐
+              │    Close     │
+              │   Callbacks  │
+              └──────┬───────┘
+                     │
+                     └────────→ repeat
+```
+
+## Poll
+This is also where the event loop can potentially wait for new I/O events if there is nothing immediately ready to execute. For REST API server is constantly dealing with network events.
 
 **Microtasks** (outside phases, highest priority): `process.nextTick` runs before Promise callbacks; both run before next phase continues.
 
 Order within tight code:
 
 ```javascript
-setTimeout(() => console.log('timeout'), 0);
+setTimeout(() => console.log('timeout'), 0); // The event loop still has to get to the appropriate point and execute the callback.
 setImmediate(() => console.log('immediate'));
 process.nextTick(() => console.log('nextTick'));
 Promise.resolve().then(() => console.log('promise'));
@@ -126,6 +176,11 @@ UV_THREADPOOL_SIZE=16 node app.js      # default 4 — raise for heavy sync fs/c
 > [!WARNING]
 > **DNS lookup** — `dns.lookup` uses thread pool; `dns.resolve` uses network — different scaling behavior.
 
+## How to fix CPU-heavy blocking?
+
+> [!NOTE]
+> If the work is genuinely CPU-intensive, move it away from the main JavaScript thread. **Worker threads** [[Worker Threads]]
+
 ---
 
 ## When NOT to use
@@ -135,6 +190,26 @@ UV_THREADPOOL_SIZE=16 node app.js      # default 4 — raise for heavy sync fs/c
 
 ---
 
+- `async` means -> pause the current async function until the Promise settles, and give control back to the `Node.JS` event loop in the machine.
+- when an `await` yield, the event loop does NOT pause. The async function pauses, while the event loop continues running.
+
+```txt
+Request A
+   ↓
+DB query
+   ↓
+await
+   ↓
+        Event Loop
+        ├── Request B
+        ├── Request C
+        └── Request D
+   ↓
+DB response
+   ↓
+Resume Request A
+```
+
 ## Related
 
-[[clustering]] [[worker threads]] [[child process]] [[Epoll]] [[Express middleware]] [[Node events driven]]
+[[clustering]] [[Worker Threads]] [[child process]] [[Epoll]] [[Express middleware]] [[Node events driven]]

@@ -1,4 +1,4 @@
-[[MCP]] [[webSocket]] [[JWT authentication]] [[gRPC]]
+[[MCP]] [[Networking/webSocket]] [[JWT authentication]] [[gRPC]]
 
 # MCP Client
 
@@ -142,4 +142,4 @@ Retry:               idempotent reads yes; writes no blind retry
 
 ## Related
 
-[[MCP]] [[webSocket]] [[gRPC]] [[expressjs]] [[JWT authentication]]
+[[MCP]] [[Networking/webSocket]] [[gRPC]] [[expressjs]] [[JWT authentication]]

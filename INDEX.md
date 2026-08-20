@@ -25,6 +25,13 @@
 | Slow query / missing index | [[covering index]] · [[mysql index]] · [[Data access patterns]] |
 | Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
 | TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS (Transport Layer Security)]] |
+| AWS `AccessDenied` / wrong principal | [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] |
+| S3 403 / public access blocked | [[AWS S3]] · [[KMS (Key Management Service)]] |
+| RDS / Aurora connection timeout | [[AWS RDS]] · [[Security group]] · [[AWS Networking]] |
+| Lambda timeout / throttle / no logs | [[AWS Lambda]] · [[CloudWatch]] |
+| ALB 502 / idle timeout churn | [[ALB (Application Load Balancer)]] · [[connection chrun]] |
+| Unexpected AWS bill spike | [[AWS Billing and cost management]] · [[Elastic IP]] |
+| CloudWatch empty / wrong log group | [[CloudWatch]] · [[CloudTrail]] |
 
 ---
 
@@ -39,7 +46,7 @@
 - Boot/disk: [[MBR]] · [[inittramfs]] · [[file mount]]
 
 ### Networking & DNS
-- [[routing table]] · [[BGP]] · [[half-open connections]] · [[connection chrun]] · [[webSocket]]
+- [[routing table]] · [[BGP]] · [[half-open connections]] · [[connection chrun]] · [[Networking/webSocket]]
 - [[DNS]] · [[DNS zone]] · [[mDNS]] · [[name server]] · [[public resolver]]
 
 ### Containers & orchestration
@@ -50,7 +57,13 @@
 - [[terraform]] · [[Terraform workflow]] · [[Terraform setup]] · [[variable file]] · [[Terraform CLI]]
 
 ### AWS
-- [[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[Route53]] · [[aws STS (Security Token Service)]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
+- Hub: [[AWS]]
+- Identity: [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Secrets Manager]] · [[KMS (Key Management Service)]]
+- Network: [[AWS Networking]] · [[Security group]] · [[Elastic IP]] · [[Route53]] · [[ALB (Application Load Balancer)]] · [[CloudFront]]
+- Compute: [[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS Auto Scaling]] · [[AWS Lambda]] · [[AWS ECS]] · [[AWS ECR]]
+- Storage: [[AWS S3]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]]
+- Data: [[AWS RDS]] · [[AWS DynamoDB]] · [[AWS SQS]]
+- Ops: [[CloudWatch]] · [[CloudTrail]] · [[API Gateway]] · [[AWS Billing and cost management]] · [[AWS CLI]]
 
 ### Data stores
 - Semantics: [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[OLTP]] · [[OLAP]]

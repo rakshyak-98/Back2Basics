@@ -1,4 +1,4 @@
-[[System design]] [[API design]] [[Authentication web application]] [[cache system]]
+[[System design]] [[API design]] [[Authentication web application]] [[Cache system]]
 
 # CMS (Content Management System)
 
@@ -130,4 +130,4 @@ Audit log: who published what when (compliance)
 
 ## Related
 
-[[System design]] [[API design]] [[cache system]] [[IM (Information Management) production systems]] [[Compliance Reporting to Broadcasters]] [[Streaming]]
+[[System design]] [[API design]] [[Cache system]] [[IM (Information Management) production systems]] [[Compliance Reporting to Broadcasters]] [[Streaming]]

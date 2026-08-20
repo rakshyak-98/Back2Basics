@@ -61,7 +61,7 @@ app.get('/events', (req, res) => {
 });
 ```
 
-One-way server→client; for bidirectional use [[webSocket]].
+One-way server→client; for bidirectional use [[Networking/webSocket]].
 
 ### Session vs stateless
 
@@ -138,4 +138,4 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 
 ## Related
 
-[[concurrent connection]] [[System design]] [[Event Loop]] [[stateless]] [[webSocket]] [[Configuration]] [[backpressure]]
+[[concurrent connection]] [[System design]] [[Event Loop]] [[stateless]] [[Networking/webSocket]] [[Configuration]] [[backpressure]]

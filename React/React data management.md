@@ -1,4 +1,4 @@
-[[zustand]] [[expressjs]] [[Event Loop]] [[webSocket]] [[JWT authentication]]
+[[zustand]] [[expressjs]] [[Event Loop]] [[Networking/webSocket]] [[JWT authentication]]
 
 # React data management
 
@@ -147,4 +147,4 @@ const { data } = useGetOrderQuery(orderId);
 
 ## Related
 
-[[zustand]] [[expressjs]] [[Event Loop]] [[webSocket]] [[JWT authentication]] [[Session Storage]]
+[[zustand]] [[expressjs]] [[Event Loop]] [[Networking/webSocket]] [[JWT authentication]] [[Session Storage]]

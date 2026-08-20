@@ -112,7 +112,7 @@ child.on('close', () => clearTimeout(timer));
 
 - **Run another Node script with IPC** — use [[fork]] for built-in message channel.
 - **Tiny one-liner, small output** — `execFile` is simpler.
-- **CPU work in-process** — use [[worker threads]], not shelling out.
+- **CPU work in-process** — use [[Worker Threads]], not shelling out.
 
 ## Related
 

@@ -1,4 +1,4 @@
-[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]]
+[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[Networking/webSocket]]
 
 # WebRTC Signaling channels
 
@@ -141,4 +141,4 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 
 ## Related
 
-[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]] [[ingestion]] [[WebRTC Get Started Guide]]
+[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[Networking/webSocket]] [[ingestion]] [[WebRTC Get Started Guide]]

@@ -159,4 +159,4 @@ meta.set(domNode, { lastMeasure: 42 });
 
 ## Related
 
-[[JavaScript]] · [[Progressive search functionality]] · [[Animation]] · [[webSocket]] · [[Data access patterns]]
+[[JavaScript]] · [[Progressive search functionality]] · [[Animation]] · [[Networking/webSocket]] · [[Data access patterns]]

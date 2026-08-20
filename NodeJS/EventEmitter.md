@@ -116,4 +116,4 @@ emitter.on('error', (err) => console.error(err));
 
 ## Related
 
-[[event emitter]] [[Event Loop]] [[Stream]] [[Node events driven]] [[worker threads]]
+[[event emitter]] [[Event Loop]] [[Stream]] [[Node events driven]] [[Worker Threads]]

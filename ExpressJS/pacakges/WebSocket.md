@@ -4,13 +4,13 @@ used for real-time applications that require efficient networking, such as chat 
 - support secure WebSocket connections (`wss://`) with SSL/TLS
 
 ```shell
-npm install uWebSockets.js
+npm install WebSockets.js
 ```
 
 ```js
-const uWS = require('uWebSockets.js');
+const WS = require('WebSockets.js');
 
-uWS.App().ws('/*', {
+WS.App().ws('/*', {
   open: (ws) => {
     console.log('A client connected!');
   },

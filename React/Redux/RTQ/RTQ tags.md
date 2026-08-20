@@ -103,7 +103,7 @@ Register `api.middleware` and `api.reducer` in store ([[Redux/RTQ Toolkit]]).
 ## When NOT to use
 
 - **One-off read never mutated** — skip tags; static `keepUnusedDataFor`.
-- **Real-time push** — WebSocket patch + `updateQueryData` may beat blind invalidation ([[webSocket]]).
+- **Real-time push** — WebSocket patch + `updateQueryData` may beat blind invalidation ([[Networking/webSocket]]).
 - **Non-Redux app** — TanStack Query `queryKey` invalidation is the parallel ([[react-query]]).
 
 ---

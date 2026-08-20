@@ -1,4 +1,4 @@
-[[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]]
+[[NodeJS]] [[Worker Threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]]
 
 # Web Workers
 
@@ -115,8 +115,8 @@ See [[content security policy]].
 - **Tiny computations** — message-passing overhead can exceed the savings for sub-millisecond tasks.
 - **DOM updates** — workers can't touch the DOM; post results back and render on main thread.
 - **Need persistent background sync** — use [[ServiceWorker]] or server push, not a dedicated worker.
-- **Node.js backend** — use [[worker threads]] (shared memory, different API).
+- **Node.js backend** — use [[Worker Threads]] (shared memory, different API).
 
 ## Related
 
-[[web worker]] [[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]] [[Descriptive/JavaScript/Concurrency]]
+[[web worker]] [[NodeJS]] [[Worker Threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]] [[Descriptive/JavaScript/Concurrency]]

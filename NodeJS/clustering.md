@@ -1,4 +1,4 @@
-[[NodeJS]] [[Event Loop]] [[worker threads]] [[Node.js run as a non-privileged user]]
+[[NodeJS]] [[Event Loop]] [[Worker Threads]] [[Node.js run as a non-privileged user]]
 
 # Node.js Clustering
 
@@ -112,7 +112,7 @@ pm2 monit
 > **In-memory caches are per-worker** — cache hit rate divided by N; use Redis/Memcached.
 
 > [!WARNING]
-> **Cluster ≠ threads** — for shared-memory CPU work see [[worker threads]]; cluster is multi-process.
+> **Cluster ≠ threads** — for shared-memory CPU work see [[Worker Threads]]; cluster is multi-process.
 
 > [!WARNING]
 > **File descriptor limits** — N workers × connections each; raise `ulimit -n`.
@@ -132,4 +132,4 @@ pm2 monit
 
 ## Related
 
-[[Event Loop]] [[worker threads]] [[Node.js run as a non-privileged user]] [[Express middleware]]
+[[Event Loop]] [[Worker Threads]] [[Node.js run as a non-privileged user]] [[Express middleware]]

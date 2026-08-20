@@ -1,4 +1,4 @@
-[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[webSocket]]
+[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[Networking/webSocket]]
 
 # web capabilities
 

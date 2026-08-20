@@ -1,4 +1,4 @@
-[[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]]
+[[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]] [[Rate limiter]] [[gRPC]] [[WebRTC]] [[GraphQL]]
 
 # API design
 
@@ -145,4 +145,4 @@ Never break v1 silently — add v2, deprecate with sunset header
 
 ## Related
 
-[[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[cache system]]
+[[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[Cache system]]

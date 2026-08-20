@@ -1,4 +1,4 @@
-[[NAT (Network Address Translation)]] [[webSocket]] [[TCP]] [[UDP]] [[Streaming]]
+[[NAT (Network Address Translation)]] [[Networking/webSocket]] [[TCP]] [[UDP]] [[Streaming]]
 
 # SIP (Session Initiation Protocol)
 
@@ -128,7 +128,7 @@ ss -ulnp | grep -E '5060|10000'
 
 ## When NOT to use
 
-- **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
+- **Low-latency game state** — use custom UDP or [[Networking/webSocket]], not SIP.
 - **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
 - **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
 
@@ -136,4 +136,4 @@ ss -ulnp | grep -E '5060|10000'
 
 ## Related
 
-[[NAT (Network Address Translation)]] [[TCP]] [[Streaming]] [[webSocket]] [[DNS]]
+[[NAT (Network Address Translation)]] [[TCP]] [[Streaming]] [[Networking/webSocket]] [[DNS]]

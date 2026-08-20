@@ -1,4 +1,4 @@
-[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]]
+[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[Networking/webSocket]]
 
 # Session Storage
 
@@ -128,4 +128,4 @@ bc.postMessage({ type: 'logout' });
 
 ## Related
 
-[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]] [[IDOR]]
+[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[Networking/webSocket]] [[IDOR]]

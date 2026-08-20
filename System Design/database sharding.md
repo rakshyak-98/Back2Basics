@@ -1,4 +1,4 @@
-[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]]
+[[Distributed computing]] [[System design]] [[Cache system]] [[connection pooling]]
 
 # Database sharding
 
@@ -134,4 +134,4 @@ Alert on shard skew (one shard 2× others)
 
 ## Related
 
-[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]]
+[[Distributed computing]] [[System design]] [[Cache system]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]]

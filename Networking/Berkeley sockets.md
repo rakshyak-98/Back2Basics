@@ -1,4 +1,4 @@
-[[POSIX Socket]] [[TCP]] [[UDP]] [[webSocket]]
+[[POSIX Socket]] [[TCP]] [[UDP]] [[Networking/webSocket]]
 
 # Berkeley sockets
 

@@ -1,0 +1,64 @@
+---
+description: Create vs update decision tree and note genres for this vault
+alwaysApply: true
+---
+
+# Note-Taking Standard
+
+Domain-agnostic rules for every create/update in this vault. Body quality bar and section names: follow `NOTES_STANDARD.md`. Navigation map: `INDEX.md`.
+
+## Core principle
+
+**Prefer UPDATE over CREATE.** One sharp note beats parallel stubs. Structure via `[[wikilinks]]` + light folders — do not invent deep taxonomy for each capture.
+
+## Decision tree (run before writing)
+
+1. **Durable knowledge?** No → skip or park briefly; do not create a permanent note for chores.
+2. **Note already exists?** (search title / wikilink / folder) → **UPDATE that note.** Never duplicate.
+3. **Else classify and CREATE:**
+   - Named thing (tool, API, command, service, pattern instance) → **topic leaf**
+   - Reusable idea/model (principle, framework, mental model) → **concept leaf**
+   - New grouping that will hold many leaves → **area hub** (folder or hub note), then leaves
+   - Comparison / symptom→note lookup / “X vs Y” → extend **`INDEX.md`** (or a Quick Reference), not a new genre
+   - Vault/domain map → update **`INDEX.md`** / hub note
+
+## Genres
+
+| Genre | Role in this vault |
+|-------|--------------------|
+| Home / MOC | `INDEX.md`, domain hub notes |
+| Quick Reference | Symptom tables in `INDEX.md`; cheat-sheet sections |
+| Area hub | Topic folders + hub markdown that lists leaves |
+| Topic leaf | One concrete subject (e.g. `ss`, `fsync`) |
+| Concept leaf | Cross-cutting idea (e.g. `ACID`, mental models) |
+| Inbox | Temporary only — process into a leaf, then clear |
+
+## When UPDATING — where content goes
+
+| Addition | Put it in |
+|----------|-----------|
+| One-line essence | Opening one-liner / quote |
+| How it thinks | Mental model |
+| Correct path | Standard config / commands |
+| Breakage | Triage table (symptom → check → fix) |
+| Silent failures | Gotchas |
+| Anti-hammer | When NOT to use |
+| Peers | Related `[[wikilinks]]` |
+
+## When CREATING — checklist
+
+1. Classify (topic / concept / area / INDEX edit)
+2. Stable filename; prefer existing folder conventions over new top-level sprawl
+3. Fill `NOTES_STANDARD.md` template (no empty headings, no wiki fluff)
+4. Link Parent / Sibling / Related; add to area hub if one exists
+5. Add retrieval row to `INDEX.md` when it helps under-pressure lookup
+6. Merge duplicates instead of filling two thin notes
+
+## Anti-patterns
+
+- New note for every fleeting thought
+- Parallel notes for the same subject
+- Skipping INDEX/hub links after create
+- Stuffing comparisons into deep leaves instead of INDEX
+- Treating inbox captures as permanent graph nodes
+- Empty stubs or command lists with no interpretation

@@ -1,4 +1,4 @@
-[[css]] [[JavaScript]] [[webSocket]]
+[[css]] [[JavaScript]] [[Networking/webSocket]]
 
 # Animation
 

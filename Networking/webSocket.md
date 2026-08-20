@@ -3,6 +3,10 @@
 # WebSocket
 
 > One-line: full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
+> - Bidirectional communication between client and server.
+
+> [!INFO]
+> WebSocket starts with HTTP because HTTP was already the universal communication mechanism understood by browsers and web infrastructure. The handshake lets WebSocket reuse the infrastructure and then upgrade the connection to a more suitable bidirectional protocol.
 
 ## Mental model
 

@@ -86,4 +86,4 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 
 ## Related
 
-[[SSH]] · [[TCP]] · [[webSocket]] · [[Egress traffic]]
+[[SSH]] · [[TCP]] · [[Networking/webSocket]] · [[Egress traffic]]

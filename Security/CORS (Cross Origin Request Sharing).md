@@ -118,7 +118,7 @@ curl -i 'https://api.example.com/users' \
 - **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.
 - **Preflight cache** (`Max-Age`) masks config fixes — hard refresh or wait cache expiry when testing.
 - **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
-- **WebSocket** has separate origin check at handshake — see [[webSocket]].
+- **WebSocket** has separate origin check at handshake — see [[Networking/webSocket]].
 
 ## When NOT to use
 
@@ -128,4 +128,4 @@ curl -i 'https://api.example.com/users' \
 
 ## Related
 
-[[HTTP module]] · [[JWT authentication]] · [[single-sign-on (SSO)]] · [[webSocket]] · [[DNS rebinding]]
+[[HTTP module]] · [[JWT authentication]] · [[single-sign-on (SSO)]] · [[Networking/webSocket]] · [[DNS rebinding]]

@@ -1,4 +1,4 @@
-[[React data management]] [[expressjs]] [[Event Loop]] [[webSocket]]
+[[React data management]] [[expressjs]] [[Event Loop]] [[Networking/webSocket]]
 
 # Zustand
 

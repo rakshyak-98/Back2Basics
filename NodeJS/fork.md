@@ -91,7 +91,7 @@ process.on('SIGTERM', () => {
 |---------|-------|-----|
 | `channel closed` | Child exited early | Log child stderr; catch bootstrap errors |
 | Messages lost | Send before `message` listener | Wait for `'online'` or first ping |
-| Memory × N workers | Each fork full V8 heap | Prefer [[worker threads]] for shared process CPU tasks |
+| Memory × N workers | Each fork full V8 heap | Prefer [[Worker Threads]] for shared process CPU tasks |
 | Port EADDRINUSE in cluster | Workers double-bind wrong | Only primary listens or use cluster API |
 | Zombie on crash | No refork | Primary `cluster.on('exit')` refork with backoff |
 | Serialization error | Non-cloneable object in send | JSON-safe payloads only (structured clone limits) |
@@ -99,7 +99,7 @@ process.on('SIGTERM', () => {
 ## Gotchas
 
 > [!WARNING]
-> **IPC messages are not for high throughput** — large payloads copy; use shared storage or [[worker threads]] SharedArrayBuffer.
+> **IPC messages are not for high throughput** — large payloads copy; use shared storage or [[Worker Threads]] SharedArrayBuffer.
 
 > [!WARNING]
 > **fork ≠ sandbox** — child can access same user permissions and env secrets.
@@ -110,9 +110,9 @@ process.on('SIGTERM', () => {
 ## When NOT to use
 
 - **External CLI (git, ffmpeg)** — [[spawn]].
-- **CPU parallelism inside one request** — [[worker threads]] lighter than process.
+- **CPU parallelism inside one request** — [[Worker Threads]] lighter than process.
 - **Horizontal scale across machines** — K8s replicas, not fork on one box only.
 
 ## Related
 
-[[child process]] [[spawn]] [[clustering]] [[worker threads]] [[worker]]
+[[child process]] [[spawn]] [[clustering]] [[Worker Threads]] [[worker]]
