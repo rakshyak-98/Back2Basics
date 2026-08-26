@@ -95,3 +95,86 @@ export default defineConfig(({ mode }) => ({
 
 ## Why does `npm run dev` work
 - 
+
+## Vite with NodeJS
+ Vite is development/build tool that uses NodeJS to develop and package frontend applications such as React apps.
+
+```txt
+                    Development
+                         │
+                         ▼
+React source code ──► Vite ──► Browser
+                         │
+                         │ runs on
+                         ▼
+                       Node.js
+```
+vite is a **tool running in NodeJS** that helps develop and build application.
+- browser can't understand the written React project files and understand the relationship between those files.
+
+when `npm run dev` executed package json has run script `vite` that command start **vite development server** that development server is a **NodeJS process** 
+
+```txt
+Terminal
+   │
+   │ npm run dev
+   ▼
+Node.js
+   │
+   ▼
+Vite Dev Server
+   │
+   ├── serves React modules
+   ├── transforms JSX
+   ├── handles imports
+   ├── watches files
+   └── provides HMR
+   │
+   ▼
+Browser
+```
+
+- Vite uses transformation pipeline to turn ReactJS source code into something browser can execute.
+
+### HMR (Hot Module Replacement)
+
+```txt
+change App.jsx
+      ↓
+Vite detects change
+      ↓
+Vite sends update to browser
+      ↓
+React updates affected module
+      ↓
+UI updates
+```
+- don't have to manually refresh the page.
+- to vite browser can request modules individually because of vite native ES modules (ESM) support for modern browsers.
+
+```txt
+              PRODUCTION
+
+React source
+     │
+     ▼
+vite build
+     │
+     ▼
+Production bundling
+     │
+     ├── optimize
+     ├── split chunks
+     ├── minify
+     ├── process assets
+     └── generate static files
+     │
+     ▼
+dist/
+├── index.html
+├── assets/
+│   ├── index-abc123.js
+│   ├── index-def456.css
+│   └── logo-xyz789.svg
+
+```
