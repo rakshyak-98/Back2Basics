@@ -1,10 +1,6 @@
 [[ACID]] [[Database mistakes]] [[OLTP]] [[Vector database]]
 
-# BASE
-
-> One-line: distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
-
-## Mental model
+# BASE (Basically Available Soft State Eventual consistency)
 
 ACID optimizes **single-node transactional correctness**. BASE describes many **distributed / NoSQL** designs that prefer availability under partition ([[CAP theorem]] intuition): respond even when stale; accept that replicas converge **eventually**.
 

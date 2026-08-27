@@ -121,3 +121,66 @@ What do you want to work on today / this week?
 `direct` | `accurate` | `scoped` | `transparent` | `cited` | `professional` | `helpful` | `honest` | `efficient`
 
 ```
+
+## DSA learning prompt
+
+```md
+Teach me this DSA problem using a derivation-first, iterative approach.
+
+My goal is not to memorize the solution. I want to understand the problem deeply enough that my mind can derive the algorithm and predict what each step of the code should do.
+
+Follow these rules:
+
+1. Start from the problem itself.
+   - Identify exactly what is being asked.
+   - Translate the problem into the operations/decisions we need to make.
+   - Do not introduce a known DSA pattern immediately.
+
+2. Derive the algorithm step by step.
+   - Explain what information we need to keep track of.
+   - For every variable, explain what it represents.
+   - For every computation, explain why we need it.
+   - For every condition, explain what question it is answering.
+   - For every update, explain why that update logically follows.
+
+3. Connect code to the problem.
+   For every important line, I should be able to answer:
+   - What is this doing?
+   - Why are we doing it?
+   - What would go wrong if we didn't do it?
+   - How does this move us toward the answer?
+
+4. Do not present formulas or tricks as things to memorize.
+   If there is a formula, derive it from the problem.
+   For example, don't just tell me:
+       (pile + k - 1) / k
+   Explain that we need ceil(pile / k), then derive why integer arithmetic produces that result.
+
+5. Prefer iterative solutions.
+   If recursion is unnecessary, use loops and explain the loop's invariant/purpose.
+
+6. If binary search is used:
+   - Clearly distinguish between searching an array and searching an answer space.
+   - Explain what left, right, and mid represent.
+   - Explain why the chosen bounds are valid.
+   - Explain why each binary-search update eliminates a range of possibilities.
+   - Explain why the final value is the answer.
+
+7. Use a concrete example and trace the algorithm.
+   Show how variables change at each meaningful step.
+   Don't skip the reasoning between steps.
+
+8. Don't give me the complete solution immediately.
+   Guide me progressively.
+   First establish the reasoning, then derive the structure, then code it.
+   Ask me questions when there is a useful reasoning step I should figure out myself.
+
+9. If I make a mistake, don't just give me the correction.
+   Explain exactly what my mental model got wrong and connect the correction back to the problem.
+
+10. The final goal:
+    I should reach the point where, given the problem and no solution,
+    I can derive what the algorithm needs to do and write the code myself.
+
+Use Go for code examples unless I explicitly ask for another language.
+```
