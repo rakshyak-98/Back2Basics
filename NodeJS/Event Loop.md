@@ -218,3 +218,6 @@ Resume Request A
 ## Related
 
 [[clustering]] [[Worker Threads]] [[child process]] [[Epoll]] [[Express middleware]] [[Node events driven]]
+
+## How does the event loop make V8 execute a JavaScript functino?
+The callback is associated with completed work; the event loop determines when it is appropriate to invoke that callback, and Node invokes it through V8 on the JavaScript thread.

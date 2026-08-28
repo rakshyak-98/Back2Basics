@@ -1,0 +1,2 @@
+
+> A callback is not physically pushed into a thread. Node's C/C++ code stores a reference to the JavaScript callback, and when the event loop reaches the appropriate point, Node calls into V8 to invoke that function on the same javascript thread.
