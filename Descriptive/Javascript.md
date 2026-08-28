@@ -1,5 +1,7 @@
 > [!INFO] use shallow merge, so any new object definitions will override existing endpoints with the same name.
 
+[[V8 Engine Google]] V8 knows how to parse, evaluate and computer javascript lanugage 
+
 - tasks are handled sequentially within the same thread because of stack based programming language.
 - JavaScript is synchronous by default 
 - is single threaded within the same process

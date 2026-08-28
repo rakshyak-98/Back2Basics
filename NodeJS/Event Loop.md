@@ -1,5 +1,10 @@
 [[NodeJS]] [[Epoll]] [[clustering]] [[Worker Threads]] [[Express middleware]]
 
+"The event-loop coordinates when callback are allowed to run on the JavaScript thread."
+
+> [!INFO]
+> If the JavaScript thread is currently executing JavaScript, an I/O callback **does not interrupt it.** The callback has to wait until the current JavaScript execution finishes.
+
 # Node.js Event Loop
 
 > One-line: single-threaded JS + libuv thread pool — non-blocking I/O until you block the thread with CPU or sync I/O.

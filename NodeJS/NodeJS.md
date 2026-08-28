@@ -1,3 +1,6 @@
+ > [!NOTE]
+ > `console` is provided by the runtime, but `console` isn't **exclusively a NodeJS invention**. Browsers provide their own `console` too. That's actually a useful observation because it reinforces that **the javascript language and the host/runtime APIs are separate things**
+ 
  > [!INFO]
  > Before NodeJS most we servers relied on a blocking, multi-threaded architecture. In this model, the server would assign a new thread or process to each incoming request. If a request required a slow operation (like reading a file or querying a database), the thread would "block" and sit idle, waiting for the I/O operation to finish. This approach hit a bottleneck when trying to scale to thousands of concurrent connections. 
 
@@ -7,8 +10,8 @@
  - Simplified Concurrency -> By using a single-threaded event loop, he eliminated the complexities associated with multi-threaded synchronisation (like deadlocks).
 
 ---
- 
- - [[Google V8 Engine]] -> Compiles js to machine code (JIT compilation for speed). [article](https://medium.com/@mukeshsharma20120/%EF%B8%8F-deep-dive-into-node-js-internal-working-a-comprehensive-guide-389542a036f4)
+
+ - [[V8 Engine Google]] -> Compiles js to machine code (JIT compilation for speed). [article](https://medium.com/@mukeshsharma20120/%EF%B8%8F-deep-dive-into-node-js-internal-working-a-comprehensive-guide-389542a036f4)
  - [[libuv]] -> A C library for async I/O (database calls are "Network I/O" Operations), event loop, and cross-platform abstractions (e.g., handles Windows [[IOCP]] vs. Linux [[epoll]]).
  - Node Bindings -> C++ wrappers that give V8 and libuv to JS APIs (e.g., `fs` `net`...)
 
@@ -33,6 +36,13 @@ all of the I/O methods in the Node.js standard library provide asynchronous vers
 - you can run experimental features by running Node.js with flags.
 - instead of blocking the thread and wasting CPU cycles waiting, Node.js will resume the operations when the response comes back. This helps Node.js to handle thousands of concurrent connections with a single server without introducing the burden of managing thread concurrency, which could be a significant source of bugs.
 - In the browser environment, all JavaScript files included in a webpage share the same global namespace. In Node.js or other server-side environments, each file has its own module-level scope, but variables declared without `var` `let` or `const` are still added to the global namespace.
+
+[[Asynchronous]] How node coordinates those JavaScript work and I/O work
+Something need to tell JavaScript side: "Hey the file is read. You can execute that callback now."
+
+> [!NOTE]
+> NodeJS uses [[libuv]] (written primarily in C) as a cross-platform abstraction for asynchronous I/O and [[Event Loop]] machinery. Node itself has substantial C/C++ code that integrates V8 with libuv and the OS.
+
 
 ### Node.js in production and development
 
