@@ -75,4 +75,4 @@ twine upload dist/*
 
 ## Related
 
-[[Python/pandas]] [[compiler/compiler]] [[Deployment/spinnaker]]
+[[Python/pandas]] [[Compiler]] [[Deployment/spinnaker]]

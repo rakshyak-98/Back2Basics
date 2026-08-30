@@ -1,4 +1,4 @@
-[[golang/go embedding]] [[compiler/compiler]] [[Release cycle]]
+[[golang/go embedding]] [[Compiler]] [[Release cycle]]
 
 # go build
 
@@ -69,4 +69,4 @@ go install ./cmd/...           # puts binary in $GOBIN
 
 ## Related
 
-[[golang/go SOLID]] [[golang/go embedding]] [[compiler/compiler]] [[Docker/Docker compose]]
+[[golang/go SOLID]] [[golang/go embedding]] [[Compiler]] [[Docker/Docker compose]]

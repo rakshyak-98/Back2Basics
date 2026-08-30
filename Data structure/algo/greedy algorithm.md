@@ -1,4 +1,4 @@
-[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]]
+[[Binary search]] [[Data structure/dsa genera formula]]
 
 # Greedy algorithm
 
@@ -73,4 +73,4 @@ function minCoins(amount) {
 
 ## Related
 
-[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Data structure/sliding window]]
+[[Binary search]] [[Data structure/dsa genera formula]] [[Data structure/sliding window]]

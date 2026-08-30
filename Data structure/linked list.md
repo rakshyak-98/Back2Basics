@@ -1,4 +1,4 @@
-[[Data structure/dsa genera formula]] [[Data structure/algo/binary search]]
+[[Data structure/dsa genera formula]] [[Binary search]]
 
 # Linked list
 
@@ -82,4 +82,4 @@ while (fast?.next) {
 
 ## Related
 
-[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Operating System/Stack Frame]]
+[[Binary search]] [[Data structure/dsa genera formula]] [[Operating System/Stack Frame]]

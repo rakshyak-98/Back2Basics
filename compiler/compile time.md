@@ -1,4 +1,4 @@
-[[compiler/compiler]] [[Operating System/runtime]] [[compiler/transpiler]]
+[[Compiler]] [[Operating System/runtime]] [[compiler/transpiler]]
 
 # Compile time
 
@@ -77,4 +77,4 @@ const enum Dir { Up, Down }
 
 ## Related
 
-[[compiler/compiler]] [[compiler/transpiler]] [[Operating System/Runtime Environment]]
+[[Compiler]] [[compiler/transpiler]] [[Operating System/Runtime Environment]]

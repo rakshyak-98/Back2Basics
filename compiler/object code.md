@@ -1,4 +1,4 @@
- is a product of a [[compiler]].
+ is a product of a [[Compiler]].
  - sequence of statements or instructions in a computer language.
  - a portion of machine code that has not yet been linked into a complete program.
  - require a [[linker]] to link with other modules.

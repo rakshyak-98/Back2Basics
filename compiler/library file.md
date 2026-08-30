@@ -1,4 +1,4 @@
-[[compiler]] [[linker]] [[Operating System/file descriptors]]
+[[Compiler]] [[linker]] [[Operating System/file descriptors]]
 
 # library file
 
@@ -128,4 +128,4 @@ pkg-config --libs --cflags libssl
 
 ## Related
 
-[[compiler]] · [[Operating System/file descriptors]] · [[Docker compose]] · [[docker cli]]
+[[Compiler]] · [[Operating System/file descriptors]] · [[Docker compose]] · [[docker cli]]

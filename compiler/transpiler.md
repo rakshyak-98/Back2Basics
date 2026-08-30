@@ -1,4 +1,4 @@
-[[compiler/compiler]] [[compiler/compile time]] [[javascript/metro bundler]]
+[[Compiler]] [[compiler/compile time]] [[javascript/metro bundler]]
 
 # Transpiler
 
@@ -75,4 +75,4 @@ module: {
 
 ## Related
 
-[[compiler/compiler]] [[compiler/compile time]] [[NodeJS/node package json]] [[css/tailwindcss]]
+[[Compiler]] [[compiler/compile time]] [[NodeJS/node package json]] [[css/tailwindcss]]

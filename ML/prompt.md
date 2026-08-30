@@ -184,3 +184,57 @@ Follow these rules:
 
 Use Go for code examples unless I explicitly ask for another language.
 ```
+
+## Note taking
+
+```txt
+Topic: [define the topic you wish to create study notes for]
+
+Learning Level: [define the students’ level]
+
+You are an expert educational content planner and subject-matter explainer. Create an accurate, level-appropriate content blueprint for a handwritten educational infographic about this topic. First, identify the subject type, such as scientific concept, person, historical event, object, place, process, system, plan, or classroom concept. Then select 6-8 strong, topic-specific knowledge modules. Choose the modules automatically according to the topic and learning level. Do not force irrelevant categories into the structure.
+Possible module types include definition, identity, key features, parts, structure, composition, origin, background, development, chronology, location, context, function, mechanism, process, stages, types, classification, comparison, examples, evidence, relationships, applications, effects, misconceptions, or practical use.
+
+For each selected module, provide:
+
+a short module title
+
+one short concept label, not an explanation or sentence
+
+3-5 essential facts or ideas per module, chosen according to the topic: some modules may need 3 items, others 4 or 5. Do not force every module to have the same number, and do not add filler to reach 5. Write the exact compact text that will appear on the infographic: short bullets, fragments, labels, names, dates, numbers, or brief contrasts rather than complete sentences. Keep each item to one line and usually 3-10 words; use the fewest words needed to convey the key information. Wrap only the most important word or short phrase in ==double equals==; for example: ==photosynthesis== → ==glucose==, or LEVEL 8-10: ==OUT OF CONTROL==. Only the most useful example, comparison, measurement, or relationship when essential; omit it if it would add clutter.
+
+the best visual representation for the information, such as a diagram, map, timeline, cross-section, chart, comparison, process flow, labelled illustration, or example
+
+the relationship between this module and the central topic
+
+Mark 1-2 spans per text item. A span may be a single word or a short phrase of two to three words when the meaning only holds together as a unit, such as a named technique, a paired term, a range, a measurement with its unit, or a short contrast. Mark the shortest span that carries the key meaning; the defining term, name, number, measurement, or contrast. Never highlight more than about one quarter of an item, and never collect marked spans into a separate list, glossary, or key-terms section. Keep every marked span embedded in its compact bullet, label, or fragment so it remains readable in context.
+
+Also specify the best central visual representation of the topic.
+
+Keep the information specific, accurate, and appropriate for the stated learning level. Prioritise the knowledge a student genuinely needs to understand the topic. Do not add generic statements, motivational material, or broad “why it matters” content. Do not repeat the same fact in multiple modules. If an idea belongs in more than one category, place it in the single module where it is explained most clearly and refer to it elsewhere only through a distinct relationship.
+
+Before you reply ensure that everything is based on the previous instructions and most importantly avoid repeating the same fact. Do not write the final infographic prompt yet.
+Return only the structured content blueprint.
+```
+
+## Notes visual
+
+```txt
+Using the content blueprint in your immediately preceding response, create a visually striking handwritten educational infographic. Treat the blueprint as the authoritative source. Preserve its selected central topic, central visual concept, 6-8 knowledge modules, module titles, compact facts, fragments, labels, vocabulary, marked key words, examples, relationships, sequences, and comparisons, including every span it marked with double equals. Keep the wording compact: reproduce the supplied text, but never expand fragments into complete sentences, explanations, or paragraphs. Do not invent additional facts, categories, modules, examples, conclusions, or interpretations. Do not repeat information already presented in another module. Do not create separate sections titled “Why It Matters,” “Key Points/Terms,” “Summary,” “Recap,” “Conclusion,” or “Takeaways.” If the blueprint does not include a particular type of information, do not add it merely to fill space.
+
+Choose the most appropriate visual treatment for the supplied information. Let visuals carry the explanation wherever possible. Use diagrams, maps, timelines, cross-sections, comparison panels, process arrows, charts, equations, labelled components, compact definitions, and classroom-style sketches only when they genuinely suit the topic. Prefer a label, arrow, symbol, date, number, or short fragment over explanatory prose. Place the supplied central visual representation in the middle of the page, directly inside the title box, as the one larger drawing on the sheet. Arrange the 6-8 knowledge modules around it in a clear visual reading order, but do not number the modules or place numerical labels beside their headers. Let the modules sit in open space at slightly different heights and widths rather than on a strict grid. Keep the page calm and uncrowded: large areas of empty white paper between modules are part of the style, not wasted space. The central title sits in a simple hand-drawn rectangular box with a clean black outline and one shaded side and bottom edge in orange, giving a slight flat 3D lift off the page. Keep the box white inside with the title hand-lettered in all-caps across two to four lines. Do not add gradients, glows, heavy rendered shadows, or coloured planes on the top face.
+
+Reserve the listed-box treatment for the title only. Each knowledge module must include:
+an unnumbered handwritten header in all-caps, 1-3 simple topic-specific doodles, the most suitable diagram, chart, example, or sub-panel when useful, concise labels and precise annotations, the blueprint’s marked spans highlighted within their original compact text, meaningful visual connections to the central topic.
+
+Do not place the modules inside rigid frames, cards, panels, or complete boxes. Separate them using a varied mix of generous white space, unnumbered headers, arrows, and loose hand-drawn separators: a short underline, partial box corners, a wavy or cloud-like line, a rough L-shape, a dotted divider, or no separator at all. These marks should be irregular, slightly wobbly, incomplete, and open rather than clean geometric borders. Never let a separator enclose a whole module or make it look like a digital card.
+
+Do not draw rounded cards, UI panels, sticker frames, coloured section backgrounds, or polished rectangular outlines. The only fully enclosed shapes on the page are the title box, speech and thought bubbles, and a small caption table when the information is genuinely tabular. Draw the doodles as simple line cartoons, like a way teacher sketches on a whiteboard. Use bold, rounded heads, clearly visible simple eyes, a curved mouth when appropriate, and thin straight limbs. Every human figure must have at least one simple, clearly readable visual identifier derived from that person’s role, occupation, historical or cultural setting, activity, status, or relationship to the topic. Choose a distinctive prop, item of clothing, hairstyle, posture, tool, companion, or other contextual cue that helps the viewer tell the figure apart from other people; vary these identifiers across figures and avoid repeating the same generic person. Keep faces minimal but expressive and readable; do not omit the eyes.
+
+Create a readable knowledge network with purposeful hand-drawn arrows, leader lines, dotted lines, brackets, pointer marks, circles, and visual pathways. Use curved, dashed, or solid arrows to link the centre to the modules and show sequences or relationships from the blueprint. Every connector must communicate meaning; avoid decorative lines, numerical module markers, and unnecessary cross-connections.Keep the colour restrained. Black or dark charcoal ink carries all outlines, lettering, and connectors, while most of the page remains black on white. Use teal and orange for occasional flat fills, highlighting strokes, and the shaded edge of the title box. Use muted red and yellow only where the content calls for a warning, top level, or contrast. Never colour every icon or fill large areas of the page.Reproduce each supplied compact bullet, label, date, number, or fragment exactly, then highlight only the spans wrapped in double equals. A span may be one word or a short two-to-three-word phrase and must receive one continuous marker stroke. Do not draw the double-equals marks. Keep every highlighted span embedded in its original compact text; never expand it into prose, extract or repeat it as a standalone element, or highlight unmarked text. Use a slightly off-register translucent teal, orange, yellow, or muted red stroke behind the letters, not a box, pill, tag, or digital selection bar.
+
+Use a pristine, bright white paper background with no ruled lines, grid, beige tint, cream tone, parchment texture, or grey cast. Keep every drawing flat and hand-drawn. Do not add paper-cut layers, rendered shadows, foreshortening, gradients, glossy surfaces, metallic effects, faux 3D, pasted, corporate, sterile, or generic clip-art appearance.Use clear, legible English and reproduce all supplied titles, labels, vocabulary, dates, measurements, equations, and annotations accurately. Use distinct all-caps handwritten printing for major headers and minimal handwritten lettering elsewhere. Do not add explanatory notes beneath drawings unless the blueprint supplies them. When information is genuinely tabular, use a small plain two-column table with thin hand-drawn rules alongside compact entries. Use speech or thought bubbles only for a brief quotation or thought supplied by the blueprint. Do not include fake text, pseudo-writing, or decorative glyphs that resemble language.
+
+Visual Style: loose, hand-drawn classroom sketchnote; bright white paper; simple contextual line cartoons; open, irregular module structure; restrained colour; compact information; friendly and highly legible.
+Aspect Ratio: [3:4, 1:1, 9:16]
+```
