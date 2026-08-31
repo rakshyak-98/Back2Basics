@@ -145,4 +145,4 @@ Never break v1 silently — add v2, deprecate with sunset header
 
 ## Related
 
-[[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[Cache system]]
+[[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[Cache]]

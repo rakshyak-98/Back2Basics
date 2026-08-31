@@ -1,0 +1,1 @@
+dual-write problem: If cache write succeeds but database write fails, they diverge.

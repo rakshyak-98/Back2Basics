@@ -1,40 +1,50 @@
 [[Redis]] [[Distributed computing]] [[System design]]
 
-A cache is a **copy of data that is used often and stored in a faster, smaller storage layer close to the application**. Instantly call the resource that we needed the most frequently.
+Cache **make copy of data that is used often and stored in a faster, smaller storage layer close to the application**.
+- Instantly call the resource that we needed the most frequently.
 - Making data retrial faster by keeping frequently resource accessible.
 
-### Locality
+## Locality
 
 Principle that make caching more effect is **Locality** means that data close to already-used data is likely to be used again.
 
-* **Temporal locality** → Data that was recently used is likely to be need it again soon.
-* **Special locality** → Data near the data that was accessed one piece of data then data store near to it is more likely to be used in the **near future**.
+* [[Temporal locality]] Same data again. Data that was recently used is likely to be need it again soon.
+* [[Spatial locality]] Nearby data. Data near to the accessed data is more likely to be used in the near future.
 
 - locally relevant data accessibility much faster.
 
-### Cache Hit and Cache Miss
+Transient storage is storage used for data that is **temporary and can be safely discarded**.
 
-* **Cache hit** → The requested data is found in the cache.
-* **Cache miss** → The requested data is not found in the cache, so it must be fetched from the original data source.
+## Caching Strategies
+How the cache interacts with the system of record.
 
-Caching helps **reduce the load on the primary database**. This can save cost, reduce power usage, and improve application performance.
+[[Read-through]] cache loads missing data
+[[Write-through]] cache + DB update together
+[[Write-behind]] cache writes DB asynchronously
+[[Refresh-ahead]] renew before
 
-Transient storage it is not mean to be primary source of data archive.
+## Cache Hit and Cache Miss
+
+* [[Cache hit]] The requested data is found in the cache.
+* [[Cache miss]] The requested data is not found in the cache, so it must be fetched from the original data source.
+
+> [!INFO]
+> Caching helps **reduce the load on the primary database**. This can save cost, reduce power usage, and improve application performance.
 
 If the **cache hit rate is very low**, caching may not provide much benefit and can become unnecessary.
 
 A cache is **transient storage**. It is not meant to be the primary database or a permanent archive.
 
-### Types of Caching
+[[Cache mapping]] Which location in the cache a block of main memory can occupy. The CPU has a large memory space but a much smaller cache, so we need a rule to map.
 
-* **Direct mapping** → A method used in CPU cache where each piece of data can be stored in a specific cache location.
-or example, multiple application servers can use the same Redis cluster.
+**Main advantage** All application servers can share the same cached data.
 
-**Main advantage:** All application servers can share the same cached data.
-
-**Main disadvantage:** There is network cost because the application has to communicate with the cache server.
+**Main disadvantage** There is network cost because the application has to communicate with the cache server.
 
 The application should also have a **fallback mechanism** in case the cache is unavailable.
+
+
+## Types of Caching
 
 ### Multi-Level Cache
 
@@ -72,7 +82,20 @@ Bulk invalidation means **invalidating many cache items at the same time**.
 
 For example, if a large number of products are updated, the application can invalidate all related product cache entries together.
 
-# Effectiveness of a Cache
+
+## Expiration & Eviction
+Controls cache lifetime and prevents unbounded memory consumption.
+
+[[Cache TTL]] time based expiration
+[[LRU]] least recently used
+[[LFU]] least frequently used
+
+## Invalidation
+- TTL-based
+- Explicit invalidation
+- Cache-aside
+
+## Effectiveness of a Cache
 
 The effectiveness of a cache can be measured using several metrics.
 

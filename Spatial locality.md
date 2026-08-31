@@ -1,0 +1,1 @@
+when the CPU loads `arr[0]` into cache, it doesn't usually load just that one byte. It loads a **cache line** containing nearby memory.
