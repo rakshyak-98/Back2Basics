@@ -1,0 +1,3 @@
+- potential data loss before data is persisted
+- not for financial data, very high data integrity
+- 

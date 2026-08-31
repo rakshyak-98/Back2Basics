@@ -6,27 +6,27 @@ Cache **make copy of data that is used often and stored in a faster, smaller sto
 
 ## Locality
 
-Principle that make caching more effect is **Locality** means that data close to already-used data is likely to be used again.
+that data close to already-used data is likely to be used again. Principle that make caching more effect is **Locality**
 
-* [[Temporal locality]] Same data again. Data that was recently used is likely to be need it again soon.
-* [[Spatial locality]] Nearby data. Data near to the accessed data is more likely to be used in the near future.
+- [[Temporal locality]] Same data again. Data that was recently used is likely to be need it again soon.
+- [[Spatial locality]] Nearby data. Data near to the accessed data is more likely to be used in the near future.
 
 - locally relevant data accessibility much faster.
 
 Transient storage is storage used for data that is **temporary and can be safely discarded**.
 
-## Caching Strategies
+## Caching Strategies/Cache writing policies
 How the cache interacts with the system of record.
 
-[[Read-through]] cache loads missing data
-[[Write-through]] cache + DB update together
-[[Write-behind]] cache writes DB asynchronously
-[[Refresh-ahead]] renew before
+[[Write-behind]] application writes to cache first then DB asynchronously
+[[Write-around]] bypass the cache and application write to DB
+[[Write-through]] cache + DB update together. Primary write completes and before acknowledge  write
 
 ## Cache Hit and Cache Miss
 
-* [[Cache hit]] The requested data is found in the cache.
-* [[Cache miss]] The requested data is not found in the cache, so it must be fetched from the original data source.
+- [[Cache hit]] The requested data is found in the cache.
+- [[Cache miss]] The requested data is not found in the cache, so it must be fetched from the original data source.
+- [[Cold cache]]
 
 > [!INFO]
 > Caching helps **reduce the load on the primary database**. This can save cost, reduce power usage, and improve application performance.
@@ -45,6 +45,11 @@ The application should also have a **fallback mechanism** in case the cache is u
 
 
 ## Types of Caching
+
+[[In-memory caching]]
+[[Disk caching]] for largest data set or want cache to persist after system shutdown.
+[[Database caching]]
+[[DNS caching]] don't have to ask main DNS server, speed up initial process of request.
 
 ### Multi-Level Cache
 
@@ -86,9 +91,11 @@ For example, if a large number of products are updated, the application can inva
 ## Expiration & Eviction
 Controls cache lifetime and prevents unbounded memory consumption.
 
-[[Cache TTL]] time based expiration
-[[LRU]] least recently used
+[[LRU]] evict data which is used long ago and not accessed recently.
 [[LFU]] least frequently used
+[[LFRU]]
+[[ARC]]
+[[Cache TTL]] time based expiration
 
 ## Invalidation
 - TTL-based
