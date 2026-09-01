@@ -18,19 +18,15 @@ load balancer is a component that distributes incoming traffic across multiple s
 - load-balancer significantly increase the application response. user experience faster loading time.
 - fault tolerance, resilient system (availability, scalability)
 
-**Set of rules to**
-two main category
-static - pre determined rules, they don't consider current workload in that exact movement
-
-dynamic - examine current state of server.
-	-	least connections -> 
-	-	least response timing -> 
-	-	least bandwidth routing -> 
-	-	
-	-	resource based - 
-
 choosing the load balancer algo - unique characteristic of the application
 decision metric - capacity of the server, all heterogeneous, nature of the request application handles, general resource demand, or request need more computing power.
+
+## Load Balancers
+
+[[Nginx]]
+[[AWS ELB]]
+[[Kubernetes/Ingress Gateway]]
+
 ## Related
 
 [[ALB (Application Load Balancer)]] · [[connection chrun]] · [[AWS Networking]] · [[AWS]]
