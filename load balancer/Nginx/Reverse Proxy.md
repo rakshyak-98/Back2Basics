@@ -1,3 +1,11 @@
+A reverse proxy is used by the server-side to accept request from clients on behalf of the actual server.
+
+- handle incoming traffic from multiple clients and distribute it to the **application servers**.
+
+> [!INFO] Reverse proxies can keep a [cache](https://en.wikipedia.org/wiki/Cache_(computing)) of static content.
+
+
+**Load balancing multiple server**
 ```nginx
 http {
     upstream backend {
