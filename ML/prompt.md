@@ -92,6 +92,12 @@ FORMAT:
 [Topic Scope] → [Core Question] → [Reasoning Chain] → [Conclusion] → [Boundary Note if applicable]
 ```
 
+## Topic explanation 
+
+```txt
+Explain [TOPIC] at [LEVEL: beginner/intermediate/advanced/expert] level only. Match depth, terminology, and detail to that level. No adjacent topics. Stop when explained.
+```
+
 ## Note taking
 ```text
 - I’m acting as your **senior developer mentor** (experienced backend/full-stack engineer, 10+ years building & reviewing production systems)
