@@ -1,4 +1,4 @@
-[[Serialization]] [[Distributed computing]] [[API design]] [[gRPC]]
+[[Serialization]] [[Distributed computing]] [[API Architecture]] [[gRPC]]
 
 # Marshalling
 
@@ -18,7 +18,7 @@ Process A: object ──marshal──► bytes ──TCP/HTTP──► bytes ─
 
 | Format | Schema | Human-readable | Typical use |
 |--------|--------|----------------|-------------|
-| **JSON** | Informal / OpenAPI | Yes | Public REST [[API design]] |
+| **JSON** | Informal / OpenAPI | Yes | Public REST [[API Architecture]] |
 | **Protobuf** | `.proto` strict | No | gRPC internal |
 | **Avro** | ID registry | No | Kafka events |
 | **MessagePack** | Informal | No | Compact JSON-like |
@@ -126,4 +126,4 @@ Never trust unmarshaled input without validation
 
 ## Related
 
-[[Serialization]] [[Distributed computing]] [[API design]] [[event-driven]] [[race condition]] [[gRPC]]
+[[Serialization]] [[Distributed computing]] [[API Architecture]] [[event-driven]] [[race condition]] [[gRPC]]

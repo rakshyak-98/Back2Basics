@@ -1,4 +1,4 @@
-[[System design]] [[API design]] [[Authentication web application]] [[Distributed computing]]
+[[System design]] [[API Architecture]] [[Authentication web application]] [[Distributed computing]]
 
 # Splitwise
 
@@ -32,7 +32,7 @@ Requirements from product: add/remove/update user; create group; add members; no
 
 ## Standard config / commands
 
-### API sketch ([[API design]])
+### API sketch ([[API Architecture]])
 
 ```txt
 POST   /v1/users
@@ -150,4 +150,4 @@ JWT sub = user_id ([[JWT authentication]])
 
 ## Related
 
-[[System design]] [[API design]] [[Authentication web application]] [[marshalling]] [[event-driven]] [[Quorum]]
+[[System design]] [[API Architecture]] [[Authentication web application]] [[marshalling]] [[event-driven]] [[Quorum]]

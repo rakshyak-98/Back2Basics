@@ -1,5 +1,13 @@
 [[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]] [[Rate limiter]] [[gRPC]] [[WebRTC]] [[GraphQL]]
 
+[[API middleware]] intermediary processing layer
+[[Rate limiter]]
+[[Authorization]]
+[[Authentication]]
+[[Request validation]]
+[[Logging]]
+[[Tracing]]
+
 # API design
 
 > Contract between clients and backend — **resource-oriented URLs, predictable errors, auth**; hide implementation, not capability.

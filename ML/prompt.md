@@ -40,28 +40,82 @@ FORMAT: [Answer] → [Brief justification if needed] → Done.
 
 ```
 
-### Study reasoning 
+### Study reasoning
 
 ```txt
-You are writing a deep, reasoning-focused explanation of a system design / architecture topic. The goal is not to describe the topic but to explain *why it exists the way it does* — the reasoning chain that leads to it.
+You are writing a deep, reasoning-focused explanation of a system design / architecture topic. The goal is not to describe the topic but to explain *why it exists the way it does* — the reasoning chain that leads to it, presented as structured, scannable sections rather than a single wall of prose.
 
 Topic: {{TOPIC}}
 
-Structure the reasoning as flowing prose (no headers, no bullet template):
+Output format:
+- Use `##` headings for each of the six sections below, with a short, specific title (not the generic label) — e.g. instead of "Problem," use "## Why Naive Polling Collapses Under Fan-Out."
+- Within each section, use short paragraphs (2-4 sentences) or tight bullet points where a list is genuinely clearer than prose — not both by default.
+- **Bold** the specific mechanism, threshold, or failure mode in each section the first time it's named (e.g. "**head-of-line blocking**," "**O(n) rebalance cost**," "**write amplification**") so the core technical terms are scannable.
+- End each section with a one-line **takeaway** in bold summarizing the causal point of that section.
 
-1. Start from the underlying problem or constraint that makes this topic necessary — what breaks, or what becomes hard, without it. Be specific about the failure mode or limitation, not generic ("scalability issues").
-2. Walk through the reasoning that leads from the problem to the solution. Why this approach and not an obvious alternative? What was tried or considered that doesn't work, and why not?
-3. Explain the core mechanism only as deep as needed to support the reasoning — this is not a how-it-works tutorial, it's why-it-works-this-way.
-4. Surface the trade-offs as consequences of the reasoning, not as a bolted-on list. Every design choice trades something away — name what, and explain why that trade was accepted.
-5. Mention related topics only where they're part of the causal chain (e.g., "this is why X requires Y") — one line each, no tangents.
-6. End with the second-order effects on the system: what new problems this solution introduces, and what it forecloses or makes harder elsewhere.
+Structure:
+
+## 1. The Breaking Point
+State the underlying problem or constraint that makes this topic necessary. Name the specific failure mode: what request pattern, data shape, or scale threshold triggers it, and what the observable symptom is (timeout, inconsistency, resource exhaustion, correctness violation). Not generic ("scalability issues").
+
+## 2. Why the Obvious Fix Doesn't Work
+Name at least one alternative approach that's commonly tried first. Explain concretely why it fails or degrades — the specific mechanism, not just "it doesn't scale." Then show why the topic's approach survives that failure mode.
+
+## 3. Core Mechanism (Only as Deep as the Reasoning Needs)
+Explain the one or two implementation details that are load-bearing for the trade-offs in section 4. This is not a how-it-works tutorial — omit anything that doesn't change the reasoning.
+
+## 4. Trade-offs as Consequences
+For each major design choice, use a short list. Each point names: what is given up (latency, consistency, operational complexity, memory, flexibility), the mechanism by which it's given up, and the condition under which the trade stops being worth it.
+
+## 5. Causal Links to Related Topics
+One line per related topic, stating the causal dependency explicitly (e.g. "This is why X requires Y — because Z"). No tangents, no topics without a direct causal link.
+
+## 6. Second-Order Effects
+What new failure modes does this solution introduce? What specific future capability, migration, or optimization becomes costlier as a direct result? Be concrete, not "it adds complexity."
 
 Constraints:
-- Prioritize causal reasoning ("because," "which means," "this forces") over descriptive listing.
-- No definitions-first structure — the definition should emerge from the reasoning, not precede it.
+- Prioritize causal reasoning ("because," "which means," "this forces," "as a result") over descriptive listing. If a sentence could be reordered without losing meaning, it's descriptive — rewrite it.
+- No definitions-first structure within a section — the definition should emerge from the reasoning, not precede it.
 - No hedging, no filler, no analogies unless they clarify a mechanism.
-- Be precise and technical. Assume the reader knows system design fundamentals.
-- Length matches the depth of reasoning required — don't pad, don't compress a genuinely multi-step argument.
+- Assume the reader knows system design fundamentals — don't re-explain baseline concepts unless the topic's reasoning specifically depends on a nuance of that concept.
+- State specific numbers (latency bounds, consistency models, complexity order) exactly, or mark them explicitly as illustrative rather than presenting an unverified figure as fact.
+- Section length matches the depth of reasoning required — don't pad a section to match the others, don't compress a genuinely multi-step argument into one line.
+```
+
+### Decision 
+
+```txt
+You are writing a decision-focused breakdown of a system architecture topic. The goal is to identify the concrete architectural decision(s) embedded in the topic, and for each one, pin down exactly **when** it applies, **where** in the system it takes effect, and **why** it was chosen over the alternatives — not a general description of the topic.
+
+Topic: {{TOPIC}}
+
+Output format:
+- Use `##` headings, one per decision point identified (see structure below). Title each with the actual decision, not a generic label — e.g. "## Sync vs. Async Replication at the Write Path" not "## Design Choice."
+- **Bold** the decision itself, the specific trigger condition, and the rejected alternative(s) the first time each is named.
+- Use short paragraphs or tight bullets — bullets only where genuinely listing (e.g. conditions, alternatives, consequences), not as a default style.
+- Close each decision section with a bolded **Verdict** line: one sentence stating the decision, its trigger condition, and its cost, in that order.
+
+For every architectural decision you identify in the topic, cover:
+
+**Decision** — Name the specific choice being made (e.g. "partition by tenant ID vs. by time," "synchronous vs. eventual consistency on write," "shared-nothing vs. shared-disk"). Not the topic in general — the actual fork in the road.
+
+**When it applies** — The concrete trigger: what scale, traffic pattern, data shape, team size, or failure requirement makes this decision live. State the threshold if one exists (e.g. "once write throughput exceeds single-node disk I/O," "once more than one team owns the schema"). If no clean threshold exists, say so explicitly rather than inventing one.
+
+**Where in the system** — The specific layer, component, or boundary this decision is made at (e.g. "at the API gateway, not the service layer," "at the storage engine, not the query planner"). State why it has to be decided at that layer and not another — what breaks if it's pushed up or down the stack.
+
+**Why this and not the alternative(s)** — Name at least one concrete alternative that was rejected or is commonly tried. State the specific mechanism by which the alternative fails, degrades, or becomes more expensive under the trigger condition from "When it applies." Then state the mechanism by which the chosen approach avoids that failure.
+
+**Cost of the decision** — What this choice gives up (latency, consistency, flexibility, operational burden, cost) and under what future condition that cost stops being acceptable — i.e., when this decision needs to be revisited or reversed.
+
+**Downstream constraints** — What other decisions this one locks in or forecloses elsewhere in the system. One line each, stated as a direct dependency ("choosing X here means Y downstream can no longer assume Z").
+
+Constraints:
+- If the topic contains multiple distinct architectural decisions, give each its own `##` section rather than merging them.
+- Every decision must be traced to a trigger condition and a rejected alternative — a decision without a stated alternative is incomplete, go back and name one.
+- No hedging, no filler, no unsolicited history of the technology unless it directly explains why the decision was made.
+- Assume the reader knows system design fundamentals — do not define baseline terms.
+- State specific numbers or thresholds exactly where they exist; mark them explicitly as illustrative if approximate, never present a guessed figure as fact.
+- Length matches the number of real decisions in the topic — one clear decision gets one thorough section, not six padded ones; a topic with five genuine decision points gets five.
 ```
 
 ---

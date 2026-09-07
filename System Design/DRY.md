@@ -128,4 +128,4 @@ Not: "these 3 lines look similar" on first sight
 
 ## Related
 
-[[KISS]] [[SOLID]] [[System design]] [[API design]] [[marshalling]] [[Design pattern]]
+[[KISS]] [[SOLID]] [[System design]] [[API Architecture]] [[marshalling]] [[Design pattern]]

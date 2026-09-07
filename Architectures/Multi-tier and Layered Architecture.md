@@ -490,4 +490,4 @@ FAIL when:
 
 **Martin / Clean Architecture:** [The Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) · [Screaming Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html) · *Clean Architecture* (Robert C. Martin, 2017)
 
-**APIs between tiers:** [[gRPC]] · [[API design]] · [[HTTP module]]
+**APIs between tiers:** [[gRPC]] · [[API Architecture]] · [[HTTP module]]

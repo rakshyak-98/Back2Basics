@@ -52,7 +52,7 @@ After:  one deploy with modules; extract ingest when CPU bound
 
 See [[Microservice]] for when split is justified.
 
-### API surface KISS ([[API design]])
+### API surface KISS ([[API Architecture]])
 
 ```txt
 Expose: POST /orders { items, address }
@@ -118,4 +118,4 @@ Feature flags only for risky rollout, not every if-branch
 
 ## Related
 
-[[DRY]] [[SOLID]] [[System design]] [[API design]] [[Design pattern]] [[Microservice]]
+[[DRY]] [[SOLID]] [[System design]] [[API Architecture]] [[Design pattern]] [[Microservice]]
