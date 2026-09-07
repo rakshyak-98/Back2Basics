@@ -2,11 +2,11 @@
 
 # DNS
 
-> One-line: distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
+"maps names → records (A, AAAA, CNAME) via a resolver chain"
 
-## Mental model
+DNS is a **hierarchical, cached lookup system**. Your stub resolver doesn't talk to root directly for every query — it follows referrals or uses a recursive resolver (ISP, 8.8.8.8, corporate [[Unbound]]).
 
-DNS is a hierarchical, cached lookup system. Your stub resolver doesn't talk to root directly for every query — it follows referrals or uses a recursive resolver (ISP, 8.8.8.8, corporate [[Unbound]]).
+[[DNS/stub-resolver]]
 
 **Resolution chain (recursive lookup):**
 
