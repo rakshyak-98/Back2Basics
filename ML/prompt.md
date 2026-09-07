@@ -41,6 +41,31 @@ FORMAT: [Answer] → [Brief justification if needed] → Done.
 ```
 
 ### Study reasoning 
+
+```txt
+You are writing a deep, reasoning-focused explanation of a system design / architecture topic. The goal is not to describe the topic but to explain *why it exists the way it does* — the reasoning chain that leads to it.
+
+Topic: {{TOPIC}}
+
+Structure the reasoning as flowing prose (no headers, no bullet template):
+
+1. Start from the underlying problem or constraint that makes this topic necessary — what breaks, or what becomes hard, without it. Be specific about the failure mode or limitation, not generic ("scalability issues").
+2. Walk through the reasoning that leads from the problem to the solution. Why this approach and not an obvious alternative? What was tried or considered that doesn't work, and why not?
+3. Explain the core mechanism only as deep as needed to support the reasoning — this is not a how-it-works tutorial, it's why-it-works-this-way.
+4. Surface the trade-offs as consequences of the reasoning, not as a bolted-on list. Every design choice trades something away — name what, and explain why that trade was accepted.
+5. Mention related topics only where they're part of the causal chain (e.g., "this is why X requires Y") — one line each, no tangents.
+6. End with the second-order effects on the system: what new problems this solution introduces, and what it forecloses or makes harder elsewhere.
+
+Constraints:
+- Prioritize causal reasoning ("because," "which means," "this forces") over descriptive listing.
+- No definitions-first structure — the definition should emerge from the reasoning, not precede it.
+- No hedging, no filler, no analogies unless they clarify a mechanism.
+- Be precise and technical. Assume the reader knows system design fundamentals.
+- Length matches the depth of reasoning required — don't pad, don't compress a genuinely multi-step argument.
+```
+
+---
+
 ```txt
 Reasoning mode: Deep analysis of topic only. Explicit logic chain. Define scope boundary. No tangents, no "also consider," no related domains. Stop when reasoning completes.
 ```
@@ -95,7 +120,80 @@ FORMAT:
 ## Topic explanation 
 
 ```txt
-Explain [TOPIC] at [LEVEL: beginner/intermediate/advanced/expert] level only. Match depth, terminology, and detail to that level. No adjacent topics. Stop when explained.
+Explain {{TOPIC}} at a system design / architecture level, as flowing prose (no headers, no bullets).
+
+Cover: what it is (1-2 sentences) → why/where it's used, at architecture level → related topics woven in naturally, each in one line max → what it changes in the system (latency, consistency, scalability, failure modes, cost — state trade-offs directly).
+
+Keep it tight: one paragraph, no padding, no hedging, no analogies.
+```
+
+```txt
+You are creating technical notes on a system design / architecture topic, written as flowing explanatory prose rather than a rigid template.
+
+Topic: {{TOPIC}}
+
+Cover the following, in order, but blend them into a natural explanation rather than isolated sections:
+
+1. Start with a short, plain definition of the topic — what it is, in 1-3 sentences.
+2. Move into why it exists and where it's used — the problem it solves, the scenarios that call for it. Explain this at an architecture level, not a tutorial level.
+3. Weave in related topics as you go, wherever they naturally come up in the explanation. Each related topic gets one line max — name it and state its connection in a single sentence, don't elaborate further.
+4. Close with what changes at the system level when this is introduced — effects on latency, consistency, scalability, failure modes, operational complexity, cost. State trade-offs directly: what improves, what degrades.
+
+Constraints:
+- Keep related-topic mentions to one line each, even inside prose — don't tangent into them.
+- Be precise and technical. No hedging, no filler, no analogies unless they clarify a mechanism.
+- Length should match the topic's complexity — don't pad simple topics, don't compress complex ones.
+```
+
+```txt
+You are creating educational/technical content for a given topic, producing two coordinated outputs: (1) flowing explanatory notes and (2) a structured content blueprint for a handwritten-style infographic. Do not generate the final infographic image or layout — only the blueprint.
+
+Topic: {{TOPIC}}
+Learning Level: {{LEVEL}} (e.g., beginner, intermediate, expert — affects depth and vocabulary in both outputs)
+
+═══════════════════════════════
+PART 1 — EXPLANATORY NOTES
+═══════════════════════════════
+Write flowing explanatory prose (not a rigid template) covering, in order, but blended naturally rather than as isolated sections:
+
+1. Short, plain definition — what the topic is, in 1-3 sentences.
+2. Why it exists and where it's used — the problem it solves, the scenarios that call for it, explained at a conceptual/architecture level, not a step-by-step tutorial level.
+3. Related topics woven in wherever they naturally arise — one line max each: name it, state its connection in a single sentence, no elaboration.
+4. Close with what changes when this topic/system is introduced or applied — effects on the surrounding system (e.g., performance, complexity, cost, failure modes, trade-offs), stated directly: what improves, what degrades.
+
+Constraints:
+- Related-topic mentions: one line each, no tangents.
+- Precise and technical, matched to the stated Learning Level. No hedging, no filler, no analogies unless they clarify a mechanism.
+- Length matches the topic's complexity — don't pad simple topics, don't compress complex ones.
+
+═══════════════════════════════
+PART 2 — INFOGRAPHIC CONTENT BLUEPRINT
+═══════════════════════════════
+Act as an expert educational content planner. Using the same topic and level, produce an accurate, level-appropriate content blueprint for a handwritten educational infographic.
+
+Steps:
+1. Identify the subject type (scientific concept, person, historical event, object, place, process, system, plan, classroom concept, etc.).
+2. Select 6-8 strong, topic-specific knowledge modules automatically based on the topic and level. Do not force irrelevant categories. Possible module types: definition, identity, key features, parts, structure, composition, origin, background, development, chronology, location, context, function, mechanism, process, stages, types, classification, comparison, examples, evidence, relationships, applications, effects, misconceptions, practical use.
+3. For each module, provide:
+   - Short module title
+   - One short concept label (not a sentence)
+   - 3-5 essential facts/ideas (vary count per module as needed — no filler to hit 5)
+     - Compact infographic text: fragments, labels, names, dates, numbers, brief contrasts — not full sentences
+     - One line per item, usually 3-10 words, fewest words needed
+     - Wrap the single most important word/phrase per item in ==double equals==
+   - Optional: one example, comparison, measurement, or relationship only if essential; omit if it adds clutter
+   - Best visual representation (diagram, map, timeline, cross-section, chart, comparison, process flow, labelled illustration, example)
+   - The module's relationship to the central topic
+4. Mark 1-2 spans per text item: the shortest span carrying the key meaning (term, name, number, measurement, or contrast) — up to 2-3 words when meaning only holds as a unit. Never exceed ~1/4 of the item's length. Never collect spans into a separate glossary/key-terms list — keep them embedded in their bullet.
+5. Specify the best central visual representation of the topic overall.
+
+Constraints:
+- Accurate and appropriate for the stated Learning Level.
+- No generic statements, motivational filler, or broad "why it matters" content.
+- No repeated facts across modules — if an idea fits multiple categories, place it in the one module that explains it best; reference it elsewhere only via relationship, not restated fact.
+- Before finalizing, verify no fact is duplicated across modules.
+
+Output only: Part 1 (prose notes) followed by Part 2 (structured blueprint). Do not produce a final infographic layout/image prompt.
 ```
 
 ## Note taking

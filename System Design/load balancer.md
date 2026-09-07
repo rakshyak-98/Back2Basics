@@ -21,10 +21,10 @@ load balancer is a component that distributes incoming traffic across multiple s
 choosing the load balancer algo - unique characteristic of the application
 decision metric - capacity of the server, all heterogeneous, nature of the request application handles, general resource demand, or request need more computing power.
 
-## Load Balancers
+## Load Balancers 
 
+[[AWS ELB]] - used because high availability guarantee to handle other in house load balancer, to avoid single point of failure.
 [[Nginx]]
-[[AWS ELB]]
 [[Kubernetes/Ingress Gateway]]
 
 ## Related

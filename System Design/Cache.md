@@ -1,6 +1,6 @@
 [[Redis]] [[Distributed computing]] [[System design]]
 
-Cache **make copy of data that is used often and stored in a faster, smaller storage layer close to the application**.
+Cache **make copy of data** that is used often and stored in a faster, smaller storage layer close to the application.
 - Instantly call the resource that we needed the most frequently.
 - Making data retrial faster by keeping frequently resource accessible.
 

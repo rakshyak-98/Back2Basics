@@ -4,7 +4,7 @@ Here are some common exit codes along with their meanings:
 
 - **0**: Success
 - **1**: General error
-- **2**: Misuse of shell builtins
+- **2**: Misuse of shell builtin 
 - **126**: Command invoked cannot execute (permission issue or not an executable)
 - **127**: Command not found
 - **128**: Invalid argument to exit

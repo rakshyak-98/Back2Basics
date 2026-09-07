@@ -31,3 +31,9 @@ function useCallback(fn, deps){
 - An empty array in an effect hook indicates that it runs only on mount, whereas a nonempty array indicates that the hook runs on mount and every time the mentioned dependencies update.
 
 > [!NOTE] A dependency is any local variable that exists locally in the component scope but not any variable that also exists outside the component scope.
+
+## Build chunks
+
+**Build chunks files larger than 500 kB after minification**
+minification: is **process** of making a file smaller by **removing unnecessary character without changing how it works**. Removes **spaces, line breaks, comments** and sometimes shortens variable names.
+**Minification != compression**: minification changes the source text to make it smaller, with compression (gzip) encodes the file efficiently during storage or transmission.
