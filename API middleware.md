@@ -42,7 +42,12 @@ Keeping middleware infrastructure-oriented preserves the pipeline as a reusable 
 - Middleware must remain usable across endpoints without understanding their internal domain models.
 
 ## Centralize Error and Observability handling around the pipeline 
-Handle common API errors and request observability centrally in middleware rather than implementing them independently in every handler.
+**Handle common API errors and request observability centrally in middleware** rather than implementing them independently in every handler.
+When multiple endpoints must produce consistent error responses or telemetry fields such as request IDs, status codes, latency, and structured logs. There is **no fixed traffic threshold**; The trigger is consistency becoming operationally important across the API surface.
+
+Around the **request/response pipeline**, so middleware can observe both downstream execution and the resulting response/error. It must sit around the handler rather then only before it because failures and latency often become visible only after downstream processing begins.
+
+**Per-handler logging/error formatting** produces inconsistenc
 
 ## Trade-off as Consequences
 
