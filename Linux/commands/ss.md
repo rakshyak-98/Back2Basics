@@ -1,5 +1,8 @@
 [[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]]
 
+
+"What network socket does this process own?"
+
 # ss
 
 > One-line: **socket statistics from the kernel** — faster, richer `netstat` replacement for listening ports, TCP state, queues, and process ownership. **First tool for “what is connected to what?”**

@@ -1,0 +1,3 @@
+The balancer operates primarily on transport-level flows. A TCP connection arrives at the backend. Because TCP is connection-oriented, the mapping between the client-side flow and backend-side flow normally persists for the lifetime of that connection.
+
+The transport layer underneath this is where the architecture becomes concrete. The load balancer needs network reachability to the backend instances, normally through IP addresses and ports. For TCP traffic, it participates in the TCP connection establishment and forwards packets or connection data according to its implementation. FOR UDP, where there is no TCP connection state, the balancer maintains flow mappings based on characteristics such as source and destination address and ports.

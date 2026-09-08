@@ -2,6 +2,8 @@
 sudo systemctl restart systemd-hostnamed # restart host name service or reboot.
 ```
 
+[[systemd process]] there are two different processes serving two different scopes.
+
 is dependent upon what init daemon is used by your Linux server.
 - before you do any service management, be sure determine the init daemon.
 

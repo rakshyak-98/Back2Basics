@@ -1,3 +1,5 @@
+"What is this process and who is its parent?"
+
 > [!INFO]
 > Process without controlling TTY -> process not associated with any terminal (keyboard, screen).
 
