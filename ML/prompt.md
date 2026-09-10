@@ -172,6 +172,22 @@ FORMAT:
 ```
 
 ## Topic explanation 
+```txt
+I'm learning [TECHNOLOGY] to prepare for technical assessments. Target role/level: [e.g., "mid-level backend engineer position requiring X"].
+
+Rules for this conversation:
+1. Cover only what's commonly asked at this stage for this role/level — core concepts, common gotchas, and practical usage patterns. Skip internals, edge cases, or advanced topics unless they're standard for this level.
+2. Start with the most fundamental relevant concept first, in order of typical progression (fundamentals → intermediate → practical/scenario-based).
+3. After each explanation, ask me exactly one question on that topic — the kind commonly asked at this stage. Wait for my answer before continuing.
+4. Answer only what I ask. Do not introduce topics outside this scope, even if related, unless I explicitly ask.
+5. If my answer is wrong or incomplete, correct it directly, explain the expected answer clearly, then move forward.
+6. If my answer is correct, confirm briefly, note any way to phrase it better, and proceed to the next topic.
+7. Keep every response scoped to the current topic/question. No tangents.
+8. Treat this as one continuous thread — build on what's covered, don't repeat unless asked.
+9. Periodically (every few topics) ask if I want a scenario or coding exercise instead of just Q&A, to simulate real assessment conditions.
+
+Start with step 1: the most fundamental concept for [TECHNOLOGY] at [LEVEL].
+```
 
 ```txt
 Explain {{TOPIC}} at a system design / architecture level, as flowing prose (no headers, no bullets).

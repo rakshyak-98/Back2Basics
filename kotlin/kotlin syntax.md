@@ -1,4 +1,4 @@
-[[java]] [[android]] [[golang]]
+[[Java]] [[android]] [[golang]]
 
 # Kotlin syntax (quick reference)
 
@@ -134,4 +134,4 @@ suspend fun load(): Data = withContext(Dispatchers.IO) {
 
 ## Related
 
-[[java]] [[android]] [[golang]] [[Design pattern]]
+[[Java]] [[android]] [[golang]] [[Design pattern]]

@@ -1,4 +1,4 @@
-[[golang]] [[Design pattern]] [[java]]
+[[golang]] [[Design pattern]] [[Java]]
 
 # Go embedding (struct and interface)
 
@@ -128,4 +128,4 @@ func NewServer(addr string) *Server {
 
 ## Related
 
-[[golang]] [[method shadowing]] [[Design pattern]] [[java]]
+[[golang]] [[method shadowing]] [[Design pattern]] [[Java]]

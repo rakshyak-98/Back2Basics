@@ -1,4 +1,4 @@
-[[java]] [[kotlin]] [[Design pattern]] [[method shadowing]]
+[[Java]] [[kotlin]] [[Design pattern]] [[method shadowing]]
 
 # Static members (class-level state and methods)
 
@@ -116,4 +116,4 @@ public static User fromJson(String json) { ... }
 
 ## Related
 
-[[java]] [[kotlin]] [[method shadowing]] [[Design pattern]]
+[[Java]] [[kotlin]] [[method shadowing]] [[Design pattern]]

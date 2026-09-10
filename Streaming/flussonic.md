@@ -1,3 +1,5 @@
+DVR Digital Video Recorder. In flussonic it means: continuously record the live stream to disk so it can be played back later, seeked, or served with a long rewind window - instead of only keeping the last few seconds in RAM. This stop the mid-stream pause - DVR is the robust fix because it makes the server-side window big enough that normal mobile rebuffering never crosses it. The lighter alternative (no dist) is just increasing `segment_duration` x `segment_count` to stretch the in-RAM window to ~60s.
+
 Flussonic specific jobs:
 1. Receives stream -> Takes your UDP input `udp://<private ip>:<port>`>
 2. Gets keys from DoveRunner -> Retrieves encryption keys `aes_key` `iv` `key_id`

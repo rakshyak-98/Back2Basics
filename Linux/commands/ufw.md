@@ -17,6 +17,11 @@ ufw reset;
 ```
 
 ```bash
+sudo ufw deny out to <ip> port <port> proto <protocol>;
+sudo ufw deny in to <ip> port <port> proto <protocol>;
+```
+
+```bash
 sudo ufw delete allow 3000/tcp
 sudo ufw delete allow 80,443/tcp comment 'Web server'
 sudo ufw delete allow 'Nginx Full'

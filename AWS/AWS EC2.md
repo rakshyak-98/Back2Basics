@@ -2,7 +2,56 @@
 
 # AWS EC2
 
-> **Virtual machines in a VPC** — pick AMI, instance type, subnet/SG, and know what still bills after `terminate`. **AWS EC2 User Guide** + finance surprises from orphaned EIPs/NAT.
+Turning compute capacity into an **API-controlled infrastructure resource** instead of treating the physical server as the deployment boundary, the architecture treats an independently provisionable virtual machine as that boundary.
+
+**Vertical scaling dependency:** capacity increases require hardware procurement, installation, migration, and eventually another hardware ceiling. Even when the hardware is available, the application remains coupled to one machine's failure domain.
+
+EC2 survives these problems by making the VM the provisioning boundary. The physical hardware remains AWS's concern, while the application receives a logically isolated 
+
+Bootstrap scripts setup instance.
+
+network attached storage/EBS
+instance store (highest speed storage, for short period)
+different instance for different workloads/computer power/ processing power
+general task  
+compute optimize instances
+memory optimize instances
+storage optimize instances
+
+EBS  (persistent block storage)
+- attach to one instance to another
+- when EBS volumn fails (replicate in availablity zons) EBS snapshot (safe points), data protection , and migration data to different regions. Schedule snapshot of EBS volumes.
+- AMI (pre configured package to launch to instance with specific configs), to standardize the deployments, and share configuration. Packing and distribution application.
+
+EFS (Network file system)
+- shared access to multiple launched instances
+- shared network drive
+- data sharing
+- EFS can grow and shrink (dynamic)
+- NFS (primiry used in linux environment not native support for windows)
+
+IMDS
+- get information about themselves
+- each instance can access + IAM role used
+- used for dynamic configuration to configure them selves appropriately
+IMDSv1
+IMDSv2 (more security) always use
+
+T series instances (occasional requirement)
+
+M5.2xlarge -> instance family and generation M (general puprose), 2x instance size nano/micro/large
+
+security groups - traffic control for EC2
+- customize security groups allow/deny rules on traffic, setting rule for control access.
+- remember the connection access
+- common ports 22, 443, 80, 3389 (RDP windows)
+
+EC2 purchasing (Pricing model)
+on demand instances - pay for what you use. short terms (testing environments)
+reserved instances - leasing for longer term
+saving plans instances
+spot instances
+dedicated host (physical server)/dedicate instances (not shared hardware)
 
 ## Mental model
 

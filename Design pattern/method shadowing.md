@@ -1,4 +1,4 @@
-[[java]] [[golang]] [[Design pattern]]
+[[Java]] [[golang]] [[Design pattern]]
 
 # Method shadowing (embedding / inheritance)
 
@@ -116,4 +116,4 @@ class Derived : Base() {
 
 ## Related
 
-[[java]] [[golang]] [[Static Members]] [[golang/go embedding]]
+[[Java]] [[golang]] [[Static Members]] [[golang/go embedding]]
