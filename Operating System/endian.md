@@ -1,4 +1,7 @@
 >[!INFO] Intel x86 architecture uses little-endian, while many RISC architectures and older systems like IBM mainframes utilize big-endian.
+
+[[RISC]] Reduced Instruction Set Computing
+
 ### Big endian
 - The most significant byte (MSB) of a mult-ibyte data value is stored at the lowest memory address.
 

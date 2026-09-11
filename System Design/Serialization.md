@@ -4,4 +4,6 @@ converting data (such as objects, database records, or responses) into a format 
 
 > [!INFO] Serialization does not handle request queries directly.
 > - Serialization is focused on transforming data for output (response)
-> - handling request queries falls under parsing, validation and business logic before serialization happens.
+> - handling request queries falls under parsing, validation and business logic before serialisation happens.
+
+[[MessagePack]] binary serialisation format used to convert structured data into compact sequence of bytes
