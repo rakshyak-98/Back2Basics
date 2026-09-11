@@ -1,0 +1,1 @@
+When an application wants to encode some data (to write it to a file or database, send it over the network etc.), the application uses whatever version of the schema it know about for example, a schema that is compiled into the application. This is known as the *writer's schema*.
