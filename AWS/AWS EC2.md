@@ -1,4 +1,4 @@
-[[AWS]] [[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
+[[AWS]] [[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS]] [[ARN (Amazon Resource Name)]]
 
 # AWS EC2
 
@@ -6,12 +6,32 @@ Turning compute capacity into an **API-controlled infrastructure resource** inst
 
 **Vertical scaling dependency:** capacity increases require hardware procurement, installation, migration, and eventually another hardware ceiling. Even when the hardware is available, the application remains coupled to one machine's failure domain.
 
-EC2 survives these problems by making the VM the provisioning boundary. The physical hardware remains AWS's concern, while the application receives a logically isolated 
+EC2 survives these problems by making the VM the provisioning boundary. The physical hardware remains AWS's concern, while the application receives a logically isolated, virtualized compute environment with its own CPU, memory, storage, networking, operating system, and security boundary. 
 
-Bootstrap scripts setup instance.
+Bootstrap scripts setup are scripts that run where an instance is launched to automatically configure it.
 
-network attached storage/EBS
-instance store (highest speed storage, for short period)
+**Launch EC2 -> User data/bootstrap script runs -> Install/configure software -> start application -> instance becomes ready**
+For example, a bootstrap script might:
+- Install Java
+- Install/configure Nginx
+- Pull your application artifact
+- Set environment/configuration
+- Start the service
+- Register the instance with a load balancer
+
+**Instance Store** is temporary, block-level storage physically attached to the host running an EC2 instance. Unlike EBS, its lifetime is tied to the EC2 instance, so it is designed for data that can be recreated rather than durable applications state. 
+- instance store exists to provide **very low-latency, high-throughput local storage** without introducing a separate network-attached storage layer. It is useful for workloads such as caches, temporary files, buffers, scratch space, intermediate computation, and data that is replicated elsewhere. The available capacity and number of volumes are properties of the selected EC2 instance type; not ever instance you provided instance store.
+
+The critical property is **ephemerality**. Data survives an ordinary reboot, but is lost when the instance is stopped, hibernated, terminated, or otherwise loses the associated instance-store lifetime; the volume cannot be detached from one instance and attached to another.
+
+"This makes instance store particularly valuable is **stateless or distributed architectures.**" For example, an application server can keep a large local cache or temporary processing data on instance store while the authoriative copy remains in S3, a database, or another durable system. If the server disappears, the system simply reconstructs that local data on a replacement instance.
+
+> At the system level, introducing instance store **reduce storage latency and can provide extremely high local I/O throughput,** while avoiding a separate storage charge for the included instance-store capacity.
+- The trade-off is durability: the application must tolerate data loss and cannot treat instance store as its source of truth. It also couples storage capacity to the chosen instance type and makes instance replacement a storage loss event.
+
+[[Network Attached Storage]]
+[[AWS S3]] durable object storage suitable for preserving data outside the lifecycle of compute instances.
+
 different instance for different workloads/computer power/ processing power
 general task  
 compute optimize instances
@@ -55,7 +75,7 @@ dedicated host (physical server)/dedicate instances (not shared hardware)
 
 ## Mental model
 
-An EC2 instance is compute on shared hardware (or Dedicated Host) with **ENI(s)** in a subnet. Launch = AMI + instance type + key pair/instance profile + [[Security group]]. Storage = root + optional [[EBS (Elastic Block Store)]] volumes. **Terminate ≠ delete all billable artifacts.**
+An EC2 instance is compute on shared hardware (or Dedicated Host) with **ENI(s)** in a subnet. Launch = AMI + instance type + key pair/instance profile + [[Security group]]. Storage = root + optional [[EBS]] volumes. **Terminate ≠ delete all billable artifacts.**
 
 ```
 Launch template ──► AMI + type + subnet + SG + user-data
@@ -134,4 +154,4 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 
 ## Related
 
-[[AWS]] · [[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]] · [[AWS Auto Scaling]] · [[ALB (Application Load Balancer)]] · [[AWS Lambda]]
+[[AWS]] · [[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS]] · [[aws STS (Security Token Service)]] · [[AWS Auto Scaling]] · [[ALB (Application Load Balancer)]] · [[AWS Lambda]]

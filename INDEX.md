@@ -61,7 +61,7 @@
 - Identity: [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[AWS Secrets Manager]] · [[KMS]]
 - Network: [[AWS Networking]] · [[Security group]] · [[Elastic IP]] · [[Route53]] · [[ALB (Application Load Balancer)]] · [[CloudFront]]
 - Compute: [[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS Auto Scaling]] · [[AWS Lambda]] · [[AWS ECS]] · [[AWS ECR]]
-- Storage: [[AWS S3]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]]
+- Storage: [[AWS S3]] · [[EBS]] · [[AWS EFS (Elastic File System)]]
 - Data: [[AWS RDS]] · [[AWS DynamoDB]] · [[AWS SQS]]
 - Ops: [[CloudWatch]] · [[CloudTrail]] · [[API Gateway]] · [[AWS Billing and cost management]] · [[AWS CLI]]
 

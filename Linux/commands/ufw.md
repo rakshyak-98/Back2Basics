@@ -54,3 +54,16 @@ ufw allow "Nginx HTTPS"
 ufw deny "Apache"
 ufw delete allow "Nginx HTTP"
 ```
+
+```bash
+sudo ufw allow in 80/tcp
+sudo ufw allow out 80/tcp
+```
+
+```bash
+sudo ufw allow out to 127.0.0.1 to any port 5432 proto tcp
+```
+
+"UFW mainly works with **IP protocols**, and the most commonly used ones are TCP and UDP."
+
+> Check protocols known to Your Linux system, `ufw` relies on Linux networking/netfilter, so you can see the system's protocol names `/etc/protocols`.

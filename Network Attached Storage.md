@@ -1,0 +1,1 @@
+ [[EBS]] persistent network-attached blocked storage

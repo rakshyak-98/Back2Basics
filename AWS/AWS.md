@@ -25,7 +25,7 @@
 
 ## Storage
 
-- [[AWS S3]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]]
+- [[AWS S3]] · [[EBS]] · [[AWS EFS (Elastic File System)]]
 
 ## Data & messaging
 

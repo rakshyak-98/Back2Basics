@@ -1,4 +1,4 @@
-[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS S3]] [[Security group]] [[AWS Networking]]
+[[AWS]] [[AWS EC2]] [[EBS]] [[AWS S3]] [[Security group]] [[AWS Networking]]
 
 # AWS EFS (Elastic File System)
 
@@ -16,7 +16,7 @@ ECS task     ──► mount target ENI ──┘
 
 | vs | Use EFS when | Prefer instead |
 |----|--------------|----------------|
-| EBS | Shared files across instances | Single-instance disk → [[EBS (Elastic Block Store)]] |
+| EBS | Shared files across instances | Single-instance disk → [[EBS]] |
 | S3 | POSIX semantics / append / locks | Immutable objects / CDN → [[AWS S3]] |
 
 ## Standard config / commands
@@ -84,4 +84,4 @@ aws efs describe-mount-targets --file-system-id fs-xxx
 
 ## Related
 
-[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS S3]] · [[Security group]] · [[AWS Networking]] · [[AWS]]
+[[AWS EC2]] · [[EBS]] · [[AWS S3]] · [[Security group]] · [[AWS Networking]] · [[AWS]]
