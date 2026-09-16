@@ -1,0 +1,1 @@
+A **cache line** is the smallest block of memory that a CPU typically moves between **RAM and CPU cache.**

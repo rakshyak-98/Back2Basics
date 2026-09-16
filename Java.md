@@ -1,4 +1,4 @@
-[[Java collection]]
+[[Java Collection]]
 [[JRE]] **Provides** the environment required to run java applications, conceptually JVM + runtime libraries.
 [[JDK]] Used to develop java applications. It provides tools such as `javac` (compiler).
 [[JVM]] Java Virtual Machine. **Java one each machine** Executes java bytecode `.class` files
