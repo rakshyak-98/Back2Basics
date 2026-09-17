@@ -20,3 +20,5 @@ The class defines what an object of the class **can contain and do.**
 
 **Method overloading:** Same method name, but **different parameter lists.**
 **Method overriding:** A child class provides its own implementation of a method inherited from the parent
+
+[[Virtual threads]] lightweight threads managed by the JVM rather then directly mapped 1:1 to operating-system threads.
