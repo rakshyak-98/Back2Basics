@@ -2,6 +2,27 @@
 
 # Linked list
 
+> A sequence whose **elements are connected by reference, rather than being adjacent in memory.** While a linked-list have a logical relationship the physical memory relationship can be different. The reference inside each element establishes the logical sequence.
+
+**Traversal is expensive** The nodes may be scattered throughout memory. Traversing it becomes a chain of dependent memory accesses, you cannot generally determine where one next node is until you've obtained the reference from previous node.
+This has consequences beyond Big-O notation:
+- CPU cache utilization can be worse.
+- Hardware prefetching is less effective.
+- More pointer/reference chasing occurs.
+- Memory overhead increases because references must be stored.
+- Allocator/GC behavior can become relevant.
+- Poor locality can dominate actual performance even when the algorithm is theoretically efficient.
+
+"Given a reference to the insertion point, a linked list can modify its local topology in constant time, but locating that position and traversing the resulting structure can be expensive."
+
+**Logical topology** and **Physical layout**
+The references connect the two.
+"Use references to represent relationships independently of physical placement."
+
+**Array vs Linked-List is really a locality vs indirection decision**
+
+> What operation does the system need to optimize, and what physical constraints does the data structure impose?
+
 > Nodes chained by `next` (and optionally `prev`) pointers — O(1) insert/delete at known node; O(n) indexed access.
 
 ## Mental model

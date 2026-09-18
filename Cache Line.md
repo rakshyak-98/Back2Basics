@@ -58,3 +58,4 @@ struct Data {
 ```
 
 you might imagine: `[a][a][a][a][b]` but the **compiler** may insert unused bytes. `[a][a][a][a][b][padding][padding][padding]` So the structure occupies 8 bytes instead of 5. **The padding exists to satisfy alignment requirements.**
+

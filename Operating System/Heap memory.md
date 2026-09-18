@@ -1,3 +1,18 @@
+**Why dynamically allocated data?**
+Because sometimes a program doesn't know at compile time how much data it will need or how long that data must live. That's what "dynamically allocated" means.
+- Memory is requested **while the program is running.** base on what the program actually needs.
+- Data man need to survive beyond the current method.
+"The heap provides a mechanism for objects whose **size and/or lifetime are determined at runtime.**"
+
+> **Dynamic allocation doesn't mean "heap=dynamic, stack=static"**
+> - Stack: Organized around thread execution and method calls.
+> - Heap: General-purpose runtime storage for objects/data.
+
+**Why not put it all on the stack?**
+Because stack memory is primarily designed around **function execution.** When function execution completes the stack frame disappears. The references of the arguments must still exist because the caller has a reference to them, that's where heap allocation becomes useful.
+
+"The heap allows objects to have a lifetime independent of a particular method's stack frame."
+
 A heap is a tree-based structure that lets you always get the min and max element in `O(1)` and insert/remove in `O(log n)`.
 
 > [!INFO]

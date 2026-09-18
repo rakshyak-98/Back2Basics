@@ -83,4 +83,4 @@ while (lo < hi) {
 
 ## Related
 
-[[Data structure/dsa genera formula]] [[Data structure/algo/greedy algorithm]] [[Data structure/linked list]]
+[[Data structure/dsa genera formula]] [[Data structure/algo/greedy algorithm]] [[Linked List]]

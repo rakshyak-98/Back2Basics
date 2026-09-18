@@ -1,4 +1,6 @@
-[[GIT]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
+```bash
+gh repo create REPO_NAME --private --source=. --remote=origin
+```
 
 # GitHub CLI (`gh`)
 
