@@ -1,4 +1,4 @@
-[[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Encoding]]
+[[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Streaming/Encoding]]
 
 # Single Stream
 
@@ -111,4 +111,4 @@ Manual switch on primary failure — not simultaneous push
 
 ## Related
 
-[[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Encoding]] [[bitrate streaming]] [[HLS]]
+[[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Streaming/Encoding]] [[bitrate streaming]] [[HLS]]

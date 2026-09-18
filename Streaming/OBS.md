@@ -1,4 +1,4 @@
-[[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]]
+[[ingestion]] [[RTMP]] [[Streaming/Encoding]] [[NVENC]] [[Single Stream]]
 
 # OBS (Open Broadcaster Software)
 
@@ -136,4 +136,4 @@ Linux: ~/.config/obs-studio/logs/
 
 ## Related
 
-[[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]] [[network management]] [[transcoding]]
+[[ingestion]] [[RTMP]] [[Streaming/Encoding]] [[NVENC]] [[Single Stream]] [[network management]] [[transcoding]]

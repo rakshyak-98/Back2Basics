@@ -1,4 +1,4 @@
-[[codecs]] [[Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[Lossy Audio Compression]]
+[[codecs]] [[Streaming/Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[Lossy Audio Compression]]
 
 # AAC (Advanced Audio Coding)
 
@@ -118,4 +118,4 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 
 ## Related
 
-[[codecs]] [[Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[bitrate streaming]] [[DRM]] [[re-encoding]]
+[[codecs]] [[Streaming/Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[bitrate streaming]] [[DRM]] [[re-encoding]]

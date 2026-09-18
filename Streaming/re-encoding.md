@@ -1,4 +1,4 @@
-[[transcoding]] [[Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]]
+[[transcoding]] [[Streaming/Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]]
 
 # Re-encoding
 
@@ -121,4 +121,4 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 
 ## Related
 
-[[transcoding]] [[Encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[CMAF]] [[bitrate streaming]]
+[[transcoding]] [[Streaming/Encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[CMAF]] [[bitrate streaming]]

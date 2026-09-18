@@ -92,7 +92,7 @@ sudo nft list ruleset | grep -E '1935|443'
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | OBS disconnect loop | `ss -ti` retransmits; Wi-Fi | Wired uplink; lower bitrate; RTMPS if middlebox |
-| Macroblocking but no drop | Uplink not saturated — encode issue | See [[Encoding]] CBR cap |
+| Macroblocking but no drop | Uplink not saturated — encode issue | See [[Streaming/Encoding]] CBR cap |
 | TS continuity errors | `tcpdump` UDP gaps | FEC/SRT instead of raw UDP; switch IGMP querier |
 | CDN 502 on segments | Origin reachability from CDN POP | Origin health; connection limit ([[half-open connections]]) |
 | Regional viewers only fail | Geo DNS / POP routing | CDN failover; check one POP with curl `--resolve` |

@@ -1,4 +1,4 @@
-[[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]]
+[[Streaming/Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]]
 
 # NVENC (NVIDIA Encoder)
 
@@ -129,4 +129,4 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 
 ## Related
 
-[[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]] [[ingestion]] [[Microservice]]
+[[Streaming/Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]] [[ingestion]] [[Microservice]]

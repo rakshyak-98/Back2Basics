@@ -1,4 +1,4 @@
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[HLS]] [[network management]]
+[[ingestion]] [[OBS]] [[Streaming/Encoding]] [[Single Stream]] [[HLS]] [[network management]]
 
 # RTMP (Real-Time Messaging Protocol)
 
@@ -44,7 +44,7 @@ ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30 \
 |------|-----|
 | `-f flv` | RTMP carries FLV container |
 | `-re` | Real-time pacing |
-| CBR + GOP | Stable ingest ([[Encoding]]) |
+| CBR + GOP | Stable ingest ([[Streaming/Encoding]]) |
 
 ### nginx-rtmp minimal ingest
 
@@ -131,4 +131,4 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 ## Related
 
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[network management]] [[How to attach stream to HTTP handlers]]
+[[ingestion]] [[OBS]] [[Streaming/Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[network management]] [[How to attach stream to HTTP handlers]]

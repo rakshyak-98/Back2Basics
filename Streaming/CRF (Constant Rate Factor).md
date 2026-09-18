@@ -1,4 +1,4 @@
-[[bitrate streaming]] [[Encoding]] [[transcoding]] [[NVENC]] [[codecs]]
+[[bitrate streaming]] [[Streaming/Encoding]] [[transcoding]] [[NVENC]] [[codecs]]
 
 # CRF (Constant Rate Factor)
 
@@ -119,4 +119,4 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 
 ## Related
 
-[[bitrate streaming]] [[Encoding]] [[transcoding]] [[re-encoding]] [[codecs]] [[NVENC]] [[ABR]]
+[[bitrate streaming]] [[Streaming/Encoding]] [[transcoding]] [[re-encoding]] [[codecs]] [[NVENC]] [[ABR]]

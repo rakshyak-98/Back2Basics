@@ -1,4 +1,4 @@
-[[Streaming]] [[RTMP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
+[[Streaming]] [[RTMP]] [[Streaming/Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
 
 # Ingestion
 
@@ -137,4 +137,4 @@ Max bitrate enforcement at ingest (drop or disconnect)
 
 ## Related
 
-[[RTMP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]
+[[RTMP]] [[OBS]] [[Streaming/Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]

@@ -1,4 +1,4 @@
-[[AAC (Advanced Audio Coding)]] [[AV1]] [[Encoding]] [[transcoding]] [[bitrate streaming]] [[HLS]] [[DASH]]
+[[AAC (Advanced Audio Coding)]] [[AV1]] [[Streaming/Encoding]] [[transcoding]] [[bitrate streaming]] [[HLS]] [[DASH]]
 
 # Codecs
 
@@ -122,4 +122,4 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 
 ## Related
 
-[[AAC (Advanced Audio Coding)]] [[AV1]] [[Encoding]] [[transcoding]] [[re-encoding]] [[NVENC]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[CMAF]]
+[[AAC (Advanced Audio Coding)]] [[AV1]] [[Streaming/Encoding]] [[transcoding]] [[re-encoding]] [[NVENC]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[CMAF]]

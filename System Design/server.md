@@ -131,7 +131,7 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 ## When NOT to use
 
 - **Pure static site** — object storage + CDN, no app server.
-- **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
+- **Heavy GPU transcode** — worker process, not HTTP request thread ([[Streaming/Encoding]]).
 - **Long batch ETL** — job queue worker, not synchronous HTTP server.
 
 ---
