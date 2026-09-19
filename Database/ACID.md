@@ -1,5 +1,7 @@
 [[WAL (Write-Ahead Log)]] [[MVCC]] [[mysql transaction]] [[postgres essential]] [[OLTP]] [[connection pooling]]
 
+"ACID is an effort to establish precise terminology for fault-tolerance mechanisms in databases."
+
 # ACID
 
 > Transaction guarantees: all-or-nothing writes, valid states, predictable concurrency, survive crashes — **Designing Data-Intensive Applications** (Kleppmann, Ch. 7).

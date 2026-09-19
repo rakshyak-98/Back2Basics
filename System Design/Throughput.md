@@ -1,3 +1,5 @@
+"Actual data successfully transferred from a source to a destination over  **a specific network path**"
+
 measure of the actual data (bits/payload) successfully transferred from a source to a destination over a specific network path or through a processing pipeline per unit of time.
 
 
