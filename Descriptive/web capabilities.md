@@ -1,4 +1,4 @@
-[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[Networking/webSocket]]
+[[CORS (Cross Origin Request Sharing)]] [[TLS]] [[JavaScript]] [[Networking/webSocket]]
 
 # web capabilities
 
@@ -130,4 +130,4 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 
 ## Related
 
-[[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[JavaScript]] · [[Etherium]] · [[Animation]]
+[[CORS (Cross Origin Request Sharing)]] · [[TLS]] · [[JavaScript]] · [[Etherium]] · [[Animation]]

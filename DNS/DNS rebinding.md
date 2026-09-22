@@ -111,4 +111,4 @@ iptables -A INPUT -p tcp --dport 8080 -j DROP
 
 ## Related
 
-[[DNS]] · [[SOP (Same-Origin Policy)]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]] · [[TLS (Transport Layer Security)]]
+[[DNS]] · [[SOP (Same-Origin Policy)]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]] · [[TLS]]

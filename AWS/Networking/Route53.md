@@ -1,4 +1,4 @@
-[[AWS]] [[DNS]] [[DNS zone]] [[AWS Networking]] [[TLS (Transport Layer Security)]] [[How to connect Godaddy domain with AWS EC2 instance]]
+[[AWS]] [[DNS]] [[DNS zone]] [[AWS Networking]] [[TLS]] [[How to connect Godaddy domain with AWS EC2 instance]]
 
 # Route53
 
@@ -111,4 +111,4 @@ aws route53 get-health-check-status --health-check-id xxx
 
 ## Related
 
-[[AWS]] · [[DNS]] · [[DNS zone]] · [[AWS Networking]] · [[ALB (Application Load Balancer)]] · [[CloudFront]] · [[TLS (Transport Layer Security)]] · [[How to connect Godaddy domain with AWS EC2 instance]] · [[cloudflare]]
+[[AWS]] · [[DNS]] · [[DNS zone]] · [[AWS Networking]] · [[ALB (Application Load Balancer)]] · [[CloudFront]] · [[TLS]] · [[How to connect Godaddy domain with AWS EC2 instance]] · [[cloudflare]]

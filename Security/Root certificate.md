@@ -1,4 +1,4 @@
-[[PKI]] [[TLS (Transport Layer Security)]] [[fingerprint]] [[https]]
+[[PKI]] [[TLS]] [[fingerprint]] [[https]]
 
 # Root certificate
 
@@ -96,4 +96,4 @@ Don't create a **private root CA** unless you can **distribute trust** to all cl
 
 ## Related
 
-[[PKI]] [[TLS (Transport Layer Security)]] [[fingerprint]] [[DER]] [[read pem file]] [[code signing]]
+[[PKI]] [[TLS]] [[fingerprint]] [[DER]] [[read pem file]] [[code signing]]

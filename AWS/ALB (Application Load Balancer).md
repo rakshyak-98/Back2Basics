@@ -1,4 +1,4 @@
-[[AWS]] [[AWS Networking]] [[Security group]] [[Route53]] [[AWS EC2]] [[AWS Auto Scaling]] [[connection chrun]] [[load balancer]] [[TLS (Transport Layer Security)]]
+[[AWS]] [[AWS Networking]] [[Security group]] [[Route53]] [[AWS EC2]] [[AWS Auto Scaling]] [[connection chrun]] [[load balancer]] [[TLS]]
 
 # ALB (Application Load Balancer)
 

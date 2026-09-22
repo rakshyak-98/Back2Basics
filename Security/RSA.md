@@ -1,4 +1,4 @@
-[[Asymmetric Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
+[[Asymmetric Encryption]] [[PKI]] [[TLS]] [[openssl]]
 
 # RSA
 

@@ -1,4 +1,4 @@
-[[mysql]] [[postgres essential]] [[TLS (Transport Layer Security)]] [[connection pooling]] [[ACID]]
+[[mysql]] [[postgres essential]] [[TLS]] [[connection pooling]] [[ACID]]
 
 # SQL Configurations (MySQL / Postgres)
 
@@ -125,4 +125,4 @@ SELECT ssl, version, cipher FROM pg_stat_ssl WHERE pid = pg_backend_pid();
 
 ## Related
 
-[[mysql]] · [[postgres essential]] · [[TLS (Transport Layer Security)]] · [[connection pooling]] · [[ACID]] · [[Database mistakes]]
+[[mysql]] · [[postgres essential]] · [[TLS]] · [[connection pooling]] · [[ACID]] · [[Database mistakes]]

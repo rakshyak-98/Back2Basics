@@ -1,4 +1,4 @@
-[[HTTP module]] [[JWT authentication]] [[TLS (Transport Layer Security)]]
+[[HTTP module]] [[JWT authentication]] [[TLS]]
 
 # Webhook
 
@@ -125,4 +125,4 @@ curl -i -X POST https://api.example.com/webhooks/github \
 
 ## Related
 
-[[HTTP module]] · [[JWT authentication]] · [[TLS (Transport Layer Security)]] · [[Web hooks]]
+[[HTTP module]] · [[JWT authentication]] · [[TLS]] · [[Web hooks]]

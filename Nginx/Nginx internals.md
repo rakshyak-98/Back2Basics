@@ -162,4 +162,4 @@ proxy_next_upstream_tries 2;
 
 ## Related
 
-[[Configuration]] · [[nginx using unix socket]] · [[Epoll]] · [[half-open connections]] · [[ss]] · [[TLS (Transport Layer Security)]]
+[[Configuration]] · [[nginx using unix socket]] · [[Epoll]] · [[half-open connections]] · [[ss]] · [[TLS]]

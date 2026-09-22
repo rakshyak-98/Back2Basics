@@ -18,4 +18,4 @@
 
 ## Related
 
-[[Asymmetric Encryption]] · [[SSH]] · [[TLS (Transport Layer Security)]]
+[[Asymmetric Encryption]] · [[SSH]] · [[TLS]]

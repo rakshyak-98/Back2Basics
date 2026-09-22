@@ -1,4 +1,4 @@
-[[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[response header]]
+[[TLS]] [[HTTP Strict Transport Security]] [[Root certificate]] [[response header]]
 
 # HTTPS
 
@@ -106,4 +106,4 @@ Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NO
 
 ## Related
 
-[[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[certbot (letsencrypt)]] [[response header]]
+[[TLS]] [[HTTP Strict Transport Security]] [[Root certificate]] [[certbot (letsencrypt)]] [[response header]]

@@ -96,7 +96,7 @@ sudo nft list ruleset | grep -E '1935|443'
 | TS continuity errors | `tcpdump` UDP gaps | FEC/SRT instead of raw UDP; switch IGMP querier |
 | CDN 502 on segments | Origin reachability from CDN POP | Origin health; connection limit ([[half-open connections]]) |
 | Regional viewers only fail | Geo DNS / POP routing | CDN failover; check one POP with curl `--resolve` |
-| TLS errors on license | Certificate chain | Full chain on 443; see [[TLS (Transport Layer Security)]] |
+| TLS errors on license | Certificate chain | Full chain on 443; see [[TLS]] |
 | High latency live | Segment duration + CDN + playlist | [[HLS]] LL-HLS tuning; not a "network mgmt" knob alone |
 
 ---

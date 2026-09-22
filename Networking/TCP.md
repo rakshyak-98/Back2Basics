@@ -1,5 +1,35 @@
 [[Byte stream]] [[SSH]] 
 
+Connection-oriented, reliable transport-layer protocol used to deliver data between applications over an IP network. It sits above IP and provides applications with a reliable **byte stream** rather than individual packets.
+
+[[TCP/TCP connection]]
+[[TCP/TCP three-way handshake]] The three packets establish TCP connection. After that, TCP segments the application data, numbers the segments using **sequence numbers**, and uses **ACKs** to confirm successful reception.
+[[TCP/Receive window]] TCP prevents a fast sender from overwhelming a slow receiver using the **receive window.**
+[[TCP/TCP segment]]
+[[Byte stream]]
+[[TCP/TCP connection termination]]
+
+**TCP adjusts its sending rate based on network congestion.**
+
+> TCP uses port numbers to identify applications, such as HTTP on port 80 and HTTPS on port 443
+**Application -> Port -> TCP connection -> IP -> Network**
+TCP does not identify an application directly. TCP use **port numbers** to identify the endpoint/application process that should receive the data.
+
+> Flow control protects the receiver; congestion control protects the network.
+
+## Application communication
+An application creates a network socket to communicate
+
+[[Network socket]] is an OS-managed communication endpoint. An application accesses that socket through the OS's socket API. 
+
+When data arrives at a machine, the operating system looks at the **destination port** to determine which socket/application should receive it.
+
+TCP provides the communication mechanism.
+
+**The port acts as the bridge between TCP networking and the application process.**
+
+> IP identifies the machine, port identifies the network endpoint/application-socket on that machine, and TCP provides the reliable connection between those endpoints.
+
 ### Transmission Control Protocol (TCP) Architecture
 
 #### Protocol Primitives & Characteristics

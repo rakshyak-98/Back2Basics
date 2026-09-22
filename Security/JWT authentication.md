@@ -1,4 +1,4 @@
-[[single-sign-on (SSO)]] [[TLS (Transport Layer Security)]] [[IDOR]]
+[[single-sign-on (SSO)]] [[TLS]] [[IDOR]]
 
 # JWT authentication
 
@@ -123,4 +123,4 @@ Use **`jti`** (unique token ID) for blacklist keys — not the full token string
 
 ## Related
 
-[[single-sign-on (SSO)]] · [[TLS (Transport Layer Security)]] · [[IDOR]] · [[KMS]]
+[[single-sign-on (SSO)]] · [[TLS]] · [[IDOR]] · [[KMS]]

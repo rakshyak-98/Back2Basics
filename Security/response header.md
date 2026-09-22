@@ -1,4 +1,4 @@
-[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[cross-site scripting]] [[cookies configuration]]
+[[CORS (Cross Origin Request Sharing)]] [[TLS]] [[cross-site scripting]] [[cookies configuration]]
 
 # HTTP Response Headers (Security & Caching)
 
@@ -112,4 +112,4 @@ curl -I -H 'Origin: https://app.example.com' https://api.example.com/v1/x
 
 ## Related
 
-[[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[cross-site scripting]] · [[cookies configuration]] · [[cloudflare]]
+[[CORS (Cross Origin Request Sharing)]] · [[TLS]] · [[cross-site scripting]] · [[cookies configuration]] · [[cloudflare]]

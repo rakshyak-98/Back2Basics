@@ -75,4 +75,4 @@ LoadModule rewrite_module modules/mod_rewrite.so
 
 ## Related
 
-[[php error]] [[PHP-FPM]] [[Nginx/Configuration]] [[Security/TLS (Transport Layer Security)]]
+[[php error]] [[PHP-FPM]] [[Nginx/Configuration]] [[TLS]]

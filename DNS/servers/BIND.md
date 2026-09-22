@@ -178,4 +178,4 @@ sudo ss -ulnp | grep :53
 
 ## Related
 
-[[DNS]] [[TLS (Transport Layer Security)]]
+[[DNS]] [[TLS]]

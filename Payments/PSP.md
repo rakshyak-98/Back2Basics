@@ -1,4 +1,4 @@
-[[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[TLS]]
 
 # PSP (Payment Service Provider)
 

@@ -1,4 +1,4 @@
-[[ssh/ssh allow local system with key]] [[Security/TLS (Transport Layer Security)]] [[ftp]]
+[[ssh/ssh allow local system with key]] [[TLS]] [[ftp]]
 
 # SCP (Secure Copy Protocol)
 
@@ -89,4 +89,4 @@ sftp> get /remote/log.txt .
 
 ## Related
 
-[[ssh/ssh allow local system with key]] [[ftp]] [[Security/TLS (Transport Layer Security)]] [[Linux/CLI]]
+[[ssh/ssh allow local system with key]] [[ftp]] [[TLS]] [[Linux/CLI]]

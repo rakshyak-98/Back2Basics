@@ -82,4 +82,4 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 
 ## Related
 
-[[JavaScript]] · [[web capabilities]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]]
+[[JavaScript]] · [[web capabilities]] · [[TLS]] · [[CORS (Cross Origin Request Sharing)]]

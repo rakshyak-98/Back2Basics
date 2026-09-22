@@ -1,4 +1,4 @@
-[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[TLS]]
 
 # SAQ GSS (Self-Assessment Questionnaire — Guest Service System)
 
@@ -82,4 +82,4 @@ Officer signs attestation that:
 
 ## Related
 
-[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[TLS]]

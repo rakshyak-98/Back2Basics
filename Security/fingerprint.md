@@ -1,4 +1,4 @@
-[[TLS (Transport Layer Security)]] [[PKI]] [[openssl]] [[ssh allow local system with key]]
+[[TLS]] [[PKI]] [[openssl]] [[ssh allow local system with key]]
 
 # Fingerprint
 
@@ -87,4 +87,4 @@ Don't fingerprint **session keys** — ephemeral per connection. Fingerprint **l
 
 ## Related
 
-[[TLS (Transport Layer Security)]] [[Root certificate]] [[PKI]] [[read pem file]] [[DER]]
+[[TLS]] [[Root certificate]] [[PKI]] [[read pem file]] [[DER]]

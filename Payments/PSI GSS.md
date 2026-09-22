@@ -1,4 +1,4 @@
-[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[TLS]]
 
 # PSI GSS (PCI Guest Service System)
 
@@ -84,4 +84,4 @@ res.redirect(session.url);
 
 ## Related
 
-[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[TLS]]

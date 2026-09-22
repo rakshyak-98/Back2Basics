@@ -1,4 +1,4 @@
-[[SMTP]] [[DNS]] [[TLS (Transport Layer Security)]]
+[[SMTP]] [[DNS]] [[TLS]]
 
 # E mail server
 
@@ -100,4 +100,4 @@ dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
 
 ## Related
 
-[[SMTP]] · [[DNS]] · [[DNS zone]] · [[TLS (Transport Layer Security)]]
+[[SMTP]] · [[DNS]] · [[DNS zone]] · [[TLS]]

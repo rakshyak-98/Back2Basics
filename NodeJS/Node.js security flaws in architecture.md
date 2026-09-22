@@ -1,4 +1,4 @@
-[[NodeJS]] [[Express middleware]] [[TLS (Transport Layer Security)]] [[Node.js run as a non-privileged user]]
+[[NodeJS]] [[Express middleware]] [[TLS]] [[Node.js run as a non-privileged user]]
 
 # Node.js Security — Architectural Flaws
 
@@ -152,4 +152,4 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 
 ## Related
 
-[[express error handler]] [[Express middleware]] [[Event Loop]] [[Node.js run as a non-privileged user]] [[TLS (Transport Layer Security)]]
+[[express error handler]] [[Express middleware]] [[Event Loop]] [[Node.js run as a non-privileged user]] [[TLS]]

@@ -1,4 +1,4 @@
-[[AWS]] [[AWS S3]] [[ALB (Application Load Balancer)]] [[Route53]] [[TLS (Transport Layer Security)]] [[AWS Billing and cost management]]
+[[AWS]] [[AWS S3]] [[ALB (Application Load Balancer)]] [[Route53]] [[TLS]] [[AWS Billing and cost management]]
 
 # CloudFront
 
@@ -84,4 +84,4 @@ Route53 **ALIAS** to `dxxx.cloudfront.net` ([[Route53]]).
 
 ## Related
 
-[[AWS S3]] · [[ALB (Application Load Balancer)]] · [[Route53]] · [[TLS (Transport Layer Security)]] · [[AWS Billing and cost management]] · [[AWS]]
+[[AWS S3]] · [[ALB (Application Load Balancer)]] · [[Route53]] · [[TLS]] · [[AWS Billing and cost management]] · [[AWS]]

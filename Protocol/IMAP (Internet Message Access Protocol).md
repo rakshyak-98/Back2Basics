@@ -95,4 +95,4 @@ mail_location = maildir:~/Maildir
 
 ## Related
 
-[[POP3 (Post Office Protocol v3)]] [[SMTP]] [[E mail server]] [[Security/TLS (Transport Layer Security)]]
+[[POP3 (Post Office Protocol v3)]] [[SMTP]] [[E mail server]] [[TLS]]

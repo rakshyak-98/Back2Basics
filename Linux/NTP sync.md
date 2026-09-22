@@ -133,4 +133,4 @@ ss -ulnp | grep :123
 
 ## Related
 
-[[date]] [[Linux system management]] [[Linux configuration]] [[systemd]] [[journalctl]] [[JWT authentication]] [[TLS (Transport Layer Security)]] [[UDP]] [[ACID]]
+[[date]] [[Linux system management]] [[Linux configuration]] [[systemd]] [[journalctl]] [[JWT authentication]] [[TLS]] [[UDP]] [[ACID]]

@@ -1,4 +1,4 @@
-[[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[TLS]]
 
 # Payment gateway
 
@@ -85,4 +85,4 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 
 ## Related
 
-[[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Security/TLS (Transport Layer Security)]]
+[[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[TLS]]

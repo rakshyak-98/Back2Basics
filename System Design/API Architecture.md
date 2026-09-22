@@ -151,6 +151,38 @@ Never break v1 silently — add v2, deprecate with sunset header
 
 ---
 
+## API performance 
+Connection pooling
+Maximizing the pool size (databases)
+Adding connection capacity make the database slow down
+Context switching
+10-25 (application properties pool size)
+leak detection threshold 
+caffeine ephemeral cache
+spring composite cache manger
+n+1 query problem
+
+Hibernate java API optimization spring java JPA
+- join list
+- projection
+batch insertions in JPA / batch size config
+
+Application Async virtual threads
+lambdas in java 8
+one thread per request problem (tomcat)
+platform thread
+Os thread
+project loom
+virtual threads (user mode thread)
+virtual thread behave when they are blocked, deattach from the os thread
+JVM and garbage collector
+
+1. observability 2.
+2. verify database cold count formula
+3. caching
+4. compute architecture
+
+
 ## Related
 
 [[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[Cache]]

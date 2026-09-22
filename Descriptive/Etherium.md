@@ -130,4 +130,4 @@ gwei = 10⁹ wei (fee display)
 
 ## Related
 
-[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace app]]
+[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS]] · [[marketplace app]]

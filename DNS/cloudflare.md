@@ -1,4 +1,4 @@
-[[DNS]] [[DNS zone]] [[TLS (Transport Layer Security)]] [[Route53]] [[CORS (Cross Origin Request Sharing)]]
+[[DNS]] [[DNS zone]] [[TLS]] [[Route53]] [[CORS (Cross Origin Request Sharing)]]
 
 # Cloudflare
 
@@ -99,4 +99,4 @@ curl -I https://example.com --resolve example.com:443:ORIGIN_IP  # bypass CF tes
 
 ## Related
 
-[[DNS]] · [[DNS zone]] · [[Route53]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]] · [[top-level Domain]]
+[[DNS]] · [[DNS zone]] · [[Route53]] · [[TLS]] · [[CORS (Cross Origin Request Sharing)]] · [[top-level Domain]]

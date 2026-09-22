@@ -1,4 +1,4 @@
-[[TCP]] [[Networking/webSocket]] [[TLS (Transport Layer Security)]] [[CORS (Cross Origin Request Sharing)]]
+[[TCP]] [[Networking/webSocket]] [[TLS]] [[CORS (Cross Origin Request Sharing)]]
 
 # Network error
 
@@ -97,4 +97,4 @@ Don't blanket-retry network errors without **idempotency** — POST may have par
 
 ## Related
 
-[[TCP]] [[UDP]] [[TLS (Transport Layer Security)]] [[DNS]] [[half-open connections]]
+[[TCP]] [[UDP]] [[TLS]] [[DNS]] [[half-open connections]]

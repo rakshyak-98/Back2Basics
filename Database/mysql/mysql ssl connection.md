@@ -1,4 +1,4 @@
-[[mysql/mysql connection]] [[mysql pool connection]] [[Security/TLS (Transport Layer Security)]] [[connection pooling]]
+[[mysql/mysql connection]] [[mysql pool connection]] [[TLS]] [[connection pooling]]
 
 # MySQL SSL/TLS connections
 
@@ -106,4 +106,4 @@ Download combined CA bundle from provider; use `ssl: { ca: rdsCa }` in driver.
 
 ## Related
 
-[[mysql pool connection]] [[connection pooling]] [[Security/TLS (Transport Layer Security)]] [[mysql/mysql connection]]
+[[mysql pool connection]] [[connection pooling]] [[TLS]] [[mysql/mysql connection]]

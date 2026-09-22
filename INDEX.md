@@ -19,12 +19,12 @@
 | Container won’t start / compose drift | [[Docker compose]] · [[docker cli]] · [[Docker Runtime Security]] |
 | Pod CrashLoop / not Ready | [[Pods]] · [[kubectl]] · [[ingress]] |
 | Create / apply a Pod manifest | [[kubectl pod creation]] · [[Pods]] · [[kubectl]] |
-| Certbot / TLS renew fail | [[certbot error]] · [[TLS (Transport Layer Security)]] · [[ACME server]] |
+| Certbot / TLS renew fail | [[certbot error]] · [[TLS]] · [[ACME server]] |
 | Terraform state lock / drift | [[Terraform workflow]] · [[Terraform CLI]] · [[variable file]] |
 | Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
 | Slow query / missing index | [[covering index]] · [[mysql index]] · [[Data access patterns]] |
 | Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
-| TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS (Transport Layer Security)]] |
+| TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS]] |
 | AWS `AccessDenied` / wrong principal | [[IAM]] · [[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] |
 | S3 403 / public access blocked | [[AWS S3]] · [[KMS]] |
 | RDS / Aurora connection timeout | [[AWS RDS]] · [[Security group]] · [[AWS Networking]] |
@@ -73,7 +73,7 @@
 
 ### Security & access
 - [[SSH authentication]] · [[ssh agent]] · [[JWT authentication]] · [[CORS (Cross Origin Request Sharing)]]
-- [[TLS (Transport Layer Security)]] · [[single-sign-on (SSO)]] · [[IDOR]]
+- [[TLS]] · [[single-sign-on (SSO)]] · [[IDOR]]
 
 ### Protocols & APIs
 - [[gRPC]] · [[SMTP]] · [[MQTT]] · [[HTTP module]]

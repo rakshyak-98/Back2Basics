@@ -1,4 +1,4 @@
-[[TLS (Transport Layer Security)]] [[ACME server]] [[Configuration]]
+[[TLS]] [[ACME server]] [[Configuration]]
 
 # Certbot error
 
@@ -96,4 +96,4 @@ The ACME server refuses to issue for this domain name, because it is forbidden b
 
 ## Related
 
-[[TLS (Transport Layer Security)]] · [[ACME server]] · [[Configuration]] · [[DNS]]
+[[TLS]] · [[ACME server]] · [[Configuration]] · [[DNS]]

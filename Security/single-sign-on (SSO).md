@@ -1,4 +1,4 @@
-[[JWT authentication]] [[TLS (Transport Layer Security)]] [[IDOR]]
+[[JWT authentication]] [[TLS]] [[IDOR]]
 
 # Single-sign-on (SSO)
 
@@ -97,4 +97,4 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 
 ## Related
 
-[[JWT authentication]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]]
+[[JWT authentication]] · [[TLS]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]]

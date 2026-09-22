@@ -1,4 +1,4 @@
-[[RSA]] [[symmetric encryption]] [[TLS (Transport Layer Security)]] [[PKI]]
+[[RSA]] [[symmetric encryption]] [[TLS]] [[PKI]]
 
 # Asymmetric encryption
 
@@ -24,7 +24,7 @@ Common uses:
 | Digital signature | Sign with **sender private**; verify with **sender public** |
 | Key exchange (TLS) | ECDHE ephemeral + cert public key |
 
-Algorithms: **RSA**, **ECDSA**, **Ed25519** (sign), **ECIES** (encrypt). Hybrid systems encrypt a random **symmetric** key asymmetrically, then bulk data with AES — see [[TLS (Transport Layer Security)]].
+Algorithms: **RSA**, **ECDSA**, **Ed25519** (sign), **ECIES** (encrypt). Hybrid systems encrypt a random **symmetric** key asymmetrically, then bulk data with AES — see [[TLS]].
 
 ---
 
@@ -93,4 +93,4 @@ Don't encrypt large files with RSA alone. Use symmetric encryption when both sid
 
 ## Related
 
-[[RSA]] [[symmetric encryption]] [[TLS (Transport Layer Security)]] [[PKI]] [[Root certificate]] [[code signing]]
+[[RSA]] [[symmetric encryption]] [[TLS]] [[PKI]] [[Root certificate]] [[code signing]]

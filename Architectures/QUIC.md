@@ -1,4 +1,4 @@
-[[Networking/UDP]] [[Security/TLS (Transport Layer Security)]] [[Security/https]] [[Networking/half-open connections]]
+[[Networking/UDP]] [[TLS]] [[Security/https]] [[Networking/half-open connections]]
 
 # QUIC
 
@@ -96,4 +96,4 @@ tc qdisc add dev eth0 root netem loss 1%
 
 ## Related
 
-[[Networking/UDP]] [[Security/TLS (Transport Layer Security)]] [[Security/https]] [[Nginx/Configuration]]
+[[Networking/UDP]] [[TLS]] [[Security/https]] [[Nginx/Configuration]]

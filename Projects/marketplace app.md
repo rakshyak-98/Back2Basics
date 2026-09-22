@@ -1,4 +1,4 @@
-[[Projects]] [[TLS (Transport Layer Security)]] [[ACID]] [[IDOR]] [[JWT authentication]] [[gRPC]]
+[[Projects]] [[TLS]] [[ACID]] [[IDOR]] [[JWT authentication]] [[gRPC]]
 
 # marketplace app
 
@@ -134,4 +134,4 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 ## Related
 
-[[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]
+[[ACID]] · [[connection pooling]] · [[TLS]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]

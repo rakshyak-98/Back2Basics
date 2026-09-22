@@ -1,4 +1,4 @@
-[[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]]
+[[SMTP]] [[E mail server]] [[TLS]]
 
 # POP3 (Post Office Protocol v3)
 
@@ -109,4 +109,4 @@ sudo tail -f /var/log/mail.log
 
 ## Related
 
-[[E mail server]] [[SMTP]] [[TLS (Transport Layer Security)]] [[DNS]]
+[[E mail server]] [[SMTP]] [[TLS]] [[DNS]]

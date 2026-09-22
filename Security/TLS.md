@@ -1,8 +1,16 @@
-[[Security]] [[Nginx]] [[Configuration]]
+[[Security]]
+[[Nginx]]
+[[Nginx/Configuration]]
 
-# TLS (Transport Layer Security)
+TLS (Transport Layer Security) is a security protocol that protects data exchanged between two applications over a network.
 
-> One-line: encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
+It provides
+1. **Encryption** prevents others from reading the data.
+2. **Authentication** verifies that you are communication with the intended server.
+3. **Integrity** prevents data from being silently modified while in transit.
+
+The TCP connection comes first. TLS then establishes a secure communication session over the TCP connection.
+
 
 ## Mental model
 
@@ -25,39 +33,6 @@ SSL is obsolete terminology — say TLS 1.2/1.3.
 
 ## Standard config / commands
 
-### Nginx TLS termination
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name example.com;
-
-    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
-
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_prefer_server_ciphers off;   # TLS 1.3 ignores anyway
-
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 1d;
-    ssl_session_tickets off;         # forward secrecy preference
-
-    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" always;
-
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-
-server {
-    listen 80;
-    server_name example.com;
-    return 301 https://$host$request_uri;
-}
-```
-
-App behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
 
 ### Let's Encrypt (certbot)
 
