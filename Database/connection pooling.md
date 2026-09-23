@@ -1,5 +1,52 @@
 [[mysql]] [[psql essential]] [[ACID]] [[Database mistakes]] [[half-open connections]]
 
+is a technique where an application **reuses existing connections** to a database or another service instead of creating a new connection for every request.
+
+Without pooling
+```txt
+Request arrives
+    ↓
+Open database connection
+    ↓
+Authenticate
+    ↓
+Run SQL query
+    ↓
+Close connection
+```
+- If this happens thousands of times, repeatedly opening and closing connections becomes expensive.
+With a **connection pool**, the application keeps a limited number of connections open:
+
+```txt
+                 ┌── Connection 1 ── Database
+Request ───────► │── Connection 2 ── Database
+                 │── Connection 3 ── Database
+                 │── Connection 4 ── Database
+                 └── Connection 5 ── Database
+                     Connection Pool
+```
+**When a request needs the database, it borrows an available connection:**
+
+```txt
+1. Request needs DB
+       ↓
+2. Pool gives it Connection #3
+       ↓
+3. Application runs query
+       ↓
+4. Connection #3 is returned to pool
+       ↓
+5. Another request can reuse it
+```
+The important part is that **returning a connection to the pool usually does not close the underlying database connection.**
+
+**Why use connection pooling ?**
+Creating database connections can involve TCP setup, authentication, TLS negotiation, and database-side resource allocation, Reusing them therefore improves **latency and throughput** and prevents an application from creating an unlimited number of connections.
+
+> A pool also provide a useful concurrency limit. At most roughly 10 requests can use those connections simultaneously. The others wait until a connection becomes available rather than opening 100 new database connections.
+
+"Connection pooling = maintain a reusable collection of already-open connections and lend them out temporarily when needed."
+
 # connection pooling
 
 > Reuse open DB connections instead of TCP+auth per request — cuts latency and protects the server from connection storms — **HikariCP / PgBouncer docs** + Kleppmann.
@@ -149,6 +196,8 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
 - **Bypass pool for COPY/bulk load** — dedicated session with raised timeouts.
 
 ---
+
+## M
 
 ## Related
 

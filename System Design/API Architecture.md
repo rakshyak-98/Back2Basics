@@ -152,7 +152,7 @@ Never break v1 silently — add v2, deprecate with sunset header
 ---
 
 ## API performance 
-Connection pooling
+[[connection pooling]] maintain a reusable connection of already-open connections
 Maximizing the pool size (databases)
 Adding connection capacity make the database slow down
 Context switching
