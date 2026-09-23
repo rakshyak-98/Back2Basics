@@ -73,3 +73,16 @@ listen = /run/php/php8.2-fpm.sock
 ## Related
 
 [[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]] [[Linux/commands/journalctl]]
+
+## PHP timezone error
+```
+Fatal error: date(): Timezone database is corrupt - this should *never* happen!
+in /home/mihir/GitHub/TheOterraWebsite/TheOtium/Website-Admin/system/core/Log.php
+on line 185
+
+```
+- it means PHP reached its date/time subsystem and encountered an internal inconsistency in the timezone data/state. It is not simply saying: "You forgot to set `date.timezone`"
+
+`date()` is a **built-in PHP function.** Your MVC framework didn't create it. Its job is to convert the current time into a human-readable format.
+
+> PHP timezone support is based on timezone data that is compiled/included with PHP, depending on how PHP was build and packaged. On common Linux distributions, the PHP package may be built/uploaded alongside the system timezone data, but PHP does not simply read `/usr/share/zoneinfo/Asia/Kolkata` every time `date()` executes.
