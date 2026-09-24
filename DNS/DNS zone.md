@@ -54,9 +54,33 @@ So you tell DNS:
 
 **After delegation**
 ```txt
-dev.example.com.    NS    ns1.dev-dns.com.
-dev.example.com.    NS    ns2.dev-dns.com.
+example.com.       NS    ns1.example-dns.com.
+example.com.       NS    ns2.example-dns.com.
+
+dev.example.com.   NS    ns1.dev-dns.com.
+dev.example.com.   NS    ns2.dev-dns.com.
 ```
+
+**Purpose of delegation and why authoritative DNS uses multiple server.**
+```txt
+ns1.parent-dns.com  ❌ DOWN
+ns2.parent-dns.com  ✅ UP
+
+ns1.child-dns.com   ✅ UP
+ns2.child-dns.com   ✅ UP
+```
+if the resolver has never seen `dev.example.com` before. This is where the parent matters. The resolver needs the **parent delegation** to discover the child nameservers. If **all the authoritative nameserver for the parent zone are unavailable**, a resolver that doesn't already have the delegation cached may not be able to discover the child zone.
+
+"So the child server being health isn't sufficient by itself." This is why you normally have multiple nameservers.
+
+> [!NOTE]
+> The child nameserver doesn't depend on the parent nameserver to answer queries. Once the resolver knows `dev.example.com -> ns1.child-dns.com` it can query the child directly.
+
+If **one parent NS dies,** nothing special happens, the resolver uses another authoritative NS for the parent.
+
+If **all parent NS die,** cached delegation may allow existing resolvers to continue reaching the child, but **new resolvers that don't have the delegation cached can have trouble discovering the child.**
+
+"That's one of the fundamental reasons DNS is designed with **redundant authoritative nameservers at every important delegation level.**"
 
 # DNS zone
 
