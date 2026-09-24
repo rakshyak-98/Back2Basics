@@ -25,13 +25,7 @@ hierarchical and distributed system
 
 [[DNS zone]] is a portion of the DNS namespace for which a particular set of authoritative DNS servers is responsible.
 
-zone file contain DNS record physically stored on the server, holding domain-name translation records.
-
-## Zone file
-A DNS zone file  is a configuration/data-file maintained by an **authoritative DNS server** that contains the DNS records for a particular DNS zone.
-DNS name server (NS) host one or more zone holding the zone file.
-
-Authoritative DNS server is the DNS server that is the **official source of DNS records for a particular zone.**
+[[Name server]] Authoritative DNS nameserver is the DNS server that is the **official source of DNS records for a particular zone.**
 
 # DNS
 

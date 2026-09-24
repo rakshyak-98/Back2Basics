@@ -22,3 +22,7 @@ example.com.    3600   IN   NS   ns2.dns-provider.com.
 dig +short NS example.com; # check NS records
 nslookup -type=NS example.com;
 ```
+
+**Authoritative name server** is the DNS server that is the **official source of truth for a DNS zone.** One zone can have multiple authoritative nameservers, but they collectively serve the same authoritative zone data.
+
+**Non Authoritative name server** is a DNS server that **does not own the original DNS data for the zone.** It gets the answer from somewhere else, usually an authoritative nameserver, and often **caches it.**
