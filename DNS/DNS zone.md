@@ -82,31 +82,14 @@ If **all parent NS die,** cached delegation may allow existing resolvers to cont
 
 "That's one of the fundamental reasons DNS is designed with **redundant authoritative nameservers at every important delegation level.**"
 
-# DNS zone
+## Zone file
+A **zone file is the data file that describes the DNS records for a particular DNS zone.** Traditionally written as a text file. A zone file contains DNS records, it can contain many record types.
+The authoritative DNS server **loads/serves the zone data.** When a resolver asks `api.example.com -> ?` then the authoritative server looks at its authoritative zone data and answers `api.example.com -> 194.195.119.168`
 
-> One-line: a contiguous DNS namespace slice served authoritatively by one or more NS — **RFC 1035**.
+**Zone** the administrative/authoritative portion of the DNS namespace.
+**Zone file** a traditional text representation of the data belonging to that zone.
 
-## Mental model
-
-A **zone** is everything below a **zone apex** (e.g. `example.com`) that one administrative entity controls. The parent zone (`.com`) holds **NS glue** pointing to your nameservers.
-
-```
-.com (parent zone)
-  └── example.com (child zone apex)
-        ├── www.example.com   A
-        ├── api.example.com   CNAME
-        └── _dmarc.example.com TXT
-```
-
-**Delegation:** parent publishes NS records; child zone file holds the actual records. **Subdomain delegation** (`sub.example.com` → different NS) creates a separate zone cut.
-
-| Concept | Meaning |
-|---------|---------|
-| Zone apex | `@` in zone file = `example.com` itself |
-| Authoritative | Server answers from zone data, not cache/recursion |
-| Primary (master) | Source of truth; edits happen here |
-| Secondary (slave) | AXFR/IXFR from primary |
-| SOA | Serial, refresh, retry, expire, minimum TTL |
+> Modern DNS providers don't necessarily use an actual text zone file internally. They may store the records in databases or distributed systems.
 
 ## Standard config / commands
 
@@ -176,22 +159,5 @@ curl -s -H "Authorization: Bearer $CF_TOKEN" \
 | DNSSEC validation fails | `dig +dnssec`; DS at parent matches DNSKEY | Re-sign zone; publish correct DS to registrar |
 | Serial not incrementing | Secondary serving stale data | Always increment SOA serial on change (automate in CI) |
 | Wildcard surprises | `*.example.com` catches unintended names | Narrow wildcard; explicit records override wildcard |
-
-## Gotchas
-
-> [!WARNING]
-> **Forgot to bump SOA serial** → secondaries never pick up changes. Automate serial in dynamic DNS or use provider-managed zones.
-
-- **CNAME at `@`** is invalid in plain DNS — registrars offering "CNAME flattening" hide this; know your provider's behavior.
-- **NS at apex must match parent delegation** — mismatch = lame delegation intermittent failures.
-- **TTL 86400 during migration** = up to 24h pain; lower TTL **before** cutover, not after.
-- **Split-horizon zones** (internal vs external) drift easily — treat as two zones with sync discipline.
-
-## When NOT to use
-
-- Single static host entry on one machine → `/etc/hosts` or local [[dnsmasq]] stub.
-- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces ops load.
-
-## Related
 
 [[DNS]] · [[Name server]] · [[BIND]] · [[CoreDNS]] · [[DNS rebinding]]
