@@ -1,15 +1,22 @@
-user enters a subdomain in browser
+**You might have configured**
+```txt
+api.example.com    → 194.195.119.168
+stage.example.com  → 194.195.119.168
+prod.example.com   → 194.195.119.168
+test.example.com   → 194.195.119.168
+```
+this is a single zone `example.com zone` or they could point to completely different IPs
 
-## DNS record
+```txt
+api.example.com    → 10.0.0.10
+stage.example.com  → 10.0.0.20
+prod.example.com   → 10.0.0.30
+test.example.com   → 10.0.0.40
+```
 
-| Type    | Name               | Purpose                                                        |
-| ------- | ------------------ | -------------------------------------------------------------- |
-| `A`     | Address            | Maps hostname → **IPv4** address                               |
-| `AAAA`  | IPv6 Address       | Maps hostname → **IPv6** address                               |
-| `CNAME` | Canonical Name     | Points a domain → another domain (alias).                      |
-| `MX`    | Mail Exchange      | specifies **mail server(s)** responsible for receiving emails. |
-| `NS`    | Name Server        | Points to authoritative DNS servers for the domain.           |
-| `SOA`   | Start of Authority | Metadata: primary NS, admin email, serial, refresh TTLs        |
-Authoritative DNS server -> An **authoritative DNS server** is a DNS server that **has the final, official answer** for a domain’s DNS records (A, MX, CNAME, etc).
+**Creating the subdomain does not create a new nameserver or zone.** When you are creating these subdomains, you are essentially creating **DNS names that can have records in the `example.com` zone.**
 
-It holds the **zone file** — the actual record set configured by the domain owner.
+> [!NOTE]
+> You can even create the name and then have no useful DNS record associated with it yet.
+
+> `example.com` is the zone, and `api` `stage` `prod` (subdomains) are names within that zone to which you can attach DNS records.

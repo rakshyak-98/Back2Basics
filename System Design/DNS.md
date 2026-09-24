@@ -1,4 +1,37 @@
-[[TCP]] [[UDP]] [[DNS zone]] [[name server]] [[mDNS]] [[dig]]
+[[TCP]] [[UDP]] [[DNS zone]] [[Name server]] [[mDNS]] [[dig]]
+
+Name to number translation, 
+
+Why can't we have one single system to hold one central server to serve Domain name translation?
+
+Domain name "If someone wants DNS information about `example.com`, which DNS servers should they ask?" The Domain register (Godaddy) provider/configure the nameserver it knows about with the domain name.
+
+The **DNS only solves the IP-address part.**
+What DNS can do
+- you create `A` record `example.com -> <server public IP address>`
+
+> [!NOTE]
+> DNS does not translate the port. DNS make `example.com` resolve to your server's public IP address.
+
+The client application need to setup a connection to the port your server application is running of to handle that you need a **reverse proxy** such as Nginx to listen on common port `:80` `:443` etc.
+
+> DNS resolves a name to an IP. It does not choose your application's port. The client chooses the destination port based on the protocol/URL, or you explicitly specify it.
+
+**"What exactly is this nameserver doing for my domain?"**
+
+Delegation, should be managed in decentralised system. Different groups (government, country) need to manage their one slice.
+
+hierarchical and distributed system
+
+[[DNS zone]] is a portion of the DNS namespace for which a particular set of authoritative DNS servers is responsible.
+
+zone file contain DNS record physically stored on the server, holding domain-name translation records.
+
+## Zone file
+A DNS zone file  is a configuration/data-file maintained by an **authoritative DNS server** that contains the DNS records for a particular DNS zone.
+DNS name server (NS) host one or more zone holding the zone file.
+
+Authoritative DNS server is the DNS server that is the **official source of DNS records for a particular zone.**
 
 # DNS
 
@@ -120,4 +153,4 @@ options edns0 trust-ad
 
 ## Related
 
-[[DNS zone]] · [[mDNS]] · [[name server]] · [[DNS rebinding]] · [[Unbound]] · [[CoreDNS]] · [[dig]]
+[[DNS zone]] · [[mDNS]] · [[Name server]] · [[DNS rebinding]] · [[Unbound]] · [[CoreDNS]] · [[dig]]

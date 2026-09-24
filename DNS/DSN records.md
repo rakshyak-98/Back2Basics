@@ -11,6 +11,8 @@ example.com
 └── SRV    -> server.example.com:8080
 ```
 
+> **CNAME is DNS-level aliasing, not HTTP redirection.** If someone visits `api.exmaple.com`, their browser does not automatically get redirected to `google.com`. DNS resolves the name, and the browser then connects to the resulting IP while still making the HTTP request for `api.example.com`.
+
 ## Records
 
 A Record (Address) -> Map a domain to an IPv4 address. Used for APIs Any IPv4 service

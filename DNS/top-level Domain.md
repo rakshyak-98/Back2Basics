@@ -1,4 +1,4 @@
-[[DNS]] [[DNS zone]] [[name server]] [[top-level Domain]] [[Route53]]
+[[DNS]] [[DNS zone]] [[Name server]] [[top-level Domain]] [[Route53]]
 
 # Top-Level Domain (TLD)
 
@@ -81,4 +81,4 @@ whois example.com | grep -i 'Name Server\|Registrar'
 
 ## Related
 
-[[DNS]] · [[DNS zone]] · [[name server]] · [[Route53]] · [[cloudflare]] · [[mDNS]]
+[[DNS]] · [[DNS zone]] · [[Name server]] · [[Route53]] · [[cloudflare]] · [[mDNS]]

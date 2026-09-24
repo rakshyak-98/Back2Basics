@@ -47,7 +47,7 @@
 
 ### Networking & DNS
 - [[routing table]] · [[BGP]] · [[half-open connections]] · [[connection chrun]] · [[Networking/webSocket]]
-- [[DNS]] · [[DNS zone]] · [[mDNS]] · [[name server]] · [[public resolver]]
+- [[DNS]] · [[DNS zone]] · [[mDNS]] · [[Name server]] · [[public resolver]]
 
 ### Containers & orchestration
 - [[Docker compose]] · [[docker file]] · [[docker container]] · [[Docker Runtime Security]]

@@ -1,3 +1,11 @@
+A nameserver is a DNS server that is responsible for answering DNS queries for a particular DNS zone.
+
+> A nameserver is a DNS server that knows the authoritative DNS records for a zone and answers queries about those records.
+
+the nameserver receives an `QUERY` and returns `Answer`. The nameserver loads the zone data and uses ti to answer DNS queries.
+
+`ns1.example.com` is the **hostname of the nameserver.** The actual nameserver is the **DNS service running on a machine/network-endpoint** that responds to DNS queries.
+
 A Name Server is a DNS server that stores and serves authoritative DNS records for a domain.
 - responsible for resolving domain names into IP addresses and routing clients to the correct DNS zone.
 

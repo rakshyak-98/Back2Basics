@@ -1,4 +1,62 @@
-[[DNS]] [[name server]] [[BIND]]
+[[DNS]] [[Name server]] [[BIND]]
+
+> A zone is an administrative boundary containing DNS records that an authoritative DNS system manages.
+
+```txt
+api.example.com
+stage.example.com
+prod.example.com
+test.example.com
+```
+These are subdomains/names. They are not separate DNS zones just because you created them.
+
+
+```txt
+example.com zone
+│
+├── example.com       A      194.195.119.168
+├── www.example.com   A      194.195.119.168
+├── api.example.com   A      10.0.0.20
+├── mail.example.com  A      10.0.0.30
+├── exampel.com       MX     mail.theoterra.com
+├── example.com       TXT    ...
+└── exampel.com       NS     ns1...
+```
+These records collectively form the **DNS data of the zone.**
+
+Zone != domain
+A **domain** is part of the DNS namespace
+A **zone** is the portion of that namespace that is actually administered by a particular DNS authority.
+
+## What makes something a separate zone?
+the key concept is **Delegation**
+
+In your single zone one **DNS authority can manage all of the names (subdomain).**
+
+**Noe delegation**
+You don't want your existing DNS provider to manage
+```txt
+api.dev.example.com
+git.dev.example.com
+jenkins.dev.example.com
+```
+
+So you tell DNS:
+> "For `dev.example.com` and everything else below it, ask these other nameservers." This is **delegation**.
+> - Now there are two zones.
+> - `dev.example.com` became a separate zone because authority was delegated to different nameservers.
+
+"`dev.example.com` is managed by these nameservers."
+
+> DNS delegation is when the authoritative servers for a parent zone tell DNS that a child portion of the namespace is authoritative somewhere else.
+
+> A subdomain does not become a child zone merely because the name exists. It becomes a separate child zone when authority for that name is delegated to different authoritative nameservers.
+
+**After delegation**
+```txt
+dev.example.com.    NS    ns1.dev-dns.com.
+dev.example.com.    NS    ns2.dev-dns.com.
+```
 
 # DNS zone
 
@@ -112,4 +170,4 @@ curl -s -H "Authorization: Bearer $CF_TOKEN" \
 
 ## Related
 
-[[DNS]] · [[name server]] · [[BIND]] · [[CoreDNS]] · [[DNS rebinding]]
+[[DNS]] · [[Name server]] · [[BIND]] · [[CoreDNS]] · [[DNS rebinding]]

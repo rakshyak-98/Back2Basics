@@ -1,4 +1,4 @@
-[[DNS]] [[name server]] [[DNS zone]]
+[[DNS]] [[Name server]] [[DNS zone]]
 
 # mDNS
 
@@ -78,4 +78,4 @@ sudo systemctl restart systemd-resolved
 
 ## Related
 
-[[DNS]] · [[DNS zone]] · [[name server]] · [[DNS server]]
+[[DNS]] · [[DNS zone]] · [[Name server]] · [[DNS server]]
