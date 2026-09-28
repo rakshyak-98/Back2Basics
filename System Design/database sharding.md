@@ -35,7 +35,4 @@ High availability
 - Highly distributed system.
 - Observability, monitoring
 - Low overhead for migration and shutdown
-
-## Related
-
-[[Distributed computing]] [[System design]] [[Cache]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]]
+- mongodb + sharding
