@@ -1,12 +1,17 @@
-Idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique key to detect and reject/duplicate repeat attempts.
-
-Idempotent: An operation is idempotent when making the **same request multiple times has the same intended effect as making it once.**
+An **Idempotent-key** is a unique identifier you attach to an API request so that the server can safely recognize retries of the **same operation** and avoid performing it more than once.
 
 **Problem it solves**
 A client sends `POST /orders` to create a resource. The request succeeds server-side, but the response is lost (network drop, timeout). The client retries the same POST. Without protection, this creates a second, duplicate resource — a data integrity violation.
 
+"What matters is that the key is generated **before the operation is sent and remains stable for the logical operation's retires.**"
+
 > [!NOTE]
 > The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
+- the key idea is that the **client owns the identity of the logical operation.**
+
+> [!NOTE]
+> If the **server generate the key,** the client wouldn't know which key to reuse when retrying the request that timed out. It would effectively be creating a new operation on every retry.
+
 
 ## Mechanism
 

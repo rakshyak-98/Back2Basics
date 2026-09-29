@@ -34,8 +34,8 @@ Shard 3 → user_id 2,000,001 - 3,000,000
 ```
 when you frequently query ranges: `WHERE user_id BETWEEN 10000 AND 20000`
 
-- MOD (modulo sharding) MOD3.
-- Consistent hash (hash function).
+**Consistent hashing** is designed to make **adding/removing shards required much less data movement.** Conceptually, put both shards and keys on a ring. A key is hashed onto the ring and assigned to the next shard clockwise.
+
 - Range sharding
 - Tag sharding
 

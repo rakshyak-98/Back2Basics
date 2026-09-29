@@ -1,3 +1,6 @@
+Nginx is an HTTP-server/reverse-proxy. PHP is an application runtime. PHP-FPM provides a persistent pool of PHP workers and exposes them through FastCGI.
+- If Nginx directly execute PHP for every request, it would have to manage PHP processes itself. That's essentially what traditional CGI does.
+
 [fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
 if you want nginx to handle other languages, you have two main routes.
 

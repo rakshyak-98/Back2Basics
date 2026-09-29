@@ -1,12 +1,8 @@
 [[nginx fastcgi]] [[nginx using unix socket]] [[Nginx internals]] [[file descriptors]] [[half-open connections]]
 
-# PHP-FPM
-
-> FastCGI Process Manager: the worker pool between Nginx/Apache and PHP — **production default for PHP on Linux**.
+> PHP-FPM is a process manager for PHP that communicates using FastCGI. FastCGI is an evolution of the CGI model, but PHP-FPM itself is not a CGI executable.
 
 ---
-
-## Mental model
 
 Nginx terminates TLS and forwards requests to **PHP-FPM** over TCP or a **Unix socket**. FPM maintains a pool of worker processes; each worker handles one request at a time (unless you use async frameworks, which is rare in PHP).
 
