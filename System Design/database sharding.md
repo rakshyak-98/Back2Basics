@@ -14,16 +14,26 @@ splitting a database by rows and distributing those rows across multiple databas
 
 **Shard key** is the field you use to decide **which shard stores a particular row.**
 - for `users` table, `user_id` is a common shard key.
-
-"Given `user_id=104`, which database should I query?"
+- "Given `user_id=104`, which database should I query?"
 
 When we use a simple hashing/modulo
 
 Vertical sharding splitting tables by columns.
 
-Sharding key specific or set of column in your data, designed as bases for shard data.
-- all active user come to one single shard
-Sharding algo
+## Sharding Algorithm
+Sharding algorithm is the rule that takes a **shard key** and determines **which shard should store the row.** 
+
+**Hash-based sharding**
+`shard = hash(user_id) % number_of_shards`. The advantage is that hashing generally distributes keys relatively evenly, reducing the chance of a hot shard. Problem with this is if you change total number of shards, many rows get mapped to different shards. You may need to move a huge amount of data.
+
+**Ranged-based sharding**
+```txt
+Shard 1 → user_id 1 - 1,000,000
+Shard 2 → user_id 1,000,001 - 2,000,000
+Shard 3 → user_id 2,000,001 - 3,000,000
+```
+when you frequently query ranges: `WHERE user_id BETWEEN 10000 AND 20000`
+
 - MOD (modulo sharding) MOD3.
 - Consistent hash (hash function).
 - Range sharding
