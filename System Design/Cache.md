@@ -173,4 +173,12 @@ Lower latency is better.
 A slow cache can reduce the benefit of caching, so the cache should be significantly faster than the original data source whenever possible.
 
 ## Distributed cache
-Multiple application
+A **distributed cache** is a cache where the cached data is stored across **multiple machines/servers** instead of being stored only inside one application's memory. multiple application servers can access the **same cache.** Server1 can write and Server3 can read it. Different pieces of cached data can live on different nodes.
+
+the single cache server eventually becomes a capacity, throughput, or availability bottleneck. The workload that justifies it is a horizontal scaled application where many application servers need access to the same cached data. If the cache is small and only one application instance needs it, an in-process cache is simpler and avoids network overhead. **All application can share the same logical cache.**
+
+The key internal mechanism is usually partitioning. If the cache contains millions of keys, you don't necessarily put all keys on one server. Keys are distributed among cache nodes, commonly using consistent hashing or a cluster-specific hashing scheme.
+
+Cache stampede: If a popular key expires, thousands of requests can simultaneously miss the cache and hit the database. Common mitigations are request coalescing/single-flight, TTL jitter, background refresh, and rate limiting.
+
+A system such as **Redis Cluster** uses hashing to determine which node should hold a particular key.

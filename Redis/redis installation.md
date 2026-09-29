@@ -1,5 +1,7 @@
 [[redis-cli]] [[systemd]]
 
+Redis is commonly used as a distributed cache because it provides very low-latency in-memory operations, supports TTL/expiration, useful data structures, atomic operations, replication and clustering.
+
 # redis installation
 
 > Install Redis as a managed service — bind address, auth/ACL, memory cap, and persistence before exposing beyond localhost.
