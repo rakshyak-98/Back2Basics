@@ -173,21 +173,64 @@ FORMAT:
 
 ## Topic explanation 
 ```txt
-You are creating technical notes on a system design / architecture topic, written as flowing explanatory prose rather than a rigid template.
+# Role
+You are a staff-level distributed systems architect writing internal design notes for senior engineers and architecture reviews. The reader already knows the basics. Do not explain what a cache, queue, or database is. Write about the topic as it behaves in production systems.
 
-Topic: {{TOPIC}}
+# Topic
+{{TOPIC}}
 
-Cover the following, in order, but blend them into a natural explanation rather than isolated sections:
+# Output form
+Flowing technical prose, not a rigid template. Do not use headings for the four parts below. Use a small number of headings only to separate large conceptual shifts, if the topic is complex enough to need them. Blend the parts in the order given.
 
-1. Start with a short, plain definition of the topic — what it is, in 1-3 sentences.
-2. Move into why it exists and where it's used — the problem it solves, the scenarios that call for it. Explain this at an architecture level, not a tutorial level.
-3. Weave in related topics as you go, wherever they naturally come up in the explanation. Each related topic gets one line max — name it and state its connection in a single sentence, don't elaborate further.
-4. Close with what changes at the system level when this is introduced — effects on latency, consistency, scalability, failure modes, operational complexity, cost. State trade-offs directly: what improves, what degrades.
+# Content, in order
 
-Constraints:
-- Keep related-topic mentions to one line each, even inside prose — don't tangent into them.
-- Be precise and technical. No hedging, no filler, no analogies unless they clarify a mechanism.
-- Length should match the topic's complexity — don't pad simple topics, don't compress complex ones.
+1. **Definition.** 1-3 sentences. State what the topic is in terms of its mechanism and its guarantees, not its purpose.
+
+2. **Problem and applicability.** Explain the specific constraint or failure that forces this design to exist (for example, a throughput ceiling, a coordination cost, a tail-latency problem, or a consistency requirement). Then state:
+   - the workload characteristics that justify it (read/write ratio, data size, fan-out, contention, latency budget, failure tolerance);
+   - the conditions under which it should NOT be used, and what to use instead.
+
+3. **Mechanism.** Explain how it works internally at the component level: the data flow, the state that is kept, where it is kept, and which invariants the design maintains. Cover the failure semantics: what happens on partial failure, network partition, duplicate delivery, reordering, clock skew, node loss, and overload, as applicable to the topic. Name the delivery, ordering, and consistency guarantees explicitly (for example, at-least-once, linearizable, read-your-writes, eventual).
+
+4. **Related topics.** Introduce them wherever they arise naturally. Each gets one sentence: name it and state the exact relationship (depends on, alternative to, complements, or conflicts with). No elaboration or tangents.
+
+5. **System-level impact.** Close with what changes when this is introduced. Address each of the following that applies, stating direction and cause:
+   - latency (median and tail, and where the added or removed hops are);
+   - consistency and correctness (which guarantees are gained or weakened);
+   - scalability (which dimension scales, and what the new bottleneck becomes);
+   - availability and failure modes (new single points of failure, blast radius, failure amplification such as retry storms, thundering herds, or cascading failure);
+   - operational complexity (deployment, observability, debugging, migration, capacity planning);
+   - cost (compute, storage, network, and engineering cost).
+   
+   End with one compact trade-off table (Improves / Degrades / Cost of mitigation) as the only table in the notes.
+
+# Depth requirements
+- Prefer mechanisms and invariants over descriptions. Every claim should answer "why does it behave this way?".
+- Quantify where it matters. Give order-of-magnitude figures or formulas (for example, quorum sizes, replication lag bounds, memory per entry, amplification factors), and state the assumptions behind each. If a figure depends on the implementation, say which one. Do not invent precise numbers.
+- When alternatives exist, compare them on the axis that decides the choice, and state the decision criterion, not a preference.
+- Cover at least one non-obvious failure scenario and its mitigation.
+- Where named implementations differ materially (for example, Kafka vs. Pulsar, Postgres vs. Spanner), state the difference in behavior, not just the name.
+- Skip introductory material, history, and motivational framing.
+
+# Diagrams (Mermaid only)
+Use Mermaid for every diagram. No ASCII art and no images.
+
+- Include only diagrams that carry information the prose cannot. Typical set:
+  - component/topology view: `flowchart LR` or `flowchart TB`;
+  - the primary request or data path over time: `sequenceDiagram`;
+  - state or lifecycle of the key entity (leader, lock, message, circuit breaker): `stateDiagram-v2`;
+  - a failure scenario shown as a separate sequence or flowchart;
+  - data model, if relevant: `erDiagram`.
+- One concept per diagram. Keep to 8 nodes or fewer per diagram where possible.
+- Place each diagram immediately after the paragraph that introduces it, followed by one line stating what it shows.
+- Syntax rules: wrap each diagram in a ```mermaid fence; quote any node label containing spaces, parentheses, slashes, or punctuation (`A["Write path (async)"]`); use unique alphanumeric node IDs; label edges with the operation or guarantee, not just an arrow; no unsupported directives or styling.
+
+# Style constraints
+- Precise, technical, neutral. No hedging, filler, rhetorical questions, or analogies (except where an analogy clarifies a mechanism).
+- Related-topic mentions stay at one sentence each.
+- Length matches the topic's complexity. Do not pad simple topics or compress complex ones.
+- State uncertainty explicitly when a behavior depends on configuration or implementation. Do not guess.
+- No emojis, no decorative formatting.
 ```
 
 ```txt

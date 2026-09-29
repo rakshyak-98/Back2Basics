@@ -1,5 +1,16 @@
 [[Redis]] [[Distributed computing]] [[System design]]
 
+A cache is a fast storage layer placed between an application and a slower data source such as database. Its mechanism is simple: store frequently accessed data temporarily, so subsequent reads can be served from memory instead of hitting the database.
+
+The basic read flow if:
+1. Client request data.
+2. Application generates a cache key
+3. Application checks the cache.
+4. If the key exists -> **cache hit** -> return cached value.
+5. If the key doesn't exist -> **cache miss** -> query the dataabse.
+6. Store the database result in the cache.
+7. Return the result to the client.
+
 Cache **make copy of data** that is used often and stored in a faster, smaller storage layer close to the application.
 - Instantly call the resource that we needed the most frequently.
 - Making data retrial faster by keeping frequently resource accessible.
@@ -65,7 +76,19 @@ If the data is not found in the local cache, the application checks the distribu
 
 If the data is not found there, it gets the data from the database.
 
-# Data Accuracy and Cache Invalidation
+## Cache consistency
+The main design problem is **cache consistency**: what happens when the database changes but the cache still contains the old value.
+
+| Mechanism     | Read                        | Write                     | Main trade-off                                 |
+| ------------- | --------------------------- | ------------------------- | ---------------------------------------------- |
+| Cache-aside   | Cache → DB on miss          | DB → invalidate cache     | Simple, possible stale window                  |
+| Read-through  | Cache → DB automatically    | Depends on implementation | Cache owns loading logic                       |
+| Write-through | Cache → DB synchronously    | Cache → DB                | Stronger cache freshness, higher write latency |
+| Write-behind  | Cache first → DB later      | Asynchronous DB write     | Low write latency, durability complexity       |
+| Refresh-ahead | Cache proactively refreshed | Depends on strategy       | Reduces misses, can refresh unused data        |
+
+
+## Data Accuracy and Cache Invalidation
 
 Cache invalidation means making sure that old or incorrect cached data is removed or updated.
 
