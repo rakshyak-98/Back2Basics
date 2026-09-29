@@ -125,6 +125,11 @@ Controls cache lifetime and prevents unbounded memory consumption.
 - Explicit invalidation
 - Cache-aside
 
+**What happens if cache invalidation fails?**
+The system remains operational, but reads can return stale data until the cache entry expires or is explicitly repaired. This is why cache-aside normally uses a TTL, if invalidation fails, the stale value eventually disappears.
+
+The cache also needs an **eviction policy** because memory is finite. If the cache reaches capacity, it may evict entries according to policies such as LRU or LFU
+
 ## Effectiveness of a Cache
 
 The effectiveness of a cache can be measured using several metrics.
@@ -156,3 +161,6 @@ Cache latency is the time required to get data from the cache.
 Lower latency is better.
 
 A slow cache can reduce the benefit of caching, so the cache should be significantly faster than the original data source whenever possible.
+
+## Distributed cache
+Multiple application
