@@ -1,4 +1,4 @@
-[[Redis]] [[Distributed computing]] [[System design]]
+[[Redis]]
 
 A cache is a fast storage layer placed between an application and a slower data source such as database. Its mechanism is simple: store frequently accessed data temporarily, so subsequent reads can be served from memory instead of hitting the database.
 
@@ -7,7 +7,7 @@ The basic read flow if:
 2. Application generates a cache key
 3. Application checks the cache.
 4. If the key exists -> **cache hit** -> return cached value.
-5. If the key doesn't exist -> **cache miss** -> query the dataabse.
+5. If the key doesn't exist -> **cache miss** -> query the database.
 6. Store the database result in the cache.
 7. Return the result to the client.
 
@@ -25,6 +25,16 @@ that data close to already-used data is likely to be used again. Principle that 
 - locally relevant data accessibility much faster.
 
 Transient storage is storage used for data that is **temporary and can be safely discarded**.
+
+## CPU Cache mapping technique
+1. Direct-mapped cache: Exactly one cache location
+2. Set-associative cache: Any location within one set
+3. Full associative cache: Any cache location
+
+For example, an **8-way set associative cache** means each set has **8 possible cache lines** where a memory block can be stored.
+
+Set-associative cache is a cache organization that combines the idea of **direct-mapped** and **full associative** caches.
+The cache is divided into sets, and each set contains multiple cache lines.
 
 ## Caching Strategies/Cache writing policies
 How the cache interacts with the system of record.
