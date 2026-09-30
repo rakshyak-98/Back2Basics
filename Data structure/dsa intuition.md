@@ -426,3 +426,28 @@ Layer 6:    Achieve MASTERY
 You can memorize that merge sort is O(n log n), but without understanding the mathematical foundations and the problem-solving patterns, you won't know when to use it or how to explain why it's better than quicksort in certain contexts.
 
 This roadmap is your journey from "I know algorithms exist" to "I understand how to solve any algorithmic problem I encounter."
+
+## Order to topics
+
+|Topic|What you should become fluent at|Why it matters|
+|---|---|---|
+|Index computation|offsets, boundaries, modulo, reverse indices|Prevents array off-by-one errors|
+|Loop invariants|what is guaranteed before/after each iteration|Makes algorithms easier to derive|
+|Boundary management|inclusive/exclusive ranges|Essential for binary search, windows, partitions|
+|Pointer movement|when/why `left++`, `right--`, `fast++`|Two pointers, linked lists, windows|
+|State tracking|what variables represent|Prevents ad-hoc solutions|
+|Frequency counting|map/array counters|Strings, duplicates, windows|
+|Prefix sums|cumulative state and range queries|Subarray problems|
+|Difference arrays|representing changes instead of values|Range-update problems|
+|Monotonic structures|maintaining increasing/decreasing state|Next greater, sliding window|
+|Invariants|preserved properties|Binary search, heaps, sorting|
+|Recurrence thinking|express problem in smaller problems|Recursion, DP, divide-and-conquer|
+|State-space thinking|what constitutes a unique state|BFS, DFS, DP|
+|Graph modeling|convert problem → nodes + edges|Graph problems|
+|Greedy proof thinking|why local choice remains valid|Greedy algorithms|
+|DP state design|state, transition, base case|Dynamic programming|
+|Complexity analysis|time + space as functions of `n`|Choosing algorithms|
+|Amortized analysis|expensive operations spread over many operations|Stack/queue/deque techniques|
+|Coordinate transformation|logical position → physical position|Matrix/grid problems|
+|Mathematical mapping|value/index relationships|Hashing, permutations, cycles|
+|Sorting as preprocessing|sort to expose structure|Two pointers, greedy, intervals|
