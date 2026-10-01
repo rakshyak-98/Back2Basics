@@ -12,3 +12,10 @@ Reasons why you might want to replication data:
 **All the difficulty in replication lies in handling changes to replication data.**
 
 ## Algorithms for replicating changes between nodes
+
+[[Single-leader]]
+[[Multi-leader]]
+[[leaderless]]
+
+**Synchronous replication** means the primary database does not consider a write successfully committed until the required replica(s) have also confirmed that the write has been persisted.
+**Asynchronous replication**
