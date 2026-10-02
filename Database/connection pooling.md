@@ -197,7 +197,10 @@ Transaction pooling (PgBouncer): disable prepared statements in driver
 
 ---
 
-## M
+## Maximise database pool
+> Database connection pool size should not be maximised. It should be sized to maximise useful database concurrency without making the database the bottleneck.
+- Initially, increasing connections can improve throughput because you're allowing more useful parallelism. Eventually you hit the database's ability to process work. After that, additional connections mostly create **contention and queuing.**
+- The pool should therefore be sized around the database's **useful concurrency,** not the number of application requests.
 
 ## Related
 

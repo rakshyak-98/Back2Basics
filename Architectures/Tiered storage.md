@@ -1,0 +1,1 @@
+tiered storage architecture places less frequently accessed data on object storage, while new or requently accessed data is kept on faster storage devices such as SSDs or NVMe, or even in-memory.

@@ -19,3 +19,20 @@ Reasons why you might want to replication data:
 
 **Synchronous replication** means the primary database does not consider a write successfully committed until the required replica(s) have also confirmed that the write has been persisted.
 **Asynchronous replication**
+
+## Setting up new follower
+
+Simply compying data files from one node to another is typically not sufficient, Clients are constantly writing to the datebase, and the data is always in flux, so a standard file compy would see different parts of the database at different points in time. The result might not make an sense.
+
+You could make the files on disk onsistent by locking the database (making a unavailable for writes), but that would go against our goal of high availablility. **Fortunately, setting up a follower can usually be done without downtime**.
+
+The process:
+1. Take a consistent snapshot of the leader's database at some point in time - if possible without locking the entire database. Most database have this feature, as it is also without locking the entire database. Most dataabses have this feature, as it is also required for backups. In some cases, third-party tools are needed, such as Percona XtraBackup for MySQL.
+2. Copy the snapshot to the new follower node.
+3. The follower connects to the leader and requests all the data changes that have happened since the snapshot was taken. This requires that the snapshot is associated with an exact position in the leader's replication log. That position has various names - for example PostgreSQL calls it the **log sequence number, MySQL** has two mechanisms, **binlog coordinates and Gloabal Transaction Identifiers.**
+4. When the follower has processed the backlog of data changes since the snapshot, we say it has caught up. It can now continue to process data changes from the leader as they happen.
+
+"You can also achieve the replication log to an object store along with periodic snapshots of the whole database." This is a good way of implementing database backups and disaster reovery, and you can perform steps 1 and 2 of setting up a new follower by downloading thos files from the obect store.
+
+## Handling Node Outages
+Any node in the system can go down, perhaps unexpectedly because of a fault, but also because of planned maintenance (e.g., rebooting a machine to install a kernel security patch). Being able to reboot individual nodes without downtime is a big advantage for operations and maintenance. Tus, our goal is to keep the system as a whole running despite individual node failures, and to keep the imparct of a node outage as small as possiblle.

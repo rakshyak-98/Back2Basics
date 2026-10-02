@@ -16,7 +16,16 @@ splitting a database by rows and distributing those rows across multiple databas
 - for `users` table, `user_id` is a common shard key.
 - "Given `user_id=104`, which database should I query?"
 
-When we use a simple hashing/modulo
+When we use a simple hashing/module strategy
+Shard key matter becuse every request needs to find the correct database. The system can route the request directly to the appropriate shard.
+
+**Hot shard:** is a shard that receives **disproportionately more traffic or data operations** than the other shards.
+- the data my be perfectly balanced, but the **traffic isn't.**
+
+> A good shard key should provide **good distribution.**
+
+> [!INFO]
+> A hot shatd is a shard that becomes overloaded because too much data, traffic, or write activity is concentrated on it.
 
 Vertical sharding splitting tables by columns.
 
