@@ -12,6 +12,10 @@ nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
 
+## Authorized keys
+`~/.ssh/authorized_keys` is a SSH configuration file on the server that tells SSH: "These public keys are allowed to log in as the Linux user." It contains the keys that are **authorized** to access that account.
+
+
 ## Remote port forwarding
 
 ```bash
