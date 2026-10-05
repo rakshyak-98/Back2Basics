@@ -18,6 +18,10 @@ feature ──────► commit D (ahead 2)
 
 Creating a branch is instant (new ref). **Merging/rebasing** moves history; deleting branch removes ref only, not commits until GC.
 
+```bash
+git clone --branch <branch> --single-branch <remote-url>;
+```
+
 ## Standard config / commands
 
 ### List and inspect

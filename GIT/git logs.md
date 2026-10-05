@@ -71,7 +71,7 @@ git log --pretty=format:"%h - %an (%ar): %s"
 
 See [[git formating]] for full placeholder table.
 
-### Since/until
+### filter with date 
 
 ```bash
 git log --since="2025-01-01" --until="2025-06-01"
