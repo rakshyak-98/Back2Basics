@@ -8,12 +8,7 @@
 
 `grep` reads input line-by-line, tests each line against a **regex** (basic by default; extended with `-E`), prints matches. It does not understand structure (JSON, CSV) — pair with `jq`, `awk`, or structured tools when you need fields.
 
-```
-file / pipe ──► grep PATTERN ──► matching lines ──► wc / head / xargs
-                     │
-                     └── exit 0 if match found, 1 if none (scriptable)
-```
-
+```txt
 | Flag family | Purpose |
 |-------------|---------|
 | `-i` | Case-insensitive |

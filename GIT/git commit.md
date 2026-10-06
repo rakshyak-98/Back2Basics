@@ -1,3 +1,11 @@
+- ZIP the files as they exist int that commit
+```bash
+git archive --format=zip --output=departure-date-extension-fix.zip b7f790c \
+  src/modules/pms/reservation-modification/room-move/room-move.service.ts \
+  src/modules/pms/reservation-modification/room-type-modify/room-type-modify.service.ts \
+  src/modules/pms/reservation-modification/stay-modify/stay-modify.service.ts
+```
+
 ## Inspect commit
 ```bash
 git show --stat <commit-hash>;
@@ -17,17 +25,13 @@ git am <patch-file>; # apply and create original commit.
 ```
 
 ### Heads
-
-used to refer to order commits relative to your current `HEAD` position. While they often point to the exact same commit in a simple, linear history, they behave very differently when you encounter **merge commits**.
 - `HEAD~1` -> (Ancestor Chains) used to go back a specific number of generations along the first-parent history. 
-	- `HEAD~1` means the immediate parent of `HEAD`.
-	- `HEAD~1` means the grandparent (the parent of the parent) of `HEAD` and so on.
 - `HEAD^1` -> (Specific Parents) Most commits have only one parent, but a merge commit has two or more parents. Goes to the tip of the merged branch.
-	- When you need to inspect the code that was brought into your branch via a merge.
 
-```bash
+> [!INFO]
+> When you need to inspect the code that was brought into your branch via a merge.
 
-```
+> used to refer to order commits relative to your current `HEAD` position. While they often point to the exact same commit in a simple, linear history, they behave very differently when you encounter **merge commits**.
 
 ## Add notes to the commit
 ```bash

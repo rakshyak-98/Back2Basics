@@ -52,3 +52,22 @@ Some distributed database: log index/term/sequence number
 ## Handling Node Outages
 Any node in the system can go down, perhaps unexpectedly because of a fault, but also because of planned maintenance (e.g., rebooting a machine to install a kernel security patch). Being able to reboot individual nodes without downtime is a big advantage for operations and maintenance. Tus, our goal is to keep the system as a whole running despite individual node failures, and to keep the imparct of a node outage as small as possiblle.
 
+### Follower failure: Catch-up recovery
+On its local disk, each follower keeps a log of the data changes it has received from the leader.
+Follower can recover from failure/network-lag from the local stored logs.
+
+The follower can connect to the leader and request all the data changes that occurred during the time when the follower was disconnected. When it has applied these changes, it has caught up to the leader and can continue receiving a stream of data changes as before.
+
+### Leader failure: Failover
+One of the follower need to be promoted to be the new leader, clients need to be reconfigured to send their writes to the new leader, and the other followers need to start consuming data changes from the new leader. **This process is called failover.**
+
+A automatic failover process usually consists of the following steps:
+
+1. *Determining that the leader has failed.* most system uses a timeout nodes frequently bounce messages back and forth between each other, and if a node doesn't respond for some period of time, it is assumed to be dead.
+2. *Choosing a new leader* an election process (next choosen by majority of the remaining replicas), or a new leader could be appointed by a previously elected **controller node.** The best candidate for the leadership is usually the replica with the most up-to-date data changes from the old leader.
+
+> [!NOTE]
+> Getting all the nodes to agree on a new leader is a consensus problem
+
+3. *Reconfiguring the system to use the new leader.* If the old leader comes back, it might still believe that it is the leader, not realizing that the other replicas have forced it to step down. The system needs to ensure that the old leader becomes a follower and recognizes the new leader.
+
