@@ -71,3 +71,8 @@ A automatic failover process usually consists of the following steps:
 
 3. *Reconfiguring the system to use the new leader.* If the old leader comes back, it might still believe that it is the leader, not realizing that the other replicas have forced it to step down. The system needs to ensure that the old leader becomes a follower and recognizes the new leader.
 
+**split brain** when two node both believe that they are the leader. If both leaders accept writes, and there is no process for resolving conflicts, data is likely to be lost or corrupted.
+
+## Implementation of Replication logs
+
+**Statement-based replication** the leader logs every write request that it executes and sends that statement log to its followers. For a relational database, this means that every INSERT, UPDATE or DELETE statement is forwarded to followers, and each follower parses and eecutes that SQL statement as if it had been received from a client.
