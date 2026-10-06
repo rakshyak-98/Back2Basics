@@ -79,6 +79,9 @@ git log --after="2 weeks ago"
 ```
 
 ## Triage (when things break)
+Means **reviewing and organizing issues or pull requests so they can be handled by the right person or process.** 
+
+Triage is essentially and **issue/PR-management role without code-writing or merging permissions.**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,22 +91,6 @@ git log --after="2 weeks ago"
 | Merge commit shows no files | Need `-m` | `git log -m -1 merge_sha` |
 | Huge slow log | Entire repo history | Narrow path/date; `--oneline` |
 | Wrong author in audit | Author vs committer | `%an` vs `%cn` in format |
-
-## Gotchas
-
-> [!WARNING]
-> **`A..B` dot is mandatory** — three-dot `A...B` is symmetric difference (different question).
-
-> [!WARNING]
-> **Shallow clone** — history truncated; log may end early; `git fetch --unshallow`.
-
-> [!WARNING]
-> **Rebase rewrites SHAs** — old SHAs from tickets may not exist locally.
-
-## When NOT to use
-
-- **Working tree diff** — use [[git diff]] for unstaged/staged changes.
-- **Find introducing bug** — prefer `git bisect` over manual log scroll.
 
 ## Related
 
