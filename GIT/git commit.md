@@ -1,3 +1,18 @@
+```bash
+git log --oneline -- <file path>; # Show only those commit which this file is tracked changes.
+
+git log --all -- path/to/file
+
+git log -S 'your_code_here' --all --oneline -- path/to/file
+
+# view code hunk commits
+git log -S 'func calculateTotal' --all --oneline -- internal/calculator.go
+
+# view commit author name
+git log --all --format="%H | %an | %s" -G 'your_code_pattern' -- path/to/file
+```
+
+
 - ZIP the files as they exist int that commit
 ```bash
 git archive --format=zip --output=departure-date-extension-fix.zip b7f790c \
@@ -72,3 +87,14 @@ Stage this hunk [y,n,q,a,d,s,e,?]?
 - `e` → manually edit patch (fine-grained control)
 
 ```
+
+## Git commit conflicts
+
+Git three way merge
+- Base : the common ancestor commit from which both developers changes orginated.
+- Ours : the version in the branch you are merging into.
+- Theirs : the version in the branch you are merging.
+
+> Git detects that both branches (originated branch from common ancestor commit) changed the same part of the file differently
+
+git commit hash : Git uses commit ancestry to identify the common ancestor and determine which chnages need to merged.
