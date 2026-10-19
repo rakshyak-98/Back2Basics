@@ -10,6 +10,14 @@ git log -S 'func calculateTotal' --all --oneline -- internal/calculator.go
 
 # view commit author name
 git log --all --format="%H | %an | %s" -G 'your_code_pattern' -- path/to/file
+
+git log --author=<author-name> --diff-filter=A --name-status
+```
+
+## Author based filters
+```bash
+git log <branch-name> --format="%h %an" | sort -u
+git log --author=<author-name>;
 ```
 
 
