@@ -121,13 +121,12 @@ git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 
 ---
 
-## When NOT to use
+## Understanding Git Internals: Commits, Merging, Divergence, and Conflicts
 
-- **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
-- **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
+**Graph of snapshots connected by parent relationships.**
 
----
-
-## Related
-
-[[git command]] [[git rebase]] [[git diff]] [[git branch]]
+- Why two branches diverge.
+- How git determines what to merge.
+- Why conflicts happen.
+- What a commit actually contains.
+- Why `ours` and `theirs` change meaning depending on the operations.

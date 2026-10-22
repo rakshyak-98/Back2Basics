@@ -1,5 +1,10 @@
 [[git command]] [[git diff]] [[git merge]] [[git rebase]]
 
+```bash
+git format-patch -1 <comin hash> --stdout -- <file name>
+```
+`-1` generate a patch for exactly one commit.
+
 # Git patch files
 
 > One-line: export commits as mailbox patches (`format-patch`) and apply with `git am` — email-style workflow, offline review, and vendor branch maintenance without shared remote.
