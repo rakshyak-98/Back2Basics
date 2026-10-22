@@ -1,5 +1,9 @@
 [[git error]] [[git worktree]] [[git ssh config]] [[INDEX]]
 
+**Taking the commits from your branch and replaying them on top of another commit**
+
+> Rebasing is commonly used when you want to update your feature branch with the latest changes from `main`, or when you want to reorganize your commit history before pushing your work.
+
 # git rebase
 
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.

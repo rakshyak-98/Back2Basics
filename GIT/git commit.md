@@ -106,3 +106,21 @@ Git three way merge
 > Git detects that both branches (originated branch from common ancestor commit) changed the same part of the file differently
 
 git commit hash : Git uses commit ancestry to identify the common ancestor and determine which chnages need to merged.
+
+```bash
+git rev-list [options] <revision> 
+git rev-list main; # reverse chronological order
+```
+- `<revision>` can be a branch, tag, commit hash, or another git reference.
+
+```bash
+git rev-list main..stage
+```
+- Lists commits reachable from `stage` that are not reachable from main.
+
+> This is useful when you want to identify the commits that exist on your feature branch but have not been incorporated into `main`.
+
+```bash
+git rev-list main -- <directory>/
+```
+- to list commits that changed files in the backend directory.
