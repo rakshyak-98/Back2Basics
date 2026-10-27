@@ -1,14 +1,39 @@
 [[HTTP module]] [[TCP]] [[SOCKS (Socket Secure)]] [[Configuration]]
 
-# WebSocket
+internet made to be state less.
+web server need to fake realtime data transfre.
+
+- [[short polling]]
+- [[long polling]]
+- [[SSE (Server-Sent Events)]]
+- [[Cache posioning]]
+- 
+
+## WebSocket switching protocol
+The **WebSocket switch protocol** refers to the HTTP mechanism used to upgrade an ordinary HTTP connection into a WebSocket connection.
+
+> The key concept is that **the client and server begin communication using HTTP, negotiate a protocol upgrade, and then communicate using WebSocket frames over the established connection.**
 
 > One-line: full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 > - Bidirectional communication between client and server.
 
+full duplex communication, single long live connection
+- 2-14 bytes, light weight
+- 
+
 > [!INFO]
 > WebSocket starts with HTTP because HTTP was already the universal communication mechanism understood by browsers and web infrastructure. The handshake lets WebSocket reuse the infrastructure and then upgrade the connection to a more suitable bidirectional protocol.
 
-## Mental model
+## Why do we need a protocl switch?
+Normally, HTTP follows a request-response model.
+If the frontend wants another update, it sends anotehr request.
+This is fundamental reason short polling generates repeated requests.
+
+"WebSocket provide a different communication model: after establishing the connection, both the client and server can send messages independently." However, browsers and servers need a way to establish this connection. The **WebSocket handshake and HTTP upgrade mechanism provide that transition.**
+
+A browser isn't simply a TCP client. It is a sophisticated application that manages web origins, cookies, security policies, proxies, TLS, DNS, and connections.
+
+### Mental model
 
 WebSocket starts as HTTP/1.1 with an **Upgrade** handshake, then switches to a binary-framed protocol. No repeated HTTP headers per message — ideal for push, chat, live dashboards.
 

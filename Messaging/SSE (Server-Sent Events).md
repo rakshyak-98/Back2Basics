@@ -1,5 +1,7 @@
-- uni directional push from server to browser over HTTP.
+- uni directional push from server to client over HTTP.
 - server pushes events -> client auto-receives over single long-lived connection.
+
+> open one http request permantely and stream text from server to client 
 
 > [!INFO] Built in browser support : `EventSource` API
 
@@ -18,4 +20,4 @@
 | Protocol       | HTTP            | WebSocket                        |
 | Auto Reconnect | Yes             | Manual                           |
 | Simplicity     | Simple          | More complex                     |
-| Best For       | Live updates    | Chat, gaming, collaborative apps |
+| Best For       | Live updates    | Chat, gaming, collaborative apps 

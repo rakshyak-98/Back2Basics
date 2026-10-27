@@ -1,6 +1,8 @@
 [[Byte stream]] [[SSH]] 
 
-Connection-oriented, reliable transport-layer protocol used to deliver data between applications over an IP network. It sits above IP and provides applications with a reliable **byte stream** rather than individual packets.
+TCP provides a reliable, ordered byte stream. It doesn't inherently understand HTTP requests, WebSocket messages, URLs, or application-level authentication.
+
+Connection-oriented, reliable transport-layer protocol used to deliver data between applications over an IP network. It sits above IP and provides applications with a reliable **byte stream** rather than individual packets. Your application must define those things.
 
 [[TCP/TCP connection]]
 [[TCP/TCP three-way handshake]] The three packets establish TCP connection. After that, TCP segments the application data, numbers the segments using **sequence numbers**, and uses **ACKs** to confirm successful reception.

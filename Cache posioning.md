@@ -1,0 +1,1 @@
+Cache poisoning is a security attack in which an attacker causes a cache to strore incorrect or malicious data, which is then served to other users.
