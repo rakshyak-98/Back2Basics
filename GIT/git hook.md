@@ -1,4 +1,4 @@
-[[git]] [[git command]] [[git commit]]
+[[git]] [[git command]] [[Git Commit]]
 
 # Git Hooks
 
@@ -140,4 +140,4 @@ Server-side (self-hosted bare repo): `pre-receive`, `update`, `post-receive`.
 
 ## Related
 
-[[git command]] [[git commit]] [[git commit template]] [[gpg sign]]
+[[git command]] [[Git Commit]] [[git commit template]] [[gpg sign]]

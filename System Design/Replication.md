@@ -1,6 +1,7 @@
+
 ## Problem with Replication Lag
 
-Leader replication: it requires all the writes to go through a single node, but read-only queries can go to any replica.
+**Leader replication:** it requires all the writes to go through a single node, but read-only queries can go to any replica.
 
 [[read-scaling Architecture]] increase the capacity for serving read-only requests simply by adding more followers.
 
@@ -75,4 +76,16 @@ A automatic failover process usually consists of the following steps:
 
 ## Implementation of Replication logs
 
-**Statement-based replication** the leader logs every write request that it executes and sends that statement log to its followers. For a relational database, this means that every INSERT, UPDATE or DELETE statement is forwarded to followers, and each follower parses and eecutes that SQL statement as if it had been received from a client.
+**Statement-based replication** the leader logs every write request (statement) that it executes and sends that statement log to its followers. This approach is known as *fencing*.
+
+Statement-based replication was used in MySQL before version 5.1 it is still sometimes uesed today, as it is quit compact, but by default MySQL now switches to row-based replication.
+
+> VoltDB uses statement based replication, and makes it safe by requiring transactions to be deterministic.
+
+**Write-ahead log (WAL) shipping** 
+
+> The log is an append-only sequence of bytes containing all writes to the database. We can use the exact same log to build a replica on another node.
+
+**Logical (row-based) lgo replication** use different log formats for replication and for the storage engine, which allows the replication log to be decoupled from the storage engine internals.
+
+[[Database engine]] follower doesn not look for an identical page, it looks for the same row, based on the row's key. So the leader sends a logical event. The follower receives that event find the data in its own database, they updates the row in its page. **it does not need to know how the leader packed pages at all. That is the whole point of logical replication.** The primary key tells the follower which record to update. If there is no primary key, the follower needs old values to identify the right row. That is why binlogs can include all columns in that case.

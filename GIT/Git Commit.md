@@ -20,6 +20,37 @@ git log <branch-name> --format="%h %an" | sort -u
 git log --author=<author-name>;
 ```
 
+## Git commit conflicts
+
+Git three way merge: merge strategy that combines changes from two diverged branches by comparing their two branch tips with their common ancestor (merge base).
+
+> Git uses these three versions, the common ancestor, the current branch, and incoming branch to determine which changes to combine automatically and which required conflict resolution.
+
+- Base : the common ancestor commit from which both developers changes orginated.
+- Ours : the version in the branch you are merging into.
+- Theirs : the version in the branch you are merging.
+
+> Git detects that both branches (originated branch from common ancestor commit) changed the same part of the file differently
+
+git commit hash : Git uses commit ancestry to identify the common ancestor and determine which chnages need to merged.
+
+```bash
+git rev-list [options] <revision> 
+git rev-list main; # reverse chronological order
+```
+- `<revision>` can be a branch, tag, commit hash, or another git reference.
+
+```bash
+git rev-list main..stage
+```
+- Lists commits reachable from `stage` that are not reachable from main.
+
+> This is useful when you want to identify the commits that exist on your feature branch but have not been incorporated into `main`.
+
+```bash
+git rev-list main -- <directory>/
+```
+- to list commits that changed files in the backend directory.
 
 - ZIP the files as they exist int that commit
 ```bash
@@ -95,32 +126,3 @@ Stage this hunk [y,n,q,a,d,s,e,?]?
 - `e` → manually edit patch (fine-grained control)
 
 ```
-
-## Git commit conflicts
-
-Git three way merge
-- Base : the common ancestor commit from which both developers changes orginated.
-- Ours : the version in the branch you are merging into.
-- Theirs : the version in the branch you are merging.
-
-> Git detects that both branches (originated branch from common ancestor commit) changed the same part of the file differently
-
-git commit hash : Git uses commit ancestry to identify the common ancestor and determine which chnages need to merged.
-
-```bash
-git rev-list [options] <revision> 
-git rev-list main; # reverse chronological order
-```
-- `<revision>` can be a branch, tag, commit hash, or another git reference.
-
-```bash
-git rev-list main..stage
-```
-- Lists commits reachable from `stage` that are not reachable from main.
-
-> This is useful when you want to identify the commits that exist on your feature branch but have not been incorporated into `main`.
-
-```bash
-git rev-list main -- <directory>/
-```
-- to list commits that changed files in the backend directory.
