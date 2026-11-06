@@ -33,6 +33,15 @@ printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 > `store` -> stores them permanently in `~/.git-credentials` in plain text.
 > `gpt` -> Encrypts credentials with GPG (custom setup).
 
+### Fixing git configuration issue involving multiple credential helpers for GitHub.
+
+> [!WARNING]
+> Before modifying credential configuration, inspect all applicable values
+
+```sh
+git config --show-origin
+```
+
 > [!NOTE]
 > git doesn't allow direct removal of just one value from a __multi-value section__ like this
 
@@ -41,6 +50,7 @@ printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 helper = 
 helper = !/usr/bin/gh auth git-credential
 ```
+- git allow multiple values for the same configuration key.
 
 - remove the full section
 ```bash
