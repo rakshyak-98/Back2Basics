@@ -86,22 +86,27 @@ git commit -C HEAD  # after manual apply
 | Duplicate commits after am | Patches already applied | `git log`; skip or rebase --onto |
 | Merge commit patch huge | Need `-m` parent | `format-patch -m -1 merge_sha` |
 
-## Gotchas
+## Git am
+When you run `git am`, git doesn't move the old commit. It makes a new copy of it. The copy differs in small ways, so it gets a new hash.
 
 > [!WARNING]
-> **`git apply` vs `git am`** — apply doesn't create commit metadata; easy to lose authorship.
+> Don't rely on the old hash after applying a patch. It will never match. To check whether two commits are the same change, compare their diffs.
 
-> [!WARNING]
-> **Binary files** — patches handle small binaries; large assets need Git LFS or direct fetch.
+```bash
+git show <hash> | git patch-id
+```
+- if the two output match, it's the same chagne, even through the hashes differ.
 
-> [!WARNING]
-> **Renames** — patches can be fragile across refactors; prefer merge/cherry-pick for big moves.
+## Tracking history backward from HEAD
 
-## When NOT to use
+```bash
+git log --oneline --first-parent
+```
 
-- **Same repo, same remote** — push branch + PR.
-- **Interactive conflict-prone long series** — one merge or rebase onto target.
+```bash
+git rev-parse HEAD
+git rev-parse HEAD~1
+```
 
-## Related
-
-[[git command]] [[git diff]] [[git merge]] [[git rebase]]
+> [!INFO]
+> A repo can have more than once root if unrealted histories were merged

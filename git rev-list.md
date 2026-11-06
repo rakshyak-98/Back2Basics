@@ -31,7 +31,7 @@ git rev-list main -- <directory>/
 ```
 - to list commits that changed files in the backend directory.
 
-### counting
+### Counting
 ```bash
 git rev-list --count HEAD #total commits on current branch
 git rev-list --count main..feature # how many commits feature is ahead of
